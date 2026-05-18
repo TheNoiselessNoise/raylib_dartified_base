@@ -1,16 +1,36 @@
 part of '../../raylib_dartified_base.dart';
 
-abstract interface class RaylibAudioModuleBase<
+/// Backend-agnostic contract for the Raylib Audio module.
+///
+/// Concrete platform implementations mix in or extend this to provide
+/// the full Core API surface across different backends.
+abstract class RaylibAudioModuleBase<
+  R extends RaylibBase,
+
   // types
-  AudioStreamStructType extends AudioStreamBase,
-  MusicStructType extends MusicBase,
-  SoundStructType extends SoundBase,
-  WaveStructType extends WaveBase,
+  AudioStreamStructType extends AudioStreamBase<AudioStreamStructType>,
+  MusicStructType extends MusicBase<
+    MusicStructType,
+    AudioStreamStructType
+  >,
+  SoundStructType extends SoundBase<
+    SoundStructType,
+    AudioStreamStructType
+  >,
+  WaveStructType extends WaveBase<WaveStructType>,
 
   // callbacks
   AudioCallbackType extends AudioCallbackBase
   
-> with RaylibModuleBase {
+> extends RaylibModule<R> {
+
+  /// Debug label generator for this module's function calls.
+  final RaylibDebugLabels = RaylibAudioModuleDebugLabels();
+
+  /// Capture ID generator for pointer slots allocated by this module.
+  final RaylibCaptureIds = RaylibAudioModuleCaptureIds();
+
+  RaylibAudioModuleBase(super.rl);
 
   void InitAudioDevice();
 
@@ -30,7 +50,7 @@ abstract interface class RaylibAudioModuleBase<
 
   WaveStructType LoadWaveFromMemory(
     String fileType,
-    List<int> fileData,
+    Uint8List fileData,
   );
 
   bool IsWaveValid(
@@ -55,7 +75,7 @@ abstract interface class RaylibAudioModuleBase<
 
   void UpdateSound(
     SoundStructType sound,
-    List<int> data,
+    TypedDataList data,
     num sampleCount,
   );
 
@@ -143,7 +163,7 @@ abstract interface class RaylibAudioModuleBase<
 
   MusicStructType LoadMusicStreamFromMemory(
     String fileType,
-    List<int> data,
+    Uint8List data,
   );
 
   bool IsMusicValid(
@@ -222,7 +242,7 @@ abstract interface class RaylibAudioModuleBase<
 
   void UpdateAudioStream(
     AudioStreamStructType stream,
-    List<int> data,
+    TypedDataList data,
   );
 
   bool IsAudioStreamProcessed(

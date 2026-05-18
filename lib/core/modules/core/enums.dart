@@ -1,5 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Raylib `ConfigFlags` enum.
 enum ConfigFlags with RaylibEnum {
   FLAG_VSYNC_HINT(64),
   FLAG_FULLSCREEN_MODE(2),
@@ -44,6 +45,7 @@ enum ConfigFlags with RaylibEnum {
   };
 }
 
+/// Raylib `TraceLogLevel` enum.
 enum TraceLogLevel {
   LOG_ALL(0),
   LOG_TRACE(1),
@@ -70,6 +72,7 @@ enum TraceLogLevel {
   };
 }
 
+/// Raylib `KeyboardKey` enum.
 enum KeyboardKey {
   KEY_NULL(0),
   KEY_APOSTROPHE(39),
@@ -300,6 +303,7 @@ enum KeyboardKey {
   };
 }
 
+/// Raylib `MouseButton` enum.
 enum MouseButton {
   MOUSE_BUTTON_LEFT(0),
   MOUSE_BUTTON_RIGHT(1),
@@ -324,6 +328,7 @@ enum MouseButton {
   };
 }
 
+/// Raylib `MouseCursor` enum.
 enum MouseCursor {
   MOUSE_CURSOR_DEFAULT(0),
   MOUSE_CURSOR_ARROW(1),
@@ -356,6 +361,7 @@ enum MouseCursor {
   };
 }
 
+/// Raylib `GamepadButton` enum.
 enum GamepadButton {
   GAMEPAD_BUTTON_UNKNOWN(0),
   GAMEPAD_BUTTON_LEFT_FACE_UP(1),
@@ -402,6 +408,7 @@ enum GamepadButton {
   };
 }
 
+/// Raylib `GamepadAxis` enum.
 enum GamepadAxis {
   GAMEPAD_AXIS_LEFT_X(0),
   GAMEPAD_AXIS_LEFT_Y(1),
@@ -424,6 +431,7 @@ enum GamepadAxis {
   };
 }
 
+/// Raylib `MaterialMapIndex` enum.
 enum MaterialMapIndex {
   MATERIAL_MAP_ALBEDO(0),
   MATERIAL_MAP_METALNESS(1),
@@ -456,6 +464,7 @@ enum MaterialMapIndex {
   };
 }
 
+/// Raylib `ShaderLocationIndex` enum.
 enum ShaderLocationIndex {
   SHADER_LOC_VERTEX_POSITION(0),
   SHADER_LOC_VERTEX_TEXCOORD01(1),
@@ -524,6 +533,7 @@ enum ShaderLocationIndex {
   };
 }
 
+/// Raylib `ShaderUniformDataType` enum.
 enum ShaderUniformDataType {
   SHADER_UNIFORM_FLOAT(0),
   SHADER_UNIFORM_VEC2(1),
@@ -552,6 +562,7 @@ enum ShaderUniformDataType {
   };
 }
 
+/// Raylib `PixelFormat` enum.
 enum PixelFormat with RaylibEnum {
   PIXELFORMAT_NONE(0), // e.g. for uninitialized MaterialMap slots
   PIXELFORMAT_UNCOMPRESSED_GRAYSCALE(1),
@@ -614,6 +625,7 @@ enum PixelFormat with RaylibEnum {
   };
 }
 
+/// Raylib `TextureFilter` enum.
 enum TextureFilter {
   TEXTURE_FILTER_POINT(0),
   TEXTURE_FILTER_BILINEAR(1),
@@ -636,6 +648,7 @@ enum TextureFilter {
   };
 }
 
+/// Raylib `TextureWrap` enum.
 enum TextureWrap {
   TEXTURE_WRAP_REPEAT(0),
   TEXTURE_WRAP_CLAMP(1),
@@ -654,6 +667,7 @@ enum TextureWrap {
   };
 }
 
+/// Raylib `CubemapLayout` enum.
 enum CubemapLayout {
   CUBEMAP_LAYOUT_AUTO_DETECT(0),
   CUBEMAP_LAYOUT_LINE_VERTICAL(1),
@@ -674,6 +688,7 @@ enum CubemapLayout {
   };
 }
 
+/// Raylib `FontType` enum.
 enum FontType {
   FONT_DEFAULT(0),
   FONT_BITMAP(1),
@@ -690,6 +705,7 @@ enum FontType {
   };
 }
 
+/// Raylib `BlendMode` enum.
 enum BlendMode {
   BLEND_ALPHA(0),
   BLEND_ADDITIVE(1),
@@ -716,6 +732,7 @@ enum BlendMode {
   };
 }
 
+/// Raylib `Gesture` enum.
 enum Gesture with RaylibEnum {
   GESTURE_NONE(0),
   GESTURE_TAP(1),
@@ -750,6 +767,7 @@ enum Gesture with RaylibEnum {
   };
 }
 
+/// Raylib `CameraMode` enum.
 enum CameraMode {
   CAMERA_CUSTOM(0),
   CAMERA_FREE(1),
@@ -770,6 +788,7 @@ enum CameraMode {
   };
 }
 
+/// Raylib `CameraProjection` enum.
 enum CameraProjection {
   CAMERA_PERSPECTIVE(0),
   CAMERA_ORTHOGRAPHIC(1);
@@ -784,6 +803,7 @@ enum CameraProjection {
   };
 }
 
+/// Raylib `NPatchLayout` enum.
 enum NPatchLayout {
   NPATCH_NINE_PATCH(0),
   NPATCH_THREE_PATCH_VERTICAL(1),

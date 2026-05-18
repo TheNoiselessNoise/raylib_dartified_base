@@ -1,37 +1,172 @@
 part of '../../raylib_dartified_base.dart';
 
-abstract interface class RaylibCoreModuleBase<
+/// Backend-agnostic contract for the Raylib Core module.
+///
+/// Concrete platform implementations mix in or extend this to provide
+/// the full Core API surface across different backends.
+abstract class RaylibCoreModuleBase<
+  R extends RaylibBase,
+
   // pointers
   UnsignedCharPointerType,
 
   // types
-  AutomationEventListStructType extends AutomationEventListBase,
-  AutomationEventStructType extends AutomationEventBase,
-  BoundingBoxStructType extends BoundingBoxBase,
-  Camera2DStructType extends Camera2DBase,
-  Camera3DStructType extends Camera3DBase,
-  ColorStructType extends ColorBase,
-  FilePathListStructType extends FilePathListBase,
-  FontStructType extends FontBase,
-  GlyphInfoStructType extends GlyphInfoBase,
-  ImageStructType extends ImageBase,
-  MaterialStructType extends MaterialBase,
-  MatrixStructType extends MatrixBase,
-  MeshStructType extends MeshBase,
-  ModelStructType extends ModelBase,
-  ModelAnimationStructType extends ModelAnimationBase,
-  NPatchInfoStructType extends NPatchInfoBase,
-  RayStructType extends RayBase,
-  RayCollisionStructType extends RayCollisionBase,
-  RectangleStructType extends RectangleBase,
-  RenderTextureStructType extends RenderTextureBase,
-  ShaderStructType extends ShaderBase,
-  TextureStructType extends TextureBase,
-  Vector2StructType extends Vector2Base,
-  Vector3StructType extends Vector3Base,
-  Vector4StructType extends Vector4Base,
-  VrDeviceInfoStructType extends VrDeviceInfoBase,
-  VrStereoConfigStructType extends VrStereoConfigBase,
+  AutomationEventListStructType extends AutomationEventListBase<
+    AutomationEventListStructType,
+    AutomationEventStructType
+  >,
+  AutomationEventStructType extends AutomationEventBase<AutomationEventStructType>,
+  BoneInfoStructType extends BoneInfoBase<BoneInfoStructType>,
+  BoundingBoxStructType extends BoundingBoxBase<
+    BoundingBoxStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Camera2DStructType extends Camera2DBase<
+    Camera2DStructType,
+    Vector2StructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Camera3DStructType extends Camera3DBase<
+    Camera3DStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  ColorStructType extends ColorBase<ColorStructType>,
+  FilePathListStructType extends FilePathListBase<FilePathListStructType>,
+  FontStructType extends FontBase<
+    FontStructType,
+    TextureStructType,
+    RectangleStructType,
+    GlyphInfoStructType,
+    ImageStructType
+  >,
+  GlyphInfoStructType extends GlyphInfoBase<
+    GlyphInfoStructType,
+    ImageStructType
+  >,
+  ImageStructType extends ImageBase<ImageStructType>,
+  MaterialStructType extends MaterialBase<
+    MaterialStructType,
+    ShaderStructType,
+    MaterialMapStructType,
+    TextureStructType,
+    ColorStructType
+  >,
+  MaterialMapStructType extends MaterialMapBase<
+    MaterialMapStructType,
+    TextureStructType,
+    ColorStructType
+  >,
+  MatrixStructType extends MatrixBase<
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  MeshStructType extends MeshBase<
+    MeshStructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  ModelStructType extends ModelBase<
+    ModelStructType,
+    MeshStructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType,
+    MaterialStructType,
+    ShaderStructType,
+    MaterialMapStructType,
+    TextureStructType,
+    ColorStructType,
+    TransformStructType,
+    BoneInfoStructType
+  >,
+  ModelAnimationStructType extends ModelAnimationBase<
+    ModelAnimationStructType,
+    BoneInfoStructType,
+    TransformStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  NPatchInfoStructType extends NPatchInfoBase<
+    NPatchInfoStructType,
+    RectangleStructType
+  >,
+  QuaternionStructType extends QuaternionBase<
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType,
+    Vector4StructType
+  >,
+  RayStructType extends RayBase<
+    RayStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  RayCollisionStructType extends RayCollisionBase<
+    RayCollisionStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  RectangleStructType extends RectangleBase<RectangleStructType>,
+  RenderTextureStructType extends RenderTextureBase<
+    RenderTextureStructType,
+    TextureStructType
+  >,
+  ShaderStructType extends ShaderBase<ShaderStructType>,
+  TextureStructType extends TextureBase<TextureStructType>,
+  TransformStructType extends TransformBase<
+    TransformStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Vector2StructType extends Vector2Base<
+    Vector2StructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Vector3StructType extends Vector3Base<
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Vector4StructType extends Vector4Base<
+    Vector4StructType,
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType
+  >,
+  VrDeviceInfoStructType extends VrDeviceInfoBase<VrDeviceInfoStructType>,
+  VrStereoConfigStructType extends VrStereoConfigBase<
+    VrStereoConfigStructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
 
   // callbacks
   LoadFileDataCallbackType extends LoadFileDataCallbackBase,
@@ -39,7 +174,39 @@ abstract interface class RaylibCoreModuleBase<
   LoadFileTextCallbackType extends LoadFileTextCallbackBase,
   SaveFileTextCallbackType extends SaveFileTextCallbackBase
   
-> with RaylibModuleBase {
+> extends RaylibModule<R> {
+
+  /// Debug label generator for this module's function calls.
+  final RaylibDebugLabels = RaylibCoreModuleDebugLabels();
+
+  /// Capture ID generator for pointer slots allocated by this module.
+  final RaylibCaptureIds = RaylibCoreModuleCaptureIds();
+
+  RaylibCoreModuleBase(super.rl);
+
+  // --- custom
+
+  MouseButtonInfo GetMouseButtonInfo(MouseButton button) => .new(
+    up: IsMouseButtonUp(button),
+    down: IsMouseButtonDown(button),
+    pressed: IsMouseButtonPressed(button),
+    released: IsMouseButtonReleased(button),
+  );
+
+  MouseInfo<Vector2StructType> GetMouseInfo() => .new(
+    position: GetMousePosition(),
+    delta: GetMouseDelta(),
+    wheel: GetMouseWheelMoveV(),
+    btnLeft: GetMouseButtonInfo(.MOUSE_BUTTON_LEFT),
+    btnMiddle: GetMouseButtonInfo(.MOUSE_BUTTON_MIDDLE),
+    btnRight: GetMouseButtonInfo(.MOUSE_BUTTON_RIGHT),
+    btnSide: GetMouseButtonInfo(.MOUSE_BUTTON_SIDE),
+    btnExtra: GetMouseButtonInfo(.MOUSE_BUTTON_EXTRA),
+    btnForward: GetMouseButtonInfo(.MOUSE_BUTTON_FORWARD),
+    btnBack: GetMouseButtonInfo(.MOUSE_BUTTON_BACK),
+  );
+
+  // --- custom
 
   void InitWindow(
     num width,
@@ -426,17 +593,17 @@ abstract interface class RaylibCoreModuleBase<
     SaveFileTextCallbackType? callback
   );
     
-  List<int> LoadFileData(
+  Uint8List LoadFileData(
     String fileName,
   );
 
   bool SaveFileData(
     String fileName,
-    List<int> data,
+    Uint8List data,
   );
 
   bool ExportDataAsCode(
-    List<int> data,
+    Uint8List data,
     String fileName,
   );
 
@@ -528,32 +695,32 @@ abstract interface class RaylibCoreModuleBase<
     String fileName,
   );
 
-  List<int> CompressData(
-    List<int> data,
+  Uint8List CompressData(
+    Uint8List data,
   );
 
-  List<int> DecompressData(
-    List<int> compData,
+  Uint8List DecompressData(
+    Uint8List compData,
   );
 
-  List<int> EncodeDataBase64(
-    List<int> data,
+  Uint8List EncodeDataBase64(
+    Uint8List data,
   );
 
-  List<int> DecodeDataBase64(
-    List<int> data,
+  Uint8List DecodeDataBase64(
+    Uint8List data,
   );
 
   int ComputeCRC32(
-    List<int> data,
+    Uint8List data,
   );
 
-  List<int> ComputeMD5(
-    List<int> data,
+  Uint8List ComputeMD5(
+    Uint8List data,
   );
 
-  List<int> ComputeSHA1(
-    List<int> data,
+  Uint8List ComputeSHA1(
+    Uint8List data,
   );
     
   AutomationEventListStructType LoadAutomationEventList(
@@ -729,7 +896,7 @@ abstract interface class RaylibCoreModuleBase<
   );
 
   bool IsGestureDetected(
-    Gesture gesture,
+    Gesture key,
   );
 
   Gesture GetGestureDetected();
@@ -1228,12 +1395,12 @@ abstract interface class RaylibCoreModuleBase<
 
   ImageStructType LoadImageAnimFromMemory(
     String fileType,
-    List<int> fileData,
+    Uint8List fileData,
   );
 
   ImageStructType LoadImageFromMemory(
     String fileType,
-    List<int> fileData,
+    Uint8List fileData,
   );
 
   ImageStructType LoadImageFromTexture(
@@ -1708,13 +1875,13 @@ abstract interface class RaylibCoreModuleBase<
 
   void UpdateTexture(
     TextureStructType texture,
-    List<int> pixels,
+    Uint8List pixels,
   );
     
   void UpdateTextureRec(
     TextureStructType texture,
     RectangleStructType rec,
-    List<int> pixels,
+    Uint8List pixels,
   );
 
   void GenTextureMipmaps(
@@ -1860,7 +2027,7 @@ abstract interface class RaylibCoreModuleBase<
   FontStructType LoadFontEx(
     String fileName,
     num fontSize, [
-      List<int>? codepoints,
+      Int32List? codepoints,
       num? codePointCount
     ]
   );
@@ -1873,9 +2040,9 @@ abstract interface class RaylibCoreModuleBase<
 
   FontStructType LoadFontFromMemory(
     String fileType,
-    List<int> fileData,
+    Uint8List fileData,
     num fontSize,
-    List<int> codepoints,
+    Int32List codepoints,
   );
 
   bool IsFontValid(
@@ -1883,9 +2050,9 @@ abstract interface class RaylibCoreModuleBase<
   );
 
   List<GlyphInfoStructType> LoadFontData(
-    List<int> fileData,
+    Uint8List fileData,
     num fontSize,
-    List<int>? codepoints,
+    Int32List? codepoints,
     num? codepointCount,
     FontType type,
   );
@@ -1953,7 +2120,7 @@ abstract interface class RaylibCoreModuleBase<
 
   void DrawTextCodepoints(
     FontStructType font,
-    List<int> codepoints,
+    Int32List codepoints,
     Vector2StructType position,
     num fontSize,
     num spacing,
@@ -1992,10 +2159,10 @@ abstract interface class RaylibCoreModuleBase<
   );
     
   String LoadUTF8(
-    List<int> codepoints,
+    Int32List codepoints,
   );
 
-  List<int> LoadCodepoints(
+  Int32List LoadCodepoints(
     String text,
   );
 
@@ -2280,7 +2447,7 @@ abstract interface class RaylibCoreModuleBase<
   void UpdateMeshBuffer(
     MeshStructType mesh,
     num index,
-    List<int> data,
+    TypedDataList data,
     num offset,
   );
     

@@ -1,8 +1,14 @@
 part of '../../raylib_dartified_base.dart';
 
-mixin RaylibUtilsModuleBase {
+abstract class RaylibUtilsModuleBase<R extends RaylibBase> extends RaylibModule<R> {
 
-  int EnumAsFlagsOr(Iterable<RaylibEnum> values) {
+  RaylibUtilsModuleBase(super.rl);
+
+  int get md5Uint32HashLength => 4; 
+  int get sha1Uint32HashLength => 5; 
+  int get sha256Uint32HashLength => 8;
+
+  int EnumsAsFlagsOr(Iterable<RaylibEnum> values) {
     return values
       .map((e) => e.value)
       .fold(0, (acc, e) => acc | e);
@@ -48,12 +54,12 @@ mixin RaylibUtilsModuleBase {
     if ((width < 4) && (height < 4))
     {
       if (
-        format.gte(PixelFormat.PIXELFORMAT_COMPRESSED_DXT1_RGB) &&
-        format.lt(PixelFormat.PIXELFORMAT_COMPRESSED_DXT3_RGBA)
+        format >= PixelFormat.PIXELFORMAT_COMPRESSED_DXT1_RGB &&
+        format < PixelFormat.PIXELFORMAT_COMPRESSED_DXT3_RGBA
       ) sizeInBytes = 8;
       else if (
-        format.gte(PixelFormat.PIXELFORMAT_COMPRESSED_DXT3_RGBA) &&
-        format.lt(PixelFormat.PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA)
+        format >= PixelFormat.PIXELFORMAT_COMPRESSED_DXT3_RGBA &&
+        format < PixelFormat.PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA
       ) sizeInBytes = 16;
     }
 

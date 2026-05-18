@@ -1,9 +1,12 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Marker for raygui property enums, each exposing a raw [value] for use
+/// with the GUI styling API.
 mixin GuiProperty on Enum {
   int get value;
 }
 
+/// raygui `GuiState` enum.
 enum GuiState {
   STATE_NORMAL(0),
   STATE_FOCUSED(1),
@@ -22,6 +25,7 @@ enum GuiState {
   };
 }
 
+/// raygui `GuiTextAlignment` enum.
 enum GuiTextAlignment {
   TEXT_ALIGN_LEFT(0),
   TEXT_ALIGN_CENTER(1),
@@ -38,6 +42,7 @@ enum GuiTextAlignment {
   };
 }
 
+/// raygui `GuiTextAlignmentVertical` enum.
 enum GuiTextAlignmentVertical {
   TEXT_ALIGN_TOP(0),
   TEXT_ALIGN_MIDDLE(1),
@@ -56,6 +61,7 @@ enum GuiTextAlignmentVertical {
   };
 }
 
+/// raygui `GuiTextWrapMode` enum.
 enum GuiTextWrapMode {
   TEXT_WRAP_NONE(0),
   TEXT_WRAP_CHAR(1),
@@ -72,6 +78,7 @@ enum GuiTextWrapMode {
   };
 }
 
+/// raygui `GuiControl` enum.
 enum GuiControl {
   DEFAULT(0),
   LABEL(1),
@@ -114,6 +121,7 @@ enum GuiControl {
   };
 }
 
+/// raygui `GuiControlProperty` enum.
 enum GuiControlProperty with GuiProperty {
   BORDER_COLOR_NORMAL(0),
   BASE_COLOR_NORMAL(1),
@@ -156,6 +164,7 @@ enum GuiControlProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiDefaultProperty` enum.
 enum GuiDefaultProperty with GuiProperty {
   TEXT_SIZE(16),
   TEXT_SPACING(17),
@@ -182,6 +191,7 @@ enum GuiDefaultProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiToggleProperty` enum.
 enum GuiToggleProperty with GuiProperty {
   GROUP_PADDING(16);
 
@@ -196,6 +206,7 @@ enum GuiToggleProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiSliderProperty` enum.
 enum GuiSliderProperty with GuiProperty {
   SLIDER_WIDTH(16),
   SLIDER_PADDING(17);
@@ -212,6 +223,7 @@ enum GuiSliderProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiProgressBarProperty` enum.
 enum GuiProgressBarProperty with GuiProperty {
   PROGRESS_PADDING(16);
 
@@ -228,6 +240,7 @@ enum GuiProgressBarProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiScrollBarProperty` enum.
 enum GuiScrollBarProperty with GuiProperty {
   ARROWS_SIZE(16),
   ARROWS_VISIBLE(17),
@@ -252,6 +265,7 @@ enum GuiScrollBarProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiCheckBoxProperty` enum.
 enum GuiCheckBoxProperty with GuiProperty {
   CHECK_PADDING(16);
 
@@ -266,6 +280,7 @@ enum GuiCheckBoxProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiComboBoxProperty` enum.
 enum GuiComboBoxProperty with GuiProperty {
   COMBO_BUTTON_WIDTH(16),
   COMBO_BUTTON_SPACING(17);
@@ -282,6 +297,7 @@ enum GuiComboBoxProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiDropdownBoxProperty` enum.
 enum GuiDropdownBoxProperty with GuiProperty {
   ARROW_PADDING(16),
   DROPDOWN_ITEMS_SPACING(17),
@@ -304,6 +320,7 @@ enum GuiDropdownBoxProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiTextBoxProperty` enum.
 enum GuiTextBoxProperty with GuiProperty {
   TEXT_READONLY(16);
 
@@ -318,6 +335,7 @@ enum GuiTextBoxProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiValueBoxProperty` enum.
 enum GuiValueBoxProperty with GuiProperty {
   SPINNER_BUTTON_WIDTH(16),
   SPINNER_BUTTON_SPACING(17);
@@ -334,6 +352,7 @@ enum GuiValueBoxProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiListViewProperty` enum.
 enum GuiListViewProperty with GuiProperty {
   LIST_ITEMS_HEIGHT(16),
   LIST_ITEMS_SPACING(17),
@@ -358,6 +377,7 @@ enum GuiListViewProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiColorPickerProperty` enum.
 enum GuiColorPickerProperty with GuiProperty {
   COLOR_SELECTOR_SIZE(16),
   HUEBAR_WIDTH(17),
@@ -382,6 +402,7 @@ enum GuiColorPickerProperty with GuiProperty {
   };
 }
 
+/// raygui `GuiIconName` enum.
 enum GuiIconName {
   ICON_NONE(0),
   ICON_FOLDER_FILE_OPEN(1),

@@ -1,5 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Rlgl `DrawMode` enum.
 enum RlDrawMode {
   RL_LINES(0x0001),
   RL_TRIANGLES(0x0004),
@@ -16,6 +17,7 @@ enum RlDrawMode {
   };
 }
 
+/// Rlgl `ShaderType` enum.
 enum RlShaderType {
   RL_FRAGMENT_SHADER(0x8B30),
   RL_VERTEX_SHADER(0x8B31),
@@ -32,6 +34,7 @@ enum RlShaderType {
   };
 }
 
+/// Rlgl `UsageHint` enum.
 enum RlUsageHint {
   RL_STREAM_DRAW(0x88E0),
   RL_STREAM_READ(0x88E1),
@@ -60,6 +63,7 @@ enum RlUsageHint {
   };
 }
 
+/// Rlgl `MatrixMode` enum.
 enum RlMatrixMode {
   RL_MODELVIEW(0x1700),
   RL_PROJECTION(0x1701),
@@ -76,6 +80,7 @@ enum RlMatrixMode {
   };
 }
 
+/// Rlgl `GlVersion` enum.
 enum RlGlVersion {
   RL_OPENGL_11(1),
   RL_OPENGL_21(2),
@@ -98,6 +103,7 @@ enum RlGlVersion {
   };
 }
 
+/// Rlgl `ShaderUniformDataType` enum.
 enum RlShaderUniformDataType {
   RL_SHADER_UNIFORM_FLOAT(0),
   RL_SHADER_UNIFORM_VEC2(1),
@@ -136,6 +142,7 @@ enum RlShaderUniformDataType {
   };
 }
 
+/// Rlgl `ShaderAttributeDataType` enum.
 enum RlShaderAttributeDataType {
   RL_SHADER_ATTRIB_FLOAT(0),
   RL_SHADER_ATTRIB_VEC2(1),
@@ -156,6 +163,7 @@ enum RlShaderAttributeDataType {
   };
 }
 
+/// Rlgl `FramebufferAttachType` enum.
 enum RlFramebufferAttachType {
   RL_ATTACHMENT_COLOR_CHANNEL0(0),
   RL_ATTACHMENT_COLOR_CHANNEL1(1),
@@ -188,6 +196,7 @@ enum RlFramebufferAttachType {
   };
 }
 
+/// Rlgl `FramebufferAttachTextureType` enum.
 enum RlFramebufferAttachTextureType {
   RL_ATTACHMENT_CUBEMAP_POSITIVE_X(0),
   RL_ATTACHMENT_CUBEMAP_NEGATIVE_X(1),
@@ -216,6 +225,7 @@ enum RlFramebufferAttachTextureType {
   };
 }
 
+/// Rlgl `CullMode` enum.
 enum RlCullMode {
   RL_CULL_FACE_FRONT(0),
   RL_CULL_FACE_BACK(1);

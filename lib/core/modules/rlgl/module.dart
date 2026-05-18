@@ -1,100 +1,145 @@
 part of '../../raylib_dartified_base.dart';
 
-mixin RaylibRlglModuleExtras on RaylibModuleBase {
-  String get RLGL_VERSION => '5.0';
-  int get RL_DEFAULT_BATCH_BUFFER_ELEMENTS => 8192;
-  int get RL_DEFAULT_BATCH_BUFFERS => 1;
-  int get RL_DEFAULT_BATCH_DRAWCALLS => 256;
-  int get RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS => 4;
-  int get RL_MAX_MATRIX_STACK_SIZE => 32;
-  int get RL_MAX_SHADER_LOCATIONS => 32;
-  double get RL_CULL_DISTANCE_NEAR => 0.01;
-  double get RL_CULL_DISTANCE_FAR => 1000.0;
-  int get RL_TEXTURE_WRAP_S => 10242;
-  int get RL_TEXTURE_WRAP_T => 10243;
-  int get RL_TEXTURE_MAG_FILTER => 10240;
-  int get RL_TEXTURE_MIN_FILTER => 10241;
-  int get RL_TEXTURE_FILTER_NEAREST => 9728;
-  int get RL_TEXTURE_FILTER_LINEAR => 9729;
-  int get RL_TEXTURE_FILTER_MIP_NEAREST => 9984;
-  int get RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR => 9986;
-  int get RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST => 9985;
-  int get RL_TEXTURE_FILTER_MIP_LINEAR => 9987;
-  int get RL_TEXTURE_FILTER_ANISOTROPIC => 12288;
-  int get RL_TEXTURE_MIPMAP_BIAS_RATIO => 16384;
-  int get RL_TEXTURE_WRAP_REPEAT => 10497;
-  int get RL_TEXTURE_WRAP_CLAMP => 33071;
-  int get RL_TEXTURE_WRAP_MIRROR_REPEAT => 33648;
-  int get RL_TEXTURE_WRAP_MIRROR_CLAMP => 34626;
-  int get RL_MODELVIEW => 5888;
-  int get RL_PROJECTION => 5889;
-  int get RL_TEXTURE => 5890;
-  int get RL_LINES => 1;
-  int get RL_TRIANGLES => 4;
-  int get RL_QUADS => 7;
-  int get RL_UNSIGNED_BYTE => 5121;
-  int get RL_FLOAT => 5126;
-  int get RL_STREAM_DRAW => 35040;
-  int get RL_STREAM_READ => 35041;
-  int get RL_STREAM_COPY => 35042;
-  int get RL_STATIC_DRAW => 35044;
-  int get RL_STATIC_READ => 35045;
-  int get RL_STATIC_COPY => 35046;
-  int get RL_DYNAMIC_DRAW => 35048;
-  int get RL_DYNAMIC_READ => 35049;
-  int get RL_DYNAMIC_COPY => 35050;
-  int get RL_FRAGMENT_SHADER => 35632;
-  int get RL_VERTEX_SHADER => 35633;
-  int get RL_COMPUTE_SHADER => 37305;
-  int get RL_ZERO => 0;
-  int get RL_ONE => 1;
-  int get RL_SRC_COLOR => 768;
-  int get RL_ONE_MINUS_SRC_COLOR => 769;
-  int get RL_SRC_ALPHA => 770;
-  int get RL_ONE_MINUS_SRC_ALPHA => 771;
-  int get RL_DST_ALPHA => 772;
-  int get RL_ONE_MINUS_DST_ALPHA => 773;
-  int get RL_DST_COLOR => 774;
-  int get RL_ONE_MINUS_DST_COLOR => 775;
-  int get RL_SRC_ALPHA_SATURATE => 776;
-  int get RL_CONSTANT_COLOR => 32769;
-  int get RL_ONE_MINUS_CONSTANT_COLOR => 32770;
-  int get RL_CONSTANT_ALPHA => 32771;
-  int get RL_ONE_MINUS_CONSTANT_ALPHA => 32772;
-  int get RL_FUNC_ADD => 32774;
-  int get RL_MIN => 32775;
-  int get RL_MAX => 32776;
-  int get RL_FUNC_SUBTRACT => 32778;
-  int get RL_FUNC_REVERSE_SUBTRACT => 32779;
-  int get RL_BLEND_EQUATION => 32777;
-  int get RL_BLEND_EQUATION_RGB => 32777;
-  int get RL_BLEND_EQUATION_ALPHA => 34877;
-  int get RL_BLEND_DST_RGB => 32968;
-  int get RL_BLEND_SRC_RGB => 32969;
-  int get RL_BLEND_DST_ALPHA => 32970;
-  int get RL_BLEND_SRC_ALPHA => 32971;
-  int get RL_BLEND_COLOR => 32773;
-  int get RL_READ_FRAMEBUFFER => 36008;
-  int get RL_DRAW_FRAMEBUFFER => 36009;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION => 0;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD => 1;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_NORMAL => 2;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_COLOR => 3;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT => 4;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2 => 5;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_INDICES => 6;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEIDS => 7;
-  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEWEIGHTS => 8;
-  int get RL_SHADER_LOC_MAP_DIFFUSE => 15;
-  int get RL_SHADER_LOC_MAP_SPECULAR => 16;
+/// Re-exports [RaylibRlglConstants] values as instance members,
+/// so constants are accessible directly on the module without a class qualifier.
+mixin RaylibRlglModuleExtras<R extends RaylibBase> on RaylibModule<R> {
+  String get RLGL_VERSION => RaylibRlglConstants.RLGL_VERSION;
+  int get RL_DEFAULT_BATCH_BUFFER_ELEMENTS => RaylibRlglConstants.RL_DEFAULT_BATCH_BUFFER_ELEMENTS;
+  int get RL_DEFAULT_BATCH_BUFFERS => RaylibRlglConstants.RL_DEFAULT_BATCH_BUFFERS;
+  int get RL_DEFAULT_BATCH_DRAWCALLS => RaylibRlglConstants.RL_DEFAULT_BATCH_DRAWCALLS;
+  int get RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS => RaylibRlglConstants.RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS;
+  int get RL_MAX_MATRIX_STACK_SIZE => RaylibRlglConstants.RL_MAX_MATRIX_STACK_SIZE;
+  int get RL_MAX_SHADER_LOCATIONS => RaylibRlglConstants.RL_MAX_SHADER_LOCATIONS;
+  double get RL_CULL_DISTANCE_NEAR => RaylibRlglConstants.RL_CULL_DISTANCE_NEAR;
+  double get RL_CULL_DISTANCE_FAR => RaylibRlglConstants.RL_CULL_DISTANCE_FAR;
+  int get RL_TEXTURE_WRAP_S => RaylibRlglConstants.RL_TEXTURE_WRAP_S;
+  int get RL_TEXTURE_WRAP_T => RaylibRlglConstants.RL_TEXTURE_WRAP_T;
+  int get RL_TEXTURE_MAG_FILTER => RaylibRlglConstants.RL_TEXTURE_MAG_FILTER;
+  int get RL_TEXTURE_MIN_FILTER => RaylibRlglConstants.RL_TEXTURE_MIN_FILTER;
+  int get RL_TEXTURE_FILTER_NEAREST => RaylibRlglConstants.RL_TEXTURE_FILTER_NEAREST;
+  int get RL_TEXTURE_FILTER_LINEAR => RaylibRlglConstants.RL_TEXTURE_FILTER_LINEAR;
+  int get RL_TEXTURE_FILTER_MIP_NEAREST => RaylibRlglConstants.RL_TEXTURE_FILTER_MIP_NEAREST;
+  int get RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR => RaylibRlglConstants.RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR;
+  int get RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST => RaylibRlglConstants.RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST;
+  int get RL_TEXTURE_FILTER_MIP_LINEAR => RaylibRlglConstants.RL_TEXTURE_FILTER_MIP_LINEAR;
+  int get RL_TEXTURE_FILTER_ANISOTROPIC => RaylibRlglConstants.RL_TEXTURE_FILTER_ANISOTROPIC;
+  int get RL_TEXTURE_MIPMAP_BIAS_RATIO => RaylibRlglConstants.RL_TEXTURE_MIPMAP_BIAS_RATIO;
+  int get RL_TEXTURE_WRAP_REPEAT => RaylibRlglConstants.RL_TEXTURE_WRAP_REPEAT;
+  int get RL_TEXTURE_WRAP_CLAMP => RaylibRlglConstants.RL_TEXTURE_WRAP_CLAMP;
+  int get RL_TEXTURE_WRAP_MIRROR_REPEAT => RaylibRlglConstants.RL_TEXTURE_WRAP_MIRROR_REPEAT;
+  int get RL_TEXTURE_WRAP_MIRROR_CLAMP => RaylibRlglConstants.RL_TEXTURE_WRAP_MIRROR_CLAMP;
+  int get RL_MODELVIEW => RaylibRlglConstants.RL_MODELVIEW;
+  int get RL_PROJECTION => RaylibRlglConstants.RL_PROJECTION;
+  int get RL_TEXTURE => RaylibRlglConstants.RL_TEXTURE;
+  int get RL_LINES => RaylibRlglConstants.RL_LINES;
+  int get RL_TRIANGLES => RaylibRlglConstants.RL_TRIANGLES;
+  int get RL_QUADS => RaylibRlglConstants.RL_QUADS;
+  int get RL_UNSIGNED_BYTE => RaylibRlglConstants.RL_UNSIGNED_BYTE;
+  int get RL_FLOAT => RaylibRlglConstants.RL_FLOAT;
+  int get RL_STREAM_DRAW => RaylibRlglConstants.RL_STREAM_DRAW;
+  int get RL_STREAM_READ => RaylibRlglConstants.RL_STREAM_READ;
+  int get RL_STREAM_COPY => RaylibRlglConstants.RL_STREAM_COPY;
+  int get RL_STATIC_DRAW => RaylibRlglConstants.RL_STATIC_DRAW;
+  int get RL_STATIC_READ => RaylibRlglConstants.RL_STATIC_READ;
+  int get RL_STATIC_COPY => RaylibRlglConstants.RL_STATIC_COPY;
+  int get RL_DYNAMIC_DRAW => RaylibRlglConstants.RL_DYNAMIC_DRAW;
+  int get RL_DYNAMIC_READ => RaylibRlglConstants.RL_DYNAMIC_READ;
+  int get RL_DYNAMIC_COPY => RaylibRlglConstants.RL_DYNAMIC_COPY;
+  int get RL_FRAGMENT_SHADER => RaylibRlglConstants.RL_FRAGMENT_SHADER;
+  int get RL_VERTEX_SHADER => RaylibRlglConstants.RL_VERTEX_SHADER;
+  int get RL_COMPUTE_SHADER => RaylibRlglConstants.RL_COMPUTE_SHADER;
+  int get RL_ZERO => RaylibRlglConstants.RL_ZERO;
+  int get RL_ONE => RaylibRlglConstants.RL_ONE;
+  int get RL_SRC_COLOR => RaylibRlglConstants.RL_SRC_COLOR;
+  int get RL_ONE_MINUS_SRC_COLOR => RaylibRlglConstants.RL_ONE_MINUS_SRC_COLOR;
+  int get RL_SRC_ALPHA => RaylibRlglConstants.RL_SRC_ALPHA;
+  int get RL_ONE_MINUS_SRC_ALPHA => RaylibRlglConstants.RL_ONE_MINUS_SRC_ALPHA;
+  int get RL_DST_ALPHA => RaylibRlglConstants.RL_DST_ALPHA;
+  int get RL_ONE_MINUS_DST_ALPHA => RaylibRlglConstants.RL_ONE_MINUS_DST_ALPHA;
+  int get RL_DST_COLOR => RaylibRlglConstants.RL_DST_COLOR;
+  int get RL_ONE_MINUS_DST_COLOR => RaylibRlglConstants.RL_ONE_MINUS_DST_COLOR;
+  int get RL_SRC_ALPHA_SATURATE => RaylibRlglConstants.RL_SRC_ALPHA_SATURATE;
+  int get RL_CONSTANT_COLOR => RaylibRlglConstants.RL_CONSTANT_COLOR;
+  int get RL_ONE_MINUS_CONSTANT_COLOR => RaylibRlglConstants.RL_ONE_MINUS_CONSTANT_COLOR;
+  int get RL_CONSTANT_ALPHA => RaylibRlglConstants.RL_CONSTANT_ALPHA;
+  int get RL_ONE_MINUS_CONSTANT_ALPHA => RaylibRlglConstants.RL_ONE_MINUS_CONSTANT_ALPHA;
+  int get RL_FUNC_ADD => RaylibRlglConstants.RL_FUNC_ADD;
+  int get RL_MIN => RaylibRlglConstants.RL_MIN;
+  int get RL_MAX => RaylibRlglConstants.RL_MAX;
+  int get RL_FUNC_SUBTRACT => RaylibRlglConstants.RL_FUNC_SUBTRACT;
+  int get RL_FUNC_REVERSE_SUBTRACT => RaylibRlglConstants.RL_FUNC_REVERSE_SUBTRACT;
+  int get RL_BLEND_EQUATION => RaylibRlglConstants.RL_BLEND_EQUATION;
+  int get RL_BLEND_EQUATION_RGB => RaylibRlglConstants.RL_BLEND_EQUATION_RGB;
+  int get RL_BLEND_EQUATION_ALPHA => RaylibRlglConstants.RL_BLEND_EQUATION_ALPHA;
+  int get RL_BLEND_DST_RGB => RaylibRlglConstants.RL_BLEND_DST_RGB;
+  int get RL_BLEND_SRC_RGB => RaylibRlglConstants.RL_BLEND_SRC_RGB;
+  int get RL_BLEND_DST_ALPHA => RaylibRlglConstants.RL_BLEND_DST_ALPHA;
+  int get RL_BLEND_SRC_ALPHA => RaylibRlglConstants.RL_BLEND_SRC_ALPHA;
+  int get RL_BLEND_COLOR => RaylibRlglConstants.RL_BLEND_COLOR;
+  int get RL_READ_FRAMEBUFFER => RaylibRlglConstants.RL_READ_FRAMEBUFFER;
+  int get RL_DRAW_FRAMEBUFFER => RaylibRlglConstants.RL_DRAW_FRAMEBUFFER;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_NORMAL => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_NORMAL;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_COLOR => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_COLOR;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2 => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_INDICES => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_INDICES;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEIDS => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEIDS;
+  int get RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEWEIGHTS => RaylibRlglConstants.RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEWEIGHTS;
+  int get RL_SHADER_LOC_MAP_DIFFUSE => RaylibRlglConstants.RL_SHADER_LOC_MAP_DIFFUSE;
+  int get RL_SHADER_LOC_MAP_SPECULAR => RaylibRlglConstants.RL_SHADER_LOC_MAP_SPECULAR;
 }
 
-abstract interface class RaylibRlglModuleBase<
-  // types
-  MatrixStructType extends MatrixBase,
-  RlRenderBatchStructType extends RlRenderBatchBase
+/// Backend-agnostic contract for the Raylib Rlgl module.
+///
+/// Concrete platform implementations mix in or extend this to provide
+/// the full Core API surface across different backends.
+abstract class RaylibRlglModuleBase<
+  R extends RaylibBase,
   
-> with RaylibModuleBase {
+  // types
+  MatrixStructType extends MatrixBase<
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  QuaternionStructType extends QuaternionBase<
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType,
+    Vector4StructType
+  >,
+  RlDrawCallStructType extends RlDrawCallBase<RlDrawCallStructType>,
+  RlRenderBatchStructType extends RlRenderBatchBase<
+    RlRenderBatchStructType,
+    RlVertexBufferStructType,
+    RlDrawCallStructType
+  >,
+  RlVertexBufferStructType extends RlVertexBufferBase<RlVertexBufferStructType>,
+  Vector3StructType extends Vector3Base<
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Vector4StructType extends Vector4Base<
+    Vector4StructType,
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType
+  >
+  
+> extends RaylibModule<R> with RaylibRlglModuleExtras<R> {
+
+  /// Debug label generator for this module's function calls.
+  final RaylibDebugLabels = RaylibRlglModuleDebugLabels();
+  
+  /// Capture ID generator for pointer slots allocated by this module.
+  final RaylibCaptureIds = RaylibRlglModuleCaptureIds();
+
+  RaylibRlglModuleBase(super.rl);
 
   void rlMatrixMode(
     RlMatrixMode mode,
@@ -452,24 +497,24 @@ abstract interface class RaylibRlglModuleBase<
   int rlLoadVertexArray();
 
   int rlLoadVertexBuffer(
-    TypedData buffer,
+    TypedDataList buffer,
     bool dynamic,
   );
 
   int rlLoadVertexBufferElement(
-    TypedData buffer,
+    TypedDataList buffer,
     bool dynamic,
   );
 
   void rlUpdateVertexBuffer(
     num bufferId,
-    TypedData data,
+    TypedDataList data,
     num offset,
   );
 
   void rlUpdateVertexBufferElements(
     num id,
-    TypedData data,
+    TypedDataList data,
     num offset,
   );
 
@@ -582,7 +627,7 @@ abstract interface class RaylibRlglModuleBase<
     PixelFormat format,
   );
 
-  List<int> rlReadScreenPixels(
+  Uint8List rlReadScreenPixels(
     num width,
     num height,
   );
@@ -636,7 +681,7 @@ abstract interface class RaylibRlglModuleBase<
 
   void rlSetUniform(
     num locIndex,
-    TypedData value,
+    TypedDataList value,
     RlShaderUniformDataType uniformType,
     num count,
   );
@@ -673,7 +718,7 @@ abstract interface class RaylibRlglModuleBase<
 
   int rlLoadShaderBuffer(
     num size,
-    TypedData? data,
+    TypedDataList? data,
     RlUsageHint? usageHint,
   );
 
@@ -683,7 +728,7 @@ abstract interface class RaylibRlglModuleBase<
 
   void rlUpdateShaderBuffer(
     num id,
-    TypedData data,
+    TypedDataList data,
     num offset,
   );
 

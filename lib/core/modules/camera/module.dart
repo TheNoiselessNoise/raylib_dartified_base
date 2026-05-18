@@ -1,12 +1,51 @@
 part of '../../raylib_dartified_base.dart';
 
-abstract interface class RaylibCameraModuleBase<
+/// Backend-agnostic contract for the Raylib Camera module.
+///
+/// Concrete platform implementations mix in or extend this to provide
+/// the full Core API surface across different backends.
+abstract class RaylibCameraModuleBase<
+  R extends RaylibBase,
+
   // types
-  Camera3DStructType extends Camera3DBase,
-  MatrixStructType extends MatrixBase,
-  Vector3StructType extends Vector3Base
+  Camera3DStructType extends Camera3DBase<
+    Camera3DStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  MatrixStructType extends MatrixBase<
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  QuaternionStructType extends QuaternionBase<
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType,
+    Vector4StructType
+  >,
+  Vector3StructType extends Vector3Base<
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  Vector4StructType extends Vector4Base<
+    Vector4StructType,
+    QuaternionStructType,
+    MatrixStructType,
+    Vector3StructType
+  >
   
-> with RaylibModuleBase {
+> extends RaylibModule<R> {
+
+  /// Debug label generator for this module's function calls.
+  final RaylibDebugLabels = RaylibCameraModuleDebugLabels();
+
+  RaylibCameraModuleBase(super.rl);
 
   Vector3StructType GetCameraForward(
     Camera3DStructType camera,
