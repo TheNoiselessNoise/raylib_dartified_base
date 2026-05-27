@@ -1,6 +1,6 @@
 name: raylib_dartified_base
 description: Shared types and abstractions for the raylib_dartified package family.
-version: 5.5.0
+version: 5.5.1
 repository: https://github.com/TheNoiselessNoise/raylib_dartified_base
 
 environment:
