@@ -458,3 +458,29 @@ abstract class RaylibBase {
   /// Returns a random `double` in `[0.0, RAND_MAX)`, mirroring C's `rand()` range.
   double randC() => rand() * RAND_MAX;
 }
+
+/// Platform-agnostic game lifecycle interface for Raylib applications.
+///
+/// Implement this to define your game logic independently of the backend.
+/// Each backend provides its own [RaylibGameBase] subclass
+/// and [runRaylib] function that drives the lifecycle in a platform-appropriate way.
+///
+/// The expected call order is:
+/// 1. [init] set up your game state and call [RaylibCoreModuleBase.InitWindow]
+/// 2. [loop] called every frame
+/// 3. [close] called when [shouldClose] returns `true`; call [RaylibCoreModuleBase.CloseWindow] here
+/// 4. [dispose] release Dart-side resources
+abstract class RaylibGameBase<R extends RaylibBase> {
+  void init(R rl);
+
+  bool shouldClose(R rl) => rl.CoreD.WindowShouldClose();
+
+  void loop(R rl);
+
+  void close(R rl) => rl.CoreD.CloseWindow();
+
+  void dispose(R rl) => rl.dispose();
+}
+
+// NOTE: each backend implements it's own function
+// void runRaylib(RaylibGameBase game, {String? nativeLibPath});
