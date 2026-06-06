@@ -13,17 +13,41 @@ mixin LightBase<
   C extends ColorBase<C>
 
 > on RaylibStructObjectBase<X> {
+  
+  /// Light type (directional or point)
   abstract LightType type;
+
+  /// Whether the light is currently active
   abstract bool enabled;
+
+  /// Light position in world space
   abstract V3 position;
+
+  /// Light target direction (used for directional lights)
   abstract V3 target;
+
+  /// Light color
   abstract C color;
+
+  /// Light attenuation factor (falloff over distance)
   abstract double attenuation;
+
+  /// Shader location for [enabled]
   abstract int enabledLoc;
+
+  /// Shader location for [type]
   abstract int typeLoc;
+
+  /// Shader location for [position]
   abstract int positionLoc;
+
+  /// Shader location for [target]
   abstract int targetLoc;
+
+  /// Shader location for [color]
   abstract int colorLoc;
+
+  /// Shader location for [attenuation]
   abstract int attenuationLoc;
 
   @override

@@ -4,35 +4,57 @@
 part of '../raylib_dartified_base.dart';
 
 /// Exposes Raylib's easing functions as module-level calls.
+///
+/// All functions share the same parameter convention (Robert Penner's easing):
+/// - [t] current time
+/// - [b] start value
+/// - [c] change in value (end - start)
+/// - [d] total duration
+///
+/// Returns the interpolated value at time [t].
 abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModule<R> {
   RaylibEaseExtensionBase(super.rl);
 
-  // Ease: Linear
+  // Linear Easing functions
+
+  /// Linear
   double EaseLinearNone(num t, num b, num c, num d) => c*t/d + b;
-  // Ease: Linear In
+  
+  /// Linear In
   double EaseLinearIn(num t, num b, num c, num d) => c*t/d + b;
-  // Ease: Linear Out
+  
+  /// Linear Out
   double EaseLinearOut(num t, num b, num c, num d) => c*t/d + b;
-  // Ease: Linear In Out
+  
+  /// Linear In Out
   double EaseLinearInOut(num t, num b, num c, num d) => c*t/d + b;
 
   // Sine Easing functions
-  // Ease: Sine In
+
+  /// Sine In
   double EaseSineIn(num t, num b, num c, num d) => -c*math.cos(t/d*(rl.PI/2.0)) + c + b;
-  // Ease: Sine Out
+  
+  /// Sine Out
   double EaseSineOut(num t, num b, num c, num d) => c*math.sin(t/d*(rl.PI/2.0)) + b;
-  // Ease: Sine In Out
+  
+  /// Sine In Out
   double EaseSineInOut(num t, num b, num c, num d) => -c/2.0*(math.cos(rl.PI*t/d) - 1.0) + b;
 
   // Circular Easing functions
+
+  /// Circular In
   double EaseCircIn(num t, num b, num c, num d) {
     t /= d;
     return (-c*(math.sqrt(1.0 - t*t) - 1.0) + b);
   }
+
+  /// Circular Out
   double EaseCircOut(num t, num b, num c, num d) {
     t = t/d - 1.0;
     return (c*math.sqrt(1.0 - t*t) + b);
   }
+
+  /// Circular In Out
   double EaseCircInOut(num t, num b, num c, num d)
   {
     if ((t/=d/2.0) < 1.0) {
@@ -43,14 +65,20 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Cubic Easing functions
+
+  /// Cubic In
   double EaseCubicIn(num t, num b, num c, num d) {
     t /= d;
     return (c*t*t*t + b).toDouble();
   }
+
+  /// Cubic Out
   double EaseCubicOut(num t, num b, num c, num d) {
     t = t/d - 1.0;
     return (c*(t*t*t + 1.0) + b);
   }
+
+  /// Cubic In Out
   double EaseCubicInOut(num t, num b, num c, num d)
   {
     if ((t/=d/2.0) < 1.0) {
@@ -61,14 +89,20 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Quadratic Easing functions
+
+  /// Quadratic In
   double EaseQuadIn(num t, num b, num c, num d) {
     t /= d;
     return (c*t*t + b).toDouble();
   }
+
+  /// Quadratic Out
   double EaseQuadOut(num t, num b, num c, num d) {
     t /= d;
     return (-c*t*(t - 2.0) + b);
   }
+
+  /// Quadratic In Out
   double EaseQuadInOut(num t, num b, num c, num d)
   {
     if ((t/=d/2) < 1) {
@@ -78,14 +112,18 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Exponential Easing functions
+
+  /// Exponential In
   double EaseExpoIn(num t, num b, num c, num d) {
     return ((t == 0.0) ? b : (c*math.pow(2.0, 10.0*(t/d - 1.0)) + b)).toDouble();
   }
 
+  /// Exponential Out
   double EaseExpoOut(num t, num b, num c, num d) {
     return ((t == d) ? (b + c) : (c*(-math.pow(2.0, -10.0*t/d) + 1.0) + b)).toDouble();
   }
 
+  /// Exponential In Out
   double EaseExpoInOut(num t, num b, num c, num d)
   {
     if (t == 0.0) return b.toDouble();
@@ -95,6 +133,8 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Back Easing functions
+
+  /// Back In
   double EaseBackIn(num t, num b, num c, num d)
   {
     final s = 1.70158;
@@ -102,6 +142,7 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
     return (c*(postFix)*t*((s + 1.0)*t - s) + b);
   }
 
+  /// Back Out
   double EaseBackOut(num t, num b, num c, num d)
   {
     final s = 1.70158;
@@ -109,6 +150,7 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
     return (c*(t*t*((s + 1.0)*t + s) + 1.0) + b);
   }
 
+  /// Back In Out
   double EaseBackInOut(num t, num b, num c, num d)
   {
     num s = 1.70158;
@@ -124,6 +166,13 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Bounce Easing functions
+
+  /// Bounce In
+  double EaseBounceIn(num t, num b, num c, num d) {
+    return (c - EaseBounceOut(d - t, 0.0, c, d) + b);
+  }
+
+  /// Bounce Out
   double EaseBounceOut(num t, num b, num c, num d)
   {
     if ((t/=d) < (1.0/2.75))
@@ -147,10 +196,7 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
     }
   }
 
-  double EaseBounceIn(num t, num b, num c, num d) {
-    return (c - EaseBounceOut(d - t, 0.0, c, d) + b);
-  }
-
+  /// Bounce In Out
   double EaseBounceInOut(num t, num b, num c, num d)
   {
     if (t < d/2.0) {
@@ -160,6 +206,8 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
   }
 
   // Elastic Easing functions
+
+  /// Elastic In
   double EaseElasticIn(num t, num b, num c, num d)
   {
     if (t == 0.0) return b.toDouble();
@@ -173,6 +221,7 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
     return (-(postFix*math.sin((t*d-s)*(2.0*rl.PI)/p )) + b);
   }
 
+  /// Elastic Out
   double EaseElasticOut(num t, num b, num c, num d)
   {
     if (t == 0.0) return b.toDouble();
@@ -185,6 +234,7 @@ abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModul
     return (a*math.pow(2.0,-10.0*t)*math.sin((t*d-s)*(2.0*rl.PI)/p) + c + b);
   }
 
+  /// Elastic In Out
   double EaseElasticInOut(num t, num b, num c, num d)
   {
     if (t == 0.0) return b.toDouble();

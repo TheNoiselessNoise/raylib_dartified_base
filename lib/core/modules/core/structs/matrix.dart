@@ -7,6 +7,18 @@ part of '../../../raylib_dartified_base.dart';
 ///
 /// Must be mixed into every concrete platform implementation of a Raylib
 /// type to ensure a unified API surface across different backends.
+///
+/// ---
+///
+/// 4x4 components, column major, OpenGL style, right-handed.
+///
+/// **Layout note:**
+/// > The native Raylib C struct lays out fields in
+/// > row-major order (`m0, m4, m8, m12` = first row), but this Dart
+/// > representation uses **column-major** ordering (`m0..m3` = first
+/// > column, `m4..m7` = second column, etc.). Named constructors and
+/// > keyed parameters abstract this away, but methods such as [set]
+/// > and [toArray] follow the column-major convention.
 mixin MatrixBase<
   M extends MatrixBase<M, V3, Q, V4>,
   V3 extends Vector3Base<V3, M, Q, V4>,
@@ -14,24 +26,82 @@ mixin MatrixBase<
   V4 extends Vector4Base<V4, Q, M, V3>
 
 > on RaylibStructObjectBase<M> {
+
+  M get _this => this as M;
+  M get _mZero => RaylibMatrixFactories.zeroFactory() as M;
+  M _m(
+    num m0, num m1, num m2, num m3,
+    num m4, num m5, num m6, num m7,
+    num m8, num m9, num m10, num m11,
+    num m12, num m13, num m14, num m15,
+  ) => RaylibMatrixFactories.createFactory(
+    m0, m1, m2, m3,
+    m4, m5, m6, m7,
+    m8, m9, m10, m11,
+    m12, m13, m14, m15,
+  ) as M;
   
+  /// Column 0, row 0
   abstract double m0;
+
+  /// Column 0, row 1
   abstract double m1;
+
+  /// Column 0, row 2
   abstract double m2;
+
+  /// Column 0, row 3
   abstract double m3;
+
+  /// Column 1, row 0
   abstract double m4;
+
+  /// Column 1, row 1
   abstract double m5;
+
+  /// Column 1, row 2
   abstract double m6;
+
+  /// Column 1, row 3
   abstract double m7;
+
+  /// Column 2, row 0
   abstract double m8;
+
+  /// Column 2, row 1
   abstract double m9;
+
+  /// Column 2, row 2
   abstract double m10;
+
+  /// Column 2, row 3
   abstract double m11;
+
+  /// Column 3, row 0 (translation X)
   abstract double m12;
+
+  /// Column 3, row 1 (translation Y)
   abstract double m13;
+
+  /// Column 3, row 2 (translation Z)
   abstract double m14;
+
+  /// Column 3, row 3
   abstract double m15;
 
+  /// Sets all components in column-major order at once.
+  /// 
+  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// 
+  /// Returns this instance for fluent chaining.
+  ///
+  /// Arguments are laid out as:
+  /// ```
+  /// [ m0  m4  m8  m12 ] (row 0)
+  /// [ m1  m5  m9  m13 ] (row 1)
+  /// [ m2  m6  m10 m14 ] (row 2)
+  /// [ m3  m7  m11 m15 ] (row 3)
+  /// ```
   M set(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,
@@ -42,9 +112,12 @@ mixin MatrixBase<
     this.m4 = m4.toDouble(); this.m5 = m5.toDouble(); this.m6 = m6.toDouble(); this.m7 = m7.toDouble();
     this.m8 = m8.toDouble(); this.m9 = m9.toDouble(); this.m10 = m10.toDouble(); this.m11 = m11.toDouble();
     this.m12 = m12.toDouble(); this.m13 = m13.toDouble(); this.m14 = m14.toDouble(); this.m15 = m15.toDouble();
-    return this as M;
+    return _this;
   }
 
+  /// Returns a formatted 4x4 matrix string with each row on its own line.
+  ///
+  /// [x0] controls the number of decimal places for all components.
   String format([int x0 = 0])
     => '[ ${[
       [m0, m1, m2, m3].map((x) => x.toStringAsFixed(x0)).join(', '),
@@ -53,15 +126,20 @@ mixin MatrixBase<
       [m12, m13, m14, m15].map((x) => x.toStringAsFixed(x0)).join(', '),
     ].join('\n')} ]';
 
-  M transpose() => RaylibMatrixFactories.createFactory(
+  /// Returns a new matrix that is the transpose of this one.
+  M transpose() => _m(
     m0, m4, m8, m12,
     m1, m5, m9, m13,
     m2, m6, m10, m14,
     m3, m7, m11, m15,
-  ) as M;
+  );
 
+  /// Returns a new matrix that is the inverse of this one.
+  ///
+  /// Uses the cofactor expansion method. Result is undefined if the matrix
+  /// is singular (i.e. [determinant] is zero).
   M invert() {
-    M result = RaylibMatrixFactories.zeroFactory() as M;
+    final result = _mZero;
 
     final a00 = m0, a01 = m1, a02 = m2, a03 = m3;
     final a10 = m4, a11 = m5, a12 = m6, a13 = m7;
@@ -103,21 +181,26 @@ mixin MatrixBase<
     return result;
   }
 
-  M add(M o) => RaylibMatrixFactories.createFactory(
+  /// Returns a new matrix that is the component-wise sum of this and [o].
+  M add(M o) => _m(
     m0+o.m0, m1+o.m1, m2+o.m2, m3+o.m3,
     m4+o.m4, m5+o.m5, m6+o.m6, m7+o.m7,
     m8+o.m8, m9+o.m9, m10+o.m10, m11+o.m11,
     m12+o.m12, m13+o.m13, m14+o.m14, m15+o.m15,
-  ) as M;
+  );
 
-  M sub(M o) => RaylibMatrixFactories.createFactory(
+  /// Returns a new matrix that is the component-wise difference of this and [o].
+  M sub(M o) => _m(
     m0-o.m0, m1-o.m1, m2-o.m2, m3-o.m3,
     m4-o.m4, m5-o.m5, m6-o.m6, m7-o.m7,
     m8-o.m8, m9-o.m9, m10-o.m10, m11-o.m11,
     m12-o.m12, m13-o.m13, m14-o.m14, m15-o.m15,
-  ) as M;
+  );
 
-  M mul(M o) => RaylibMatrixFactories.createFactory(
+  /// Returns a new matrix that is the product of this and [o].
+  ///
+  /// Follows standard matrix multiplication rules; not commutative.
+  M mul(M o) => _m(
     m0*o.m0 + m1*o.m4 + m2*o.m8 + m3*o.m12,
     m0*o.m1 + m1*o.m5 + m2*o.m9 + m3*o.m13,
     m0*o.m2 + m1*o.m6 + m2*o.m10 + m3*o.m14,
@@ -134,8 +217,9 @@ mixin MatrixBase<
     m12*o.m1 + m13*o.m5 + m14*o.m9 + m15*o.m13,
     m12*o.m2 + m13*o.m6 + m14*o.m10 + m15*o.m14,
     m12*o.m3 + m13*o.m7 + m14*o.m11 + m15*o.m15,
-  ) as M;
+  );
 
+  /// Returns the determinant of this matrix.
   double determinant() =>
      m12*m9*m6*m3 -  m8*m13*m6*m3 - m12*m5*m10*m3 + m4*m13*m10*m3 +
      m8*m5*m14*m3 -  m4*m9*m14*m3 -  m12*m9*m2*m7 +  m8*m13*m2*m7 +
@@ -144,8 +228,13 @@ mixin MatrixBase<
     m4*m1*m14*m11 - m0*m5*m14*m11 -  m8*m5*m2*m15 +  m4*m9*m2*m15 +
      m8*m1*m6*m15 -  m0*m9*m6*m15 - m4*m1*m10*m15 + m0*m5*m10*m15;
 
+  /// Returns the trace of this matrix (sum of diagonal elements: m0 + m5 + m10 + m15).
   double trace() => m0 + m5 + m10 + m15;
 
+  /// Decomposes this matrix into its translation, rotation, and scale components.
+  ///
+  /// Returns a record `(translation, rotation, scale)`. If the determinant
+  /// is close to zero, [rotation] falls back to the identity quaternion.
   (V3 translation, Q rotation, V3 scale) decompose() {
     late V3 translation;
     late Q rotation;
@@ -201,6 +290,7 @@ mixin MatrixBase<
     return (translation, rotation, scale);
   }
 
+  /// Returns all 16 components as a flat list in column-major order.
   List<double> toArray() => [
     m0, m1, m2, m3,
     m4, m5, m6, m7,

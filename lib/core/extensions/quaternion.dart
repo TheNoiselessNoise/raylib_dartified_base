@@ -43,75 +43,99 @@ abstract class RaylibQuaternionExtensionBase<
 
   RaylibQuaternionExtensionBase(super.rl);
 
+  /// See [QuaternionBase.add].
   QuaternionStructType QuaternionAdd(QuaternionStructType q1, QuaternionStructType q2)
     => q1.add(q2);
 
+  /// See [QuaternionBase.addValue].
   QuaternionStructType QuaternionAddValue(QuaternionStructType q, double add)
     => q.addValue(add);
 
+  /// See [QuaternionBase.sub].
   QuaternionStructType QuaternionSubtract(QuaternionStructType q1, QuaternionStructType q2)
     => q1.sub(q2);
 
+  /// See [QuaternionBase.subValue].
   QuaternionStructType QuaternionSubtractValue(QuaternionStructType q, double sub)
     => q.subValue(sub);
 
+  /// See [RaylibQuaternionFactories.identity].
   QuaternionStructType QuaternionIdentity()
     => RaylibQuaternionFactories.identity() as QuaternionStructType;
 
+  /// See [QuaternionBase.length].
   double QuaternionLength(QuaternionStructType q)
     => q.length;
 
+  /// See [QuaternionBase.normalize].
   QuaternionStructType QuaternionNormalize(QuaternionStructType q)
     => q.normalize();
 
+  /// See [QuaternionBase.invert].
   QuaternionStructType QuaternionInvert(QuaternionStructType q)
     => q.invert();
 
+  /// See [QuaternionBase.mul].
   QuaternionStructType QuaternionMultiply(QuaternionStructType q1, QuaternionStructType q2)
     => q1.mul(q2);
 
+  /// See [QuaternionBase.scale].
   QuaternionStructType QuaternionScale(QuaternionStructType q, double mul)
     => q.scale(mul);
 
-  QuaternionStructType QuaternionStructTypeivide(QuaternionStructType q1, QuaternionStructType q2)
+  /// See [QuaternionBase.div].
+  QuaternionStructType QuaternionDivide(QuaternionStructType q1, QuaternionStructType q2)
     => q1.div(q2);
 
+  /// See [QuaternionBase.lerp].
   QuaternionStructType QuaternionLerp(QuaternionStructType q1, QuaternionStructType q2, double amount)
     => q1.lerp(q2, amount);
 
+  /// See [QuaternionBase.nLerp].
   QuaternionStructType QuaternionNlerp(QuaternionStructType q1, QuaternionStructType q2, double amount)
     => q1.nLerp(q2, amount);
 
+  /// See [QuaternionBase.sLerp].
   QuaternionStructType QuaternionSlerp(QuaternionStructType q1, QuaternionStructType q2, double amount)
     => q1.sLerp(q2, amount);
 
+  /// See [QuaternionBase.cubicHermiteSpline].
   QuaternionStructType QuaternionCubicHermiteSpline(QuaternionStructType q1, QuaternionStructType outTangent1, QuaternionStructType q2, QuaternionStructType inTangent2, double t)
     => q1.cubicHermiteSpline(outTangent1, q2, inTangent2, t);
 
+  /// See [RaylibQuaternionFactories.fromVector3ToVector3].
   QuaternionStructType QuaternionFromVector3ToVector3(Vector3StructType from, Vector3StructType to)
     => RaylibQuaternionFactories.fromVector3ToVector3(from, to) as QuaternionStructType;
 
+  /// See [RaylibQuaternionFactories.fromMatrix].
   QuaternionStructType QuaternionFromMatrix(MatrixStructType mat)
     => RaylibQuaternionFactories.fromMatrix(mat) as QuaternionStructType;
 
+  /// See [QuaternionBase.toMatrix].
   MatrixStructType QuaternionToMatrix(QuaternionStructType q)
     => q.toMatrix();
 
+  /// See [RaylibQuaternionFactories.fromAxisAngle].
   QuaternionStructType QuaternionFromAxisAngle(Vector3StructType axis, double angle)
     => RaylibQuaternionFactories.fromAxisAngle(axis, angle) as QuaternionStructType;
 
+  /// See [QuaternionBase.toAxisAngle].
   (Vector3StructType outAxis, double outAngle) QuaternionToAxisAngle(QuaternionStructType q)
     => q.toAxisAngle();
 
+  /// See [RaylibQuaternionFactories.fromEuler].
   QuaternionStructType QuaternionFromEuler(double pitch, double yaw, double roll)
     => RaylibQuaternionFactories.fromEuler(pitch, yaw, roll) as QuaternionStructType;
 
+  /// See [QuaternionBase.toEuler].
   Vector3StructType QuaternionToEuler(QuaternionStructType q)
     => q.toEuler();
 
+  /// See [QuaternionBase.transform].
   QuaternionStructType QuaternionTransform(QuaternionStructType q, MatrixStructType mat)
     => q.transform(mat);
 
+  /// See [QuaternionBase.equals].
   bool QuaternionEquals(QuaternionStructType p, QuaternionStructType q)
     => p.equals(q);
 }

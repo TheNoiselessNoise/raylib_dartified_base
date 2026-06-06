@@ -4,6 +4,7 @@ part of '../../raylib_dartified_base.dart';
 /// Gui module function's captured Struct.
 class RaylibGuiModuleCaptureIds {
 
+  /// Capture ID for [RaylibGuiModuleBase.GuiGetFont].
   String GuiGetFont() => 'GuiGetFont';
   
 }

@@ -50,6 +50,7 @@ abstract class RaylibLightModuleBase<
 
   RaylibLightModuleBase(super.rl);
 
+  /// Create a light and get its shader locations
   LightStructType CreateLight(
     LightType type,
     Vector3StructType position,
@@ -58,6 +59,7 @@ abstract class RaylibLightModuleBase<
     ShaderStructType shader,
   );
 
+  /// Send light properties to shader
   void UpdateLightValues(
     ShaderStructType shader,
     LightStructType light,

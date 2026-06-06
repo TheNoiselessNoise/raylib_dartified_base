@@ -161,15 +161,10 @@ mixin RaylibTempLiteralAllocatorBase<
   /// Writes a single Dart value [value] into the memory pointed to by [ptr].
   void Function(P ptr, X value) get literalSetterFunc;
 
-  /// Allocates an unslotted array.
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  P RawArray(List<X> array) => Raw(array.length);
-
   /// Allocates an unslotted array and populates it from [array].
   ///
   /// The caller is responsible for freeing the returned pointer.
-  P RawArrayPopulated(List<X> array) {
+  P RawArray(List<X> array) {
     final p = Raw(array.length);
     for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
     return p;
@@ -264,9 +259,11 @@ mixin RaylibTempLiteralTypedListAllocatorBase<
 > on RaylibTempLiteralAllocatorBase<
   TempType, X, P, S
 > {
-  /// Returns a Dart `List<X>` view over [length] elements starting at [ptr],
-  /// backed directly by the underlying memory, no copy is made.
+  /// Returns a Dart `List<X>` with [length] elements copied from [ptr].
   List<X> Function(S ptr, int length) get asDartList;
+
+  /// Returns a [L] with [length] elements copied from [ptr].
+  L Function(S ptr, int length) get asTypedList;
 
   /// Constructs a typed list [L] from an iterable of [X] values.
   L Function(Iterable<X> list) get fromList;
@@ -367,7 +364,7 @@ mixin RaylibTempLiteralPointerAllocatorBase<
 > on RaylibTempAllocatorBase<
   TempType, PP, S
 > {
-  /// Converts a flat `List<X>` into an allocated `Pointer<C>` array.
+  /// Converts a flat `List<X>` into an allocated `P` array.
   ///
   /// The caller is responsible for the lifetime of the inner pointers.
   P Function(List<X> array) get rawArrayFunc;
@@ -498,15 +495,10 @@ mixin RaylibTempStructAllocatorBase<
     return p;
   }
 
-  /// Allocates an unslotted array.
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  P RawArray(List<X> array) => Raw(array.length);
-
   /// Allocates an unslotted array and populates it from [array].
   ///
   /// The caller is responsible for freeing the returned pointer.
-  P RawArrayPopulated(List<X> array) {
+  P RawArray(List<X> array) {
     final p = Raw(array.length);
     for (int i = 0; i < array.length; i++) writeIntoIndexedFunc(p, i, array[i]);
     return p;
@@ -643,7 +635,7 @@ mixin RaylibTempStructAllocatorBase<
   /// Use [RefUpdate8] if the callee may write back into the pointer.
   P Ref8([X? o]) => _Ref(o, '8');
 
-  /// Returns a `P` for the given [V] value, using [nullptrFactory] when [x] is `null`.
+  /// Returns a `P` for the given [V] value, using `nullptr` when [x] is `null`.
   ///
   /// Allocates into a numbered slot (1–8) via the corresponding [PointerTo] call,
   /// so the lifetime is tied to the owning [RaylibTempBase].
@@ -701,7 +693,7 @@ mixin RaylibTempStructAllocatorBase<
   /// pointer, then syncs any mutations back from native memory into [o] via
   /// [updateFunc].
   ///
-  /// If [o] is `null`, passes [nullptrFactory] to [fn] and skips the sync step.
+  /// If [o] is `null`, passes `nullptr` to [fn] and skips the sync step.
   /// This is the foundation for the [RefUpdate1]–[RefUpdate8] helpers, covering
   /// the common pattern of passing a mutable struct pointer to a C function that
   /// may write into it.
@@ -772,7 +764,7 @@ mixin RaylibTempStructAllocatorBase<
   /// you want the mutations reflected in [o] after the call.
   R RefUpdate8<R>(X? o, R Function(P p) fn) => _RefUpdate(o, fn, Ref8);
 
-  /// Copies the native struct [o] into a uniquely-keyed tracked slot and
+  /// Copies the native struct return by [fn] into a uniquely-keyed tracked slot and
   /// returns its Dart-side [X] wrapper via [pointerToStruct].
   ///
   /// Unique key of the form `'<id>_<key>'` is generated from the allocator's
@@ -934,15 +926,10 @@ mixin RaylibTempStructPointerAllocatorBase<
   /// Overwrites the [i]-th element of the array at [ptr] with [value].
   void Function(PP ptr, int i, P value) get indexSetterFunc;
 
-  /// Allocates an unslotted array.
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  PP RawArray(List<X> array) => Raw(array.length);
-
   /// Allocates an unslotted pointer-of-pointers from a list of struct [arrays].
   ///
   /// The caller is responsible for freeing the returned pointer.
-  PP RawArrayPopulated(List<List<X>> arrays) {
+  PP RawArray(List<List<X>> arrays) {
     final p = Raw(arrays.length);
     for (int i = 0; i < arrays.length; i++) indexSetterFunc(p, i, rawArrayFunc(arrays[i]));
     return p;
@@ -1194,7 +1181,7 @@ mixin RaylibTempStringAllocatorBase<
   /// and the callee expects [nullptr] in that case.
   P Ref4([String? o, int? bufferSize]) => ValueAt('4', o, bufferSize);
 
-  /// Returns a `P` for the given [o] value, using [nullptrFactory] when [o] is `null`.
+  /// Returns a `P` for the given [o] value, using `nullptr` when [o] is `null`.
   P _RefOrNull(String? o, P Function([String]) alloc) => o == null ? nullptrFactory() : alloc(o);
 
   /// Writes [o] into slot `'1'` and returns its pointer, or returns [nullptr]
@@ -1239,8 +1226,8 @@ class RaylibTempStructState {
   
   /// Whether [RaylibTempStructAllocatorBase.PointerTo] has never been called for this instance.
   ///
-  /// Used to skip the sync step on the first [RaylibTempStructAllocatorBase.PointerTo] allocation, since
-  /// there is no prior native state to read back yet.
+  /// Used to full sync once to push pre-promotion Dart state to memory on the first
+  /// [RaylibTempStructAllocatorBase.PointerTo] allocation.
   bool isFirstSync = true;
 
   /// A stable numeric ID assigned on first [RaylibTempStructAllocatorBase.PointerTo] call for pointer-owning structs.

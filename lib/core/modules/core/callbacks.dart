@@ -1,13 +1,13 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Marker for custom file data load callbacks (`LoadFileDataCallback` in Raylib).
+/// Raylib's `LoadFileDataCallback` callback.
 mixin LoadFileDataCallbackBase on RaylibCallbackBase {}
 
-/// Marker for custom file data load callbacks (`SaveFileDataCallback` in Raylib).
+/// Raylib's `SaveFileDataCallback` callback.
 mixin SaveFileDataCallbackBase on RaylibCallbackBase {}
 
-/// Marker for custom file data load callbacks (`LoadFileTextCallback` in Raylib).
+/// Raylib's `LoadFileTextCallback` callback.
 mixin LoadFileTextCallbackBase on RaylibCallbackBase {}
 
-/// Marker for custom file data load callbacks (`SaveFileTextCallback` in Raylib).
+/// Raylib's `SaveFileTextCallback` callback.
 mixin SaveFileTextCallbackBase on RaylibCallbackBase {}

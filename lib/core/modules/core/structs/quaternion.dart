@@ -7,6 +7,10 @@ part of '../../../raylib_dartified_base.dart';
 ///
 /// Must be mixed into every concrete platform implementation of a Raylib
 /// type to ensure a unified API surface across different backends.
+/// 
+/// ---
+/// 
+/// A unit quaternion representing a 3D rotation as `xi + yj + zk + w`.
 mixin QuaternionBase<
   Q extends QuaternionBase<Q, M, V3, V4>,
   M extends MatrixBase<M, V3, Q, V4>,
@@ -15,16 +19,28 @@ mixin QuaternionBase<
 
 > on RaylibStructObjectBase<Q> {
 
-  Q _q(num x, num y, num z, num w) => RaylibQuaternionFactories.createFactory(x, y, z, w) as Q;
+  Q get _this => this as Q;
   // ignore: unused_element
   Q get _qZero => RaylibQuaternionFactories.zeroFactory() as Q;
-  Q get _this => this as Q;
+  Q _q(num x, num y, num z, num w) => RaylibQuaternionFactories.createFactory(x, y, z, w) as Q;
 
+  /// Imaginary i component
   abstract double x;
+
+  /// Imaginary j component
   abstract double y;
+
+  /// Imaginary k component
   abstract double z;
+
+  /// Real (scalar) component
   abstract double w;
 
+  /// Sets all components at once.
+  /// 
+  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// 
+  /// Returns this instance for fluent chaining.
   Q set(num x, num y, num z, num w) {
     this.x = x.toDouble();
     this.y = y.toDouble();
@@ -33,50 +49,102 @@ mixin QuaternionBase<
     return _this;
   }
 
+  /// Euclidean distance between this quaternion and [o] in 4D space.
   double distance(Q o) => math.sqrt(distanceSqr(o));
-  double distanceSqr(Q o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
-  double dotProduct(Q o) => x * o.x + y * o.y + z * o.z + w * o.w;
-  double get length => math.sqrt(lengthSqr);
-  double get lengthSqr => x * x + y * y + z * z + w * w;
-  String format([int x0 = 0, int? y0, int? z0, int? w0]) => '[ ${x.toStringAsFixed(x0)}, ${y.toStringAsFixed(y0 ?? x0)}, ${z.toStringAsFixed(z0 ?? x0)}, ${w.toStringAsFixed(w0 ?? x0)} ]';
 
+  /// Squared Euclidean distance between this quaternion and [o].
+  ///
+  /// Prefer over [distance] when only relative comparison is needed.
+  double distanceSqr(Q o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
+
+  /// Dot product of this quaternion and [o].
+  double dotProduct(Q o) => x * o.x + y * o.y + z * o.z + w * o.w;
+
+  /// Euclidean length (magnitude) of this quaternion.
+  double get length => math.sqrt(lengthSqr);
+
+  /// Squared length of this quaternion.
+  ///
+  /// Prefer over [length] when only relative comparison is needed.
+  double get lengthSqr => x * x + y * y + z * z + w * w;
+
+  /// Returns a formatted string representation of this quaternion.
+  ///
+  /// [x0] sets the default precision for all components; individual overrides
+  /// can be provided via [y0], [z0], and [w0].
+  ///
+  /// Example: `[ <x>, <y>, <z>, <w> ]`
+  String format([int x0 = 0, int? y0, int? z0, int? w0]) =>
+    '[ '
+      '${x.toStringAsFixed(x0)}, '
+      '${y.toStringAsFixed(y0 ?? x0)}, '
+      '${z.toStringAsFixed(z0 ?? x0)}, '
+      '${w.toStringAsFixed(w0 ?? x0)} '
+    ']';
+
+  /// Returns a new quaternion that is the component-wise sum of this and [o].
   Q add(Q o) => _q(x + o.x, y + o.y, z + o.z, w + o.w);
+
+  /// Returns a new quaternion with [value] added to each component.
   Q addValue(num value) => _q(x + value, y + value, z + value, w + value);
+
+  /// Returns a new quaternion that is the component-wise difference of this and [o].
   Q sub(Q o) => _q(x - o.x, y - o.y, z - o.z, w - o.w);
+
+  /// Returns a new quaternion with [value] subtracted from each component.
   Q subValue(num value) => _q(x - value, y - value, z - value, w - value);
-  Q scale(num o) => _q(x * o, y * o, z * o, z * w);
+
+  /// Returns a new quaternion with all components scaled by [o].
+  Q scale(num o) => _q(x * o, y * o, z * o, w * o);
+
+  /// Returns the Hamilton product of this quaternion and [o].
+  ///
+  /// Not commutative: `a.mul(b) != b.mul(a)`.
   Q mul(Q o) => _q(
     x*o.w + w*o.x + y*o.z - z*o.y,
     y*o.w + w*o.y + z*o.x - x*o.z,
     z*o.w + w*o.z + x*o.y - y*o.x,
     w*o.w - x*o.x - y*o.y - z*o.z,
   );
+
+  /// Returns a new quaternion with all components divided by [o].
   Q divideBy(num o) => scale(1 / o);
+
+  /// Returns a new quaternion that is the component-wise quotient of this and [o].
   Q div(Q o) => _q(x / o.x, y / o.y, z / o.z, w / o.w);
+
+  /// Returns a new quaternion with all components negated.
   Q negate() => _q(-x, -y, -z, -w);
+
+  /// Returns a normalized (unit-length) copy of this quaternion.
+  ///
+  /// If [length] is zero, treats it as 1 to avoid division by zero.
   Q normalize() {
     double length = this.length;
     if (length == 0.0) length = 1.0;
     final ilength = 1.0/length;
-    return _q(
-      x*ilength,
-      y*ilength,
-      z*ilength,
-      w*ilength,
-    );
+    return _q(x*ilength, y*ilength, z*ilength, w*ilength);
   }
+
+  /// Returns a new quaternion with each component being the component-wise minimum of this and [o].
   Q min(Q o) => _q(
     math.min(x, o.x),
     math.min(y, o.y),
     math.min(z, o.z),
     math.min(w, o.w),
   );
+
+  /// Returns a new quaternion with each component being the component-wise maximum of this and [o].
   Q max(Q o) => _q(
     math.max(x, o.x),
     math.max(y, o.y),
     math.max(z, o.z),
     math.max(w, o.w),
   );
+
+  /// Linear interpolation between this and [o] by [amount] (component-wise).
+  ///
+  /// [amount] should be in the range `[0.0, 1.0]`.
   Q lerp(Q o, double amount) => _q(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
@@ -84,6 +152,9 @@ mixin QuaternionBase<
     w + amount*(o.w - w),
   );
 
+  /// Returns the inverse (conjugate divided by squared length) of this quaternion.
+  ///
+  /// Returns `this` unchanged if the squared length is zero.
   Q invert() {
     final lengthSq = x*x + y*y + z*z + w*w;
 
@@ -101,9 +172,19 @@ mixin QuaternionBase<
     return _this;
   }
 
-  Q nLerp(Q o, double amount)
-    => lerp(o, amount).normalize();
+  /// Normalized linear interpolation between this and [o] by [amount].
+  ///
+  /// Faster than [sLerp] but does not maintain constant angular velocity.
+  Q nLerp(Q o, double amount) => lerp(o, amount).normalize();
 
+  /// Spherical linear interpolation between this and [o] by [amount].
+  ///
+  /// Maintains constant angular velocity along the shortest arc.
+  /// Falls back to [nLerp] when the quaternions are nearly parallel
+  /// (cosine > 0.95), and to a simple average when `sinHalfTheta` is
+  /// near zero.
+  ///
+  /// [amount] should be in the range `[0.0, 1.0]`.
   Q sLerp(Q o, double amount) {
     double cosHalfTheta = x*o.x + y*o.y + z*o.z + w*o.w;
 
@@ -144,6 +225,13 @@ mixin QuaternionBase<
     }
   }
 
+  /// Interpolates along a cubic Hermite spline between this and [q2].
+  ///
+  /// [outTangent1] is the outgoing tangent at this point,
+  /// [inTangent2] is the incoming tangent at [q2],
+  /// [t] is the interpolation parameter in `[0.0, 1.0]`.
+  ///
+  /// Result is normalized.
   Q cubicHermiteSpline(
     Q outTangent1,
     Q q2,
@@ -165,6 +253,7 @@ mixin QuaternionBase<
     return p0.add(m0).add(p1).add(m1).normalize();
   }
 
+  /// Converts this quaternion to an equivalent rotation matrix.
   M toMatrix() {
     M result = RaylibMatrixFactories.identity() as M;
 
@@ -193,6 +282,10 @@ mixin QuaternionBase<
     return result;
   }
 
+  /// Decomposes this quaternion into an axis–angle representation.
+  ///
+  /// Returns `(axis, angle)` where [angle] is in radians.
+  /// If the quaternion represents a zero rotation, the axis defaults to `(1, 0, 0)`.
   (V3 outAxis, double outAngle) toAxisAngle() {
     final q = w.abs() > 1.0 ? normalize() : this;
 
@@ -213,6 +306,11 @@ mixin QuaternionBase<
     return (resAxis, resAngle);
   }
 
+  /// Converts this quaternion to Euler angles `(roll, pitch, yaw)` in radians.
+  ///
+  /// - X = roll (rotation around X axis)
+  /// - Y = pitch (rotation around Y axis)
+  /// - Z = yaw (rotation around Z axis)
   V3 toEuler() {
     // Roll (x-axis rotation)
     final x0 = 2.0*(w*x + y*z);
@@ -234,6 +332,7 @@ mixin QuaternionBase<
     ) as V3;
   }
 
+  /// Transforms this quaternion by the given matrix [mat].
   Q transform(M mat) => _q(
     mat.m0*x + mat.m4*y + mat.m8*z + mat.m12*w,
     mat.m1*x + mat.m5*y + mat.m9*z + mat.m13*w,
@@ -241,6 +340,10 @@ mixin QuaternionBase<
     mat.m3*x + mat.m7*y + mat.m11*z + mat.m15*w,
   );
 
+  /// Returns `true` if this quaternion is approximately equal to [o].
+  ///
+  /// Uses epsilon-based comparison per component, and also considers
+  /// `q == -q` as equal (both represent the same rotation).
   bool equals(Q o) => (
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs())))) &&
@@ -253,8 +356,12 @@ mixin QuaternionBase<
     (((w + o.w).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((w).abs(), (o.w).abs()))))
   );
 
+  /// Converts this quaternion to a [V4] with the same `(x, y, z, w)` components.
   V4 toVector4() => RaylibVector4Factories.createFactory(x, y, z, w) as V4;
 
+  /// Returns the components as a new double list.
+  ///
+  /// Order: `[x, y, z, w]`
   List<double> toArray() => [x, y, z, w];
 
   @override

@@ -1,9 +1,20 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Snapshot of a single mouse button's state for the current frame.
+///
+/// All fields default to `false`; only the relevant flags are set to `true`
+/// when constructing via [RaylibCoreModuleBase.GetMouseInfo].
 final class MouseButtonInfo {
+  /// `true` if the button is not held down this frame.
   final bool up;
+
+  /// `true` if the button is held down this frame.
   final bool down;
+
+  /// `true` if the button was just pressed this frame.
   final bool pressed;
+  
+  /// `true` if the button was just released this frame.
   final bool released;
 
   const MouseButtonInfo({
@@ -14,16 +25,41 @@ final class MouseButtonInfo {
   });
 }
 
+/// Snapshot of the full mouse state for the current frame.
+///
+/// A convenience aggregate that collects position, movement, scroll, and all
+/// button states into a single object. Avoids making individual Raylib calls
+/// for each piece of mouse data per frame.
 final class MouseInfo<Vector2StructType> {
+
+  /// Cursor position in screen space.
   final Vector2StructType position;
+
+  /// Cursor movement since the last frame.
   final Vector2StructType delta;
+  
+  /// Scroll wheel movement since the last frame.
   final Vector2StructType wheel;
+  
+  /// State of the left mouse button ([MouseButton.MOUSE_BUTTON_LEFT]).
   final MouseButtonInfo btnLeft;
+  
+  /// State of the middle mouse button ([MouseButton.MOUSE_BUTTON_MIDDLE]).
   final MouseButtonInfo btnMiddle;
+  
+  /// State of the right mouse button ([MouseButton.MOUSE_BUTTON_RIGHT]).
   final MouseButtonInfo btnRight;
+  
+  /// State of the side mouse button ([MouseButton.MOUSE_BUTTON_SIDE]).
   final MouseButtonInfo btnSide;
+  
+  /// State of the extra mouse button ([MouseButton.MOUSE_BUTTON_EXTRA]).
   final MouseButtonInfo btnExtra;
+  
+  /// State of the forward mouse button ([MouseButton.MOUSE_BUTTON_FORWARD]).
   final MouseButtonInfo btnForward;
+  
+  /// State of the back mouse button ([MouseButton.MOUSE_BUTTON_BACK]).
   final MouseButtonInfo btnBack;
 
   MouseInfo({
@@ -49,6 +85,7 @@ final class MouseInfo<Vector2StructType> {
     btnForward = btnForward ?? .new(),
     btnBack = btnBack ?? .new();
 
+  /// Returns the [MouseButtonInfo] for the given [button].
   MouseButtonInfo getButtonInfo(MouseButton button) => switch (button) {
     .MOUSE_BUTTON_LEFT => btnLeft,
     .MOUSE_BUTTON_RIGHT => btnRight,

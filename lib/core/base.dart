@@ -3,6 +3,7 @@ part of 'raylib_dartified_base.dart';
 /// Adds ordered comparison operators to Raylib enums that expose a raw [value],
 /// mirroring C enum integer semantics.
 mixin RaylibEnum on Enum {
+  /// The underlying native integer value.
   int get value;
 
   bool operator <(RaylibEnum other) => value < other.value;
@@ -13,12 +14,19 @@ mixin RaylibEnum on Enum {
 
 /// Convenience getters for formatting a [double] to a fixed number of decimal places.
 extension DoubleFormatting on double {
+  /// Formats this value to 0 decimal places.
   String get f0 => toStringAsFixed(0);
+  /// Formats this value to 1 decimal place.
   String get f1 => toStringAsFixed(1);
+  /// Formats this value to 2 decimal places.
   String get f2 => toStringAsFixed(2);
+  /// Formats this value to 3 decimal places.
   String get f3 => toStringAsFixed(3);
+  /// Formats this value to 4 decimal places.
   String get f4 => toStringAsFixed(4);
+  /// Formats this value to 5 decimal places.
   String get f5 => toStringAsFixed(5);
+  /// Formats this value to 6 decimal places.
   String get f6 => toStringAsFixed(6);
 }
 
@@ -30,6 +38,7 @@ abstract class RaylibDebugLabelsBase {
 
 /// Base for all Raylib callback wrappers, identified by [name].
 mixin RaylibCallbackBase {
+  /// Name to identify this callback with.
   String get name;
 }
 
@@ -174,7 +183,7 @@ mixin RaylibStructObjectBase<T> {
   /// The Dart-side type name of this struct
   String get structName => runtimeType.toString();
 
-  /// Returns a human-readable representation of this struct's current field values.
+  /// Returns a human-readable representation of this struct.
   String signature() => structName;
 
   /// Copies the fields of [o] into this instance and returns `this`.
@@ -318,21 +327,46 @@ class RaylibTempBaseOptions {
 abstract class RaylibBase {
   final RaylibTempBaseOptions tempOptions;
 
+  /// See [RaylibTempBase].
   RaylibTempBase get Temp;
+
+  /// See [RaylibColorExtensionBase].
   RaylibColorExtensionBase get Color;
+
+  /// See [RaylibEaseExtensionBase].
   RaylibEaseExtensionBase get Ease;
+
+  /// See [RaylibQuaternionExtensionBase].
   RaylibQuaternionExtensionBase get Quat;
+
+  /// See [RaylibMatrixExtensionBase].
   RaylibMatrixExtensionBase get Matrix;
+  
+  /// See [RaylibVectorExtensionBase].
   RaylibVectorExtensionBase get Vector;
 
+  /// See [RaylibAudioModuleBase].
   RaylibAudioModuleBase get AudioD;
+
+  /// See [RaylibCameraModuleBase].
   RaylibCameraModuleBase get CameraD;
+
+  /// See [RaylibCoreModuleBase].
   RaylibCoreModuleBase get CoreD;
+
+  /// See [RaylibGuiModuleBase].
   RaylibGuiModuleBase get GuiD;
+
+  /// See [RaylibLightModuleBase].
   RaylibLightModuleBase get LightD;
+
+  /// See [RaylibRlglModuleBase].
   RaylibRlglModuleBase get RlglD;
+
+  /// See [RaylibUtilsModuleBase].
   RaylibUtilsModuleBase get Utils;
 
+  /// Random number generator used by [rand] and [randC].
   math.Random random;
 
   RaylibBase({
@@ -349,6 +383,7 @@ abstract class RaylibBase {
     }
   }
 
+  /// All currently registered modules.
   List<RaylibModule> get registeredModules => _registeredModules.values.toList();
 
   /// Enables or disables debug logging across all modules and the temp allocator.
@@ -415,41 +450,111 @@ abstract class RaylibBase {
 
   // Functions
 
-  double Clamp(num value, num min, num max) => RaylibFunctions.Clamp(value, min, max);
-  double Lerp(num start, num end, num amount) => RaylibFunctions.Lerp(start, end, amount);
-  double Normalize(num value, num start, num end) => RaylibFunctions.Normalize(value, start, end);
-  double Remap(num value, num inputStart, num inputEnd, num outputStart, num outputEnd) => RaylibFunctions.Remap(value, inputStart, inputEnd, outputStart, outputEnd);
-  double Wrap(num value, num min, num max) => RaylibFunctions.Wrap(value, min, max);
-  bool FloatEquals(double x, double y) => RaylibFunctions.FloatEquals(x, y);
+  /// See [RaylibFunctions.Clamp].
+  double Clamp(num value, num min, num max)
+    => RaylibFunctions.Clamp(value, min, max);
+  
+  /// See [RaylibFunctions.Lerp].
+  double Lerp(num start, num end, num amount)
+    => RaylibFunctions.Lerp(start, end, amount);
+  
+  /// See [RaylibFunctions.Normalize].
+  double Normalize(num value, num start, num end)
+    => RaylibFunctions.Normalize(value, start, end);
+  
+  /// See [RaylibFunctions.Remap].
+  double Remap(num value, num inputStart, num inputEnd, num outputStart, num outputEnd)
+    => RaylibFunctions.Remap(value, inputStart, inputEnd, outputStart, outputEnd);
+  
+  /// See [RaylibFunctions.Wrap].
+  double Wrap(num value, num min, num max)
+    => RaylibFunctions.Wrap(value, min, max);
+  
+  /// See [RaylibFunctions.FloatEquals].
+  bool FloatEquals(double x, double y)
+    => RaylibFunctions.FloatEquals(x, y);
 
   // Constants
 
+  /// See [RaylibConstants.RAYLIB_VERSION_MAJOR].
   final int RAYLIB_VERSION_MAJOR = RaylibConstants.RAYLIB_VERSION_MAJOR;
+
+  /// See [RaylibConstants.RAYLIB_VERSION_MINOR].
   final int RAYLIB_VERSION_MINOR = RaylibConstants.RAYLIB_VERSION_MINOR;
+
+  /// See [RaylibConstants.RAYLIB_VERSION_PATCH].
   final int RAYLIB_VERSION_PATCH = RaylibConstants.RAYLIB_VERSION_PATCH;
+
+  /// See [RaylibConstants.RAYLIB_VERSION].
   final String RAYLIB_VERSION = RaylibConstants.RAYLIB_VERSION;
+
+  /// See [RaylibConstants.PI].
   final double PI = RaylibConstants.PI;
+
+  /// See [RaylibConstants.DEG2RAD].
   final double DEG2RAD = RaylibConstants.DEG2RAD;
+
+  /// See [RaylibConstants.RAD2DEG].
   final double RAD2DEG = RaylibConstants.RAD2DEG;
+
+  /// See [RaylibConstants.MATERIAL_MAP_DIFFUSE].
   final MaterialMapIndex MATERIAL_MAP_DIFFUSE = RaylibConstants.MATERIAL_MAP_DIFFUSE;
+
+  /// See [RaylibConstants.MATERIAL_MAP_SPECULAR].
   final MaterialMapIndex MATERIAL_MAP_SPECULAR = RaylibConstants.MATERIAL_MAP_SPECULAR;
+
+  /// See [RaylibConstants.MAX_MATERIAL_MAPS].
   final int MAX_MATERIAL_MAPS = RaylibConstants.MAX_MATERIAL_MAPS;
+
+  /// See [RaylibConstants.SHADER_LOC_MAP_DIFFUSE].
   final int SHADER_LOC_MAP_DIFFUSE = RaylibConstants.SHADER_LOC_MAP_DIFFUSE;
+
+  /// See [RaylibConstants.SHADER_LOC_MAP_SPECULAR].
   final int SHADER_LOC_MAP_SPECULAR = RaylibConstants.SHADER_LOC_MAP_SPECULAR;
+
+  /// See [RaylibConstants.EPSILON].
   final double EPSILON = RaylibConstants.EPSILON;
+
+  /// See [RaylibConstants.M_E].
   final double M_E = RaylibConstants.M_E;
+
+  /// See [RaylibConstants.M_LOG2E].
   final double M_LOG2E = RaylibConstants.M_LOG2E;
+
+  /// See [RaylibConstants.M_LOG10E].
   final double M_LOG10E = RaylibConstants.M_LOG10E;
+
+  /// See [RaylibConstants.M_LN2].
   final double M_LN2 = RaylibConstants.M_LN2;
+
+  /// See [RaylibConstants.M_LN10].
   final double M_LN10 = RaylibConstants.M_LN10;
+
+  /// See [RaylibConstants.M_PI].
   final double M_PI = RaylibConstants.M_PI;
+
+  /// See [RaylibConstants.M_PI_2].
   final double M_PI_2 = RaylibConstants.M_PI_2;
+
+  /// See [RaylibConstants.M_PI_4].
   final double M_PI_4 = RaylibConstants.M_PI_4;
+
+  /// See [RaylibConstants.M_1_PI].
   final double M_1_PI = RaylibConstants.M_1_PI;
+
+  /// See [RaylibConstants.M_2_PI].
   final double M_2_PI = RaylibConstants.M_2_PI;
+
+  /// See [RaylibConstants.M_2_SQRTPI].
   final double M_2_SQRTPI = RaylibConstants.M_2_SQRTPI;
+
+  /// See [RaylibConstants.M_SQRT2].
   final double M_SQRT2 = RaylibConstants.M_SQRT2;
+
+  /// See [RaylibConstants.M_SQRT1_2].
   final double M_SQRT1_2 = RaylibConstants.M_SQRT1_2;
+
+  /// See [RaylibConstants.RAND_MAX].
   final int RAND_MAX = RaylibConstants.RAND_MAX;
 
   /// Returns a random `double` in `[0.0, 1.0)`.
@@ -466,19 +571,36 @@ abstract class RaylibBase {
 /// and [runRaylib] function that drives the lifecycle in a platform-appropriate way.
 ///
 /// The expected call order is:
-/// 1. [init] set up your game state and call [RaylibCoreModuleBase.InitWindow]
-/// 2. [loop] called every frame
-/// 3. [close] called when [shouldClose] returns `true`; call [RaylibCoreModuleBase.CloseWindow] here
-/// 4. [dispose] release Dart-side resources
+/// 1. [init] = set up your game state and call [RaylibCoreModuleBase.InitWindow]
+/// 2. [loop] = called every frame
+/// 3. [close] = called when [shouldClose] returns `true`; call [RaylibCoreModuleBase.CloseWindow] here
+/// 4. [dispose] = release Dart-side resources
 abstract class RaylibGameBase<R extends RaylibBase> {
+
+  /// Called once before the game loop starts.
+  ///
+  /// Use this to initialize game state and open the window via
+  /// [RaylibCoreModuleBase.InitWindow].
   void init(R rl);
 
+  /// Returns `true` when the game loop should stop.
+  ///
+  /// Defaults to [RaylibCoreModuleBase.WindowShouldClose]; override to
+  /// implement custom exit conditions.
   bool shouldClose(R rl) => rl.CoreD.WindowShouldClose();
 
+  /// Called once per frame while [shouldClose] returns `false`.
   void loop(R rl);
 
+  /// Called once after [shouldClose] returns `true`.
+  ///
+  /// Defaults to [RaylibCoreModuleBase.CloseWindow]; override to perform
+  /// additional cleanup before the window closes.
   void close(R rl) => rl.CoreD.CloseWindow();
 
+  /// Called after [close] to release any remaining Dart-side resources.
+  ///
+  /// Defaults to [RaylibBase.dispose].
   void dispose(R rl) => rl.dispose();
 }
 

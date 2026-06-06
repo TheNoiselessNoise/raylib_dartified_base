@@ -1,4 +1,4 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Marker for audio stream callbacks (`AudioCallback` in Raylib).
+/// Raylib's `AudioCallback` callback.
 mixin AudioCallbackBase on RaylibCallbackBase {}

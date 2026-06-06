@@ -1,47 +1,127 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Dart-side mirror of raygui's compile-time constants (`RAYGUI_VERSION`, `RAYGUI_ICONS`, etc.),
-/// kept in the base package so both backends share a single source of truth.
+/// kept in the base package so all backends share a single source of truth.
 class RaylibGuiConstants {
+
+  /// Predefined constant `RAYGUI_VERSION_MAJOR`.
   static final int RAYGUI_VERSION_MAJOR = 4;
+
+  /// Predefined constant `RAYGUI_VERSION_MINOR`.
   static final int RAYGUI_VERSION_MINOR = 5;
+
+  /// Predefined constant `RAYGUI_VERSION_PATCH`.
   static final int RAYGUI_VERSION_PATCH = 0;
+
+  /// Predefined constant `RAYGUI_VERSION`.
   static final String RAYGUI_VERSION = "4.5-dev";
+
+  /// Predefined constant `RAYGUI_SCROLLBAR_LEFT_SIDE`.
   static final int RAYGUI_SCROLLBAR_LEFT_SIDE = 0;
+
+  /// Predefined constant `RAYGUI_SCROLLBAR_RIGHT_SIDE`.
   static final int RAYGUI_SCROLLBAR_RIGHT_SIDE = 1;
+
+  /// Predefined constant `RAYGUI_ICON_SIZE`.
   static final int RAYGUI_ICON_SIZE = 16;
+
+  /// Predefined constant `RAYGUI_ICON_MAX_ICONS`.
   static final int RAYGUI_ICON_MAX_ICONS = 256;
+
+  /// Predefined constant `RAYGUI_ICON_MAX_NAME_LENGTH`.
   static final int RAYGUI_ICON_MAX_NAME_LENGTH = 32;
+
+  /// Predefined constant `RAYGUI_ICON_DATA_ELEMENTS`.
   static final int RAYGUI_ICON_DATA_ELEMENTS = RAYGUI_ICON_SIZE*RAYGUI_ICON_SIZE~/32;
+
+  /// Predefined constant `RAYGUI_MAX_CONTROLS`.
   static final int RAYGUI_MAX_CONTROLS = 16;
+
+  /// Predefined constant `RAYGUI_MAX_PROPS_BASE`.
   static final int RAYGUI_MAX_PROPS_BASE = 16;
+
+  /// Predefined constant `RAYGUI_MAX_PROPS_EXTENDED`.
   static final int RAYGUI_MAX_PROPS_EXTENDED = 8;
+
+  /// Predefined constant `RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT`.
   static final int RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT = 24;
+
+  /// Predefined constant `RAYGUI_GROUPBOX_LINE_THICK`.
   static final int RAYGUI_GROUPBOX_LINE_THICK = 1;
+
+  /// Predefined constant `RAYGUI_LINE_MARGIN_TEXT`.
   static final int RAYGUI_LINE_MARGIN_TEXT = 12;
+
+  /// Predefined constant `RAYGUI_LINE_TEXT_PADDING`.
   static final int RAYGUI_LINE_TEXT_PADDING = 4;
+
+  /// Predefined constant `RAYGUI_PANEL_BORDER_WIDTH`.
   static final int RAYGUI_PANEL_BORDER_WIDTH = 1;
+
+  /// Predefined constant `RAYGUI_TABBAR_ITEM_WIDTH`.
   static final int RAYGUI_TABBAR_ITEM_WIDTH = 160;
+
+  /// Predefined constant `RAYGUI_MIN_SCROLLBAR_WIDTH`.
   static final int RAYGUI_MIN_SCROLLBAR_WIDTH = 40;
+
+  /// Predefined constant `RAYGUI_MIN_SCROLLBAR_HEIGHT`.
   static final int RAYGUI_MIN_SCROLLBAR_HEIGHT = 40;
+
+  /// Predefined constant `RAYGUI_MIN_MOUSE_WHEEL_SPEED`.
   static final int RAYGUI_MIN_MOUSE_WHEEL_SPEED = 20;
+
+  /// Predefined constant `RAYGUI_TOGGLEGROUP_MAX_ITEMS`.
   static final int RAYGUI_TOGGLEGROUP_MAX_ITEMS = 32;
+
+  /// Predefined constant `RAYGUI_TEXTBOX_AUTO_CURSOR_COOLDOWN`.
   static final int RAYGUI_TEXTBOX_AUTO_CURSOR_COOLDOWN = 40;
+
+  /// Predefined constant `RAYGUI_TEXTBOX_AUTO_CURSOR_DELAY`.
   static final int RAYGUI_TEXTBOX_AUTO_CURSOR_DELAY = 1;
+
+  /// Predefined constant `RAYGUI_VALUEBOX_MAX_CHARS`.
   static final int RAYGUI_VALUEBOX_MAX_CHARS = 32;
+
+  /// Predefined constant `RAYGUI_COLORBARALPHA_CHECKED_SIZE`.
   static final int RAYGUI_COLORBARALPHA_CHECKED_SIZE = 10;
+
+  /// Predefined constant `RAYGUI_MESSAGEBOX_BUTTON_HEIGHT`.
   static final int RAYGUI_MESSAGEBOX_BUTTON_HEIGHT = 24;
+
+  /// Predefined constant `RAYGUI_MESSAGEBOX_BUTTON_PADDING`.
   static final int RAYGUI_MESSAGEBOX_BUTTON_PADDING = 12;
+
+  /// Predefined constant `RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT`.
   static final int RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT = 24;
+
+  /// Predefined constant `RAYGUI_TEXTINPUTBOX_BUTTON_PADDING`.
   static final int RAYGUI_TEXTINPUTBOX_BUTTON_PADDING = 12;
+
+  /// Predefined constant `RAYGUI_TEXTINPUTBOX_HEIGHT`.
   static final int RAYGUI_TEXTINPUTBOX_HEIGHT = 26;
+
+  /// Predefined constant `RAYGUI_GRID_ALPHA`.
   static final double RAYGUI_GRID_ALPHA = 0.15;
+
+  /// Predefined constant `RAYGUI_MAX_LINE_BUFFER_SIZE`.
   static final int RAYGUI_MAX_LINE_BUFFER_SIZE = 256;
+
+  /// Predefined constant `RAYGUI_ICON_TEXT_PADDING`.
   static final int RAYGUI_ICON_TEXT_PADDING = 4;
+
+  /// Predefined constant `RAYGUI_MAX_TEXT_LINES`.
   static final int RAYGUI_MAX_TEXT_LINES = 128;
+
+  /// Predefined constant `RAYGUI_TEXTSPLIT_MAX_ITEMS`.
   static final int RAYGUI_TEXTSPLIT_MAX_ITEMS = 128;
+
+  /// Predefined constant `RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE`.
   static final int RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE = 1024;
+
+  /// Predefined constant `RAYGUI_TEXTFORMAT_MAX_SIZE`.
   static final int RAYGUI_TEXTFORMAT_MAX_SIZE = 256;
+
+  /// Predefined constant `RAYGUI_ICONS`.
   static final List<int> RAYGUI_ICONS = <int>[
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, // ICON_NONE
     0x3ff80000, 0x2f082008, 0x2042207e, 0x40027fc2, 0x40024002, 0x40024002, 0x40024002, 0x00007ffe, // ICON_FOLDER_FILE_OPEN
@@ -300,4 +380,5 @@ class RaylibGuiConstants {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, // ICON_254
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, // ICON_255
   ];
+  
 }
