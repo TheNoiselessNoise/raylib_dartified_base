@@ -1,3 +1,7 @@
+## 5.5.3
+
+- Relax meta version constraint to be compatible with Flutter SDK
+
 ## 5.5.2
 
 - Proper documentation

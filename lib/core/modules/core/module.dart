@@ -184,9 +184,9 @@ abstract class RaylibCoreModuleBase<
 
   RaylibCoreModuleBase(super.rl);
 
-  // ///////////////
+  // //////////// //
   // CUSTOM STUFF //
-  // ///////////////
+  // //////////// //
 
   MouseButtonInfo GetMouseButtonInfo(MouseButton button) => .new(
     up: IsMouseButtonUp(button),
