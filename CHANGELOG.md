@@ -1,3 +1,7 @@
+## 5.5.4
+
+- [BREAKING] Rename `RefOrNull<X>` of a struct allocator
+
 ## 5.5.3
 
 - Relax meta version constraint to be compatible with Flutter SDK

@@ -645,49 +645,49 @@ mixin RaylibTempStructAllocatorBase<
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate1] if the callee may write back into the pointer.
-  P Ref1OrNull([X? o]) => _RefOrNull(o, '1');
+  P RefOrNull1([X? o]) => _RefOrNull(o, '1');
 
   /// Allocates [o] into slot `'2'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate2] if the callee may write back into the pointer.
-  P Ref2OrNull([X? o]) => _RefOrNull(o, '2');
+  P RefOrNull2([X? o]) => _RefOrNull(o, '2');
 
   /// Allocates [o] into slot `'3'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate3] if the callee may write back into the pointer.
-  P Ref3OrNull([X? o]) => _RefOrNull(o, '3');
+  P RefOrNull3([X? o]) => _RefOrNull(o, '3');
 
   /// Allocates [o] into slot `'4'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate4] if the callee may write back into the pointer.
-  P Ref4OrNull([X? o]) => _RefOrNull(o, '4');
+  P RefOrNull4([X? o]) => _RefOrNull(o, '4');
 
   /// Allocates [o] into slot `'5'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate5] if the callee may write back into the pointer.
-  P Ref5OrNull([X? o]) => _RefOrNull(o, '5');
+  P RefOrNull5([X? o]) => _RefOrNull(o, '5');
 
   /// Allocates [o] into slot `'6'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate6] if the callee may write back into the pointer.
-  P Ref6OrNull([X? o]) => _RefOrNull(o, '6');
+  P RefOrNull6([X? o]) => _RefOrNull(o, '6');
 
   /// Allocates [o] into slot `'7'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate7] if the callee may write back into the pointer.
-  P Ref7OrNull([X? o]) => _RefOrNull(o, '7');
+  P RefOrNull7([X? o]) => _RefOrNull(o, '7');
 
   /// Allocates [o] into slot `'8'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
   /// Use [RefUpdate8] if the callee may write back into the pointer.
-  P Ref8OrNull([X? o]) => _RefOrNull(o, '8');
+  P RefOrNull8([X? o]) => _RefOrNull(o, '8');
 
   /// Allocates [o] into a numbered slot, invokes [fn] with the resulting
   /// pointer, then syncs any mutations back from native memory into [o] via
@@ -1069,7 +1069,7 @@ mixin RaylibTempStringAllocatorBase<
     return writeToSlot(slot, text);
   }
 
-  /// Writes [text] into slot using `Value` and returns its pointer, or returns [nullptr]
+  /// Writes [text] into slot using `Value` and returns its pointer, or returns `nullptr`
   /// if [text] is `null`.
   ///
   /// Use this instead of [Value] when the C API uses a null pointer to signal "no value".
@@ -1160,49 +1160,49 @@ mixin RaylibTempStringAllocatorBase<
   /// Writes [o] into slot `'1'` and returns its pointer.
   ///
   /// Shorthand for `Value(o, '1')`. Use [RefOrNull1] if [o] may be `null`
-  /// and the callee expects [nullptr] in that case.
+  /// and the callee expects `nullptr` in that case.
   P Ref1([String? o, int? bufferSize]) => ValueAt('1', o, bufferSize);
 
   /// Writes [o] into slot `'2'` and returns its pointer.
   ///
   /// Shorthand for `Value(o, '2')`. Use [RefOrNull2] if [o] may be `null`
-  /// and the callee expects [nullptr] in that case.
+  /// and the callee expects `nullptr` in that case.
   P Ref2([String? o, int? bufferSize]) => ValueAt('2', o, bufferSize);
 
   /// Writes [o] into slot `'3'` and returns its pointer.
   ///
   /// Shorthand for `Value(o, '3')`. Use [RefOrNull3] if [o] may be `null`
-  /// and the callee expects [nullptr] in that case.
+  /// and the callee expects `nullptr` in that case.
   P Ref3([String? o, int? bufferSize]) => ValueAt('3', o, bufferSize);
 
   /// Writes [o] into slot `'4'` and returns its pointer.
   ///
   /// Shorthand for `Value(o, '4')`. Use [RefOrNull4] if [o] may be `null`
-  /// and the callee expects [nullptr] in that case.
+  /// and the callee expects `nullptr` in that case.
   P Ref4([String? o, int? bufferSize]) => ValueAt('4', o, bufferSize);
 
   /// Returns a `P` for the given [o] value, using `nullptr` when [o] is `null`.
   P _RefOrNull(String? o, P Function([String]) alloc) => o == null ? nullptrFactory() : alloc(o);
 
-  /// Writes [o] into slot `'1'` and returns its pointer, or returns [nullptr]
+  /// Writes [o] into slot `'1'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref1] when the C API uses a null pointer to signal "no value".
   P RefOrNull1(String? o) => _RefOrNull(o, Ref1);
 
-  /// Writes [o] into slot `'2'` and returns its pointer, or returns [nullptr]
+  /// Writes [o] into slot `'2'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref2] when the C API uses a null pointer to signal "no value".
   P RefOrNull2(String? o) => _RefOrNull(o, Ref2);
 
-  /// Writes [o] into slot `'3'` and returns its pointer, or returns [nullptr]
+  /// Writes [o] into slot `'3'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref3] when the C API uses a null pointer to signal "no value".
   P RefOrNull3(String? o) => _RefOrNull(o, Ref3);
 
-  /// Writes [o] into slot `'4'` and returns its pointer, or returns [nullptr]
+  /// Writes [o] into slot `'4'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref4] when the C API uses a null pointer to signal "no value".
