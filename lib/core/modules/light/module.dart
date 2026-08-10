@@ -1,5 +1,14 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Re-exports [RaylibLightConstants] values as instance members,
+/// so constants are accessible directly on the module without a class qualifier.
+mixin RaylibLightModuleExtras<R extends RaylibBase> on RaylibModule<R> {
+
+  /// See [RaylibLightConstants.MAX_LIGHTS].
+  int get MAX_LIGHTS => RaylibLightConstants.MAX_LIGHTS;
+
+}
+
 /// Backend-agnostic contract for the Raylib Light module.
 ///
 /// Concrete platform implementations mix in or extend this to provide
@@ -43,7 +52,7 @@ abstract class RaylibLightModuleBase<
     Vector3StructType
   >
   
-> extends RaylibModule<R> {
+> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
 
   /// Debug label generator for this module's function calls.
   final RaylibDebugLabels = RaylibLightModuleDebugLabels();

@@ -275,7 +275,7 @@ abstract class RaylibStructBase<T extends RaylibTempBase, P, D extends RaylibStr
   /// Returns a deep copy of this instance without [originalPointer].
   ///
   /// Useful when you need an independent value that should not accidentally
-  /// sync back into raylib-owned memory.
+  /// sync back into owned memory.
   @override
   D copy() {
     final clone = this.clone();
@@ -507,10 +507,10 @@ abstract class RaylibBase {
   final int MAX_MATERIAL_MAPS = RaylibConstants.MAX_MATERIAL_MAPS;
 
   /// See [RaylibConstants.SHADER_LOC_MAP_DIFFUSE].
-  final int SHADER_LOC_MAP_DIFFUSE = RaylibConstants.SHADER_LOC_MAP_DIFFUSE;
+  final ShaderLocationIndex SHADER_LOC_MAP_DIFFUSE = RaylibConstants.SHADER_LOC_MAP_DIFFUSE;
 
   /// See [RaylibConstants.SHADER_LOC_MAP_SPECULAR].
-  final int SHADER_LOC_MAP_SPECULAR = RaylibConstants.SHADER_LOC_MAP_SPECULAR;
+  final ShaderLocationIndex SHADER_LOC_MAP_SPECULAR = RaylibConstants.SHADER_LOC_MAP_SPECULAR;
 
   /// See [RaylibConstants.EPSILON].
   final double EPSILON = RaylibConstants.EPSILON;
@@ -556,6 +556,9 @@ abstract class RaylibBase {
 
   /// See [RaylibConstants.RAND_MAX].
   final int RAND_MAX = RaylibConstants.RAND_MAX;
+
+  /// See [RaylibConstants.MAX_TOUCH_POINTS].
+  final int MAX_TOUCH_POINTS = RaylibConstants.MAX_TOUCH_POINTS;
 
   /// Returns a random `double` in `[0.0, 1.0)`.
   double rand() => random.nextDouble();

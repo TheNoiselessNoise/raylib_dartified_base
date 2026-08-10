@@ -5,16 +5,16 @@ part of '../../raylib_dartified_base.dart';
 class RaylibConstants {
   
   /// Predefined constant `RAYLIB_VERSION_MAJOR`.
-  static final int RAYLIB_VERSION_MAJOR = 5;
+  static final int RAYLIB_VERSION_MAJOR = 6;
 
   /// Predefined constant `RAYLIB_VERSION_MINOR`.
-  static final int RAYLIB_VERSION_MINOR = 5;
+  static final int RAYLIB_VERSION_MINOR = 0;
 
   /// Predefined constant `RAYLIB_VERSION_PATCH`.
   static final int RAYLIB_VERSION_PATCH = 0;
 
   /// Predefined constant `RAYLIB_VERSION`.
-  static final String RAYLIB_VERSION = '5.5.0';
+  static final String RAYLIB_VERSION = '6.0';
 
   /// Predefined constant `PI`.
   static final double PI = 3.1415927410125732;
@@ -35,10 +35,10 @@ class RaylibConstants {
   static final int MAX_MATERIAL_MAPS = 12;
 
   /// Predefined constant `SHADER_LOC_MAP_DIFFUSE`.
-  static final int SHADER_LOC_MAP_DIFFUSE = 15;
+  static final ShaderLocationIndex SHADER_LOC_MAP_DIFFUSE = .SHADER_LOC_MAP_ALBEDO;
 
   /// Predefined constant `SHADER_LOC_MAP_SPECULAR`.
-  static final int SHADER_LOC_MAP_SPECULAR = 16;
+  static final ShaderLocationIndex SHADER_LOC_MAP_SPECULAR = .SHADER_LOC_MAP_METALNESS;
 
   /// Predefined constant `EPSILON`.
   static final double EPSILON = 9.999999974752427e-7;
@@ -85,6 +85,8 @@ class RaylibConstants {
   /// Predefined constant `M_SQRT1_2`.
   static final int RAND_MAX = 2147483647;
   
+  /// Predefined constant `MAX_TOUCH_POINTS`.
+  static final int MAX_TOUCH_POINTS = 8;
 }
 
 /// Pure Dart implementations of Raylib's inline/math utility functions,

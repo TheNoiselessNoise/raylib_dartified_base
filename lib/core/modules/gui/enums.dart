@@ -316,7 +316,9 @@ enum GuiSliderProperty with GuiProperty {
 /// raygui `GuiProgressBarProperty` enum.
 enum GuiProgressBarProperty with GuiProperty {
   /// `PROGRESS_PADDING`
-  PROGRESS_PADDING(16);
+  PROGRESS_PADDING(16),
+  /// `PROGRESS_PADDING`
+  PROGRESS_SIDE(17);
 
   const GuiProgressBarProperty(this.value);
 

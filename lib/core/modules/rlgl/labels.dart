@@ -182,6 +182,17 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num index,
   ) => 'rlDisableVertexAttribute($index)';
 
+  /// Label for [RaylibRlglModuleBase.rlEnableStatePointer].
+  String rlEnableStatePointer(
+    int vertexAttribType,
+    TypedDataList data,
+  ) => 'rlEnableStatePointer($vertexAttribType, data: ${data.length})';
+  
+  /// Label for [RaylibRlglModuleBase.rlDisableStatePointer].
+  String rlDisableStatePointer(
+    int vertexAttribType,
+  ) => 'rlDisableStatePointer($vertexAttribType)';
+
   /// Label for [RaylibRlglModuleBase.rlActiveTextureSlot].
   String rlActiveTextureSlot(
     num slot,
@@ -311,11 +322,22 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num height,
   ) => 'rlScissor($x, $y, $width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableWireMode].
-  String rlEnableWireMode() => 'rlEnableWireMode()';
-
   /// Label for [RaylibRlglModuleBase.rlEnablePointMode].
   String rlEnablePointMode() => 'rlEnablePointMode()';
+
+  /// Label for [RaylibRlglModuleBase.rlDisablePointMode].
+  String rlDisablePointMode() => 'rlDisablePointMode()';
+
+  /// Label for [RaylibRlglModuleBase.rlSetPointSize].
+  String rlSetPointSize(
+    num size,
+  ) => 'rlSetPointSize($size)';
+
+  /// Label for [RaylibRlglModuleBase.rlGetPointSize].
+  String rlGetPointSize() => 'rlGetPointSize()';
+
+  /// Label for [RaylibRlglModuleBase.rlEnableWireMode].
+  String rlEnableWireMode() => 'rlEnableWireMode()';
 
   /// Label for [RaylibRlglModuleBase.rlDisableWireMode].
   String rlDisableWireMode() => 'rlDisableWireMode()';
@@ -469,15 +491,17 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
   String rlUpdateVertexBuffer(
     num bufferId,
     TypedDataList data,
+    num dataSize,
     num offset,
-  ) => 'rlUpdateVertexBuffer($bufferId, ${data.lengthInBytes}, $offset)';
+  ) => 'rlUpdateVertexBuffer($bufferId, ${data.lengthInBytes}, $dataSize, $offset)';
 
   /// Label for [RaylibRlglModuleBase.rlUpdateVertexBufferElements].
   String rlUpdateVertexBufferElements(
     num id,
     TypedDataList data,
+    num dataSize,
     num offset,
-  ) => 'rlLoadVertexBufferElement($id, ${data.lengthInBytes}, $offset)';
+  ) => 'rlLoadVertexBufferElement($id, ${data.lengthInBytes}, $dataSize, $offset)';
 
   /// Label for [RaylibRlglModuleBase.rlUnloadVertexArray].
   String rlUnloadVertexArray(
@@ -634,23 +658,48 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num id,
   ) => 'rlUnloadFramebuffer($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadShaderCode].
-  String rlLoadShaderCode(
-    String? vsCode,
-    String? fsCode,
-  ) => 'rlLoadShaderCode(vsCode: ${vsCode?.length}, fsCode: ${fsCode?.length})';
+  /// Label for [RaylibRlglModuleBase.rlCopyFramebuffer].
+  String rlCopyFramebuffer(
+    num x,
+    num y,
+    num width,
+    num height,
+    PixelFormat format,
+  ) => 'rlCopyFramebuffer($x, $y, $width, $height, $format)';
+  
+  /// Label for [RaylibRlglModuleBase.rlResizeFramebuffer].
+  String rlResizeFramebuffer(
+    num width,
+    num height,
+  ) => 'rlResizeFramebuffer($width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlCompileShader].
-  String rlCompileShader(
-    String shaderCode,
+  /// Label for [RaylibRlglModuleBase.rlLoadShader].
+  String rlLoadShader(
+    String code,
     RlShaderType type,
-  ) => 'rlCompileShader(shaderCode: ${shaderCode.length}, ${type.name})';
+  ) => 'rlLoadShader(${code.length}, $type)';
 
   /// Label for [RaylibRlglModuleBase.rlLoadShaderProgram].
   String rlLoadShaderProgram(
-    num vShaderId,
-    num fShaderId,
-  ) => 'rlLoadShaderProgram($vShaderId, $fShaderId)';
+    String vsCode,
+    String fsCode,
+  ) => 'rlLoadShaderProgram($vsCode, $fsCode)';
+
+  /// Label for [RaylibRlglModuleBase.rlLoadShaderProgramEx].
+  String rlLoadShaderProgramEx(
+    num vsId,
+    num fsId,
+  ) => 'rlLoadShaderProgramEx($vsId, $fsId)';
+  
+  /// Label for [RaylibRlglModuleBase.rlLoadShaderProgramCompute].
+  String rlLoadShaderProgramCompute(
+    num csId,
+  ) => 'rlLoadShaderProgramCompute($csId)';
+  
+  /// Label for [RaylibRlglModuleBase.rlUnloadShader].
+  String rlUnloadShader(
+    num id,
+  ) => 'rlUnloadShader($id)';
 
   /// Label for [RaylibRlglModuleBase.rlUnloadShaderProgram].
   String rlUnloadShaderProgram(
@@ -700,11 +749,6 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num id,
     List<int> locs,
   ) => 'rlSetShader($id, $locs)';
-
-  /// Label for [RaylibRlglModuleBase.rlLoadComputeShaderProgram].
-  String rlLoadComputeShaderProgram(
-    num shaderId,
-  ) => 'rlLoadComputeShaderProgram($shaderId)';
 
   /// Label for [RaylibRlglModuleBase.rlComputeShaderDispatch].
   String rlComputeShaderDispatch(

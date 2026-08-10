@@ -53,6 +53,7 @@ part 'modules/light/enums.dart';
 part 'modules/light/labels.dart';
 part 'modules/light/module.dart';
 part 'modules/light/types.dart';
+part 'modules/light/predefines.dart';
 
 part 'modules/rlgl/capture_ids.dart';
 part 'modules/rlgl/enums.dart';
@@ -62,3 +63,12 @@ part 'modules/rlgl/predefines.dart';
 part 'modules/rlgl/types.dart';
 
 part 'modules/utils/module.dart';
+
+final class DoNotValidate {
+  final String reason;
+  const DoNotValidate([this.reason = '']);
+}
+
+final class DoNotAbbreviate {
+  const DoNotAbbreviate();
+}

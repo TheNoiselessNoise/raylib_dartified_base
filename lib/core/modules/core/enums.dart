@@ -747,8 +747,10 @@ enum ShaderLocationIndex {
   SHADER_LOC_VERTEX_BONEIDS(26),
   /// `SHADER_LOC_VERTEX_BONEWEIGHTS`
   SHADER_LOC_VERTEX_BONEWEIGHTS(27),
-  /// `SHADER_LOC_BONE_MATRICES`
-  SHADER_LOC_BONE_MATRICES(28);
+  /// `SHADER_LOC_MATRIX_BONETRANSFORMS`
+  SHADER_LOC_MATRIX_BONETRANSFORMS(28),
+  /// `SHADER_LOC_VERTEX_INSTANCETRANSFORM`
+  SHADER_LOC_VERTEX_INSTANCETRANSFORM(29);
 
   const ShaderLocationIndex(this.value);
   
@@ -787,7 +789,8 @@ enum ShaderLocationIndex {
     25 => SHADER_LOC_MAP_BRDF,
     26 => SHADER_LOC_VERTEX_BONEIDS,
     27 => SHADER_LOC_VERTEX_BONEWEIGHTS,
-    28 => SHADER_LOC_BONE_MATRICES,
+    28 => SHADER_LOC_MATRIX_BONETRANSFORMS,
+    29 => SHADER_LOC_VERTEX_INSTANCETRANSFORM,
     _ => throw ArgumentError('Unknown value for $ShaderLocationIndex: $value'),
   };
 }
@@ -810,8 +813,16 @@ enum ShaderUniformDataType {
   SHADER_UNIFORM_IVEC3(6),
   /// `SHADER_UNIFORM_IVEC4`
   SHADER_UNIFORM_IVEC4(7),
+  /// `SHADER_UNIFORM_UINT`
+  SHADER_UNIFORM_UINT(8),
+  /// `SHADER_UNIFORM_UIVEC2`
+  SHADER_UNIFORM_UIVEC2(9),
+  /// `SHADER_UNIFORM_UIVEC3`
+  SHADER_UNIFORM_UIVEC3(10),
+  /// `SHADER_UNIFORM_UIVEC4`
+  SHADER_UNIFORM_UIVEC4(11),
   /// `SHADER_UNIFORM_SAMPLER2D`
-  SHADER_UNIFORM_SAMPLER2D(8);
+  SHADER_UNIFORM_SAMPLER2D(12);
 
   const ShaderUniformDataType(this.value);
   
@@ -830,7 +841,11 @@ enum ShaderUniformDataType {
     5 => SHADER_UNIFORM_IVEC2,
     6 => SHADER_UNIFORM_IVEC3,
     7 => SHADER_UNIFORM_IVEC4,
-    8 => SHADER_UNIFORM_SAMPLER2D,
+    8 => SHADER_UNIFORM_UINT,
+    9 => SHADER_UNIFORM_UIVEC2,
+    10 => SHADER_UNIFORM_UIVEC3,
+    11 => SHADER_UNIFORM_UIVEC4,
+    12 => SHADER_UNIFORM_SAMPLER2D,
     _ => throw ArgumentError('Unknown value for $ShaderUniformDataType: $value'),
   };
 }
@@ -1305,5 +1320,33 @@ enum AutomationEventType {
     22 => ACTION_TAKE_SCREENSHOT,
     23 => ACTION_SETTARGETFPS,
     _ => throw ArgumentError('Unknown value for $AutomationEventType: $value'),
+  };
+}
+
+/// Raylib `TouchAction` enum.
+enum TouchAction {
+  /// `TOUCH_ACTION_UP`
+  TOUCH_ACTION_UP(0),
+  /// `TOUCH_ACTION_DOWN`
+  TOUCH_ACTION_DOWN(1),
+  /// `TOUCH_ACTION_MOVE`
+  TOUCH_ACTION_MOVE(2),
+  /// `TOUCH_ACTION_CANCEL`
+  TOUCH_ACTION_CANCEL(3);
+
+  const TouchAction(this.value);
+
+  /// The underlying native integer value.
+  final int value;
+
+  /// Returns the [TouchAction] for the given native [value].
+  ///
+  /// Throws [ArgumentError] if [value] does not correspond to a known entry.
+  static TouchAction fromValue(int value) => switch (value) {
+    0 => TOUCH_ACTION_UP,
+    1 => TOUCH_ACTION_DOWN,
+    2 => TOUCH_ACTION_MOVE,
+    3 => TOUCH_ACTION_CANCEL,
+    _ => throw ArgumentError("Unknown value for $TouchAction: $value"),
   };
 }

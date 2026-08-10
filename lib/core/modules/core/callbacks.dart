@@ -1,5 +1,8 @@
 part of '../../raylib_dartified_base.dart';
 
+/// Raylib's `TraceLogCallback` callback.
+mixin TraceLogCallbackBase on RaylibCallbackBase {}
+
 /// Raylib's `LoadFileDataCallback` callback.
 mixin LoadFileDataCallbackBase on RaylibCallbackBase {}
 

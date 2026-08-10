@@ -56,7 +56,7 @@ abstract class RaylibTempAllocatorBase<TempType extends RaylibTempBase, P, S> {
   /// including its type parameters.
   String signature() => runtimeType.toString();
 
-  /// Returns the canonical slot key for [key], falling back to `'struct'`
+  /// Returns the canonical slot key for [key], falling back to `'default'`
   /// when [key] is `null`.
   String slotKey([String? key]) => key ?? 'default';
 
@@ -65,9 +65,11 @@ abstract class RaylibTempAllocatorBase<TempType extends RaylibTempBase, P, S> {
   String uniqueSlotKey(String key) => '${temp.nextId()}_$key';
 
   /// Allocates [count] raw elements and returns the wrapped pointer.
+  /// 
+  /// The caller is responsible for freeing the returned pointer.
   P Raw([int count = 1]) => pointerFactory(allocatorFunc(count));
 
-  /// Returns the `P` stored in [key], allocating (or reallocating)
+  /// Returns the pointer stored in [key], allocating (or reallocating)
   /// if necessary.
   ///
   /// If the slot already exists and its current capacity is >= [count], the
@@ -102,7 +104,7 @@ abstract class RaylibTempAllocatorBase<TempType extends RaylibTempBase, P, S> {
   ///
   /// Useful when the same allocation site may be called multiple times within
   /// a single scope and each call must get its own independent buffer.
-  P AtUnique(String key, [int count = 1]) => At(uniqueSlotKey(key), count);
+  P AtUnique({String key = '_unique_', int count = 1}) => At(uniqueSlotKey(key), count);
 
   /// Returns the total byte size for [count] elements.
   int Size([int count = 1]) => byteSize * count;
@@ -170,7 +172,7 @@ mixin RaylibTempLiteralAllocatorBase<
     return p;
   }
 
-  /// Returns the pointer for the slot identified by [key] (default: `'struct'`),
+  /// Returns the pointer for the slot identified by [key] (default: `'default'`),
   /// writing [value] into it when provided.
   ///
   /// Allocates the slot on first use.
@@ -180,9 +182,21 @@ mixin RaylibTempLiteralAllocatorBase<
     return p;
   }
 
+  /// Returns the pointer for the slot identified by a unique [key] suffix
+  /// writing [value] into it when provided.
+  ///
+  /// Behaves like [Value], but prepends a monotonic ID from [RaylibTempBase.nextId] to
+  /// [key], ensuring the slot is never accidentally shared with an unrelated
+  /// call that happens to use the same base key.
+  P ValueUnique(X? value, {String key = '__value_unique__'}) {
+    final p = At(uniqueSlotKey(key));
+    if (value != null) literalSetterFunc(p, value);
+    return p;
+  }
+
   /// Writes [array] into a slot of sufficient capacity and returns the pointer.
   ///
-  /// [key] defaults to `'struct'`. The slot is grown automatically if the
+  /// [key] defaults to `'default'`. The slot is grown automatically if the
   /// current capacity is smaller than `array.length`.
   P Array(List<X> array, {String? key}) {
     final p = At(slotKey(key), array.length);
@@ -296,7 +310,7 @@ mixin RaylibTempLiteralTypedListAllocatorBase<
   /// Copies [length] elements from [src] into a slot and returns the pointer.
   ///
   /// Uses [asView] for the bulk copy, which avoids an element-by-element
-  /// loop. [key] defaults to `'struct'`.
+  /// loop. [key] defaults to `'default'`.
   P Copy(S src, int length, {String? key}) {
     final p = At(slotKey(key), length);
     asView(pointerToSource(p), length).setAll(0, asView(src, length));
@@ -391,10 +405,12 @@ mixin RaylibTempLiteralPointerAllocatorBase<
     return pp;
   }
 
-  /// Fills a tracked slot of [count] pointers by calling `init(i)` for each
+  /// Fills an unslotted pointer of [count] pointers by calling `init(i)` for each
   /// index and storing the result.
-  PP FillRaw(int count, P Function(int) init, {String? key}) {
-    final pp = At(slotKey(key), count);
+  /// 
+  /// The caller is responsible for freeing the returned pointer.
+  PP FillRaw(int count, P Function(int) init) {
+    final pp = Raw(count);
     for (int i = 0; i < count; i++) indexSetterFunc(pp, i, init(i));
     return pp;
   }
@@ -537,6 +553,39 @@ mixin RaylibTempStructAllocatorBase<
   P Value([X? value, String? key]) {
     final p = At(slotKey(key));
     if (value != null) writeIntoFunc(p, value);
+    return p;
+  }
+
+  /// Returns the pointer for slot [key], optionally writing [value] into it.
+  ///
+  /// Allocates the slot on first use.
+  P RawValue([V? value, String? key]) {
+    final p = At(slotKey(key));
+    if (value != null) setRefFunc(p, value);
+    return p;
+  }
+
+  /// Returns the pointer for the slot identified by a unique [key] suffix
+  /// optionally writing [value] into it.
+  ///
+  /// Behaves like [Value], but prepends a monotonic ID from [RaylibTempBase.nextId] to
+  /// [key], ensuring the slot is never accidentally shared with an unrelated
+  /// call that happens to use the same base key.
+  P ValueUnique(X? value, {String key = '__value_unique__'}) {
+    final p = At(uniqueSlotKey(key));
+    if (value != null) writeIntoFunc(p, value);
+    return p;
+  }
+
+  /// Returns the pointer for the slot identified by a unique [key] suffix
+  /// optionally writing [value] into it.
+  ///
+  /// Behaves like [Value], but prepends a monotonic ID from [RaylibTempBase.nextId] to
+  /// [key], ensuring the slot is never accidentally shared with an unrelated
+  /// call that happens to use the same base key.
+  P RawValueUnique(V? value, {String key = '__raw_value_unique__'}) {
+    final p = At(uniqueSlotKey(key));
+    if (value != null) setRefFunc(p, value);
     return p;
   }
 
@@ -951,9 +1000,11 @@ mixin RaylibTempStructPointerAllocatorBase<
     return p;
   }
 
-  /// Fills a tracked slot of [count] pointers by calling `init(i)` for each index.
-  PP FillRaw(int count, P Function(int) init, {String? key}) {
-    final pp = At(slotKey(key), count);
+  /// Fills an unslotted pointer of [count] pointers by calling `init(i)` for each index.
+  /// 
+  /// The caller is responsible for freeing the returned pointer.
+  PP FillRaw(int count, P Function(int) init) {
+    final pp = Raw(count);
     for (int i = 0; i < count; i++) indexSetterFunc(pp, i, init(i));
     return pp;
   }
@@ -969,6 +1020,20 @@ abstract class RaylibTempTypedDataListAllocator<
   final TempType temp;
 
   RaylibTempTypedDataListAllocator(this.temp);
+
+  int ElementSize(TypedDataList data) {
+    if (data is Int8List) return temp.Int8$.byteSize;
+    if (data is Uint8List) return temp.Uint8$.byteSize;
+    if (data is Int16List) return temp.Int16$.byteSize;
+    if (data is Uint16List) return temp.Uint16$.byteSize;
+    if (data is Int32List) return temp.Int32$.byteSize;
+    if (data is Uint32List) return temp.Uint32$.byteSize;
+    if (data is Int64List) return temp.Int64$.byteSize;
+    if (data is Uint64List) return temp.Uint64$.byteSize;
+    if (data is Float32List) return temp.Float32$.byteSize;
+    if (data is Float64List) return temp.Float64$.byteSize;
+    throw UnimplementedError('Unknown typed list: ${data.runtimeType}');
+  }
 
   ResultPointerType Array(TypedDataList data, {String? key}) {
     if (data is Int8List) return temp.Int8$.Array(data, key: key);
@@ -998,6 +1063,8 @@ mixin RaylibTempStringAllocatorBase<
   int get slotCount;
 
   int get ptrByteSize;
+
+  P Function(String text, [int? bufferSize]) get strAllocatorFunc;
 
   PP Function(int count) get ptrAllocatorFunc;
 
@@ -1040,7 +1107,7 @@ mixin RaylibTempStringAllocatorBase<
   /// `PP` of length `array.length`.
   ///
   /// Sub-slot keys follow the pattern `'<key>_<i>'`. [key] defaults to
-  /// `'struct'`.
+  /// `'default'`.
   PP Array(List<String> array, {String? key}) {
     final arrayKey = slotKey(key);
     final pp = AtPtr(arrayKey, array.length);
@@ -1056,27 +1123,37 @@ mixin RaylibTempStringAllocatorBase<
     return pp;
   }
 
-  /// Returns a `P` for [text] using the next anonymous ring-buffer slot.
+  /// Returns the pointer of pointers.
+  /// 
+  /// The caller is responsible for freeing the returned pointer.
+  PP RawPtr(int count) => ptrAllocatorFunc(count);
+
+  /// Returns the pointer for [text].
+  /// 
+  /// The caller is responsible for freeing the returned pointer.
+  P RawValue(String text, [int? bufferSize]) => strAllocatorFunc(text, bufferSize);
+
+  /// Returns the pointer for [text] using the next anonymous ring-buffer slot.
   /// 
   /// Anonymous slots cycle modulo [slotCount], so older anonymous strings may be overwritten.
   /// 
   /// If [key] is provided, delegates to [ValueAt] instead.
-  P Value(String text, [String? key]) {
+  P Value(String text, [String? key, int? bufferSize]) {
     if (key != null) return ValueAt(key, text);
     final slot = stringAnonIndex;
     stringAnonIndex = (stringAnonIndex + 1) % slotCount;
     _ensureSlotExists(slot);
-    return writeToSlot(slot, text);
+    return writeToSlot(slot, text, bufferSize);
   }
 
   /// Writes [text] into slot using `Value` and returns its pointer, or returns `nullptr`
   /// if [text] is `null`.
   ///
   /// Use this instead of [Value] when the C API uses a null pointer to signal "no value".
-  P ValueOrNull([String? text, String? key])
-    => text == null ? nullptrFactory() : Value(text, key);
+  P ValueOrNull([String? text, String? key, int? bufferSize])
+    => text == null ? nullptrFactory() : Value(text, key, bufferSize);
 
-  /// Returns the `P` for the keyed slot [key], optionally writing
+  /// Returns the pointer for the keyed slot [key], optionally writing
   /// [text] into it.
   ///
   /// Allocates the slot on first use. If [text] is `null` the existing string
@@ -1099,6 +1176,15 @@ mixin RaylibTempStringAllocatorBase<
 
     return stringSlots[slot];
   }
+
+  /// Returns the pointer for the slot identified by a unique [key] suffix
+  /// optionally writing [text] into it.
+  ///
+  /// Behaves like [ValueAt], but prepends a monotonic ID from [RaylibTempBase.nextId] to
+  /// [key], ensuring the slot is never accidentally shared with an unrelated
+  /// call that happens to use the same base key.
+  P ValueAtUnique(String text, {String key = '__value_unique__', int? bufferSize})
+    => ValueAt(uniqueSlotKey(key), text, bufferSize);
 
   /// Ensures the slot list is large enough to hold index [slot], growing it
   /// with null-pointer sentinels if necessary.
@@ -1215,7 +1301,7 @@ mixin RaylibTempStringAllocatorBase<
 class RaylibTempStructState {
   /// The slot tag used to disambiguate [RaylibTempBase] keys for this instance.
   ///
-  /// Defaults to `'struct'`. Change via [RaylibStructBase.structSetTag].
+  /// Defaults to `'default'`. Change via [RaylibStructBase.structSetTag].
   String tag = 'struct';
   
   /// The [RaylibTempBase] slot key used during the most recent [RaylibTempStructAllocatorBase.PointerTo] allocation.
@@ -1238,6 +1324,37 @@ class RaylibTempStructState {
   
   static int _internalIdCounter = 0;
   int get nextId => internalId ??= ++_internalIdCounter;
+}
+
+abstract class RaylibTempUtilsBase<
+  TempType extends RaylibTempBase,
+  AnyPointerType
+> {
+  final TempType temp;
+
+  RaylibTempUtilsBase(this.temp);
+
+  AnyPointerType realloc(AnyPointerType oldPtr, int oldSize, int newSize);
+
+  void memset(AnyPointerType ptr, int value, int size);
+
+  void memcpy(AnyPointerType dest, AnyPointerType src, int n);
+
+  int memcmp(AnyPointerType a, AnyPointerType b, int n);
+
+  int strlen(AnyPointerType ptr);
+
+  int strcmp(AnyPointerType a, AnyPointerType b);
+  
+  void strcpy(AnyPointerType dest, AnyPointerType src);
+
+  void strncpy(AnyPointerType dest, AnyPointerType src, int n);
+
+  int strnlen(AnyPointerType ptr, int maxLen);
+
+  void strncat(AnyPointerType dest, AnyPointerType src, int n);
+
+  AnyPointerType strstr(AnyPointerType haystack, AnyPointerType needle);
 }
 
 /// Root of the temporary allocator hierarchy for a given [RaylibBase] context.
@@ -1293,6 +1410,8 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
       logInfo('[TEMP] Allocating ${options.stringCount} String slots');
     }
   }
+
+  RaylibTempUtilsBase get Utils;
 
   RaylibTempTypedDataListAllocator get TypedDataList$;
 
@@ -1354,6 +1473,8 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
   RaylibTempStructPointerAllocatorBase get Ptr$FilePathList$;
   RaylibTempStructAllocatorBase get Font$;
   RaylibTempStructPointerAllocatorBase get Ptr$Font$;
+  RaylibTempStructAllocatorBase get GestureEvent$;
+  RaylibTempStructPointerAllocatorBase get Ptr$GestureEvent$;
   RaylibTempStructAllocatorBase get GlyphInfo$;
   RaylibTempStructPointerAllocatorBase get Ptr$GlyphInfo$;
   RaylibTempStructAllocatorBase get Image$;
@@ -1372,6 +1493,8 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
   RaylibTempStructPointerAllocatorBase get Ptr$Model$;
   RaylibTempStructAllocatorBase get ModelAnimation$;
   RaylibTempStructPointerAllocatorBase get Ptr$ModelAnimation$;
+  RaylibTempStructAllocatorBase get ModelSkeleton$;
+  RaylibTempStructPointerAllocatorBase get Ptr$ModelSkeleton$;
   RaylibTempStructAllocatorBase get Music$;
   RaylibTempStructPointerAllocatorBase get Ptr$Music$;
   RaylibTempStructAllocatorBase get NPatchInfo$;
@@ -1473,6 +1596,8 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
     Ptr$FilePathList$.name: Ptr$FilePathList$,
     Font$.name: Font$,
     Ptr$Font$.name: Ptr$Font$,
+    GestureEvent$.name: GestureEvent$,
+    Ptr$GestureEvent$.name: Ptr$GestureEvent$,
     GlyphInfo$.name: GlyphInfo$,
     Ptr$GlyphInfo$.name: Ptr$GlyphInfo$,
     Image$.name: Image$,
@@ -1491,6 +1616,8 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
     Ptr$Model$.name: Ptr$Model$,
     ModelAnimation$.name: ModelAnimation$,
     Ptr$ModelAnimation$.name: Ptr$ModelAnimation$,
+    ModelSkeleton$.name: ModelSkeleton$,
+    Ptr$ModelSkeleton$.name: Ptr$ModelSkeleton$,
     Music$.name: Music$,
     Ptr$Music$.name: Ptr$Music$,
     NPatchInfo$.name: NPatchInfo$,

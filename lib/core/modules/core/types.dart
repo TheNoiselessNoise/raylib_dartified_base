@@ -252,9 +252,6 @@ mixin FilePathListBase<X extends FilePathListBase<X>> on RaylibStructObjectBase<
   // NOTE: it's a view into a raylib-managed dynamic array
   //       that's why only getters and not `abstract` properties
 
-  /// Filepaths max entries
-  int get capacity;
-
   /// Filepaths entries count
   int get count;
   
@@ -262,7 +259,7 @@ mixin FilePathListBase<X extends FilePathListBase<X>> on RaylibStructObjectBase<
   List<String> get paths;
 
   @override
-  String signature() => '$structName(capacity: $capacity, count: $count)';
+  String signature() => '$structName(count: $count)';
 }
 
 /// Backend-agnostic contract for [FontBase] structs.
@@ -514,6 +511,35 @@ mixin MaterialBase<
   String signature() => '$structName(shader: $shader, maps: ${maps.length}, params: ${params.join(', ')})';
 }
 
+/// Backend-agnostic contract for [ModelSkeletonBase] structs.
+///
+/// Must be mixed into every concrete platform implementation of a Raylib
+/// type to ensure a unified API surface across different backends.
+/// 
+/// ---
+/// 
+/// Skeleton, animation bones hierarchy.
+mixin ModelSkeletonBase<
+  X extends ModelSkeletonBase<X, B, T, V3, M, Q, V4>,
+  B extends BoneInfoBase<B>,
+  T extends TransformBase<T, V3, M, Q, V4>,
+  V3 extends Vector3Base<V3, M, Q, V4>,
+  M extends MatrixBase<M, V3, Q, V4>,
+  Q extends QuaternionBase<Q, M, V3, V4>,
+  V4 extends Vector4Base<V4, Q, M, V3>
+
+> on RaylibStructObjectBase<X> {
+
+  /// Bones information (skeleton)
+  abstract RaylibLiveList<B> bones;
+
+  /// Bones base transformation
+  abstract RaylibLiveList<T> bindPose;
+
+  /// Number of bones
+  int get boneCount => bones.length;
+}
+
 /// Backend-agnostic contract for [MeshBase] structs.
 ///
 /// Must be mixed into every concrete platform implementation of a Raylib
@@ -560,6 +586,17 @@ mixin MeshBase<
   /// Vertex indices (in case vertex data comes indexed)
   abstract RaylibLiveList<int> indices;
 
+  // Skin data for animation
+  
+  // Number of bones (MAX: 256 bones)
+  abstract int boneCount;
+
+  /// Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
+  abstract RaylibLiveList<int> boneIndices;
+
+  /// Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
+  abstract RaylibLiveList<double> boneWeights;
+
   // Animation vertex data
 
   /// Animated vertex positions (after bones transformations)
@@ -567,18 +604,6 @@ mixin MeshBase<
 
   /// Animated normals (after bones transformations)
   abstract RaylibLiveList<double> animNormals;
-
-  /// Vertex bone ids, max 255 bone ids, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-  abstract RaylibLiveList<int> boneIds;
-
-  /// Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
-  abstract RaylibLiveList<double> boneWeights;
-
-  /// Bones animated transformation matrices
-  abstract RaylibLiveList<M> boneMatrices;
-
-  /// Number of bones
-  abstract int boneCount;
 
   /// OpenGL Vertex Array Object id
   abstract int vaoId;
@@ -607,20 +632,17 @@ mixin MeshBase<
   /// Number of components in the `indices` buffer.
   static int BASE_indicesCount(int triangleCount) => triangleCount > 0 ? triangleCount * 3 : 0;
 
+  /// Number of components in the `boneIndices` buffer.
+  static int BASE_boneIndicesCount(int vertexCount) => vertexCount > 0 ? vertexCount * 4 : 0;
+
+  /// Number of components in the `boneWeights` buffer.
+  static int BASE_boneWeightsCount(int vertexCount) => vertexCount > 0 ? vertexCount * 4 : 0;
+
   /// Number of components in the `animVertices` buffer.
   static int BASE_animVerticesCount(int vertexCount) => vertexCount > 0 ? vertexCount * 3 : 0;
 
   /// Number of components in the `animNormals` buffer.
   static int BASE_animNormalsCount(int vertexCount) => vertexCount > 0 ? vertexCount * 3 : 0;
-
-  /// Number of components in the `boneIds` buffer.
-  static int BASE_boneIdsCount(int vertexCount) => vertexCount > 0 ? vertexCount * 4 : 0;
-
-  /// Number of components in the `boneWeights` buffer.
-  static int BASE_boneWeightsCount(int vertexCount) => vertexCount > 0 ? vertexCount * 4 : 0;
-
-  /// Number of components in the `boneMatrices` buffer.
-  static int BASE_boneMatricesCount(int boneCount) => boneCount;
 
   /// Number of components in the `vboId` buffer.
   static int get BASE_vboIdCount => 9;
@@ -646,20 +668,17 @@ mixin MeshBase<
   /// Expected length of [indices].
   int get indicesCount => BASE_indicesCount(triangleCount);
 
+  /// Expected length of [boneIndices].
+  int get boneIndicesCount => BASE_boneIndicesCount(vertexCount);
+
+  /// Expected length of [boneWeights].
+  int get boneWeightsCount => BASE_boneWeightsCount(vertexCount);
+
   /// Expected length of [animVertices].
   int get animVerticesCount => BASE_animVerticesCount(vertexCount);
 
   /// Expected length of [animNormals].
   int get animNormalsCount => BASE_animNormalsCount(vertexCount);
-
-  /// Expected length of [boneIds].
-  int get boneIdsCount => BASE_boneIdsCount(vertexCount);
-
-  /// Expected length of [boneWeights].
-  int get boneWeightsCount => BASE_boneWeightsCount(vertexCount);
-
-  /// Expected length of [boneMatrices].
-  int get boneMatricesCount => BASE_boneMatricesCount(boneCount);
 
   /// Expected length of [vboId].
   int get vboIdCount => BASE_vboIdCount;
@@ -673,8 +692,7 @@ mixin MeshBase<
 /// Must be mixed into every concrete platform implementation of a Raylib
 /// type to ensure a unified API surface across different backends.
 mixin ModelAnimationBase<
-  X extends ModelAnimationBase<X, B, T, V3, M, Q, V4>,
-  B extends BoneInfoBase<B>,
+  X extends ModelAnimationBase<X, T, V3, M, Q, V4>,
   T extends TransformBase<T, V3, M, Q, V4>,
   V3 extends Vector3Base<V3, M, Q, V4>,
   M extends MatrixBase<M, V3, Q, V4>,
@@ -683,22 +701,22 @@ mixin ModelAnimationBase<
 
 > on RaylibStructObjectBase<X> {
   
-  /// Bones information (skeleton)
-  abstract RaylibLiveList<B> bones;
-
-  /// Poses array by frame
-  abstract RaylibLiveList<RaylibLiveList<T>> framePoses;
-
   /// Animation name
   abstract String name;
 
-  /// Number of animation frames, derived from [framePoses].
-  int get frameCount => framePoses.length;
-  
-  /// Size of the native `name` buffer in bytes (C ABI layout constant).
+  /// Number of bones (per pose)
+  abstract int boneCount;
+
+  /// Poses array by frame
+  abstract RaylibLiveList<RaylibLiveList<T>> keyframePoses;
+
+  /// Number of animation key frames, derived from [keyframePoses].
+  int get keyframeCount => keyframePoses.length;
+
+  /// Size of the native [name] buffer in bytes (C ABI layout constant).
   static int get BASE_nameLength => 32;
 
-  /// Compile-time ABI constant describing the capacity of the native `name` buffer.
+  /// Compile-time ABI constant describing the capacity of the native [name] buffer.
   ///
   /// This is not related to the Dart [String] length of [name].
   ///
@@ -706,7 +724,7 @@ mixin ModelAnimationBase<
   int get nameLength => BASE_nameLength;
 
   @override
-  String signature() => '$structName(bones: ${bones.length}, framePoses: ${framePoses.length}, name: $name)';
+  String signature() => '$structName(name: $name, boneCount: $boneCount, keyframeCount: $keyframeCount)';
 }
 
 /// Backend-agnostic contract for [ModelBase] structs.
@@ -718,7 +736,7 @@ mixin ModelAnimationBase<
 /// 
 /// Meshes, materials and animation data.
 mixin ModelBase<
-  X extends ModelBase<X, MeshType, MatrixType, V3, Q, V4, MaterialType, ShaderType, MaterialMapType, TextureType, ColorType, TransformType, BoneInfoType>,
+  X extends ModelBase<X, MeshType, MatrixType, V3, Q, V4, MaterialType, ShaderType, MaterialMapType, TextureType, ColorType, TransformType, BoneInfoType, ModelSkeletonType>,
   // geometry
   MeshType extends MeshBase<MeshType, MatrixType, V3, Q, V4>,
   MatrixType extends MatrixBase<MatrixType, V3, Q, V4>,
@@ -733,7 +751,8 @@ mixin ModelBase<
   ColorType extends ColorBase<ColorType>,
   // skeleton
   TransformType extends TransformBase<TransformType, V3, MatrixType, Q, V4>,
-  BoneInfoType extends BoneInfoBase<BoneInfoType>
+  BoneInfoType extends BoneInfoBase<BoneInfoType>,
+  ModelSkeletonType extends ModelSkeletonBase<ModelSkeletonType, BoneInfoType, TransformType, V3, MatrixType, Q, V4>
 
 > on RaylibStructObjectBase<X> {
  
@@ -749,17 +768,20 @@ mixin ModelBase<
   /// Mesh-to-material index mapping
   abstract RaylibLiveList<int> meshMaterial;
 
-  /// Bones information (skeleton)
-  abstract RaylibLiveList<BoneInfoType> bones;
+  /// Skeleton for animation
+  abstract ModelSkeletonType skeleton;
 
-  /// Bind pose (base pose) for the skeleton
-  abstract RaylibLiveList<TransformType> bindPose;
+  /// Current animation pose
+  abstract RaylibLiveList<TransformType> currentPose;
+
+  /// Bones animated transformation matrices
+  abstract RaylibLiveList<MatrixType> boneMatrices;
 
   /// Number of meshes, derived from [meshes].
   int get meshCount => meshes.length;
 
-  /// Number of bones, derived from [bones].
-  int get boneCount => bones.length;
+  /// Number of bones, derived from [boneMatrices].
+  int get boneCount => boneMatrices.length;
 
   /// Number of materials, derived from [materials].
   int get materialCount => materials.length;
@@ -1127,4 +1149,32 @@ mixin VrStereoConfigBase<
 
   @override
   String signature() => '$structName()';
+}
+
+/// Backend-agnostic contract for [GestureEventBase] structs.
+///
+/// Must be mixed into every concrete platform implementation of a Raylib
+/// type to ensure a unified API surface across different backends.
+mixin GestureEventBase<
+  G extends GestureEventBase<G, V2, M, V3, Q, V4>,
+  V2 extends Vector2Base<V2, M, V3, Q, V4>,
+  M extends MatrixBase<M, V3, Q, V4>,
+  V3 extends Vector3Base<V3, M, Q, V4>,
+  Q extends QuaternionBase<Q, M, V3, V4>,
+  V4 extends Vector4Base<V4, Q, M, V3>
+
+> on RaylibStructObjectBase<G> {
+
+  abstract TouchAction touchAction;
+  
+  abstract int pointCount;
+  
+  abstract RaylibLiveList<int> pointId;
+
+  abstract RaylibLiveList<V2> position;
+
+  static int get BASE_maxTouchPoints => RaylibConstants.MAX_TOUCH_POINTS;
+
+  @override
+  String signature() => '$structName(touchAction: $touchAction, pointCount: $pointCount, pointId: ${pointId.length}, postion: ${position.length})';
 }

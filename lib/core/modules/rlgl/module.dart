@@ -1,5 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
+// TODO: comment all rlgl methods
+
 /// Re-exports [RaylibRlglConstants] values as instance members,
 /// so constants are accessible directly on the module without a class qualifier.
 mixin RaylibRlglModuleExtras<R extends RaylibBase> on RaylibModule<R> {
@@ -460,6 +462,15 @@ abstract class RaylibRlglModuleBase<
     num index,
   );
 
+  void rlEnableStatePointer(
+    int vertexAttribType,
+    TypedDataList data,
+  );
+  
+  void rlDisableStatePointer(
+    int vertexAttribType,
+  );
+
   void rlActiveTextureSlot(
     num slot,
   );
@@ -561,9 +572,15 @@ abstract class RaylibRlglModuleBase<
     num height,
   );
 
-  void rlEnableWireMode();
-
   void rlEnablePointMode();
+
+  void rlDisablePointMode();
+
+  void rlSetPointSize(num size);
+  
+  double rlGetPointSize();
+
+  void rlEnableWireMode();
 
   void rlDisableWireMode();
 
@@ -682,12 +699,14 @@ abstract class RaylibRlglModuleBase<
   void rlUpdateVertexBuffer(
     num bufferId,
     TypedDataList data,
+    num dataSize,
     num offset,
   );
 
   void rlUpdateVertexBufferElements(
     num id,
     TypedDataList data,
+    num dataSize,
     num offset,
   );
 
@@ -823,19 +842,43 @@ abstract class RaylibRlglModuleBase<
     num id,
   );
 
-  int rlLoadShaderCode(
-    String? vsCode,
-    String? fsCode,
+  /// Copy framebuffer pixel data to internal buffer
+  Uint8List rlCopyFramebuffer(
+    num x,
+    num y,
+    num width,
+    num height,
+    PixelFormat format,
+  );
+  
+  /// Resize internal framebuffer
+  void rlResizeFramebuffer(
+    num width,
+    num height,
   );
 
-  int rlCompileShader(
-    String shaderCode,
+  /// Load (compile) shader and return shader id
+  int rlLoadShader(
+    String code,
     RlShaderType type,
   );
 
   int rlLoadShaderProgram(
-    num vShaderId,
-    num fShaderId,
+    String vsCode,
+    String fsCode,
+  );
+
+  int rlLoadShaderProgramEx(
+    num vsId,
+    num fsId,
+  );
+  
+  int rlLoadShaderProgramCompute(
+    num csId,
+  );
+  
+  void rlUnloadShader(
+    num id,
   );
 
   void rlUnloadShaderProgram(
@@ -877,10 +920,6 @@ abstract class RaylibRlglModuleBase<
   void rlSetShader(
     num id,
     List<int> locs,
-  );
-
-  int rlLoadComputeShaderProgram(
-    num shaderId,
   );
 
   void rlComputeShaderDispatch(

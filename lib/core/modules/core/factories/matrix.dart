@@ -51,9 +51,9 @@ class RaylibMatrixFactories {
     result.m9 = vy.z;
     result.m10 = vz.z;
 
-    result.m12 = vx.dotProduct(eye);
-    result.m13 = vy.dotProduct(eye);
-    result.m14 = vz.dotProduct(eye);
+    result.m12 = -vx.dotProduct(eye);
+    result.m13 = -vy.dotProduct(eye);
+    result.m14 = -vz.dotProduct(eye);
     result.m15 = 1.0;
 
     return result;

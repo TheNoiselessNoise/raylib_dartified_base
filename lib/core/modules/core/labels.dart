@@ -453,11 +453,10 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibCoreModuleBase.LoadRandomSequence].
   String LoadRandomSequence(
-    int count,
-    int min,
-    int max,
-    [int? seed]
-  ) => 'LoadRandomSequence($count, $min, $max, seed: $seed)';
+    num count,
+    num min,
+    num max,
+  ) => 'LoadRandomSequence($count, $min, $max)';
     
   /// Label for [RaylibCoreModuleBase.TakeScreenshot].
   String TakeScreenshot(
@@ -484,6 +483,11 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String SetTraceLogLevel(
     TraceLogLevel logLevel,
   ) => 'SetTraceLogLevel(${logLevel.name})';
+
+  /// Label for [RaylibCoreModuleBase.SetTraceLogCallback].
+  String SetTraceLogCallback(
+    TraceLogCallbackBase? callback,
+  ) => 'SetTraceLogCallback($callback)';
     
   /// Label for [RaylibCoreModuleBase.SetLoadFileDataCallback].
   String SetLoadFileDataCallback(
@@ -532,7 +536,43 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     String fileName,
     String text,
   ) => 'SaveFileText($fileName, $text)';
-    
+
+  /// Label for [RaylibCoreModuleBase.FileRename].
+  String FileRename(
+    String fileName,
+    String fileRename,
+  ) => 'FileRename($fileName, $fileRename)';
+  
+  /// Label for [RaylibCoreModuleBase.FileRemove].
+  String FileRemove(
+    String fileName,
+  ) => 'FileRemove($fileName)';
+  
+  /// Label for [RaylibCoreModuleBase.FileCopy].
+  String FileCopy(
+    String srcPath,
+    String dstPath,
+  ) => 'FileCopy($srcPath, $dstPath)';
+  
+  /// Label for [RaylibCoreModuleBase.FileMove].
+  String FileMove(
+    String srcPath,
+    String dstPath,
+  ) => 'FileMove($srcPath, $dstPath)';
+  
+  /// Label for [RaylibCoreModuleBase.FileTextReplace].
+  String FileTextReplace(
+    String fileName,
+    String search,
+    String replacement,
+  ) => 'FileTextReplace($fileName, $search, $replacement)';
+  
+  /// Label for [RaylibCoreModuleBase.FileTextFindIndex].
+  String FileTextFindIndex(
+    String fileName,
+    String search,
+  ) => 'FileTextFindIndex($fileName, $search)';
+
   /// Label for [RaylibCoreModuleBase.FileExists].
   String FileExists(
     String fileName,
@@ -568,6 +608,18 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String GetFileNameWithoutExt(
     String filePath,
   ) => 'GetFileNameWithoutExt($filePath)';
+
+  /// Label for [RaylibCoreModuleBase.GetDirectoryFileCount].
+  String GetDirectoryFileCount(
+    String dirPath, 
+  ) => 'GetDirectoryFileCount($dirPath)';
+  
+  /// Label for [RaylibCoreModuleBase.GetDirectoryFileCountEx].
+  String GetDirectoryFileCountEx(
+    String basePath,
+    String filter,
+    bool scanSubdirs,
+  ) => 'GetDirectoryFileCountEx($basePath, $filter, $scanSubdirs)';
 
   /// Label for [RaylibCoreModuleBase.GetDirectoryPath].
   String GetDirectoryPath(
@@ -672,6 +724,11 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String ComputeSHA1(
     Uint8List data,
   ) => 'ComputeSHA1(data: ${data.length})';
+
+  /// Label for [RaylibCoreModuleBase.ComputeSHA256].
+  String ComputeSHA256(
+    Uint8List data,
+  ) => 'ComputeSHA256(data: ${data.length})';
     
   /// Label for [RaylibCoreModuleBase.LoadAutomationEventList].
   String LoadAutomationEventList(
@@ -734,6 +791,11 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String IsKeyUp(
     KeyboardKey key,
   ) => 'IsKeyUp($key)';
+
+  /// Label for [RaylibCoreModuleBase.GetKeyName].
+  String GetKeyName(
+    KeyboardKey key,
+  ) => 'GetKeyName($key)';
 
   /// Label for [RaylibCoreModuleBase.GetKeyPressed].
   String GetKeyPressed() => 'GetKeyPressed()';
@@ -914,6 +976,14 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreModuleBase.GetGesturePinchAngle].
   String GetGesturePinchAngle() => 'GetGesturePinchAngle()';
+
+  /// Label for [RaylibCoreModuleBase.ProcessGestureEvent].
+  String ProcessGestureEvent(
+    GestureEventBase event,
+  ) => 'ProcessGestureEvent($event)';
+  
+  /// Label for [RaylibCoreModuleBase.UpdateGestures].
+  String UpdateGestures() => 'UpdateGestures()';
     
   /// Label for [RaylibCoreModuleBase.UpdateCamera].
   String UpdateCamera(
@@ -992,6 +1062,15 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     ColorBase color,
   ) => 'DrawLineBezier($startPos, $endPos, $thick, $color)';
 
+  /// Label for [RaylibCoreModuleBase.DrawLineDashed].
+  String DrawLineDashed(
+    Vector2Base startPos,
+    Vector2Base endPos,
+    num dashSize,
+    num spaceSize,
+    ColorBase color,
+  ) => 'DrawLineDashed($startPos, $endPos, $dashSize, $spaceSize, $color)';
+
   /// Label for [RaylibCoreModuleBase.DrawCircle].
   String DrawCircle(
     num centerX,
@@ -1022,12 +1101,11 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreModuleBase.DrawCircleGradient].
   String DrawCircleGradient(
-    num centerX,
-    num centerY,
+    Vector2Base center,
     num radius,
     ColorBase inner,
     ColorBase outer,
-  ) => 'DrawCircleGradient($centerX, $centerY, $radius, $inner, $outer)';
+  ) => 'DrawCircleGradient($center, $radius, $inner, $outer)';
 
   /// Label for [RaylibCoreModuleBase.DrawCircleV].
   String DrawCircleV(
@@ -1060,6 +1138,14 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     ColorBase color,
   ) => 'DrawEllipse($centerX, $centerY, $radiusH, $radiusV, $color)';
 
+  /// Label for [RaylibCoreModuleBase.DrawEllipseV].
+  String DrawEllipseV(
+    Vector2Base center,
+    num radiusH,
+    num radiusV,
+    ColorBase color,
+  ) => 'DrawEllipse($center, $radiusH, $radiusV, $color)';
+
   /// Label for [RaylibCoreModuleBase.DrawEllipseLines].
   String DrawEllipseLines(
     num centerX,
@@ -1068,6 +1154,14 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num radiusV,
     ColorBase color,
   ) => 'DrawEllipseLines($centerX, $centerY, $radiusH, $radiusV, $color)';
+
+  /// Label for [RaylibCoreModuleBase.DrawEllipseLinesV].
+  String DrawEllipseLinesV(
+    Vector2Base center,
+    num radiusH,
+    num radiusV,
+    ColorBase color,
+  ) => 'DrawEllipseLinesV($center, $radiusH, $radiusV, $color)';
 
   /// Label for [RaylibCoreModuleBase.DrawRing].
   String DrawRing(
@@ -2346,6 +2440,14 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num spacing,
   ) => 'MeasureTextEx($font, $text, $fontSize, $spacing)';
 
+  /// Label for [RaylibCoreModuleBase.MeasureTextCodepoints].
+  String MeasureTextCodepoints(
+    FontBase font,
+    Int32List codepoints,
+    num fontSize,
+    num spacing,
+  ) => 'MeasureTextCodepoints($font, ${codepoints.length}, $fontSize, $spacing)';
+
   /// Label for [RaylibCoreModuleBase.GetGlyphIndex].
   String GetGlyphIndex(
     FontBase font,
@@ -2398,6 +2500,122 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String CodepointToUTF8(
     num codepoint,
   ) => 'CodepointToUTF8($codepoint)';
+
+  /// Label for [RaylibCoreModuleBase.LoadTextLines].
+  String LoadTextLines(
+    String text,
+  ) => 'LoadTextLines($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextIsEqual].
+  String TextIsEqual(
+    String text1,
+    String text2,
+  ) => 'TextIsEqual($text1, $text2)';
+
+  /// Label for [RaylibCoreModuleBase.TextLength].
+  String TextLength(
+    String text,
+  ) => 'TextLength($text)';
+
+  /// Label for [RaylibCoreModuleBase.TextSubtext].
+  String TextSubtext(
+    String text,
+    int position,
+    int length,
+  ) => 'TextSubtext($text, $position, $length)';
+
+  /// Label for [RaylibCoreModuleBase.TextRemoveSpaces].
+  String TextRemoveSpaces(
+    String text,
+  ) => 'TextRemoveSpaces($text)';
+
+  /// Label for [RaylibCoreModuleBase.GetTextBetween].
+  String GetTextBetween(
+    String text,
+    String begin,
+    String end,
+  ) => 'GetTextBetween($text, $begin, $end)';
+
+  /// Label for [RaylibCoreModuleBase.TextReplace].
+  String TextReplace(
+    String text,
+    String search,
+    String replacement,
+  ) => 'TextReplace($text, $search, $replacement)';
+
+  /// Label for [RaylibCoreModuleBase.TextReplaceBetween].
+  String TextReplaceBetween(
+    String text,
+    String begin,
+    String end,
+    String replacement,
+  ) => 'TextReplaceBetween($text, $begin, $end, $replacement)';
+
+  /// Label for [RaylibCoreModuleBase.TextInsert].
+  String TextInsert(
+    String text,
+    String insert,
+    int position,
+  ) => 'TextInsert($text, $insert, $position)';
+
+  /// Label for [RaylibCoreModuleBase.TextJoin].
+  String TextJoin(
+    List<String> textList,
+    String delimiter,
+  ) => 'TextJoin(textList: ${textList.length}, $delimiter)';
+
+  /// Label for [RaylibCoreModuleBase.TextSplit].
+  String TextSplit(
+    String text,
+    String delimiter,
+  ) => 'TextSplit($text, $delimiter)';
+
+  /// Label for [RaylibCoreModuleBase.TextAppend].
+  String TextAppend(
+    String text,
+    String append,
+  ) => 'TextAppend($text, $append)';
+
+  /// Label for [RaylibCoreModuleBase.TextFindIndex].
+  String TextFindIndex(
+    String text,
+    String search,
+  ) => 'TextFindIndex($text, $search)';
+
+  /// Label for [RaylibCoreModuleBase.TextToUpper].
+  String TextToUpper(
+    String text,
+  ) => 'TextToUpper($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextToLower].
+  String TextToLower(
+    String text,
+  ) => 'TextToLower($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextToPascal].
+  String TextToPascal(
+    String text,
+  ) => 'TextToPascal($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextToSnake].
+  String TextToSnake(
+    String text,
+  ) => 'TextToSnake($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextToCamel].
+  String TextToCamel(
+    String text,
+  ) => 'TextToCamel($text)';
+
+  /// Label for [RaylibCoreModuleBase.TextToInteger].
+  String TextToInteger(
+    String text,
+  ) => 'TextToInteger($text)';
+  
+  /// Label for [RaylibCoreModuleBase.TextToFloat].
+  String TextToFloat(
+    String text,
+  ) => 'TextToFloat($text)';
     
   /// Label for [RaylibCoreModuleBase.DrawLine3D].
   String DrawLine3D(
@@ -2632,24 +2850,6 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     ColorBase tint,
   ) => 'DrawModelWiresEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawModelPoints].
-  String DrawModelPoints(
-    ModelBase model,
-    Vector3Base position,
-    num scale,
-    ColorBase tint,
-  ) => 'DrawModelPoints($model, $position, $scale, $tint)';
-    
-  /// Label for [RaylibCoreModuleBase.DrawModelPointsEx].
-  String DrawModelPointsEx(
-    ModelBase model,
-    Vector3Base position,
-    Vector3Base rotationAxis,
-    num rotationAngle,
-    Vector3Base scale,
-    ColorBase tint,
-  ) => 'DrawModelPointsEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
-    
   /// Label for [RaylibCoreModuleBase.DrawBoundingBox].
   String DrawBoundingBox(
     BoundingBoxBase box,
@@ -2863,18 +3063,16 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     ModelAnimationBase anim,
     num frame,
   ) => 'UpdateModelAnimation($model, $anim, $frame)';
-    
-  /// Label for [RaylibCoreModuleBase.UpdateModelAnimationBones].
-  String UpdateModelAnimationBones(
+
+  /// Label for [RaylibCoreModuleBase.UpdateModelAnimationEx].
+  String UpdateModelAnimationEx(
     ModelBase model,
-    ModelAnimationBase anim,
-    num frame,
-  ) => 'UpdateModelAnimationBones($model, $anim, $frame)';
-    
-  /// Label for [RaylibCoreModuleBase.UnloadModelAnimation].
-  String UnloadModelAnimation(
-    ModelAnimationBase anim,
-  ) => 'UnloadModelAnimation($anim)';
+    ModelAnimationBase animA,
+    num frameA,
+    ModelAnimationBase animB,
+    num frameB,
+    num blend,
+  ) => 'UpdateModelAnimationEx($model, $animA, $frameA, $animB, $frameB, $blend)';
     
   /// Label for [RaylibCoreModuleBase.UnloadModelAnimations].
   String UnloadModelAnimations(

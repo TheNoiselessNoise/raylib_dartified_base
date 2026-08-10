@@ -48,6 +48,14 @@ abstract class RaylibCoreModuleBase<
     GlyphInfoStructType,
     ImageStructType
   >,
+  GestureEventStructType extends GestureEventBase<
+    GestureEventStructType,
+    Vector2StructType,
+    MatrixStructType,
+    Vector3StructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
   GlyphInfoStructType extends GlyphInfoBase<
     GlyphInfoStructType,
     ImageStructType
@@ -91,10 +99,19 @@ abstract class RaylibCoreModuleBase<
     TextureStructType,
     ColorStructType,
     TransformStructType,
-    BoneInfoStructType
+    BoneInfoStructType,
+    ModelSkeletonStructType
   >,
   ModelAnimationStructType extends ModelAnimationBase<
     ModelAnimationStructType,
+    TransformStructType,
+    Vector3StructType,
+    MatrixStructType,
+    QuaternionStructType,
+    Vector4StructType
+  >,
+  ModelSkeletonStructType extends ModelSkeletonBase<
+    ModelSkeletonStructType,
     BoneInfoStructType,
     TransformStructType,
     Vector3StructType,
@@ -169,6 +186,7 @@ abstract class RaylibCoreModuleBase<
   >,
 
   // callbacks
+  TraceLogCallbackType extends TraceLogCallbackBase,
   LoadFileDataCallbackType extends LoadFileDataCallbackBase,
   SaveFileDataCallbackType extends SaveFileDataCallbackBase,
   LoadFileTextCallbackType extends LoadFileTextCallbackBase,
@@ -653,19 +671,11 @@ abstract class RaylibCoreModuleBase<
     num max,
   );
   
-  /// Load random values sequence, no values repeated
+  // Load random values sequence, no values repeated, min and max included
   List<int> LoadRandomSequence(
-    int count,
-    int min,
-    int max,
-    [int? seed]
-  ) => run(
-    () => RaylibDebugLabels.LoadRandomSequence(count, min, max, seed),
-    () {
-      final List<int> pool = .generate(max - min + 1, (i) => min + i);
-      pool.shuffle(math.Random(seed));
-      return pool.take(count).toList();
-    },
+    num count,
+    num min,
+    num max,
   );
 
   /// Takes a screenshot of current screen (filename extension defines format)
@@ -692,6 +702,10 @@ abstract class RaylibCoreModuleBase<
   /// Set the current threshold (minimum) log level
   void SetTraceLogLevel(
     TraceLogLevel logLevel,
+  );
+
+  void SetTraceLogCallback(
+    TraceLogCallbackType? callback,
   );
 
   /// Set custom file binary data loader
@@ -742,6 +756,42 @@ abstract class RaylibCoreModuleBase<
     String text,
   );
 
+  /// Rename file (if exists)
+  int FileRename(
+    String fileName,
+    String fileRename,
+  );
+  
+  /// Remove file (if exists)
+  int FileRemove(
+    String fileName,
+  );
+  
+  /// Copy file from one path to another, dstPath created if it doesn't exist
+  int FileCopy(
+    String srcPath,
+    String dstPath,
+  );
+  
+  /// Move file from one directory to another, dstPath created if it doesn't exist
+  int FileMove(
+    String srcPath,
+    String dstPath,
+  );
+  
+  /// Replace text in an existing file
+  int FileTextReplace(
+    String fileName,
+    String search,
+    String replacement,
+  );
+  
+  /// Find text in existing file
+  int FileTextFindIndex(
+    String fileName,
+    String search,
+  );
+
   /// Check if file exists
   bool FileExists(
     String fileName,
@@ -776,6 +826,20 @@ abstract class RaylibCoreModuleBase<
   /// Get filename without extension
   String GetFileNameWithoutExt(
     String filePath,
+  );
+
+  /// Get the file count in a directory
+  int GetDirectoryFileCount(
+    String dirPath, 
+  );
+  
+  /// Get the file count in a directory with extension filtering and recursive directory scan.
+  /// 
+  /// Use 'DIR' in the filter string to include directories in the result
+  int GetDirectoryFileCountEx(
+    String basePath,
+    String filter,
+    bool scanSubdirs,
   );
 
   /// Get full path for a given fileName with path
@@ -882,6 +946,11 @@ abstract class RaylibCoreModuleBase<
     Uint8List data,
   );
 
+  /// Compute SHA256 hash code
+  Uint8List ComputeSHA256(
+    Uint8List data,
+  );
+
   /// Load automation events list from file, NULL for empty list
   AutomationEventListStructType LoadAutomationEventList(
     String? fileName,
@@ -941,6 +1010,11 @@ abstract class RaylibCoreModuleBase<
 
   /// Check if a key is NOT being pressed
   bool IsKeyUp(
+    KeyboardKey key,
+  );
+
+  /// Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)
+  String GetKeyName(
     KeyboardKey key,
   );
 
@@ -1124,6 +1198,14 @@ abstract class RaylibCoreModuleBase<
   /// Get gesture pinch angle
   double GetGesturePinchAngle();
 
+  /// Process gesture event and translate it into gestures
+  void ProcessGestureEvent(
+    GestureEventStructType event,
+  );
+  
+  // Update gestures detected (must be called every frame)
+  void UpdateGestures();
+
   /// Update camera position for selected mode
   void UpdateCamera(
     Camera3DStructType camera,
@@ -1201,6 +1283,15 @@ abstract class RaylibCoreModuleBase<
     ColorStructType color,
   );
 
+  /// Draw a dashed line
+  void DrawLineDashed(
+    Vector2StructType startPos,
+    Vector2StructType endPos,
+    num dashSize,
+    num spaceSize,
+    ColorStructType color,
+  );
+
   /// Draw a color-filled circle
   void DrawCircle(
     num centerX,
@@ -1231,8 +1322,7 @@ abstract class RaylibCoreModuleBase<
 
   /// Draw a gradient-filled circle
   void DrawCircleGradient(
-    num centerX,
-    num centerY,
+    Vector2StructType center,
     num radius,
     ColorStructType inner,
     ColorStructType outer,
@@ -1269,10 +1359,26 @@ abstract class RaylibCoreModuleBase<
     ColorStructType color,
   );
 
+  /// Draw ellipse (Vector version)
+  void DrawEllipseV(
+    Vector2StructType center,
+    num radiusH,
+    num radiusV,
+    ColorStructType color,
+  );
+
   /// Draw ellipse outline
   void DrawEllipseLines(
     num centerX,
     num centerY,
+    num radiusH,
+    num radiusV,
+    ColorStructType color,
+  );
+
+  /// Draw ellipse outline (Vector version)
+  void DrawEllipseLinesV(
+    Vector2StructType center,
     num radiusH,
     num radiusV,
     ColorStructType color,
@@ -2555,6 +2661,14 @@ abstract class RaylibCoreModuleBase<
     num spacing,
   );
 
+  /// Measure string size for an existing array of codepoints for Font
+  Vector2StructType MeasureTextCodepoints(
+    FontStructType font,
+    Int32List codepoints,
+    num fontSize,
+    num spacing,
+  );
+
   /// Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
   int GetGlyphIndex(
     FontStructType font,
@@ -2606,6 +2720,122 @@ abstract class RaylibCoreModuleBase<
   /// Encode one codepoint into UTF-8 byte array (array length returned as parameter)
   (String text, int size) CodepointToUTF8(
     num codepoint,
+  );
+
+  /// Load text as separate lines ('\n')
+  List<String> LoadTextLines(
+    String text,
+  );
+  
+  /// Check if two text string are equal
+  bool TextIsEqual(
+    String text1,
+    String text2,
+  );
+
+  /// Get text length
+  int TextLength(
+    String text,
+  );
+
+  /// Get a piece of a text string
+  String TextSubtext(
+    String text,
+    int position,
+    int length,
+  );
+
+  /// Remove text spaces, concat words
+  String TextRemoveSpaces(
+    String text,
+  );
+
+  /// Get text between two strings
+  String GetTextBetween(
+    String text,
+    String begin,
+    String end,
+  );
+
+  /// Replace text string with new string
+  String TextReplace(
+    String text,
+    String search,
+    String replacement,
+  );
+
+  /// Replace text between two specific strings
+  String TextReplaceBetween(
+    String text,
+    String begin,
+    String end,
+    String replacement,
+  );
+
+  /// Insert text in a defined byte position
+  String TextInsert(
+    String text,
+    String insert,
+    int position,
+  );
+
+  /// Join text strings with delimiter ([delimiter] is expected to be length of 1)
+  String TextJoin(
+    List<String> textList,
+    String delimiter,
+  );
+
+  /// Split text into multiple strings
+  List<String> TextSplit(
+    String text,
+    String delimiter,
+  );
+
+  /// Append text at specific position and move cursor
+  String TextAppend(
+    String text,
+    String append,
+  );
+
+  /// Find first text occurrence within a string, -1 if not found
+  int TextFindIndex(
+    String text,
+    String search,
+  );
+
+  /// Get upper case version of provided string
+  String TextToUpper(
+    String text,
+  );
+  
+  /// Get lower case version of provided string
+  String TextToLower(
+    String text,
+  );
+  
+  /// Get Pascal case notation version of provided string
+  String TextToPascal(
+    String text,
+  );
+  
+  /// Get Snake case notation version of provided string
+  String TextToSnake(
+    String text,
+  );
+  
+  /// Get Camel case notation version of provided string
+  String TextToCamel(
+    String text,
+  );
+
+  /// Get integer value from text
+  int TextToInteger(
+    String text,
+  );
+  
+  /// Get float value from text
+  double TextToFloat(
+    String text,
   );
 
   /// Draw a line in 3D world space
@@ -2841,24 +3071,6 @@ abstract class RaylibCoreModuleBase<
     ColorStructType tint,
   );
 
-  /// Draw a model as points
-  void DrawModelPoints(
-    ModelStructType model,
-    Vector3StructType position,
-    num scale,
-    ColorStructType tint,
-  );
-
-  /// Draw a model as points with extended parameters
-  void DrawModelPointsEx(
-    ModelStructType model,
-    Vector3StructType position,
-    Vector3StructType rotationAxis,
-    num rotationAngle,
-    Vector3StructType scale,
-    ColorStructType tint,
-  );
-
   /// Draw bounding box (wires)
   void DrawBoundingBox(
     BoundingBoxStructType box,
@@ -3062,7 +3274,7 @@ abstract class RaylibCoreModuleBase<
   );
 
   /// Load model animations from file
-  List<ModelAnimationStructType> LoadModelAnimations(
+  RaylibLiveList<ModelAnimationStructType> LoadModelAnimations(
     String fileName,
   );
 
@@ -3073,21 +3285,20 @@ abstract class RaylibCoreModuleBase<
     num frame,
   );
 
-  /// Update model animation mesh bone matrices (GPU skinning)
-  void UpdateModelAnimationBones(
+  // Update model animation data (vertex buffers / bone matrices) for a specific pose,
+  // defined by two different animations at specific frames blended together
+  void UpdateModelAnimationEx(
     ModelStructType model,
-    ModelAnimationStructType anim,
-    num frame,
-  );
-
-  /// Unload animation data
-  void UnloadModelAnimation(
-    ModelAnimationStructType anim,
+    ModelAnimationStructType animA,
+    num frameA,
+    ModelAnimationStructType animB,
+    num frameB,
+    num blend,
   );
 
   /// Unload animation array data
   void UnloadModelAnimations(
-    List<ModelAnimationStructType> animations,
+    covariant RaylibLiveList<ModelAnimationStructType> animations,
   );
 
   /// Check model animation skeleton match
