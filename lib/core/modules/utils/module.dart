@@ -2,8 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Dart-side utility helpers with no direct Raylib counterpart.
 abstract class RaylibUtilsModuleBase<
-  R extends RaylibBase,
-  AnyPointerType
+  R extends RaylibBase
 > extends RaylibModule<R> {
 
   RaylibUtilsModuleBase(super.rl);

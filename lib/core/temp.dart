@@ -824,9 +824,7 @@ mixin RaylibTempStructAllocatorBase<
   /// - return [V] directly (native: struct returned by value)
   /// - return void/null and mutate [ptr] in place (WASM: sret convention)
   X RefCapture(String key, dynamic Function(S ptr) fn) {
-    key = uniqueSlotKey(key);
-
-    final ptr = At(key);
+    final ptr = AtUnique(key: key);
     final result = fn(pointerToSource(ptr));
 
     final X value;

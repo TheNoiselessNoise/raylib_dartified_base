@@ -530,14 +530,14 @@ mixin ModelSkeletonBase<
 
 > on RaylibStructObjectBase<X> {
 
+  /// Number of bones
+  abstract int boneCount;
+
   /// Bones information (skeleton)
   abstract RaylibLiveList<B> bones;
 
   /// Bones base transformation
   abstract RaylibLiveList<T> bindPose;
-
-  /// Number of bones
-  int get boneCount => bones.length;
 }
 
 /// Backend-agnostic contract for [MeshBase] structs.
@@ -644,8 +644,17 @@ mixin MeshBase<
   /// Number of components in the `animNormals` buffer.
   static int BASE_animNormalsCount(int vertexCount) => vertexCount > 0 ? vertexCount * 3 : 0;
 
+  // TODO: SUPPORT_GPU_SKINNING => MAX_MESH_VERTEX_BUFFERS???
+  /*
+    MUST match `MAX_MESH_VERTEX_BUFFERS` in the compiled raylib config.h
+    for whichever backend is active: 7 if SUPPORT_GPU_SKINNING is off,
+    9 if on. Both native and WASM builds currently compile WITHOUT
+    GPU skinning, if either build ever turns it on, this must change
+    for that backend, and native/WASM can genuinely diverge if only
+    one build's flag changes.
+  */
   /// Number of components in the `vboId` buffer.
-  static int get BASE_vboIdCount => 9;
+  static int get BASE_vboIdCount => 7;
 
   /// Expected length of [vertices].
   int get verticesCount => BASE_verticesCount(vertexCount);

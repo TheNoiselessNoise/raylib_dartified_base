@@ -1,5 +1,11 @@
 part of 'raylib_dartified_base.dart';
 
+enum RaylibPlatform { native, web }
+
+const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.io')
+  ? .native
+  : .web;
+
 /// Adds ordered comparison operators to Raylib enums that expose a raw [value],
 /// mirroring C enum integer semantics.
 mixin RaylibEnum on Enum {
@@ -381,6 +387,12 @@ abstract class RaylibBase {
         "Raylib expects at least 4 preallocated String slots, got ${this.tempOptions.stringCount}",
       );
     }
+  }
+
+  /// Calls [RaylibCoreModuleBase.CloseWindow] and [dispose].
+  void CloseWindowAndDispose() {
+    CoreD.CloseWindow();
+    dispose();
   }
 
   /// All currently registered modules.
