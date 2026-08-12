@@ -11,7 +11,7 @@ abstract class RaylibTempAllocatorBase<TempType extends RaylibTempBase, P, S> {
   final TempType temp;
 
   /// Debug name for this allocator, used in logging and diagnostics.
-  final String name;
+  late String name;
 
   /// Size in bytes of a single element this allocator manages.
   final int byteSize;
@@ -31,30 +31,24 @@ abstract class RaylibTempAllocatorBase<TempType extends RaylibTempBase, P, S> {
   /// Returns a null/zero pointer of type [P].
   final P Function() nullptrFactory;
 
-  /// Returns a human-readable string representation of [ptr].
-  final String Function(P ptr) printerFunc;
-
   /// Returns `true` if [ptr] is null or zero.
   final bool Function(P ptr) isPointerNull;
 
-  RaylibTempAllocatorBase(this.temp, this.name, {
+  RaylibTempAllocatorBase(this.temp, {
     required this.byteSize,
     required this.allocatorFunc,
     required this.freeFunc,
     required this.pointerFactory,
     required this.pointerToSource,
     required this.nullptrFactory,
-    required this.printerFunc,
     required this.isPointerNull,
-  });
+  }) {
+    name = runtimeType.toString();
+  }
 
   /// Active allocation slots, keyed by slot name.
   /// Each entry holds the pointer and its element count.
   final Map<String, (P, int)> slots = {};
-
-  /// Returns a string that identifies the concrete type of this allocator,
-  /// including its type parameters.
-  String signature() => runtimeType.toString();
 
   /// Returns the canonical slot key for [key], falling back to `'default'`
   /// when [key] is `null`.
@@ -435,22 +429,22 @@ mixin RaylibTempStructAllocatorBase<
   /// Assigns [value] to the struct referenced by [ptr].
   P Function(P ptr, V value) get setRefFunc;
 
-  /// Writes the Dart value [value] into the [i]-th element of the array at [ptr].
+  /// Writes the Dart object [value] into the [i]-th element of the array at [ptr].
   void Function(P ptr, int i, X value) get writeIntoIndexedFunc;
   
-  /// Writes the Dart value [value] into the struct at [ptr].
+  /// Writes the Dart object [value] into the struct at [ptr].
   void Function(P ptr, X value) get writeIntoFunc;
   
-  /// Copies the raw C struct [value] into the [i]-th element of the array at [ptr].
+  /// Copies the raw [V] struct [value] into the [i]-th element of the array at [ptr].
   void Function(P ptr, int i, V value) get setCFunc;
   
-  /// Returns the [C] struct at index [i] of the array at [ptr].
+  /// Returns the [V] struct at index [i] of the array at [ptr].
   V Function(P ptr, int i) get indexerFunc;
   
   /// Overwrites the [i]-th element of the array at [ptr] with [value].
   void Function(P ptr, int i, V value) get indexSetterFunc;
 
-  /// Converts a `P` to its Dart-side [X] wrapper, referencing the memory at that pointer.
+  /// Converts a [P] to its Dart-side [X] wrapper, referencing the memory at that pointer.
   X Function(P ptr) get pointerToStruct;
 
   /// Copies the fields of [source] into the native memory at [ptr].
@@ -964,10 +958,10 @@ mixin RaylibTempStructPointerAllocatorBase<
   TempType, PP, S
 > {
 
-  /// Converts an `D` of Dart struct wrapper into an allocated `P` pointer.
+  /// Converts a [X] of Dart struct wrapper into an allocated [P] pointer.
   P Function([X?, String?]) get valueFunc;
 
-  /// Converts a `List<D>` of Dart struct wrappers into an allocated `P` array.
+  /// Converts a [List] of Dart struct wrappers [X] into an allocated [P] array.
   P Function(List<X> array) get rawArrayFunc;
 
   /// Overwrites the [i]-th element of the array at [ptr] with [value].
@@ -1008,6 +1002,79 @@ mixin RaylibTempStructPointerAllocatorBase<
   }
 }
 
+abstract class RaylibTempAllocatorGroup<
+  LiteralType extends RaylibTempAllocatorBase,
+  LiteralPointerType extends RaylibTempAllocatorBase
+> {
+  final LiteralType val;
+  final LiteralPointerType ptr;
+
+  RaylibTempAllocatorGroup({
+    required this.val,
+    required this.ptr,
+  });
+
+  /// Frees all currently tracked slots at [val] and [ptr] allocators.
+  ///
+  /// Called automatically by the owning [RaylibTempBase] during disposal.
+  void dispose() {
+    val.dispose();
+    ptr.dispose();
+  }
+}
+
+abstract class RaylibTempLitAllocators<
+  LiteralAllocatorType extends RaylibTempLiteralAllocatorBase,
+  LiteralPointerAllocatorType extends RaylibTempLiteralPointerAllocatorBase
+> extends RaylibTempAllocatorGroup<
+  LiteralAllocatorType,
+  LiteralPointerAllocatorType
+> {
+  RaylibTempLitAllocators({
+    required super.val,
+    required super.ptr
+  });
+}
+
+abstract class RaylibTempLitIntAllocators<
+  LiteralAllocatorType extends RaylibTempLiteralIntAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic>,
+  LiteralPointerAllocatorType extends RaylibTempLiteralPointerAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic, dynamic>
+> extends RaylibTempAllocatorGroup<
+  LiteralAllocatorType,
+  LiteralPointerAllocatorType
+> {
+  RaylibTempLitIntAllocators({
+    required super.val,
+    required super.ptr
+  });
+}
+
+abstract class RaylibTempLitFloatAllocators<
+  LiteralAllocatorType extends RaylibTempLiteralFloatAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic>,
+  LiteralPointerAllocatorType extends RaylibTempLiteralPointerAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic, dynamic>
+> extends RaylibTempAllocatorGroup<
+  LiteralAllocatorType,
+  LiteralPointerAllocatorType
+> {
+  RaylibTempLitFloatAllocators({
+    required super.val,
+    required super.ptr
+  });
+}
+
+abstract class RaylibTempStructAllocators<
+  StructAllocatorType extends RaylibTempStructAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic, dynamic>,
+  StructPointerAllocatorType extends RaylibTempStructPointerAllocatorBase<RaylibTempBase, dynamic, dynamic, dynamic, dynamic>
+> extends RaylibTempAllocatorGroup<
+  StructAllocatorType,
+  StructPointerAllocatorType
+> {
+  RaylibTempStructAllocators({
+    required super.val,
+    required super.ptr
+  });
+}
+
 /// Dispatches a [TypedDataList] to the correct typed allocator on [temp],
 /// allowing callers to allocate any supported typed list without knowing
 /// the concrete element type at the call site.
@@ -1020,30 +1087,30 @@ abstract class RaylibTempTypedDataListAllocator<
   RaylibTempTypedDataListAllocator(this.temp);
 
   int ElementSize(TypedDataList data) {
-    if (data is Int8List) return temp.Int8$.byteSize;
-    if (data is Uint8List) return temp.Uint8$.byteSize;
-    if (data is Int16List) return temp.Int16$.byteSize;
-    if (data is Uint16List) return temp.Uint16$.byteSize;
-    if (data is Int32List) return temp.Int32$.byteSize;
-    if (data is Uint32List) return temp.Uint32$.byteSize;
-    if (data is Int64List) return temp.Int64$.byteSize;
-    if (data is Uint64List) return temp.Uint64$.byteSize;
-    if (data is Float32List) return temp.Float32$.byteSize;
-    if (data is Float64List) return temp.Float64$.byteSize;
+    if (data is Int8List) return temp.Int8$.val.byteSize;
+    if (data is Uint8List) return temp.Uint8$.val.byteSize;
+    if (data is Int16List) return temp.Int16$.val.byteSize;
+    if (data is Uint16List) return temp.Uint16$.val.byteSize;
+    if (data is Int32List) return temp.Int32$.val.byteSize;
+    if (data is Uint32List) return temp.Uint32$.val.byteSize;
+    if (data is Int64List) return temp.Int64$.val.byteSize;
+    if (data is Uint64List) return temp.Uint64$.val.byteSize;
+    if (data is Float32List) return temp.Float32$.val.byteSize;
+    if (data is Float64List) return temp.Float64$.val.byteSize;
     throw UnimplementedError('Unknown typed list: ${data.runtimeType}');
   }
 
   ResultPointerType Array(TypedDataList data, {String? key}) {
-    if (data is Int8List) return temp.Int8$.Array(data, key: key);
-    if (data is Uint8List) return temp.Uint8$.Array(data, key: key);
-    if (data is Int16List) return temp.Int16$.Array(data, key: key);
-    if (data is Uint16List) return temp.Uint16$.Array(data, key: key);
-    if (data is Int32List) return temp.Int32$.Array(data, key: key);
-    if (data is Uint32List) return temp.Uint32$.Array(data, key: key);
-    if (data is Int64List) return temp.Int64$.Array(data, key: key);
-    if (data is Uint64List) return temp.Uint64$.Array(data, key: key);
-    if (data is Float32List) return temp.Float32$.Array(data, key: key);
-    if (data is Float64List) return temp.Float64$.Array(data, key: key);
+    if (data is Int8List) return temp.Int8$.val.Array(data, key: key);
+    if (data is Uint8List) return temp.Uint8$.val.Array(data, key: key);
+    if (data is Int16List) return temp.Int16$.val.Array(data, key: key);
+    if (data is Uint16List) return temp.Uint16$.val.Array(data, key: key);
+    if (data is Int32List) return temp.Int32$.val.Array(data, key: key);
+    if (data is Uint32List) return temp.Uint32$.val.Array(data, key: key);
+    if (data is Int64List) return temp.Int64$.val.Array(data, key: key);
+    if (data is Uint64List) return temp.Uint64$.val.Array(data, key: key);
+    if (data is Float32List) return temp.Float32$.val.Array(data, key: key);
+    if (data is Float64List) return temp.Float64$.val.Array(data, key: key);
     throw UnimplementedError('Unknown typed list: ${data.runtimeType}');
   }
 }
@@ -1411,288 +1478,178 @@ abstract class RaylibTempBase<R extends RaylibBase> extends RaylibModule<R> {
 
   RaylibTempUtilsBase get Utils;
 
+  // special
   RaylibTempTypedDataListAllocator get TypedDataList$;
-
   RaylibTempStringAllocatorBase get String$;
 
-  RaylibTempLiteralAllocatorBase get Bool$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Bool$;
-  
-  RaylibTempLiteralIntAllocatorBase get Int$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Int$;
-  RaylibTempLiteralIntAllocatorBase get UnsignedInt$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$UnsignedInt$;
-  RaylibTempLiteralIntAllocatorBase get Int8$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Int8$;
-  RaylibTempLiteralIntAllocatorBase get Uint8$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Uint8$;
-  RaylibTempLiteralIntAllocatorBase get Int16$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Int16$;
-  RaylibTempLiteralIntAllocatorBase get Uint16$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Uint16$;
-  RaylibTempLiteralIntAllocatorBase get Int32$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Int32$;
-  RaylibTempLiteralIntAllocatorBase get Uint32$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Uint32$;
-  RaylibTempLiteralIntAllocatorBase get Int64$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Int64$;
-  RaylibTempLiteralIntAllocatorBase get Uint64$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Uint64$;
-  RaylibTempLiteralFloatAllocatorBase get Float32$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Float32$;
-  RaylibTempLiteralFloatAllocatorBase get Float64$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Float64$;
-  RaylibTempLiteralIntAllocatorBase get Char$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Char$;
-  RaylibTempLiteralIntAllocatorBase get UnsignedChar$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$UnsignedChar$;
-  RaylibTempLiteralIntAllocatorBase get UnsignedShort$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$UnsignedShort$;
-  RaylibTempLiteralIntAllocatorBase get Short$;
-  RaylibTempLiteralPointerAllocatorBase get Ptr$Short$;
-  
-  RaylibTempStructAllocatorBase get AutomationEventList$;
-  RaylibTempStructPointerAllocatorBase get Ptr$AutomationEventList$;
-  RaylibTempStructAllocatorBase get AutomationEvent$;
-  RaylibTempStructPointerAllocatorBase get Ptr$AutomationEvent$;
-  RaylibTempStructAllocatorBase get AudioStream$;
-  RaylibTempStructPointerAllocatorBase get Ptr$AudioStream$;
-  RaylibTempStructAllocatorBase get BoneInfo$;
-  RaylibTempStructPointerAllocatorBase get Ptr$BoneInfo$;
-  RaylibTempStructAllocatorBase get BoundingBox$;
-  RaylibTempStructPointerAllocatorBase get Ptr$BoundingBox$;
-  RaylibTempStructAllocatorBase get Camera2D$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Camera2D$;
-  RaylibTempStructAllocatorBase get Camera3D$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Camera3D$;
-  RaylibTempStructAllocatorBase get Color$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Color$;
-  RaylibTempStructAllocatorBase get FilePathList$;
-  RaylibTempStructPointerAllocatorBase get Ptr$FilePathList$;
-  RaylibTempStructAllocatorBase get Font$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Font$;
-  RaylibTempStructAllocatorBase get GestureEvent$;
-  RaylibTempStructPointerAllocatorBase get Ptr$GestureEvent$;
-  RaylibTempStructAllocatorBase get GlyphInfo$;
-  RaylibTempStructPointerAllocatorBase get Ptr$GlyphInfo$;
-  RaylibTempStructAllocatorBase get Image$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Image$;
-  RaylibTempStructAllocatorBase get Light$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Light$;
-  RaylibTempStructAllocatorBase get Material$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Material$;
-  RaylibTempStructAllocatorBase get MaterialMap$;
-  RaylibTempStructPointerAllocatorBase get Ptr$MaterialMap$;
-  RaylibTempStructAllocatorBase get Matrix$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Matrix$;
-  RaylibTempStructAllocatorBase get Mesh$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Mesh$;
-  RaylibTempStructAllocatorBase get Model$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Model$;
-  RaylibTempStructAllocatorBase get ModelAnimation$;
-  RaylibTempStructPointerAllocatorBase get Ptr$ModelAnimation$;
-  RaylibTempStructAllocatorBase get ModelSkeleton$;
-  RaylibTempStructPointerAllocatorBase get Ptr$ModelSkeleton$;
-  RaylibTempStructAllocatorBase get Music$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Music$;
-  RaylibTempStructAllocatorBase get NPatchInfo$;
-  RaylibTempStructPointerAllocatorBase get Ptr$NPatchInfo$;
-  RaylibTempStructAllocatorBase get Quaternion$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Quaternion$;
-  RaylibTempStructAllocatorBase get Rectangle$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Rectangle$;
-  RaylibTempStructAllocatorBase get RlDrawCall$;
-  RaylibTempStructPointerAllocatorBase get Ptr$RlDrawCall$;
-  RaylibTempStructAllocatorBase get RlRenderBatch$;
-  RaylibTempStructPointerAllocatorBase get Ptr$RlRenderBatch$;
-  RaylibTempStructAllocatorBase get RlVertexBuffer$;
-  RaylibTempStructPointerAllocatorBase get Ptr$RlVertexBuffer$;
-  RaylibTempStructAllocatorBase get Ray$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Ray$;
-  RaylibTempStructAllocatorBase get RayCollision$;
-  RaylibTempStructPointerAllocatorBase get Ptr$RayCollision$;
-  RaylibTempStructAllocatorBase get RenderTexture$;
-  RaylibTempStructPointerAllocatorBase get Ptr$RenderTexture$;
-  RaylibTempStructAllocatorBase get Shader$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Shader$;
-  RaylibTempStructAllocatorBase get Sound$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Sound$;
-  RaylibTempStructAllocatorBase get Texture$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Texture$;
-  RaylibTempStructAllocatorBase get Transform$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Transform$;
-  RaylibTempStructAllocatorBase get Vector2$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Vector2$;
-  RaylibTempStructAllocatorBase get Vector3$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Vector3$;
-  RaylibTempStructAllocatorBase get Vector4$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Vector4$;
-  RaylibTempStructAllocatorBase get VrDeviceInfo$;
-  RaylibTempStructPointerAllocatorBase get Ptr$VrDeviceInfo$;
-  RaylibTempStructAllocatorBase get VrStereoConfig$;
-  RaylibTempStructPointerAllocatorBase get Ptr$VrStereoConfig$;
-  RaylibTempStructAllocatorBase get Wave$;
-  RaylibTempStructPointerAllocatorBase get Ptr$Wave$;
+  // literals
+  RaylibTempLitAllocators get Bool$;
+  RaylibTempLitIntAllocators get Int8$;
+  RaylibTempLitIntAllocators get Uint8$;
+  RaylibTempLitIntAllocators get Int16$;
+  RaylibTempLitIntAllocators get Uint16$;
+  RaylibTempLitIntAllocators get Int32$;
+  RaylibTempLitIntAllocators get Uint32$;
+  RaylibTempLitIntAllocators get Int64$;
+  RaylibTempLitIntAllocators get Uint64$;
+  RaylibTempLitFloatAllocators get Float32$;
+  RaylibTempLitFloatAllocators get Float64$;
+  RaylibTempLitIntAllocators get Char$;
+  RaylibTempLitIntAllocators get UnsignedChar$;
+  RaylibTempLitIntAllocators get Short$;
+  RaylibTempLitIntAllocators get UnsignedShort$;
+  RaylibTempLitIntAllocators get Int$;
+  RaylibTempLitIntAllocators get UnsignedInt$;
+  RaylibTempLitFloatAllocators get Float$;
+  RaylibTempLitFloatAllocators get Double$;
 
-  /// All built-in allocators keyed by name, iterated during [dispose].
-  Map<String, RaylibTempAllocatorBase> get allocators => {
-    String$.name: String$,
+  // structs
+  RaylibTempStructAllocators get AutomationEventList$;
+  RaylibTempStructAllocators get AutomationEvent$;
+  RaylibTempStructAllocators get AudioStream$;
+  RaylibTempStructAllocators get BoneInfo$;
+  RaylibTempStructAllocators get BoundingBox$;
+  RaylibTempStructAllocators get Camera2D$;
+  RaylibTempStructAllocators get Camera3D$;
+  RaylibTempStructAllocators get Color$;
+  RaylibTempStructAllocators get FilePathList$;
+  RaylibTempStructAllocators get Font$;
+  RaylibTempStructAllocators get GestureEvent$;
+  RaylibTempStructAllocators get GlyphInfo$;
+  RaylibTempStructAllocators get Image$;
+  RaylibTempStructAllocators get Light$;
+  RaylibTempStructAllocators get Material$;
+  RaylibTempStructAllocators get MaterialMap$;
+  RaylibTempStructAllocators get Matrix$;
+  RaylibTempStructAllocators get Mesh$;
+  RaylibTempStructAllocators get Model$;
+  RaylibTempStructAllocators get ModelAnimation$;
+  RaylibTempStructAllocators get ModelSkeleton$;
+  RaylibTempStructAllocators get Music$;
+  RaylibTempStructAllocators get NPatchInfo$;
+  RaylibTempStructAllocators get Quaternion$;
+  RaylibTempStructAllocators get Rectangle$;
+  RaylibTempStructAllocators get RlDrawCall$;
+  RaylibTempStructAllocators get RlRenderBatch$;
+  RaylibTempStructAllocators get RlVertexBuffer$;
+  RaylibTempStructAllocators get Ray$;
+  RaylibTempStructAllocators get RayCollision$;
+  RaylibTempStructAllocators get RenderTexture$;
+  RaylibTempStructAllocators get Shader$;
+  RaylibTempStructAllocators get Sound$;
+  RaylibTempStructAllocators get Texture$;
+  RaylibTempStructAllocators get Transform$;
+  RaylibTempStructAllocators get Vector2$;
+  RaylibTempStructAllocators get Vector3$;
+  RaylibTempStructAllocators get Vector4$;
+  RaylibTempStructAllocators get VrDeviceInfo$;
+  RaylibTempStructAllocators get VrStereoConfig$;
+  RaylibTempStructAllocators get Wave$;
 
-    Bool$.name: Bool$,
-    Ptr$Bool$.name: Ptr$Bool$,
-    
-    Int$.name: Int$,
-    Ptr$Int$.name: Ptr$Int$,
-    UnsignedInt$.name: UnsignedInt$,
-    Ptr$UnsignedInt$.name: Ptr$UnsignedInt$,
-    Int8$.name: Int8$,
-    Ptr$Int8$.name: Ptr$Int8$,
-    Uint8$.name: Uint8$,
-    Ptr$Uint8$.name: Ptr$Uint8$,
-    Int16$.name: Int16$,
-    Ptr$Int16$.name: Ptr$Int16$,
-    Uint16$.name: Uint16$,
-    Ptr$Uint16$.name: Ptr$Uint16$,
-    Int32$.name: Int32$,
-    Ptr$Int32$.name: Ptr$Int32$,
-    Uint32$.name: Uint32$,
-    Ptr$Uint32$.name: Ptr$Uint32$,
-    Int64$.name: Int64$,
-    Ptr$Int64$.name: Ptr$Int64$,
-    Uint64$.name: Uint64$,
-    Ptr$Uint64$.name: Ptr$Uint64$,
-    Float32$.name: Float32$,
-    Ptr$Float32$.name: Ptr$Float32$,
-    Float64$.name: Float64$,
-    Ptr$Float64$.name: Ptr$Float64$,
-    Char$.name: Char$,
-    Ptr$Char$.name: Ptr$Char$,
-    UnsignedChar$.name: UnsignedChar$,
-    Ptr$UnsignedChar$.name: Ptr$UnsignedChar$,
-    UnsignedShort$.name: UnsignedShort$,
-    Ptr$UnsignedShort$.name: Ptr$UnsignedShort$,
-    Short$.name: Short$,
-    Ptr$Short$.name: Ptr$Short$,
-    
-    AutomationEventList$.name: AutomationEventList$,
-    Ptr$AutomationEventList$.name: Ptr$AutomationEventList$,
-    AutomationEvent$.name: AutomationEvent$,
-    Ptr$AutomationEvent$.name: Ptr$AutomationEvent$,
-    AudioStream$.name: AudioStream$,
-    Ptr$AudioStream$.name: Ptr$AudioStream$,
-    BoneInfo$.name: BoneInfo$,
-    Ptr$BoneInfo$.name: Ptr$BoneInfo$,
-    BoundingBox$.name: BoundingBox$,
-    Ptr$BoundingBox$.name: Ptr$BoundingBox$,
-    Camera2D$.name: Camera2D$,
-    Ptr$Camera2D$.name: Ptr$Camera2D$,
-    Camera3D$.name: Camera3D$,
-    Ptr$Camera3D$.name: Ptr$Camera3D$,
-    Color$.name: Color$,
-    Ptr$Color$.name: Ptr$Color$,
-    FilePathList$.name: FilePathList$,
-    Ptr$FilePathList$.name: Ptr$FilePathList$,
-    Font$.name: Font$,
-    Ptr$Font$.name: Ptr$Font$,
-    GestureEvent$.name: GestureEvent$,
-    Ptr$GestureEvent$.name: Ptr$GestureEvent$,
-    GlyphInfo$.name: GlyphInfo$,
-    Ptr$GlyphInfo$.name: Ptr$GlyphInfo$,
-    Image$.name: Image$,
-    Ptr$Image$.name: Ptr$Image$,
-    Light$.name: Light$,
-    Ptr$Light$.name: Ptr$Light$,
-    Material$.name: Material$,
-    Ptr$Material$.name: Ptr$Material$,
-    MaterialMap$.name: MaterialMap$,
-    Ptr$MaterialMap$.name: Ptr$MaterialMap$,
-    Matrix$.name: Matrix$,
-    Ptr$Matrix$.name: Ptr$Matrix$,
-    Mesh$.name: Mesh$,
-    Ptr$Mesh$.name: Ptr$Mesh$,
-    Model$.name: Model$,
-    Ptr$Model$.name: Ptr$Model$,
-    ModelAnimation$.name: ModelAnimation$,
-    Ptr$ModelAnimation$.name: Ptr$ModelAnimation$,
-    ModelSkeleton$.name: ModelSkeleton$,
-    Ptr$ModelSkeleton$.name: Ptr$ModelSkeleton$,
-    Music$.name: Music$,
-    Ptr$Music$.name: Ptr$Music$,
-    NPatchInfo$.name: NPatchInfo$,
-    Ptr$NPatchInfo$.name: Ptr$NPatchInfo$,
-    Quaternion$.name: Quaternion$,
-    Ptr$Quaternion$.name: Ptr$Quaternion$,
-    Rectangle$.name: Rectangle$,
-    Ptr$Rectangle$.name: Ptr$Rectangle$,
-    RlDrawCall$.name: RlDrawCall$,
-    Ptr$RlDrawCall$.name: Ptr$RlDrawCall$,
-    RlRenderBatch$.name: RlRenderBatch$,
-    Ptr$RlRenderBatch$.name: Ptr$RlRenderBatch$,
-    RlVertexBuffer$.name: RlVertexBuffer$,
-    Ptr$RlVertexBuffer$.name: Ptr$RlVertexBuffer$,
-    Ray$.name: Ray$,
-    Ptr$Ray$.name: Ptr$Ray$,
-    RayCollision$.name: RayCollision$,
-    Ptr$RayCollision$.name: Ptr$RayCollision$,
-    RenderTexture$.name: RenderTexture$,
-    Ptr$RenderTexture$.name: Ptr$RenderTexture$,
-    Shader$.name: Shader$,
-    Ptr$Shader$.name: Ptr$Shader$,
-    Sound$.name: Sound$,
-    Ptr$Sound$.name: Ptr$Sound$,
-    Texture$.name: Texture$,
-    Ptr$Texture$.name: Ptr$Texture$,
-    Transform$.name: Transform$,
-    Ptr$Transform$.name: Ptr$Transform$,
-    Vector2$.name: Vector2$,
-    Ptr$Vector2$.name: Ptr$Vector2$,
-    Vector3$.name: Vector3$,
-    Ptr$Vector3$.name: Ptr$Vector3$,
-    Vector4$.name: Vector4$,
-    Ptr$Vector4$.name: Ptr$Vector4$,
-    VrDeviceInfo$.name: VrDeviceInfo$,
-    Ptr$VrDeviceInfo$.name: Ptr$VrDeviceInfo$,
-    VrStereoConfig$.name: VrStereoConfig$,
-    Ptr$VrStereoConfig$.name: Ptr$VrStereoConfig$,
-    Wave$.name: Wave$,
-    Ptr$Wave$.name: Ptr$Wave$,
-  };
+  /// All user-registered allocators keyed by [Type], iterated during [dispose].
+  final Map<Type, RaylibTempAllocatorBase> customAllocators = {};
 
-  /// User-registered allocators, keyed by name, freed alongside built-ins on [dispose].
-  final Map<String, RaylibTempAllocatorBase> customAllocators = {};
-  
-  /// Registers a custom allocator under [key]. Throws [StateError] if [key] is already taken.
-  void registerAllocator(String key, RaylibTempAllocatorBase alloc) {
-    if (customAllocators.containsKey(key)) {
-      final sig = customAllocators[key]!.signature();
-      throw StateError("Allocator '$key' ('$sig') already exists!");
+  /// Registers a allocator [alloc]. Throws [StateError] if [A] already exists.
+  void registerAllocator<A extends RaylibTempAllocatorBase>(A alloc) {
+    if (customAllocators.containsKey(A)) {
+      throw StateError("Allocator '${alloc.name}' ('$A') already exists!");
     }
 
-    customAllocators[key] = alloc;
+    customAllocators[A] = alloc;
   }
 
-  /// Returns the custom allocator registered under [key], or throws [StateError] if absent.
-  RaylibTempAllocatorBase getCustomAllocatorOrThrow(String key) {
-    final alloc = customAllocators[key];
-    if (alloc == null) throw StateError("No custom allocator registered for '$key'!");
-    return alloc;
+  /// Returns the allocator registered under distinct type [A], or throws [StateError] if absent.
+  A getAllocatorOrThrow<A extends RaylibTempAllocatorBase>() {
+    final alloc = customAllocators[A];
+    if (alloc == null) throw StateError("No allocator registered for '$A'!");
+    return alloc as A;
   }
 
-  /// Returns the custom allocator registered under [key], cast to [T].
-  T alloc<T extends RaylibTempAllocatorBase>(String key) => customAllocators[key] as T;
+  /// Returns the allocator registered under distinct type [A].
+  A? alloc<A extends RaylibTempAllocatorBase>() => customAllocators[A] as A?;
 
-  /// Frees all built-in and custom allocators, then delegates to [RaylibModule.dispose].
+  /// Frees all allocators, then delegates to [RaylibModule.dispose].
   @override
   @mustCallSuper
   void dispose() {
     super.dispose();
 
-    debugFreeInfo('Freeing ${allocators.length} built-in allocators');
-    allocators.values.forEach((a) => a.dispose());
+    debugFreeInfo('Freeing built-in allocators...');
+    _disposeBuiltinAllocators();
 
-    if (customAllocators.isNotEmpty) {
-      debugFreeInfo('Freeing ${customAllocators.length} custom allocators');
-      customAllocators.values.forEach((a) => a.dispose());
-    }
+    debugFreeInfo('Freeing ${customAllocators.length} allocators...');
+    _disposeCustomAllocators();
   }
+
+  void _disposeBuiltinAllocators() {
+    // special
+    String$.dispose();
+
+    // literals
+    Bool$.dispose();
+    Int8$.dispose();
+    Uint8$.dispose();
+    Int16$.dispose();
+    Uint16$.dispose();
+    Int32$.dispose();
+    Uint32$.dispose();
+    Int64$.dispose();
+    Uint64$.dispose();
+    Float32$.dispose();
+    Float64$.dispose();
+    Char$.dispose();
+    UnsignedChar$.dispose();
+    Short$.dispose();
+    UnsignedShort$.dispose();
+    Int$.dispose();
+    UnsignedInt$.dispose();
+    Float$.dispose();
+    Double$.dispose();
+
+    // structs
+    AutomationEventList$.dispose();
+    AutomationEvent$.dispose();
+    AudioStream$.dispose();
+    BoneInfo$.dispose();
+    BoundingBox$.dispose();
+    Camera2D$.dispose();
+    Camera3D$.dispose();
+    Color$.dispose();
+    FilePathList$.dispose();
+    Font$.dispose();
+    GestureEvent$.dispose();
+    GlyphInfo$.dispose();
+    Image$.dispose();
+    Light$.dispose();
+    Material$.dispose();
+    MaterialMap$.dispose();
+    Matrix$.dispose();
+    Mesh$.dispose();
+    Model$.dispose();
+    ModelAnimation$.dispose();
+    ModelSkeleton$.dispose();
+    Music$.dispose();
+    NPatchInfo$.dispose();
+    Quaternion$.dispose();
+    Rectangle$.dispose();
+    RlDrawCall$.dispose();
+    RlRenderBatch$.dispose();
+    RlVertexBuffer$.dispose();
+    Ray$.dispose();
+    RayCollision$.dispose();
+    RenderTexture$.dispose();
+    Shader$.dispose();
+    Sound$.dispose();
+    Texture$.dispose();
+    Transform$.dispose();
+    Vector2$.dispose();
+    Vector3$.dispose();
+    Vector4$.dispose();
+    VrDeviceInfo$.dispose();
+    VrStereoConfig$.dispose();
+    Wave$.dispose();
+  }
+
+  void _disposeCustomAllocators()
+    => customAllocators.values.forEach((a) => a.dispose());
 }

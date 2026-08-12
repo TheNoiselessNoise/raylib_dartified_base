@@ -139,6 +139,322 @@ abstract class RaylibModule<R extends RaylibBase> {
   }
 }
 
+sealed class RType {
+  const RType();
+
+  int get byteSize => switch (this) {
+    RVoid()    => 0,
+    RPointer() => switch (currentRaylibPlatform) {
+      .native => 8,
+      .web => 4,
+    },
+    RBool()    => 1,
+    RInt8()    => 1,
+    RUint8()   => 1,
+    RInt16()   => 2,
+    RUint16()  => 2,
+    RInt32()   => 4,
+    RUint32()  => 4,
+    RInt64()   => 8,
+    RUint64()  => 8,
+    RFloat32() => 4,
+    RFloat64() => 8,
+    RStruct(:final _byteSize) => _byteSize,
+  };
+}
+
+/// Marker type for a `void` type - any type.
+final class RVoid extends RType { const RVoid(); }
+
+/// A raw address into backend memory (native pointer or WASM byte offset).
+/// Maps to any C pointer type (`void*`, `Image*`, `unsigned char*`, ...).
+final class RPointer extends RType { const RPointer(); }
+
+/// Unsigned 8-bit integer. Maps to C `bool`.
+final class RBool extends RType { const RBool(); }
+
+/// Signed 8-bit integer. Maps to C `int8_t`.
+final class RInt8 extends RType { const RInt8(); }
+
+/// Unsigned 8-bit integer. Maps to C `uint8_t`.
+final class RUint8 extends RType { const RUint8(); }
+
+/// Signed 16-bit integer. Maps to C `int16_t`.
+final class RInt16 extends RType { const RInt16(); }
+
+/// Unsigned 16-bit integer. Maps to C `uint16_t`.
+final class RUint16 extends RType { const RUint16(); }
+
+/// Signed 32-bit integer. Maps to C `int32_t`.
+final class RInt32 extends RType { const RInt32(); }
+
+/// Unsigned 32-bit integer. Maps to C `uint32_t`.
+final class RUint32 extends RType { const RUint32(); }
+
+/// Signed 64-bit integer. Maps to C `int64_t`.
+final class RInt64 extends RType { const RInt64(); }
+
+/// Unsigned 64-bit integer. Maps to C `uint64_t`.
+final class RUint64 extends RType { const RUint64(); }
+
+/// IEEE-754 single-precision float. Maps to C `float`.
+final class RFloat32 extends RType { const RFloat32(); }
+
+/// IEEE-754 double-precision float. Maps to C `double`.
+final class RFloat64 extends RType { const RFloat64(); }
+
+/// C `char`. Alias for [RInt8].
+typedef RChar = RInt8;
+
+/// C `unsigned char`. Alias for [RUint8].
+typedef RUnsignedChar = RUint8;
+
+/// C `short`. Alias for [RInt16].
+typedef RShort = RInt16;
+
+/// C `unsigned short`. Alias for [RUint16].
+typedef RUnsignedShort = RUint16;
+
+/// C `int`. Alias for [RInt32].
+typedef RInt = RInt32;
+
+/// C `unsigned int`. Alias for [RUint32].
+typedef RUnsignedInt = RUint32;
+
+/// C `float`. Alias for [RFloat32].
+typedef RFloat = RFloat32;
+
+/// C `double`. Alias for [RFloat64].
+typedef RDouble = RFloat64;
+
+final class RStruct<D extends RaylibStructObjectBase> extends RType {
+  final int _byteSize;
+  const RStruct(this._byteSize);
+}
+
+extension Int8Pointer on MemoryPointer<RInt8> {
+  int get value => readInt8();
+  set value(int v) => writeInt8(v);
+}
+
+extension Uint8Pointer on MemoryPointer<RUint8> {
+  int get value => readUint8();
+  set value(int v) => writeUint8(v);
+}
+
+extension Int16Pointer on MemoryPointer<RInt16> {
+  int get value => readInt16();
+  set value(int v) => writeInt16(v);
+}
+
+extension Uint16Pointer on MemoryPointer<RUint16> {
+  int get value => readUint16();
+  set value(int v) => writeUint16(v);
+}
+
+extension Int32Pointer on MemoryPointer<RInt32> {
+  int get value => readInt32();
+  set value(int v) => writeInt32(v);
+}
+
+extension Uint32Pointer on MemoryPointer<RUint32> {
+  int get value => readUint32();
+  set value(int v) => writeUint32(v);
+}
+
+extension Int64Pointer on MemoryPointer<RInt64> {
+  int get value => readInt64();
+  set value(int v) => writeInt64(v);
+}
+
+extension Uint64Pointer on MemoryPointer<RUint64> {
+  int get value => readUint64();
+  set value(int v) => writeUint64(v);
+}
+
+extension Float32Pointer on MemoryPointer<RFloat32> {
+  double get value => readFloat32();
+  set value(double v) => writeFloat32(v);
+}
+
+extension Float64Pointer on MemoryPointer<RFloat64> {
+  double get value => readFloat64();
+  set value(double v) => writeFloat64(v);
+}
+
+/// Backend-agnostic handle to a raw memory buffer returned by a C function.
+abstract class MemoryPointer<X extends RType> {
+  bool get isNull;
+
+  /// Reinterprets this pointer as pointing to [Y] instead of [X].
+  ///
+  /// Same address/offset, no copy, no runtime check, purely a
+  /// compile-time relabeling of what the memory is assumed to contain.
+  /// The caller is responsible for [Y] actually matching the underlying data.
+  MemoryPointer<Y> cast<Y extends RType>();
+
+  /// Copies [length] bytes, viewed as [T].
+  /// [T] must be a concrete TypedDataList type: Uint8List, Int32List,
+  /// Float32List, etc. Throws if [T] isn't one of those.
+  T to<T extends TypedDataList>(int length);
+
+  /// Zero-copy view as [T]. Invalid after free()/heap growth.
+  T asView<T extends TypedDataList>(int length);
+
+  /// Frees the underlying allocation. Only call this if you
+  /// actually own it.
+  void free();
+
+  /// Debug/logging only. Do NOT branch logic on this.
+  int get address;
+
+  /// Reads a NUL-terminated C string starting at this pointer,
+  /// decoded as UTF-8. Scans for the NUL byte itself, no length needed.
+  String toDartString();
+
+  /// Reads at most [maxLength] bytes as a UTF-8 string, stopping
+  /// early at a NUL byte if found first. Use when you know a bound
+  /// (e.g. a fixed-size char buffer) but the string may be shorter.
+  String toDartStringBounded(int maxLength);
+
+  static MemoryPointer<RVoid> _defaultFromBytes<T extends TypedDataList>(T data) {
+    throw UnsupportedError('MemoryPointer.fromBytes is not implemented');
+  }
+
+  /// Allocates a new pointer and writes [data] into it.
+  /// 
+  /// Caller owns the result and must free() it.
+  static MemoryPointer<RVoid> Function<T extends TypedDataList>(T data) fromBytes = _defaultFromBytes;
+
+  /// Allocates a new NUL-terminated UTF-8 C string from [text] and
+  /// returns a pointer to it.
+  /// 
+  /// Caller owns the result and must free() it.
+  static MemoryPointer<RUint8> Function(String text) fromString = (text) {
+    throw UnsupportedError('MemoryPointer.fromString is not implemented');
+  };
+
+  /// Reads a pointer value at `address + byteOffset` and returns it typed as pointing to [Y].
+  MemoryPointer<Y> readPointer<Y extends RType>([int byteOffset = 0]);
+
+  /// Writes a pointer at given `address + byteOffset`.
+  void writePointer(MemoryPointer<RType> value, [int byteOffset = 0]);
+
+  /// Reads a value of type [RBool] at given `address + byteOffset`.
+  bool readBool([int byteOffset = 0]) => readUint8(byteOffset) != 0;
+
+  /// Reads a value of type [RInt8] at given `address + byteOffset`.
+  int readInt8([int byteOffset = 0]);
+
+  /// Reads a value of type [RUint8] at given `address + byteOffset`.
+  int readUint8([int byteOffset = 0]);
+  
+  /// Reads a value of type [RInt16] at given `address + byteOffset`.
+  int readInt16([int byteOffset = 0]);
+  
+  /// Reads a value of type [RUint16] at given `address + byteOffset`.
+  int readUint16([int byteOffset = 0]);
+  
+  /// Reads a value of type [RInt32] at given `address + byteOffset`.
+  int readInt32([int byteOffset = 0]);
+  
+  /// Reads a value of type [RUint32] at given `address + byteOffset`.
+  int readUint32([int byteOffset = 0]);
+  
+  /// Reads a value of type [RInt64] at given `address + byteOffset`.
+  int readInt64([int byteOffset = 0]);
+  
+  /// Reads a value of type [RUint64] at given `address + byteOffset`.
+  int readUint64([int byteOffset = 0]);
+  
+  /// Reads a value of type [RFloat32] at given `address + byteOffset`.
+  double readFloat32([int byteOffset = 0]);
+  
+  /// Reads a value of type [RFloat64] at given `address + byteOffset`.
+  double readFloat64([int byteOffset = 0]);
+
+  /// Reads a value of type [RChar] at given `address + byteOffset`.
+  int readChar([int byteOffset = 0]) => readInt8(byteOffset);
+
+  /// Reads a value of type [RUnsignedChar] at given `address + byteOffset`.
+  int readUnsignedChar([int byteOffset = 0]) => readUint8(byteOffset);
+
+  /// Reads a value of type [RShort] at given `address + byteOffset`.
+  int readShort([int byteOffset = 0]) => readInt16(byteOffset);
+
+  /// Reads a value of type [RUnsignedShort] at given `address + byteOffset`.
+  int readUnsignedShort([int byteOffset = 0]) => readUint16(byteOffset);
+
+  /// Reads a value of type [RInt] at given `address + byteOffset`.
+  int readInt([int byteOffset = 0]) => readInt32(byteOffset);
+
+  /// Reads a value of type [RUnsignedInt] at given `address + byteOffset`.
+  int readUnsignedInt([int byteOffset = 0]) => readUint32(byteOffset);
+
+  /// Reads a value of type [RFloat] at given `address + byteOffset`.
+  double readFloat([int byteOffset = 0]) => readFloat32(byteOffset);
+
+  /// Reads a value of type [RDouble] at given `address + byteOffset`.
+  double readDouble([int byteOffset = 0]) => readFloat64(byteOffset);
+
+  /// Writes a [value] of type [RBool] at given `address + byteOffset`.
+  void writeBool(bool value, [int byteOffset = 0]);
+
+  /// Writes a [value] of type [RInt8] at given `address + byteOffset`.
+  void writeInt8(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RUint8] at given `address + byteOffset`.
+  void writeUint8(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RInt16] at given `address + byteOffset`.
+  void writeInt16(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RUint16] at given `address + byteOffset`.
+  void writeUint16(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RInt32] at given `address + byteOffset`.
+  void writeInt32(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RUint32] at given `address + byteOffset`.
+  void writeUint32(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RInt64] at given `address + byteOffset`.
+  void writeInt64(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RUint64] at given `address + byteOffset`.
+  void writeUint64(int value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RFloat32] at given `address + byteOffset`.
+  void writeFloat32(double value, [int byteOffset = 0]);
+  
+  /// Writes a [value] of type [RFloat64] at given `address + byteOffset`.
+  void writeFloat64(double value, [int byteOffset = 0]);
+
+  /// Writes a [value] of type [RChar] at given `address + byteOffset`.
+  void writeChar(int value, [int byteOffset = 0]) => writeInt8(value, byteOffset);
+
+  /// Writes a [value] of type [RUnsignedChar] at given `address + byteOffset`.
+  void writeUnsignedChar(int value, [int byteOffset = 0]) => writeUint8(value, byteOffset);
+
+  /// Writes a [value] of type [RShort] at given `address + byteOffset`.
+  void writeShort(int value, [int byteOffset = 0]) => writeInt16(value, byteOffset);
+
+  /// Writes a [value] of type [RUnsignedShort] at given `address + byteOffset`.
+  void writeUnsignedShort(int value, [int byteOffset = 0]) => writeUint16(value, byteOffset);
+
+  /// Writes a [value] of type [RInt] at given `address + byteOffset`.
+  void writeInt(int value, [int byteOffset = 0]) => writeInt32(value, byteOffset);
+
+  /// Writes a [value] of type [RUnsignedInt] at given `address + byteOffset`.
+  void writeUnsignedInt(int value, [int byteOffset = 0]) => writeUint32(value, byteOffset);
+
+  /// Writes a [value] of type [RFloat] at given `address + byteOffset`.
+  void writeFloat(double value, [int byteOffset = 0]) => writeFloat32(value, byteOffset);
+
+  /// Writes a [value] of type [RDouble] at given `address + byteOffset`.
+  void writeDouble(double value, [int byteOffset = 0]) => writeFloat64(value, byteOffset);
+}
+
 /// A [ListMixin]-backed list that intercepts writes and forwards them to native
 /// memory via [onElementSet] and [onSet].
 abstract class _RaylibLiveListBase<E, L extends List<E>> extends ListMixin<E> {
@@ -605,7 +921,7 @@ abstract class RaylibGameBase<R extends RaylibBase> {
   bool shouldClose(R rl) => rl.CoreD.WindowShouldClose();
 
   /// Called once per frame while [shouldClose] returns `false`.
-  void loop(R rl);
+  Future<void> loop(R rl);
 
   /// Called once after [shouldClose] returns `true`.
   ///

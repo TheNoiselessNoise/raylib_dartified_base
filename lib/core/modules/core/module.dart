@@ -7,9 +7,6 @@ part of '../../raylib_dartified_base.dart';
 abstract class RaylibCoreModuleBase<
   R extends RaylibBase,
 
-  // pointers
-  UnsignedCharPointerType,
-
   // types
   AutomationEventListStructType extends AutomationEventListBase<
     AutomationEventListStructType,
@@ -1820,7 +1817,7 @@ abstract class RaylibCoreModuleBase<
   );
 
   /// Export image to memory buffer
-  (UnsignedCharPointerType dataPtr, int dataSize) ExportImageToMemory(
+  (MemoryPointer dataPtr, int dataSize) ExportImageToMemory(
     ImageStructType image,
     String fileType,
   );

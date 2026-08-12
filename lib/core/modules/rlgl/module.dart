@@ -1,7 +1,5 @@
 part of '../../raylib_dartified_base.dart';
 
-// TODO: comment all rlgl methods
-
 /// Re-exports [RaylibRlglConstants] values as instance members,
 /// so constants are accessible directly on the module without a class qualifier.
 mixin RaylibRlglModuleExtras<R extends RaylibBase> on RaylibModule<R> {
@@ -316,22 +314,28 @@ abstract class RaylibRlglModuleBase<
 
   RaylibRlglModuleBase(super.rl);
 
+  /// Choose the current matrix to be transformed
   void rlMatrixMode(
     RlMatrixMode mode,
   );
 
+  /// Push the current matrix to stack
   void rlPushMatrix();
 
+  /// Pop latest inserted matrix from stack
   void rlPopMatrix();
 
+  /// Reset current matrix to identity matrix
   void rlLoadIdentity();
 
+  /// Multiply the current matrix by a translation matrix
   void rlTranslatef(
     num x,
     num y,
     num z,
   );
 
+  /// Multiply the current matrix by a rotation matrix
   void rlRotatef(
     num angle,
     num x,
@@ -339,14 +343,16 @@ abstract class RaylibRlglModuleBase<
     num z,
   );
 
+  /// Multiply the current matrix by a scaling matrix
   void rlScalef(
     num x,
     num y,
     num z,
   );
 
+  /// Multiply the current matrix by another matrix
   void rlMultMatrixf(
-    List<double> matf,
+    List<num> matf,
   );
 
   void rlFrustum(
@@ -367,6 +373,7 @@ abstract class RaylibRlglModuleBase<
     num zfar,
   );
 
+  /// Set the viewport area
   void rlViewport(
     num x,
     num y,
@@ -374,48 +381,59 @@ abstract class RaylibRlglModuleBase<
     num height,
   );
 
+  /// Set clip planes distances
   void rlSetClipPlanes(
     num nearPlane,
     num farPlane,
   );
 
+  /// Get cull plane distance near
   double rlGetCullDistanceNear();
 
+  /// Get cull plane distance far
   double rlGetCullDistanceFar();
 
+  /// Initialize drawing mode (how to organize vertex)
   void rlBegin(
     RlDrawMode mode,
   );
 
+  /// Finish vertex providing
   void rlEnd();
 
+  /// Define one vertex (position) - 2 int
   void rlVertex2i(
     num x,
     num y,
   );
 
+  /// Define one vertex (position) - 2 float
   void rlVertex2f(
     num x,
     num y,
   );
 
+  /// Define one vertex (position) - 3 float
   void rlVertex3f(
     num x,
     num y,
     num z,
   );
 
+  /// Define one vertex (texture coordinate) - 2 float
   void rlTexCoord2f(
     num x,
     num y,
   );
 
+  /// Define one vertex (normal) - 3 float
   void rlNormal3f(
     num x,
     num y,
     num z,
   );
 
+  /// Define one vertex (color) - 4 byte
   void rlColor4ub(
     num r,
     num g,
@@ -423,12 +441,14 @@ abstract class RaylibRlglModuleBase<
     num a,
   );
 
+  /// Define one vertex (color) - 3 float
   void rlColor3f(
     num x,
     num y,
     num z,
   );
 
+  /// Define one vertex (color) - 4 float
   void rlColor4f(
     num x,
     num y,
@@ -436,87 +456,111 @@ abstract class RaylibRlglModuleBase<
     num w,
   );
 
+  /// Enable vertex array (VAO, if supported)
   bool rlEnableVertexArray(
     num vaoId,
   );
 
+  /// Disable vertex array (VAO, if supported)
   void rlDisableVertexArray();
 
+  /// Enable vertex buffer (VBO)
   void rlEnableVertexBuffer(
     num id,
   );
 
+  /// Disable vertex buffer (VBO)
   void rlDisableVertexBuffer();
 
+  /// Enable vertex buffer element (VBO element)
   void rlEnableVertexBufferElement(
     num id,
   );
 
+  /// Disable vertex buffer element (VBO element)
   void rlDisableVertexBufferElement();
 
+  /// Enable vertex attribute index
   void rlEnableVertexAttribute(
     num index,
   );
 
+  /// Disable vertex attribute index
   void rlDisableVertexAttribute(
     num index,
   );
 
+  /// Enable attribute state pointer
   void rlEnableStatePointer(
     int vertexAttribType,
     TypedDataList data,
   );
   
+  /// Disable attribute state pointer
   void rlDisableStatePointer(
     int vertexAttribType,
   );
 
+  /// Select and active a texture slot
   void rlActiveTextureSlot(
     num slot,
   );
 
+  /// Enable texture
   void rlEnableTexture(
     num id,
   );
 
+  /// Disable texture
   void rlDisableTexture();
 
+  /// Enable texture cubemap
   void rlEnableTextureCubemap(
     num id,
   );
 
+  /// Disable texture cubemap
   void rlDisableTextureCubemap();
 
+  /// Set texture parameters (filter, wrap)
   void rlTextureParameters(
     num id,
     num param,
     num value,
   );
 
+  /// Set cubemap parameters (filter, wrap)
   void rlCubemapParameters(
     num id,
     num param,
     num value,
   );
 
+  /// Enable shader program
   void rlEnableShader(
     num id,
   );
 
+  /// Disable shader program
   void rlDisableShader();
 
+  /// Enable render texture (fbo)
   void rlEnableFramebuffer(
     num id,
   );
 
+  /// Disable render texture (fbo), return to default framebuffer
   void rlDisableFramebuffer();
 
+  /// Get the currently active render texture (fbo), 0 for default framebuffer
   int rlGetActiveFramebuffer();
 
+  /// Activate multiple draw color buffers
   void rlActiveDrawBuffers(
     num count,
   );
 
+  /// Blit active framebuffer to main framebuffer
   void rlBlitFramebuffer(
     num srcX,
     num srcY,
@@ -529,27 +573,37 @@ abstract class RaylibRlglModuleBase<
     num bufferMask,
   );
 
+  /// Bind framebuffer (FBO)
   void rlBindFramebuffer(
     num target,
     num framebuffer,
   );
 
+  /// Enable color blending
   void rlEnableColorBlend();
 
+  /// Disable color blending
   void rlDisableColorBlend();
 
+  /// Enable depth test
   void rlEnableDepthTest();
 
+  /// Disable depth test
   void rlDisableDepthTest();
 
+  /// Enable depth write
   void rlEnableDepthMask();
 
+  /// Disable depth write
   void rlDisableDepthMask();
 
+  /// Enable backface culling
   void rlEnableBackfaceCulling();
 
+  /// Disable backface culling
   void rlDisableBackfaceCulling();
 
+  /// Color mask control
   void rlColorMask(
     bool r,
     bool g,
@@ -557,14 +611,18 @@ abstract class RaylibRlglModuleBase<
     bool a,
   );
 
+  /// Set face culling mode
   void rlSetCullFace(
     RlCullMode mode,
   );
 
+  /// Enable scissor test
   void rlEnableScissorTest();
 
+  /// Disable scissor test
   void rlDisableScissorTest();
 
+  /// Scissor test
   void rlScissor(
     num x,
     num y,
@@ -572,34 +630,48 @@ abstract class RaylibRlglModuleBase<
     num height,
   );
 
+  /// Enable point mode
   void rlEnablePointMode();
 
+  /// Disable point mode
   void rlDisablePointMode();
 
+  /// Set the point drawing size
   void rlSetPointSize(num size);
   
+  /// Get the point drawing size
   double rlGetPointSize();
 
+  /// Enable wire mode
   void rlEnableWireMode();
 
+  /// Disable wire mode
   void rlDisableWireMode();
 
+  /// Set the line drawing width
   void rlSetLineWidth(
     num width,
   );
 
+  /// Get the line drawing width
   double rlGetLineWidth();
 
+  /// Enable line aliasing
   void rlEnableSmoothLines();
 
+  /// Disable line aliasing
   void rlDisableSmoothLines();
 
+  /// Enable stereo rendering
   void rlEnableStereoRender();
 
+  /// Disable stereo rendering
   void rlDisableStereoRender();
 
+  /// Check if stereo render is enabled
   bool rlIsStereoRenderEnabled();
 
+  /// Clear color buffer with color
   void rlClearColor(
     num r,
     num g,
@@ -607,20 +679,25 @@ abstract class RaylibRlglModuleBase<
     num a,
   );
 
+  /// Clear used screen buffers (color and depth)
   void rlClearScreenBuffers();
 
+  /// Check and log OpenGL error codes
   void rlCheckErrors();
 
+  /// Set blending mode
   void rlSetBlendMode(
     BlendMode mode,
   );
 
+  /// Set blending mode factor and equation (using OpenGL factors)
   void rlSetBlendFactors(
     num glSrcFactor,
     num glDstFactor,
     num glEquation,
   );
 
+  /// Set blending mode factors and equations separately (using OpenGL factors)
   void rlSetBlendFactorsSeparate(
     num glSrcRGB,
     num glDstRGB,
@@ -630,72 +707,93 @@ abstract class RaylibRlglModuleBase<
     num glEqAlpha,
   );
 
+  /// Initialize rlgl (buffers, shaders, textures, states)
   void rlglInit(
     num width,
     num height,
   );
 
+  /// De-initialize rlgl (buffers, shaders, textures)
   void rlglClose();
 
+  /// Get current OpenGL version
   int rlGetVersion();
 
+  /// Set current framebuffer width
   void rlSetFramebufferWidth(
     num width,
   );
 
+  /// Get default framebuffer width
   int rlGetFramebufferWidth();
 
+  /// Set current framebuffer height
   void rlSetFramebufferHeight(
     num height,
   );
 
+  /// Get default framebuffer height
   int rlGetFramebufferHeight();
 
+  /// Get default texture id
   int rlGetTextureIdDefault();
 
+  /// Get default shader id
   int rlGetShaderIdDefault();
 
+  /// Get default shader locations
   List<int> rlGetShaderLocsDefault();
 
+  /// Load a render batch system
   RlRenderBatchStructType rlLoadRenderBatch(
     num numBuffers,
     num bufferElements,
   );
 
+  /// Unload render batch system
   void rlUnloadRenderBatch(
     RlRenderBatchStructType batch,
   );
 
+  /// Draw render batch data (Update->Draw->Reset)
   void rlDrawRenderBatch(
     RlRenderBatchStructType batch,
   );
 
-  void rlSetRenderBatchActive(
-    RlRenderBatchStructType batch,
-  );
+  /// Set the active render batch for rlgl (NULL for default internal)
+  void rlSetRenderBatchActive([
+    RlRenderBatchStructType? batch,
+  ]);
 
+  /// Update and draw internal render batch
   void rlDrawRenderBatchActive();
 
+  /// Check internal buffer overflow for a given number of vertex
   bool rlCheckRenderBatchLimit(
     num vCount,
   );
 
+  /// Set current texture for render batch and check buffers limits
   void rlSetTexture(
     num id,
   );
 
+  /// Load vertex array (vao) if supported
   int rlLoadVertexArray();
 
+  /// Load a vertex buffer object
   int rlLoadVertexBuffer(
     TypedDataList buffer,
     bool dynamic,
   );
 
+  /// Load vertex buffer elements object
   int rlLoadVertexBufferElement(
     TypedDataList buffer,
     bool dynamic,
   );
 
+  /// Update vertex buffer object data on GPU buffer
   void rlUpdateVertexBuffer(
     num bufferId,
     TypedDataList data,
@@ -703,6 +801,7 @@ abstract class RaylibRlglModuleBase<
     num offset,
   );
 
+  /// Update vertex buffer elements data on GPU buffer
   void rlUpdateVertexBufferElements(
     num id,
     TypedDataList data,
@@ -710,14 +809,17 @@ abstract class RaylibRlglModuleBase<
     num offset,
   );
 
+  /// Unload vertex array (vao)
   void rlUnloadVertexArray(
     num vaoId,
   );
 
+  /// Unload vertex buffer object
   void rlUnloadVertexBuffer(
     num vboId,
   );
 
+  /// Set vertex attribute data configuration
   void rlSetVertexAttribute(
     num index,
     num compSize,
@@ -727,34 +829,40 @@ abstract class RaylibRlglModuleBase<
     num offset,
   );
 
+  /// Set vertex attribute data divisor
   void rlSetVertexAttributeDivisor(
     num index,
     num divisor,
   );
 
+  /// Set vertex attribute default value, when attribute to provided
   void rlSetVertexAttributeDefault(
     num locIndex,
     Float32List value,
     RlShaderAttributeDataType attribType,
   );
 
+  /// Draw vertex array (currently active vao)
   void rlDrawVertexArray(
     num offset,
     num count,
   );
 
+  /// Draw vertex array elements
   void rlDrawVertexArrayElements(
     num offset,
     num count,
     Uint16List buffer,
   );
 
+  /// Draw vertex array (currently active vao) with instancing
   void rlDrawVertexArrayInstanced(
     num offset,
     num count,
     num instances,
   );
 
+  /// Draw vertex array elements with instancing
   void rlDrawVertexArrayElementsInstanced(
     num offset,
     num count,
@@ -762,6 +870,7 @@ abstract class RaylibRlglModuleBase<
     num instances,
   );
 
+  /// Load texture data
   int rlLoadTexture(
     Uint8List? data,
     num width,
@@ -770,12 +879,14 @@ abstract class RaylibRlglModuleBase<
     num mipmapCount,
   );
 
+  /// Load depth texture/renderbuffer (to be attached to fbo)
   int rlLoadTextureDepth(
     num width,
     num height,
     bool useRenderBuffer,
   );
 
+  /// Load texture cubemap data
   int rlLoadTextureCubemap(
     Uint8List? data,
     num size,
@@ -783,6 +894,7 @@ abstract class RaylibRlglModuleBase<
     num mipmapCount,
   );
 
+  /// Update texture with new data on GPU
   void rlUpdateTexture(
     num id,
     num offsetX,
@@ -793,18 +905,22 @@ abstract class RaylibRlglModuleBase<
     Uint8List data,
   );
 
+  /// Get OpenGL internal formats
   (int glInternalFormat, int glFormat, int glType) rlGetGlTextureFormats(
     PixelFormat format,
   );
 
+  /// Get name string for pixel format
   String rlGetPixelFormatName(
     PixelFormat format,
   );
 
+  /// Unload texture from GPU memory
   void rlUnloadTexture(
     num id,
   );
 
+  /// Generate mipmap data for selected texture
   int rlGenTextureMipmaps(
     num id,
     num width,
@@ -812,6 +928,7 @@ abstract class RaylibRlglModuleBase<
     PixelFormat format,
   );
 
+  /// Read texture pixel data
   Uint8List rlReadTexturePixels(
     num id,
     num width,
@@ -819,13 +936,16 @@ abstract class RaylibRlglModuleBase<
     PixelFormat format,
   );
 
+  /// Read screen pixel data (color buffer)
   Uint8List rlReadScreenPixels(
     num width,
     num height,
   );
 
+  /// Load an empty framebuffer
   int rlLoadFramebuffer();
 
+  /// Attach texture/renderbuffer to a framebuffer
   void rlFramebufferAttach(
     num fboId,
     num texId,
@@ -834,10 +954,12 @@ abstract class RaylibRlglModuleBase<
     num mipLevel,
   );
 
+  /// Verify framebuffer is complete
   bool rlFramebufferComplete(
     num id,
   );
 
+  /// Delete framebuffer from GPU
   void rlUnloadFramebuffer(
     num id,
   );
@@ -863,38 +985,46 @@ abstract class RaylibRlglModuleBase<
     RlShaderType type,
   );
 
+  /// Load shader from code strings
   int rlLoadShaderProgram(
     String vsCode,
     String fsCode,
   );
 
+  /// Load shader program, using already loaded shader ids
   int rlLoadShaderProgramEx(
     num vsId,
     num fsId,
   );
   
+  /// Load compute shader program
   int rlLoadShaderProgramCompute(
     num csId,
   );
   
+  /// Unload shader, loaded with rlLoadShader()
   void rlUnloadShader(
     num id,
   );
 
+  /// Unload shader program
   void rlUnloadShaderProgram(
     num id,
   );
 
+  /// Get shader location uniform, requires shader program id
   int rlGetLocationUniform(
     num shaderId,
     String uniformName,
   );
 
+  /// Get shader location attribute, requires shader program id
   int rlGetLocationAttrib(
     num shaderId,
     String attribName,
   );
 
+  /// Set shader value uniform
   void rlSetUniform(
     num locIndex,
     TypedDataList value,
@@ -902,59 +1032,70 @@ abstract class RaylibRlglModuleBase<
     num count,
   );
 
+  /// Set shader value matrix
   void rlSetUniformMatrix(
     num locIndex,
     MatrixStructType mat,
   );
 
+  /// Set shader value matrices
   void rlSetUniformMatrices(
     num locIndex,
     List<MatrixStructType> mat,
   );
 
+  /// Set shader value sampler
   void rlSetUniformSampler(
     num locIndex,
     num textureId,
   );
 
+  /// Set shader currently active (id and locations)
   void rlSetShader(
     num id,
     List<int> locs,
   );
 
+  /// Dispatch compute shader (equivalent to *draw* for graphics pipeline)
   void rlComputeShaderDispatch(
     num groupX,
     num groupY,
     num groupZ,
   );
 
+  /// Load shader storage buffer object (SSBO)
   int rlLoadShaderBuffer(
     num size,
     TypedDataList? data,
     RlUsageHint? usageHint,
   );
 
+  /// Unload shader storage buffer object (SSBO)
   void rlUnloadShaderBuffer(
     num ssboId,
   );
 
+  /// Update SSBO buffer data
   void rlUpdateShaderBuffer(
     num id,
     TypedDataList data,
     num offset,
   );
 
+  /// Bind SSBO buffer
   void rlBindShaderBuffer(
     num id,
     num index,
   );
 
+  /// Read SSBO buffer data (GPU->CPU)
   Uint8List rlReadShaderBuffer(
     num id,
     num count,
     num offset,
   );
 
+  /// Copy SSBO data between buffers
   void rlCopyShaderBuffer(
     num destId,
     num srcId,
@@ -963,10 +1104,12 @@ abstract class RaylibRlglModuleBase<
     num count,
   );
 
+  /// Get SSBO buffer size
   int rlGetShaderBufferSize(
     num id,
   );
 
+  /// Bind image texture
   void rlBindImageTexture(
     num id,
     num index,
@@ -974,39 +1117,50 @@ abstract class RaylibRlglModuleBase<
     bool readonly,
   );
 
+  /// Get internal modelview matrix
   MatrixStructType rlGetMatrixModelview();
 
+  /// Get internal projection matrix
   MatrixStructType rlGetMatrixProjection();
 
+  /// Get internal accumulated transform matrix
   MatrixStructType rlGetMatrixTransform();
 
+  /// Get internal projection matrix for stereo render (selected eye)
   MatrixStructType rlGetMatrixProjectionStereo(
     num eye,
   );
 
+  /// Get internal view offset matrix for stereo render (selected eye)
   MatrixStructType rlGetMatrixViewOffsetStereo(
     num eye,
   );
 
+  /// Set a custom projection matrix (replaces internal projection matrix)
   void rlSetMatrixProjection(
     MatrixStructType proj,
   );
 
+  /// Set a custom modelview matrix (replaces internal modelview matrix)
   void rlSetMatrixModelview(
     MatrixStructType view,
   );
 
+  /// Set eyes projection matrices for stereo rendering
   void rlSetMatrixProjectionStereo(
     MatrixStructType right,
     MatrixStructType left,
   );
 
+  /// Set eyes view offsets matrices for stereo rendering
   void rlSetMatrixViewOffsetStereo(
     MatrixStructType right,
     MatrixStructType left,
   );
 
+  /// Load and draw a cube
   void rlLoadDrawCube();
 
+  /// Load and draw a quad
   void rlLoadDrawQuad();
 }

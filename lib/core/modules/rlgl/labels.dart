@@ -42,7 +42,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibRlglModuleBase.rlMultMatrixf].
   String rlMultMatrixf(
-    List<double> matf,
+    List<num> matf,
   ) => 'rlMultMatrixf($matf)';
 
   /// Label for [RaylibRlglModuleBase.rlFrustum].
@@ -455,9 +455,9 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
   ) => 'rlDrawRenderBatch($batch)';
 
   /// Label for [RaylibRlglModuleBase.rlSetRenderBatchActive].
-  String rlSetRenderBatchActive(
-    RlRenderBatchBase batch,
-  ) => 'rlSetRenderBatchActive($batch)';
+  String rlSetRenderBatchActive([
+    RlRenderBatchBase? batch,
+  ]) => 'rlSetRenderBatchActive($batch)';
 
   /// Label for [RaylibRlglModuleBase.rlDrawRenderBatchActive].
   String rlDrawRenderBatchActive() => 'rlDrawRenderBatchActive()';
