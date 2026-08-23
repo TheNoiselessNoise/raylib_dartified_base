@@ -12,8 +12,8 @@ part of '../raylib_dartified_base.dart';
 /// - [d] total duration
 ///
 /// Returns the interpolated value at time [t].
-abstract class RaylibEaseExtensionBase<R extends RaylibBase> extends RaylibModule<R> {
-  RaylibEaseExtensionBase(super.rl);
+class RaylibEaseExtension extends RaylibModule {
+  RaylibEaseExtension(super.rl);
 
   // Linear Easing functions
 

@@ -1,0 +1,93 @@
+part of '../../../raylib_dartified_base.dart';
+
+enum TransformField {
+  translation,
+  rotation,
+  scale,
+}
+
+/// Vertex transformation data.
+class TransformD extends RaylibStructLiteral<TransformD> {
+
+  //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
+  //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
+  // ░██             ░██    ░██     ░██ ░██     ░██ ░██            ░██    
+  //  ░████████      ░██    ░█████████  ░██     ░██ ░██            ░██    
+  //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
+  //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
+  //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  static final int byteSize = structLayout.byteSize;
+  static final int alignment = structLayout.alignment;
+  static final StructLayout<TransformField> structLayout = .aligned(structFields);
+  static final Map<TransformField, RType> structFields = {
+    .translation: RStruct(Vector3D.structLayout),
+    .rotation: RStruct(QuaternionD.structLayout),
+    .scale: RStruct(Vector3D.structLayout),
+  };
+
+  static StructPointer<TransformD> pointer(MemoryPointer? ptr)
+    => .nullable(ptr, structLayout, TransformD.new);
+
+  // ░███████   ░██████████ ░██████████
+  // ░██   ░██  ░██         ░██        
+  // ░██    ░██ ░██         ░██        
+  // ░██    ░██ ░█████████  ░█████████ 
+  // ░██    ░██ ░██         ░██        
+  // ░██   ░██  ░██         ░██        
+  // ░███████   ░██████████ ░██        
+  
+  /// Translation
+  Vector3D translation;
+  
+  /// Rotation
+  QuaternionD rotation;
+  
+  /// Scale
+  Vector3D scale;
+
+  TransformD({
+    super.op,
+    Vector3D? translation,
+    QuaternionD? rotation,
+    Vector3D? scale,
+  }) :
+    translation = translation ?? .zero(),
+    rotation = rotation ?? .zero(),
+    scale = scale ?? .zero();
+
+  factory TransformD.zero() => .new();
+
+  @override
+  TransformD setD(TransformD o) {
+    translation.setD(o.translation);
+    rotation.setD(o.rotation);
+    scale.setD(o.scale);
+    return this;
+  }
+
+  @override
+  void writeInto(MemoryPointer<RStruct> p) {
+    translation.writeInto(p.offsetBy(structLayout.offset(.translation)));
+    rotation.writeInto(p.offsetBy(structLayout.offset(.rotation)));
+    scale.writeInto(p.offsetBy(structLayout.offset(.scale)));
+  }
+
+  @override
+  void readFrom(MemoryPointer<RStruct> p) {
+    translation.readFrom(p.offsetBy(structLayout.offset(.translation)));
+    rotation.readFrom(p.offsetBy(structLayout.offset(.rotation)));
+    scale.readFrom(p.offsetBy(structLayout.offset(.scale)));
+  }
+
+  @override
+  TransformD clone() => .new(
+    op: op,
+    translation: translation.clone(),
+    rotation: rotation.clone(),
+    scale: scale,
+  );
+
+  @override
+  String signature() => '$structName(translation: $translation, rotation: $rotation, scale: $scale)';
+}

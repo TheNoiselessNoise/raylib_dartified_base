@@ -3,116 +3,485 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-/// Backend-agnostic contract for [MatrixBase] structs.
-///
-/// Must be mixed into every concrete platform implementation of a Raylib
-/// type to ensure a unified API surface across different backends.
-///
-/// ---
-///
+enum MatrixField {
+  m0, m4, m8, m12,
+  m1, m5, m9, m13,
+  m2, m6, m10, m14,
+  m3, m7, m11, m15,
+}
+
 /// 4x4 components, column major, OpenGL style, right-handed.
-///
-/// **Layout note:**
-/// > The native Raylib C struct lays out fields in
-/// > row-major order (`m0, m4, m8, m12` = first row), but this Dart
-/// > representation uses **column-major** ordering (`m0..m3` = first
-/// > column, `m4..m7` = second column, etc.). Named constructors and
-/// > keyed parameters abstract this away, but methods such as [set]
-/// > and [toArray] follow the column-major convention.
-mixin MatrixBase<
-  M extends MatrixBase<M, V3, Q, V4>,
-  V3 extends Vector3Base<V3, M, Q, V4>,
-  Q extends QuaternionBase<Q, M, V3, V4>,
-  V4 extends Vector4Base<V4, Q, M, V3>
+class MatrixD extends RaylibStructLiteral<MatrixD> {
 
-> on RaylibStructObjectBase<M> {
+  //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
+  //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
+  // ░██             ░██    ░██     ░██ ░██     ░██ ░██            ░██    
+  //  ░████████      ░██    ░█████████  ░██     ░██ ░██            ░██    
+  //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
+  //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
+  //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  M get _this => this as M;
-  M get _mZero => RaylibMatrixFactories.zeroFactory() as M;
-  M _m(
+  static final int byteSize = structLayout.byteSize;
+  static final int alignment = structLayout.alignment;
+  static final StructLayout<MatrixField> structLayout = .aligned(structFields);
+  static final Map<MatrixField, RType> structFields = {
+    .m0: RFloat32(), .m4: RFloat32(), .m8: RFloat32(), .m12: RFloat32(),
+    .m1: RFloat32(), .m5: RFloat32(), .m9: RFloat32(), .m13: RFloat32(),
+    .m2: RFloat32(), .m6: RFloat32(), .m10: RFloat32(), .m14: RFloat32(),
+    .m3: RFloat32(), .m7: RFloat32(), .m11: RFloat32(), .m15: RFloat32(),
+  };
+
+  static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
+    => .nullable(ptr, structLayout, MatrixD.new);
+
+  // ░███████   ░██████████ ░██████████
+  // ░██   ░██  ░██         ░██        
+  // ░██    ░██ ░██         ░██        
+  // ░██    ░██ ░█████████  ░█████████ 
+  // ░██    ░██ ░██         ░██        
+  // ░██   ░██  ░██         ░██        
+  // ░███████   ░██████████ ░██        
+  
+  /// Column 0, row 0
+  double m0;
+  
+  /// Column 0, row 1
+  double m1;
+  
+  /// Column 0, row 2
+  double m2;
+  
+  /// Column 0, row 3
+  double m3;
+  
+  /// Column 1, row 0
+  double m4;
+  
+  /// Column 1, row 1
+  double m5;
+  
+  /// Column 1, row 2
+  double m6;
+  
+  /// Column 1, row 3
+  double m7;
+  
+  /// Column 2, row 0
+  double m8;
+  
+  /// Column 2, row 1
+  double m9;
+  
+  /// Column 2, row 2
+  double m10;
+  
+  /// Column 2, row 3
+  double m11;
+  
+  /// Column 3, row 0 (translation X)
+  double m12;
+  
+  /// Column 3, row 1 (translation Y)
+  double m13;
+  
+  /// Column 3, row 2 (translation Z)
+  double m14;
+  
+  /// Column 3, row 3
+  double m15;
+
+  MatrixD({
+    super.op,
+    this.m0 = 0, this.m1 = 0, this.m2 = 0, this.m3 = 0,
+    this.m4 = 0, this.m5 = 0, this.m6 = 0, this.m7 = 0,
+    this.m8 = 0, this.m9 = 0, this.m10 = 0, this.m11 = 0,
+    this.m12 = 0, this.m13 = 0, this.m14 = 0, this.m15 = 0,
+  });
+
+  factory MatrixD.zero() => .new();
+
+  static double _d(num x) => x.toDouble();
+
+  factory MatrixD.mat4(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,
     num m8, num m9, num m10, num m11,
     num m12, num m13, num m14, num m15,
-  ) => RaylibMatrixFactories.createFactory(
-    m0, m1, m2, m3,
-    m4, m5, m6, m7,
-    m8, m9, m10, m11,
-    m12, m13, m14, m15,
-  ) as M;
+  ) {
+    return .new(
+      m0:  _d(m0),   m1: _d(m1),   m2: _d(m2),   m3: _d(m3),
+      m4:  _d(m4),   m5: _d(m5),   m6: _d(m6),   m7: _d(m7),
+      m8:  _d(m8),   m9: _d(m9),  m10: _d(m10), m11: _d(m11),
+      m12: _d(m12), m13: _d(m13), m14: _d(m14), m15: _d(m15),
+    );
+  }
+
+  @override
+  MatrixD setD(MatrixD o) {
+    return set(
+      o.m0, o.m1, o.m2, o.m3,
+      o.m4, o.m5, o.m6, o.m7,
+      o.m8, o.m9, o.m10, o.m11,
+      o.m12, o.m13, o.m14, o.m15,
+    );
+  }
+
+  @override
+  void writeInto(MemoryPointer<RStruct> p) {
+    p.writeFloat32(m0, structLayout.offset(.m0));
+    p.writeFloat32(m4, structLayout.offset(.m4));
+    p.writeFloat32(m8, structLayout.offset(.m8));
+    p.writeFloat32(m12, structLayout.offset(.m12));
+
+    p.writeFloat32(m1, structLayout.offset(.m1));
+    p.writeFloat32(m5, structLayout.offset(.m5));
+    p.writeFloat32(m9, structLayout.offset(.m9));
+    p.writeFloat32(m13, structLayout.offset(.m13));
+
+    p.writeFloat32(m2, structLayout.offset(.m2));
+    p.writeFloat32(m6, structLayout.offset(.m6));
+    p.writeFloat32(m10, structLayout.offset(.m10));
+    p.writeFloat32(m14, structLayout.offset(.m14));
+
+    p.writeFloat32(m3, structLayout.offset(.m3));
+    p.writeFloat32(m7, structLayout.offset(.m7));
+    p.writeFloat32(m11, structLayout.offset(.m11));
+    p.writeFloat32(m15, structLayout.offset(.m15)); 
+  }
+
+  @override
+  void readFrom(MemoryPointer<RStruct> p) {
+    m0 = p.readFloat32(structLayout.offset(.m0));
+    m4 = p.readFloat32(structLayout.offset(.m4));
+    m8 = p.readFloat32(structLayout.offset(.m8));
+    m12 = p.readFloat32(structLayout.offset(.m12));
+
+    m1 = p.readFloat32(structLayout.offset(.m1));
+    m5 = p.readFloat32(structLayout.offset(.m5));
+    m9 = p.readFloat32(structLayout.offset(.m9));
+    m13 = p.readFloat32(structLayout.offset(.m13));
+
+    m2 = p.readFloat32(structLayout.offset(.m2));
+    m6 = p.readFloat32(structLayout.offset(.m6));
+    m10 = p.readFloat32(structLayout.offset(.m10));
+    m14 = p.readFloat32(structLayout.offset(.m14));
+
+    m3 = p.readFloat32(structLayout.offset(.m3));
+    m7 = p.readFloat32(structLayout.offset(.m7));
+    m11 = p.readFloat32(structLayout.offset(.m11));
+    m15 = p.readFloat32(structLayout.offset(.m15)); 
+  }
+
+  @override
+  MatrixD clone() => .new(
+    op: op,
+    m0: m0, m1: m1, m2: m2, m3: m3,
+    m4: m4, m5: m5, m6: m6, m7: m7,
+    m8: m8, m9: m9, m10: m10, m11: m11,
+    m12: m12, m13: m13, m14: m14, m15: m15,
+  );
+
+  /// Returns the 4x4 identity matrix.
+  factory MatrixD.identity() => .mat4(
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1,
+  );
+
+  /// Returns a view matrix oriented from [eye] toward [target], with [up] defining the vertical axis.
+  factory MatrixD.lookAt(Vector3D eye, Vector3D target, Vector3D up)
+  {
+    final vz = eye.sub(target).normalize();
+    final vx = up.crossProduct(vz).normalize();
+    final vy = vz.crossProduct(vx);
+
+    final MatrixD result = .zero();
+
+    result.m0 = vx.x;
+    result.m1 = vy.x;
+    result.m2 = vz.x;
+
+    result.m4 = vx.y;
+    result.m5 = vy.y;
+    result.m6 = vz.y;
+
+    result.m8 = vx.z;
+    result.m9 = vy.z;
+    result.m10 = vz.z;
+
+    result.m12 = -vx.dotProduct(eye);
+    result.m13 = -vy.dotProduct(eye);
+    result.m14 = -vz.dotProduct(eye);
+    result.m15 = 1.0;
+
+    return result;
+  }
+
+  /// Returns a scaling matrix for the given [x], [y], [z] factors.
+  factory MatrixD.scale(double x, double y, double z) => .mat4(
+    x, 0, 0, 0,
+    0, y, 0, 0,
+    0, 0, z, 0,
+    0, 0, 0, 1,
+  );
+
+  /// Returns a translation matrix for the given [x], [y], [z] offsets.
+  factory MatrixD.translate(num x, num y, num z) => .mat4(
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    _d(x), _d(y), _d(z), 1,
+  );
   
-  /// Column 0, row 0
-  abstract double m0;
+  /// Returns a translation matrix from [v]'s components. Convenience wrapper for [translate].
+  factory MatrixD.translateVector3(Vector3D v) => .translate(v.x, v.y, v.z);
 
-  /// Column 0, row 1
-  abstract double m1;
+  /// Returns a rotation matrix around [axis] by [angle] radians.
+  factory MatrixD.rotateAngle(Vector3D axis, double angle) {
+    double x = axis.x, y = axis.y, z = axis.z;
 
-  /// Column 0, row 2
-  abstract double m2;
+    final lengthSquared = x*x + y*y + z*z;
 
-  /// Column 0, row 3
-  abstract double m3;
+    if ((lengthSquared != 1.0) && (lengthSquared != 0.0))
+    {
+      final ilength = 1.0/math.sqrt(lengthSquared);
+      x *= ilength;
+      y *= ilength;
+      z *= ilength;
+    }
 
-  /// Column 1, row 0
-  abstract double m4;
+    final sinres = math.sin(angle);
+    final cosres = math.cos(angle);
+    final t = 1.0 - cosres;
 
-  /// Column 1, row 1
-  abstract double m5;
+    final MatrixD result = .zero();
 
-  /// Column 1, row 2
-  abstract double m6;
+    result.m0 = x*x*t + cosres;
+    result.m1 = y*x*t + z*sinres;
+    result.m2 = z*x*t - y*sinres;
 
-  /// Column 1, row 3
-  abstract double m7;
+    result.m4 = x*y*t - z*sinres;
+    result.m5 = y*y*t + cosres;
+    result.m6 = z*y*t + x*sinres;
 
-  /// Column 2, row 0
-  abstract double m8;
+    result.m8 = x*z*t + y*sinres;
+    result.m9 = y*z*t - x*sinres;
+    result.m10 = z*z*t + cosres;
 
-  /// Column 2, row 1
-  abstract double m9;
+    result.m15 = 1.0;
 
-  /// Column 2, row 2
-  abstract double m10;
+    return result;
+  }
 
-  /// Column 2, row 3
-  abstract double m11;
+  /// Returns a rotation matrix applied in X > Y > Z order from [angle]'s components (in radians).
+  factory MatrixD.rotateXYZ(Vector3D angle) {
+    final MatrixD result = .identity();
 
-  /// Column 3, row 0 (translation X)
-  abstract double m12;
+    final cosz = math.cos(-angle.z);
+    final sinz = math.sin(-angle.z);
+    final cosy = math.cos(-angle.y);
+    final siny = math.sin(-angle.y);
+    final cosx = math.cos(-angle.x);
+    final sinx = math.sin(-angle.x);
 
-  /// Column 3, row 1 (translation Y)
-  abstract double m13;
+    result.m0 = cosz*cosy;
+    result.m1 = (cosz*siny*sinx) - (sinz*cosx);
+    result.m2 = (cosz*siny*cosx) + (sinz*sinx);
 
-  /// Column 3, row 2 (translation Z)
-  abstract double m14;
+    result.m4 = sinz*cosy;
+    result.m5 = (sinz*siny*sinx) + (cosz*cosx);
+    result.m6 = (sinz*siny*cosx) - (cosz*sinx);
 
-  /// Column 3, row 3
-  abstract double m15;
+    result.m8 = -siny;
+    result.m9 = cosy*sinx;
+    result.m10= cosy*cosx;
+
+    return result;
+  }
+
+  /// Returns a rotation matrix applied in Z > Y > X order from [angle]'s components (in radians).
+  factory MatrixD.rotateZYX(Vector3D angle) {
+    final MatrixD result = .zero();
+
+    final cz = math.cos(angle.z);
+    final sz = math.sin(angle.z);
+    final cy = math.cos(angle.y);
+    final sy = math.sin(angle.y);
+    final cx = math.cos(angle.x);
+    final sx = math.sin(angle.x);
+
+    result.m0 = cz*cy;
+    result.m4 = cz*sy*sx - cx*sz;
+    result.m8 = sz*sx + cz*cx*sy;
+
+    result.m1 = cy*sz;
+    result.m5 = cz*cx + sz*sy*sx;
+    result.m9 = cx*sz*sy - cz*sx;
+
+    result.m2 = -sy;
+    result.m6 = cy*sx;
+    result.m10 = cy*cx;
+
+    result.m15 = 1;
+
+    return result;
+  }
+
+  /// Returns a perspective projection matrix defined by the given frustum planes.
+  factory MatrixD.frustum(
+    double left,
+    double right,
+    double bottom,
+    double top,
+    double nearPlane,
+    double farPlane,
+  ) {
+    final MatrixD result = .zero();
+
+    final rl = right - left;
+    final tb = top - bottom;
+    final fn = farPlane - nearPlane;
+
+    result.m0 = (nearPlane*2.0)/rl;
+    result.m5 = (nearPlane*2.0)/tb;
+    result.m8 = (right + left)/rl;
+    result.m9 = (top + bottom)/tb;
+    result.m10 = -(farPlane + nearPlane)/fn;
+    result.m11 = -1.0;
+    result.m14 = -(farPlane*nearPlane*2.0)/fn;
+
+    return result;
+  }
+
+  /// Returns a perspective projection matrix from a vertical FOV [fovY] (in radians), [aspect] ratio, and clip planes.
+  factory MatrixD.perspective(
+    double fovY,
+    double aspect,
+    double nearPlane,
+    double farPlane,
+  ) {
+    final top = nearPlane*math.tan(fovY*0.5);
+    final right = top*aspect;
+    return .frustum(-right, right, -top, top, nearPlane, farPlane);
+  }
+
+  /// Returns an orthographic projection matrix defined by the given clip planes.
+  factory MatrixD.ortho(
+    double left,
+    double right,
+    double bottom,
+    double top,
+    double nearPlane,
+    double farPlane,
+  ) {
+    final MatrixD result = .zero();
+
+    final rl = right - left;
+    final tb = top - bottom;
+    final fn = farPlane - nearPlane;
+
+    result.m0 = 2.0/rl;
+    result.m5 = 2.0/tb;
+    result.m10 = -2.0/fn;
+    result.m12 = -(left + right)/rl;
+    result.m13 = -(top + bottom)/tb;
+    result.m14 = -(farPlane + nearPlane)/fn;
+    result.m15 = 1.0;
+
+    return result;
+  }
+
+  /// Returns a rotation matrix around the X axis by [angle] radians.
+  factory MatrixD.rotateX(double angle) {
+    final MatrixD result = .identity();
+
+    final cosres = math.cos(angle);
+    final sinres = math.sin(angle);
+
+    result.m5 = cosres;
+    result.m6 = sinres;
+    result.m9 = -sinres;
+    result.m10 = cosres;
+
+    return result;
+  }
+
+  /// Returns a rotation matrix around the Y axis by [angle] radians.
+  factory MatrixD.rotateY(double angle) {
+    final MatrixD result = .identity();
+
+    final cosres = math.cos(angle);
+    final sinres = math.sin(angle);
+
+    result.m0 = cosres;
+    result.m2 = -sinres;
+    result.m8 = sinres;
+    result.m10 = cosres;
+
+    return result;
+  }
+
+  /// Returns a rotation matrix around the Z axis by [angle] radians.
+  factory MatrixD.rotateZ(double angle) {
+    final MatrixD result = .identity();
+
+    final cosres = math.cos(angle);
+    final sinres = math.sin(angle);
+
+    result.m0 = cosres;
+    result.m1 = sinres;
+    result.m4 = -sinres;
+    result.m5 = cosres;
+
+    return result;
+  }
+
+  /// Returns the rotation matrix equivalent of quaternion [q].
+  factory MatrixD.fromQuaternion(QuaternionD q) {
+    final MatrixD result = .identity();
+
+    final a2 = q.x*q.x;
+    final b2 = q.y*q.y;
+    final c2 = q.z*q.z;
+    final ac = q.x*q.z;
+    final ab = q.x*q.y;
+    final bc = q.y*q.z;
+    final ad = q.w*q.x;
+    final bd = q.w*q.y;
+    final cd = q.w*q.z;
+
+    result.m0 = 1 - 2*(b2 + c2);
+    result.m1 = 2*(ab + cd);
+    result.m2 = 2*(ac - bd);
+
+    result.m4 = 2*(ab - cd);
+    result.m5 = 1 - 2*(a2 + c2);
+    result.m6 = 2*(bc + ad);
+
+    result.m8 = 2*(ac + bd);
+    result.m9 = 2*(bc - ad);
+    result.m10 = 1 - 2*(a2 + b2);
+
+    return result;
+  }
 
   /// Sets all components in column-major order at once.
   /// 
   /// Values are converted using [num.toDouble], truncating any fractional part.
   /// 
   /// Returns this instance for fluent chaining.
-  ///
-  /// Arguments are laid out as:
-  /// ```
-  /// [ m0  m4  m8  m12 ] (row 0)
-  /// [ m1  m5  m9  m13 ] (row 1)
-  /// [ m2  m6  m10 m14 ] (row 2)
-  /// [ m3  m7  m11 m15 ] (row 3)
-  /// ```
-  M set(
+  MatrixD set(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,
     num m8, num m9, num m10, num m11,
     num m12, num m13, num m14, num m15,
   ) {
-    this.m0 = m0.toDouble(); this.m1 = m1.toDouble(); this.m2 = m2.toDouble(); this.m3 = m3.toDouble();
-    this.m4 = m4.toDouble(); this.m5 = m5.toDouble(); this.m6 = m6.toDouble(); this.m7 = m7.toDouble();
-    this.m8 = m8.toDouble(); this.m9 = m9.toDouble(); this.m10 = m10.toDouble(); this.m11 = m11.toDouble();
-    this.m12 = m12.toDouble(); this.m13 = m13.toDouble(); this.m14 = m14.toDouble(); this.m15 = m15.toDouble();
-    return _this;
+    this.m0 = _d(m0); this.m1 = _d(m1); this.m2 = _d(m2); this.m3 = _d(m3);
+    this.m4 = _d(m4); this.m5 = _d(m5); this.m6 = _d(m6); this.m7 = _d(m7);
+    this.m8 = _d(m8); this.m9 = _d(m9); this.m10 = _d(m10); this.m11 = _d(m11);
+    this.m12 = _d(m12); this.m13 = _d(m13); this.m14 = _d(m14); this.m15 = _d(m15);
+    return this;
   }
 
   /// Returns a formatted 4x4 matrix string with each row on its own line.
@@ -127,7 +496,7 @@ mixin MatrixBase<
     ].join('\n')} ]';
 
   /// Returns a new matrix that is the transpose of this one.
-  M transpose() => _m(
+  MatrixD transpose() => .mat4(
     m0, m4, m8, m12,
     m1, m5, m9, m13,
     m2, m6, m10, m14,
@@ -138,8 +507,8 @@ mixin MatrixBase<
   ///
   /// Uses the cofactor expansion method. Result is undefined if the matrix
   /// is singular (i.e. [determinant] is zero).
-  M invert() {
-    final result = _mZero;
+  MatrixD invert() {
+    final MatrixD result = .zero();
 
     final a00 = m0, a01 = m1, a02 = m2, a03 = m3;
     final a10 = m4, a11 = m5, a12 = m6, a13 = m7;
@@ -182,7 +551,7 @@ mixin MatrixBase<
   }
 
   /// Returns a new matrix that is the component-wise sum of this and [o].
-  M add(M o) => _m(
+  MatrixD add(MatrixD o) => .mat4(
     m0+o.m0, m1+o.m1, m2+o.m2, m3+o.m3,
     m4+o.m4, m5+o.m5, m6+o.m6, m7+o.m7,
     m8+o.m8, m9+o.m9, m10+o.m10, m11+o.m11,
@@ -190,7 +559,7 @@ mixin MatrixBase<
   );
 
   /// Returns a new matrix that is the component-wise difference of this and [o].
-  M sub(M o) => _m(
+  MatrixD sub(MatrixD o) => .mat4(
     m0-o.m0, m1-o.m1, m2-o.m2, m3-o.m3,
     m4-o.m4, m5-o.m5, m6-o.m6, m7-o.m7,
     m8-o.m8, m9-o.m9, m10-o.m10, m11-o.m11,
@@ -200,7 +569,7 @@ mixin MatrixBase<
   /// Returns a new matrix that is the product of this and [o].
   ///
   /// Follows standard matrix multiplication rules; not commutative.
-  M mul(M o) => _m(
+  MatrixD mul(MatrixD o) => .mat4(
     m0*o.m0 + m1*o.m4 + m2*o.m8 + m3*o.m12,
     m0*o.m1 + m1*o.m5 + m2*o.m9 + m3*o.m13,
     m0*o.m2 + m1*o.m6 + m2*o.m10 + m3*o.m14,
@@ -235,13 +604,13 @@ mixin MatrixBase<
   ///
   /// Returns a record `(translation, rotation, scale)`. If the determinant
   /// is close to zero, [rotation] falls back to the identity quaternion.
-  (V3 translation, Q rotation, V3 scale) decompose() {
-    late V3 translation;
-    late Q rotation;
-    late V3 scale;
+  (Vector3D translation, QuaternionD rotation, Vector3D scale) decompose() {
+    late Vector3D translation;
+    late QuaternionD rotation;
+    late Vector3D scale;
 
     // Extract translation.
-    translation = RaylibVector3Factories.createFactory(m12, m13, m14) as V3;
+    translation = .vec3(m12, m13, m14);
 
     // Extract upper-left for determinant computation
     final a = m0;
@@ -259,16 +628,16 @@ mixin MatrixBase<
 
     // Extract scale
     final det = a*A + b*B + c*C;
-    V3 abc = RaylibVector3Factories.createFactory(a, b, c) as V3;
-    V3 def = RaylibVector3Factories.createFactory(d, e, f) as V3;
-    V3 ghi = RaylibVector3Factories.createFactory(g, h, i) as V3;
+    Vector3D abc = .vec3(a, b, c);
+    Vector3D def = .vec3(d, e, f);
+    Vector3D ghi = .vec3(g, h, i);
 
-    V3 s = RaylibVector3Factories.createFactory(abc.length, def.length, ghi.length) as V3;
+    Vector3D s = .vec3(abc.length, def.length, ghi.length);
     if (det < 0) s = s.negate();
     scale = s;
 
     // Remove scale from the matrix if it is not close to zero
-    M clone = this.clone();
+    MatrixD clone = this.clone();
     if (!RaylibFunctions.FloatEquals(det, 0)) {
       clone.m0 /= s.x;
       clone.m4 /= s.x;
@@ -281,22 +650,28 @@ mixin MatrixBase<
       clone.m10 /= s.z;
 
       // Extract rotation
-      rotation = RaylibQuaternionFactories.fromMatrix(clone) as Q;
+      rotation = .fromMatrix(clone);
     } else {
       // Set to identity if close to zero
-      rotation = RaylibQuaternionFactories.identity() as Q;
+      rotation = .identity();
     }
 
     return (translation, rotation, scale);
   }
 
-  /// Returns all 16 components as a flat list in column-major order.
-  List<double> toArray() => [
-    m0, m1, m2, m3,
-    m4, m5, m6, m7,
-    m8, m9, m10, m11,
-    m12, m13, m14, m15
-  ];
+  /// Returns all 16 components as a flat list in column-major order by default.
+  List<double> toArray({bool rowMajorOrder = false}) => rowMajorOrder
+    ? [
+      m0, m4, m8, m12,
+      m1, m5, m9, m13,
+      m2, m6, m10, m14,
+      m3, m7, m11, m15,
+    ] : [
+      m0, m1, m2, m3,
+      m4, m5, m6, m7,
+      m8, m9, m10, m11,
+      m12, m13, m14, m15
+    ];
 
   @override
   String signature() => '$structName(${toArray().map((x) => x.f1).join(', ')})';

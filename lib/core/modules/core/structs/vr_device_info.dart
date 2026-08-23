@@ -1,0 +1,254 @@
+part of '../../../raylib_dartified_base.dart';
+
+enum VrDeviceInfoField {
+  hResolution,
+  vResolution,
+  hScreenSize,
+  vScreenSize,
+  eyeToScreenDistance,
+  lensSeparationDistance,
+  interpupillaryDistance,
+  lensDistortionValues,
+  chromaAbCorrection,
+}
+
+/// Head-Mounted-Display device parameters.
+class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
+
+  //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
+  //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
+  // ░██             ░██    ░██     ░██ ░██     ░██ ░██            ░██    
+  //  ░████████      ░██    ░█████████  ░██     ░██ ░██            ░██    
+  //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
+  //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
+  //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  static final int byteSize = structLayout.byteSize;
+  static final int alignment = structLayout.alignment;
+  static final StructLayout<VrDeviceInfoField> structLayout = .aligned(structFields);
+  static final Map<VrDeviceInfoField, RType> structFields = {
+    .hResolution:            RInt32(),
+    .vResolution:            RInt32(),
+    .hScreenSize:            RFloat32(),
+    .vScreenSize:            RFloat32(),
+    .eyeToScreenDistance:    RFloat32(),
+    .lensSeparationDistance: RFloat32(),
+    .interpupillaryDistance: RFloat32(),
+    .lensDistortionValues:   RFloat32(BASE_paramsCount),
+    .chromaAbCorrection:     RFloat32(BASE_paramsCount),
+  };
+
+  static StructPointer<VrDeviceInfoD> pointer(MemoryPointer? ptr)
+    => .nullable(ptr, structLayout, VrDeviceInfoD.new);
+
+  //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
+  //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
+  // ░██        ░██     ░██ ░██░██  ░██ ░██             ░██    
+  // ░██        ░██     ░██ ░██ ░██ ░██  ░████████      ░██    
+  // ░██        ░██     ░██ ░██  ░██░██         ░██     ░██    
+  //  ░██   ░██  ░██   ░██  ░██   ░████  ░██   ░██      ░██    
+  //   ░██████    ░██████   ░██    ░███   ░██████       ░██    
+
+  /// Number of components in the [lensDistortionValues] and [chromaAbCorrection] arrays.
+  static int get BASE_paramsCount => 4;
+
+  /// Number of components in the [lensDistortionValues] and [chromaAbCorrection] arrays.
+  int get paramsCount => BASE_paramsCount;
+
+  // ░███████   ░██████████ ░██████████
+  // ░██   ░██  ░██         ░██        
+  // ░██    ░██ ░██         ░██        
+  // ░██    ░██ ░█████████  ░█████████ 
+  // ░██    ░██ ░██         ░██        
+  // ░██   ░██  ░██         ░██        
+  // ░███████   ░██████████ ░██        
+  
+  int _hResolution;
+  /// Horizontal resolution in pixels
+  int get hResolution {
+    structOnOp((p) => _hResolution = p.readInt32(structLayout.offset(.hResolution)));
+    return _hResolution;
+  }
+  set hResolution(int value) {
+    _hResolution = value;
+    structOnOp((p) => p.writeInt32(value, structLayout.offset(.hResolution)));
+  }
+
+  int _vResolution;
+  /// Vertical resolution in pixels
+  int get vResolution {
+    structOnOp((p) => _vResolution = p.readInt32(structLayout.offset(.vResolution)));
+    return _vResolution;
+  }
+  set vResolution(int value) {
+    _vResolution = value;
+    structOnOp((p) => p.writeInt32(value, structLayout.offset(.vResolution)));
+  }
+
+  double _hScreenSize;
+  /// Horizontal size in meters
+  double get hScreenSize {
+    structOnOp((p) => _hScreenSize = p.readFloat32(structLayout.offset(.hScreenSize)));
+    return _hScreenSize;
+  }
+  set hScreenSize(double value) {
+    _hScreenSize = value;
+    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.hScreenSize)));
+  }
+
+  double _vScreenSize;
+  /// Vertical size in meters
+  double get vScreenSize {
+    structOnOp((p) => _vScreenSize = p.readFloat32(structLayout.offset(.vScreenSize)));
+    return _vScreenSize;
+  }
+  set vScreenSize(double value) {
+    _vScreenSize = value;
+    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.vScreenSize)));
+  }
+
+  double _eyeToScreenDistance;
+  /// Distance between eye and display in meters
+  double get eyeToScreenDistance {
+    structOnOp((p) => _eyeToScreenDistance = p.readFloat32(structLayout.offset(.eyeToScreenDistance)));
+    return _eyeToScreenDistance;
+  }
+  set eyeToScreenDistance(double value) {
+    _eyeToScreenDistance = value;
+    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.eyeToScreenDistance)));
+  }
+
+  double _lensSeparationDistance;
+  /// Lens separation distance in meters
+  double get lensSeparationDistance {
+    structOnOp((p) => _lensSeparationDistance = p.readFloat32(structLayout.offset(.lensSeparationDistance)));
+    return _lensSeparationDistance;
+  }
+  set lensSeparationDistance(double value) {
+    _lensSeparationDistance = value;
+    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.lensSeparationDistance)));
+  }
+
+  double _interpupillaryDistance;
+  /// IPD (distance between pupils) in meters
+  double get interpupillaryDistance {
+    structOnOp((p) => _interpupillaryDistance = p.readFloat32(structLayout.offset(.interpupillaryDistance)));
+    return _interpupillaryDistance;
+  }
+  set interpupillaryDistance(double value) {
+    _interpupillaryDistance = value;
+    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.interpupillaryDistance)));
+  }
+
+  late LiveListInlineScalar<double, RFloat32> _lensDistortionValues;
+  /// Lens distortion constant parameters
+  LiveListInlineScalar<double, RFloat32> get lensDistortionValues => _lensDistortionValues;
+  set lensDistortionValues(List<double> value) {
+    assert(value.length <= paramsCount);
+    _lensDistortionValues.inner = value;
+  }
+
+  late LiveListInlineScalar<double, RFloat32> _chromaAbCorrection;
+  /// Chromatic aberration correction parameters
+  LiveListInlineScalar<double, RFloat32> get chromaAbCorrection => _chromaAbCorrection;
+  set chromaAbCorrection(List<double> value) {
+    assert(value.length <= paramsCount);
+    _chromaAbCorrection.inner = value;
+  }
+
+  VrDeviceInfoD({
+    super.op,
+    int hResolution = 0,
+    int vResolution = 0,
+    double hScreenSize = 0,
+    double vScreenSize = 0,
+    double eyeToScreenDistance = 0,
+    double lensSeparationDistance = 0,
+    double interpupillaryDistance = 0,
+    List<double>? lensDistortionValues,
+    List<double>? chromaAbCorrection,
+  }) :
+    _hResolution = hResolution,
+    _vResolution = vResolution,
+    _hScreenSize = hScreenSize,
+    _vScreenSize = vScreenSize,
+    _eyeToScreenDistance = eyeToScreenDistance,
+    _lensSeparationDistance = lensSeparationDistance,
+    _interpupillaryDistance = interpupillaryDistance
+  {
+    _lensDistortionValues = .new(
+      lensDistortionValues ?? .filled(paramsCount, 0),
+      () => op?.cast(),
+      structLayout.offset(.lensDistortionValues),
+      (p, i) => p[i],
+      (p, i, v) => p[i] = v,
+    );
+
+    _chromaAbCorrection = .new(
+      chromaAbCorrection ?? .filled(paramsCount, 0),
+      () => op?.cast(),
+      structLayout.offset(.chromaAbCorrection),
+      (p, i) => p[i],
+      (p, i, v) => p[i] = v,
+    );
+  }
+
+  factory VrDeviceInfoD.zero() => .new();
+
+  @override
+  VrDeviceInfoD setD(VrDeviceInfoD o) {
+    hResolution = o.hResolution;
+    vResolution = o.vResolution;
+    hScreenSize = o.hScreenSize;
+    vScreenSize = o.vScreenSize;
+    eyeToScreenDistance = o.eyeToScreenDistance;
+    lensSeparationDistance = o.lensSeparationDistance;
+    interpupillaryDistance = o.interpupillaryDistance;
+    lensDistortionValues = .from(o.lensDistortionValues);
+    chromaAbCorrection = .from(o.chromaAbCorrection);
+    return this;
+  }
+
+  @override
+  void writeInto(MemoryPointer<RStruct> p) {
+    p.writeInt32(_hResolution, structLayout.offset(.hResolution));
+    p.writeInt32(_vResolution, structLayout.offset(.vResolution));
+    p.writeFloat32(_hScreenSize, structLayout.offset(.hScreenSize));
+    p.writeFloat32(_vScreenSize, structLayout.offset(.vScreenSize));
+    p.writeFloat32(_eyeToScreenDistance, structLayout.offset(.eyeToScreenDistance));
+    p.writeFloat32(_lensSeparationDistance, structLayout.offset(.lensSeparationDistance));
+    p.writeFloat32(_interpupillaryDistance, structLayout.offset(.interpupillaryDistance));
+    p.offsetBy(structLayout.offset(.lensDistortionValues)).cast<RFloat32>().writeArray(_lensDistortionValues.inner);
+    p.offsetBy(structLayout.offset(.chromaAbCorrection)).cast<RFloat32>().writeArray(_chromaAbCorrection.inner);
+  }
+
+  @override
+  void readFrom(MemoryPointer<RStruct> p) {
+    _hResolution = p.readInt32(structLayout.offset(.hResolution));
+    _vResolution = p.readInt32(structLayout.offset(.vResolution));
+    _hScreenSize = p.readFloat32(structLayout.offset(.hScreenSize));
+    _vScreenSize = p.readFloat32(structLayout.offset(.vScreenSize));
+    _eyeToScreenDistance = p.readFloat32(structLayout.offset(.eyeToScreenDistance));
+    _lensSeparationDistance = p.readFloat32(structLayout.offset(.lensSeparationDistance));
+    _interpupillaryDistance = p.readFloat32(structLayout.offset(.interpupillaryDistance));
+    _lensDistortionValues.raw = p.offsetBy(structLayout.offset(.lensDistortionValues)).cast<RFloat32>().readArray(paramsCount);
+    _chromaAbCorrection.raw = p.offsetBy(structLayout.offset(.chromaAbCorrection)).cast<RFloat32>().readArray(paramsCount);
+  }
+
+  @override
+  VrDeviceInfoD clone() => .new(
+    op: op,
+    hResolution: hResolution,
+    vResolution: vResolution,
+    hScreenSize: hScreenSize,
+    vScreenSize: vScreenSize,
+    eyeToScreenDistance: eyeToScreenDistance,
+    lensSeparationDistance: lensSeparationDistance,
+    interpupillaryDistance: interpupillaryDistance,
+    lensDistortionValues: .from(lensDistortionValues),
+    chromaAbCorrection: .from(chromaAbCorrection),
+  );
+
+  @override
+  String signature() => '$structName(res: ${hResolution}x$vResolution, screen: ${hScreenSize}x$vScreenSize)';
+}

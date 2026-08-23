@@ -852,7 +852,7 @@ enum ShaderUniformDataType {
 
 /// Raylib `PixelFormat` enum.
 enum PixelFormat with RaylibEnum {
-  /// `PIXELFORMAT_NONE` (for uninitialized [TextureBase] and [ImageBase] slots only)
+  /// `PIXELFORMAT_NONE` (for uninitialized [TextureD] and [ImageD] slots only)
   PIXELFORMAT_NONE(0),
   /// `PIXELFORMAT_UNCOMPRESSED_GRAYSCALE`
   PIXELFORMAT_UNCOMPRESSED_GRAYSCALE(1),

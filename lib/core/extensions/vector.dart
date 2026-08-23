@@ -1,386 +1,351 @@
 part of '../raylib_dartified_base.dart';
 
 /// Exposes Raylib's vector math API as module-level functions by delegating
-/// to the corresponding [Vector2Base]/[Vector3Base]/[Vector4Base] methods/factories.
+/// to the corresponding [Vector2D]/[Vector3D]/[Vector4D] methods/factories.
 /// Exists purely for Raylib API symmetry.
-abstract class RaylibVectorExtensionBase<
-  R extends RaylibBase,
+class RaylibVectorExtension extends RaylibModule {
 
-  MatrixStructType extends MatrixBase<
-    MatrixStructType,
-    Vector3StructType,
-    QuaternionStructType,
-    Vector4StructType
-  >,
-  QuaternionStructType extends QuaternionBase<
-    QuaternionStructType,
-    MatrixStructType,
-    Vector3StructType,
-    Vector4StructType
-  >,
-  Vector2StructType extends Vector2Base<
-    Vector2StructType,
-    MatrixStructType,
-    Vector3StructType,
-    QuaternionStructType,
-    Vector4StructType
-  >,
-  Vector3StructType extends Vector3Base<
-    Vector3StructType,
-    MatrixStructType,
-    QuaternionStructType,
-    Vector4StructType
-  >,
-  Vector4StructType extends Vector4Base<
-    Vector4StructType,
-    QuaternionStructType,
-    MatrixStructType,
-    Vector3StructType
-  >
+  RaylibVectorExtension(super.rl);
 
-> extends RaylibModule<R> {
+  // Vector2
 
-  RaylibVectorExtensionBase(super.rl);
-
-  // Vector3
-
-  /// See [Vector2Base.add].
-  Vector2StructType Vector2Add(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.add].
+  Vector2D Vector2Add(Vector2D v1, Vector2D v2)
     => v1.add(v2);
 
-  /// See [Vector2Base.addValue].
-  Vector2StructType Vector2AddValue(Vector2StructType v, double add)
+  /// See [Vector2D.addValue].
+  Vector2D Vector2AddValue(Vector2D v, double add)
     => v.addValue(add);
 
-  /// See [Vector2Base.sub].
-  Vector2StructType Vector2Subtract(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.sub].
+  Vector2D Vector2Subtract(Vector2D v1, Vector2D v2)
     => v1.sub(v2);
 
-  /// See [Vector2Base.subValue].
-  Vector2StructType Vector2SubtractValue(Vector2StructType v, double sub)
+  /// See [Vector2D.subValue].
+  Vector2D Vector2SubtractValue(Vector2D v, double sub)
     => v.subValue(sub);
 
-  /// See [Vector2Base.length].
-  double Vector2Length(Vector2StructType v)
+  /// See [Vector2D.length].
+  double Vector2Length(Vector2D v)
     => v.length;
 
-  /// See [Vector2Base.lengthSqr].
-  double Vector2LengthSqr(Vector2StructType v)
+  /// See [Vector2D.lengthSqr].
+  double Vector2LengthSqr(Vector2D v)
     => v.lengthSqr;
 
-  /// See [Vector2Base.dotProduct].
-  double Vector2DotProduct(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.dotProduct].
+  double Vector2DotProduct(Vector2D v1, Vector2D v2)
     => v1.dotProduct(v2);
 
-  /// See [Vector2Base.distance].
-  double Vector2Distance(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.distance].
+  double Vector2Distance(Vector2D v1, Vector2D v2)
     => v1.distance(v2);
 
-  /// See [Vector2Base.distanceSqr].
-  double Vector2DistanceSqr(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.distanceSqr].
+  double Vector2DistanceSqr(Vector2D v1, Vector2D v2)
     => v1.distanceSqr(v2);
 
-  /// See [Vector2Base.angle].
-  double Vector2Angle(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.angle].
+  double Vector2Angle(Vector2D v1, Vector2D v2)
     => v1.angle(v2);
 
-  /// See [Vector2Base.lineAngle].
-  double Vector2LineAngle(Vector2StructType start, Vector2StructType end)
+  /// See [Vector2D.lineAngle].
+  double Vector2LineAngle(Vector2D start, Vector2D end)
     => start.lineAngle(end);
 
-  /// See [Vector2Base.scale].
-  Vector2StructType Vector2Scale(Vector2StructType v, double scale)
+  /// See [Vector2D.scale].
+  Vector2D Vector2Scale(Vector2D v, double scale)
     => v.scale(scale);
 
-  /// See [Vector2Base.mul].
-  Vector2StructType Vector2Multiply(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.mul].
+  Vector2D Vector2Multiply(Vector2D v1, Vector2D v2)
     => v1.mul(v2);
 
-  /// See [Vector2Base.negate].
-  Vector2StructType Vector2Negate(Vector2StructType v)
+  /// See [Vector2D.negate].
+  Vector2D Vector2Negate(Vector2D v)
     => v.negate();
 
-  /// See [Vector2Base.div].
-  Vector2StructType Vector2Divide(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.div].
+  Vector2D Vector2Divide(Vector2D v1, Vector2D v2)
     => v1.div(v2);
 
-  /// See [Vector2Base.normalize].
-  Vector2StructType Vector2Normalize(Vector2StructType v)
+  /// See [Vector2D.normalize].
+  Vector2D Vector2Normalize(Vector2D v)
     => v.normalize();
 
-  /// See [Vector2Base.transform].
-  Vector2StructType Vector2Transform(Vector2StructType v, MatrixStructType mat)
+  /// See [Vector2D.transform].
+  Vector2D Vector2Transform(Vector2D v, MatrixD mat)
     => v.transform(mat);
 
-  /// See [Vector2Base.lerp].
-  Vector2StructType Vector2Lerp(Vector2StructType v1, Vector2StructType v2, double amount)
+  /// See [Vector2D.lerp].
+  Vector2D Vector2Lerp(Vector2D v1, Vector2D v2, double amount)
     => v1.lerp(v2, amount);
 
-  /// See [Vector2Base.reflect].
-  Vector2StructType Vector2Reflect(Vector2StructType v, Vector2StructType normal)
+  /// See [Vector2D.reflect].
+  Vector2D Vector2Reflect(Vector2D v, Vector2D normal)
     => v.reflect(normal);
 
-  /// See [Vector2Base.min].
-  Vector2StructType Vector2Min(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.min].
+  Vector2D Vector2Min(Vector2D v1, Vector2D v2)
     => v1.min(v2);
 
-  /// See [Vector2Base.max].
-  Vector2StructType Vector2Max(Vector2StructType v1, Vector2StructType v2)
+  /// See [Vector2D.max].
+  Vector2D Vector2Max(Vector2D v1, Vector2D v2)
     => v1.max(v2);
 
-  /// See [Vector2Base.rotate].
-  Vector2StructType Vector2Rotate(Vector2StructType v, double angle)
+  /// See [Vector2D.rotate].
+  Vector2D Vector2Rotate(Vector2D v, double angle)
     => v.rotate(angle);
 
-  /// See [Vector2Base.moveTowards].
-  Vector2StructType Vector2MoveTowards(Vector2StructType v, Vector2StructType target, double maxDistance)
+  /// See [Vector2D.moveTowards].
+  Vector2D Vector2MoveTowards(Vector2D v, Vector2D target, double maxDistance)
     => v.moveTowards(target, maxDistance);
 
-  /// See [Vector2Base.invert].
-  Vector2StructType Vector2Invert(Vector2StructType v)
+  /// See [Vector2D.invert].
+  Vector2D Vector2Invert(Vector2D v)
     => v.invert();
 
-  /// See [Vector2Base.clamp].
-  Vector2StructType Vector2Clamp(Vector2StructType v, Vector2StructType min, Vector2StructType max)
+  /// See [Vector2D.clamp].
+  Vector2D Vector2Clamp(Vector2D v, Vector2D min, Vector2D max)
     => v.clamp(min, max);
 
-  /// See [Vector2Base.clampValue].
-  Vector2StructType Vector2ClampValue(Vector2StructType v, double min, double max)
+  /// See [Vector2D.clampValue].
+  Vector2D Vector2ClampValue(Vector2D v, double min, double max)
     => v.clampValue(min, max);
 
-  /// See [Vector2Base.equals].
-  bool Vector2Equals(Vector2StructType p, Vector2StructType q)
+  /// See [Vector2D.equals].
+  bool Vector2Equals(Vector2D p, Vector2D q)
     => p.equals(q);
 
-  /// See [Vector2Base.refract].
-  Vector2StructType Vector2Refract(Vector2StructType v, Vector2StructType n, double r)
+  /// See [Vector2D.refract].
+  Vector2D Vector2Refract(Vector2D v, Vector2D n, double r)
     => v.refract(n, r);
 
   // Vector3
 
-  /// See [Vector3Base.add].
-  Vector3StructType Vector3Add(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.add].
+  Vector3D Vector3Add(Vector3D v1, Vector3D v2)
     => v1.add(v2);
 
-  /// See [Vector3Base.addValue].
-  Vector3StructType Vector3AddValue(Vector3StructType v, double add)
+  /// See [Vector3D.addValue].
+  Vector3D Vector3AddValue(Vector3D v, double add)
     => v.addValue(add);
 
-  /// See [Vector3Base.sub].
-  Vector3StructType Vector3DSubtract(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.sub].
+  Vector3D Vector3DSubtract(Vector3D v1, Vector3D v2)
     => v1.sub(v2);
 
-  /// See [Vector3Base.subValue].
-  Vector3StructType Vector3SubtractValue(Vector3StructType v, double sub)
+  /// See [Vector3D.subValue].
+  Vector3D Vector3SubtractValue(Vector3D v, double sub)
     => v.subValue(sub);
 
-  /// See [Vector3Base.scale].
-  Vector3StructType Vector3Scale(Vector3StructType v, double scalar)
+  /// See [Vector3D.scale].
+  Vector3D Vector3Scale(Vector3D v, double scalar)
     => v.scale(scalar);
 
-  /// See [Vector3Base.mul].
-  Vector3StructType Vector3Multiply(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.mul].
+  Vector3D Vector3Multiply(Vector3D v1, Vector3D v2)
     => v1.mul(v2);
 
-  /// See [Vector3Base.crossProduct].
-  Vector3StructType Vector3CrossProduct(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.crossProduct].
+  Vector3D Vector3CrossProduct(Vector3D v1, Vector3D v2)
     => v1.crossProduct(v2);
 
-  /// See [RaylibVector3Factories.perpendicular].
-  Vector3StructType Vector3Perpendicular(Vector3StructType v)
-    => RaylibVector3Factories.perpendicular(v) as Vector3StructType;
+  /// See [Vector3D.perpendicular].
+  Vector3D Vector3Perpendicular(Vector3D v)
+    => .perpendicular(v);
 
-  /// See [Vector3Base.length].
-  double Vector3Length(Vector3StructType v)
+  /// See [Vector3D.length].
+  double Vector3Length(Vector3D v)
     => v.length;
 
-  /// See [Vector3Base.lengthSqr].
-  double Vector3LengthSqr(Vector3StructType v)
+  /// See [Vector3D.lengthSqr].
+  double Vector3LengthSqr(Vector3D v)
     => v.lengthSqr;
 
-  /// See [Vector3Base.dotProduct].
-  double Vector3DotProduct(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.dotProduct].
+  double Vector3DotProduct(Vector3D v1, Vector3D v2)
     => v1.dotProduct(v2);
 
-  /// See [Vector3Base.distance].
-  double Vector3Distance(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.distance].
+  double Vector3Distance(Vector3D v1, Vector3D v2)
     => v1.distance(v2);
 
-  /// See [Vector3Base.distanceSqr].
-  double Vector3DistanceSqr(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.distanceSqr].
+  double Vector3DistanceSqr(Vector3D v1, Vector3D v2)
     => v1.distanceSqr(v2);
 
-  /// See [Vector3Base.angle].
-  double Vector3Angle(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.angle].
+  double Vector3Angle(Vector3D v1, Vector3D v2)
     => v1.angle(v2);
 
-  /// See [Vector3Base.negate].
-  Vector3StructType Vector3Negate(Vector3StructType v)
+  /// See [Vector3D.negate].
+  Vector3D Vector3Negate(Vector3D v)
     => v.negate();
 
-  /// See [Vector3Base.div].
-  Vector3StructType Vector3Divide(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.div].
+  Vector3D Vector3Divide(Vector3D v1, Vector3D v2)
     => v1.div(v2);
 
-  /// See [Vector3Base.normalize].
-  Vector3StructType Vector3Normalize(Vector3StructType v)
+  /// See [Vector3D.normalize].
+  Vector3D Vector3Normalize(Vector3D v)
     => v.normalize();
 
-  /// See [Vector3Base.project].
-  Vector3StructType Vector3Project(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.project].
+  Vector3D Vector3Project(Vector3D v1, Vector3D v2)
     => v1.project(v2);
 
-  /// See [Vector3Base.reject].
-  Vector3StructType Vector3Reject(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.reject].
+  Vector3D Vector3Reject(Vector3D v1, Vector3D v2)
     => v1.reject(v2);
 
-  /// See [Vector3Base.orthoNormalize].
-  void Vector3OrthoNormalize(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.orthoNormalize].
+  void Vector3OrthoNormalize(Vector3D v1, Vector3D v2)
     => v2.setD(v1.orthoNormalize(v2));
 
-  /// See [Vector3Base.transform].
-  Vector3StructType Vector3Transform(Vector3StructType v, MatrixStructType mat)
+  /// See [Vector3D.transform].
+  Vector3D Vector3Transform(Vector3D v, MatrixD mat)
     => v.transform(mat);
 
-  /// See [Vector3Base.rotateByQuaternion].
-  Vector3StructType Vector3RotateByQuaternion(Vector3StructType v, QuaternionStructType q)
+  /// See [Vector3D.rotateByQuaternion].
+  Vector3D Vector3RotateByQuaternion(Vector3D v, QuaternionD q)
     => v.rotateByQuaternion(q);
 
-  /// See [Vector3Base.rotateByAxisAngle].
-  Vector3StructType Vector3RotateByAxisAngle(Vector3StructType v, Vector3StructType axis, double angle)
+  /// See [Vector3D.rotateByAxisAngle].
+  Vector3D Vector3RotateByAxisAngle(Vector3D v, Vector3D axis, double angle)
     => v.rotateByAxisAngle(axis, angle);
 
-  /// See [Vector3Base.moveTowards].
-  Vector3StructType Vector3MoveTowards(Vector3StructType v, Vector3StructType target, double maxDistance)
+  /// See [Vector3D.moveTowards].
+  Vector3D Vector3MoveTowards(Vector3D v, Vector3D target, double maxDistance)
     => v.moveTowards(target, maxDistance);
 
-  /// See [Vector3Base.lerp].
-  Vector3StructType Vector3Lerp(Vector3StructType v1, Vector3StructType v2, double amount)
+  /// See [Vector3D.lerp].
+  Vector3D Vector3Lerp(Vector3D v1, Vector3D v2, double amount)
     => v1.lerp(v2, amount);
 
-  /// See [Vector3Base.cubicHermite].
-  Vector3StructType Vector3CubicHermite(Vector3StructType v1, Vector3StructType tangent1, Vector3StructType v2, Vector3StructType tangent2, double amount)
+  /// See [Vector3D.cubicHermite].
+  Vector3D Vector3CubicHermite(Vector3D v1, Vector3D tangent1, Vector3D v2, Vector3D tangent2, double amount)
     => v1.cubicHermite(tangent1, v2, tangent2, amount);
 
-  /// See [Vector3Base.reflect].
-  Vector3StructType Vector3Reflect(Vector3StructType v, Vector3StructType normal)
+  /// See [Vector3D.reflect].
+  Vector3D Vector3Reflect(Vector3D v, Vector3D normal)
     => v.reflect(normal);
 
-  /// See [Vector3Base.min].
-  Vector3StructType Vector3Min(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.min].
+  Vector3D Vector3Min(Vector3D v1, Vector3D v2)
     => v1.min(v2);
 
-  /// See [Vector3Base.max].
-  Vector3StructType Vector3Max(Vector3StructType v1, Vector3StructType v2)
+  /// See [Vector3D.max].
+  Vector3D Vector3Max(Vector3D v1, Vector3D v2)
     => v1.max(v2);
 
-  /// See [RaylibVector3Factories.barycenter].
-  Vector3StructType Vector3Barycenter(Vector3StructType p, Vector3StructType a, Vector3StructType b, Vector3StructType c)
-    => RaylibVector3Factories.barycenter(p, a, b, c) as Vector3StructType;
+  /// See [Vector3D.barycenter].
+  Vector3D Vector3Barycenter(Vector3D p, Vector3D a, Vector3D b, Vector3D c)
+    => .barycenter(p, a, b, c);
 
-  /// See [Vector3Base.unproject].
-  Vector3StructType Vector3Unproject(Vector3StructType source, MatrixStructType projection, MatrixStructType view)
+  /// See [Vector3D.unproject].
+  Vector3D Vector3Unproject(Vector3D source, MatrixD projection, MatrixD view)
     => source.unproject(projection, view);
 
-  /// See [Vector3Base.invert].
-  Vector3StructType Vector3Invert(Vector3StructType v)
+  /// See [Vector3D.invert].
+  Vector3D Vector3Invert(Vector3D v)
     => v.invert();
 
-  /// See [Vector3Base.clamp].
-  Vector3StructType Vector3Clamp(Vector3StructType v, Vector3StructType min, Vector3StructType max)
+  /// See [Vector3D.clamp].
+  Vector3D Vector3Clamp(Vector3D v, Vector3D min, Vector3D max)
     => v.clamp(min, max);
 
-  /// See [Vector3Base.clampValue].
-  Vector3StructType Vector3ClampValue(Vector3StructType v, double min, double max)
+  /// See [Vector3D.clampValue].
+  Vector3D Vector3ClampValue(Vector3D v, double min, double max)
     => v.clampValue(min, max);
 
-  /// See [Vector3Base.equals].
-  bool Vector3Equals(Vector3StructType p, Vector3StructType q)
+  /// See [Vector3D.equals].
+  bool Vector3Equals(Vector3D p, Vector3D q)
     => p.equals(q);
 
-  /// See [Vector3Base.refract].
-  Vector3StructType Vector3Refract(Vector3StructType v, Vector3StructType n, double r)
+  /// See [Vector3D.refract].
+  Vector3D Vector3Refract(Vector3D v, Vector3D n, double r)
     => v.refract(n, r);
 
   // Vector4
 
-  /// See [Vector4Base.add].
-  Vector4StructType Vector4Add(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.add].
+  Vector4D Vector4Add(Vector4D v1, Vector4D v2)
     => v1.add(v2);
 
-  /// See [Vector4Base.addValue].
-  Vector4StructType Vector4AddValue(Vector4StructType v, double add)
+  /// See [Vector4D.addValue].
+  Vector4D Vector4AddValue(Vector4D v, double add)
     => v.addValue(add);
 
-  /// See [Vector4Base.sub].
-  Vector4StructType Vector4Subtract(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.sub].
+  Vector4D Vector4Subtract(Vector4D v1, Vector4D v2)
     => v1.sub(v2);
 
-  /// See [Vector4Base.subValue].
-  Vector4StructType Vector4SubtractValue(Vector4StructType v, double sub)
+  /// See [Vector4D.subValue].
+  Vector4D Vector4SubtractValue(Vector4D v, double sub)
     => v.subValue(sub);
 
-  /// See [Vector4Base.length].
-  double Vector4Length(Vector4StructType v)
+  /// See [Vector4D.length].
+  double Vector4Length(Vector4D v)
     => v.length;
 
-  /// See [Vector4Base.lengthSqr].
-  double Vector4LengthSqr(Vector4StructType v)
+  /// See [Vector4D.lengthSqr].
+  double Vector4LengthSqr(Vector4D v)
     => v.lengthSqr;
 
-  /// See [Vector4Base.dotProduct].
-  double Vector4DotProduct(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.dotProduct].
+  double Vector4DotProduct(Vector4D v1, Vector4D v2)
     => v1.dotProduct(v2);
 
-  /// See [Vector4Base.distance].
-  double Vector4Distance(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.distance].
+  double Vector4Distance(Vector4D v1, Vector4D v2)
     => v1.distance(v2);
 
-  /// See [Vector4Base.distanceSqr].
-  double Vector4DistanceSqr(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.distanceSqr].
+  double Vector4DistanceSqr(Vector4D v1, Vector4D v2)
     => v1.distanceSqr(v2);
 
-  /// See [Vector4Base.scale].
-  Vector4StructType Vector4Scale(Vector4StructType v, double scale)
+  /// See [Vector4D.scale].
+  Vector4D Vector4Scale(Vector4D v, double scale)
     => v.scale(scale);
 
-  /// See [Vector4Base.mul].
-  Vector4StructType Vector4Multiply(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.mul].
+  Vector4D Vector4Multiply(Vector4D v1, Vector4D v2)
     => v1.mul(v2);
 
-  /// See [Vector4Base.negate].
-  Vector4StructType Vector4Negate(Vector4StructType v)
+  /// See [Vector4D.negate].
+  Vector4D Vector4Negate(Vector4D v)
     => v.negate();
 
-  /// See [Vector4Base.div].
-  Vector4StructType Vector4Divide(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.div].
+  Vector4D Vector4Divide(Vector4D v1, Vector4D v2)
     => v1.div(v2);
 
-  /// See [Vector4Base.normalize].
-  Vector4StructType Vector4Normalize(Vector4StructType v)
+  /// See [Vector4D.normalize].
+  Vector4D Vector4Normalize(Vector4D v)
     => v.normalize();
 
-  /// See [Vector4Base.min].
-  Vector4StructType Vector4Min(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.min].
+  Vector4D Vector4Min(Vector4D v1, Vector4D v2)
     => v1.min(v2);
 
-  /// See [Vector4Base.max].
-  Vector4StructType Vector4Max(Vector4StructType v1, Vector4StructType v2)
+  /// See [Vector4D.max].
+  Vector4D Vector4Max(Vector4D v1, Vector4D v2)
     => v1.max(v2);
 
-  /// See [Vector4Base.lerp].
-  Vector4StructType Vector4Lerp(Vector4StructType v1, Vector4StructType v2, double amount)
+  /// See [Vector4D.lerp].
+  Vector4D Vector4Lerp(Vector4D v1, Vector4D v2, double amount)
     => v1.lerp(v2, amount);
 
-  /// See [Vector4Base.moveTowards].
-  Vector4StructType Vector4MoveTowards(Vector4StructType v, Vector4StructType target, double maxDistance)
+  /// See [Vector4D.moveTowards].
+  Vector4D Vector4MoveTowards(Vector4D v, Vector4D target, double maxDistance)
     => v.moveTowards(target, maxDistance);
 
-  /// See [Vector4Base.invert].
-  Vector4StructType Vector4Invert(Vector4StructType v)
+  /// See [Vector4D.invert].
+  Vector4D Vector4Invert(Vector4D v)
     => v.invert();
 
-  /// See [Vector4Base.equals].
-  bool Vector4Equals(Vector4StructType p, Vector4StructType q)
+  /// See [Vector4D.equals].
+  bool Vector4Equals(Vector4D p, Vector4D q)
     => p.equals(q);
 }

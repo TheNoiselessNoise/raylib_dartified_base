@@ -14,8 +14,11 @@ typedef TraceLogCallbackFriendlyFunction = void Function(
 );
 
 /// Raylib's `TraceLogCallback` callback.
-mixin TraceLogCallbackBase on RaylibCallbackBase {
-  TraceLogCallbackFunction get function;
+abstract class TraceLogCallbackBase extends RaylibCallback<TraceLogCallbackFunction> {
+  TraceLogCallbackBase([super.name]);
+  static final List<TraceLogCallbackBase> _registry = [];
+  @override @nonVirtual get registry => _registry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
 }
 
 // MemoryPointer<UnsignedChar> (MemoryPointer<Char>, MemoryPointer<Int>)
@@ -32,8 +35,11 @@ typedef LoadFileDataCallbackFriendlyFunction = MemoryPointer<RUint8> Function(
 );
 
 /// Raylib's `LoadFileDataCallback` callback.
-mixin LoadFileDataCallbackBase on RaylibCallbackBase {
-  LoadFileDataCallbackFunction get function;
+abstract class LoadFileDataCallbackBase extends RaylibCallback<LoadFileDataCallbackFunction> {
+  LoadFileDataCallbackBase([super.name]);
+  static final List<LoadFileDataCallbackBase> _registry = [];
+  @override @nonVirtual get registry => _registry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
 }
 
 // bool (MemoryPointer<Char>, MemoryPointer<Void>, Int)
@@ -52,8 +58,11 @@ typedef SaveFileDataCallbackFriendlyFunction = bool Function(
 );
 
 /// Raylib's `SaveFileDataCallback` callback.
-mixin SaveFileDataCallbackBase on RaylibCallbackBase {
-  SaveFileDataCallbackFunction get function;
+abstract class SaveFileDataCallbackBase extends RaylibCallback<SaveFileDataCallbackFunction> {
+  SaveFileDataCallbackBase([super.name]);
+  static final List<SaveFileDataCallbackBase> _registry = [];
+  @override @nonVirtual get registry => _registry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
 }
 
 // MemoryPointer<Char> (MemoryPointer<Char>)
@@ -67,8 +76,11 @@ typedef LoadFileTextCallbackFriendlyFunction = String Function(
 );
 
 /// Raylib's `LoadFileTextCallback` callback.
-mixin LoadFileTextCallbackBase on RaylibCallbackBase {
-  LoadFileTextCallbackFunction get function;
+abstract class LoadFileTextCallbackBase extends RaylibCallback<LoadFileTextCallbackFunction> {
+  LoadFileTextCallbackBase([super.name]);
+  static final List<LoadFileTextCallbackBase> _registry = [];
+  @override @nonVirtual get registry => _registry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
 }
 
 // bool (MemoryPointer<Char>, MemoryPointer<Char>)
@@ -84,6 +96,9 @@ typedef SaveFileTextCallbackFriendlyFunction = bool Function(
 );
 
 /// Raylib's `SaveFileTextCallback` callback.
-mixin SaveFileTextCallbackBase on RaylibCallbackBase {
-  SaveFileTextCallbackFunction get function;
+abstract class SaveFileTextCallbackBase extends RaylibCallback<SaveFileTextCallbackFunction> {
+  SaveFileTextCallbackBase([super.name]);
+  static final List<SaveFileTextCallbackBase> _registry = [];
+  @override @nonVirtual get registry => _registry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
 }

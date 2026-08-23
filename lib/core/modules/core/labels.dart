@@ -4,268 +4,268 @@ part of '../../raylib_dartified_base.dart';
 /// logged to the console when debug output is enabled.
 class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibCoreModuleBase.InitWindow].
+  /// Label for [RaylibCoreModule.InitWindow].
   String InitWindow(
     num width,
     num height,
     String title,
   ) => 'InitWindow($width, $height, $title)';
 
-  /// Label for [RaylibCoreModuleBase.CloseWindow].
+  /// Label for [RaylibCoreModule.CloseWindow].
   String CloseWindow() => 'CloseWindow()';
 
-  /// Label for [RaylibCoreModuleBase.WindowShouldClose].
+  /// Label for [RaylibCoreModule.WindowShouldClose].
   String WindowShouldClose() => 'WindowShouldClose()';
 
-  /// Label for [RaylibCoreModuleBase.IsWindowReady].
+  /// Label for [RaylibCoreModule.IsWindowReady].
   String IsWindowReady() => 'IsWindowReady()';
 
-  /// Label for [RaylibCoreModuleBase.IsWindowFullscreen].
+  /// Label for [RaylibCoreModule.IsWindowFullscreen].
   String IsWindowFullscreen() => 'IsWindowFullscreen()';
 
-  /// Label for [RaylibCoreModuleBase.IsWindowHidden].
+  /// Label for [RaylibCoreModule.IsWindowHidden].
   String IsWindowHidden() => 'IsWindowHidden()';
     
-  /// Label for [RaylibCoreModuleBase.IsWindowMinimized].
+  /// Label for [RaylibCoreModule.IsWindowMinimized].
   String IsWindowMinimized() => 'IsWindowMinimized()';
     
-  /// Label for [RaylibCoreModuleBase.IsWindowMaximized].
+  /// Label for [RaylibCoreModule.IsWindowMaximized].
   String IsWindowMaximized() => 'IsWindowMaximized()';
     
-  /// Label for [RaylibCoreModuleBase.IsWindowFocused].
+  /// Label for [RaylibCoreModule.IsWindowFocused].
   String IsWindowFocused() => 'IsWindowFocused()';
     
-  /// Label for [RaylibCoreModuleBase.IsWindowResized].
+  /// Label for [RaylibCoreModule.IsWindowResized].
   String IsWindowResized() => 'IsWindowResized()';
     
-  /// Label for [RaylibCoreModuleBase.IsWindowState].
+  /// Label for [RaylibCoreModule.IsWindowState].
   String IsWindowState(
     ConfigFlags flag,
   ) => 'IsWindowState(${flag.name})';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowState].
+  /// Label for [RaylibCoreModule.SetWindowState].
   String SetWindowState(
     Iterable<ConfigFlags> flags,
   ) => 'SetWindowState(${EnumsAsFlagsOr(flags)})';
     
-  /// Label for [RaylibCoreModuleBase.ClearWindowState].
+  /// Label for [RaylibCoreModule.ClearWindowState].
   String ClearWindowState(
     Iterable<ConfigFlags> flags,
   ) => 'ClearWindowState(${EnumsAsFlagsOr(flags)})';
     
-  /// Label for [RaylibCoreModuleBase.ToggleFullscreen].
+  /// Label for [RaylibCoreModule.ToggleFullscreen].
   String ToggleFullscreen() => 'ToggleFullscreen()';
     
-  /// Label for [RaylibCoreModuleBase.ToggleBorderlessWindowed].
+  /// Label for [RaylibCoreModule.ToggleBorderlessWindowed].
   String ToggleBorderlessWindowed() => 'ToggleBorderlessWindowed()';
     
-  /// Label for [RaylibCoreModuleBase.MaximizeWindow].
+  /// Label for [RaylibCoreModule.MaximizeWindow].
   String MaximizeWindow() => 'MaximizeWindow()';
     
-  /// Label for [RaylibCoreModuleBase.MinimizeWindow].
+  /// Label for [RaylibCoreModule.MinimizeWindow].
   String MinimizeWindow() => 'MinimizeWindow()';
     
-  /// Label for [RaylibCoreModuleBase.RestoreWindow].
+  /// Label for [RaylibCoreModule.RestoreWindow].
   String RestoreWindow() => 'RestoreWindow()';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowIcon].
+  /// Label for [RaylibCoreModule.SetWindowIcon].
   String SetWindowIcon(
-    ImageBase image,
+    ImageD image,
   ) => 'SetWindowIcon($image)';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowIcons].
+  /// Label for [RaylibCoreModule.SetWindowIcons].
   String SetWindowIcons(
-    List<ImageBase> images,
+    List<ImageD> images,
   ) => 'SetWindowIcons(${images.map((i) => i.$state.internalId).join(', ')})';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowTitle].
+  /// Label for [RaylibCoreModule.SetWindowTitle].
   String SetWindowTitle(
     String title,
   ) => 'SetWindowTitle($title)';
 
-  /// Label for [RaylibCoreModuleBase.SetWindowPosition].
+  /// Label for [RaylibCoreModule.SetWindowPosition].
   String SetWindowPosition(
     num x,
     num y,
   ) => 'SetWindowPosition($x, $y)';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowMonitor].
+  /// Label for [RaylibCoreModule.SetWindowMonitor].
   String SetWindowMonitor(
     num monitor,
   ) => 'SetWindowMonitor($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowMinSize].
+  /// Label for [RaylibCoreModule.SetWindowMinSize].
   String SetWindowMinSize(
     num width,
     num height,
   ) => 'SetWindowMinSize($width, $height)';
 
-  /// Label for [RaylibCoreModuleBase.SetWindowMaxSize].
+  /// Label for [RaylibCoreModule.SetWindowMaxSize].
   String SetWindowMaxSize(
     num width,
     num height,
   ) => 'SetWindowMaxSize($width, $height)';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowSize].
+  /// Label for [RaylibCoreModule.SetWindowSize].
   String SetWindowSize(
     num width,
     num height,
   ) => 'SetWindowSize($width, $height)';
 
-  /// Label for [RaylibCoreModuleBase.SetWindowOpacity].
+  /// Label for [RaylibCoreModule.SetWindowOpacity].
   String SetWindowOpacity(
     num opacity,
   ) => 'SetWindowOpacity($opacity)';
     
-  /// Label for [RaylibCoreModuleBase.SetWindowFocused].
+  /// Label for [RaylibCoreModule.SetWindowFocused].
   String SetWindowFocused() => 'SetWindowFocused()';
 
-  /// Label for [RaylibCoreModuleBase.GetScreenWidth].
+  /// Label for [RaylibCoreModule.GetScreenWidth].
   String GetScreenWidth() => 'GetScreenWidth()';
     
-  /// Label for [RaylibCoreModuleBase.GetScreenHeight].
+  /// Label for [RaylibCoreModule.GetScreenHeight].
   String GetScreenHeight() => 'GetScreenHeight()';
     
-  /// Label for [RaylibCoreModuleBase.GetRenderWidth].
+  /// Label for [RaylibCoreModule.GetRenderWidth].
   String GetRenderWidth() => 'GetRenderWidth()';
     
-  /// Label for [RaylibCoreModuleBase.GetRenderHeight].
+  /// Label for [RaylibCoreModule.GetRenderHeight].
   String GetRenderHeight() => 'GetRenderHeight()';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorCount].
+  /// Label for [RaylibCoreModule.GetMonitorCount].
   String GetMonitorCount() => 'GetMonitorCount()';
     
-  /// Label for [RaylibCoreModuleBase.GetCurrentMonitor].
+  /// Label for [RaylibCoreModule.GetCurrentMonitor].
   String GetCurrentMonitor() => 'GetCurrentMonitor()';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorPosition].
+  /// Label for [RaylibCoreModule.GetMonitorPosition].
   String GetMonitorPosition(
     num monitor,
   ) => 'GetMonitorPosition($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorWidth].
+  /// Label for [RaylibCoreModule.GetMonitorWidth].
   String GetMonitorWidth(
     num monitor,
   ) => 'GetMonitorWidth($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorHeight].
+  /// Label for [RaylibCoreModule.GetMonitorHeight].
   String GetMonitorHeight(
     num monitor,
   ) => 'GetMonitorHeight($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorPhysicalWidth].
+  /// Label for [RaylibCoreModule.GetMonitorPhysicalWidth].
   String GetMonitorPhysicalWidth(
     num monitor,
   ) => 'GetMonitorPhysicalWidth($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorPhysicalHeight].
+  /// Label for [RaylibCoreModule.GetMonitorPhysicalHeight].
   String GetMonitorPhysicalHeight(
     num monitor,
   ) => 'GetMonitorPhysicalHeight($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorRefreshRate].
+  /// Label for [RaylibCoreModule.GetMonitorRefreshRate].
   String GetMonitorRefreshRate(
     num monitor,
   ) => 'GetMonitorRefreshRate($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.GetWindowPosition].
+  /// Label for [RaylibCoreModule.GetWindowPosition].
   String GetWindowPosition() => 'GetWindowPosition()';
     
-  /// Label for [RaylibCoreModuleBase.GetWindowScaleDPI].
+  /// Label for [RaylibCoreModule.GetWindowScaleDPI].
   String GetWindowScaleDPI() => 'GetWindowScaleDPI()';
     
-  /// Label for [RaylibCoreModuleBase.GetMonitorName].
+  /// Label for [RaylibCoreModule.GetMonitorName].
   String GetMonitorName(
     num monitor,
   ) => 'GetMonitorName($monitor)';
     
-  /// Label for [RaylibCoreModuleBase.SetClipboardText].
+  /// Label for [RaylibCoreModule.SetClipboardText].
   String SetClipboardText(
     String text,
   ) => 'SetClipboardText($text)';
     
-  /// Label for [RaylibCoreModuleBase.GetClipboardText].
+  /// Label for [RaylibCoreModule.GetClipboardText].
   String GetClipboardText() => 'GetClipboardText()';
 
-  /// Label for [RaylibCoreModuleBase.GetClipboardImage].
+  /// Label for [RaylibCoreModule.GetClipboardImage].
   String GetClipboardImage() => 'GetClipboardImage()';
     
-  /// Label for [RaylibCoreModuleBase.EnableEventWaiting].
+  /// Label for [RaylibCoreModule.EnableEventWaiting].
   String EnableEventWaiting() => 'EnableEventWaiting()';
     
-  /// Label for [RaylibCoreModuleBase.DisableEventWaiting].
+  /// Label for [RaylibCoreModule.DisableEventWaiting].
   String DisableEventWaiting() => 'DisableEventWaiting()';
     
-  /// Label for [RaylibCoreModuleBase.ShowCursor].
+  /// Label for [RaylibCoreModule.ShowCursor].
   String ShowCursor() => 'ShowCursor()';
     
-  /// Label for [RaylibCoreModuleBase.HideCursor].
+  /// Label for [RaylibCoreModule.HideCursor].
   String HideCursor() => 'HideCursor()';
     
-  /// Label for [RaylibCoreModuleBase.IsCursorHidden].
+  /// Label for [RaylibCoreModule.IsCursorHidden].
   String IsCursorHidden() => 'IsCursorHidden()';
     
-  /// Label for [RaylibCoreModuleBase.EnableCursor].
+  /// Label for [RaylibCoreModule.EnableCursor].
   String EnableCursor() => 'EnableCursor()';
     
-  /// Label for [RaylibCoreModuleBase.DisableCursor].
+  /// Label for [RaylibCoreModule.DisableCursor].
   String DisableCursor() => 'DisableCursor()';
     
-  /// Label for [RaylibCoreModuleBase.IsCursorOnScreen].
+  /// Label for [RaylibCoreModule.IsCursorOnScreen].
   String IsCursorOnScreen() => 'IsCursorOnScreen()';
     
-  /// Label for [RaylibCoreModuleBase.ClearBackground].
+  /// Label for [RaylibCoreModule.ClearBackground].
   String ClearBackground(
-    ColorBase color,
+    ColorD color,
   ) => 'ClearBackground($color)';
     
-  /// Label for [RaylibCoreModuleBase.BeginDrawing].
+  /// Label for [RaylibCoreModule.BeginDrawing].
   String BeginDrawing() => 'BeginDrawing()';
     
-  /// Label for [RaylibCoreModuleBase.EndDrawing].
+  /// Label for [RaylibCoreModule.EndDrawing].
   String EndDrawing() => 'EndDrawing()';
     
-  /// Label for [RaylibCoreModuleBase.BeginMode2D].
+  /// Label for [RaylibCoreModule.BeginMode2D].
   String BeginMode2D(
-    Camera2DBase camera,
+    Camera2DD camera,
   ) => 'BeginMode2D($camera)';
 
-  /// Label for [RaylibCoreModuleBase.EndMode2D].
+  /// Label for [RaylibCoreModule.EndMode2D].
   String EndMode2D() => 'EndMode2D()';
     
-  /// Label for [RaylibCoreModuleBase.BeginMode3D].
+  /// Label for [RaylibCoreModule.BeginMode3D].
   String BeginMode3D(
-    Camera3DBase camera,
+    Camera3DD camera,
   ) => 'BeginMode3D($camera)';
 
-  /// Label for [RaylibCoreModuleBase.EndMode3D].
+  /// Label for [RaylibCoreModule.EndMode3D].
   String EndMode3D() => 'EndMode3D()';
     
-  /// Label for [RaylibCoreModuleBase.BeginTextureMode].
+  /// Label for [RaylibCoreModule.BeginTextureMode].
   String BeginTextureMode(
-    RenderTextureBase target,
+    RenderTextureD target,
   ) => 'BeginTextureMode($target)';
     
-  /// Label for [RaylibCoreModuleBase.EndTextureMode].
+  /// Label for [RaylibCoreModule.EndTextureMode].
   String EndTextureMode() => 'EndTextureMode()';
     
-  /// Label for [RaylibCoreModuleBase.BeginShaderMode].
+  /// Label for [RaylibCoreModule.BeginShaderMode].
   String BeginShaderMode(
-    ShaderBase shader,
+    ShaderD shader,
   ) => 'BeginShaderMode($shader)';
     
-  /// Label for [RaylibCoreModuleBase.EndShaderMode].
+  /// Label for [RaylibCoreModule.EndShaderMode].
   String EndShaderMode() => 'EndShaderMode()';
     
-  /// Label for [RaylibCoreModuleBase.BeginBlendMode].
+  /// Label for [RaylibCoreModule.BeginBlendMode].
   String BeginBlendMode(
     BlendMode mode,
   ) => 'BeginBlendMode($mode)';
     
-  /// Label for [RaylibCoreModuleBase.EndBlendMode].
+  /// Label for [RaylibCoreModule.EndBlendMode].
   String EndBlendMode() => 'EndBlendMode()';
     
-  /// Label for [RaylibCoreModuleBase.BeginScissorMode].
+  /// Label for [RaylibCoreModule.BeginScissorMode].
   String BeginScissorMode(
     num x,
     num y,
@@ -273,59 +273,59 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num height,
   ) => 'BeginScissorMode($x, $y, $width, $height)';
     
-  /// Label for [RaylibCoreModuleBase.EndScissorMode].
+  /// Label for [RaylibCoreModule.EndScissorMode].
   String EndScissorMode() => 'EndScissorMode()';
     
-  /// Label for [RaylibCoreModuleBase.BeginVrStereoMode].
+  /// Label for [RaylibCoreModule.BeginVrStereoMode].
   String BeginVrStereoMode(
-    VrStereoConfigBase config,
+    VrStereoConfigD config,
   ) => 'BeginVrStereoMode($config)';
     
-  /// Label for [RaylibCoreModuleBase.EndVrStereoMode].
+  /// Label for [RaylibCoreModule.EndVrStereoMode].
   String EndVrStereoMode() => 'EndVrStereoMode()';
     
-  /// Label for [RaylibCoreModuleBase.LoadVrStereoConfig].
+  /// Label for [RaylibCoreModule.LoadVrStereoConfig].
   String LoadVrStereoConfig(
-    VrDeviceInfoBase device,
+    VrDeviceInfoD device,
   ) => 'LoadVrStereoConfig($device)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadVrStereoConfig].
+  /// Label for [RaylibCoreModule.UnloadVrStereoConfig].
   String UnloadVrStereoConfig(
-    VrStereoConfigBase config,
+    VrStereoConfigD config,
   ) => 'UnloadVrStereoConfig($config)';
     
-  /// Label for [RaylibCoreModuleBase.LoadShader].
+  /// Label for [RaylibCoreModule.LoadShader].
   String LoadShader(
     String? vsFileName,
     String? fsFileName,
   ) => 'LoadShader($vsFileName, $fsFileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadShaderFromMemory].
+  /// Label for [RaylibCoreModule.LoadShaderFromMemory].
   String LoadShaderFromMemory(
     String? vsCode,
     String? fsCode,
   ) => 'LoadShaderFromMemory($vsCode, $fsCode)';
     
-  /// Label for [RaylibCoreModuleBase.IsShaderValid].
+  /// Label for [RaylibCoreModule.IsShaderValid].
   String IsShaderValid(
-    ShaderBase shader,
+    ShaderD shader,
   ) => 'IsShaderValid($shader)';
     
-  /// Label for [RaylibCoreModuleBase.GetShaderLocation].
+  /// Label for [RaylibCoreModule.GetShaderLocation].
   String GetShaderLocation(
-    ShaderBase shader,
+    ShaderD shader,
     String uniformName,
   ) => 'GetShaderLocation($shader, $uniformName)';
     
-  /// Label for [RaylibCoreModuleBase.GetShaderLocationAttrib].
+  /// Label for [RaylibCoreModule.GetShaderLocationAttrib].
   String GetShaderLocationAttrib(
-    ShaderBase shader,
+    ShaderD shader,
     String attribName,
   ) => 'GetShaderLocationAttrib($shader, $attribName)';
   
-  /// Label for [RaylibCoreModuleBase.SetShaderValue].
+  /// Label for [RaylibCoreModule.SetShaderValue].
   String SetShaderValue(
-    ShaderBase shader,
+    ShaderD shader,
     num locIndex,
     List<num> value,
     ShaderUniformDataType uniformType,
@@ -337,531 +337,531 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     1,
   );
 
-  /// Label for [RaylibCoreModuleBase.SetShaderValueV].
+  /// Label for [RaylibCoreModule.SetShaderValueV].
   String SetShaderValueV(
-    ShaderBase shader,
+    ShaderD shader,
     num locIndex,
     List<num> value,
     ShaderUniformDataType uniformType,
     num count,
   ) => 'SetShaderValueV($shader, $locIndex, $value, ${uniformType.name}, $count)';
     
-  /// Label for [RaylibCoreModuleBase.SetShaderValueMatrix].
+  /// Label for [RaylibCoreModule.SetShaderValueMatrix].
   String SetShaderValueMatrix(
-    ShaderBase shader,
+    ShaderD shader,
     num locIndex,
-    MatrixBase mat,
+    MatrixD mat,
   ) => 'SetShaderValueMatrix($shader, $locIndex, $mat)';
     
-  /// Label for [RaylibCoreModuleBase.SetShaderValueTexture].
+  /// Label for [RaylibCoreModule.SetShaderValueTexture].
   String SetShaderValueTexture(
-    ShaderBase shader,
+    ShaderD shader,
     num locIndex,
-    TextureBase texture,
+    TextureD texture,
   ) => 'SetShaderValueTexture($shader, $locIndex, $texture)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadShader].
+  /// Label for [RaylibCoreModule.UnloadShader].
   String UnloadShader(
-    ShaderBase shader,
+    ShaderD shader,
   ) => 'UnloadShader($shader)';
     
-  /// Label for [RaylibCoreModuleBase.GetScreenToWorldRay].
+  /// Label for [RaylibCoreModule.GetScreenToWorldRay].
   String GetScreenToWorldRay(
-    Vector2Base position,
-    Camera3DBase camera,
+    Vector2D position,
+    Camera3DD camera,
   ) => 'GetScreenToWorldRay($position, $camera)';
     
-  /// Label for [RaylibCoreModuleBase.GetScreenToWorldRayEx].
+  /// Label for [RaylibCoreModule.GetScreenToWorldRayEx].
   String GetScreenToWorldRayEx(
-    Vector2Base position,
-    Camera3DBase camera,
+    Vector2D position,
+    Camera3DD camera,
     num width,
     num height,
   ) => 'GetScreenToWorldRayEx($position, $camera, $width, $height)';
 
-  /// Label for [RaylibCoreModuleBase.GetWorldToScreen].
+  /// Label for [RaylibCoreModule.GetWorldToScreen].
   String GetWorldToScreen(
-    Vector3Base position,
-    Camera3DBase camera,
+    Vector3D position,
+    Camera3DD camera,
   ) => 'GetWorldToScreen($position, $camera)';
 
-  /// Label for [RaylibCoreModuleBase.GetWorldToScreenEx].
+  /// Label for [RaylibCoreModule.GetWorldToScreenEx].
   String GetWorldToScreenEx(
-    Vector3Base position,
-    Camera3DBase camera,
+    Vector3D position,
+    Camera3DD camera,
     num width,
     num height,
   ) => 'GetWorldToScreenEx($position, $camera, $width, $height)';
 
-  /// Label for [RaylibCoreModuleBase.GetWorldToScreen2D].
+  /// Label for [RaylibCoreModule.GetWorldToScreen2D].
   String GetWorldToScreen2D(
-    Vector2Base position,
-    Camera2DBase camera,
+    Vector2D position,
+    Camera2DD camera,
   ) => 'GetWorldToScreen2D($position, $camera)';
 
-  /// Label for [RaylibCoreModuleBase.GetScreenToWorld2D].
+  /// Label for [RaylibCoreModule.GetScreenToWorld2D].
   String GetScreenToWorld2D(
-    Vector2Base position,
-    Camera2DBase camera,
+    Vector2D position,
+    Camera2DD camera,
   ) => 'GetScreenToWorld2D($position, $camera)';
 
-  /// Label for [RaylibCoreModuleBase.GetCameraMatrix].
+  /// Label for [RaylibCoreModule.GetCameraMatrix].
   String GetCameraMatrix(
-    Camera3DBase camera,
+    Camera3DD camera,
   ) => 'GetCameraMatrix($camera)';
 
-  /// Label for [RaylibCoreModuleBase.GetCameraMatrix2D].
+  /// Label for [RaylibCoreModule.GetCameraMatrix2D].
   String GetCameraMatrix2D(
-    Camera2DBase camera,
+    Camera2DD camera,
   ) => 'GetCameraMatrix2D($camera)';
     
-  /// Label for [RaylibCoreModuleBase.SetTargetFPS].
+  /// Label for [RaylibCoreModule.SetTargetFPS].
   String SetTargetFPS(
     num fps,
   ) => 'SetTargetFPS($fps)';
 
-  /// Label for [RaylibCoreModuleBase.GetFrameTime].
+  /// Label for [RaylibCoreModule.GetFrameTime].
   String GetFrameTime() => 'GetFrameTime()';
 
-  /// Label for [RaylibCoreModuleBase.GetTime].
+  /// Label for [RaylibCoreModule.GetTime].
   String GetTime() => 'GetTime()';
 
-  /// Label for [RaylibCoreModuleBase.GetFPS].
+  /// Label for [RaylibCoreModule.GetFPS].
   String GetFPS() => 'GetFPS()';
 
-  /// Label for [RaylibCoreModuleBase.SwapScreenBuffer].
+  /// Label for [RaylibCoreModule.SwapScreenBuffer].
   String SwapScreenBuffer() => 'SwapScreenBuffer()';
 
-  /// Label for [RaylibCoreModuleBase.PollInputEvents].
+  /// Label for [RaylibCoreModule.PollInputEvents].
   String PollInputEvents() => 'PollInputEvents()';
 
-  /// Label for [RaylibCoreModuleBase.WaitTime].
+  /// Label for [RaylibCoreModule.WaitTime].
   String WaitTime(
     num seconds,
   ) => 'WaitTime($seconds)';
 
-  /// Label for [RaylibCoreModuleBase.SetRandomSeed].
+  /// Label for [RaylibCoreModule.SetRandomSeed].
   String SetRandomSeed(
     num seed,
   ) => 'SetRandomSeed($seed)';
 
-  /// Label for [RaylibCoreModuleBase.GetRandomValue].
+  /// Label for [RaylibCoreModule.GetRandomValue].
   String GetRandomValue(
     num min,
     num max,
   ) => 'GetRandomValue($min, $max)';
   
-  /// Label for [RaylibCoreModuleBase.LoadRandomSequence].
+  /// Label for [RaylibCoreModule.LoadRandomSequence].
   String LoadRandomSequence(
     num count,
     num min,
     num max,
   ) => 'LoadRandomSequence($count, $min, $max)';
     
-  /// Label for [RaylibCoreModuleBase.TakeScreenshot].
+  /// Label for [RaylibCoreModule.TakeScreenshot].
   String TakeScreenshot(
     String fileName,
   ) => 'TakeScreenshot($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.SetConfigFlags].
+  /// Label for [RaylibCoreModule.SetConfigFlags].
   String SetConfigFlags(
     Iterable<ConfigFlags> flags,
   ) => 'SetConfigFlags(${EnumsAsFlagsOr(flags)})';
 
-  /// Label for [RaylibCoreModuleBase.OpenURL].
+  /// Label for [RaylibCoreModule.OpenURL].
   String OpenURL(
     String url,
   ) => 'OpenURL($url)';
 
-  /// Label for [RaylibCoreModuleBase.TraceLog].
+  /// Label for [RaylibCoreModule.TraceLog].
   String TraceLog(
     TraceLogLevel logLevel,
     String text,
   ) => 'TraceLog(${logLevel.name}, $text)';
 
-  /// Label for [RaylibCoreModuleBase.SetTraceLogLevel].
+  /// Label for [RaylibCoreModule.SetTraceLogLevel].
   String SetTraceLogLevel(
     TraceLogLevel logLevel,
   ) => 'SetTraceLogLevel(${logLevel.name})';
 
-  /// Label for [RaylibCoreModuleBase.SetTraceLogCallback].
+  /// Label for [RaylibCoreModule.SetTraceLogCallback].
   String SetTraceLogCallback(
     TraceLogCallbackBase? callback,
   ) => 'SetTraceLogCallback($callback)';
     
-  /// Label for [RaylibCoreModuleBase.SetLoadFileDataCallback].
+  /// Label for [RaylibCoreModule.SetLoadFileDataCallback].
   String SetLoadFileDataCallback(
     LoadFileDataCallbackBase? callback
   ) => 'SetLoadFileDataCallback($callback)';
     
-  /// Label for [RaylibCoreModuleBase.SetSaveFileDataCallback].
+  /// Label for [RaylibCoreModule.SetSaveFileDataCallback].
   String SetSaveFileDataCallback(
     SaveFileDataCallbackBase? callback
   ) => 'SetSaveFileDataCallback($callback)';
     
-  /// Label for [RaylibCoreModuleBase.SetLoadFileTextCallback].
+  /// Label for [RaylibCoreModule.SetLoadFileTextCallback].
   String SetLoadFileTextCallback(
     LoadFileTextCallbackBase? callback
   ) => 'SetLoadFileTextCallback($callback)';
     
-  /// Label for [RaylibCoreModuleBase.SetSaveFileTextCallback].
+  /// Label for [RaylibCoreModule.SetSaveFileTextCallback].
   String SetSaveFileTextCallback(
     SaveFileTextCallbackBase? callback
   ) => 'SetSaveFileTextCallback($callback)';
     
-  /// Label for [RaylibCoreModuleBase.LoadFileData].
+  /// Label for [RaylibCoreModule.LoadFileData].
   String LoadFileData(
     String fileName,
   ) => 'LoadFileData($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.SaveFileData].
+  /// Label for [RaylibCoreModule.SaveFileData].
   String SaveFileData(
     String fileName,
     Uint8List data,
   ) => 'SaveFileData($fileName, data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.ExportDataAsCode].
+  /// Label for [RaylibCoreModule.ExportDataAsCode].
   String ExportDataAsCode(
     Uint8List data,
     String fileName,
   ) => 'ExportDataAsCode(data: ${data.length}, $fileName)';
 
-  /// Label for [RaylibCoreModuleBase.LoadFileText].
+  /// Label for [RaylibCoreModule.LoadFileText].
   String LoadFileText(
     String fileName,
   ) => 'LoadFileText($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.SaveFileText].
+  /// Label for [RaylibCoreModule.SaveFileText].
   String SaveFileText(
     String fileName,
     String text,
   ) => 'SaveFileText($fileName, $text)';
 
-  /// Label for [RaylibCoreModuleBase.FileRename].
+  /// Label for [RaylibCoreModule.FileRename].
   String FileRename(
     String fileName,
     String fileRename,
   ) => 'FileRename($fileName, $fileRename)';
   
-  /// Label for [RaylibCoreModuleBase.FileRemove].
+  /// Label for [RaylibCoreModule.FileRemove].
   String FileRemove(
     String fileName,
   ) => 'FileRemove($fileName)';
   
-  /// Label for [RaylibCoreModuleBase.FileCopy].
+  /// Label for [RaylibCoreModule.FileCopy].
   String FileCopy(
     String srcPath,
     String dstPath,
   ) => 'FileCopy($srcPath, $dstPath)';
   
-  /// Label for [RaylibCoreModuleBase.FileMove].
+  /// Label for [RaylibCoreModule.FileMove].
   String FileMove(
     String srcPath,
     String dstPath,
   ) => 'FileMove($srcPath, $dstPath)';
   
-  /// Label for [RaylibCoreModuleBase.FileTextReplace].
+  /// Label for [RaylibCoreModule.FileTextReplace].
   String FileTextReplace(
     String fileName,
     String search,
     String replacement,
   ) => 'FileTextReplace($fileName, $search, $replacement)';
   
-  /// Label for [RaylibCoreModuleBase.FileTextFindIndex].
+  /// Label for [RaylibCoreModule.FileTextFindIndex].
   String FileTextFindIndex(
     String fileName,
     String search,
   ) => 'FileTextFindIndex($fileName, $search)';
 
-  /// Label for [RaylibCoreModuleBase.FileExists].
+  /// Label for [RaylibCoreModule.FileExists].
   String FileExists(
     String fileName,
   ) => 'FileExists($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.DirectoryExists].
+  /// Label for [RaylibCoreModule.DirectoryExists].
   String DirectoryExists(
     String dirPath,
   ) => 'DirectoryExists($dirPath)';
 
-  /// Label for [RaylibCoreModuleBase.IsFileExtension].
+  /// Label for [RaylibCoreModule.IsFileExtension].
   String IsFileExtension(
     String fileName,
     String ext,
   ) => 'IsFileExtension($fileName, $ext)';
 
-  /// Label for [RaylibCoreModuleBase.GetFileLength].
+  /// Label for [RaylibCoreModule.GetFileLength].
   String GetFileLength(
     String fileName,
   ) => 'GetFileLength($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.GetFileExtension].
+  /// Label for [RaylibCoreModule.GetFileExtension].
   String GetFileExtension(
     String fileName,
   ) => 'GetFileExtension($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.GetFileName].
+  /// Label for [RaylibCoreModule.GetFileName].
   String GetFileName(
     String filePath,
   ) => 'GetFileName($filePath)';
 
-  /// Label for [RaylibCoreModuleBase.GetFileNameWithoutExt].
+  /// Label for [RaylibCoreModule.GetFileNameWithoutExt].
   String GetFileNameWithoutExt(
     String filePath,
   ) => 'GetFileNameWithoutExt($filePath)';
 
-  /// Label for [RaylibCoreModuleBase.GetDirectoryFileCount].
+  /// Label for [RaylibCoreModule.GetDirectoryFileCount].
   String GetDirectoryFileCount(
     String dirPath, 
   ) => 'GetDirectoryFileCount($dirPath)';
   
-  /// Label for [RaylibCoreModuleBase.GetDirectoryFileCountEx].
+  /// Label for [RaylibCoreModule.GetDirectoryFileCountEx].
   String GetDirectoryFileCountEx(
     String basePath,
     String filter,
     bool scanSubdirs,
   ) => 'GetDirectoryFileCountEx($basePath, $filter, $scanSubdirs)';
 
-  /// Label for [RaylibCoreModuleBase.GetDirectoryPath].
+  /// Label for [RaylibCoreModule.GetDirectoryPath].
   String GetDirectoryPath(
     String filePath,
   ) => 'GetDirectoryPath($filePath)';
 
-  /// Label for [RaylibCoreModuleBase.GetPrevDirectoryPath].
+  /// Label for [RaylibCoreModule.GetPrevDirectoryPath].
   String GetPrevDirectoryPath(
     String dirPath,
   ) => 'GetPrevDirectoryPath($dirPath)';
 
-  /// Label for [RaylibCoreModuleBase.GetWorkingDirectory].
+  /// Label for [RaylibCoreModule.GetWorkingDirectory].
   String GetWorkingDirectory() => 'GetWorkingDirectory()';
 
-  /// Label for [RaylibCoreModuleBase.GetApplicationDirectory].
+  /// Label for [RaylibCoreModule.GetApplicationDirectory].
   String GetApplicationDirectory() => 'GetApplicationDirectory()';
 
-  /// Label for [RaylibCoreModuleBase.MakeDirectory].
+  /// Label for [RaylibCoreModule.MakeDirectory].
   String MakeDirectory(
     String dirPath,
   ) => 'MakeDirectory($dirPath)';
 
-  /// Label for [RaylibCoreModuleBase.ChangeDirectory].
+  /// Label for [RaylibCoreModule.ChangeDirectory].
   String ChangeDirectory(
     String dir,
   ) => 'ChangeDirectory($dir)';
 
-  /// Label for [RaylibCoreModuleBase.IsPathFile].
+  /// Label for [RaylibCoreModule.IsPathFile].
   String IsPathFile(
     String path,
   ) => 'IsPathFile($path)';
 
-  /// Label for [RaylibCoreModuleBase.IsFileNameValid].
+  /// Label for [RaylibCoreModule.IsFileNameValid].
   String IsFileNameValid(
     String fileName,
   ) => 'IsFileNameValid($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadDirectoryFiles].
+  /// Label for [RaylibCoreModule.LoadDirectoryFiles].
   String LoadDirectoryFiles(
     String dirPath,
   ) => 'LoadDirectoryFiles($dirPath)';
     
-  /// Label for [RaylibCoreModuleBase.LoadDirectoryFilesEx].
+  /// Label for [RaylibCoreModule.LoadDirectoryFilesEx].
   String LoadDirectoryFilesEx(
     String basePath,
     String filter,
     bool scanSubdirs,
   ) => 'LoadDirectoryFilesEx($basePath, $filter, $scanSubdirs)';
 
-  /// Label for [RaylibCoreModuleBase.UnloadDirectoryFiles].
+  /// Label for [RaylibCoreModule.UnloadDirectoryFiles].
   String UnloadDirectoryFiles(
-    FilePathListBase files,
+    FilePathListD files,
   ) => 'UnloadDirectoryFiles($files)';
 
-  /// Label for [RaylibCoreModuleBase.IsFileDropped].
+  /// Label for [RaylibCoreModule.IsFileDropped].
   String IsFileDropped() => 'IsFileDropped()';
     
-  /// Label for [RaylibCoreModuleBase.LoadDroppedFiles].
+  /// Label for [RaylibCoreModule.LoadDroppedFiles].
   String LoadDroppedFiles() => 'LoadDroppedFiles()';
 
-  /// Label for [RaylibCoreModuleBase.UnloadDroppedFiles].
+  /// Label for [RaylibCoreModule.UnloadDroppedFiles].
   String UnloadDroppedFiles(
-    FilePathListBase files,
+    FilePathListD files,
   ) => 'UnloadDroppedFiles($files)';
 
-  /// Label for [RaylibCoreModuleBase.GetFileModTime].
+  /// Label for [RaylibCoreModule.GetFileModTime].
   String GetFileModTime(
     String fileName,
   ) => 'GetFileModTime($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.CompressData].
+  /// Label for [RaylibCoreModule.CompressData].
   String CompressData(
     Uint8List data,
   ) => 'CompressData(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.DecompressData].
+  /// Label for [RaylibCoreModule.DecompressData].
   String DecompressData(
     Uint8List compData,
   ) => 'DecompressData(compData: ${compData.length})';
 
-  /// Label for [RaylibCoreModuleBase.EncodeDataBase64].
+  /// Label for [RaylibCoreModule.EncodeDataBase64].
   String EncodeDataBase64(
     Uint8List data,
   ) => 'EncodeDataBase64(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.DecodeDataBase64].
+  /// Label for [RaylibCoreModule.DecodeDataBase64].
   String DecodeDataBase64(
     Uint8List data,
   ) => 'DecodeDataBase64(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.ComputeCRC32].
+  /// Label for [RaylibCoreModule.ComputeCRC32].
   String ComputeCRC32(
     Uint8List data,
   ) => 'ComputeCRC32(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.ComputeMD5].
+  /// Label for [RaylibCoreModule.ComputeMD5].
   String ComputeMD5(
     Uint8List data,
   ) => 'ComputeMD5(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.ComputeSHA1].
+  /// Label for [RaylibCoreModule.ComputeSHA1].
   String ComputeSHA1(
     Uint8List data,
   ) => 'ComputeSHA1(data: ${data.length})';
 
-  /// Label for [RaylibCoreModuleBase.ComputeSHA256].
+  /// Label for [RaylibCoreModule.ComputeSHA256].
   String ComputeSHA256(
     Uint8List data,
   ) => 'ComputeSHA256(data: ${data.length})';
     
-  /// Label for [RaylibCoreModuleBase.LoadAutomationEventList].
+  /// Label for [RaylibCoreModule.LoadAutomationEventList].
   String LoadAutomationEventList(
     String? fileName,
   ) => 'LoadAutomationEventList($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadAutomationEventList].
+  /// Label for [RaylibCoreModule.UnloadAutomationEventList].
   String UnloadAutomationEventList(
-    AutomationEventListBase list,
+    AutomationEventListD list,
   ) => 'UnloadAutomationEventList($list)';
     
-  /// Label for [RaylibCoreModuleBase.ExportAutomationEventList].
+  /// Label for [RaylibCoreModule.ExportAutomationEventList].
   String ExportAutomationEventList(
-    AutomationEventListBase list,
+    AutomationEventListD list,
     String fileName,
   ) => 'ExportAutomationEventList($list, $fileName)';
     
-  /// Label for [RaylibCoreModuleBase.SetAutomationEventList].
+  /// Label for [RaylibCoreModule.SetAutomationEventList].
   String SetAutomationEventList(
-    AutomationEventListBase list,
+    AutomationEventListD list,
   ) => 'SetAutomationEventList($list)';
     
-  /// Label for [RaylibCoreModuleBase.SetAutomationEventBaseFrame].
+  /// Label for [RaylibCoreModule.SetAutomationEventBaseFrame].
   String SetAutomationEventBaseFrame(
     int frame,
   ) => 'SetAutomationEventBaseFrame($frame)';
     
-  /// Label for [RaylibCoreModuleBase.StartAutomationEventRecording].
+  /// Label for [RaylibCoreModule.StartAutomationEventRecording].
   String StartAutomationEventRecording() => 'StartAutomationEventRecording()';
 
-  /// Label for [RaylibCoreModuleBase.StopAutomationEventRecording].
+  /// Label for [RaylibCoreModule.StopAutomationEventRecording].
   String StopAutomationEventRecording() => 'StopAutomationEventRecording()';
     
-  /// Label for [RaylibCoreModuleBase.PlayAutomationEvent].
+  /// Label for [RaylibCoreModule.PlayAutomationEvent].
   String PlayAutomationEvent(
-    AutomationEventBase event,
+    AutomationEventD event,
   ) => 'PlayAutomationEvent($event)';
 
-  /// Label for [RaylibCoreModuleBase.IsKeyPressed].
+  /// Label for [RaylibCoreModule.IsKeyPressed].
   String IsKeyPressed(
     KeyboardKey key,
   ) => 'IsKeyPressed($key)';
 
-  /// Label for [RaylibCoreModuleBase.IsKeyPressedRepeat].
+  /// Label for [RaylibCoreModule.IsKeyPressedRepeat].
   String IsKeyPressedRepeat(
     KeyboardKey key,
   ) => 'IsKeyPressedRepeat($key)';
 
-  /// Label for [RaylibCoreModuleBase.IsKeyDown].
+  /// Label for [RaylibCoreModule.IsKeyDown].
   String IsKeyDown(
     KeyboardKey key,
   ) => 'IsKeyDown($key)';
   
-  /// Label for [RaylibCoreModuleBase.IsKeyReleased].
+  /// Label for [RaylibCoreModule.IsKeyReleased].
   String IsKeyReleased(
     KeyboardKey key,
   ) => 'IsKeyReleased($key)';
   
-  /// Label for [RaylibCoreModuleBase.IsKeyUp].
+  /// Label for [RaylibCoreModule.IsKeyUp].
   String IsKeyUp(
     KeyboardKey key,
   ) => 'IsKeyUp($key)';
 
-  /// Label for [RaylibCoreModuleBase.GetKeyName].
+  /// Label for [RaylibCoreModule.GetKeyName].
   String GetKeyName(
     KeyboardKey key,
   ) => 'GetKeyName($key)';
 
-  /// Label for [RaylibCoreModuleBase.GetKeyPressed].
+  /// Label for [RaylibCoreModule.GetKeyPressed].
   String GetKeyPressed() => 'GetKeyPressed()';
 
-  /// Label for [RaylibCoreModuleBase.GetCharPressed].
+  /// Label for [RaylibCoreModule.GetCharPressed].
   String GetCharPressed() => 'GetCharPressed()';
 
-  /// Label for [RaylibCoreModuleBase.SetExitKey].
+  /// Label for [RaylibCoreModule.SetExitKey].
   String SetExitKey(
     KeyboardKey key,
   ) => 'SetExitKey(${key.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsGamepadAvailable].
+  /// Label for [RaylibCoreModule.IsGamepadAvailable].
   String IsGamepadAvailable(
     num gamepad,
   ) => 'IsGamepadAvailable($gamepad)';
 
-  /// Label for [RaylibCoreModuleBase.GetGamepadName].
+  /// Label for [RaylibCoreModule.GetGamepadName].
   String GetGamepadName(
     num gamepad,
   ) => 'GetGamepadName($gamepad)';
 
-  /// Label for [RaylibCoreModuleBase.IsGamepadButtonPressed].
+  /// Label for [RaylibCoreModule.IsGamepadButtonPressed].
   String IsGamepadButtonPressed(
     num gamepad,
     GamepadButton button,
   ) => 'IsGamepadButtonPressed($gamepad, ${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsGamepadButtonDown].
+  /// Label for [RaylibCoreModule.IsGamepadButtonDown].
   String IsGamepadButtonDown(
     num gamepad,
     GamepadButton button,
   ) => 'IsGamepadButtonDown($gamepad, ${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsGamepadButtonReleased].
+  /// Label for [RaylibCoreModule.IsGamepadButtonReleased].
   String IsGamepadButtonReleased(
     num gamepad,
     GamepadButton button,
   ) => 'IsGamepadButtonReleased($gamepad, ${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsGamepadButtonUp].
+  /// Label for [RaylibCoreModule.IsGamepadButtonUp].
   String IsGamepadButtonUp(
     num gamepad,
     GamepadButton button,
   ) => 'IsGamepadButtonUp($gamepad, ${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.GetGamepadButtonPressed].
+  /// Label for [RaylibCoreModule.GetGamepadButtonPressed].
   String GetGamepadButtonPressed() => 'GetGamepadButtonPressed()';
 
-  /// Label for [RaylibCoreModuleBase.GetGamepadAxisCount].
+  /// Label for [RaylibCoreModule.GetGamepadAxisCount].
   String GetGamepadAxisCount(
     num gamepad,
   ) => 'GetGamepadAxisCount($gamepad)';
 
-  /// Label for [RaylibCoreModuleBase.GetGamepadAxisMovement].
+  /// Label for [RaylibCoreModule.GetGamepadAxisMovement].
   String GetGamepadAxisMovement(
     num gamepad,
     GamepadAxis axis,
   ) => 'GetGamepadAxisMovement($gamepad, $axis)';
 
-  /// Label for [RaylibCoreModuleBase.SetGamepadMappings].
+  /// Label for [RaylibCoreModule.SetGamepadMappings].
   String SetGamepadMappings(
     String mappings,
   ) => 'SetGamepadMappings($mappings)';
     
-  /// Label for [RaylibCoreModuleBase.SetGamepadVibration].
+  /// Label for [RaylibCoreModule.SetGamepadVibration].
   String SetGamepadVibration(
     num gamepad,
     num leftMotor,
@@ -869,686 +869,686 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num duration,
   ) => 'SetGamepadVibration($gamepad, $leftMotor, $rightMotor, $duration)';
 
-  /// Label for [RaylibCoreModuleBase.IsMouseButtonPressed].
+  /// Label for [RaylibCoreModule.IsMouseButtonPressed].
   String IsMouseButtonPressed(
     MouseButton button,
   ) => 'IsMouseButtonPressed(${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsMouseButtonDown].
+  /// Label for [RaylibCoreModule.IsMouseButtonDown].
   String IsMouseButtonDown(
     MouseButton button,
   ) => 'IsMouseButtonDown(${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsMouseButtonReleased].
+  /// Label for [RaylibCoreModule.IsMouseButtonReleased].
   String IsMouseButtonReleased(
     MouseButton button,
   ) => 'IsMouseButtonReleased(${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.IsMouseButtonUp].
+  /// Label for [RaylibCoreModule.IsMouseButtonUp].
   String IsMouseButtonUp(
     MouseButton button,
   ) => 'IsMouseButtonUp(${button.name})';
 
-  /// Label for [RaylibCoreModuleBase.GetMouseX].
+  /// Label for [RaylibCoreModule.GetMouseX].
   String GetMouseX() => 'GetMouseX()';
 
-  /// Label for [RaylibCoreModuleBase.GetMouseY].
+  /// Label for [RaylibCoreModule.GetMouseY].
   String GetMouseY() => 'GetMouseY()';
 
-  /// Label for [RaylibCoreModuleBase.GetMousePosition].
+  /// Label for [RaylibCoreModule.GetMousePosition].
   String GetMousePosition() => 'GetMousePosition()';
 
-  /// Label for [RaylibCoreModuleBase.GetMouseDelta].
+  /// Label for [RaylibCoreModule.GetMouseDelta].
   String GetMouseDelta() => 'GetMouseDelta()';
 
-  /// Label for [RaylibCoreModuleBase.SetMousePosition].
+  /// Label for [RaylibCoreModule.SetMousePosition].
   String SetMousePosition(
     num x,
     num y,
   ) => 'SetMousePosition($x, $y)';
 
-  /// Label for [RaylibCoreModuleBase.SetMouseOffset].
+  /// Label for [RaylibCoreModule.SetMouseOffset].
   String SetMouseOffset(
     num offsetX,
     num offsetY,
   ) => 'SetMouseOffset($offsetX, $offsetY)';
 
-  /// Label for [RaylibCoreModuleBase.SetMouseScale].
+  /// Label for [RaylibCoreModule.SetMouseScale].
   String SetMouseScale(
     num scaleX,
     num scaleY,
   ) => 'SetMouseScale($scaleX, $scaleY)';
 
-  /// Label for [RaylibCoreModuleBase.GetMouseWheelMove].
+  /// Label for [RaylibCoreModule.GetMouseWheelMove].
   String GetMouseWheelMove() => 'GetMouseWheelMove()';
 
-  /// Label for [RaylibCoreModuleBase.GetMouseWheelMoveV].
+  /// Label for [RaylibCoreModule.GetMouseWheelMoveV].
   String GetMouseWheelMoveV() => 'GetMouseWheelMoveV()';
 
-  /// Label for [RaylibCoreModuleBase.SetMouseCursor].
+  /// Label for [RaylibCoreModule.SetMouseCursor].
   String SetMouseCursor(
     MouseCursor cursor,
   ) => 'SetMouseCursor(${cursor.name})';
 
-  /// Label for [RaylibCoreModuleBase.GetTouchX].
+  /// Label for [RaylibCoreModule.GetTouchX].
   String GetTouchX() => 'GetTouchX()';
 
-  /// Label for [RaylibCoreModuleBase.GetTouchY].
+  /// Label for [RaylibCoreModule.GetTouchY].
   String GetTouchY() => 'GetTouchY()';
 
-  /// Label for [RaylibCoreModuleBase.GetTouchPosition].
+  /// Label for [RaylibCoreModule.GetTouchPosition].
   String GetTouchPosition(
     num index,
   ) => 'GetTouchPosition($index)';
 
-  /// Label for [RaylibCoreModuleBase.GetTouchPointId].
+  /// Label for [RaylibCoreModule.GetTouchPointId].
   String GetTouchPointId(
     num index,
   ) => 'GetTouchPointId($index)';
 
-  /// Label for [RaylibCoreModuleBase.GetTouchPointCount].
+  /// Label for [RaylibCoreModule.GetTouchPointCount].
   String GetTouchPointCount() => 'GetTouchPointCount()';
 
-  /// Label for [RaylibCoreModuleBase.SetGesturesEnabled].
+  /// Label for [RaylibCoreModule.SetGesturesEnabled].
   String SetGesturesEnabled(
     Iterable<Gesture> flags,
   ) => 'SetGesturesEnabled($flags)';
 
-  /// Label for [RaylibCoreModuleBase.IsGestureDetected].
+  /// Label for [RaylibCoreModule.IsGestureDetected].
   String IsGestureDetected(
     Gesture key,
   ) => 'IsGestureDetected($key)';
 
-  /// Label for [RaylibCoreModuleBase.GetGestureDetected].
+  /// Label for [RaylibCoreModule.GetGestureDetected].
   String GetGestureDetected() => 'GetGestureDetected()';
 
-  /// Label for [RaylibCoreModuleBase.GetGestureHoldDuration].
+  /// Label for [RaylibCoreModule.GetGestureHoldDuration].
   String GetGestureHoldDuration() => 'GetGestureHoldDuration()';
 
-  /// Label for [RaylibCoreModuleBase.GetGestureDragVector].
+  /// Label for [RaylibCoreModule.GetGestureDragVector].
   String GetGestureDragVector() => 'GetGestureDragVector()';
 
-  /// Label for [RaylibCoreModuleBase.GetGestureDragAngle].
+  /// Label for [RaylibCoreModule.GetGestureDragAngle].
   String GetGestureDragAngle() => 'GetGestureDragAngle()';
 
-  /// Label for [RaylibCoreModuleBase.GetGesturePinchVector].
+  /// Label for [RaylibCoreModule.GetGesturePinchVector].
   String GetGesturePinchVector() => 'GetGesturePinchVector()';
 
-  /// Label for [RaylibCoreModuleBase.GetGesturePinchAngle].
+  /// Label for [RaylibCoreModule.GetGesturePinchAngle].
   String GetGesturePinchAngle() => 'GetGesturePinchAngle()';
 
-  /// Label for [RaylibCoreModuleBase.ProcessGestureEvent].
+  /// Label for [RaylibCoreModule.ProcessGestureEvent].
   String ProcessGestureEvent(
-    GestureEventBase event,
+    GestureEventD event,
   ) => 'ProcessGestureEvent($event)';
   
-  /// Label for [RaylibCoreModuleBase.UpdateGestures].
+  /// Label for [RaylibCoreModule.UpdateGestures].
   String UpdateGestures() => 'UpdateGestures()';
     
-  /// Label for [RaylibCoreModuleBase.UpdateCamera].
+  /// Label for [RaylibCoreModule.UpdateCamera].
   String UpdateCamera(
-    Camera3DBase camera,
+    Camera3DD camera,
     CameraMode mode,
   ) => 'UpdateCamera($camera, $mode)';
 
-  /// Label for [RaylibCoreModuleBase.UpdateCameraPro].
+  /// Label for [RaylibCoreModule.UpdateCameraPro].
   String UpdateCameraPro(
-    Camera3DBase camera,
-    Vector3Base movement,
-    Vector3Base rotation,
+    Camera3DD camera,
+    Vector3D movement,
+    Vector3D rotation,
     num zoom,
   ) => 'UpdateCameraPro($camera, $movement, $rotation, $zoom)';
 
-  /// Label for [RaylibCoreModuleBase.SetShapesTexture].
+  /// Label for [RaylibCoreModule.SetShapesTexture].
   String SetShapesTexture(
-    TextureBase texture,
-    RectangleBase source,
+    TextureD texture,
+    RectangleD source,
   ) => 'SetShapesTexture($texture, $source)';
 
-  /// Label for [RaylibCoreModuleBase.GetShapesTexture].
+  /// Label for [RaylibCoreModule.GetShapesTexture].
   String GetShapesTexture() => 'GetShapesTexture()';
 
-  /// Label for [RaylibCoreModuleBase.GetShapesTextureRectangle].
+  /// Label for [RaylibCoreModule.GetShapesTextureRectangle].
   String GetShapesTextureRectangle() => 'GetShapesTextureRectangle()';
 
-  /// Label for [RaylibCoreModuleBase.DrawPixel].
+  /// Label for [RaylibCoreModule.DrawPixel].
   String DrawPixel(
     num posX,
     num posY,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawPixel($posX, $posY, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawPixelV].
+  /// Label for [RaylibCoreModule.DrawPixelV].
   String DrawPixelV(
-    Vector2Base position,
-    ColorBase color,
+    Vector2D position,
+    ColorD color,
   ) => 'DrawPixelV($position, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawLine].
+  /// Label for [RaylibCoreModule.DrawLine].
   String DrawLine(
     num startPosX,
     num startPosY,
     num endPosX,
     num endPosY,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawLine($startPosX, $startPosY, $endPosX, $endPosY, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawLineV].
+  /// Label for [RaylibCoreModule.DrawLineV].
   String DrawLineV(
-    Vector2Base startPos,
-    Vector2Base endPos,
-    ColorBase color,
+    Vector2D startPos,
+    Vector2D endPos,
+    ColorD color,
   ) => 'DrawLineV($startPos, $endPos, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawLineEx].
+  /// Label for [RaylibCoreModule.DrawLineEx].
   String DrawLineEx(
-    Vector2Base startPos,
-    Vector2Base endPos,
+    Vector2D startPos,
+    Vector2D endPos,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawLineEx($startPos, $endPos, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawLineStrip].
+  /// Label for [RaylibCoreModule.DrawLineStrip].
   String DrawLineStrip(
-    List<Vector2Base> points,
-    ColorBase color,
+    List<Vector2D> points,
+    ColorD color,
   ) => 'DrawLineStrip(points: ${points.length}, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawLineBezier].
+  /// Label for [RaylibCoreModule.DrawLineBezier].
   String DrawLineBezier(
-    Vector2Base startPos,
-    Vector2Base endPos,
+    Vector2D startPos,
+    Vector2D endPos,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawLineBezier($startPos, $endPos, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawLineDashed].
+  /// Label for [RaylibCoreModule.DrawLineDashed].
   String DrawLineDashed(
-    Vector2Base startPos,
-    Vector2Base endPos,
+    Vector2D startPos,
+    Vector2D endPos,
     num dashSize,
     num spaceSize,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawLineDashed($startPos, $endPos, $dashSize, $spaceSize, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircle].
+  /// Label for [RaylibCoreModule.DrawCircle].
   String DrawCircle(
     num centerX,
     num centerY,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircle($centerX, $centerY, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleSector].
+  /// Label for [RaylibCoreModule.DrawCircleSector].
   String DrawCircleSector(
-    Vector2Base center,
+    Vector2D center,
     num radius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircleSector($center, $radius, $startAngle, $endAngle, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleSectorLines].
+  /// Label for [RaylibCoreModule.DrawCircleSectorLines].
   String DrawCircleSectorLines(
-    Vector2Base center,
+    Vector2D center,
     num radius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircleSectorLines($center, $radius, $startAngle, $endAngle, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleGradient].
+  /// Label for [RaylibCoreModule.DrawCircleGradient].
   String DrawCircleGradient(
-    Vector2Base center,
+    Vector2D center,
     num radius,
-    ColorBase inner,
-    ColorBase outer,
+    ColorD inner,
+    ColorD outer,
   ) => 'DrawCircleGradient($center, $radius, $inner, $outer)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleV].
+  /// Label for [RaylibCoreModule.DrawCircleV].
   String DrawCircleV(
-    Vector2Base center,
+    Vector2D center,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircleV($center, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleLines].
+  /// Label for [RaylibCoreModule.DrawCircleLines].
   String DrawCircleLines(
     num centerX,
     num centerY,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircleLines($centerX, $centerY, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawCircleLinesV].
+  /// Label for [RaylibCoreModule.DrawCircleLinesV].
   String DrawCircleLinesV(
-    Vector2Base center,
+    Vector2D center,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircleLinesV($center, $radius, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawEllipse].
+  /// Label for [RaylibCoreModule.DrawEllipse].
   String DrawEllipse(
     num centerX,
     num centerY,
     num radiusH,
     num radiusV,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawEllipse($centerX, $centerY, $radiusH, $radiusV, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawEllipseV].
+  /// Label for [RaylibCoreModule.DrawEllipseV].
   String DrawEllipseV(
-    Vector2Base center,
+    Vector2D center,
     num radiusH,
     num radiusV,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawEllipse($center, $radiusH, $radiusV, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawEllipseLines].
+  /// Label for [RaylibCoreModule.DrawEllipseLines].
   String DrawEllipseLines(
     num centerX,
     num centerY,
     num radiusH,
     num radiusV,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawEllipseLines($centerX, $centerY, $radiusH, $radiusV, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawEllipseLinesV].
+  /// Label for [RaylibCoreModule.DrawEllipseLinesV].
   String DrawEllipseLinesV(
-    Vector2Base center,
+    Vector2D center,
     num radiusH,
     num radiusV,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawEllipseLinesV($center, $radiusH, $radiusV, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRing].
+  /// Label for [RaylibCoreModule.DrawRing].
   String DrawRing(
-    Vector2Base center,
+    Vector2D center,
     num innerRadius,
     num outerRadius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRing($center, $innerRadius, $outerRadius, $startAngle, $endAngle, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRingLines].
+  /// Label for [RaylibCoreModule.DrawRingLines].
   String DrawRingLines(
-    Vector2Base center,
+    Vector2D center,
     num innerRadius,
     num outerRadius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRingLines($center, $innerRadius, $outerRadius, $startAngle, $endAngle, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangle].
+  /// Label for [RaylibCoreModule.DrawRectangle].
   String DrawRectangle(
     num posX,
     num posY,
     num width,
     num height,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangle($posX, $posY, $width, $height, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleV].
+  /// Label for [RaylibCoreModule.DrawRectangleV].
   String DrawRectangleV(
-    Vector2Base position,
-    Vector2Base size,
-    ColorBase color,
+    Vector2D position,
+    Vector2D size,
+    ColorD color,
   ) => 'DrawRectangleV($position, $size, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleRec].
+  /// Label for [RaylibCoreModule.DrawRectangleRec].
   String DrawRectangleRec(
-    RectangleBase rec,
-    ColorBase color,
+    RectangleD rec,
+    ColorD color,
   ) => 'DrawRectangleRec($rec, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawRectanglePro].
+  /// Label for [RaylibCoreModule.DrawRectanglePro].
   String DrawRectanglePro(
-    RectangleBase rec,
-    Vector2Base origin,
+    RectangleD rec,
+    Vector2D origin,
     num rotation,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectanglePro($rec, $origin, $rotation, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleGradientV].
+  /// Label for [RaylibCoreModule.DrawRectangleGradientV].
   String DrawRectangleGradientV(
     num posX,
     num posY,
     num width,
     num height,
-    ColorBase top,
-    ColorBase bottom,
+    ColorD top,
+    ColorD bottom,
   ) => 'DrawRectangleGradientV($posX, $posY, $width, $height, $top, $bottom)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleGradientH].
+  /// Label for [RaylibCoreModule.DrawRectangleGradientH].
   String DrawRectangleGradientH(
     num posX,
     num posY,
     num width,
     num height,
-    ColorBase left,
-    ColorBase right,
+    ColorD left,
+    ColorD right,
   ) => 'DrawRectangleGradientH($posX, $posY, $width, $height, $left, $right)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleGradientEx].
+  /// Label for [RaylibCoreModule.DrawRectangleGradientEx].
   String DrawRectangleGradientEx(
-    RectangleBase rec,
-    ColorBase topLeft,
-    ColorBase bottomLeft,
-    ColorBase topRight,
-    ColorBase bottomRight,
+    RectangleD rec,
+    ColorD topLeft,
+    ColorD bottomLeft,
+    ColorD topRight,
+    ColorD bottomRight,
   ) => 'DrawRectangleGradientEx($rec, $topLeft, $bottomLeft, $topRight, $bottomRight)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleLines].
+  /// Label for [RaylibCoreModule.DrawRectangleLines].
   String DrawRectangleLines(
     num posX,
     num posY,
     num width,
     num height,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangleLines($posX, $posY, $width, $height, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleLinesEx].
+  /// Label for [RaylibCoreModule.DrawRectangleLinesEx].
   String DrawRectangleLinesEx(
-    RectangleBase rec,
+    RectangleD rec,
     num lineThick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangleLinesEx($rec, $lineThick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleRounded].
+  /// Label for [RaylibCoreModule.DrawRectangleRounded].
   String DrawRectangleRounded(
-    RectangleBase rec,
+    RectangleD rec,
     num roundness,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangleRounded($rec, $roundness, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleRoundedLines].
+  /// Label for [RaylibCoreModule.DrawRectangleRoundedLines].
   String DrawRectangleRoundedLines(
-    RectangleBase rec,
+    RectangleD rec,
     num roundness,
     num segments,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangleRoundedLines($rec, $roundness, $segments, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawRectangleRoundedLinesEx].
+  /// Label for [RaylibCoreModule.DrawRectangleRoundedLinesEx].
   String DrawRectangleRoundedLinesEx(
-    RectangleBase rec,
+    RectangleD rec,
     num roundness,
     num segments,
     num lineThick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawRectangleRoundedLinesEx($rec, $roundness, $segments, $lineThick, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawTriangle].
+  /// Label for [RaylibCoreModule.DrawTriangle].
   String DrawTriangle(
-    Vector2Base v1,
-    Vector2Base v2,
-    Vector2Base v3,
-    ColorBase color,
+    Vector2D v1,
+    Vector2D v2,
+    Vector2D v3,
+    ColorD color,
   ) => 'DrawTriangle($v1, $v2, $v3, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTriangleLines].
+  /// Label for [RaylibCoreModule.DrawTriangleLines].
   String DrawTriangleLines(
-    Vector2Base v1,
-    Vector2Base v2,
-    Vector2Base v3,
-    ColorBase color,
+    Vector2D v1,
+    Vector2D v2,
+    Vector2D v3,
+    ColorD color,
   ) => 'DrawTriangleLines($v1, $v2, $v3, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTriangleFan].
+  /// Label for [RaylibCoreModule.DrawTriangleFan].
   String DrawTriangleFan(
-    List<Vector2Base> points,
-    ColorBase color,
+    List<Vector2D> points,
+    ColorD color,
   ) => 'DrawTriangleFan(points: ${points.length}, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTriangleStrip].
+  /// Label for [RaylibCoreModule.DrawTriangleStrip].
   String DrawTriangleStrip(
-    List<Vector2Base> points,
-    ColorBase color,
+    List<Vector2D> points,
+    ColorD color,
   ) => 'DrawTriangleStrip(points: ${points.length}, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawPoly].
+  /// Label for [RaylibCoreModule.DrawPoly].
   String DrawPoly(
-    Vector2Base center,
+    Vector2D center,
     num sides,
     num radius,
     num rotation,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawPoly($center, $sides, $radius, $rotation, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawPolyLines].
+  /// Label for [RaylibCoreModule.DrawPolyLines].
   String DrawPolyLines(
-    Vector2Base center,
+    Vector2D center,
     num sides,
     num radius,
     num rotation,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawPolyLines($center, $sides, $radius, $rotation, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawPolyLinesEx].
+  /// Label for [RaylibCoreModule.DrawPolyLinesEx].
   String DrawPolyLinesEx(
-    Vector2Base center,
+    Vector2D center,
     num sides,
     num radius,
     num rotation,
     num lineThick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawPolyLinesEx($center, $sides, $radius, $rotation, $lineThick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineLinear].
+  /// Label for [RaylibCoreModule.DrawSplineLinear].
   String DrawSplineLinear(
-    List<Vector2Base> points,
+    List<Vector2D> points,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineLinear(points: ${points.length}, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineBasis].
+  /// Label for [RaylibCoreModule.DrawSplineBasis].
   String DrawSplineBasis(
-    List<Vector2Base> points,
+    List<Vector2D> points,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineBasis(points: ${points.length}, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineCatmullRom].
+  /// Label for [RaylibCoreModule.DrawSplineCatmullRom].
   String DrawSplineCatmullRom(
-    List<Vector2Base> points,
+    List<Vector2D> points,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineCatmullRom(points: ${points.length}, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineBezierQuadratic].
+  /// Label for [RaylibCoreModule.DrawSplineBezierQuadratic].
   String DrawSplineBezierQuadratic(
-    List<Vector2Base> points,
+    List<Vector2D> points,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineBezierQuadratic(points: ${points.length}, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineBezierCubic].
+  /// Label for [RaylibCoreModule.DrawSplineBezierCubic].
   String DrawSplineBezierCubic(
-    List<Vector2Base> points,
+    List<Vector2D> points,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineBezierCubic(points: ${points.length}, $thick, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawSplineSegmentLinear].
+  /// Label for [RaylibCoreModule.DrawSplineSegmentLinear].
   String DrawSplineSegmentLinear(
-    Vector2Base p1,
-    Vector2Base p2,
+    Vector2D p1,
+    Vector2D p2,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineSegmentLinear($p1, $p2, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineSegmentBasis].
+  /// Label for [RaylibCoreModule.DrawSplineSegmentBasis].
   String DrawSplineSegmentBasis(
-    Vector2Base p1,
-    Vector2Base p2,
-    Vector2Base p3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D p2,
+    Vector2D p3,
+    Vector2D p4,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineSegmentBasis($p1, $p2, $p3, $p4, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineSegmentCatmullRom].
+  /// Label for [RaylibCoreModule.DrawSplineSegmentCatmullRom].
   String DrawSplineSegmentCatmullRom(
-    Vector2Base p1,
-    Vector2Base p2,
-    Vector2Base p3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D p2,
+    Vector2D p3,
+    Vector2D p4,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineSegmentCatmullRom($p1, $p2, $p3, $p4, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineSegmentBezierQuadratic].
+  /// Label for [RaylibCoreModule.DrawSplineSegmentBezierQuadratic].
   String DrawSplineSegmentBezierQuadratic(
-    Vector2Base p1,
-    Vector2Base c2,
-    Vector2Base p3,
+    Vector2D p1,
+    Vector2D c2,
+    Vector2D p3,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineSegmentBezierQuadratic($p1, $c2, $p3, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawSplineSegmentBezierCubic].
+  /// Label for [RaylibCoreModule.DrawSplineSegmentBezierCubic].
   String DrawSplineSegmentBezierCubic(
-    Vector2Base p1,
-    Vector2Base c2,
-    Vector2Base c3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D c2,
+    Vector2D c3,
+    Vector2D p4,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSplineSegmentBezierCubic($p1, $c2, $c3, $p4, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.GetSplinePointLinear].
+  /// Label for [RaylibCoreModule.GetSplinePointLinear].
   String GetSplinePointLinear(
-    Vector2Base startPos,
-    Vector2Base endPos,
+    Vector2D startPos,
+    Vector2D endPos,
     num t,
   ) => 'GetSplinePointLinear($startPos, $endPos, $t)';
 
-  /// Label for [RaylibCoreModuleBase.GetSplinePointBasis].
+  /// Label for [RaylibCoreModule.GetSplinePointBasis].
   String GetSplinePointBasis(
-    Vector2Base p1,
-    Vector2Base p2,
-    Vector2Base p3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D p2,
+    Vector2D p3,
+    Vector2D p4,
     num t,
   ) => 'GetSplinePointBasis($p1, $p2, $p3, $p4, $t)';
     
-  /// Label for [RaylibCoreModuleBase.GetSplinePointCatmullRom].
+  /// Label for [RaylibCoreModule.GetSplinePointCatmullRom].
   String GetSplinePointCatmullRom(
-    Vector2Base p1,
-    Vector2Base p2,
-    Vector2Base p3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D p2,
+    Vector2D p3,
+    Vector2D p4,
     num t,
   ) => 'GetSplinePointCatmullRom($p1, $p2, $p3, $p4, $t)';
 
-  /// Label for [RaylibCoreModuleBase.GetSplinePointBezierQuad].
+  /// Label for [RaylibCoreModule.GetSplinePointBezierQuad].
   String GetSplinePointBezierQuad(
-    Vector2Base p1,
-    Vector2Base c2,
-    Vector2Base p3,
+    Vector2D p1,
+    Vector2D c2,
+    Vector2D p3,
     num t,
   ) => 'GetSplinePointBezierQuad($p1, $c2, $p3, $t)';
 
-  /// Label for [RaylibCoreModuleBase.GetSplinePointBezierCubic].
+  /// Label for [RaylibCoreModule.GetSplinePointBezierCubic].
   String GetSplinePointBezierCubic(
-    Vector2Base p1,
-    Vector2Base c2,
-    Vector2Base c3,
-    Vector2Base p4,
+    Vector2D p1,
+    Vector2D c2,
+    Vector2D c3,
+    Vector2D p4,
     num t,
   ) => 'GetSplinePointBezierCubic($p1, $c2, $c3, $p4, $t)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionRecs].
+  /// Label for [RaylibCoreModule.CheckCollisionRecs].
   String CheckCollisionRecs(
-    RectangleBase rec1,
-    RectangleBase rec2,
+    RectangleD rec1,
+    RectangleD rec2,
   ) => 'CheckCollisionRecs($rec1, $rec2)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionCircles].
+  /// Label for [RaylibCoreModule.CheckCollisionCircles].
   String CheckCollisionCircles(
-    Vector2Base center1,
+    Vector2D center1,
     num radius1,
-    Vector2Base center2,
+    Vector2D center2,
     num radius2,
   ) => 'CheckCollisionCircles($center1, $radius1, $center2, $radius2)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionCircleRec].
+  /// Label for [RaylibCoreModule.CheckCollisionCircleRec].
   String CheckCollisionCircleRec(
-    Vector2Base center,
+    Vector2D center,
     num radius,
-    RectangleBase rec,
+    RectangleD rec,
   ) => 'CheckCollisionCircleRec($center, $radius, $rec)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionCircleLine].
+  /// Label for [RaylibCoreModule.CheckCollisionCircleLine].
   String CheckCollisionCircleLine(
-    Vector2Base center,
+    Vector2D center,
     num radius,
-    Vector2Base p1,
-    Vector2Base p2,
+    Vector2D p1,
+    Vector2D p2,
   ) => 'CheckCollisionCircleLine($center, $radius, $p1, $p2)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionPointRec].
+  /// Label for [RaylibCoreModule.CheckCollisionPointRec].
   String CheckCollisionPointRec(
-    Vector2Base point,
-    RectangleBase rec,
+    Vector2D point,
+    RectangleD rec,
   ) => 'CheckCollisionPointRec($point, $rec)';
     
-  /// Label for [RaylibCoreModuleBase.CheckCollisionPointCircle].
+  /// Label for [RaylibCoreModule.CheckCollisionPointCircle].
   String CheckCollisionPointCircle(
-    Vector2Base point,
-    Vector2Base center,
+    Vector2D point,
+    Vector2D center,
     num radius,
   ) => 'CheckCollisionPointCircle($point, $center, $radius)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionPointTriangle].
+  /// Label for [RaylibCoreModule.CheckCollisionPointTriangle].
   String CheckCollisionPointTriangle(
-    Vector2Base point,
-    Vector2Base p1,
-    Vector2Base p2,
-    Vector2Base p3,
+    Vector2D point,
+    Vector2D p1,
+    Vector2D p2,
+    Vector2D p3,
   ) => 'CheckCollisionPointTriangle($point, $p1, $p2, $p3)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionPointLine].
+  /// Label for [RaylibCoreModule.CheckCollisionPointLine].
   String CheckCollisionPointLine(
-    Vector2Base point,
-    Vector2Base p1,
-    Vector2Base p2,
+    Vector2D point,
+    Vector2D p1,
+    Vector2D p2,
     num threshold,
   ) => 'CheckCollisionPointLine($point, $p1, $p2, $threshold)';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionPointPoly].
+  /// Label for [RaylibCoreModule.CheckCollisionPointPoly].
   String CheckCollisionPointPoly(
-    Vector2Base point,
-    List<Vector2Base> points,
+    Vector2D point,
+    List<Vector2D> points,
   ) => 'CheckCollisionPointPoly($point, points: ${points.length})';
 
-  /// Label for [RaylibCoreModuleBase.CheckCollisionLines].
+  /// Label for [RaylibCoreModule.CheckCollisionLines].
   String CheckCollisionLines(
-    Vector2Base startPos1,
-    Vector2Base endPos1,
-    Vector2Base startPos2,
-    Vector2Base endPos2,
+    Vector2D startPos1,
+    Vector2D endPos1,
+    Vector2D startPos2,
+    Vector2D endPos2,
   ) => 'CheckCollisionLines($startPos1, $endPos1, $startPos2, $endPos2)';
 
-  /// Label for [RaylibCoreModuleBase.GetCollisionRec].
+  /// Label for [RaylibCoreModule.GetCollisionRec].
   String GetCollisionRec(
-    RectangleBase rec1,
-    RectangleBase rec2,
+    RectangleD rec1,
+    RectangleD rec2,
   ) => 'GetCollisionRec($rec1, $rec2)';
 
-  /// Label for [RaylibCoreModuleBase.LoadImage].
+  /// Label for [RaylibCoreModule.LoadImage].
   String LoadImage(
     String fileName,
   ) => 'LoadImage($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadImageRaw].
+  /// Label for [RaylibCoreModule.LoadImageRaw].
   String LoadImageRaw(
     String fileName,
     num width,
@@ -1557,111 +1557,111 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num headerSize,
   ) => 'LoadImageRaw($fileName, $width, $height, ${format.name}, $headerSize)';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageAnim].
+  /// Label for [RaylibCoreModule.LoadImageAnim].
   String LoadImageAnim(
     String fileName,
   ) => 'LoadImageAnim($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageAnimFromMemory].
+  /// Label for [RaylibCoreModule.LoadImageAnimFromMemory].
   String LoadImageAnimFromMemory(
     String fileType,
     Uint8List fileData,
   ) => 'LoadImageAnimFromMemory($fileType, fileData: ${fileData.length})';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageFromMemory].
+  /// Label for [RaylibCoreModule.LoadImageFromMemory].
   String LoadImageFromMemory(
     String fileType,
     Uint8List fileData,
   ) => 'LoadImageFromMemory($fileType, fileData: ${fileData.length})';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageFromTexture].
+  /// Label for [RaylibCoreModule.LoadImageFromTexture].
   String LoadImageFromTexture(
-    TextureBase texture,
+    TextureD texture,
   ) => 'LoadImageFromTexture($texture)';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageFromScreen].
+  /// Label for [RaylibCoreModule.LoadImageFromScreen].
   String LoadImageFromScreen() => 'LoadImageFromScreen()';
 
-  /// Label for [RaylibCoreModuleBase.IsImageValid].
+  /// Label for [RaylibCoreModule.IsImageValid].
   String IsImageValid(
-    ImageBase image,
+    ImageD image,
   ) => 'IsImageValid($image)';
 
-  /// Label for [RaylibCoreModuleBase.UnloadImage].
+  /// Label for [RaylibCoreModule.UnloadImage].
   String UnloadImage(
-    ImageBase image,
+    ImageD image,
   ) => 'UnloadImage($image)';
 
-  /// Label for [RaylibCoreModuleBase.ExportImage].
+  /// Label for [RaylibCoreModule.ExportImage].
   String ExportImage(
-    ImageBase image,
+    ImageD image,
     String fileName,
   ) => 'ExportImage($image, $fileName)';
     
-  /// Label for [RaylibCoreModuleBase.ExportImageToMemory].
+  /// Label for [RaylibCoreModule.ExportImageToMemory].
   String ExportImageToMemory(
-    ImageBase image,
+    ImageD image,
     String fileType,
   ) => 'ExportImageToMemory($image, $fileType)';
 
-  /// Label for [RaylibCoreModuleBase.ExportImageAsCode].
+  /// Label for [RaylibCoreModule.ExportImageAsCode].
   String ExportImageAsCode(
-    ImageBase image,
+    ImageD image,
     String fileName,
   ) => 'ExportImageAsCode($image, $fileName)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageColor].
+  /// Label for [RaylibCoreModule.GenImageColor].
   String GenImageColor(
     num width,
     num height,
-    ColorBase color,
+    ColorD color,
   ) => 'GenImageColor($width, $height, $color)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageGradientLinear].
+  /// Label for [RaylibCoreModule.GenImageGradientLinear].
   String GenImageGradientLinear(
     num width,
     num height,
     num direction,
-    ColorBase start,
-    ColorBase end,
+    ColorD start,
+    ColorD end,
   ) => 'GenImageGradientLinear($width, $height, $direction, $start, $end)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageGradientRadial].
+  /// Label for [RaylibCoreModule.GenImageGradientRadial].
   String GenImageGradientRadial(
     num width,
     num height,
     num density,
-    ColorBase inner,
-    ColorBase outer,
+    ColorD inner,
+    ColorD outer,
   ) => 'GenImageGradientRadial($width, $height, $density, $inner, $outer)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageGradientSquare].
+  /// Label for [RaylibCoreModule.GenImageGradientSquare].
   String GenImageGradientSquare(
     num width,
     num height,
     num density,
-    ColorBase inner,
-    ColorBase outer,
+    ColorD inner,
+    ColorD outer,
   ) => 'GenImageGradientSquare($width, $height, $density, $inner, $outer)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageChecked].
+  /// Label for [RaylibCoreModule.GenImageChecked].
   String GenImageChecked(
     num width,
     num height,
     num checksX,
     num checksY,
-    ColorBase col1,
-    ColorBase col2,
+    ColorD col1,
+    ColorD col2,
   ) => 'GenImageChecked($width, $height, $checksX, $checksY, $col1, $col2)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageWhiteNoise].
+  /// Label for [RaylibCoreModule.GenImageWhiteNoise].
   String GenImageWhiteNoise(
     num width,
     num height,
     num factor,
   ) => 'GenImageWhiteNoise($width, $height, $factor)';
 
-  /// Label for [RaylibCoreModuleBase.GenImagePerlinNoise].
+  /// Label for [RaylibCoreModule.GenImagePerlinNoise].
   String GenImagePerlinNoise(
     num width,
     num height,
@@ -1670,656 +1670,656 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num scale,
   ) => 'GenImagePerlinNoise($width, $height, $offsetX, $offsetY, $scale)';
     
-  /// Label for [RaylibCoreModuleBase.GenImageCellular].
+  /// Label for [RaylibCoreModule.GenImageCellular].
   String GenImageCellular(
     num width,
     num height,
     num tileSize,
   ) => 'GenImageCellular($width, $height, $tileSize)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageText].
+  /// Label for [RaylibCoreModule.GenImageText].
   String GenImageText(
     num width,
     num height,
     String text,
   ) => 'GenImageText($width, $height, $text)';
 
-  /// Label for [RaylibCoreModuleBase.ImageCopy].
+  /// Label for [RaylibCoreModule.ImageCopy].
   String ImageCopy(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageCopy($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageFromImage].
+  /// Label for [RaylibCoreModule.ImageFromImage].
   String ImageFromImage(
-    ImageBase image,
-    RectangleBase rec,
+    ImageD image,
+    RectangleD rec,
   ) => 'ImageFromImage($image, $rec)';
 
-  /// Label for [RaylibCoreModuleBase.ImageFromChannel].
+  /// Label for [RaylibCoreModule.ImageFromChannel].
   String ImageFromChannel(
-    ImageBase image,
+    ImageD image,
     num selectedChannel,
   ) => 'ImageFromChannel($image, $selectedChannel)';
 
-  /// Label for [RaylibCoreModuleBase.ImageText].
+  /// Label for [RaylibCoreModule.ImageText].
   String ImageText(
     String text,
     num fontSize,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageText($text, $fontSize, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageTextEx].
+  /// Label for [RaylibCoreModule.ImageTextEx].
   String ImageTextEx(
-    FontBase font,
+    FontD font,
     String text,
     num fontSize,
     num spacing,
-    ColorBase tint,
+    ColorD tint,
   ) => 'ImageTextEx($font, $text, $fontSize, $spacing, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.ImageFormat].
+  /// Label for [RaylibCoreModule.ImageFormat].
   String ImageFormat(
-    ImageBase image,
+    ImageD image,
     PixelFormat newFormat,
   ) => 'ImageFormat($image, ${newFormat.name})';
     
-  /// Label for [RaylibCoreModuleBase.ImageToPOT].
+  /// Label for [RaylibCoreModule.ImageToPOT].
   String ImageToPOT(
-    ImageBase image,
-    ColorBase fill,
+    ImageD image,
+    ColorD fill,
   ) => 'ImageToPOT($image, $fill)';
 
-  /// Label for [RaylibCoreModuleBase.ImageCrop].
+  /// Label for [RaylibCoreModule.ImageCrop].
   String ImageCrop(
-    ImageBase image,
-    RectangleBase crop,
+    ImageD image,
+    RectangleD crop,
   ) => 'ImageCrop($image, $crop)';
 
-  /// Label for [RaylibCoreModuleBase.ImageAlphaCrop].
+  /// Label for [RaylibCoreModule.ImageAlphaCrop].
   String ImageAlphaCrop(
-    ImageBase image,
+    ImageD image,
     num threshold,
   ) => 'ImageAlphaCrop($image, $threshold)';
 
-  /// Label for [RaylibCoreModuleBase.ImageAlphaClear].
+  /// Label for [RaylibCoreModule.ImageAlphaClear].
   String ImageAlphaClear(
-    ImageBase image,
-    ColorBase color,
+    ImageD image,
+    ColorD color,
     num threshold,
   ) => 'ImageAlphaClear($image, $color, $threshold)';
 
-  /// Label for [RaylibCoreModuleBase.ImageAlphaMask].
+  /// Label for [RaylibCoreModule.ImageAlphaMask].
   String ImageAlphaMask(
-    ImageBase image,
-    ImageBase alphaMask,
+    ImageD image,
+    ImageD alphaMask,
   ) => 'ImageAlphaMask($image, $alphaMask)';
 
-  /// Label for [RaylibCoreModuleBase.ImageAlphaPremultiply].
+  /// Label for [RaylibCoreModule.ImageAlphaPremultiply].
   String ImageAlphaPremultiply(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageAlphaPremultiply($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageBlurGaussian].
+  /// Label for [RaylibCoreModule.ImageBlurGaussian].
   String ImageBlurGaussian(
-    ImageBase image,
+    ImageD image,
     num blurSize,
   ) => 'ImageBlurGaussian($image, $blurSize)';
 
-  /// Label for [RaylibCoreModuleBase.ImageKernelConvolution].
+  /// Label for [RaylibCoreModule.ImageKernelConvolution].
   String ImageKernelConvolution(
-    ImageBase image,
+    ImageD image,
     List<double> kernel,
   ) => 'ImageKernelConvolution($image, kernel: ${kernel.length})';
 
-  /// Label for [RaylibCoreModuleBase.ImageResize].
+  /// Label for [RaylibCoreModule.ImageResize].
   String ImageResize(
-    ImageBase image,
+    ImageD image,
     num newWidth,
     num newHeight,
   ) => 'ImageResize($image, $newWidth, $newHeight)';
 
-  /// Label for [RaylibCoreModuleBase.ImageResizeNN].
+  /// Label for [RaylibCoreModule.ImageResizeNN].
   String ImageResizeNN(
-    ImageBase image,
+    ImageD image,
     num newWidth,
     num newHeight,
   ) => 'ImageResizeNN($image, $newWidth, $newHeight)';
     
-  /// Label for [RaylibCoreModuleBase.ImageResizeCanvas].
+  /// Label for [RaylibCoreModule.ImageResizeCanvas].
   String ImageResizeCanvas(
-    ImageBase image,
+    ImageD image,
     num newWidth,
     num newHeight,
     num offsetX,
     num offsetY,
-    ColorBase fill,
+    ColorD fill,
   ) => 'ImageResizeCanvas($image, $newWidth, $newHeight, $offsetX, $offsetY, $fill)';
 
-  /// Label for [RaylibCoreModuleBase.ImageMipmaps].
+  /// Label for [RaylibCoreModule.ImageMipmaps].
   String ImageMipmaps(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageMipmaps($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDither].
+  /// Label for [RaylibCoreModule.ImageDither].
   String ImageDither(
-    ImageBase image,
+    ImageD image,
     num rBpp,
     num gBpp,
     num bBpp,
     num aBpp,
   ) => 'ImageDither($image, $rBpp, $gBpp, $bBpp, $aBpp)';
 
-  /// Label for [RaylibCoreModuleBase.ImageFlipVertical].
+  /// Label for [RaylibCoreModule.ImageFlipVertical].
   String ImageFlipVertical(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageFlipVertical($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageFlipHorizontal].
+  /// Label for [RaylibCoreModule.ImageFlipHorizontal].
   String ImageFlipHorizontal(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageFlipHorizontal($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageRotate].
+  /// Label for [RaylibCoreModule.ImageRotate].
   String ImageRotate(
-    ImageBase image,
+    ImageD image,
     num degrees,
   ) => 'ImageRotate($image, $degrees)';
 
-  /// Label for [RaylibCoreModuleBase.ImageRotateCW].
+  /// Label for [RaylibCoreModule.ImageRotateCW].
   String ImageRotateCW(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageRotateCW($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageRotateCCW].
+  /// Label for [RaylibCoreModule.ImageRotateCCW].
   String ImageRotateCCW(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageRotateCCW($image)';
     
-  /// Label for [RaylibCoreModuleBase.ImageColorTint].
+  /// Label for [RaylibCoreModule.ImageColorTint].
   String ImageColorTint(
-    ImageBase image,
-    ColorBase color,
+    ImageD image,
+    ColorD color,
   ) => 'ImageColorTint($image, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageColorInvert].
+  /// Label for [RaylibCoreModule.ImageColorInvert].
   String ImageColorInvert(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageColorInvert($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageColorGrayscale].
+  /// Label for [RaylibCoreModule.ImageColorGrayscale].
   String ImageColorGrayscale(
-    ImageBase image,
+    ImageD image,
   ) => 'ImageColorGrayscale($image)';
 
-  /// Label for [RaylibCoreModuleBase.ImageColorContrast].
+  /// Label for [RaylibCoreModule.ImageColorContrast].
   String ImageColorContrast(
-    ImageBase image,
+    ImageD image,
     num contrast,
   ) => 'ImageColorContrast($image, $contrast)';
 
-  /// Label for [RaylibCoreModuleBase.ImageColorBrightness].
+  /// Label for [RaylibCoreModule.ImageColorBrightness].
   String ImageColorBrightness(
-    ImageBase image,
+    ImageD image,
     num brightness,
   ) => 'ImageColorBrightness($image, $brightness)';
 
-  /// Label for [RaylibCoreModuleBase.ImageColorReplace].
+  /// Label for [RaylibCoreModule.ImageColorReplace].
   String ImageColorReplace(
-    ImageBase image,
-    ColorBase color,
-    ColorBase replace,
+    ImageD image,
+    ColorD color,
+    ColorD replace,
   ) => 'ImageColorReplace($image, $color, $replace)';
 
-  /// Label for [RaylibCoreModuleBase.LoadImageColors].
+  /// Label for [RaylibCoreModule.LoadImageColors].
   String LoadImageColors(
-    ImageBase image,
+    ImageD image,
   ) => 'LoadImageColors($image)';
   
-  /// Label for [RaylibCoreModuleBase.LoadImagePalette].
+  /// Label for [RaylibCoreModule.LoadImagePalette].
   String LoadImagePalette(
-    ImageBase image,
+    ImageD image,
     num maxPaletteSize,
   ) => 'LoadImagePalette($image, $maxPaletteSize)';
 
-  /// Label for [RaylibCoreModuleBase.GetImageAlphaBorder].
+  /// Label for [RaylibCoreModule.GetImageAlphaBorder].
   String GetImageAlphaBorder(
-    ImageBase image,
+    ImageD image,
     num threshold,
   ) => 'GetImageAlphaBorder($image, $threshold)';
 
-  /// Label for [RaylibCoreModuleBase.GetImageColor].
+  /// Label for [RaylibCoreModule.GetImageColor].
   String GetImageColor(
-    ImageBase image,
+    ImageD image,
     num x,
     num y,
   ) => 'GetImageColor($image, $x, $y)';
 
-  /// Label for [RaylibCoreModuleBase.ImageClearBackground].
+  /// Label for [RaylibCoreModule.ImageClearBackground].
   String ImageClearBackground(
-    ImageBase dst,
-    ColorBase color,
+    ImageD dst,
+    ColorD color,
   ) => 'ImageClearBackground($dst, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawPixel].
+  /// Label for [RaylibCoreModule.ImageDrawPixel].
   String ImageDrawPixel(
-    ImageBase dst,
+    ImageD dst,
     num posX,
     num posY,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawPixel($dst, $posX, $posY, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawPixelV].
+  /// Label for [RaylibCoreModule.ImageDrawPixelV].
   String ImageDrawPixelV(
-    ImageBase dst,
-    Vector2Base position,
-    ColorBase color,
+    ImageD dst,
+    Vector2D position,
+    ColorD color,
   ) => 'ImageDrawPixelV($dst, $position, $color)';
     
-  /// Label for [RaylibCoreModuleBase.ImageDrawLine].
+  /// Label for [RaylibCoreModule.ImageDrawLine].
   String ImageDrawLine(
-    ImageBase dst,
+    ImageD dst,
     num startPosX,
     num startPosY,
     num endPosX,
     num endPosY,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawLine($dst, $startPosX, $startPosY, $endPosX, $endPosY, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawLineV].
+  /// Label for [RaylibCoreModule.ImageDrawLineV].
   String ImageDrawLineV(
-    ImageBase dst,
-    Vector2Base start,
-    Vector2Base end,
-    ColorBase color,
+    ImageD dst,
+    Vector2D start,
+    Vector2D end,
+    ColorD color,
   ) => 'ImageDrawLineV($dst, $start, $end, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawLineEx].
+  /// Label for [RaylibCoreModule.ImageDrawLineEx].
   String ImageDrawLineEx(
-    ImageBase dst,
-    Vector2Base start,
-    Vector2Base end,
+    ImageD dst,
+    Vector2D start,
+    Vector2D end,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawLineEx($dst, $start, $end, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawCircle].
+  /// Label for [RaylibCoreModule.ImageDrawCircle].
   String ImageDrawCircle(
-    ImageBase dst,
+    ImageD dst,
     num centerX,
     num centerY,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawCircle($dst, $centerX, $centerY, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawCircleV].
+  /// Label for [RaylibCoreModule.ImageDrawCircleV].
   String ImageDrawCircleV(
-    ImageBase dst,
-    Vector2Base center,
+    ImageD dst,
+    Vector2D center,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawCircleV($dst, $center, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawCircleLines].
+  /// Label for [RaylibCoreModule.ImageDrawCircleLines].
   String ImageDrawCircleLines(
-    ImageBase dst,
+    ImageD dst,
     num centerX,
     num centerY,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawCircleLines($dst, $centerX, $centerY, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawCircleLinesV].
+  /// Label for [RaylibCoreModule.ImageDrawCircleLinesV].
   String ImageDrawCircleLinesV(
-    ImageBase dst,
-    Vector2Base center,
+    ImageD dst,
+    Vector2D center,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawCircleLinesV($dst, $center, $radius, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawRectangle].
+  /// Label for [RaylibCoreModule.ImageDrawRectangle].
   String ImageDrawRectangle(
-    ImageBase dst,
+    ImageD dst,
     num posX,
     num posY,
     num width,
     num height,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawRectangle($dst, $posX, $posY, $width, $height, $color)';
     
-  /// Label for [RaylibCoreModuleBase.ImageDrawRectangleV].
+  /// Label for [RaylibCoreModule.ImageDrawRectangleV].
   String ImageDrawRectangleV(
-    ImageBase dst,
-    Vector2Base position,
-    Vector2Base size,
-    ColorBase color,
+    ImageD dst,
+    Vector2D position,
+    Vector2D size,
+    ColorD color,
   ) => 'ImageDrawRectangleV($dst, $position, $size, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawRectangleRec].
+  /// Label for [RaylibCoreModule.ImageDrawRectangleRec].
   String ImageDrawRectangleRec(
-    ImageBase dst,
-    RectangleBase rec,
-    ColorBase color,
+    ImageD dst,
+    RectangleD rec,
+    ColorD color,
   ) => 'ImageDrawRectangleRec($dst, $rec, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawRectangleLines].
+  /// Label for [RaylibCoreModule.ImageDrawRectangleLines].
   String ImageDrawRectangleLines(
-    ImageBase dst,
-    RectangleBase rec,
+    ImageD dst,
+    RectangleD rec,
     num thick,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawRectangleLines($dst, $rec, $thick, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawTriangle].
+  /// Label for [RaylibCoreModule.ImageDrawTriangle].
   String ImageDrawTriangle(
-    ImageBase dst,
-    Vector2Base v1,
-    Vector2Base v2,
-    Vector2Base v3,
-    ColorBase color,
+    ImageD dst,
+    Vector2D v1,
+    Vector2D v2,
+    Vector2D v3,
+    ColorD color,
   ) => 'ImageDrawTriangle($dst, $v1, $v2, $v3, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawTriangleEx].
+  /// Label for [RaylibCoreModule.ImageDrawTriangleEx].
   String ImageDrawTriangleEx(
-    ImageBase dst,
-    Vector2Base v1,
-    Vector2Base v2,
-    Vector2Base v3,
-    ColorBase c1,
-    ColorBase c2,
-    ColorBase c3,
+    ImageD dst,
+    Vector2D v1,
+    Vector2D v2,
+    Vector2D v3,
+    ColorD c1,
+    ColorD c2,
+    ColorD c3,
   ) => 'ImageDrawTriangleEx($dst, $v1, $v2, $v3, $c1, $c2, $c3)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawTriangleLines].
+  /// Label for [RaylibCoreModule.ImageDrawTriangleLines].
   String ImageDrawTriangleLines(
-    ImageBase dst,
-    Vector2Base v1,
-    Vector2Base v2,
-    Vector2Base v3,
-    ColorBase color,
+    ImageD dst,
+    Vector2D v1,
+    Vector2D v2,
+    Vector2D v3,
+    ColorD color,
   ) => 'ImageDrawTriangleLines($dst, $v1, $v2, $v3, $color)';
     
-  /// Label for [RaylibCoreModuleBase.ImageDrawTriangleFan].
+  /// Label for [RaylibCoreModule.ImageDrawTriangleFan].
   String ImageDrawTriangleFan(
-    ImageBase dst,
-    List<Vector2Base> points,
-    ColorBase color,
+    ImageD dst,
+    List<Vector2D> points,
+    ColorD color,
   ) => 'ImageDrawTriangleFan($dst, points: ${points.length}, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawTriangleStrip].
+  /// Label for [RaylibCoreModule.ImageDrawTriangleStrip].
   String ImageDrawTriangleStrip(
-    ImageBase dst,
-    List<Vector2Base> points,
-    ColorBase color,
+    ImageD dst,
+    List<Vector2D> points,
+    ColorD color,
   ) => 'ImageDrawTriangleStrip($dst, points: ${points.length}, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDraw].
+  /// Label for [RaylibCoreModule.ImageDraw].
   String ImageDraw(
-    ImageBase dst,
-    ImageBase src,
-    RectangleBase srcRec,
-    RectangleBase dstRec,
-    ColorBase tint,
+    ImageD dst,
+    ImageD src,
+    RectangleD srcRec,
+    RectangleD dstRec,
+    ColorD tint,
   ) => 'ImageDraw($dst, $src, $srcRec, $dstRec, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawText].
+  /// Label for [RaylibCoreModule.ImageDrawText].
   String ImageDrawText(
-    ImageBase dst,
+    ImageD dst,
     String text,
     num posX,
     num posY,
     num fontSize,
-    ColorBase color,
+    ColorD color,
   ) => 'ImageDrawText($dst, $text, $posX, $posY, $fontSize, $color)';
 
-  /// Label for [RaylibCoreModuleBase.ImageDrawTextEx].
+  /// Label for [RaylibCoreModule.ImageDrawTextEx].
   String ImageDrawTextEx(
-    ImageBase dst,
-    FontBase font,
+    ImageD dst,
+    FontD font,
     String text,
-    Vector2Base position,
+    Vector2D position,
     num fontSize,
     num spacing,
-    ColorBase tint,
+    ColorD tint,
   ) => 'ImageDrawTextEx($dst, $font, $text, $position, $fontSize, $spacing, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.LoadTexture].
+  /// Label for [RaylibCoreModule.LoadTexture].
   String LoadTexture(
     String fileName,
   ) => 'LoadTexture($fileName)';
 
-  /// Label for [RaylibCoreModuleBase.LoadTextureFromImage].
+  /// Label for [RaylibCoreModule.LoadTextureFromImage].
   String LoadTextureFromImage(
-    ImageBase image,
+    ImageD image,
   ) => 'LoadTextureFromImage($image)';
 
-  /// Label for [RaylibCoreModuleBase.LoadTextureCubemap].
+  /// Label for [RaylibCoreModule.LoadTextureCubemap].
   String LoadTextureCubemap(
-    ImageBase image,
+    ImageD image,
     CubemapLayout layout,
   ) => 'LoadTextureCubemap($image, $layout)';
 
-  /// Label for [RaylibCoreModuleBase.LoadRenderTexture].
+  /// Label for [RaylibCoreModule.LoadRenderTexture].
   String LoadRenderTexture(
     num width,
     num height,
   ) => 'LoadRenderTexture($width, $height)';
 
-  /// Label for [RaylibCoreModuleBase.IsTextureValid].
+  /// Label for [RaylibCoreModule.IsTextureValid].
   String IsTextureValid(
-    TextureBase texture,
+    TextureD texture,
   ) => 'IsTextureValid($texture)';
 
-  /// Label for [RaylibCoreModuleBase.UnloadTexture].
+  /// Label for [RaylibCoreModule.UnloadTexture].
   String UnloadTexture(
-    TextureBase texture,
+    TextureD texture,
   ) => 'UnloadTexture($texture)';
 
-  /// Label for [RaylibCoreModuleBase.IsRenderTextureValid].
+  /// Label for [RaylibCoreModule.IsRenderTextureValid].
   String IsRenderTextureValid(
-    RenderTextureBase target,
+    RenderTextureD target,
   ) => 'IsRenderTextureValid($target)';
 
-  /// Label for [RaylibCoreModuleBase.UnloadRenderTexture].
+  /// Label for [RaylibCoreModule.UnloadRenderTexture].
   String UnloadRenderTexture(
-    RenderTextureBase target,
+    RenderTextureD target,
   ) => 'UnloadRenderTexture($target)';
 
-  /// Label for [RaylibCoreModuleBase.UpdateTexture].
+  /// Label for [RaylibCoreModule.UpdateTexture].
   String UpdateTexture(
-    TextureBase texture,
+    TextureD texture,
     Uint8List pixels,
   ) => 'UpdateTexture($texture, pixels: ${pixels.length})';
     
-  /// Label for [RaylibCoreModuleBase.UpdateTextureRec].
+  /// Label for [RaylibCoreModule.UpdateTextureRec].
   String UpdateTextureRec(
-    TextureBase texture,
-    RectangleBase rec,
+    TextureD texture,
+    RectangleD rec,
     Uint8List pixels,
   ) => 'UpdateTextureRec($texture, $rec, pixels: ${pixels.length})';
 
-  /// Label for [RaylibCoreModuleBase.GenTextureMipmaps].
+  /// Label for [RaylibCoreModule.GenTextureMipmaps].
   String GenTextureMipmaps(
-    TextureBase texture,
+    TextureD texture,
   ) => 'GenTextureMipmaps($texture)';
 
-  /// Label for [RaylibCoreModuleBase.SetTextureFilter].
+  /// Label for [RaylibCoreModule.SetTextureFilter].
   String SetTextureFilter(
-    TextureBase texture,
+    TextureD texture,
     TextureFilter filter,
   ) => 'SetTextureFilter($texture, $filter)';
 
-  /// Label for [RaylibCoreModuleBase.SetTextureWrap].
+  /// Label for [RaylibCoreModule.SetTextureWrap].
   String SetTextureWrap(
-    TextureBase texture,
+    TextureD texture,
     TextureWrap wrap,
   ) => 'SetTextureWrap($texture, $wrap)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTexture].
+  /// Label for [RaylibCoreModule.DrawTexture].
   String DrawTexture(
-    TextureBase texture,
+    TextureD texture,
     num posX,
     num posY,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTexture($texture, $posX, $posY, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextureV].
+  /// Label for [RaylibCoreModule.DrawTextureV].
   String DrawTextureV(
-    TextureBase texture,
-    Vector2Base position,
-    ColorBase tint,
+    TextureD texture,
+    Vector2D position,
+    ColorD tint,
   ) => 'DrawTextureV($texture, $position, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawTextureEx].
+  /// Label for [RaylibCoreModule.DrawTextureEx].
   String DrawTextureEx(
-    TextureBase texture,
-    Vector2Base position,
+    TextureD texture,
+    Vector2D position,
     num rotation,
     num scale,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextureEx($texture, $position, $rotation, $scale, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextureRec].
+  /// Label for [RaylibCoreModule.DrawTextureRec].
   String DrawTextureRec(
-    TextureBase texture,
-    RectangleBase source,
-    Vector2Base position,
-    ColorBase tint,
+    TextureD texture,
+    RectangleD source,
+    Vector2D position,
+    ColorD tint,
   ) => 'DrawTextureRec($texture, $source, $position, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTexturePro].
+  /// Label for [RaylibCoreModule.DrawTexturePro].
   String DrawTexturePro(
-    TextureBase texture,
-    RectangleBase source,
-    RectangleBase dest,
-    Vector2Base origin,
+    TextureD texture,
+    RectangleD source,
+    RectangleD dest,
+    Vector2D origin,
     num rotation,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTexturePro($texture, $source, $dest, $origin, $rotation, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextureNPatch].
+  /// Label for [RaylibCoreModule.DrawTextureNPatch].
   String DrawTextureNPatch(
-    TextureBase texture,
-    NPatchInfoBase nPatchInfo,
-    RectangleBase dest,
-    Vector2Base origin,
+    TextureD texture,
+    NPatchInfoD nPatchInfo,
+    RectangleD dest,
+    Vector2D origin,
     num rotation,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextureNPatch($texture, $nPatchInfo, $dest, $origin, $rotation, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.ColorIsEqual].
+  /// Label for [RaylibCoreModule.ColorIsEqual].
   String ColorIsEqual(
-    ColorBase col1,
-    ColorBase col2,
+    ColorD col1,
+    ColorD col2,
   ) => 'ColorIsEqual($col1, $col2)';
 
-  /// Label for [RaylibCoreModuleBase.Fade].
+  /// Label for [RaylibCoreModule.Fade].
   String Fade(
-    ColorBase color,
+    ColorD color,
     num alpha,
   ) => 'Fade($color, $alpha)';
 
-  /// Label for [RaylibCoreModuleBase.ColorToInt].
+  /// Label for [RaylibCoreModule.ColorToInt].
   String ColorToInt(
-    ColorBase color,
+    ColorD color,
   ) => 'ColorToInt($color)';
 
-  /// Label for [RaylibCoreModuleBase.ColorNormalize].
+  /// Label for [RaylibCoreModule.ColorNormalize].
   String ColorNormalize(
-    ColorBase color,
+    ColorD color,
   ) => 'ColorNormalize($color)';
 
-  /// Label for [RaylibCoreModuleBase.ColorFromNormalized].
+  /// Label for [RaylibCoreModule.ColorFromNormalized].
   String ColorFromNormalized(
-    Vector4Base normalized,
+    Vector4D normalized,
   ) => 'ColorFromNormalized($normalized)';
 
-  /// Label for [RaylibCoreModuleBase.ColorToHSV].
+  /// Label for [RaylibCoreModule.ColorToHSV].
   String ColorToHSV(
-    ColorBase color,
+    ColorD color,
   ) => 'ColorToHSV($color)';
 
-  /// Label for [RaylibCoreModuleBase.ColorFromHSV].
+  /// Label for [RaylibCoreModule.ColorFromHSV].
   String ColorFromHSV(
     num hue,
     num saturation,
     num value,
   ) => 'ColorFromHSV($hue, $saturation, $value)';
 
-  /// Label for [RaylibCoreModuleBase.ColorTint].
+  /// Label for [RaylibCoreModule.ColorTint].
   String ColorTint(
-    ColorBase color,
-    ColorBase tint,
+    ColorD color,
+    ColorD tint,
   ) => 'ColorTint($color, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.ColorBrightness].
+  /// Label for [RaylibCoreModule.ColorBrightness].
   String ColorBrightness(
-    ColorBase color,
+    ColorD color,
     num factor,
   ) => 'ColorBrightness($color, $factor)';
 
-  /// Label for [RaylibCoreModuleBase.ColorContrast].
+  /// Label for [RaylibCoreModule.ColorContrast].
   String ColorContrast(
-    ColorBase color,
+    ColorD color,
     num contrast,
   ) => 'ColorContrast($color, $contrast)';
 
-  /// Label for [RaylibCoreModuleBase.ColorAlpha].
+  /// Label for [RaylibCoreModule.ColorAlpha].
   String ColorAlpha(
-    ColorBase color,
+    ColorD color,
     num alpha,
   ) => 'ColorAlpha($color, $alpha)';
 
-  /// Label for [RaylibCoreModuleBase.ColorAlphaBlend].
+  /// Label for [RaylibCoreModule.ColorAlphaBlend].
   String ColorAlphaBlend(
-    ColorBase dst,
-    ColorBase src,
-    ColorBase tint,
+    ColorD dst,
+    ColorD src,
+    ColorD tint,
   ) => 'ColorAlphaBlend($dst, $src, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.ColorLerp].
+  /// Label for [RaylibCoreModule.ColorLerp].
   String ColorLerp(
-    ColorBase color1,
-    ColorBase color2,
+    ColorD color1,
+    ColorD color2,
     num factor,
   ) => 'ColorLerp($color1, $color2, $factor)';
 
-  /// Label for [RaylibCoreModuleBase.GetColor].
+  /// Label for [RaylibCoreModule.GetColor].
   String GetColor(
     num hexValue,
   ) => 'GetColor($hexValue)';
 
-  /// Label for [RaylibCoreModuleBase.GetPixelDataSize].
+  /// Label for [RaylibCoreModule.GetPixelDataSize].
   String GetPixelDataSize(
     num width,
     num height,
     PixelFormat format,
   ) => 'GetPixelDataSize($width, $height, $format)';
 
-  /// Label for [RaylibCoreModuleBase.GetFontDefault].
+  /// Label for [RaylibCoreModule.GetFontDefault].
   String GetFontDefault() => 'GetFontDefault()';
 
-  /// Label for [RaylibCoreModuleBase.LoadFont].
+  /// Label for [RaylibCoreModule.LoadFont].
   String LoadFont(
     String fileName,
   ) => 'LoadFont($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadFontEx].
+  /// Label for [RaylibCoreModule.LoadFontEx].
   String LoadFontEx(
     String fileName,
     num fontSize, [
       Int32List? codepoints,
-      num? codePointCount
+      num? codepointCount,
     ]
-  ) => 'LoadFontEx($fileName, $fontSize, codepoints: ${codepoints?.length})';
+  ) => 'LoadFontEx($fileName, $fontSize, codepoints: ${codepointCount ?? codepoints?.length})';
 
-  /// Label for [RaylibCoreModuleBase.LoadFontFromImage].
+  /// Label for [RaylibCoreModule.LoadFontFromImage].
   String LoadFontFromImage(
-    ImageBase image,
-    ColorBase key,
+    ImageD image,
+    ColorD key,
     num firstChar,
   ) => 'LoadFontFromImage($image, $key, $firstChar)';
 
-  /// Label for [RaylibCoreModuleBase.LoadFontFromMemory].
+  /// Label for [RaylibCoreModule.LoadFontFromMemory].
   String LoadFontFromMemory(
     String fileType,
     Uint8List fileData,
@@ -2327,12 +2327,12 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     Int32List codepoints,
   ) => 'LoadFontFromMemory($fileType, fileData: ${fileData.length}, $fontSize, codepoints: ${codepoints.length})';
 
-  /// Label for [RaylibCoreModuleBase.IsFontValid].
+  /// Label for [RaylibCoreModule.IsFontValid].
   String IsFontValid(
-    FontBase font,
+    FontD font,
   ) => 'IsFontValid($font)';
 
-  /// Label for [RaylibCoreModuleBase.LoadFontData].
+  /// Label for [RaylibCoreModule.LoadFontData].
   String LoadFontData(
     Uint8List fileData,
     num fontSize,
@@ -2341,209 +2341,209 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     FontType type,
   ) => 'LoadFontData(fileData: ${fileData.length}, $fontSize, codepoints: ${codepoints?.length}, $type)';
 
-  /// Label for [RaylibCoreModuleBase.GenImageFontAtlas].
+  /// Label for [RaylibCoreModule.GenImageFontAtlas].
   String GenImageFontAtlas(
-    List<GlyphInfoBase> glyphs,
+    List<GlyphInfoD> glyphs,
     num fontSize,
     num padding,
     num packMethod,
   ) => 'GenImageFontAtlas(glyphs: ${glyphs.length}, $fontSize, $padding, $packMethod)';
 
-  /// Label for [RaylibCoreModuleBase.UnloadFontData].
+  /// Label for [RaylibCoreModule.UnloadFontData].
   String UnloadFontData(
-    List<GlyphInfoBase> glyphs,
+    List<GlyphInfoD> glyphs,
   ) => 'UnloadFontData(glyphs: ${glyphs.length})';
     
-  /// Label for [RaylibCoreModuleBase.UnloadFont].
+  /// Label for [RaylibCoreModule.UnloadFont].
   String UnloadFont(
-    FontBase font,
+    FontD font,
   ) => 'UnloadFont($font)';
 
-  /// Label for [RaylibCoreModuleBase.ExportFontAsCode].
+  /// Label for [RaylibCoreModule.ExportFontAsCode].
   String ExportFontAsCode(
-    FontBase font,
+    FontD font,
     String fileName,
   ) => 'ExportFontAsCode($font, $fileName)';
 
-  /// Label for [RaylibCoreModuleBase.DrawFPS].
+  /// Label for [RaylibCoreModule.DrawFPS].
   String DrawFPS(
     num posX,
     num posY,
   ) => 'DrawFPS($posX, $posY)';
 
-  /// Label for [RaylibCoreModuleBase.DrawText].
+  /// Label for [RaylibCoreModule.DrawText].
   String DrawText(
     String text,
     num posX,
     num posY,
     num fontSize,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawText($text, $posX, $posY, $fontSize, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextEx].
+  /// Label for [RaylibCoreModule.DrawTextEx].
   String DrawTextEx(
-    FontBase font,
+    FontD font,
     String text,
-    Vector2Base position,
+    Vector2D position,
     num fontSize,
     num spacing,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextEx($font, $text, $position, $fontSize, $spacing, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextPro].
+  /// Label for [RaylibCoreModule.DrawTextPro].
   String DrawTextPro(
-    FontBase font,
+    FontD font,
     String text,
-    Vector2Base position,
-    Vector2Base origin,
+    Vector2D position,
+    Vector2D origin,
     num rotation,
     num fontSize,
     num spacing,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextPro($font, $text, $position, $origin, $rotation, $fontSize, $spacing, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawTextCodepoint].
+  /// Label for [RaylibCoreModule.DrawTextCodepoint].
   String DrawTextCodepoint(
-    FontBase font,
+    FontD font,
     num codepoint,
-    Vector2Base position,
+    Vector2D position,
     num fontSize,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextCodepoint($font, $codepoint, $position, $fontSize, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawTextCodepoints].
+  /// Label for [RaylibCoreModule.DrawTextCodepoints].
   String DrawTextCodepoints(
-    FontBase font,
+    FontD font,
     Int32List codepoints,
-    Vector2Base position,
+    Vector2D position,
     num fontSize,
     num spacing,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawTextCodepoints($font, codepoints: ${codepoints.length}, $position, $fontSize, $spacing, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.SetTextLineSpacing].
+  /// Label for [RaylibCoreModule.SetTextLineSpacing].
   String SetTextLineSpacing(
     num spacing,
   ) => 'SetTextLineSpacing($spacing)';
 
-  /// Label for [RaylibCoreModuleBase.MeasureText].
+  /// Label for [RaylibCoreModule.MeasureText].
   String MeasureText(
     String text,
     num fontSize,
   ) => 'MeasureText($text, $fontSize)';
     
-  /// Label for [RaylibCoreModuleBase.MeasureTextEx].
+  /// Label for [RaylibCoreModule.MeasureTextEx].
   String MeasureTextEx(
-    FontBase font,
+    FontD font,
     String text,
     num fontSize,
     num spacing,
   ) => 'MeasureTextEx($font, $text, $fontSize, $spacing)';
 
-  /// Label for [RaylibCoreModuleBase.MeasureTextCodepoints].
+  /// Label for [RaylibCoreModule.MeasureTextCodepoints].
   String MeasureTextCodepoints(
-    FontBase font,
+    FontD font,
     Int32List codepoints,
     num fontSize,
     num spacing,
   ) => 'MeasureTextCodepoints($font, ${codepoints.length}, $fontSize, $spacing)';
 
-  /// Label for [RaylibCoreModuleBase.GetGlyphIndex].
+  /// Label for [RaylibCoreModule.GetGlyphIndex].
   String GetGlyphIndex(
-    FontBase font,
+    FontD font,
     num codepoint,
   ) => 'GetGlyphIndex($font, $codepoint)';
 
-  /// Label for [RaylibCoreModuleBase.GetGlyphInfo].
+  /// Label for [RaylibCoreModule.GetGlyphInfo].
   String GetGlyphInfo(
-    FontBase font,
+    FontD font,
     num codepoint,
   ) => 'GetGlyphInfo($font, $codepoint)';
 
-  /// Label for [RaylibCoreModuleBase.GetGlyphAtlasRec].
+  /// Label for [RaylibCoreModule.GetGlyphAtlasRec].
   String GetGlyphAtlasRec(
-    FontBase font,
+    FontD font,
     num codepoint,
   ) => 'GetGlyphAtlasRec($font, $codepoint)';
     
-  /// Label for [RaylibCoreModuleBase.LoadUTF8].
+  /// Label for [RaylibCoreModule.LoadUTF8].
   String LoadUTF8(
     Int32List codepoints,
   ) => 'LoadUTF8(codepoints: ${codepoints.length})';
 
-  /// Label for [RaylibCoreModuleBase.LoadCodepoints].
+  /// Label for [RaylibCoreModule.LoadCodepoints].
   String LoadCodepoints(
     String text,
   ) => 'LoadCodepoints($text)';
 
-  /// Label for [RaylibCoreModuleBase.GetCodepointCount].
+  /// Label for [RaylibCoreModule.GetCodepointCount].
   String GetCodepointCount(
     String text,
   ) => 'GetCodepointCount($text)';
 
-  /// Label for [RaylibCoreModuleBase.GetCodepoint].
+  /// Label for [RaylibCoreModule.GetCodepoint].
   String GetCodepoint(
     String text,
   ) => 'GetCodepoint($text)';
 
-  /// Label for [RaylibCoreModuleBase.GetCodepointNext].
+  /// Label for [RaylibCoreModule.GetCodepointNext].
   String GetCodepointNext(
     String text,
   ) => 'GetCodepointNext($text)';
 
-  /// Label for [RaylibCoreModuleBase.GetCodepointPrevious].
+  /// Label for [RaylibCoreModule.GetCodepointPrevious].
   String GetCodepointPrevious(
     String text,
   ) => 'GetCodepointPrevious($text)';
 
-  /// Label for [RaylibCoreModuleBase.CodepointToUTF8].
+  /// Label for [RaylibCoreModule.CodepointToUTF8].
   String CodepointToUTF8(
     num codepoint,
   ) => 'CodepointToUTF8($codepoint)';
 
-  /// Label for [RaylibCoreModuleBase.LoadTextLines].
+  /// Label for [RaylibCoreModule.LoadTextLines].
   String LoadTextLines(
     String text,
   ) => 'LoadTextLines($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextIsEqual].
+  /// Label for [RaylibCoreModule.TextIsEqual].
   String TextIsEqual(
     String text1,
     String text2,
   ) => 'TextIsEqual($text1, $text2)';
 
-  /// Label for [RaylibCoreModuleBase.TextLength].
+  /// Label for [RaylibCoreModule.TextLength].
   String TextLength(
     String text,
   ) => 'TextLength($text)';
 
-  /// Label for [RaylibCoreModuleBase.TextSubtext].
+  /// Label for [RaylibCoreModule.TextSubtext].
   String TextSubtext(
     String text,
     int position,
     int length,
   ) => 'TextSubtext($text, $position, $length)';
 
-  /// Label for [RaylibCoreModuleBase.TextRemoveSpaces].
+  /// Label for [RaylibCoreModule.TextRemoveSpaces].
   String TextRemoveSpaces(
     String text,
   ) => 'TextRemoveSpaces($text)';
 
-  /// Label for [RaylibCoreModuleBase.GetTextBetween].
+  /// Label for [RaylibCoreModule.GetTextBetween].
   String GetTextBetween(
     String text,
     String begin,
     String end,
   ) => 'GetTextBetween($text, $begin, $end)';
 
-  /// Label for [RaylibCoreModuleBase.TextReplace].
+  /// Label for [RaylibCoreModule.TextReplace].
   String TextReplace(
     String text,
     String search,
     String replacement,
   ) => 'TextReplace($text, $search, $replacement)';
 
-  /// Label for [RaylibCoreModuleBase.TextReplaceBetween].
+  /// Label for [RaylibCoreModule.TextReplaceBetween].
   String TextReplaceBetween(
     String text,
     String begin,
@@ -2551,405 +2551,405 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     String replacement,
   ) => 'TextReplaceBetween($text, $begin, $end, $replacement)';
 
-  /// Label for [RaylibCoreModuleBase.TextInsert].
+  /// Label for [RaylibCoreModule.TextInsert].
   String TextInsert(
     String text,
     String insert,
     int position,
   ) => 'TextInsert($text, $insert, $position)';
 
-  /// Label for [RaylibCoreModuleBase.TextJoin].
+  /// Label for [RaylibCoreModule.TextJoin].
   String TextJoin(
     List<String> textList,
     String delimiter,
   ) => 'TextJoin(textList: ${textList.length}, $delimiter)';
 
-  /// Label for [RaylibCoreModuleBase.TextSplit].
+  /// Label for [RaylibCoreModule.TextSplit].
   String TextSplit(
     String text,
     String delimiter,
   ) => 'TextSplit($text, $delimiter)';
 
-  /// Label for [RaylibCoreModuleBase.TextAppend].
+  /// Label for [RaylibCoreModule.TextAppend].
   String TextAppend(
     String text,
     String append,
   ) => 'TextAppend($text, $append)';
 
-  /// Label for [RaylibCoreModuleBase.TextFindIndex].
+  /// Label for [RaylibCoreModule.TextFindIndex].
   String TextFindIndex(
     String text,
     String search,
   ) => 'TextFindIndex($text, $search)';
 
-  /// Label for [RaylibCoreModuleBase.TextToUpper].
+  /// Label for [RaylibCoreModule.TextToUpper].
   String TextToUpper(
     String text,
   ) => 'TextToUpper($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextToLower].
+  /// Label for [RaylibCoreModule.TextToLower].
   String TextToLower(
     String text,
   ) => 'TextToLower($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextToPascal].
+  /// Label for [RaylibCoreModule.TextToPascal].
   String TextToPascal(
     String text,
   ) => 'TextToPascal($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextToSnake].
+  /// Label for [RaylibCoreModule.TextToSnake].
   String TextToSnake(
     String text,
   ) => 'TextToSnake($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextToCamel].
+  /// Label for [RaylibCoreModule.TextToCamel].
   String TextToCamel(
     String text,
   ) => 'TextToCamel($text)';
 
-  /// Label for [RaylibCoreModuleBase.TextToInteger].
+  /// Label for [RaylibCoreModule.TextToInteger].
   String TextToInteger(
     String text,
   ) => 'TextToInteger($text)';
   
-  /// Label for [RaylibCoreModuleBase.TextToFloat].
+  /// Label for [RaylibCoreModule.TextToFloat].
   String TextToFloat(
     String text,
   ) => 'TextToFloat($text)';
     
-  /// Label for [RaylibCoreModuleBase.DrawLine3D].
+  /// Label for [RaylibCoreModule.DrawLine3D].
   String DrawLine3D(
-    Vector3Base startPos,
-    Vector3Base endPos,
-    ColorBase color,
+    Vector3D startPos,
+    Vector3D endPos,
+    ColorD color,
   ) => 'DrawLine3D($startPos, $endPos, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawPoint3D].
+  /// Label for [RaylibCoreModule.DrawPoint3D].
   String DrawPoint3D(
-    Vector3Base position,
-    ColorBase color,
+    Vector3D position,
+    ColorD color,
   ) => 'DrawPoint3D($position, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCircle3D].
+  /// Label for [RaylibCoreModule.DrawCircle3D].
   String DrawCircle3D(
-    Vector3Base center,
+    Vector3D center,
     num radius,
-    Vector3Base rotationAxis,
+    Vector3D rotationAxis,
     num rotationAngle,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCircle3D($center, $radius, $rotationAxis, $rotationAngle, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawTriangle3D].
+  /// Label for [RaylibCoreModule.DrawTriangle3D].
   String DrawTriangle3D(
-    Vector3Base v1,
-    Vector3Base v2,
-    Vector3Base v3,
-    ColorBase color,
+    Vector3D v1,
+    Vector3D v2,
+    Vector3D v3,
+    ColorD color,
   ) => 'DrawTriangle3D($v1, $v2, $v3, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawTriangleStrip3D].
+  /// Label for [RaylibCoreModule.DrawTriangleStrip3D].
   String DrawTriangleStrip3D(
-    List<Vector3Base> points,
-    ColorBase color,
+    List<Vector3D> points,
+    ColorD color,
   ) => 'DrawTriangleStrip3D(points: ${points.length}, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCube].
+  /// Label for [RaylibCoreModule.DrawCube].
   String DrawCube(
-    Vector3Base position,
+    Vector3D position,
     num width,
     num height,
     num length,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCube($position, $width, $height, $length, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCubeV].
+  /// Label for [RaylibCoreModule.DrawCubeV].
   String DrawCubeV(
-    Vector3Base position,
-    Vector3Base size,
-    ColorBase color,
+    Vector3D position,
+    Vector3D size,
+    ColorD color,
   ) => 'DrawCubeV($position, $size, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCubeWires].
+  /// Label for [RaylibCoreModule.DrawCubeWires].
   String DrawCubeWires(
-    Vector3Base position,
+    Vector3D position,
     num width,
     num height,
     num length,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCubeWires($position, $width, $height, $length, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCubeWiresV].
+  /// Label for [RaylibCoreModule.DrawCubeWiresV].
   String DrawCubeWiresV(
-    Vector3Base position,
-    Vector3Base size,
-    ColorBase color,
+    Vector3D position,
+    Vector3D size,
+    ColorD color,
   ) => 'DrawCubeWiresV($position, $size, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawSphere].
+  /// Label for [RaylibCoreModule.DrawSphere].
   String DrawSphere(
-    Vector3Base centerPos,
+    Vector3D centerPos,
     num radius,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSphere($centerPos, $radius, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawSphereEx].
+  /// Label for [RaylibCoreModule.DrawSphereEx].
   String DrawSphereEx(
-    Vector3Base centerPos,
+    Vector3D centerPos,
     num radius,
     num rings,
     num slices,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSphereEx($centerPos, $radius, $rings, $slices, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawSphereWires].
+  /// Label for [RaylibCoreModule.DrawSphereWires].
   String DrawSphereWires(
-    Vector3Base centerPos,
+    Vector3D centerPos,
     num radius,
     num rings,
     num slices,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawSphereWires($centerPos, $radius, $rings, $slices, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCylinder].
+  /// Label for [RaylibCoreModule.DrawCylinder].
   String DrawCylinder(
-    Vector3Base position,
+    Vector3D position,
     num radiusTop,
     num radiusBottom,
     num height,
     num slices,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCylinder($position, $radiusTop, $radiusBottom, $height, $slices, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCylinderEx].
+  /// Label for [RaylibCoreModule.DrawCylinderEx].
   String DrawCylinderEx(
-    Vector3Base startPos,
-    Vector3Base endPos,
+    Vector3D startPos,
+    Vector3D endPos,
     num startRadius,
     num endRadius,
     num sides,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCylinderEx($startPos, $endPos, $startRadius, $endRadius, $sides, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCylinderWires].
+  /// Label for [RaylibCoreModule.DrawCylinderWires].
   String DrawCylinderWires(
-    Vector3Base position,
+    Vector3D position,
     num radiusTop,
     num radiusBottom,
     num height,
     num slices,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCylinderWires($position, $radiusTop, $radiusBottom, $height, $slices, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCylinderWiresEx].
+  /// Label for [RaylibCoreModule.DrawCylinderWiresEx].
   String DrawCylinderWiresEx(
-    Vector3Base startPos,
-    Vector3Base endPos,
+    Vector3D startPos,
+    Vector3D endPos,
     num startRadius,
     num endRadius,
     num sides,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCylinderWiresEx($startPos, $endPos, $startRadius, $endRadius, $sides, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCapsule].
+  /// Label for [RaylibCoreModule.DrawCapsule].
   String DrawCapsule(
-    Vector3Base startPos,
-    Vector3Base endPos,
+    Vector3D startPos,
+    Vector3D endPos,
     num radius,
     num slices,
     num rings,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCapsule($startPos, $endPos, $radius, $slices, $rings, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawCapsuleWires].
+  /// Label for [RaylibCoreModule.DrawCapsuleWires].
   String DrawCapsuleWires(
-    Vector3Base startPos,
-    Vector3Base endPos,
+    Vector3D startPos,
+    Vector3D endPos,
     num radius,
     num slices,
     num rings,
-    ColorBase color,
+    ColorD color,
   ) => 'DrawCapsuleWires($startPos, $endPos, $radius, $slices, $rings, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawPlane].
+  /// Label for [RaylibCoreModule.DrawPlane].
   String DrawPlane(
-    Vector3Base centerPos,
-    Vector2Base size,
-    ColorBase color,
+    Vector3D centerPos,
+    Vector2D size,
+    ColorD color,
   ) => 'DrawPlane($centerPos, $size, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawRay].
+  /// Label for [RaylibCoreModule.DrawRay].
   String DrawRay(
-    RayBase ray,
-    ColorBase color,
+    RayD ray,
+    ColorD color,
   ) => 'DrawRay($ray, $color)';
     
-  /// Label for [RaylibCoreModuleBase.DrawGrid].
+  /// Label for [RaylibCoreModule.DrawGrid].
   String DrawGrid(
     num slices,
     num spacing,
   ) => 'DrawGrid($slices, $spacing)';
     
-  /// Label for [RaylibCoreModuleBase.LoadModel].
+  /// Label for [RaylibCoreModule.LoadModel].
   String LoadModel(
     String fileName,
   ) => 'LoadModel($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadModelFromMesh].
+  /// Label for [RaylibCoreModule.LoadModelFromMesh].
   String LoadModelFromMesh(
-    MeshBase mesh,
+    MeshD mesh,
   ) => 'LoadModelFromMesh($mesh)';
     
-  /// Label for [RaylibCoreModuleBase.IsModelValid].
+  /// Label for [RaylibCoreModule.IsModelValid].
   String IsModelValid(
-    ModelBase model,
+    ModelD model,
   ) => 'IsModelValid($model)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadModel].
+  /// Label for [RaylibCoreModule.UnloadModel].
   String UnloadModel(
-    ModelBase model,
+    ModelD model,
   ) => 'UnloadModel($model)';
     
-  /// Label for [RaylibCoreModuleBase.GetModelBoundingBox].
+  /// Label for [RaylibCoreModule.GetModelBoundingBox].
   String GetModelBoundingBox(
-    ModelBase model,
+    ModelD model,
   ) => 'GetModelBoundingBox($model)';
     
-  /// Label for [RaylibCoreModuleBase.DrawModel].
+  /// Label for [RaylibCoreModule.DrawModel].
   String DrawModel(
-    ModelBase model,
-    Vector3Base position,
+    ModelD model,
+    Vector3D position,
     num scale,
-    ColorBase tint
+    ColorD tint
   ) => 'DrawModel($model, $position, $scale, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawModelEx].
+  /// Label for [RaylibCoreModule.DrawModelEx].
   String DrawModelEx(
-    ModelBase model,
-    Vector3Base position,
-    Vector3Base rotationAxis,
+    ModelD model,
+    Vector3D position,
+    Vector3D rotationAxis,
     num rotationAngle,
-    Vector3Base scale,
-    ColorBase tint,
+    Vector3D scale,
+    ColorD tint,
   ) => 'DrawModelEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawModelWires].
+  /// Label for [RaylibCoreModule.DrawModelWires].
   String DrawModelWires(
-    ModelBase model,
-    Vector3Base position,
+    ModelD model,
+    Vector3D position,
     num scale,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawModelWires($model, $position, $scale, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawModelWiresEx].
+  /// Label for [RaylibCoreModule.DrawModelWiresEx].
   String DrawModelWiresEx(
-    ModelBase model,
-    Vector3Base position,
-    Vector3Base rotationAxis,
+    ModelD model,
+    Vector3D position,
+    Vector3D rotationAxis,
     num rotationAngle,
-    Vector3Base scale,
-    ColorBase tint,
+    Vector3D scale,
+    ColorD tint,
   ) => 'DrawModelWiresEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
     
-  /// Label for [RaylibCoreModuleBase.DrawBoundingBox].
+  /// Label for [RaylibCoreModule.DrawBoundingBox].
   String DrawBoundingBox(
-    BoundingBoxBase box,
-    ColorBase color,
+    BoundingBoxD box,
+    ColorD color,
   ) => 'DrawBoundingBox($box, $color)';
 
-  /// Label for [RaylibCoreModuleBase.DrawBillboard].
+  /// Label for [RaylibCoreModule.DrawBillboard].
   String DrawBillboard(
-    Camera3DBase camera,
-    TextureBase texture,
-    Vector3Base position,
+    Camera3DD camera,
+    TextureD texture,
+    Vector3D position,
     num scale,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawBillboard($camera, $texture, $position, $scale, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawBillboardRec].
+  /// Label for [RaylibCoreModule.DrawBillboardRec].
   String DrawBillboardRec(
-    Camera3DBase camera,
-    TextureBase texture,
-    RectangleBase source,
-    Vector3Base position,
-    Vector2Base size,
-    ColorBase tint,
+    Camera3DD camera,
+    TextureD texture,
+    RectangleD source,
+    Vector3D position,
+    Vector2D size,
+    ColorD tint,
   ) => 'DrawBillboardRec($camera, $texture, $source, $position, $size, $tint)';
 
-  /// Label for [RaylibCoreModuleBase.DrawBillboardPro].
+  /// Label for [RaylibCoreModule.DrawBillboardPro].
   String DrawBillboardPro(
-    Camera3DBase camera,
-    TextureBase texture,
-    RectangleBase source,
-    Vector3Base position,
-    Vector3Base up,
-    Vector2Base size,
-    Vector2Base origin,
+    Camera3DD camera,
+    TextureD texture,
+    RectangleD source,
+    Vector3D position,
+    Vector3D up,
+    Vector2D size,
+    Vector2D origin,
     num rotation,
-    ColorBase tint,
+    ColorD tint,
   ) => 'DrawBillboardPro($camera, $texture, $source, $position, $up, $size, $origin, $rotation, $tint)';
   
-  /// Label for [RaylibCoreModuleBase.UploadMesh].
+  /// Label for [RaylibCoreModule.UploadMesh].
   String UploadMesh(
-    MeshBase mesh,
+    MeshD mesh,
     bool dynamic,
   ) => 'UploadMesh($mesh, $dynamic)';
     
-  /// Label for [RaylibCoreModuleBase.UpdateMeshBuffer].
+  /// Label for [RaylibCoreModule.UpdateMeshBuffer].
   String UpdateMeshBuffer(
-    MeshBase mesh,
+    MeshD mesh,
     num index,
     TypedDataList data,
     num offset,
   ) => 'UpdateMeshBuffer($mesh, $index, data: ${data.length}, $offset)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadMesh].
+  /// Label for [RaylibCoreModule.UnloadMesh].
   String UnloadMesh(
-    MeshBase mesh,
+    MeshD mesh,
   ) => 'UnloadMesh($mesh)';
     
-  /// Label for [RaylibCoreModuleBase.DrawMesh].
+  /// Label for [RaylibCoreModule.DrawMesh].
   String DrawMesh(
-    MeshBase mesh,
-    MaterialBase material,
-    MatrixBase transform,
+    MeshD mesh,
+    MaterialD material,
+    MatrixD transform,
   ) => 'DrawMesh($mesh, $material, transform: $transform)';
     
-  /// Label for [RaylibCoreModuleBase.DrawMeshInstanced].
+  /// Label for [RaylibCoreModule.DrawMeshInstanced].
   String DrawMeshInstanced(
-    MeshBase mesh,
-    MaterialBase material,
-    List<MatrixBase> transforms,
+    MeshD mesh,
+    MaterialD material,
+    List<MatrixD> transforms,
   ) => 'DrawMeshInstanced($mesh, $material, transforms: ${transforms.length})';
     
-  /// Label for [RaylibCoreModuleBase.GetMeshBoundingBox].
+  /// Label for [RaylibCoreModule.GetMeshBoundingBox].
   String GetMeshBoundingBox(
-    MeshBase mesh,
+    MeshD mesh,
   ) => 'GetMeshBoundingBox($mesh)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshTangents].
+  /// Label for [RaylibCoreModule.GenMeshTangents].
   String GenMeshTangents(
-    MeshBase mesh,
+    MeshD mesh,
   ) => 'GenMeshTangents($mesh)';
     
-  /// Label for [RaylibCoreModuleBase.ExportMesh].
+  /// Label for [RaylibCoreModule.ExportMesh].
   String ExportMesh(
-    MeshBase mesh,
+    MeshD mesh,
     String fileName,
   ) => 'ExportMesh($mesh, $fileName)';
     
-  /// Label for [RaylibCoreModuleBase.ExportMeshAsCode].
+  /// Label for [RaylibCoreModule.ExportMeshAsCode].
   String ExportMeshAsCode(
-    MeshBase mesh,
+    MeshD mesh,
     String fileName,
   ) => 'ExportMeshAsCode($mesh, $fileName)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshPoly].
+  /// Label for [RaylibCoreModule.GenMeshPoly].
   String GenMeshPoly(
     num sides,
     num radius,
   ) => 'GenMeshPoly($sides, $radius)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshPlane].
+  /// Label for [RaylibCoreModule.GenMeshPlane].
   String GenMeshPlane(
     num width,
     num length,
@@ -2957,42 +2957,42 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num resZ,
   ) => 'GenMeshPlane($width, $length, $resX, $resZ)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshCube].
+  /// Label for [RaylibCoreModule.GenMeshCube].
   String GenMeshCube(
     num width,
     num height,
     num length,
   ) => 'GenMeshCube($width, $height, $length)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshSphere].
+  /// Label for [RaylibCoreModule.GenMeshSphere].
   String GenMeshSphere(
     num radius,
     num rings,
     num slices,
   ) => 'GenMeshSphere($radius, $rings, $slices)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshHemiSphere].
+  /// Label for [RaylibCoreModule.GenMeshHemiSphere].
   String GenMeshHemiSphere(
     num radius,
     num rings,
     num slices,
   ) => 'GenMeshHemiSphere($radius, $rings, $slices)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshCylinder].
+  /// Label for [RaylibCoreModule.GenMeshCylinder].
   String GenMeshCylinder(
     num radius,
     num height,
     num slices,
   ) => 'GenMeshCylinder($radius, $height, $slices)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshCone].
+  /// Label for [RaylibCoreModule.GenMeshCone].
   String GenMeshCone(
     num radius,
     num height,
     num slices,
   ) => 'GenMeshCone($radius, $height, $slices)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshTorus].
+  /// Label for [RaylibCoreModule.GenMeshTorus].
   String GenMeshTorus(
     num radius,
     num size,
@@ -3000,7 +3000,7 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num sides,
   ) => 'GenMeshTorus($radius, $size, $radSeg, $sides)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshKnot].
+  /// Label for [RaylibCoreModule.GenMeshKnot].
   String GenMeshKnot(
     num radius,
     num size,
@@ -3008,139 +3008,139 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
     num sides,
   ) => 'GenMeshKnot($radius, $size, $radSeg, $sides)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshHeightmap].
+  /// Label for [RaylibCoreModule.GenMeshHeightmap].
   String GenMeshHeightmap(
-    ImageBase heightmap,
-    Vector3Base size,
+    ImageD heightmap,
+    Vector3D size,
   ) => 'GenMeshHeightmap($heightmap, $size)';
     
-  /// Label for [RaylibCoreModuleBase.GenMeshCubicmap].
+  /// Label for [RaylibCoreModule.GenMeshCubicmap].
   String GenMeshCubicmap(
-    ImageBase cubicmap,
-    Vector3Base cubeSize,
+    ImageD cubicmap,
+    Vector3D cubeSize,
   ) => 'GenMeshCubicmap($cubicmap, $cubeSize)';
     
-  /// Label for [RaylibCoreModuleBase.LoadMaterials].
+  /// Label for [RaylibCoreModule.LoadMaterials].
   String LoadMaterials(
     String fileName,
   ) => 'LoadMaterials($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.LoadMaterialDefault].
+  /// Label for [RaylibCoreModule.LoadMaterialDefault].
   String LoadMaterialDefault() => 'LoadMaterialDefault()';
     
-  /// Label for [RaylibCoreModuleBase.IsMaterialValid].
+  /// Label for [RaylibCoreModule.IsMaterialValid].
   String IsMaterialValid(
-    MaterialBase material,
+    MaterialD material,
   ) => 'IsMaterialValid($material)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadMaterial].
+  /// Label for [RaylibCoreModule.UnloadMaterial].
   String UnloadMaterial(
-    MaterialBase material,
+    MaterialD material,
   ) => 'UnloadMaterial($material)';
     
-  /// Label for [RaylibCoreModuleBase.SetMaterialTexture].
+  /// Label for [RaylibCoreModule.SetMaterialTexture].
   String SetMaterialTexture(
-    MaterialBase material,
+    MaterialD material,
     MaterialMapIndex mapType,
-    TextureBase texture,
+    TextureD texture,
   ) => 'SetMaterialTexture($material, ${mapType.name}, $texture)';
     
-  /// Label for [RaylibCoreModuleBase.SetModelMeshMaterial].
+  /// Label for [RaylibCoreModule.SetModelMeshMaterial].
   String SetModelMeshMaterial(
-    ModelBase model,
+    ModelD model,
     num meshId,
     num materialId,
   ) => 'SetModelMeshMaterial($model, $meshId, $materialId)';
     
-  /// Label for [RaylibCoreModuleBase.LoadModelAnimations].
+  /// Label for [RaylibCoreModule.LoadModelAnimations].
   String LoadModelAnimations(
     String fileName,
   ) => 'LoadModelAnimations($fileName)';
     
-  /// Label for [RaylibCoreModuleBase.UpdateModelAnimation].
+  /// Label for [RaylibCoreModule.UpdateModelAnimation].
   String UpdateModelAnimation(
-    ModelBase model,
-    ModelAnimationBase anim,
+    ModelD model,
+    ModelAnimationD anim,
     num frame,
   ) => 'UpdateModelAnimation($model, $anim, $frame)';
 
-  /// Label for [RaylibCoreModuleBase.UpdateModelAnimationEx].
+  /// Label for [RaylibCoreModule.UpdateModelAnimationEx].
   String UpdateModelAnimationEx(
-    ModelBase model,
-    ModelAnimationBase animA,
+    ModelD model,
+    ModelAnimationD animA,
     num frameA,
-    ModelAnimationBase animB,
+    ModelAnimationD animB,
     num frameB,
     num blend,
   ) => 'UpdateModelAnimationEx($model, $animA, $frameA, $animB, $frameB, $blend)';
     
-  /// Label for [RaylibCoreModuleBase.UnloadModelAnimations].
+  /// Label for [RaylibCoreModule.UnloadModelAnimations].
   String UnloadModelAnimations(
-    List<ModelAnimationBase> animations,
+    List<ModelAnimationD> animations,
   ) => 'UnloadModelAnimations(animations: ${animations.length})';
     
-  /// Label for [RaylibCoreModuleBase.IsModelAnimationValid].
+  /// Label for [RaylibCoreModule.IsModelAnimationValid].
   String IsModelAnimationValid(
-    ModelBase model,
-    ModelAnimationBase anim,
+    ModelD model,
+    ModelAnimationD anim,
   ) => 'IsModelAnimationValid($model, $anim)';
     
-  /// Label for [RaylibCoreModuleBase.CheckCollisionSpheres].
+  /// Label for [RaylibCoreModule.CheckCollisionSpheres].
   String CheckCollisionSpheres(
-    Vector3Base center1,
+    Vector3D center1,
     num radius1,
-    Vector3Base center2,
+    Vector3D center2,
     num radius2,
   ) => 'CheckCollisionSpheres($center1, $radius1, $center2, $radius2)';
     
-  /// Label for [RaylibCoreModuleBase.CheckCollisionBoxes].
+  /// Label for [RaylibCoreModule.CheckCollisionBoxes].
   String CheckCollisionBoxes(
-    BoundingBoxBase box1,
-    BoundingBoxBase box2,
+    BoundingBoxD box1,
+    BoundingBoxD box2,
   ) => 'CheckCollisionBoxes($box1, $box2)';
     
-  /// Label for [RaylibCoreModuleBase.CheckCollisionBoxSphere].
+  /// Label for [RaylibCoreModule.CheckCollisionBoxSphere].
   String CheckCollisionBoxSphere(
-    BoundingBoxBase box,
-    Vector3Base center,
+    BoundingBoxD box,
+    Vector3D center,
     num radius,
   ) => 'CheckCollisionBoxSphere($box, $center, $radius)';
     
-  /// Label for [RaylibCoreModuleBase.GetRayCollisionSphere].
+  /// Label for [RaylibCoreModule.GetRayCollisionSphere].
   String GetRayCollisionSphere(
-    RayBase ray,
-    Vector3Base center,
+    RayD ray,
+    Vector3D center,
     num radius,
   ) => 'GetRayCollisionSphere($ray, $center, $radius)';
     
-  /// Label for [RaylibCoreModuleBase.GetRayCollisionBox].
+  /// Label for [RaylibCoreModule.GetRayCollisionBox].
   String GetRayCollisionBox(
-    RayBase ray,
-    BoundingBoxBase box,
+    RayD ray,
+    BoundingBoxD box,
   ) => 'GetRayCollisionBox($ray, $box)';
     
-  /// Label for [RaylibCoreModuleBase.GetRayCollisionMesh].
+  /// Label for [RaylibCoreModule.GetRayCollisionMesh].
   String GetRayCollisionMesh(
-    RayBase ray,
-    MeshBase mesh,
-    MatrixBase transform,
+    RayD ray,
+    MeshD mesh,
+    MatrixD transform,
   ) => 'GetRayCollisionMesh($ray, $mesh, $transform)';
     
-  /// Label for [RaylibCoreModuleBase.GetRayCollisionTriangle].
+  /// Label for [RaylibCoreModule.GetRayCollisionTriangle].
   String GetRayCollisionTriangle(
-    RayBase ray,
-    Vector3Base p1,
-    Vector3Base p2,
-    Vector3Base p3,
+    RayD ray,
+    Vector3D p1,
+    Vector3D p2,
+    Vector3D p3,
   ) => 'GetRayCollisionTriangle($ray, $p1, $p2, $p3)';
     
-  /// Label for [RaylibCoreModuleBase.GetRayCollisionQuad].
+  /// Label for [RaylibCoreModule.GetRayCollisionQuad].
   String GetRayCollisionQuad(
-    RayBase ray,
-    Vector3Base p1,
-    Vector3Base p2,
-    Vector3Base p3,
-    Vector3Base p4,
+    RayD ray,
+    Vector3D p1,
+    Vector3D p2,
+    Vector3D p3,
+    Vector3D p4,
   ) => 'GetRayCollisionQuad($ray, $p1, $p2, $p3, $p4)';
   
 }

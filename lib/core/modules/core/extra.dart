@@ -3,7 +3,7 @@ part of '../../raylib_dartified_base.dart';
 /// Snapshot of a single mouse button's state for the current frame.
 ///
 /// All fields default to `false`; only the relevant flags are set to `true`
-/// when constructing via [RaylibCoreModuleBase.GetMouseInfo].
+/// when constructing via [RaylibCoreModule.GetMouseInfo].
 final class MouseButtonInfo {
   /// `true` if the button is not held down this frame.
   final bool up;
@@ -30,16 +30,16 @@ final class MouseButtonInfo {
 /// A convenience aggregate that collects position, movement, scroll, and all
 /// button states into a single object. Avoids making individual Raylib calls
 /// for each piece of mouse data per frame.
-final class MouseInfo<Vector2StructType> {
+final class MouseInfo {
 
   /// Cursor position in screen space.
-  final Vector2StructType position;
+  final Vector2D position;
 
   /// Cursor movement since the last frame.
-  final Vector2StructType delta;
+  final Vector2D delta;
   
   /// Scroll wheel movement since the last frame.
-  final Vector2StructType wheel;
+  final Vector2D wheel;
   
   /// State of the left mouse button ([MouseButton.MOUSE_BUTTON_LEFT]).
   final MouseButtonInfo btnLeft;
@@ -63,9 +63,9 @@ final class MouseInfo<Vector2StructType> {
   final MouseButtonInfo btnBack;
 
   MouseInfo({
-    Vector2StructType? position,
-    Vector2StructType? delta,
-    Vector2StructType? wheel,
+    Vector2D? position,
+    Vector2D? delta,
+    Vector2D? wheel,
     MouseButtonInfo? btnLeft,
     MouseButtonInfo? btnMiddle,
     MouseButtonInfo? btnRight,
@@ -74,9 +74,9 @@ final class MouseInfo<Vector2StructType> {
     MouseButtonInfo? btnForward,
     MouseButtonInfo? btnBack,
   }) :
-    position = position ?? RaylibVector2Factories.zeroFactory() as Vector2StructType,
-    delta = delta ?? RaylibVector2Factories.zeroFactory() as Vector2StructType,
-    wheel = wheel ?? RaylibVector2Factories.zeroFactory() as Vector2StructType,
+    position = position ?? .zero(),
+    delta = delta ?? .zero(),
+    wheel = wheel ?? .zero(),
     btnLeft = btnLeft ?? .new(),
     btnMiddle = btnMiddle ?? .new(),
     btnRight = btnRight ?? .new(),

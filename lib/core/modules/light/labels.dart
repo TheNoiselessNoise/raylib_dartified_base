@@ -4,19 +4,19 @@ part of '../../raylib_dartified_base.dart';
 /// logged to the console when debug output is enabled.
 class RaylibLightModuleDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibLightModuleBase.CreateLight].
+  /// Label for [RaylibLightModule.CreateLight].
   String CreateLight(
     LightType type,
-    Vector3Base position,
-    Vector3Base target,
-    ColorBase color,
-    ShaderBase shader,
+    Vector3D position,
+    Vector3D target,
+    ColorD color,
+    ShaderD shader,
   ) => 'CreateLight(${type.name}, $position, $target, $color, $shader)';
 
-  /// Label for [RaylibLightModuleBase.UpdateLightValues].
+  /// Label for [RaylibLightModule.UpdateLightValues].
   String UpdateLightValues(
-    ShaderBase shader,
-    LightBase light,
+    ShaderD shader,
+    LightD light,
   ) => 'UpdateLightValues($shader, $light)';
   
 }

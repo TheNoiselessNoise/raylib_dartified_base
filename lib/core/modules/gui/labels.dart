@@ -4,211 +4,211 @@ part of '../../raylib_dartified_base.dart';
 /// logged to the console when debug output is enabled.
 class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibGuiModuleBase.GuiEnable].
+  /// Label for [RaylibGuiModule.GuiEnable].
   String GuiEnable() => 'GuiEnable()';
 
-  /// Label for [RaylibGuiModuleBase.GuiDisable].
+  /// Label for [RaylibGuiModule.GuiDisable].
   String GuiDisable() => 'GuiDisable()';
 
-  /// Label for [RaylibGuiModuleBase.GuiLock].
+  /// Label for [RaylibGuiModule.GuiLock].
   String GuiLock() => 'GuiLock()';
 
-  /// Label for [RaylibGuiModuleBase.GuiUnlock].
+  /// Label for [RaylibGuiModule.GuiUnlock].
   String GuiUnlock() => 'GuiUnlock()';
 
-  /// Label for [RaylibGuiModuleBase.GuiIsLocked].
+  /// Label for [RaylibGuiModule.GuiIsLocked].
   String GuiIsLocked() => 'GuiIsLocked()';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetAlpha].
+  /// Label for [RaylibGuiModule.GuiSetAlpha].
   String GuiSetAlpha(
     num alpha,
   ) => 'GuiSetAlpha($alpha)';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetState].
+  /// Label for [RaylibGuiModule.GuiSetState].
   String GuiSetState(
     GuiState state,
   ) => 'GuiSetState($state)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGetState].
+  /// Label for [RaylibGuiModule.GuiGetState].
   String GuiGetState() => 'GuiGetState()';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetFont].
+  /// Label for [RaylibGuiModule.GuiSetFont].
   String GuiSetFont(
-    FontBase font,
+    FontD font,
   ) => 'GuiSetFont($font)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGetFont].
+  /// Label for [RaylibGuiModule.GuiGetFont].
   String GuiGetFont() => 'GuiGetFont()';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetStyle].
+  /// Label for [RaylibGuiModule.GuiSetStyle].
   String GuiSetStyle(
     GuiControl control,
     GuiProperty property,
     num value,
   ) => 'GuiSetStyle(${control.name}, ${property.name}, $value)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGetStyle].
+  /// Label for [RaylibGuiModule.GuiGetStyle].
   String GuiGetStyle(
     GuiControl control,
     GuiProperty property,
   ) => 'GuiGetStyle(${control.name}, ${property.name})';
 
-  /// Label for [RaylibGuiModuleBase.GuiLoadStyle].
+  /// Label for [RaylibGuiModule.GuiLoadStyle].
   String GuiLoadStyle(
     String fileName,
   ) => 'GuiLoadStyle($fileName)';
 
-  /// Label for [RaylibGuiModuleBase.GuiLoadStyleDefault].
+  /// Label for [RaylibGuiModule.GuiLoadStyleDefault].
   String GuiLoadStyleDefault() => 'GuiLoadStyleDefault()';
 
-  /// Label for [RaylibGuiModuleBase.GuiEnableTooltip].
+  /// Label for [RaylibGuiModule.GuiEnableTooltip].
   String GuiEnableTooltip() => 'GuiEnableTooltip()';
 
-  /// Label for [RaylibGuiModuleBase.GuiDisableTooltip].
+  /// Label for [RaylibGuiModule.GuiDisableTooltip].
   String GuiDisableTooltip() => 'GuiDisableTooltip()';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetTooltip].
+  /// Label for [RaylibGuiModule.GuiSetTooltip].
   String GuiSetTooltip(
     String? tooltip,
   ) => 'GuiSetTooltip($tooltip)';
 
-  /// Label for [RaylibGuiModuleBase.GuiIconText].
+  /// Label for [RaylibGuiModule.GuiIconText].
   String GuiIconText(
     GuiIconName iconId,
     String? text,
   ) => 'GuiIconText(${iconId.name}, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiSetIconScale].
+  /// Label for [RaylibGuiModule.GuiSetIconScale].
   String GuiSetIconScale(
     num scale,
   ) => 'GuiSetIconScale($scale)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGetIcons].
+  /// Label for [RaylibGuiModule.GuiGetIcons].
   String GuiGetIcons() => 'GuiGetIcons()';
 
-  /// Label for [RaylibGuiModuleBase.GuiLoadIcons].
+  /// Label for [RaylibGuiModule.GuiLoadIcons].
   String GuiLoadIcons(
     String fileName,
     bool loadIconsName,
   ) => 'GuiLoadIcons($fileName, $loadIconsName)';
 
-  /// Label for [RaylibGuiModuleBase.GuiDrawIcon].
+  /// Label for [RaylibGuiModule.GuiDrawIcon].
   String GuiDrawIcon(
     GuiIconName iconId,
     num posX,
     num posY,
     num pixelSize,
-    ColorBase color,
+    ColorD color,
   ) => 'GuiDrawIcon(${iconId.name}, $posX, $posY, $pixelSize, $color)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGetTextWidth].
+  /// Label for [RaylibGuiModule.GuiGetTextWidth].
   String GuiGetTextWidth(
     String? text,
   ) => 'GuiGetTextWidth($text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiWindowBox].
+  /// Label for [RaylibGuiModule.GuiWindowBox].
   String GuiWindowBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? title,
   ) => 'GuiWindowBox($bounds, $title)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGroupBox].
+  /// Label for [RaylibGuiModule.GuiGroupBox].
   String GuiGroupBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiGroupBox($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiLine].
+  /// Label for [RaylibGuiModule.GuiLine].
   String GuiLine(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiLine($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiPanel].
+  /// Label for [RaylibGuiModule.GuiPanel].
   String GuiPanel(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiPanel($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiTabBar].
+  /// Label for [RaylibGuiModule.GuiTabBar].
   String GuiTabBar(
-    RectangleBase bounds,
+    RectangleD bounds,
     List<String> text,
   ) => 'GuiTabBar($bounds, text: ${text.length})';
 
-  /// Label for [RaylibGuiModuleBase.GuiScrollPanel].
+  /// Label for [RaylibGuiModule.GuiScrollPanel].
   String GuiScrollPanel(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
-    RectangleBase content,
-    Vector2Base scroll,
-    [RectangleBase? view]
+    RectangleD content,
+    Vector2D scroll,
+    [RectangleD? view]
   ) => 'GuiScrollPanel($bounds, $text, $content, $scroll, $view)';
 
-  /// Label for [RaylibGuiModuleBase.GuiLabel].
+  /// Label for [RaylibGuiModule.GuiLabel].
   String GuiLabel(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiLabel($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiButton].
+  /// Label for [RaylibGuiModule.GuiButton].
   String GuiButton(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiButton($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiLabelButton].
+  /// Label for [RaylibGuiModule.GuiLabelButton].
   String GuiLabelButton(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiLabelButton($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiToggle].
+  /// Label for [RaylibGuiModule.GuiToggle].
   String GuiToggle(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     bool active,
   ) => 'GuiToggle($bounds, $text, $active)';
 
-  /// Label for [RaylibGuiModuleBase.GuiToggleGroup].
+  /// Label for [RaylibGuiModule.GuiToggleGroup].
   String GuiToggleGroup(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num active,
   ) => 'GuiToggleGroup($bounds, $text, $active)';
 
-  /// Label for [RaylibGuiModuleBase.GuiToggleSlider].
+  /// Label for [RaylibGuiModule.GuiToggleSlider].
   String GuiToggleSlider(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num active,
   ) => 'GuiToggleSlider($bounds, $text, $active)';
 
-  /// Label for [RaylibGuiModuleBase.GuiCheckBox].
+  /// Label for [RaylibGuiModule.GuiCheckBox].
   String GuiCheckBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     bool checked,
   ) => 'GuiCheckBox($bounds, $text, $checked)';
 
-  /// Label for [RaylibGuiModuleBase.GuiComboBox].
+  /// Label for [RaylibGuiModule.GuiComboBox].
   String GuiComboBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num active,
   ) => 'GuiComboBox($bounds, $text, $active)';
 
-  /// Label for [RaylibGuiModuleBase.GuiDropdownBox].
+  /// Label for [RaylibGuiModule.GuiDropdownBox].
   String GuiDropdownBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num active,
     bool editMode,
   ) => 'GuiDropdownBox($bounds, $text, $active, $editMode)';
 
-  /// Label for [RaylibGuiModuleBase.GuiSpinner].
+  /// Label for [RaylibGuiModule.GuiSpinner].
   String GuiSpinner(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num value,
     num minValue,
@@ -216,9 +216,9 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     bool editMode,
   ) => 'GuiSpinner($bounds, $text, $value, $minValue, $maxValue, $editMode)';
 
-  /// Label for [RaylibGuiModuleBase.GuiValueBox].
+  /// Label for [RaylibGuiModule.GuiValueBox].
   String GuiValueBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num value,
     num minValue,
@@ -226,26 +226,26 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     bool editMode,
   ) => 'GuiValueBox($bounds, $text, $value, $minValue, $maxValue, $editMode)';
 
-  /// Label for [RaylibGuiModuleBase.GuiValueBoxFloat].
+  /// Label for [RaylibGuiModule.GuiValueBoxFloat].
   String GuiValueBoxFloat(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     String textValue,
     num value,
     bool editMode,
   ) => 'GuiValueBoxFloat($bounds, $text, $textValue, $value, $editMode)';
 
-  /// Label for [RaylibGuiModuleBase.GuiTextBox].
+  /// Label for [RaylibGuiModule.GuiTextBox].
   String GuiTextBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
     num textSize,
     bool editMode,
   ) => 'GuiTextBox($bounds, $text, $textSize, $editMode)';
 
-  /// Label for [RaylibGuiModuleBase.GuiSlider].
+  /// Label for [RaylibGuiModule.GuiSlider].
   String GuiSlider(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -253,9 +253,9 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     num maxValue,
   ) => 'GuiSlider($bounds, $textLeft, $textRight, $value, $minValue, $maxValue)';
 
-  /// Label for [RaylibGuiModuleBase.GuiSliderBar].
+  /// Label for [RaylibGuiModule.GuiSliderBar].
   String GuiSliderBar(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -263,9 +263,9 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     num maxValue,
   ) => 'GuiSliderBar($bounds, $textLeft, $textRight, $value, $minValue, $maxValue)';
 
-  /// Label for [RaylibGuiModuleBase.GuiProgressBar].
+  /// Label for [RaylibGuiModule.GuiProgressBar].
   String GuiProgressBar(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -273,38 +273,38 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     num maxValue,
   ) => 'GuiProgressBar($bounds, $textLeft, $textRight, $value, $minValue, $maxValue)';
 
-  /// Label for [RaylibGuiModuleBase.GuiStatusBar].
+  /// Label for [RaylibGuiModule.GuiStatusBar].
   String GuiStatusBar(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiStatusBar($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiDummyRec].
+  /// Label for [RaylibGuiModule.GuiDummyRec].
   String GuiDummyRec(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text,
   ) => 'GuiDummyRec($bounds, $text)';
 
-  /// Label for [RaylibGuiModuleBase.GuiGrid].
+  /// Label for [RaylibGuiModule.GuiGrid].
   String GuiGrid(
-    RectangleBase bounds,
+    RectangleD bounds,
     num spacing,
     num subdivs,
-    [Vector2Base? mouseCell]
+    [Vector2D? mouseCell]
   ) => 'GuiGrid($bounds, $spacing, $subdivs, $mouseCell)';
 
-  /// Label for [RaylibGuiModuleBase.GuiListView].
+  /// Label for [RaylibGuiModule.GuiListView].
   String GuiListView(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? text, {
       int? scrollIndex,
       int? active,
     }
   ) => 'GuiListView($bounds, $text, $scrollIndex, $active)';
 
-  /// Label for [RaylibGuiModuleBase.GuiListViewEx].
+  /// Label for [RaylibGuiModule.GuiListViewEx].
   String GuiListViewEx(
-    RectangleBase bounds,
+    RectangleD bounds,
     List<String>? text, {
       int? scrollIndex,
       int? active,
@@ -312,17 +312,17 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     }
   ) => 'GuiListViewEx($bounds, $text, $scrollIndex, $active, $focus)';
 
-  /// Label for [RaylibGuiModuleBase.GuiMessageBox].
+  /// Label for [RaylibGuiModule.GuiMessageBox].
   String GuiMessageBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? title,
     String message,
     String buttons,
   ) => 'GuiMessageBox($bounds, $title, $message, $buttons)';
 
-  /// Label for [RaylibGuiModuleBase.GuiTextInputBox].
+  /// Label for [RaylibGuiModule.GuiTextInputBox].
   String GuiTextInputBox(
-    RectangleBase bounds,
+    RectangleD bounds,
     String? title,
     String? message,
     String buttons,
@@ -331,40 +331,40 @@ class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     bool? secretViewActive,
   ) => 'GuiTextInputBox($bounds, $title, $message, $buttons, $text, $textMaxSize, $secretViewActive)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorPicker].
+  /// Label for [RaylibGuiModule.GuiColorPicker].
   String GuiColorPicker(
-    RectangleBase bounds,
-    ColorBase? color,
+    RectangleD bounds,
+    ColorD? color,
   ) => 'GuiColorPicker($bounds, $color)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorPanel].
+  /// Label for [RaylibGuiModule.GuiColorPanel].
   String GuiColorPanel(
-    RectangleBase bounds,
-    ColorBase color,
+    RectangleD bounds,
+    ColorD color,
   ) => 'GuiColorPanel($bounds, $color)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorBarAlpha].
+  /// Label for [RaylibGuiModule.GuiColorBarAlpha].
   String GuiColorBarAlpha(
-    RectangleBase bounds,
+    RectangleD bounds,
     num alpha,
   ) => 'GuiColorBarAlpha($bounds, $alpha)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorBarHue].
+  /// Label for [RaylibGuiModule.GuiColorBarHue].
   String GuiColorBarHue(
-    RectangleBase bounds,
+    RectangleD bounds,
     num value,
   ) => 'GuiColorBarHue($bounds, $value)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorPickerHSV].
+  /// Label for [RaylibGuiModule.GuiColorPickerHSV].
   String GuiColorPickerHSV(
-    RectangleBase bounds,
-    [Vector3Base? colorHsv]
+    RectangleD bounds,
+    [Vector3D? colorHsv]
   ) => 'GuiColorPickerHSV($bounds, $colorHsv)';
 
-  /// Label for [RaylibGuiModuleBase.GuiColorPanelHSV].
+  /// Label for [RaylibGuiModule.GuiColorPanelHSV].
   String GuiColorPanelHSV(
-    RectangleBase bounds,
-    [Vector3Base? colorHsv]
+    RectangleD bounds,
+    [Vector3D? colorHsv]
   ) => 'GuiColorPanelHSV($bounds, $colorHsv)';
   
 }

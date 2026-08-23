@@ -1,122 +1,93 @@
 part of '../raylib_dartified_base.dart';
 
 /// Exposes Raylib's matrix math API as module-level functions by delegating
-/// to the corresponding [MatrixBase] methods/factories.
+/// to the corresponding [MatrixD] methods/factories.
 /// Exists purely for Raylib API symmetry.
-abstract class RaylibMatrixExtensionBase<
-  R extends RaylibBase,
+class RaylibMatrixExtension extends RaylibModule {
 
-  MatrixStructType extends MatrixBase<
-    MatrixStructType,
-    Vector3StructType,
-    QuaternionStructType,
-    Vector4StructType
-  >,
-  QuaternionStructType extends QuaternionBase<
-    QuaternionStructType,
-    MatrixStructType,
-    Vector3StructType,
-    Vector4StructType
-  >,
-  RectangleStructType extends RectangleBase<RectangleStructType>,
-  Vector3StructType extends Vector3Base<
-    Vector3StructType,
-    MatrixStructType,
-    QuaternionStructType,
-    Vector4StructType
-  >,
-  Vector4StructType extends Vector4Base<
-    Vector4StructType,
-    QuaternionStructType,
-    MatrixStructType,
-    Vector3StructType
-  >
+  RaylibMatrixExtension(super.rl);
 
-> extends RaylibModule<R> {
-
-  RaylibMatrixExtensionBase(super.rl);
-
-  /// See [MatrixBase.determinant].
-  double MatrixDeterminant(MatrixStructType mat)
+  /// See [MatrixD.determinant].
+  double MatrixDeterminant(MatrixD mat)
     => mat.determinant();
 
-  /// See [MatrixBase.trace].
-  double MatrixTrace(MatrixStructType mat)
+  /// See [MatrixD.trace].
+  double MatrixTrace(MatrixD mat)
     => mat.trace();
 
-  /// See [MatrixBase.transpose].
-  MatrixStructType MatrixTranspose(MatrixStructType mat)
+  /// See [MatrixD.transpose].
+  MatrixD MatrixTranspose(MatrixD mat)
     => mat.transpose();
 
-  /// See [MatrixBase.invert].
-  MatrixStructType MatrixInvert(MatrixStructType mat)
+  /// See [MatrixD.invert].
+  MatrixD MatrixInvert(MatrixD mat)
     => mat.invert();
 
-  /// See [RaylibMatrixFactories.identity].
-  MatrixStructType MatrixIdentity()
-    => RaylibMatrixFactories.identity() as MatrixStructType;
+  /// See [MatrixD.identity].
+  MatrixD MatrixIdentity()
+    => .identity();
 
-  /// See [MatrixBase.add].
-  MatrixStructType MatrixAdd(MatrixStructType left, MatrixStructType right)
+  /// See [MatrixD.add].
+  MatrixD MatrixAdd(MatrixD left, MatrixD right)
     => left.add(right);
 
-  /// See [MatrixBase.sub].
-  MatrixStructType MatrixSubtract(MatrixStructType left, MatrixStructType right)
+  /// See [MatrixD.sub].
+  MatrixD MatrixSubtract(MatrixD left, MatrixD right)
     => left.sub(right);
 
-  /// See [MatrixBase.mul].
-  MatrixStructType MatrixMultiply(MatrixStructType left, MatrixStructType right)
+  /// See [MatrixD.mul].
+  MatrixD MatrixMultiply(MatrixD left, MatrixD right)
     => left.mul(right);
 
-  /// See [RaylibMatrixFactories.translate].
-  MatrixStructType MatrixTranslate(double x, double y, double z)
-    => RaylibMatrixFactories.translate(x, y, z) as MatrixStructType;
+  /// See [MatrixD.translate].
+  MatrixD MatrixTranslate(double x, double y, double z)
+    => .translate(x, y, z);
 
-  /// See [RaylibMatrixFactories.rotateAngle].
-  MatrixStructType MatrixRotate(Vector3StructType axis, double angle)
-    => RaylibMatrixFactories.rotateAngle(axis, angle) as MatrixStructType;
+  /// See [MatrixD.rotateAngle].
+  MatrixD MatrixRotate(Vector3D axis, double angle)
+    => .rotateAngle(axis, angle);
 
-  /// See [RaylibMatrixFactories.rotateX].
-  MatrixStructType MatrixRotateX(double angle)
-    => RaylibMatrixFactories.rotateX(angle) as MatrixStructType;
+  /// See [MatrixD.rotateX].
+  MatrixD MatrixRotateX(double angle)
+    => .rotateX(angle);
 
-  /// See [RaylibMatrixFactories.rotateY].
-  MatrixStructType MatrixRotateY(double angle)
-    => RaylibMatrixFactories.rotateY(angle) as MatrixStructType;
+  /// See [MatrixD.rotateY].
+  MatrixD MatrixRotateY(double angle)
+    => .rotateY(angle);
 
-  /// See [RaylibMatrixFactories.rotateZ].
-  MatrixStructType MatrixRotateZ(double angle)
-    => RaylibMatrixFactories.rotateZ(angle) as MatrixStructType;
+  /// See [MatrixD.rotateZ].
+  MatrixD MatrixRotateZ(double angle)
+    => .rotateZ(angle);
 
-  /// See [RaylibMatrixFactories.rotateXYZ].
-  MatrixStructType MatrixRotateXYZ(Vector3StructType angle)
-    => RaylibMatrixFactories.rotateXYZ(angle) as MatrixStructType;
+  /// See [MatrixD.rotateXYZ].
+  MatrixD MatrixRotateXYZ(Vector3D angle)
+    => .rotateXYZ(angle);
 
-  /// See [RaylibMatrixFactories.rotateZYX].
-  MatrixStructType MatrixRotateZYX(Vector3StructType angle)
-    => RaylibMatrixFactories.rotateZYX(angle) as MatrixStructType;
+  /// See [MatrixD.rotateZYX].
+  MatrixD MatrixRotateZYX(Vector3D angle)
+    => .rotateZYX(angle);
 
-  /// See [RaylibMatrixFactories.scale].
-  MatrixStructType MatrixScale(double x, double y, double z)
-    => RaylibMatrixFactories.scale(x, y, z) as MatrixStructType;
+  /// See [MatrixD.scale].
+  MatrixD MatrixScale(double x, double y, double z)
+    => .scale(x, y, z);
 
-  /// See [RaylibMatrixFactories.frustum].
-  MatrixStructType MatrixFrustum(double left, double right, double bottom, double top, double nearPlane, double farPlane)
-    => RaylibMatrixFactories.frustum(left, right, bottom, top, nearPlane, farPlane) as MatrixStructType;
+  /// See [MatrixD.frustum].
+  MatrixD MatrixFrustum(double left, double right, double bottom, double top, double nearPlane, double farPlane)
+    => .frustum(left, right, bottom, top, nearPlane, farPlane);
 
-  /// See [RaylibMatrixFactories.perspective].
-  MatrixStructType MatrixPerspective(double fovY, double aspect, double nearPlane, double farPlane)
-    => RaylibMatrixFactories.perspective(fovY, aspect, nearPlane, farPlane) as MatrixStructType;
+  /// See [MatrixD.perspective].
+  MatrixD MatrixPerspective(double fovY, double aspect, double nearPlane, double farPlane)
+    => .perspective(fovY, aspect, nearPlane, farPlane);
 
-  /// See [RaylibMatrixFactories.ortho].
-  MatrixStructType MatrixOrtho(double left, double right, double bottom, double top, double nearPlane, double farPlane)
-    => RaylibMatrixFactories.ortho(left, right, bottom, top, nearPlane, farPlane) as MatrixStructType;
+  /// See [MatrixD.ortho].
+  MatrixD MatrixOrtho(double left, double right, double bottom, double top, double nearPlane, double farPlane)
+    => .ortho(left, right, bottom, top, nearPlane, farPlane);
 
-  /// See [RaylibMatrixFactories.lookAt].
-  MatrixStructType MatrixLookAt(Vector3StructType eye, Vector3StructType target, Vector3StructType up)
-    => RaylibMatrixFactories.lookAt(eye, target, up) as MatrixStructType;
+  /// See [MatrixD.lookAt].
+  MatrixD MatrixLookAt(Vector3D eye, Vector3D target, Vector3D up)
+    => .lookAt(eye, target, up);
 
-  /// See [MatrixBase.decompose].
-  (Vector3StructType translation, QuaternionStructType rotation, Vector3StructType scale) MatrixDecompose(MatrixStructType mat)
+  /// See [MatrixD.decompose].
+  (Vector3D translation, QuaternionD rotation, Vector3D scale) MatrixDecompose(MatrixD mat)
     => mat.decompose();
 }

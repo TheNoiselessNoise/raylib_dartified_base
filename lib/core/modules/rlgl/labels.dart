@@ -4,28 +4,28 @@ part of '../../raylib_dartified_base.dart';
 /// logged to the console when debug output is enabled.
 class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibRlglModuleBase.rlMatrixMode].
+  /// Label for [RaylibRlglModule.rlMatrixMode].
   String rlMatrixMode(
     RlMatrixMode mode,
   ) => 'rlMatrixMode(${mode.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlPushMatrix].
+  /// Label for [RaylibRlglModule.rlPushMatrix].
   String rlPushMatrix() => 'rlPushMatrix()';
 
-  /// Label for [RaylibRlglModuleBase.rlPopMatrix].
+  /// Label for [RaylibRlglModule.rlPopMatrix].
   String rlPopMatrix() => 'rlPopMatrix()';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadIdentity].
+  /// Label for [RaylibRlglModule.rlLoadIdentity].
   String rlLoadIdentity() => 'rlLoadIdentity()';
 
-  /// Label for [RaylibRlglModuleBase.rlTranslatef].
+  /// Label for [RaylibRlglModule.rlTranslatef].
   String rlTranslatef(
     num x,
     num y,
     num z,
   ) => 'rlTranslatef($x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlRotatef].
+  /// Label for [RaylibRlglModule.rlRotatef].
   String rlRotatef(
     num angle,
     num x,
@@ -33,19 +33,19 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num z,
   ) => 'rlRotatef($angle, $x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlScalef].
+  /// Label for [RaylibRlglModule.rlScalef].
   String rlScalef(
     num x,
     num y,
     num z,
   ) => 'rlScalef($x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlMultMatrixf].
+  /// Label for [RaylibRlglModule.rlMultMatrixf].
   String rlMultMatrixf(
     List<num> matf,
   ) => 'rlMultMatrixf($matf)';
 
-  /// Label for [RaylibRlglModuleBase.rlFrustum].
+  /// Label for [RaylibRlglModule.rlFrustum].
   String rlFrustum(
     num left,
     num right,
@@ -55,7 +55,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num zfar,
   ) => 'rlFrustum($left, $right, $bottom, $top, $znear, $zfar)';
 
-  /// Label for [RaylibRlglModuleBase.rlOrtho].
+  /// Label for [RaylibRlglModule.rlOrtho].
   String rlOrtho(
     num left,
     num right,
@@ -65,7 +65,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num zfar,
   ) => 'rlOrtho($left, $right, $bottom, $top, $znear, $zfar)';
 
-  /// Label for [RaylibRlglModuleBase.rlViewport].
+  /// Label for [RaylibRlglModule.rlViewport].
   String rlViewport(
     num x,
     num y,
@@ -73,59 +73,59 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num height,
   ) => 'rlViewport($x, $y, $width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetClipPlanes].
+  /// Label for [RaylibRlglModule.rlSetClipPlanes].
   String rlSetClipPlanes(
     num nearPlane,
     num farPlane,
   ) => 'rlSetClipPlanes($nearPlane, $farPlane)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetCullDistanceNear].
+  /// Label for [RaylibRlglModule.rlGetCullDistanceNear].
   String rlGetCullDistanceNear() => 'rlGetCullDistanceNear()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetCullDistanceFar].
+  /// Label for [RaylibRlglModule.rlGetCullDistanceFar].
   String rlGetCullDistanceFar() => 'rlGetCullDistanceFar()';
 
-  /// Label for [RaylibRlglModuleBase.rlBegin].
+  /// Label for [RaylibRlglModule.rlBegin].
   String rlBegin(
     RlDrawMode mode,
   ) => 'rlBegin(${mode.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlEnd].
+  /// Label for [RaylibRlglModule.rlEnd].
   String rlEnd() => 'rlEnd()';
 
-  /// Label for [RaylibRlglModuleBase.rlVertex2i].
+  /// Label for [RaylibRlglModule.rlVertex2i].
   String rlVertex2i(
     num x,
     num y,
   ) => 'rlVertex2i($x, $y)';
 
-  /// Label for [RaylibRlglModuleBase.rlVertex2f].
+  /// Label for [RaylibRlglModule.rlVertex2f].
   String rlVertex2f(
     num x,
     num y,
   ) => 'rlVertex2f($x, $y)';
 
-  /// Label for [RaylibRlglModuleBase.rlVertex3f].
+  /// Label for [RaylibRlglModule.rlVertex3f].
   String rlVertex3f(
     num x,
     num y,
     num z,
   ) => 'rlVertex3f($x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlTexCoord2f].
+  /// Label for [RaylibRlglModule.rlTexCoord2f].
   String rlTexCoord2f(
     num x,
     num y,
   ) => 'rlTexCoord2f($x, $y)';
 
-  /// Label for [RaylibRlglModuleBase.rlNormal3f].
+  /// Label for [RaylibRlglModule.rlNormal3f].
   String rlNormal3f(
     num x,
     num y,
     num z,
   ) => 'rlNormal3f($x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlColor4ub].
+  /// Label for [RaylibRlglModule.rlColor4ub].
   String rlColor4ub(
     num r,
     num g,
@@ -133,14 +133,14 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num a,
   ) => 'rlColor4ub($r, $g, $b, $a)';
 
-  /// Label for [RaylibRlglModuleBase.rlColor3f].
+  /// Label for [RaylibRlglModule.rlColor3f].
   String rlColor3f(
     num x,
     num y,
     num z,
   ) => 'rlColor3f($x, $y, $z)';
 
-  /// Label for [RaylibRlglModuleBase.rlColor4f].
+  /// Label for [RaylibRlglModule.rlColor4f].
   String rlColor4f(
     num x,
     num y,
@@ -148,111 +148,111 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num w,
   ) => 'rlColor4f($x, $y, $z, $w)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableVertexArray].
+  /// Label for [RaylibRlglModule.rlEnableVertexArray].
   String rlEnableVertexArray(
     num vaoId,
   ) => 'rlEnableVertexArray($vaoId)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableVertexArray].
+  /// Label for [RaylibRlglModule.rlDisableVertexArray].
   String rlDisableVertexArray() => 'rlDisableVertexArray()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableVertexBuffer].
+  /// Label for [RaylibRlglModule.rlEnableVertexBuffer].
   String rlEnableVertexBuffer(
     num id,
   ) => 'rlEnableVertexBuffer($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableVertexBuffer].
+  /// Label for [RaylibRlglModule.rlDisableVertexBuffer].
   String rlDisableVertexBuffer() => 'rlDisableVertexBuffer()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableVertexBufferElement].
+  /// Label for [RaylibRlglModule.rlEnableVertexBufferElement].
   String rlEnableVertexBufferElement(
     num id,
   ) => 'rlEnableVertexBufferElement($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableVertexBufferElement].
+  /// Label for [RaylibRlglModule.rlDisableVertexBufferElement].
   String rlDisableVertexBufferElement() => 'rlDisableVertexBufferElement()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableVertexAttribute].
+  /// Label for [RaylibRlglModule.rlEnableVertexAttribute].
   String rlEnableVertexAttribute(
     num index,
   ) => 'rlEnableVertexAttribute($index)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableVertexAttribute].
+  /// Label for [RaylibRlglModule.rlDisableVertexAttribute].
   String rlDisableVertexAttribute(
     num index,
   ) => 'rlDisableVertexAttribute($index)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableStatePointer].
+  /// Label for [RaylibRlglModule.rlEnableStatePointer].
   String rlEnableStatePointer(
     int vertexAttribType,
     TypedDataList data,
   ) => 'rlEnableStatePointer($vertexAttribType, data: ${data.length})';
   
-  /// Label for [RaylibRlglModuleBase.rlDisableStatePointer].
+  /// Label for [RaylibRlglModule.rlDisableStatePointer].
   String rlDisableStatePointer(
     int vertexAttribType,
   ) => 'rlDisableStatePointer($vertexAttribType)';
 
-  /// Label for [RaylibRlglModuleBase.rlActiveTextureSlot].
+  /// Label for [RaylibRlglModule.rlActiveTextureSlot].
   String rlActiveTextureSlot(
     num slot,
   ) => 'rlActiveTextureSlot($slot)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableTexture].
+  /// Label for [RaylibRlglModule.rlEnableTexture].
   String rlEnableTexture(
     num id,
   ) => 'rlEnableTexture($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableTexture].
+  /// Label for [RaylibRlglModule.rlDisableTexture].
   String rlDisableTexture() => 'rlDisableTexture()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableTextureCubemap].
+  /// Label for [RaylibRlglModule.rlEnableTextureCubemap].
   String rlEnableTextureCubemap(
     num id,
   ) => 'rlEnableTextureCubemap($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableTextureCubemap].
+  /// Label for [RaylibRlglModule.rlDisableTextureCubemap].
   String rlDisableTextureCubemap() => 'rlDisableTextureCubemap()';
 
-  /// Label for [RaylibRlglModuleBase.rlTextureParameters].
+  /// Label for [RaylibRlglModule.rlTextureParameters].
   String rlTextureParameters(
     num id,
     num param,
     num value,
   ) => 'rlTextureParameters($id, $param, $value)';
 
-  /// Label for [RaylibRlglModuleBase.rlCubemapParameters].
+  /// Label for [RaylibRlglModule.rlCubemapParameters].
   String rlCubemapParameters(
     num id,
     num param,
     num value,
   ) => 'rlCubemapParameters($id, $param, $value)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableShader].
+  /// Label for [RaylibRlglModule.rlEnableShader].
   String rlEnableShader(
     num id,
   ) => 'rlEnableShader($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableShader].
+  /// Label for [RaylibRlglModule.rlDisableShader].
   String rlDisableShader() => 'rlDisableShader()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableFramebuffer].
+  /// Label for [RaylibRlglModule.rlEnableFramebuffer].
   String rlEnableFramebuffer(
     num id,
   ) => 'rlEnableFramebuffer($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableFramebuffer].
+  /// Label for [RaylibRlglModule.rlDisableFramebuffer].
   String rlDisableFramebuffer() => 'rlDisableFramebuffer()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetActiveFramebuffer].
+  /// Label for [RaylibRlglModule.rlGetActiveFramebuffer].
   String rlGetActiveFramebuffer() => 'rlGetActiveFramebuffer()';
 
-  /// Label for [RaylibRlglModuleBase.rlActiveDrawBuffers].
+  /// Label for [RaylibRlglModule.rlActiveDrawBuffers].
   String rlActiveDrawBuffers(
     num count,
   ) => 'rlActiveDrawBuffers($count)';
 
-  /// Label for [RaylibRlglModuleBase.rlBlitFramebuffer].
+  /// Label for [RaylibRlglModule.rlBlitFramebuffer].
   String rlBlitFramebuffer(
     num srcX,
     num srcY,
@@ -265,37 +265,37 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num bufferMask,
   ) => 'rlBlitFramebuffer($srcX, $srcY, $srcWidth, $srcHeight, $dstX, $dstY, $dstWidth, $dstHeight, $bufferMask)';
 
-  /// Label for [RaylibRlglModuleBase.rlBindFramebuffer].
+  /// Label for [RaylibRlglModule.rlBindFramebuffer].
   String rlBindFramebuffer(
     num target,
     num framebuffer,
   ) => 'rlBindFramebuffer($target, $framebuffer)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableColorBlend].
+  /// Label for [RaylibRlglModule.rlEnableColorBlend].
   String rlEnableColorBlend() => 'rlEnableColorBlend()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableColorBlend].
+  /// Label for [RaylibRlglModule.rlDisableColorBlend].
   String rlDisableColorBlend() => 'rlDisableColorBlend()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableDepthTest].
+  /// Label for [RaylibRlglModule.rlEnableDepthTest].
   String rlEnableDepthTest() => 'rlEnableDepthTest()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableDepthTest].
+  /// Label for [RaylibRlglModule.rlDisableDepthTest].
   String rlDisableDepthTest() => 'rlDisableDepthTest()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableDepthMask].
+  /// Label for [RaylibRlglModule.rlEnableDepthMask].
   String rlEnableDepthMask() => 'rlEnableDepthMask()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableDepthMask].
+  /// Label for [RaylibRlglModule.rlDisableDepthMask].
   String rlDisableDepthMask() => 'rlDisableDepthMask()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableBackfaceCulling].
+  /// Label for [RaylibRlglModule.rlEnableBackfaceCulling].
   String rlEnableBackfaceCulling() => 'rlEnableBackfaceCulling()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableBackfaceCulling].
+  /// Label for [RaylibRlglModule.rlDisableBackfaceCulling].
   String rlDisableBackfaceCulling() => 'rlDisableBackfaceCulling()';
 
-  /// Label for [RaylibRlglModuleBase.rlColorMask].
+  /// Label for [RaylibRlglModule.rlColorMask].
   String rlColorMask(
     bool r,
     bool g,
@@ -303,18 +303,18 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     bool a,
   ) => 'rlColorMask($r, $g, $b, $a)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetCullFace].
+  /// Label for [RaylibRlglModule.rlSetCullFace].
   String rlSetCullFace(
     RlCullMode mode,
   ) => 'rlSetCullFace(${mode.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableScissorTest].
+  /// Label for [RaylibRlglModule.rlEnableScissorTest].
   String rlEnableScissorTest() => 'rlEnableScissorTest()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableScissorTest].
+  /// Label for [RaylibRlglModule.rlDisableScissorTest].
   String rlDisableScissorTest() => 'rlDisableScissorTest()';
 
-  /// Label for [RaylibRlglModuleBase.rlScissor].
+  /// Label for [RaylibRlglModule.rlScissor].
   String rlScissor(
     num x,
     num y,
@@ -322,50 +322,50 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num height,
   ) => 'rlScissor($x, $y, $width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlEnablePointMode].
+  /// Label for [RaylibRlglModule.rlEnablePointMode].
   String rlEnablePointMode() => 'rlEnablePointMode()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisablePointMode].
+  /// Label for [RaylibRlglModule.rlDisablePointMode].
   String rlDisablePointMode() => 'rlDisablePointMode()';
 
-  /// Label for [RaylibRlglModuleBase.rlSetPointSize].
+  /// Label for [RaylibRlglModule.rlSetPointSize].
   String rlSetPointSize(
     num size,
   ) => 'rlSetPointSize($size)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetPointSize].
+  /// Label for [RaylibRlglModule.rlGetPointSize].
   String rlGetPointSize() => 'rlGetPointSize()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableWireMode].
+  /// Label for [RaylibRlglModule.rlEnableWireMode].
   String rlEnableWireMode() => 'rlEnableWireMode()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableWireMode].
+  /// Label for [RaylibRlglModule.rlDisableWireMode].
   String rlDisableWireMode() => 'rlDisableWireMode()';
 
-  /// Label for [RaylibRlglModuleBase.rlSetLineWidth].
+  /// Label for [RaylibRlglModule.rlSetLineWidth].
   String rlSetLineWidth(
     num width,
   ) => 'rlSetLineWidth($width)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetLineWidth].
+  /// Label for [RaylibRlglModule.rlGetLineWidth].
   String rlGetLineWidth() => 'rlGetLineWidth()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableSmoothLines].
+  /// Label for [RaylibRlglModule.rlEnableSmoothLines].
   String rlEnableSmoothLines() => 'rlEnableSmoothLines()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableSmoothLines].
+  /// Label for [RaylibRlglModule.rlDisableSmoothLines].
   String rlDisableSmoothLines() => 'rlDisableSmoothLines()';
 
-  /// Label for [RaylibRlglModuleBase.rlEnableStereoRender].
+  /// Label for [RaylibRlglModule.rlEnableStereoRender].
   String rlEnableStereoRender() => 'rlEnableStereoRender()';
 
-  /// Label for [RaylibRlglModuleBase.rlDisableStereoRender].
+  /// Label for [RaylibRlglModule.rlDisableStereoRender].
   String rlDisableStereoRender() => 'rlDisableStereoRender()';
 
-  /// Label for [RaylibRlglModuleBase.rlIsStereoRenderEnabled].
+  /// Label for [RaylibRlglModule.rlIsStereoRenderEnabled].
   String rlIsStereoRenderEnabled() => 'rlIsStereoRenderEnabled()';
 
-  /// Label for [RaylibRlglModuleBase.rlClearColor].
+  /// Label for [RaylibRlglModule.rlClearColor].
   String rlClearColor(
     num r,
     num g,
@@ -373,25 +373,25 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num a,
   ) => 'rlClearColor($r, $g, $b, $a)';
 
-  /// Label for [RaylibRlglModuleBase.rlClearScreenBuffers].
+  /// Label for [RaylibRlglModule.rlClearScreenBuffers].
   String rlClearScreenBuffers() => 'rlClearScreenBuffers()';
 
-  /// Label for [RaylibRlglModuleBase.rlCheckErrors].
+  /// Label for [RaylibRlglModule.rlCheckErrors].
   String rlCheckErrors() => 'rlCheckErrors()';
 
-  /// Label for [RaylibRlglModuleBase.rlSetBlendMode].
+  /// Label for [RaylibRlglModule.rlSetBlendMode].
   String rlSetBlendMode(
     BlendMode mode,
   ) => 'rlSetBlendMode(${mode.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlSetBlendFactors].
+  /// Label for [RaylibRlglModule.rlSetBlendFactors].
   String rlSetBlendFactors(
     num glSrcFactor,
     num glDstFactor,
     num glEquation,
   ) => 'rlSetBlendFactors($glSrcFactor, $glDstFactor, $glEquation)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetBlendFactorsSeparate].
+  /// Label for [RaylibRlglModule.rlSetBlendFactorsSeparate].
   String rlSetBlendFactorsSeparate(
     num glSrcRGB,
     num glDstRGB,
@@ -401,93 +401,93 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num glEqAlpha,
   ) => 'rlSetBlendFactorsSeparate($glSrcRGB, $glDstRGB, $glSrcAlpha, $glDstAlpha, $glEqRGB, $glEqAlpha)';
 
-  /// Label for [RaylibRlglModuleBase.rlglInit].
+  /// Label for [RaylibRlglModule.rlglInit].
   String rlglInit(
     num width,
     num height,
   ) => 'rlglInit($width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlglClose].
+  /// Label for [RaylibRlglModule.rlglClose].
   String rlglClose() => 'rlglClose()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetVersion].
+  /// Label for [RaylibRlglModule.rlGetVersion].
   String rlGetVersion() => 'rlGetVersion()';
 
-  /// Label for [RaylibRlglModuleBase.rlSetFramebufferWidth].
+  /// Label for [RaylibRlglModule.rlSetFramebufferWidth].
   String rlSetFramebufferWidth(
     num width,
   ) => 'rlSetFramebufferWidth($width)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetFramebufferWidth].
+  /// Label for [RaylibRlglModule.rlGetFramebufferWidth].
   String rlGetFramebufferWidth() => 'rlGetFramebufferWidth()';
 
-  /// Label for [RaylibRlglModuleBase.rlSetFramebufferHeight].
+  /// Label for [RaylibRlglModule.rlSetFramebufferHeight].
   String rlSetFramebufferHeight(
     num height,
   ) => 'rlSetFramebufferHeight($height)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetFramebufferHeight].
+  /// Label for [RaylibRlglModule.rlGetFramebufferHeight].
   String rlGetFramebufferHeight() => 'rlGetFramebufferHeight()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetTextureIdDefault].
+  /// Label for [RaylibRlglModule.rlGetTextureIdDefault].
   String rlGetTextureIdDefault() => 'rlGetTextureIdDefault()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetShaderIdDefault].
+  /// Label for [RaylibRlglModule.rlGetShaderIdDefault].
   String rlGetShaderIdDefault() => 'rlGetShaderIdDefault()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetShaderLocsDefault].
+  /// Label for [RaylibRlglModule.rlGetShaderLocsDefault].
   String rlGetShaderLocsDefault() => 'rlGetShaderLocsDefault()';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadRenderBatch].
+  /// Label for [RaylibRlglModule.rlLoadRenderBatch].
   String rlLoadRenderBatch(
     num numBuffers,
     num bufferElements,
   ) => 'rlLoadRenderBatch($numBuffers, $bufferElements)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadRenderBatch].
+  /// Label for [RaylibRlglModule.rlUnloadRenderBatch].
   String rlUnloadRenderBatch(
-    RlRenderBatchBase batch,
+    RlRenderBatchD batch,
   ) => 'rlUnloadRenderBatch($batch)';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawRenderBatch].
+  /// Label for [RaylibRlglModule.rlDrawRenderBatch].
   String rlDrawRenderBatch(
-    RlRenderBatchBase batch,
+    RlRenderBatchD batch,
   ) => 'rlDrawRenderBatch($batch)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetRenderBatchActive].
+  /// Label for [RaylibRlglModule.rlSetRenderBatchActive].
   String rlSetRenderBatchActive([
-    RlRenderBatchBase? batch,
+    RlRenderBatchD? batch,
   ]) => 'rlSetRenderBatchActive($batch)';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawRenderBatchActive].
+  /// Label for [RaylibRlglModule.rlDrawRenderBatchActive].
   String rlDrawRenderBatchActive() => 'rlDrawRenderBatchActive()';
 
-  /// Label for [RaylibRlglModuleBase.rlCheckRenderBatchLimit].
+  /// Label for [RaylibRlglModule.rlCheckRenderBatchLimit].
   String rlCheckRenderBatchLimit(
     num vCount,
   ) => 'rlCheckRenderBatchLimit($vCount)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetTexture].
+  /// Label for [RaylibRlglModule.rlSetTexture].
   String rlSetTexture(
     num id,
   ) => 'rlSetTexture($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadVertexArray].
+  /// Label for [RaylibRlglModule.rlLoadVertexArray].
   String rlLoadVertexArray() => 'rlLoadVertexArray()';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadVertexBuffer].
+  /// Label for [RaylibRlglModule.rlLoadVertexBuffer].
   String rlLoadVertexBuffer(
     TypedDataList buffer,
     bool dynamic,
   ) => 'rlLoadVertexBuffer(${buffer.lengthInBytes}, $dynamic)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadVertexBufferElement].
+  /// Label for [RaylibRlglModule.rlLoadVertexBufferElement].
   String rlLoadVertexBufferElement(
     TypedDataList buffer,
     bool dynamic,
   ) => 'rlLoadVertexBufferElement(${buffer.lengthInBytes}, $dynamic)';
 
-  /// Label for [RaylibRlglModuleBase.rlUpdateVertexBuffer].
+  /// Label for [RaylibRlglModule.rlUpdateVertexBuffer].
   String rlUpdateVertexBuffer(
     num bufferId,
     TypedDataList data,
@@ -495,7 +495,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num offset,
   ) => 'rlUpdateVertexBuffer($bufferId, ${data.lengthInBytes}, $dataSize, $offset)';
 
-  /// Label for [RaylibRlglModuleBase.rlUpdateVertexBufferElements].
+  /// Label for [RaylibRlglModule.rlUpdateVertexBufferElements].
   String rlUpdateVertexBufferElements(
     num id,
     TypedDataList data,
@@ -503,17 +503,17 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num offset,
   ) => 'rlLoadVertexBufferElement($id, ${data.lengthInBytes}, $dataSize, $offset)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadVertexArray].
+  /// Label for [RaylibRlglModule.rlUnloadVertexArray].
   String rlUnloadVertexArray(
     num vaoId,
   ) => 'rlUnloadVertexArray($vaoId)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadVertexBuffer].
+  /// Label for [RaylibRlglModule.rlUnloadVertexBuffer].
   String rlUnloadVertexBuffer(
     num vboId,
   ) => 'rlUnloadVertexBuffer($vboId)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetVertexAttribute].
+  /// Label for [RaylibRlglModule.rlSetVertexAttribute].
   String rlSetVertexAttribute(
     num index,
     num compSize,
@@ -523,40 +523,40 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num offset,
   ) => 'rlSetVertexAttribute($index, $compSize, $type, $normalized, $stride, $offset)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetVertexAttributeDivisor].
+  /// Label for [RaylibRlglModule.rlSetVertexAttributeDivisor].
   String rlSetVertexAttributeDivisor(
     num index,
     num divisor,
   ) => 'rlSetVertexAttributeDivisor($index, $divisor)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetVertexAttributeDefault].
+  /// Label for [RaylibRlglModule.rlSetVertexAttributeDefault].
   String rlSetVertexAttributeDefault(
     num locIndex,
     Float32List value,
     RlShaderAttributeDataType attribType,
   ) => 'rlSetVertexAttributeDefault($locIndex, ${value.length}, ${attribType.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawVertexArray].
+  /// Label for [RaylibRlglModule.rlDrawVertexArray].
   String rlDrawVertexArray(
     num offset,
     num count,
   ) => 'rlDrawVertexArray($offset, $count)';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawVertexArrayElements].
+  /// Label for [RaylibRlglModule.rlDrawVertexArrayElements].
   String rlDrawVertexArrayElements(
     num offset,
     num count,
     Uint16List buffer,
   ) => 'rlDrawVertexArrayElements($offset, ${buffer.length})';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawVertexArrayInstanced].
+  /// Label for [RaylibRlglModule.rlDrawVertexArrayInstanced].
   String rlDrawVertexArrayInstanced(
     num offset,
     num count,
     num instances,
   ) => 'rlDrawVertexArrayInstanced($offset, $count, $instances)';
 
-  /// Label for [RaylibRlglModuleBase.rlDrawVertexArrayElementsInstanced].
+  /// Label for [RaylibRlglModule.rlDrawVertexArrayElementsInstanced].
   String rlDrawVertexArrayElementsInstanced(
     num offset,
     num count,
@@ -564,7 +564,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num instances,
   ) => 'rlDrawVertexArrayElementsInstanced($offset, $count, ${buffer.length}, $instances)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadTexture].
+  /// Label for [RaylibRlglModule.rlLoadTexture].
   String rlLoadTexture(
     Uint8List? data,
     num width,
@@ -573,14 +573,14 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num mipmapCount,
   ) => 'rlLoadTexture(${data?.length}, $width, $height, $format, $mipmapCount)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadTextureDepth].
+  /// Label for [RaylibRlglModule.rlLoadTextureDepth].
   String rlLoadTextureDepth(
     num width,
     num height,
     bool useRenderBuffer,
   ) => 'rlLoadTextureDepth($width, $height, $useRenderBuffer)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadTextureCubemap].
+  /// Label for [RaylibRlglModule.rlLoadTextureCubemap].
   String rlLoadTextureCubemap(
     Uint8List? data,
     num size,
@@ -588,7 +588,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num mipmapCount,
   ) => 'rlLoadTextureCubemap(${data?.length}, $size, ${format.name}, $mipmapCount)';
 
-  /// Label for [RaylibRlglModuleBase.rlUpdateTexture].
+  /// Label for [RaylibRlglModule.rlUpdateTexture].
   String rlUpdateTexture(
     num id,
     num offsetX,
@@ -599,22 +599,22 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     Uint8List data,
   ) => 'rlUpdateTexture($id, $offsetX, $offsetY, $width, $height, ${format.name}, ${data.length})';
 
-  /// Label for [RaylibRlglModuleBase.rlGetGlTextureFormats].
+  /// Label for [RaylibRlglModule.rlGetGlTextureFormats].
   String rlGetGlTextureFormats(
     PixelFormat format,
   ) => 'rlGetGlTextureFormats(${format.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlGetPixelFormatName].
+  /// Label for [RaylibRlglModule.rlGetPixelFormatName].
   String rlGetPixelFormatName(
     PixelFormat format,
   ) => 'rlGetPixelFormatName(${format.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadTexture].
+  /// Label for [RaylibRlglModule.rlUnloadTexture].
   String rlUnloadTexture(
     num id,
   ) => 'rlUnloadTexture($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlGenTextureMipmaps].
+  /// Label for [RaylibRlglModule.rlGenTextureMipmaps].
   String rlGenTextureMipmaps(
     num id,
     num width,
@@ -622,7 +622,7 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     PixelFormat format,
   ) => 'rlGenTextureMipmaps($id, $width, $height, ${format.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlReadTexturePixels].
+  /// Label for [RaylibRlglModule.rlReadTexturePixels].
   String rlReadTexturePixels(
     num id,
     num width,
@@ -630,16 +630,16 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     PixelFormat format,
   ) => 'rlReadTexturePixels($id, $width, $height, ${format.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlReadScreenPixels].
+  /// Label for [RaylibRlglModule.rlReadScreenPixels].
   String rlReadScreenPixels(
     num width,
     num height,
   ) => 'rlReadScreenPixels($width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadFramebuffer].
+  /// Label for [RaylibRlglModule.rlLoadFramebuffer].
   String rlLoadFramebuffer() => 'rlLoadFramebuffer()';
 
-  /// Label for [RaylibRlglModuleBase.rlFramebufferAttach].
+  /// Label for [RaylibRlglModule.rlFramebufferAttach].
   String rlFramebufferAttach(
     num fboId,
     num texId,
@@ -648,17 +648,17 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num mipLevel,
   ) => 'rlFramebufferAttach($fboId, $texId, ${attachType.name}, ${texType.name}, $mipLevel)';
 
-  /// Label for [RaylibRlglModuleBase.rlFramebufferComplete].
+  /// Label for [RaylibRlglModule.rlFramebufferComplete].
   String rlFramebufferComplete(
     num id,
   ) => 'rlFramebufferComplete($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadFramebuffer].
+  /// Label for [RaylibRlglModule.rlUnloadFramebuffer].
   String rlUnloadFramebuffer(
     num id,
   ) => 'rlUnloadFramebuffer($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlCopyFramebuffer].
+  /// Label for [RaylibRlglModule.rlCopyFramebuffer].
   String rlCopyFramebuffer(
     num x,
     num y,
@@ -667,58 +667,58 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     PixelFormat format,
   ) => 'rlCopyFramebuffer($x, $y, $width, $height, $format)';
   
-  /// Label for [RaylibRlglModuleBase.rlResizeFramebuffer].
+  /// Label for [RaylibRlglModule.rlResizeFramebuffer].
   String rlResizeFramebuffer(
     num width,
     num height,
   ) => 'rlResizeFramebuffer($width, $height)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadShader].
+  /// Label for [RaylibRlglModule.rlLoadShader].
   String rlLoadShader(
     String code,
     RlShaderType type,
   ) => 'rlLoadShader(${code.length}, $type)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadShaderProgram].
+  /// Label for [RaylibRlglModule.rlLoadShaderProgram].
   String rlLoadShaderProgram(
     String vsCode,
     String fsCode,
   ) => 'rlLoadShaderProgram($vsCode, $fsCode)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadShaderProgramEx].
+  /// Label for [RaylibRlglModule.rlLoadShaderProgramEx].
   String rlLoadShaderProgramEx(
     num vsId,
     num fsId,
   ) => 'rlLoadShaderProgramEx($vsId, $fsId)';
   
-  /// Label for [RaylibRlglModuleBase.rlLoadShaderProgramCompute].
+  /// Label for [RaylibRlglModule.rlLoadShaderProgramCompute].
   String rlLoadShaderProgramCompute(
     num csId,
   ) => 'rlLoadShaderProgramCompute($csId)';
   
-  /// Label for [RaylibRlglModuleBase.rlUnloadShader].
+  /// Label for [RaylibRlglModule.rlUnloadShader].
   String rlUnloadShader(
     num id,
   ) => 'rlUnloadShader($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadShaderProgram].
+  /// Label for [RaylibRlglModule.rlUnloadShaderProgram].
   String rlUnloadShaderProgram(
     num id,
   ) => 'rlUnloadShaderProgram($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetLocationUniform].
+  /// Label for [RaylibRlglModule.rlGetLocationUniform].
   String rlGetLocationUniform(
     num shaderId,
     String uniformName,
   ) => 'rlGetLocationUniform($shaderId, $uniformName)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetLocationAttrib].
+  /// Label for [RaylibRlglModule.rlGetLocationAttrib].
   String rlGetLocationAttrib(
     num shaderId,
     String attribName,
   ) => 'rlGetLocationAttrib($shaderId, $attribName)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetUniform].
+  /// Label for [RaylibRlglModule.rlSetUniform].
   String rlSetUniform(
     num locIndex,
     TypedDataList value,
@@ -726,70 +726,70 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num count,
   ) => 'rlSetUniform($locIndex, ${value.lengthInBytes}, ${uniformType.name})';
 
-  /// Label for [RaylibRlglModuleBase.rlSetUniformMatrix].
+  /// Label for [RaylibRlglModule.rlSetUniformMatrix].
   String rlSetUniformMatrix(
     num locIndex,
-    MatrixBase mat,
+    MatrixD mat,
   ) => 'rlSetUniformMatrix($locIndex, $mat)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetUniformMatrices].
+  /// Label for [RaylibRlglModule.rlSetUniformMatrices].
   String rlSetUniformMatrices(
     num locIndex,
-    List<MatrixBase> mat,
+    List<MatrixD> mat,
   ) => 'rlSetUniformMatrices($locIndex, mat: ${mat.length})';
 
-  /// Label for [RaylibRlglModuleBase.rlSetUniformSampler].
+  /// Label for [RaylibRlglModule.rlSetUniformSampler].
   String rlSetUniformSampler(
     num locIndex,
     num textureId,
   ) => 'rlSetUniformSampler($locIndex, $textureId)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetShader].
+  /// Label for [RaylibRlglModule.rlSetShader].
   String rlSetShader(
     num id,
     List<int> locs,
   ) => 'rlSetShader($id, $locs)';
 
-  /// Label for [RaylibRlglModuleBase.rlComputeShaderDispatch].
+  /// Label for [RaylibRlglModule.rlComputeShaderDispatch].
   String rlComputeShaderDispatch(
     num groupX,
     num groupY,
     num groupZ,
   ) => 'rlComputeShaderDispatch($groupX, $groupY, $groupZ)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadShaderBuffer].
+  /// Label for [RaylibRlglModule.rlLoadShaderBuffer].
   String rlLoadShaderBuffer(
     num size,
     TypedDataList? data,
     RlUsageHint? usageHint,
   ) => 'rlLoadShaderBuffer($size, data: ${data?.lengthInBytes}, $usageHint)';
 
-  /// Label for [RaylibRlglModuleBase.rlUnloadShaderBuffer].
+  /// Label for [RaylibRlglModule.rlUnloadShaderBuffer].
   String rlUnloadShaderBuffer(
     num ssboId,
   ) => 'rlUnloadShaderBuffer($ssboId)';
 
-  /// Label for [RaylibRlglModuleBase.rlUpdateShaderBuffer].
+  /// Label for [RaylibRlglModule.rlUpdateShaderBuffer].
   String rlUpdateShaderBuffer(
     num id,
     TypedDataList data,
     num offset,
   ) => 'rlUpdateShaderBuffer($id, data: ${data.lengthInBytes}, $offset)';
 
-  /// Label for [RaylibRlglModuleBase.rlBindShaderBuffer].
+  /// Label for [RaylibRlglModule.rlBindShaderBuffer].
   String rlBindShaderBuffer(
     num id,
     num index,
   ) => 'rlBindShaderBuffer($id, $index)';
 
-  /// Label for [RaylibRlglModuleBase.rlReadShaderBuffer].
+  /// Label for [RaylibRlglModule.rlReadShaderBuffer].
   String rlReadShaderBuffer(
     num id,
     num count,
     num offset,
   ) => 'rlReadShaderBuffer($id, $count, $offset)';
 
-  /// Label for [RaylibRlglModuleBase.rlCopyShaderBuffer].
+  /// Label for [RaylibRlglModule.rlCopyShaderBuffer].
   String rlCopyShaderBuffer(
     num destId,
     num srcId,
@@ -798,12 +798,12 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     num count,
   ) => 'rlCopyShaderBuffer($destId, $srcId, $destOffset, $srcOffset, $count)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetShaderBufferSize].
+  /// Label for [RaylibRlglModule.rlGetShaderBufferSize].
   String rlGetShaderBufferSize(
     num id,
   ) => 'rlGetShaderBufferSize($id)';
 
-  /// Label for [RaylibRlglModuleBase.rlBindImageTexture].
+  /// Label for [RaylibRlglModule.rlBindImageTexture].
   String rlBindImageTexture(
     num id,
     num index,
@@ -811,51 +811,51 @@ class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
     bool readonly,
   ) => 'rlBindImageTexture($id, $index, ${format.name}, $readonly)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetMatrixModelview].
+  /// Label for [RaylibRlglModule.rlGetMatrixModelview].
   String rlGetMatrixModelview() => 'rlGetMatrixModelview()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetMatrixProjection].
+  /// Label for [RaylibRlglModule.rlGetMatrixProjection].
   String rlGetMatrixProjection() => 'rlGetMatrixProjection()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetMatrixTransform].
+  /// Label for [RaylibRlglModule.rlGetMatrixTransform].
   String rlGetMatrixTransform() => 'rlGetMatrixTransform()';
 
-  /// Label for [RaylibRlglModuleBase.rlGetMatrixProjectionStereo].
+  /// Label for [RaylibRlglModule.rlGetMatrixProjectionStereo].
   String rlGetMatrixProjectionStereo(
     num eye,
   ) => 'rlGetMatrixProjectionStereo($eye)';
 
-  /// Label for [RaylibRlglModuleBase.rlGetMatrixViewOffsetStereo].
+  /// Label for [RaylibRlglModule.rlGetMatrixViewOffsetStereo].
   String rlGetMatrixViewOffsetStereo(
     num eye,
   ) => 'rlGetMatrixViewOffsetStereo($eye)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetMatrixProjection].
+  /// Label for [RaylibRlglModule.rlSetMatrixProjection].
   String rlSetMatrixProjection(
-    MatrixBase proj,
+    MatrixD proj,
   ) => 'rlSetMatrixProjection($proj)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetMatrixModelview].
+  /// Label for [RaylibRlglModule.rlSetMatrixModelview].
   String rlSetMatrixModelview(
-    MatrixBase view,
+    MatrixD view,
   ) => 'rlSetMatrixModelview($view)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetMatrixProjectionStereo].
+  /// Label for [RaylibRlglModule.rlSetMatrixProjectionStereo].
   String rlSetMatrixProjectionStereo(
-    MatrixBase right,
-    MatrixBase left,
+    MatrixD right,
+    MatrixD left,
   ) => 'rlSetMatrixProjectionStereo($right, $left)';
 
-  /// Label for [RaylibRlglModuleBase.rlSetMatrixViewOffsetStereo].
+  /// Label for [RaylibRlglModule.rlSetMatrixViewOffsetStereo].
   String rlSetMatrixViewOffsetStereo(
-    MatrixBase right,
-    MatrixBase left,
+    MatrixD right,
+    MatrixD left,
   ) => 'rlSetMatrixViewOffsetStereo($right, $left)';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadDrawCube].
+  /// Label for [RaylibRlglModule.rlLoadDrawCube].
   String rlLoadDrawCube() => 'rlLoadDrawCube()';
 
-  /// Label for [RaylibRlglModuleBase.rlLoadDrawQuad].
+  /// Label for [RaylibRlglModule.rlLoadDrawQuad].
   String rlLoadDrawQuad() => 'rlLoadDrawQuad()';
   
 }

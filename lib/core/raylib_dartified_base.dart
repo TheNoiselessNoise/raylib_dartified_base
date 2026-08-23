@@ -1,66 +1,125 @@
 library;
 
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
 
-part 'base.dart';
-part 'temp.dart';
+// TODO: after you are done porting, try to move `abbr_dart` and `abbr_flat` from native modules in here
 
-part 'extensions/color.dart';
+part 'base.dart';
+part 'callback.dart';
+part 'ext.dart';
+part 'list_and_array.dart';
+
 part 'extensions/ease.dart';
 part 'extensions/matrix.dart';
 part 'extensions/quaternion.dart';
 part 'extensions/vector.dart';
 
+part 'memory/allocator/base.dart';
+part 'memory/allocator/scalar.dart';
+part 'memory/allocator/string.dart';
+part 'memory/allocator/struct.dart';
+part 'memory/pointer.dart';
+part 'memory/struct.dart';
+part 'memory/temp.dart';
+
+// ===== AUDIO MODULE =====
 part 'modules/audio/callbacks.dart';
 part 'modules/audio/capture_ids.dart';
 part 'modules/audio/enums.dart';
 part 'modules/audio/labels.dart';
-part 'modules/audio/module.dart';
-part 'modules/audio/types.dart';
+part 'modules/audio/module_dart.dart';
+part 'modules/audio/module_flat.dart';
+part 'modules/audio/structs/audio_stream.dart';
+part 'modules/audio/structs/music.dart';
+part 'modules/audio/structs/sound.dart';
+part 'modules/audio/structs/wave.dart';
 
-part 'modules/camera/module.dart';
+// ===== CAMERA MODULE =====
 part 'modules/camera/labels.dart';
+part 'modules/camera/module_dart.dart';
+part 'modules/camera/module_flat.dart';
 
+// ===== CORE MODULE =====
 part 'modules/core/callbacks.dart';
 part 'modules/core/capture_ids.dart';
 part 'modules/core/enums.dart';
 part 'modules/core/extra.dart';
 part 'modules/core/labels.dart';
-part 'modules/core/module.dart';
+part 'modules/core/module_dart.dart';
+part 'modules/core/module_flat.dart';
 part 'modules/core/predefines.dart';
-part 'modules/core/types.dart';
-part 'modules/core/factories/matrix.dart';
-part 'modules/core/factories/quaternion.dart';
-part 'modules/core/factories/vector2.dart';
-part 'modules/core/factories/vector3.dart';
-part 'modules/core/factories/vector4.dart';
+part 'modules/core/structs/automation_event_list.dart';
+part 'modules/core/structs/automation_event.dart';
+part 'modules/core/structs/bone_info.dart';
+part 'modules/core/structs/bounding_box.dart';
+part 'modules/core/structs/camera_2d.dart';
+part 'modules/core/structs/camera_3d.dart';
+part 'modules/core/structs/color.dart';
+part 'modules/core/structs/file_path_list.dart';
+part 'modules/core/structs/font.dart';
+part 'modules/core/structs/gesture_event.dart';
+part 'modules/core/structs/glyph_info.dart';
+part 'modules/core/structs/image.dart';
+part 'modules/core/structs/material_map.dart';
+part 'modules/core/structs/material.dart';
 part 'modules/core/structs/matrix.dart';
+part 'modules/core/structs/mesh.dart';
+part 'modules/core/structs/model_animation.dart';
+part 'modules/core/structs/model_skeleton.dart';
+part 'modules/core/structs/model.dart';
+part 'modules/core/structs/n_patch_info.dart';
 part 'modules/core/structs/quaternion.dart';
+part 'modules/core/structs/ray_collision.dart';
+part 'modules/core/structs/ray.dart';
+part 'modules/core/structs/rectangle.dart';
+part 'modules/core/structs/render_texture.dart';
+part 'modules/core/structs/shader.dart';
+part 'modules/core/structs/texture.dart';
+part 'modules/core/structs/transform.dart';
 part 'modules/core/structs/vector2.dart';
 part 'modules/core/structs/vector3.dart';
 part 'modules/core/structs/vector4.dart';
+part 'modules/core/structs/vr_device_info.dart';
+part 'modules/core/structs/vr_stereo_config.dart';
 
+// ===== GUI MODULE =====
 part 'modules/gui/capture_ids.dart';
 part 'modules/gui/enums.dart';
 part 'modules/gui/labels.dart';
-part 'modules/gui/module.dart';
+part 'modules/gui/module_dart.dart';
+part 'modules/gui/module_flat.dart';
 part 'modules/gui/predefines.dart';
 
+// ===== LIGHT MODULE =====
 part 'modules/light/enums.dart';
 part 'modules/light/labels.dart';
-part 'modules/light/module.dart';
-part 'modules/light/types.dart';
+part 'modules/light/module_dart.dart';
+part 'modules/light/module_flat.dart';
 part 'modules/light/predefines.dart';
+part 'modules/light/structs/light.dart';
 
+// ===== MSF_GIF MODULE =====
+part 'modules/msf_gif/capture_ids.dart';
+part 'modules/msf_gif/labels.dart';
+part 'modules/msf_gif/module_dart.dart';
+part 'modules/msf_gif/module_flat.dart';
+part 'modules/msf_gif/structs/msf_gif_result.dart';
+part 'modules/msf_gif/structs/msf_gif_state.dart';
+
+// ===== RLGL MODULE =====
 part 'modules/rlgl/capture_ids.dart';
 part 'modules/rlgl/enums.dart';
 part 'modules/rlgl/labels.dart';
-part 'modules/rlgl/module.dart';
+part 'modules/rlgl/module_dart.dart';
+part 'modules/rlgl/module_flat.dart';
 part 'modules/rlgl/predefines.dart';
-part 'modules/rlgl/types.dart';
+part 'modules/rlgl/structs/rl_draw_call.dart';
+part 'modules/rlgl/structs/rl_render_batch.dart';
+part 'modules/rlgl/structs/rl_vertex_buffer.dart';
 
 part 'modules/utils/module.dart';
 
@@ -72,3 +131,25 @@ final class DoNotValidate {
 final class DoNotAbbreviate {
   const DoNotAbbreviate();
 }
+
+int swap8(int v) => v; // no-op, kept for symmetry
+
+int swap16(int v) =>
+  ((v & 0xFF) << 8) |
+  ((v >> 8) & 0xFF);
+
+int swap32(int v) =>
+  ((v & 0xFF) << 24) |
+  ((v & 0xFF00) << 8) |
+  ((v >> 8) & 0xFF00) |
+  ((v >> 24) & 0xFF);
+
+int swap64(int v) =>
+  ((v & 0xFF) << 56) |
+  ((v & 0xFF00) << 40) |
+  ((v & 0xFF0000) << 24) |
+  ((v & 0xFF000000) << 8) |
+  ((v >> 8) & 0xFF000000) |
+  ((v >> 24) & 0xFF0000) |
+  ((v >> 40) & 0xFF00) |
+  ((v >> 56) & 0xFF);

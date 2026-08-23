@@ -3,43 +3,96 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-/// Backend-agnostic contract for [Vector2Base] structs.
-///
-/// Must be mixed into every concrete platform implementation of a Raylib
-/// type to ensure a unified API surface across different backends.
-///
-/// ---
-///
+enum Vector2Field {
+  x,
+  y,
+}
+
 /// A 2D vector with [x] and [y] components.
-mixin Vector2Base<
-  V2 extends Vector2Base<V2, M, V3, Q, V4>,
-  M extends MatrixBase<M, V3, Q, V4>,
-  V3 extends Vector3Base<V3, M, Q, V4>,
-  Q extends QuaternionBase<Q, M, V3, V4>,
-  V4 extends Vector4Base<V4, Q, M, V3>
+class Vector2D extends RaylibStructLiteral<Vector2D> {
 
-> on RaylibStructObjectBase<V2> {
+  //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
+  //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
+  // ░██             ░██    ░██     ░██ ░██     ░██ ░██            ░██    
+  //  ░████████      ░██    ░█████████  ░██     ░██ ░██            ░██    
+  //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
+  //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
+  //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  V2 get _this => this as V2;
-  V2 get _v2Zero => RaylibVector2Factories.zeroFactory() as V2;
-  V2 _v2(num x, num y) => RaylibVector2Factories.createFactory(x, y) as V2;
+  static final int byteSize = structLayout.byteSize;
+  static final int alignment = structLayout.alignment;
+  static final StructLayout<Vector2Field> structLayout = .aligned(structFields);
+  static final Map<Vector2Field, RType> structFields = {
+    .x: RFloat32(),
+    .y: RFloat32(),
+  };
 
+  static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
+    => .nullable(ptr, structLayout, Vector2D.new);
+
+  // ░███████   ░██████████ ░██████████
+  // ░██   ░██  ░██         ░██        
+  // ░██    ░██ ░██         ░██        
+  // ░██    ░██ ░█████████  ░█████████ 
+  // ░██    ░██ ░██         ░██        
+  // ░██   ░██  ░██         ░██        
+  // ░███████   ░██████████ ░██        
+  
   /// X component
-  abstract double x;
-
+  double x;
+  
   /// Y component
-  abstract double y;
+  double y;
+
+  Vector2D({
+    super.op,
+    this.x = 0,
+    this.y = 0,
+  });
+
+  factory Vector2D.zero() => .new();
+  factory Vector2D.one() => .vec2(1, 1);
+
+  factory Vector2D.vec2(
+    num x,
+    num y,
+  ) => .new(
+    x: x.toDouble(),
+    y: y.toDouble(),
+  );
+
+  @override
+  Vector2D setD(Vector2D o) => set(o.x, o.y);
+
+  @override
+  void writeInto(MemoryPointer<RStruct> p) {
+    p.writeFloat32(x, structLayout.offset(.x));
+    p.writeFloat32(y, structLayout.offset(.y));
+  }
+
+  @override
+  void readFrom(MemoryPointer<RStruct> p) {
+    x = p.readFloat32(structLayout.offset(.x));
+    y = p.readFloat32(structLayout.offset(.y));
+  }
+
+  @override
+  Vector2D clone() => .new(
+    op: op,
+    x: x,
+    y: y,
+  );
 
   /// Euclidean distance between this vector and [o].
-  double distance(V2 o) => math.sqrt(distanceSqr(o));
+  double distance(Vector2D o) => math.sqrt(distanceSqr(o));
 
   /// Squared Euclidean distance between this vector and [o].
   ///
   /// Prefer over [distance] when only relative comparison is needed.
-  double distanceSqr(V2 o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y);
+  double distanceSqr(Vector2D o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y);
   
   /// Dot product of this vector and [o].
-  double dotProduct(V2 o) => x * o.x + y * o.y;
+  double dotProduct(Vector2D o) => x * o.x + y * o.y;
   
   /// Euclidean length (magnitude) of this vector.
   double get length => math.sqrt(lengthSqr);
@@ -53,12 +106,12 @@ mixin Vector2Base<
   ///
   /// Returns the signed angle measured from this vector to [o],
   /// in the range `(-π, π]`.
-  double angle(V2 o) => math.atan2(x*o.y - y*o.x, x*o.x + y*o.y);
+  double angle(Vector2D o) => math.atan2(x*o.y - y*o.x, x*o.x + y*o.y);
   
   /// Angle of the line from this point to [o], relative to the X axis.
   ///
   /// Equivalent to `-atan2(dy, dx)`. Useful for screen-space direction.
-  double lineAngle(V2 o) => -math.atan2(o.y - y, o.x - x);
+  double lineAngle(Vector2D o) => -math.atan2(o.y - y, o.x - x);
   
   /// Returns a formatted string representation of this vector.
   ///
@@ -77,45 +130,45 @@ mixin Vector2Base<
   /// Values are converted using [num.toDouble], truncating any fractional part.
   /// 
   /// Returns this instance for fluent chaining.
-  V2 set(num x, num y) {
+  Vector2D set(num x, num y) {
     this.x = x.toDouble();
     this.y = y.toDouble();
-    return _this;
+    return this;
   }
 
   /// Returns a new vector that is the component-wise sum of this and [o].
-  V2 add(V2 o) => _v2(x + o.x, y + o.y);
+  Vector2D add(Vector2D o) => .vec2(x + o.x, y + o.y);
 
   /// Returns a new vector with [value] added to each component.
-  V2 addValue(num value) => _v2(x + value, y + value);
+  Vector2D addValue(num value) => .vec2(x + value, y + value);
   
   /// Returns a new vector that is the component-wise difference of this and [o].
-  V2 sub(V2 o) => _v2(x - o.x, y - o.y);
+  Vector2D sub(Vector2D o) => .vec2(x - o.x, y - o.y);
   
   /// Returns a new vector with [value] subtracted from each component.
-  V2 subValue(num value) => _v2(x - value, y - value);
+  Vector2D subValue(num value) => .vec2(x - value, y - value);
   
   /// Returns a new vector with all components scaled by [o].
-  V2 scale(num o) => _v2(x * o, y * o);
+  Vector2D scale(num o) => .vec2(x * o, y * o);
   
   /// Returns a new vector with all components negated.
-  V2 negate() => _v2(-x, -y);
+  Vector2D negate() => .vec2(-x, -y);
   
   /// Returns a new vector that is the component-wise product of this and [o].
-  V2 mul(V2 o) => _v2(x * o.x, y * o.y);
+  Vector2D mul(Vector2D o) => .vec2(x * o.x, y * o.y);
   
   /// Returns a new vector with all components divided by [o].
-  V2 divideBy(num o) => scale(1 / o);
+  Vector2D divideBy(num o) => scale(1 / o);
   
   /// Returns a new vector that is the component-wise quotient of this and [o].
-  V2 div(V2 o) => _v2(x / o.x, y / o.y);
+  Vector2D div(Vector2D o) => .vec2(x / o.x, y / o.y);
   
   /// Transforms this vector by matrix [o].
   ///
   /// Applies the 2D affine transformation encoded in the top-left 2x2 portion
   /// of [o] plus the translation column (`m12`, `m13`). The Z component is
   /// treated as 0.
-  V2 transform(M o) => _v2(
+  Vector2D transform(MatrixD o) => .vec2(
     o.m0*x + o.m4*y + o.m8*0 + o.m12,
     o.m1*x + o.m5*y + o.m9*0 + o.m13
   );
@@ -123,19 +176,19 @@ mixin Vector2Base<
   /// Returns a normalized (unit-length) copy of this vector.
   ///
   /// Returns the zero vector if [length] is 0.
-  V2 normalize() {
+  Vector2D normalize() {
     double length = this.length;
     if (length > 0) {
       double ilength = 1.0/length;
-      return _v2(x*ilength, y*ilength);
+      return .vec2(x*ilength, y*ilength);
     }
-    return _v2Zero;
+    return .zero();
   }
 
   /// Linear interpolation between this and [o] by [amount].
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  V2 lerp(V2 o, double amount) => _v2(
+  Vector2D lerp(Vector2D o, double amount) => .vec2(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
   );
@@ -143,28 +196,28 @@ mixin Vector2Base<
   /// Reflects this vector off a surface with the given [normal].
   ///
   /// [normal] is assumed to be normalized.
-  V2 reflect(V2 normal) {
+  Vector2D reflect(Vector2D normal) {
     double dot = dotProduct(normal);
-    return _v2(
+    return .vec2(
       x - (2.0*normal.x)*dot,
       y - (2.0*normal.y)*dot,
     );
   }
   
   /// Returns a new vector with each component being the component-wise minimum of this and [o].
-  V2 min(V2 o) => _v2(
+  Vector2D min(Vector2D o) => .vec2(
     math.min(x, o.x),
     math.min(y, o.y),
   );
   
   /// Returns a new vector with each component being the component-wise maximum of this and [o].
-  V2 max(V2 o) => _v2(
+  Vector2D max(Vector2D o) => .vec2(
     math.max(x, o.x),
     math.max(y, o.y),
   );
   
   /// Clamps each component of this vector between the corresponding components of [min] and [max].
-  V2 clamp(V2 min, V2 max) => _v2(
+  Vector2D clamp(Vector2D min, Vector2D max) => .vec2(
     math.min(max.x, math.max(min.x, x)),
     math.min(max.y, math.max(min.y, y)),
   );
@@ -172,7 +225,7 @@ mixin Vector2Base<
   /// Clamps the length of this vector to the range `[min, max]`.
   ///
   /// Returns `this` unchanged if [lengthSqr] is zero.
-  V2 clampValue(double min, double max) {
+  Vector2D clampValue(double min, double max) {
     double length = lengthSqr;
     if (length > 0.0) {
       length = math.sqrt(length);
@@ -187,14 +240,14 @@ mixin Vector2Base<
       return this.scale(scale);
     }
 
-    return _this;
+    return this;
   }
   
   /// Rotates this vector by [angle] radians around the origin.
-  V2 rotate(double angle) {
+  Vector2D rotate(double angle) {
     final cosres = math.cos(angle);
     final sinres = math.sin(angle);
-    return _v2(
+    return .vec2(
       x*cosres - y*sinres,
       x*sinres + y*cosres,
     );
@@ -203,7 +256,7 @@ mixin Vector2Base<
   /// Moves this vector towards [target] by at most [maxDistance].
   ///
   /// Returns [target] directly if already within [maxDistance].
-  V2 moveTowards(V2 target, double maxDistance) {
+  Vector2D moveTowards(Vector2D target, double maxDistance) {
     final dx = target.x - x;
     final dy = target.y - y;
     final value = (dx*dx) + (dy*dy);
@@ -215,7 +268,7 @@ mixin Vector2Base<
 
     final dist = math.sqrt(value);
 
-    return _v2(
+    return .vec2(
       x + dx/dist*maxDistance,
       y + dy/dist*maxDistance,
     );
@@ -226,29 +279,29 @@ mixin Vector2Base<
   /// [r] is the ratio of indices of refraction (`n1 / n2`).
   /// Returns `this` unchanged if total internal reflection occurs
   /// (i.e. the discriminant is negative).
-  V2 refract(V2 n, double r) {
+  Vector2D refract(Vector2D n, double r) {
     final dot = dotProduct(n);
     double d = 1.0 - r*r*(1.0 - dot*dot);
 
     if (d >= 0.0) {
       d = math.sqrt(d);
-      return _v2(
+      return .vec2(
         r*x - (r*dot + d)*n.x,
         r*y - (r*dot + d)*n.y,
       );
     }
 
-    return _this;
+    return this;
   }
 
   /// Returns a new vector with each component replaced by its reciprocal (`1/x`, `1/y`).
-  V2 invert() => _v2(1.0/x, 1.0/y);
+  Vector2D invert() => .vec2(1.0/x, 1.0/y);
 
   /// Returns `true` if this vector is approximately equal to [o].
   ///
   /// Uses epsilon-based per-component comparison scaled to the magnitude
   /// of the compared values.
-  bool equals(V2 o) =>
+  bool equals(Vector2D o) =>
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs()))));
 

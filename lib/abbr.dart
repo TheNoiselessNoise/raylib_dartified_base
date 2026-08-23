@@ -2,3 +2,121 @@ export 'core/modules/core/abbr.dart';
 export 'core/modules/gui/abbr.dart';
 export 'core/modules/light/abbr.dart';
 export 'core/modules/rlgl/abbr.dart';
+import 'dart:typed_data';
+import 'package:raylib_dartified_base/raylib_dartified_base.dart';
+
+RaylibBase get _rl => RaylibBase.getInstance();
+
+T module<T extends RaylibModule>() => _rl.module<T>();
+
+void disposeRaylib() => _rl.dispose();
+
+void CloseWindowAndDispose() => _rl.CloseWindowAndDispose();
+
+RaylibTemp get Temp => _rl.Temp;
+
+RaylibTempTypedDataListAllocator get TypedDataList$ => Temp.TypedDataList$;
+
+RaylibTempStringAllocator get String$ => Temp.String$;
+
+RaylibTempScalarAllocator<bool, RBool> get Bool$ => Temp.Bool$;
+RaylibTempScalarIntAllocator<Int8List, RInt8> get Int8$ => Temp.Int8$;
+RaylibTempScalarIntAllocator<Uint8List, RUint8> get Uint8$ => Temp.Uint8$;
+RaylibTempScalarIntAllocator<Int16List, RInt16> get Int16$ => Temp.Int16$;
+RaylibTempScalarIntAllocator<Uint16List, RUint16> get Uint16$ => Temp.Uint16$;
+RaylibTempScalarIntAllocator<Int32List, RInt32> get Int32$ => Temp.Int32$;
+RaylibTempScalarIntAllocator<Uint32List, RUint32> get Uint32$ => Temp.Uint32$;
+RaylibTempScalarIntAllocator<Int64List, RInt64> get Int64$ => Temp.Int64$;
+RaylibTempScalarIntAllocator<Uint64List, RUint64> get Uint64$ => Temp.Uint64$;
+RaylibTempScalarFloatAllocator<Float32List, RFloat32> get Float32$ => Temp.Float32$;
+RaylibTempScalarFloatAllocator<Float64List, RFloat64> get Float64$ => Temp.Float64$;
+RaylibTempScalarIntAllocator<Int8List, RInt8> get Char$ => Temp.Char$;
+RaylibTempScalarIntAllocator<Uint8List, RUint8> get UnsignedChar$ => Temp.UnsignedChar$;
+RaylibTempScalarIntAllocator<Int16List, RInt16> get Short$ => Temp.Short$;
+RaylibTempScalarIntAllocator<Uint16List, RUint16> get UnsignedShort$ => Temp.UnsignedShort$;
+RaylibTempScalarIntAllocator<Int32List, RInt32> get Int$ => Temp.Int$;
+RaylibTempScalarIntAllocator<Uint32List, RUint32> get UnsignedInt$ => Temp.UnsignedInt$;
+RaylibTempScalarFloatAllocator<Float32List, RFloat32> get Float$ => Temp.Float$;
+RaylibTempScalarFloatAllocator<Float64List, RFloat64> get Double$ => Temp.Double$;
+
+RaylibTempStructAllocator<AutomationEventListD> get AutomationEventList$ => Temp.AutomationEventList$;
+RaylibTempStructAllocator<AutomationEventD> get AutomationEvent$ => Temp.AutomationEvent$;
+RaylibTempStructAllocator<AudioStreamD> get AudioStream$ => Temp.AudioStream$;
+RaylibTempStructAllocator<BoneInfoD> get BoneInfo$ => Temp.BoneInfo$;
+RaylibTempStructAllocator<BoundingBoxD> get BoundingBox$ => Temp.BoundingBox$;
+RaylibTempStructAllocator<Camera2DD> get Camera2D$ => Temp.Camera2D$;
+RaylibTempStructAllocator<Camera3DD> get Camera3D$ => Temp.Camera3D$;
+RaylibTempStructAllocator<ColorD> get Color$ => Temp.Color$;
+RaylibTempStructAllocator<FilePathListD> get FilePathList$ => Temp.FilePathList$;
+RaylibTempStructAllocator<FontD> get Font$ => Temp.Font$;
+RaylibTempStructAllocator<GestureEventD> get GestureEvent$ => Temp.GestureEvent$;
+RaylibTempStructAllocator<GlyphInfoD> get GlyphInfo$ => Temp.GlyphInfo$;
+RaylibTempStructAllocator<ImageD> get Image$ => Temp.Image$;
+RaylibTempStructAllocator<LightD> get Light$ => Temp.Light$;
+RaylibTempStructAllocator<MaterialD> get Material$ => Temp.Material$;
+RaylibTempStructAllocator<MaterialMapD> get MaterialMap$ => Temp.MaterialMap$;
+RaylibTempStructAllocator<MatrixD> get Matrix$ => Temp.Matrix$;
+RaylibTempStructAllocator<MeshD> get Mesh$ => Temp.Mesh$;
+RaylibTempStructAllocator<ModelD> get Model$ => Temp.Model$;
+RaylibTempStructAllocator<ModelAnimationD> get ModelAnimation$ => Temp.ModelAnimation$;
+RaylibTempStructAllocator<ModelSkeletonD> get ModelSkeleton$ => Temp.ModelSkeleton$;
+RaylibTempStructAllocator<MusicD> get Music$ => Temp.Music$;
+RaylibTempStructAllocator<NPatchInfoD> get NPatchInfo$ => Temp.NPatchInfo$;
+RaylibTempStructAllocator<QuaternionD> get Quaternion$ => Temp.Quaternion$;
+RaylibTempStructAllocator<RectangleD> get Rectangle$ => Temp.Rectangle$;
+RaylibTempStructAllocator<RlDrawCallD> get RlDrawCall$ => Temp.RlDrawCall$;
+RaylibTempStructAllocator<RlRenderBatchD> get RlRenderBatch$ => Temp.RlRenderBatch$;
+RaylibTempStructAllocator<RlVertexBufferD> get RlVertexBuffer$ => Temp.RlVertexBuffer$;
+RaylibTempStructAllocator<RayD> get Ray$ => Temp.Ray$;
+RaylibTempStructAllocator<RayCollisionD> get RayCollision$ => Temp.RayCollision$;
+RaylibTempStructAllocator<RenderTextureD> get RenderTexture$ => Temp.RenderTexture$;
+RaylibTempStructAllocator<ShaderD> get Shader$ => Temp.Shader$;
+RaylibTempStructAllocator<SoundD> get Sound$ => Temp.Sound$;
+RaylibTempStructAllocator<TextureD> get Texture$ => Temp.Texture$;
+RaylibTempStructAllocator<TransformD> get Transform$ => Temp.Transform$;
+RaylibTempStructAllocator<Vector2D> get Vector2$ => Temp.Vector2$;
+RaylibTempStructAllocator<Vector3D> get Vector3$ => Temp.Vector3$;
+RaylibTempStructAllocator<Vector4D> get Vector4$ => Temp.Vector4$;
+RaylibTempStructAllocator<VrDeviceInfoD> get VrDeviceInfo$ => Temp.VrDeviceInfo$;
+RaylibTempStructAllocator<VrStereoConfigD> get VrStereoConfig$ => Temp.VrStereoConfig$;
+RaylibTempStructAllocator<WaveD> get Wave$ => Temp.Wave$;
+
+RaylibTempStructAllocator<MsfGifResultD> get MsfGifResult$ => Temp.MsfGifResult$;
+RaylibTempStructAllocator<MsfGifStateD> get MsfGifState$ => Temp.MsfGifState$;
+
+double rand() => _rl.rand();
+
+double randC() => _rl.randC();
+
+MemoryPointer<RVoid> realloc(MemoryPointer<RVoid> oldPtr, int oldSize, int newSize)
+  => Temp.Utils.realloc(oldPtr, oldSize, newSize);
+
+void memset(MemoryPointer<RVoid> ptr, int value, int size)
+  => Temp.Utils.memset(ptr, value, size);
+
+void memcpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n)
+  => Temp.Utils.memcpy(dest, src, n);
+
+int memcmp(MemoryPointer<RVoid> a, MemoryPointer<RVoid> b, int n)
+  => Temp.Utils.memcmp(a, b, n);
+
+int strlen(MemoryPointer<RVoid> ptr)
+  => Temp.Utils.strlen(ptr);
+
+int strnlen(MemoryPointer<RVoid> ptr, int maxLen)
+  => Temp.Utils.strnlen(ptr, maxLen);
+
+int strcmp(MemoryPointer<RVoid> a, MemoryPointer<RVoid> b)
+  => Temp.Utils.strcmp(a, b);
+
+void strcpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src)
+  => Temp.Utils.strcpy(dest, src);
+
+void strncpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n)
+  => Temp.Utils.strncpy(dest, src, n);
+
+void strncat(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n)
+  => Temp.Utils.strncat(dest, src, n);
+
+MemoryPointer<RVoid> strstr(MemoryPointer<RVoid> haystack, MemoryPointer<RVoid> needle)
+  => Temp.Utils.strstr(haystack, needle);
