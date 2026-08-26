@@ -29,7 +29,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   };
 
   static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RayCollisionD.new);
+    => .nullable(ptr, structLayout, RayCollisionD.new, RayCollisionD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -73,19 +73,19 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeBool(hit, structLayout.offset(.hit));
     p.writeFloat32(distance, structLayout.offset(.distance));
-    point.writeInto(p.offsetBy(structLayout.offset(.point)));
-    normal.writeInto(p.offsetBy(structLayout.offset(.normal)));
+    point.structWriteInto(p.offsetBy(structLayout.offset(.point)));
+    normal.structWriteInto(p.offsetBy(structLayout.offset(.normal)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     hit = p.readBool(structLayout.offset(.hit));
     distance = p.readFloat32(structLayout.offset(.distance));
-    point.readFrom(p.offsetBy(structLayout.offset(.point)));
-    normal.readFrom(p.offsetBy(structLayout.offset(.normal)));
+    point.structReadFrom(p.offsetBy(structLayout.offset(.point)));
+    normal.structReadFrom(p.offsetBy(structLayout.offset(.normal)));
   }
 
   @override

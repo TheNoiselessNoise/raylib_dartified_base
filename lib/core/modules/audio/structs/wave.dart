@@ -31,7 +31,7 @@ class WaveD extends RaylibStruct<WaveD> {
   };
 
   static StructPointer<WaveD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, WaveD.new);
+    => .nullable(ptr, structLayout, WaveD.new, WaveD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -76,13 +76,6 @@ class WaveD extends RaylibStruct<WaveD> {
   static int BASE_bufferLength(ByteBuffer data, int sampleSize)
     => data.lengthInBytes ~/ (sampleSize ~/ 8);
 
-  static ByteBuffer BASE_dataToBuffer(MemoryPointer<RVoid> data, int sampleSize, int waveLength) => switch (sampleSize) {
-    8  => data.to<Uint8List>(waveLength).buffer,
-    16 => data.to<Int16List>(waveLength).buffer,
-    32 => data.to<Float32List>(waveLength).buffer,
-    _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
-  };
-
   static ByteBuffer BASE_dummyData(int sampleSize, int dataLength) => switch (sampleSize) {
     8  => Uint8List(dataLength).buffer,
     16  => Int16List(dataLength).buffer,
@@ -95,11 +88,6 @@ class WaveD extends RaylibStruct<WaveD> {
     final srcBytes = src.asUint8List(0, byteCount);
     ptr.cast<RUint8>().writeArray(srcBytes);
   }
-
-  static ByteBuffer BASE_dataToBufferOrZero(MemoryPointer<RVoid> data, int sampleSize, int waveLength)
-    => !data.isNull
-      ? BASE_dataToBuffer(data, sampleSize, waveLength)
-      : BASE_dummyData(sampleSize, waveLength);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -160,7 +148,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeUint32(frameCount, structLayout.offset(.frameCount));
     p.writeUint32(sampleRate, structLayout.offset(.sampleRate));
     p.writeUint32(sampleSize, structLayout.offset(.sampleSize));
@@ -174,7 +162,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     frameCount = p.readUint32(structLayout.offset(.frameCount));
     sampleRate = p.readUint32(structLayout.offset(.sampleRate));
     sampleSize = p.readUint32(structLayout.offset(.sampleSize));

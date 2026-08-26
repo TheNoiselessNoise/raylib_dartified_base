@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Rlgl module function call,
-/// logged to the console when debug output is enabled.
-class RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibRlglModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibRlglModule.rlMatrixMode].
   String rlMatrixMode(

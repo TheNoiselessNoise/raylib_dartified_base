@@ -25,7 +25,7 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   };
 
   static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, FilePathListD.new);
+    => .nullable(ptr, structLayout, FilePathListD.new, FilePathListD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

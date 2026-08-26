@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Core module function call,
-/// logged to the console when debug output is enabled.
-class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibCoreModule.InitWindow].
   String InitWindow(
@@ -2516,6 +2514,13 @@ class RaylibCoreModuleDebugLabels extends RaylibDebugLabelsBase {
   String TextLength(
     String text,
   ) => 'TextLength($text)';
+
+  /// Label for [RaylibCoreModule.TextFormat].
+  String TextFormat(
+    String text, [
+      List<Object?> args = const [],
+    ]
+  ) => 'TextFormat($text, $args)';
 
   /// Label for [RaylibCoreModule.TextSubtext].
   String TextSubtext(

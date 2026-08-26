@@ -37,7 +37,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   };
 
   static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, VrStereoConfigD.new);
+    => .nullable(ptr, structLayout, VrStereoConfigD.new, VrStereoConfigD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -138,14 +138,14 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }) {
     _projection = .new(
       projection ?? .generate(paramsCount, (_) => .zero()),
-      () => op,
+      () => op?.cast(),
       structLayout.offset(.projection),
       MatrixD.pointer,
     );
 
     _viewOffset = .new(
       viewOffset ?? .generate(paramsCount, (_) => .zero()),
-      () => op,
+      () => op?.cast(),
       structLayout.offset(.viewOffset),
       MatrixD.pointer,
     );
@@ -214,7 +214,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     MatrixD.pointer(p.offsetBy(structLayout.offset(.projection))).writeArray(_projection.inner);
     MatrixD.pointer(p.offsetBy(structLayout.offset(.viewOffset))).writeArray(_viewOffset.inner);
     p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat32>().writeArray(_leftLensCenter.inner);
@@ -226,7 +226,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     projection = MatrixD.pointer(p.offsetBy(structLayout.offset(.projection))).readArray(paramsCount);
     viewOffset = MatrixD.pointer(p.offsetBy(structLayout.offset(.viewOffset))).readArray(paramsCount);
     leftLensCenter = p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat32>().readArray(paramsCount);

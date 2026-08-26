@@ -27,7 +27,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   };
 
   static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ModelSkeletonD.new);
+    => .nullable(ptr, structLayout, ModelSkeletonD.new, ModelSkeletonD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -112,7 +112,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_boneCount, structLayout.offset(.boneCount));
     p.writePtr(_bones.ptr, structLayout.offset(.bones));
     p.writePtr(_bindPose.ptr, structLayout.offset(.bindPose));
@@ -122,7 +122,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _boneCount = p.readInt32(structLayout.offset(.boneCount));
     _bones.ptr = p.readPtr(structLayout.offset(.bones));
     _bindPose.ptr = p.readPtr(structLayout.offset(.bindPose));

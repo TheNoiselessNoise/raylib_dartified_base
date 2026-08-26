@@ -4,10 +4,9 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibLightModule<R extends RaylibBase> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
+final class RaylibLightModule<R extends RaylibBase<R>> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
 
-  /// Debug label generator for this module's function calls.
-  final RaylibDebugLabels = RaylibLightModuleDebugLabels();
+  final _debugLabels = _RaylibLightModuleDebugLabels();
 
   RaylibLightModule(super.rl);
 
@@ -18,12 +17,27 @@ abstract class RaylibLightModule<R extends RaylibBase> extends RaylibModule<R> w
     Vector3D target,
     ColorD color,
     ShaderD shader,
+  ) => run(
+    () => _debugLabels.CreateLight(type, position, target, color, shader),
+    () => rl.LightFlat.CreateLight(
+      type.value,
+      position,
+      target,
+      color,
+      shader,
+    ),
   );
 
   /// Send light properties to shader
   void UpdateLightValues(
     ShaderD shader,
     LightD light,
+  ) => run(
+    () => _debugLabels.UpdateLightValues(shader, light),
+    () => rl.LightFlat.UpdateLightValues(
+      shader,
+      light,
+    ),
   );
 
 }

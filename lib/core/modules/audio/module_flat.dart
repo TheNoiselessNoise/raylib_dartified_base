@@ -4,7 +4,7 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibAudioFlatModule<R extends RaylibBase> extends RaylibModule<R> {
+abstract class RaylibAudioFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
   final RaylibCaptureIds = RaylibAudioModuleCaptureIds();
@@ -346,28 +346,28 @@ abstract class RaylibAudioFlatModule<R extends RaylibBase> extends RaylibModule<
   /// Audio thread callback to request new data
   void SetAudioStreamCallback(
     AudioStreamD stream,
-    MemoryPointer<RFunction> callback, // AudioCallback
+    MemoryPointer<RFunction<AudioCallbackBase>> callback,
   );
   
   /// Attach audio stream processor to stream, receives the samples as 'float'
   void AttachAudioStreamProcessor(
     AudioStreamD stream,
-    MemoryPointer<RFunction> processor, // AudioCallback
+    MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
   
   /// Detach audio stream processor from stream
   void DetachAudioStreamProcessor(
     AudioStreamD stream,
-    MemoryPointer<RFunction> processor, // AudioCallback
+    MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
   
   /// Attach audio stream processor to the entire audio pipeline, receives the samples as 'float'
   void AttachAudioMixedProcessor(
-    MemoryPointer<RFunction> processor, // AudioCallback
+    MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
   
   /// Detach audio stream processor from the entire audio pipeline
   void DetachAudioMixedProcessor(
-    MemoryPointer<RFunction> processor, // AudioCallback
+    MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
 }

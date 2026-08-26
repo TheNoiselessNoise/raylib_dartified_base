@@ -6,7 +6,7 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R> {
+abstract class RaylibCoreFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
   final RaylibCaptureIds = RaylibCoreModuleCaptureIds();
@@ -158,12 +158,18 @@ abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R
   int GetRenderHeight();
 
   /// Get number of connected monitors
+  /// 
+  /// **[!] Not implemented on WASM**
   int GetMonitorCount();
 
   /// Get current monitor where window is placed
+  /// 
+  /// **[!] Not implemented on WASM**
   int GetCurrentMonitor();
 
   /// Get specified monitor position
+  /// 
+  /// **[!] Not implemented on WASM**
   Vector2D GetMonitorPosition(
     int monitor,
   );
@@ -179,16 +185,22 @@ abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R
   );
 
   /// Get specified monitor physical width in millimetres
+  /// 
+  /// **[!] Not implemented on WASM**
   int GetMonitorPhysicalWidth(
     int monitor,
   );
 
   /// Get specified monitor physical height in millimetres
+  /// 
+  /// **[!] Not implemented on WASM**
   int GetMonitorPhysicalHeight(
     int monitor,
   );
 
   /// Get specified monitor refresh rate
+  /// 
+  /// **[!] Not implemented on WASM**
   int GetMonitorRefreshRate(
     int monitor,
   );
@@ -200,6 +212,8 @@ abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R
   Vector2D GetWindowScaleDPI();
 
   /// Get the human-readable, UTF-8 encoded name of the specified monitor
+  /// 
+  /// **[!] Not implemented on WASM**
   MemoryPointer<RChar> GetMonitorName(
     int monitor,
   );
@@ -518,27 +532,27 @@ abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R
 
   /// Set custom trace log
   void SetTraceLogCallback(
-    MemoryPointer<RFunction> callback, // TraceLogCallback
+    MemoryPointer<RFunction<TraceLogCallbackBase>> callback,
   );
 
   /// Set custom file binary data loader
   void SetLoadFileDataCallback(
-    MemoryPointer<RFunction> callback, // LoadFileDataCallback
+    MemoryPointer<RFunction<LoadFileDataCallbackBase>> callback,
   );
 
   /// Set custom file binary data saver
   void SetSaveFileDataCallback(
-    MemoryPointer<RFunction> callback, // SaveFileDataCallback
+    MemoryPointer<RFunction<SaveFileDataCallbackBase>> callback,
   );
 
   /// Set custom file text data loader
   void SetLoadFileTextCallback(
-    MemoryPointer<RFunction> callback, // LoadFileTextCallback
+    MemoryPointer<RFunction<LoadFileTextCallbackBase>> callback,
   );
 
   /// Set custom file text data saver
   void SetSaveFileTextCallback(
-    MemoryPointer<RFunction> callback, // SaveFileTextCallback
+    MemoryPointer<RFunction<SaveFileTextCallbackBase>> callback,
   );
 
   /// Load file data as byte array (read)
@@ -853,6 +867,8 @@ abstract class RaylibCoreFlatModule<R extends RaylibBase> extends RaylibModule<R
   );
 
   /// Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)
+  /// 
+  /// **[!] Not implemented on WASM**
   MemoryPointer<RChar> GetKeyName(
     int key,
   );

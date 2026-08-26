@@ -4,7 +4,7 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibCameraFlatModule<R extends RaylibBase> extends RaylibModule<R> {
+abstract class RaylibCameraFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   RaylibCameraFlatModule(super.rl);
 

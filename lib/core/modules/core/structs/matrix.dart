@@ -32,7 +32,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   };
 
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MatrixD.new);
+    => .nullable(ptr, structLayout, MatrixD.new, MatrixD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -127,7 +127,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeFloat32(m0, structLayout.offset(.m0));
     p.writeFloat32(m4, structLayout.offset(.m4));
     p.writeFloat32(m8, structLayout.offset(.m8));
@@ -150,7 +150,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     m0 = p.readFloat32(structLayout.offset(.m0));
     m4 = p.readFloat32(structLayout.offset(.m4));
     m8 = p.readFloat32(structLayout.offset(.m8));

@@ -39,7 +39,7 @@ class ModelD extends RaylibStruct<ModelD> {
   };
 
   static StructPointer<ModelD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ModelD.new);
+    => .nullable(ptr, structLayout, ModelD.new, ModelD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -52,12 +52,12 @@ class ModelD extends RaylibStruct<ModelD> {
   MatrixD _transform;
   /// Local transform matrix
   MatrixD get transform {
-    structOnOp((p) => _transform.readFrom(p.offsetBy(structLayout.offset(.transform))));
+    structOnOp((p) => _transform.structReadFrom(p.offsetBy(structLayout.offset(.transform))));
     return _transform;
   }
   set transform(MatrixD value) {
     _transform = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.transform))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.transform))));
   }
 
   int _meshCount;
@@ -118,12 +118,12 @@ class ModelD extends RaylibStruct<ModelD> {
   ModelSkeletonD _skeleton;
   /// Skeleton for animation
   ModelSkeletonD get skeleton {
-    structOnOp((p) => _skeleton.readFrom(p.offsetBy(structLayout.offset(.skeleton))));
+    structOnOp((p) => _skeleton.structReadFrom(p.offsetBy(structLayout.offset(.skeleton))));
     return _skeleton;
   }
   set skeleton(ModelSkeletonD value) {
     _skeleton = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.skeleton))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.skeleton))));
   }
   
   late LiveListPointerStruct<TransformD> _currentPose;
@@ -174,7 +174,7 @@ class ModelD extends RaylibStruct<ModelD> {
     );
 
     _meshMaterial = .new(
-      meshMaterial ?? [], RInt32.scalarByteSize,
+      meshMaterial ?? [],
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.meshMaterial)),
@@ -224,14 +224,14 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    _transform.writeInto(p.offsetBy(structLayout.offset(.transform)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    _transform.structWriteInto(p.offsetBy(structLayout.offset(.transform)));
     p.writeInt32(_meshCount, structLayout.offset(.meshCount));
     p.writeInt32(_materialCount, structLayout.offset(.materialCount));
     p.writePtr(_meshes.ptr, structLayout.offset(.meshes));
     p.writePtr(_materials.ptr, structLayout.offset(.materials));
     p.writePtr(_meshMaterial.ptr, structLayout.offset(.meshMaterial));
-    _skeleton.writeInto(p.offsetBy(structLayout.offset(.skeleton)));
+    _skeleton.structWriteInto(p.offsetBy(structLayout.offset(.skeleton)));
     p.writePtr(_currentPose.ptr, structLayout.offset(.currentPose));
     p.writePtr(_boneMatrices.ptr, structLayout.offset(.boneMatrices));
 
@@ -243,14 +243,14 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    _transform.readFrom(p.offsetBy(structLayout.offset(.transform)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    _transform.structReadFrom(p.offsetBy(structLayout.offset(.transform)));
     _meshCount = p.readInt32(structLayout.offset(.meshCount));
     _materialCount = p.readInt32(structLayout.offset(.materialCount));
     _meshes.ptr = p.readPtr(structLayout.offset(.meshes));
     _materials.ptr = p.readPtr(structLayout.offset(.materials));
     _meshMaterial.ptr = p.readPtr(structLayout.offset(.meshMaterial));
-    _skeleton.readFrom(p.offsetBy(structLayout.offset(.skeleton)));
+    _skeleton.structReadFrom(p.offsetBy(structLayout.offset(.skeleton)));
     _currentPose.ptr = p.readPtr(structLayout.offset(.currentPose));
     _boneMatrices.ptr = p.readPtr(structLayout.offset(.boneMatrices));
 

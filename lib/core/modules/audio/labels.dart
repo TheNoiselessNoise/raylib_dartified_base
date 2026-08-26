@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Audio module function call,
-/// logged to the console when debug output is enabled.
-class RaylibAudioModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibAudioModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibAudioModule.InitAudioDevice].
   String InitAudioDevice() => 'InitAudioDevice()';

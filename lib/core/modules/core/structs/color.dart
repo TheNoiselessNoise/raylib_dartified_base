@@ -29,7 +29,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   };
 
   static StructPointer<ColorD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ColorD.new);
+    => .nullable(ptr, structLayout, ColorD.new, ColorD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -85,7 +85,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ColorD setD(ColorD o) => set(o.r, o.g, o.b, o.a);
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeUint8(r, structLayout.offset(.r));
     p.writeUint8(g, structLayout.offset(.g));
     p.writeUint8(b, structLayout.offset(.b));
@@ -93,7 +93,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     r = p.readUint8(structLayout.offset(.r));
     g = p.readUint8(structLayout.offset(.g));
     b = p.readUint8(structLayout.offset(.b));

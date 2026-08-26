@@ -29,7 +29,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   };
 
   static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, GestureEventD.new);
+    => .nullable(ptr, structLayout, GestureEventD.new, GestureEventD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -107,7 +107,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
     _position = .new(
       position ?? .generate(maxTouchPoints, (_) => .zero()),
-      () => op,
+      () => op?.cast(),
       structLayout.offset(.position),
       Vector2D.pointer,
     );
@@ -125,7 +125,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_touchAction.value, structLayout.offset(.touchAction));
     p.writeInt32(_pointCount, structLayout.offset(.pointCount));
     p.offsetBy(structLayout.offset(.pointId)).cast<RInt32>().writeArray(_pointId.inner);
@@ -133,7 +133,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _touchAction = .fromValue(p.readInt32(structLayout.offset(.touchAction)));
     _pointCount = p.readInt32(structLayout.offset(.pointCount));
     _pointId.raw = p.offsetBy(structLayout.offset(.pointId)).cast<RInt32>().readArray(maxTouchPoints);

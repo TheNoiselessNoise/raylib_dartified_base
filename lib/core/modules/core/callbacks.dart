@@ -14,7 +14,7 @@ typedef TraceLogCallbackFriendlyFunction = void Function(
 );
 
 /// Raylib's `TraceLogCallback` callback.
-abstract class TraceLogCallbackBase extends RaylibCallback<TraceLogCallbackFunction> {
+abstract class TraceLogCallbackBase extends RaylibCallback<TraceLogCallbackBase, TraceLogCallbackFunction> {
   TraceLogCallbackBase([super.name]);
   static final List<TraceLogCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;
@@ -35,7 +35,7 @@ typedef LoadFileDataCallbackFriendlyFunction = MemoryPointer<RUint8> Function(
 );
 
 /// Raylib's `LoadFileDataCallback` callback.
-abstract class LoadFileDataCallbackBase extends RaylibCallback<LoadFileDataCallbackFunction> {
+abstract class LoadFileDataCallbackBase extends RaylibCallback<LoadFileDataCallbackBase, LoadFileDataCallbackFunction> {
   LoadFileDataCallbackBase([super.name]);
   static final List<LoadFileDataCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;
@@ -58,7 +58,7 @@ typedef SaveFileDataCallbackFriendlyFunction = bool Function(
 );
 
 /// Raylib's `SaveFileDataCallback` callback.
-abstract class SaveFileDataCallbackBase extends RaylibCallback<SaveFileDataCallbackFunction> {
+abstract class SaveFileDataCallbackBase extends RaylibCallback<SaveFileDataCallbackBase, SaveFileDataCallbackFunction> {
   SaveFileDataCallbackBase([super.name]);
   static final List<SaveFileDataCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;
@@ -76,7 +76,7 @@ typedef LoadFileTextCallbackFriendlyFunction = String Function(
 );
 
 /// Raylib's `LoadFileTextCallback` callback.
-abstract class LoadFileTextCallbackBase extends RaylibCallback<LoadFileTextCallbackFunction> {
+abstract class LoadFileTextCallbackBase extends RaylibCallback<LoadFileTextCallbackBase, LoadFileTextCallbackFunction> {
   LoadFileTextCallbackBase([super.name]);
   static final List<LoadFileTextCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;
@@ -96,7 +96,7 @@ typedef SaveFileTextCallbackFriendlyFunction = bool Function(
 );
 
 /// Raylib's `SaveFileTextCallback` callback.
-abstract class SaveFileTextCallbackBase extends RaylibCallback<SaveFileTextCallbackFunction> {
+abstract class SaveFileTextCallbackBase extends RaylibCallback<SaveFileTextCallbackBase, SaveFileTextCallbackFunction> {
   SaveFileTextCallbackBase([super.name]);
   static final List<SaveFileTextCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;

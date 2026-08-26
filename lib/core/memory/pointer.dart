@@ -1,5 +1,7 @@
 part of '../raylib_dartified_base.dart';
 
+// TODO: give readString/writeString implementations and ask about utf16 and utf32
+
 sealed class RType {
   final int count;
 
@@ -51,7 +53,7 @@ sealed class RType {
 }
 
 /// Marker type for a `callback/function` pointer.
-final class RFunction extends RType { const RFunction([super.count]); }
+final class RFunction<F> extends RType { const RFunction([super.count]); }
 
 /// Marker type for a `opaque` type - any type.
 final class ROpaque extends RType { const ROpaque([super.count]); }
@@ -224,8 +226,8 @@ extension Int8Pointer on MemoryPointer<RInt8> {
 extension Uint8Pointer on MemoryPointer<RUint8> {
   int get value => readUint8();
   set value(int v) => writeUint8(v);
-  int operator [](int i) => readInt8(i * RUint8.scalarByteSize);
-  void operator []=(int i, int v) => writeInt8(v, i * RUint8.scalarByteSize);
+  int operator [](int i) => readUint8(i * RUint8.scalarByteSize);
+  void operator []=(int i, int v) => writeUint8(v, i * RUint8.scalarByteSize);
 
   List<int> readArray(int count) => .generate(count, (i) => this[i]);
 
@@ -254,8 +256,8 @@ extension Int16Pointer on MemoryPointer<RInt16> {
 extension Uint16Pointer on MemoryPointer<RUint16> {
   int get value => readUint16();
   set value(int v) => writeUint16(v);
-  int operator [](int i) => readInt16(i * RUint16.scalarByteSize);
-  void operator []=(int i, int v) => writeInt16(v, i * RUint16.scalarByteSize);
+  int operator [](int i) => readUint16(i * RUint16.scalarByteSize);
+  void operator []=(int i, int v) => writeUint16(v, i * RUint16.scalarByteSize);
 
   List<int> readArray(int count) => .generate(count, (i) => this[i]);
 
@@ -344,8 +346,8 @@ extension Float32Pointer on MemoryPointer<RFloat32> {
 extension Float64Pointer on MemoryPointer<RFloat64> {
   double get value => readFloat64();
   set value(double v) => writeFloat64(v);
-  double operator [](int i) => readFloat32(i * RFloat64.scalarByteSize);
-  void operator []=(int i, double v) => writeFloat32(v, i * RFloat64.scalarByteSize);
+  double operator [](int i) => readFloat64(i * RFloat64.scalarByteSize);
+  void operator []=(int i, double v) => writeFloat64(v, i * RFloat64.scalarByteSize);
 
   List<double> readArray(int count) => .generate(count, (i) => this[i]);
 
@@ -358,6 +360,9 @@ extension Float64Pointer on MemoryPointer<RFloat64> {
 
 /// Backend-agnostic handle to a raw memory buffer returned by a C function.
 abstract class MemoryPointer<X extends RType> {
+  /// Provides more information on double-frees or reads/writes on an invalid pointer.
+  static bool debug = false;
+
   bool get isNull;
 
   /// Reinterprets this pointer as pointing to [Y] instead of [X].
@@ -381,6 +386,9 @@ abstract class MemoryPointer<X extends RType> {
 
   /// Debug/logging only. Do NOT branch logic on this.
   int get address;
+
+  /// [address] in hexadecimal format.
+  String get hex => '0x${address.toRadixString(16).toUpperCase()}';
 
   /// Reads a NUL-terminated C string starting at this pointer,
   /// decoded as UTF-8. Scans for the NUL byte itself, no length needed.
@@ -421,7 +429,9 @@ abstract class MemoryPointer<X extends RType> {
   }
 
   static MemoryPointer<RVoid> _defaultFromBytes<T extends TypedDataList>(T data) {
-    throw UnsupportedError('MemoryPointer.fromBytes is not implemented');
+    throw StateError(
+      'MemoryPointer.fromBytes called before a memory backend was initialized.'
+    );
   }
 
   /// Allocates a new pointer and writes [data] into it.
@@ -434,22 +444,30 @@ abstract class MemoryPointer<X extends RType> {
   /// 
   /// Caller owns the result and must free() it.
   static MemoryPointer<RUint8> Function(String text, [int? bufferSize]) fromString = (text, [bufferSize]) {
-    throw UnsupportedError('MemoryPointer.fromString is not implemented');
+    throw StateError(
+      'MemoryPointer.fromString called before a memory backend was initialized.'
+    );
   };
 
   static MemoryPointer<Y> _defaultNullptrFactory<Y extends RType>() {
-    throw UnsupportedError('MemoryPointer.nullptrFactory is not implemented');
+    throw StateError(
+      'MemoryPointer.nullptrFactory called before a memory backend was initialized.'
+    );
   }
 
-  // Each backend assigns it's own version
+  /// Constructs a nullptr.
   static MemoryPointer<Y> Function<Y extends RType>() nullptrFactory = _defaultNullptrFactory;
 
+  /// Constructs a nullptr.
   static MemoryPointer<RVoid> get nullptr => nullptrFactory();
 
   static MemoryPointer<Y> _defaultMalloc<Y extends RType>(int size) {
-    throw UnsupportedError('MemoryPointer.malloc is not implemented');
+    throw StateError(
+      'MemoryPointer.malloc called before a memory backend was initialized.'
+    );
   }
 
+  /// Allocates a memory of given [size].
   static MemoryPointer<Y> Function<Y extends RType>(int size) malloc = _defaultMalloc;
 
   /// Reads a pointer value at `address + byteOffset` and returns it typed as pointing to [Y].
@@ -600,30 +618,39 @@ abstract class MemoryPointer<X extends RType> {
 /// can't get this for free via `on MemoryPointer<RStruct>` because RStruct
 /// itself doesn't encode which struct type it is, this wrapper supplies
 /// that missing piece once, explicitly.
-class StructPointer<D extends RaylibStruct<D>> {
+final class StructPointer<D extends RaylibStruct<D>> {
   final MemoryPointer<RStruct> ptr;
   final StructLayout structLayout;
   final StructFactory<D> create;
+  final StructPointerFactory<D> pointerFactory;
 
-  StructPointer(this.ptr, this.structLayout, this.create);
+  StructPointer(this.ptr, this.structLayout, this.create, this.pointerFactory);
 
   factory StructPointer.nullable(
     MemoryPointer? ptr,
     StructLayout structLayout,
     StructFactory<D> create,
+    StructPointerFactory<D> pointerFactory,
   ) => .new(
     (ptr ?? MemoryPointer.nullptr).cast(),
     structLayout,
     create,
+    pointerFactory,
   );
 
+  /// See [MemoryPointer.isNull].
   bool get isNull => ptr.isNull;
 
+  /// See [MemoryPointer.free].
   void free() => ptr.free();
 
+  /// See [MemoryPointer.address].
   int get address => ptr.address;
 
-  late final D _ref = create(op: ptr);
+  /// See [MemoryPointer.hex].
+  String get hex => ptr.hex;
+
+  late final D _ref = create(op: this);
   
   /// Live view, mutations write through immediately.
   D get ref => _ref;
@@ -631,43 +658,219 @@ class StructPointer<D extends RaylibStruct<D>> {
   /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
   set ref(D v) => ref.setD(v);
 
-  /// Detached copy, mutations do not affect memory.
-  D snapshot() {
-    final value = create(op: ptr)..structSyncFromMemory();
-    value.op = null;
-    return value;
-  }
-
   D _getAtIndex(int i, {bool owned = false}) {
     final inner = ptr.offsetBy(i * structLayout.byteSize).cast<RStruct>();
 
     if (owned) {
-      return create(op: inner)..structSyncFromMemory();
+      return create(op: pointerFactory(inner))..structSyncFromMemory();
     } else {
-      return create()..readFrom(inner);
+      return create()..structReadFrom(inner);
     }
   }
 
+  /// Returns the struct at [i] as a memory-backed value.
+  ///
+  /// The returned struct retains a [StructPointer] to the corresponding
+  /// memory location, so changes made to it are written through to memory.
   D owned(int i) => _getAtIndex(i, owned: true);
 
+  /// Returns a detached copy of the struct at [i].
+  ///
+  /// Changes made to the returned struct are not written back to memory.
   D operator [](int i) => _getAtIndex(i, owned: false);
-  void operator []=(int i, D v) => v.writeInto(ptr.offsetBy(i * structLayout.byteSize));
+  
+  /// Writes the current field values of [v] into the struct at [i].
+  ///
+  /// This copies the value into memory and does not attach [v] to the
+  /// destination memory location.
+  void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * structLayout.byteSize));
 
+  /// Writes [items] sequentially into the memory referenced by this pointer.
+  ///
+  /// The number of items written must not exceed the allocated struct array
+  /// capacity.
   void writeArray(List<D> items) {
     for (var i = 0; i < items.length; i++) {
-      items[i].writeInto(ptr.offsetBy(i * structLayout.byteSize));
+      items[i].structWriteInto(ptr.offsetBy(i * structLayout.byteSize));
     }
   }
 
+  /// Reads [count] structs sequentially from the memory referenced by this
+  /// pointer.
+  ///
+  /// If [owned] is `true`, each returned struct retains a [StructPointer] to
+  /// its corresponding memory location, making it a live memory-backed value.
+  ///
+  /// If [owned] is `false`, each returned struct is a detached copy and does
+  /// not retain a pointer to the underlying memory.
   List<D> readArray(int count, {bool owned = false}) => .generate(count,
     (i) {
       final inner = ptr.offsetBy(i * structLayout.byteSize).cast<RStruct>();
 
       if (owned) {
-        return create(op: inner)..structSyncFromMemory();
-      } else {
-        return create()..readFrom(inner);
+        return create(op: pointerFactory(inner))..structSyncFromMemory();
       }
+
+      return create()..structReadFrom(inner);
     }
   );
+
+  // MemoryPointer redirection
+
+  /// See [MemoryPointer.cast].
+  MemoryPointer<Y> cast<Y extends RType>() => ptr.cast();
+
+  /// See [MemoryPointer.to].
+  T to<T extends TypedDataList>(int length) => ptr.to(length);
+
+  /// See [MemoryPointer.asView].
+  T asView<T extends TypedDataList>(int length) => ptr.asView(length);
+
+  /// See [MemoryPointer.offsetBy].
+  MemoryPointer<Y> offsetBy<Y extends RType>(int byteOffset) => ptr.offsetBy(byteOffset);
+
+  /// See [MemoryPointer.fillBytes].
+  void fillBytes(int value, int length, [int byteOffset = 0])
+    => ptr.fillBytes(value, length, byteOffset);
+
+  /// See [MemoryPointer.copyBytesFrom].
+  void copyBytesFrom(StructPointer<D> src, int length, {int destOffset = 0, int srcOffset = 0})
+    => ptr.copyBytesFrom(src.ptr, length, destOffset: destOffset, srcOffset: srcOffset);
+
+  /// See [MemoryPointer.compareBytes].
+  int compareBytes(StructPointer<D> other, int length, {int offset = 0, int otherOffset = 0})
+    => ptr.compareBytes(other.ptr, length, offset: offset, otherOffset: otherOffset);
+
+  /// See [MemoryPointer.readPtr].
+  MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]) => ptr.readPtr(byteOffset);
+
+  /// See [MemoryPointer.writePtr].
+  void writePtr(MemoryPointer<RType>? value, [int byteOffset = 0]) => ptr.writePtr(value, byteOffset);
+
+  /// See [MemoryPointer.readSize].
+  int readSize([int byteOffset = 0]) => ptr.readSize(byteOffset);
+
+  /// See [MemoryPointer.readBool].
+  bool readBool([int byteOffset = 0]) => ptr.readBool(byteOffset);
+
+  /// See [MemoryPointer.readInt8].
+  int readInt8([int byteOffset = 0]) => ptr.readInt8(byteOffset);
+
+  /// See [MemoryPointer.readUint8].
+  int readUint8([int byteOffset = 0]) => ptr.readUint8(byteOffset);
+  
+  /// See [MemoryPointer.readInt16].
+  int readInt16([int byteOffset = 0]) => ptr.readInt16(byteOffset);
+  
+  /// See [MemoryPointer.readUint16].
+  int readUint16([int byteOffset = 0]) => ptr.readUint16(byteOffset);
+  
+  /// See [MemoryPointer.readInt32].
+  int readInt32([int byteOffset = 0]) => ptr.readInt32(byteOffset);
+  
+  /// See [MemoryPointer.readUint32].
+  int readUint32([int byteOffset = 0]) => ptr.readUint32(byteOffset);
+  
+  /// See [MemoryPointer.readInt64].
+  int readInt64([int byteOffset = 0]) => ptr.readInt64(byteOffset);
+  
+  /// See [MemoryPointer.readUint64].
+  int readUint64([int byteOffset = 0]) => ptr.readUint64(byteOffset);
+  
+  /// See [MemoryPointer.readFloat32].
+  double readFloat32([int byteOffset = 0]) => ptr.readFloat32(byteOffset);
+  
+  /// See [MemoryPointer.readFloat64].
+  double readFloat64([int byteOffset = 0]) => ptr.readFloat64(byteOffset);
+
+  /// See [MemoryPointer.readChar].
+  int readChar([int byteOffset = 0]) => ptr.readChar(byteOffset);
+
+  /// See [MemoryPointer.readUnsignedChar].
+  int readUnsignedChar([int byteOffset = 0]) => ptr.readUnsignedChar(byteOffset);
+
+  /// See [MemoryPointer.readShort].
+  int readShort([int byteOffset = 0]) => ptr.readShort(byteOffset);
+
+  /// See [MemoryPointer.readUnsignedShort].
+  int readUnsignedShort([int byteOffset = 0]) => ptr.readUnsignedShort(byteOffset);
+
+  /// See [MemoryPointer.readInt].
+  int readInt([int byteOffset = 0]) => ptr.readInt(byteOffset);
+
+  /// See [MemoryPointer.readUnsignedInt].
+  int readUnsignedInt([int byteOffset = 0]) => ptr.readUnsignedInt(byteOffset);
+
+  /// See [MemoryPointer.readFloat].
+  double readFloat([int byteOffset = 0]) => ptr.readFloat(byteOffset);
+
+  /// See [MemoryPointer.readDouble].
+  double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
+
+  /// See [MemoryPointer.readString].
+  String readString(int maxLength, [int byteOffset = 0]) => ptr.readString(maxLength, byteOffset);
+
+  /// See [MemoryPointer.writeSize].
+  void writeSize(int value, [int byteOffset = 0]) => ptr.writeSize(value, byteOffset);
+
+  /// See [MemoryPointer.writeBool].
+  void writeBool(bool value, [int byteOffset = 0]) => ptr.writeBool(value, byteOffset);
+
+  /// See [MemoryPointer.writeInt8].
+  void writeInt8(int value, [int byteOffset = 0]) => ptr.writeInt8(value, byteOffset);
+  
+  /// See [MemoryPointer.writeUint8].
+  void writeUint8(int value, [int byteOffset = 0]) => ptr.writeUint8(value, byteOffset);
+  
+  /// See [MemoryPointer.writeInt16].
+  void writeInt16(int value, [int byteOffset = 0]) => ptr.writeInt16(value, byteOffset);
+  
+  /// See [MemoryPointer.writeUint16].
+  void writeUint16(int value, [int byteOffset = 0]) => ptr.writeUint16(value, byteOffset);
+  
+  /// See [MemoryPointer.writeInt32].
+  void writeInt32(int value, [int byteOffset = 0]) => ptr.writeInt32(value, byteOffset);
+  
+  /// See [MemoryPointer.writeUint32].
+  void writeUint32(int value, [int byteOffset = 0]) => ptr.writeUint32(value, byteOffset);
+  
+  /// See [MemoryPointer.writeInt64].
+  void writeInt64(int value, [int byteOffset = 0]) => ptr.writeInt64(value, byteOffset);
+  
+  /// See [MemoryPointer.writeUint64].
+  void writeUint64(int value, [int byteOffset = 0]) => ptr.writeUint64(value, byteOffset);
+  
+  /// See [MemoryPointer.writeFloat32].
+  void writeFloat32(double value, [int byteOffset = 0]) => ptr.writeFloat32(value, byteOffset);
+  
+  /// See [MemoryPointer.writeFloat64].
+  void writeFloat64(double value, [int byteOffset = 0]) => ptr.writeFloat64(value, byteOffset);
+
+  /// See [MemoryPointer.writeChar].
+  void writeChar(int value, [int byteOffset = 0]) => ptr.writeChar(value, byteOffset);
+
+  /// See [MemoryPointer.writeUnsignedChar].
+  void writeUnsignedChar(int value, [int byteOffset = 0]) => ptr.writeUnsignedChar(value, byteOffset);
+
+  /// See [MemoryPointer.writeShort].
+  void writeShort(int value, [int byteOffset = 0]) => ptr.writeShort(value, byteOffset);
+
+  /// See [MemoryPointer.writeUnsignedShort].
+  void writeUnsignedShort(int value, [int byteOffset = 0]) => ptr.writeUnsignedShort(value, byteOffset);
+
+  /// See [MemoryPointer.writeInt].
+  void writeInt(int value, [int byteOffset = 0]) => ptr.writeInt(value, byteOffset);
+
+  /// See [MemoryPointer.writeUnsignedInt].
+  void writeUnsignedInt(int value, [int byteOffset = 0]) => ptr.writeUnsignedInt(value, byteOffset);
+
+  /// See [MemoryPointer.writeFloat].
+  void writeFloat(double value, [int byteOffset = 0]) => ptr.writeFloat(value, byteOffset);
+
+  /// See [MemoryPointer.writeDouble].
+  void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
+
+  /// See [MemoryPointer.writeString].
+  void writeString(String text, int maxLength, [int byteOffset = 0])
+    => ptr.writeString(text, maxLength, byteOffset);
 }

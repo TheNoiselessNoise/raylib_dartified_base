@@ -27,7 +27,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   };
 
   static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MaterialD.new);
+    => .nullable(ptr, structLayout, MaterialD.new, MaterialD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -60,12 +60,12 @@ class MaterialD extends RaylibStruct<MaterialD> {
   ShaderD _shader;
   /// Material shader
   ShaderD get shader {
-    structOnOp((p) => _shader.readFrom(p.offsetBy(structLayout.offset(.shader))));
+    structOnOp((p) => _shader.structReadFrom(p.offsetBy(structLayout.offset(.shader))));
     return _shader;
   }
   set shader(ShaderD value) {
     _shader = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.shader))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.shader))));
   }
   
   late LiveListPointerStruct<MaterialMapD> _maps;
@@ -128,8 +128,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    _shader.writeInto(p.offsetBy(structLayout.offset(.shader)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    _shader.structWriteInto(p.offsetBy(structLayout.offset(.shader)));
     p.writePtr(_maps.ptr, structLayout.offset(.maps));
     p.offsetBy(structLayout.offset(.params)).cast<RFloat32>().writeArray(_params.inner);
 
@@ -137,8 +137,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    _shader.readFrom(p.offsetBy(structLayout.offset(.shader)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    _shader.structReadFrom(p.offsetBy(structLayout.offset(.shader)));
     _maps.ptr = p.readPtr(structLayout.offset(.maps));
     _params.raw = p.offsetBy(structLayout.offset(.params)).cast<RFloat32>().readArray(paramsCount);
 

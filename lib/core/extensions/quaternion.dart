@@ -3,7 +3,7 @@ part of '../raylib_dartified_base.dart';
 /// Exposes Raylib's quaternion math API as module-level functions by delegating
 /// to the corresponding [QuaternionD] methods/factories.
 /// Exists purely for Raylib API symmetry.
-class RaylibQuaternionExtension extends RaylibModule {
+class RaylibQuaternionExtension<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   RaylibQuaternionExtension(super.rl);
 

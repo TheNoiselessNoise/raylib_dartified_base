@@ -25,7 +25,7 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   };
 
   static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, BoundingBoxD.new);
+    => .nullable(ptr, structLayout, BoundingBoxD.new, BoundingBoxD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -64,15 +64,15 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    min.writeInto(p.offsetBy(structLayout.offset(.min)));
-    max.writeInto(p.offsetBy(structLayout.offset(.max)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    min.structWriteInto(p.offsetBy(structLayout.offset(.min)));
+    max.structWriteInto(p.offsetBy(structLayout.offset(.max)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    min.readFrom(p.offsetBy(structLayout.offset(.min)));
-    max.readFrom(p.offsetBy(structLayout.offset(.max)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    min.structReadFrom(p.offsetBy(structLayout.offset(.min)));
+    max.structReadFrom(p.offsetBy(structLayout.offset(.max)));
   }
   
   @override

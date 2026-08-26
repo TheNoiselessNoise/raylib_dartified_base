@@ -27,7 +27,7 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   };
 
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, TransformD.new);
+    => .nullable(ptr, structLayout, TransformD.new, TransformD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -67,17 +67,17 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    translation.writeInto(p.offsetBy(structLayout.offset(.translation)));
-    rotation.writeInto(p.offsetBy(structLayout.offset(.rotation)));
-    scale.writeInto(p.offsetBy(structLayout.offset(.scale)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    translation.structWriteInto(p.offsetBy(structLayout.offset(.translation)));
+    rotation.structWriteInto(p.offsetBy(structLayout.offset(.rotation)));
+    scale.structWriteInto(p.offsetBy(structLayout.offset(.scale)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    translation.readFrom(p.offsetBy(structLayout.offset(.translation)));
-    rotation.readFrom(p.offsetBy(structLayout.offset(.rotation)));
-    scale.readFrom(p.offsetBy(structLayout.offset(.scale)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    translation.structReadFrom(p.offsetBy(structLayout.offset(.translation)));
+    rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation)));
+    scale.structReadFrom(p.offsetBy(structLayout.offset(.scale)));
   }
 
   @override

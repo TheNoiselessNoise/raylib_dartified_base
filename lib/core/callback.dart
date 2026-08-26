@@ -1,10 +1,10 @@
 part of 'raylib_dartified_base.dart';
 
-abstract class RaylibCallback<D extends Function> {
+abstract class RaylibCallback<B, D extends Function> {
 
   bool _isDisposed = false;
   bool _initialized = false;
-  late final MemoryPointer<RFunction> _funcPtr;
+  late final MemoryPointer<RFunction<B>> _funcPtr;
 
   /// The Dart function exposed to the native side.
   ///
@@ -23,9 +23,9 @@ abstract class RaylibCallback<D extends Function> {
   /// Backend-specific: produces the callable native pointer for [function].
   /// Native: wraps a `NativeCallable<C>`, returns its nativeFunction cast to RVoid.
   /// Wasm: registers via addFunction(jsFunction, signature), wraps the int as a pointer.
-  MemoryPointer<RFunction> initializer();
+  MemoryPointer<RFunction<B>> initializer();
 
-  MemoryPointer<RFunction> get nativeFunction {
+  MemoryPointer<RFunction<B>> get nativeFunction {
     assert(!_isDisposed, '$runtimeType: has been disposed');
     if (!_initialized) {
       _initialized = true;
@@ -45,7 +45,7 @@ abstract class RaylibCallback<D extends Function> {
   ///
   /// Adds `this` to [registry] if not already present, then returns
   /// [nativeFunction].
-  MemoryPointer<RFunction> attach() {
+  MemoryPointer<RFunction<B>> attach() {
     if (!registry.contains(this)) registry.add(this);
     return nativeFunction;
   }
@@ -56,7 +56,7 @@ abstract class RaylibCallback<D extends Function> {
   /// If [keepAlive] is `true`, the callback is neither removed from [registry]
   /// nor disposed, only the pointer is returned. Useful when temporarily
   /// detaching without releasing resources.
-  MemoryPointer<RFunction> detach([bool keepAlive = false]) {
+  MemoryPointer<RFunction<B>> detach([bool keepAlive = false]) {
     if (keepAlive) return nativeFunction;
     registry.remove(this);
     dispose();

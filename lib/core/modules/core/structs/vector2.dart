@@ -28,7 +28,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   };
 
   static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, Vector2D.new);
+    => .nullable(ptr, structLayout, Vector2D.new, Vector2D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -65,13 +65,13 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   Vector2D setD(Vector2D o) => set(o.x, o.y);
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeFloat32(x, structLayout.offset(.x));
     p.writeFloat32(y, structLayout.offset(.y));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     x = p.readFloat32(structLayout.offset(.x));
     y = p.readFloat32(structLayout.offset(.y));
   }

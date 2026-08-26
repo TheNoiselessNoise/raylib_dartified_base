@@ -31,7 +31,7 @@ class ImageD extends RaylibStruct<ImageD> {
   };
 
   static StructPointer<ImageD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ImageD.new);
+    => .nullable(ptr, structLayout, ImageD.new, ImageD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -104,23 +104,20 @@ class ImageD extends RaylibStruct<ImageD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  late Uint8List _data;
-  MemoryPointer<RUint8> _dataPtr = MemoryPointer.nullptr.cast();
+  late LiveListPointerScalar<int, RUint8> _data;
   /// Raw pixel data for the image.
   ///
   /// For single-frame images this is exactly `frameSize` bytes.
   /// 
   /// For multi-frame images (e.g. animated GIFs) this is `frameSize * frameCount` bytes.
-  Uint8List get data {
-    structOnOp((p) => _dataPtr = p.readPtr(structLayout.offset(.data)));
-    if (!_dataPtr.isNull) _data = _dataPtr.asView<Uint8List>(dataLength);
+  LiveListPointerScalar<int, RUint8> get data {
+    structOnOp((p) => _data.ptr = p.readPtr(structLayout.offset(.data)));
     return _data;
   }
   set data(Uint8List value) {
     assert(value.length <= dataLength);
-    _data = value;
-    structOnOp((p) => _dataPtr = p.readPtr(structLayout.offset(.data)));
-    if (!_dataPtr.isNull) _dataPtr.asView<Uint8List>(dataLength).setAll(0, value);
+    structOnOp((p) => _data.ptr = p.readPtr(structLayout.offset(.data)));
+    _data.inner = value;
   }
 
   int _width;
@@ -196,7 +193,12 @@ class ImageD extends RaylibStruct<ImageD> {
     _mipmaps = mipmaps,
     _format = format 
   {
-    _data = data ?? .new(dataLength);
+    _data = .new(
+      data ?? .filled(dataLength, 0),
+      (p, i) => p[i],
+      (p, i, v) => p[i] = v,
+      op?.offsetBy(structLayout.offset(.data)),
+    );
   }
 
   factory ImageD.zero() => .new();
@@ -213,29 +215,29 @@ class ImageD extends RaylibStruct<ImageD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
-    _dataPtr = temp.Uint8$.RawArray(data);
+    _data.ptr = temp.Uint8$.RawArray(data);
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    p.writePtr(_dataPtr, structLayout.offset(.data));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    p.writePtr(_data.ptr, structLayout.offset(.data));
     p.writeInt32(_width, structLayout.offset(.width));
     p.writeInt32(_height, structLayout.offset(.height));
     p.writeInt32(_mipmaps, structLayout.offset(.mipmaps));
     p.writeInt32(_format.value, structLayout.offset(.format));
     
-    if (!_dataPtr.isNull) _dataPtr.asView<Uint8List>(dataLength).setAll(0, data);
+    _data.onPointer((p) => p.writeArray(_data.inner));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    _dataPtr = p.readPtr(structLayout.offset(.data));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    _data.ptr = p.readPtr(structLayout.offset(.data));
     _width = p.readInt32(structLayout.offset(.width));
     _height = p.readInt32(structLayout.offset(.height));
     _mipmaps = p.readInt32(structLayout.offset(.mipmaps));
     _format = .fromValue(p.readInt32(structLayout.offset(.format)));
     
-    if (!_dataPtr.isNull) data = _dataPtr.asView<Uint8List>(dataLength);
+    _data.onPointer((p) => _data.raw = p.readArray(dataLength));
   }
 
   @override
@@ -249,5 +251,5 @@ class ImageD extends RaylibStruct<ImageD> {
   );
 
   @override
-  String signature() => '$structName(data: ${data.length}, width: $width, height: $height, mipmaps: $mipmaps, format: ${format.name})';
+  String signature() => '$structName(data: ${_data.length}, width: $_width, height: $_height, mipmaps: $_mipmaps, format: ${_format.name})';
 }

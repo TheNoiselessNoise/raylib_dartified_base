@@ -45,7 +45,7 @@ class LightD extends RaylibStruct<LightD> {
   };
 
   static StructPointer<LightD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, LightD.new);
+    => .nullable(ptr, structLayout, LightD.new, LightD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -130,12 +130,12 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(type.value, structLayout.offset(.type));
     p.writeBool(enabled, structLayout.offset(.enabled));
-    position.writeInto(p.offsetBy(structLayout.offset(.position)));
-    target.writeInto(p.offsetBy(structLayout.offset(.target)));
-    color.writeInto(p.offsetBy(structLayout.offset(.color)));
+    position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
+    target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
+    color.structWriteInto(p.offsetBy(structLayout.offset(.color)));
     p.writeFloat32(attenuation, structLayout.offset(.attenuation));
     p.writeInt32(enabledLoc, structLayout.offset(.enabledLoc));
     p.writeInt32(typeLoc, structLayout.offset(.typeLoc));
@@ -146,12 +146,12 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     type = .fromValue(p.readInt32(structLayout.offset(.type)));
     enabled = p.readBool(structLayout.offset(.enabled));
-    position.readFrom(p.offsetBy(structLayout.offset(.position)));
-    target.readFrom(p.offsetBy(structLayout.offset(.target)));
-    color.readFrom(p.offsetBy(structLayout.offset(.color)));
+    position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
+    target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
+    color.structReadFrom(p.offsetBy(structLayout.offset(.color)));
     attenuation = p.readFloat32(structLayout.offset(.attenuation));
     enabledLoc = p.readInt32(structLayout.offset(.enabledLoc));
     typeLoc = p.readInt32(structLayout.offset(.typeLoc));

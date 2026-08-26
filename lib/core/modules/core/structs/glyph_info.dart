@@ -31,7 +31,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   };
 
   static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, GlyphInfoD.new);
+    => .nullable(ptr, structLayout, GlyphInfoD.new, GlyphInfoD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -88,12 +88,12 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   ImageD _image;
   /// Character image data
   ImageD get image {
-    structOnOp((p) => _image.readFrom(p.offsetBy(structLayout.offset(.image))));
+    structOnOp((p) => _image.structReadFrom(p.offsetBy(structLayout.offset(.image))));
     return _image;
   }
   set image(ImageD value) {
     _image = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.image))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.image))));
   }
 
   GlyphInfoD({
@@ -123,21 +123,21 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_value, structLayout.offset(.value));
     p.writeInt32(_offsetX, structLayout.offset(.offsetX));
     p.writeInt32(_offsetY, structLayout.offset(.offsetY));
     p.writeInt32(_advanceX, structLayout.offset(.advanceX));
-    _image.writeInto(p.offsetBy(structLayout.offset(.image)));
+    _image.structWriteInto(p.offsetBy(structLayout.offset(.image)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _value = p.readInt32(structLayout.offset(.value));
     _offsetX = p.readInt32(structLayout.offset(.offsetX));
     _offsetY = p.readInt32(structLayout.offset(.offsetY));
     _advanceX = p.readInt32(structLayout.offset(.advanceX));
-    _image.readFrom(p.offsetBy(structLayout.offset(.image)));
+    _image.structReadFrom(p.offsetBy(structLayout.offset(.image)));
   }
 
   @override

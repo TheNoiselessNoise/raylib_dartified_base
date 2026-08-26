@@ -31,7 +31,7 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   };
 
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, Camera3DD.new);
+    => .nullable(ptr, structLayout, Camera3DD.new, Camera3DD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -81,19 +81,19 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    position.writeInto(p.offsetBy(structLayout.offset(.position)));
-    target.writeInto(p.offsetBy(structLayout.offset(.target)));
-    up.writeInto(p.offsetBy(structLayout.offset(.up)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
+    target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
+    up.structWriteInto(p.offsetBy(structLayout.offset(.up)));
     p.writeFloat32(fovy, structLayout.offset(.fovy));
     p.writeInt32(projection.value, structLayout.offset(.projection));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    position.readFrom(p.offsetBy(structLayout.offset(.position)));
-    target.readFrom(p.offsetBy(structLayout.offset(.target)));
-    up.readFrom(p.offsetBy(structLayout.offset(.up)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
+    target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
+    up.structReadFrom(p.offsetBy(structLayout.offset(.up)));
     fovy = p.readFloat32(structLayout.offset(.fovy));
     projection = .fromValue(p.readInt32(structLayout.offset(.projection)));
   }

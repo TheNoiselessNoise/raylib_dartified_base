@@ -33,7 +33,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   };
 
   static StructPointer<RlRenderBatchD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RlRenderBatchD.new);
+    => .nullable(ptr, structLayout, RlRenderBatchD.new, RlRenderBatchD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -148,7 +148,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_bufferCount, structLayout.offset(.bufferCount));
     p.writeInt32(_currentBuffer, structLayout.offset(.currentBuffer));
     p.writePtr(_vertexBuffer.ptr, structLayout.offset(.vertexBuffer));
@@ -161,7 +161,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _bufferCount = p.readInt32(structLayout.offset(.bufferCount));
     _currentBuffer = p.readInt32(structLayout.offset(.currentBuffer));
     _vertexBuffer.ptr = p.readPtr(structLayout.offset(.vertexBuffer));

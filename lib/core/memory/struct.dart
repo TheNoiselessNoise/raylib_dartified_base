@@ -1,7 +1,7 @@
 part of '../raylib_dartified_base.dart';
 
 typedef StructFactory<D extends RaylibStruct<D>> = D Function({
-  MemoryPointer<RStruct>? op,
+  StructPointer<D>? op,
 });
 
 typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointer?);
@@ -9,7 +9,7 @@ typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Funct
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
 /// tracking its current slot key, tag, disposal status, and stable identity
 /// across repeated [RaylibTempStructAllocator.PointerTo] calls.
-class RaylibTempStructState with RaylibDisposable {
+final class RaylibTempStructState with RaylibDisposable {
   /// The slot tag used to disambiguate [RaylibTemp] keys for this instance.
   ///
   /// Defaults to `'default'`. Change via [RaylibStruct.structSetTag].
@@ -76,7 +76,7 @@ class RaylibTempStructState with RaylibDisposable {
 /// total struct size is rounded up to the largest field alignment.
 /// This reproduces real C struct layout for flat structs of primitives
 /// and pointers.
-class StructLayout<E extends Enum> {
+final class StructLayout<E extends Enum> {
   final Map<E, int> _offsets;
   final int byteSize;
   final int alignment;
@@ -103,17 +103,17 @@ class StructLayout<E extends Enum> {
   int offset(E field) => _offsets[field]!;
 }
 
-// TODO: try to change the `op` to `StructPointer<D>`
-
 /// Backend-agnostic base for Raylib struct mirror objects that are backed by
 /// native memory, adding [op] ownership tracking on top.
 abstract class RaylibStruct<D extends RaylibStruct<D>> {
-  /// The C-owned or RaylibTemp-owned native pointer for this struct, if any.
-  MemoryPointer<RStruct>? op;
+  /// The C-owned or RaylibTemp-owned typed pointer for this struct, if any.
+  StructPointer<D>? op;
 
   RaylibStruct({
     this.op,
-  });
+  }) {
+    $state.isFirstSync = op == null;
+  }
 
   /// Per-instance allocation state tracking slot keys, disposal, and identity.
   final RaylibTempStructState $state = RaylibTempStructState();
@@ -123,9 +123,9 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// Copies the fields of [o] into this instance and returns `this`.
   D setD(D o);
 
-  void writeInto(MemoryPointer<RStruct> p);
+  void structWriteInto(MemoryPointer<RStruct> p);
   
-  void readFrom(MemoryPointer<RStruct> p);
+  void structReadFrom(MemoryPointer<RStruct> p);
 
   /// Returns a deep copy of this instance, preserving [op] if present.
   D clone();
@@ -162,14 +162,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
   /// Calls [callback] with [op] if it is set, otherwise no-ops.
   @nonVirtual
-  void structOnOp(void Function(MemoryPointer<RStruct> p) callback) {
+  void structOnOp(void Function(StructPointer<D> p) callback) {
     // ignore: null_check_on_nullable_type_parameter
     if (op != null) callback(op!);
   }
 
   /// Returns [op], throwing a descriptive [StateError] if unavailable or this instance [RaylibTempStructState.isDisposed].
   @nonVirtual
-  MemoryPointer<RStruct> getOp() {
+  StructPointer<D> getOp() {
     if ($state.isDisposed) {
       throw StateError(
         '$structName.getop() was called on a disposed struct. '
@@ -195,7 +195,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// The canonical way to hand the pointer back to C and `unload`.
   /// Gets the pointer, then ensures this instance can no longer be used.
   @nonVirtual
-  MemoryPointer<RStruct> getOpAndDispose() {
+  StructPointer<D> getOpAndDispose() {
     final pointer = getOp();
     structMarkDisposed();
     $state.dispose();
@@ -212,23 +212,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     return clone;
   }
 
-  /// Syncs Dart-side fields into the already-allocated native pointer [p]. Defaults to [structWriteInto].
-  void structSyncInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) => writeInto(p);
-
   /// Allocates nested pointers into [temp] under [key] as needed.
   void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {}
 
-  /// Writes all fields into the memory at [p].
-  void structWriteInto(MemoryPointer<RStruct> p) => writeInto(p);
-
-  /// Reads all fields from the memory at [p].
-  void structReadFrom(MemoryPointer<RStruct> p) => readFrom(p);
-
   /// Syncs all fields from the memory. Requires [op].
-  void structSyncFromMemory() => readFrom(getOp());
+  void structSyncFromMemory() => structReadFrom(getOp().ptr);
   
   /// Syncs all fields to the memory. Requires [op].
-  void structSyncToMemory() => writeInto(getOp());
+  void structSyncToMemory() => structWriteInto(getOp().ptr);
 
   /// Returns a human-readable representation of this struct.
   String signature() => structName;
@@ -241,7 +232,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 /// native memory rather than an owner of its own data.
 ///
 /// Unlike a regular [RaylibStruct], a view never copies field values into
-/// Dart-side storage and never writes through: [writeInto] and [readFrom]
+/// Dart-side storage and never writes through: [structWriteInto] and [structReadFrom]
 /// are no-ops, and [setD] throws, since there is no independent Dart-side
 /// state to sync, every field read reflects [op] at the moment of access.
 ///
@@ -260,10 +251,10 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   D setD(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {} // NOTE: do nothing
+  void structWriteInto(MemoryPointer<RStruct> p) {} // NOTE: do nothing
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {} // NOTE: do nothing
+  void structReadFrom(MemoryPointer<RStruct> p) {} // NOTE: do nothing
 
   @override
   D copy() => clone();

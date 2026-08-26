@@ -31,7 +31,7 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   };
 
   static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, Camera2DD.new);
+    => .nullable(ptr, structLayout, Camera2DD.new, Camera2DD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -75,17 +75,17 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    offset.writeInto(p.offsetBy(structLayout.offset(.offset)));
-    target.writeInto(p.offsetBy(structLayout.offset(.target)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    offset.structWriteInto(p.offsetBy(structLayout.offset(.offset)));
+    target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
     p.writeFloat32(rotation, structLayout.offset(.rotation));
     p.writeFloat32(zoom, structLayout.offset(.zoom));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    offset.readFrom(p.offsetBy(structLayout.offset(.offset)));
-    target.readFrom(p.offsetBy(structLayout.offset(.target)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    offset.structReadFrom(p.offsetBy(structLayout.offset(.offset)));
+    target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
     rotation = p.readFloat32(structLayout.offset(.rotation));
     zoom = p.readFloat32(structLayout.offset(.zoom));
   }

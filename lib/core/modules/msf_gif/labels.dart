@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each MsfGif module function call,
-/// logged to the console when debug output is enabled.
-class RaylibMsfGifModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibMsfGifModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibGuiModule.GuiEnable].
   String GuiEnable() => 'GuiEnable()';

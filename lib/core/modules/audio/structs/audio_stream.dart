@@ -31,7 +31,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   };
 
   static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, AudioStreamD.new);
+    => .nullable(ptr, structLayout, AudioStreamD.new, AudioStreamD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -76,7 +76,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writePtr(_bufferPtr, structLayout.offset(.buffer));
     p.writePtr(_processorPtr, structLayout.offset(.processor));
     p.writeUint32(sampleRate, structLayout.offset(.sampleRate));
@@ -85,7 +85,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _bufferPtr = p.readPtr(structLayout.offset(.buffer));
     _processorPtr = p.readPtr(structLayout.offset(.processor));
     sampleRate = p.readUint32(structLayout.offset(.sampleRate));

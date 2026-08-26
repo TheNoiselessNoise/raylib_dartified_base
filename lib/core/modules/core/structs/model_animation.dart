@@ -29,7 +29,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   };
 
   static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ModelAnimationD.new);
+    => .nullable(ptr, structLayout, ModelAnimationD.new, ModelAnimationD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -130,7 +130,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeString(_name, nameLength, structLayout.offset(.name));
     p.writeInt32(_boneCount, structLayout.offset(.boneCount));
     p.writeInt32(_keyframeCount, structLayout.offset(.keyframeCount));
@@ -140,7 +140,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _name = p.readString(nameLength, structLayout.offset(.name));
     _boneCount = p.readInt32(structLayout.offset(.boneCount));
     _keyframeCount = p.readInt32(structLayout.offset(.keyframeCount));

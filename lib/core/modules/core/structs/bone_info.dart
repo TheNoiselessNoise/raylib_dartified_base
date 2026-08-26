@@ -25,7 +25,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   };
 
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, BoneInfoD.new);
+    => .nullable(ptr, structLayout, BoneInfoD.new, BoneInfoD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -71,13 +71,13 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeString(name, nameLength, structLayout.offset(.name));
     p.writeInt32(parent, structLayout.offset(.parent));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     name = p.readString(nameLength, structLayout.offset(.name));
     parent = p.readInt32(structLayout.offset(.parent));
   }

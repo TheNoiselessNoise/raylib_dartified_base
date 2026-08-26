@@ -61,7 +61,7 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
   };
 
   static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MsfGifStateD.new);
+    => .nullable(ptr, structLayout, MsfGifStateD.new, MsfGifStateD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -97,14 +97,14 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
   MsfGifStateD setD(MsfGifStateD o) => this;
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_width, structLayout.offset(.width));
     p.writeInt32(_height, structLayout.offset(.height));
     p.writeInt32(_framesSubmitted, structLayout.offset(.framesSubmitted));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _width = p.readInt32(structLayout.offset(.width));
     _height = p.readInt32(structLayout.offset(.height));
     _framesSubmitted = p.readInt32(structLayout.offset(.framesSubmitted));

@@ -1,13 +1,11 @@
-export 'core/modules/core/abbr.dart';
-export 'core/modules/gui/abbr.dart';
-export 'core/modules/light/abbr.dart';
-export 'core/modules/rlgl/abbr.dart';
+export 'core/modules/core/abbr_consts.dart';
+export 'core/modules/gui/abbr_consts.dart';
+export 'core/modules/light/abbr_consts.dart';
+export 'core/modules/rlgl/abbr_consts.dart';
 import 'dart:typed_data';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibBase get _rl => RaylibBase.getInstance();
-
-T module<T extends RaylibModule>() => _rl.module<T>();
+RaylibBase get _rl => RaylibBase.instance;
 
 void disposeRaylib() => _rl.dispose();
 

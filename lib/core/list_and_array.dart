@@ -45,9 +45,8 @@ abstract class RaylibLiveList<E> extends _RaylibLiveListBase<E, List<E>> {
 
 abstract class LiveListPointerBase<E, R extends RType> extends RaylibLiveList<E> {
   MemoryPointer<R>? ptr;
-  final int elementByteSize;
 
-  LiveListPointerBase(super.inner, this.elementByteSize, [this.ptr]);
+  LiveListPointerBase(super.inner, [this.ptr]);
 
   bool get isPointerValid => ptr != null && !ptr!.isNull;
 
@@ -79,30 +78,35 @@ abstract class LiveListPointerBase<E, R extends RType> extends RaylibLiveList<E>
 }
 
 class LiveListPointerStruct<D extends RaylibStruct<D>> extends LiveListPointerBase<D, RStruct> {
-  StructPointer<D> structPtr;
+  StructPointer<D>? structPtr;
 
   @override
-  MemoryPointer<RStruct>? get ptr => structPtr.ptr.cast();
+  MemoryPointer<RStruct>? get ptr => structPtr?.ptr.cast();
 
-  LiveListPointerStruct(List<D> inner, this.structPtr)
-    : super(inner, structPtr.structLayout.byteSize);
+  LiveListPointerStruct(super.inner, [this.structPtr]);
 
   void onStructPointer(void Function(StructPointer<D> p) fn) {
     if (!isPointerValid) return;
-    fn(structPtr);
+    fn(structPtr!);
   }
 
   @override
   D indexGetter(MemoryPointer<RStruct> ptr, int index)
-    => structPtr[index];
+    => isPointerValid
+      ? structPtr!.owned(index)
+      : inner[index];
 
   @override
   void indexSetter(MemoryPointer<RStruct> ptr, int index, D value)
-    => structPtr[index] = value;
+    => isPointerValid
+      ? structPtr![index] = value
+      : inner[index] = value;
 
   @override
   void arraySetter(MemoryPointer<RStruct> ptr, List<D> array)
-    => structPtr.writeArray(array);
+    => isPointerValid
+      ? structPtr!.writeArray(array)
+      : raw = array;
 }
 
 extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
@@ -136,7 +140,7 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
     for (var i = 0; i < rows.length; i++) {
       final row = rows[i];
       writePtr(row.ptr, i * pSize);
-      row.onPointer((rp) => row.structPtr.writeArray(row.inner));
+      row.onPointer((rp) => row.structPtr!.writeArray(row.inner));
     }
   }
 
@@ -160,7 +164,7 @@ class LiveListPointerScalar<E, R extends RType> extends LiveListPointerBase<E, R
   final E Function(MemoryPointer<R> ptr, int index) _get;
   final void Function(MemoryPointer<R> ptr, int index, E value) _set;
 
-  LiveListPointerScalar(super.inner, super.elementByteSize, this._get, this._set, [super.ptr]);
+  LiveListPointerScalar(super.inner, this._get, this._set, [super.ptr]);
 
   @override
   E indexGetter(MemoryPointer<R> ptr, int index) => _get(ptr, index);
@@ -211,7 +215,7 @@ class LiveListInlineScalar<E, R extends RType> extends RaylibLiveList<E> {
 }
 
 class LiveListInlineStruct<D extends RaylibStruct<D>> extends RaylibLiveList<D> {
-  final MemoryPointer<RStruct>? Function() resolveBase;
+  final MemoryPointer<RVoid>? Function() resolveBase;
   final int byteOffset;
   final StructPointerFactory<D> factory;
 
@@ -222,7 +226,7 @@ class LiveListInlineStruct<D extends RaylibStruct<D>> extends RaylibLiveList<D> 
     this.factory,
   );
 
-  MemoryPointer<RStruct>? get _field {
+  MemoryPointer<RVoid>? get _field {
     final p = resolveBase();
     return (p != null && !p.isNull) ? p.offsetBy(byteOffset) : null;
   }

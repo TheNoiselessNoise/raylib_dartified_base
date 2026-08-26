@@ -28,7 +28,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   };
 
   static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MsfGifResultD.new);
+    => .nullable(ptr, structLayout, MsfGifResultD.new, MsfGifResultD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

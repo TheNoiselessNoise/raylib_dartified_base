@@ -27,7 +27,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   };
 
   static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, AutomationEventD.new);
+    => .nullable(ptr, structLayout, AutomationEventD.new, AutomationEventD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -110,14 +110,14 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeUint32(_frame, structLayout.offset(.frame));
     p.writeUint32(_type.value, structLayout.offset(.type));
     p.offsetBy(structLayout.offset(.params)).cast<RInt32>().writeArray(_params.inner);
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _frame = p.readUint32(structLayout.offset(.frame));
     _type = .fromValue(p.readUint32(structLayout.offset(.type)));
     _params.raw = p.offsetBy(structLayout.offset(.params)).cast<RInt32>().readArray(paramsCount);

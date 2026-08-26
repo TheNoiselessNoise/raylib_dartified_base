@@ -4,16 +4,20 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> {
+final class RaylibCameraModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
-  /// Debug label generator for this module's function calls.
-  final RaylibDebugLabels = RaylibCameraModuleDebugLabels();
+  final _debugLabels = _RaylibCameraModuleDebugLabels();
 
   RaylibCameraModule(super.rl);
 
   /// Returns the forward vector (normalized) of [camera].
   Vector3D GetCameraForward(
     Camera3DD camera,
+  ) => run(
+    () => _debugLabels.GetCameraForward(camera),
+    () => rl.CameraFlat.GetCameraForward(
+      rl.Temp.Camera3D$.Ref1(camera),
+    ),
   );
 
   /// Returns the up vector (normalized) of [camera].
@@ -21,11 +25,21 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// The up vector might not be perpendicular to the forward vector.
   Vector3D GetCameraUp(
     Camera3DD camera,
+  ) => run(
+    () => _debugLabels.GetCameraUp(camera),
+    () => rl.CameraFlat.GetCameraUp(
+      rl.Temp.Camera3D$.Ref1(camera),
+    ),
   );
 
   /// Returns the right vector (normalized) of [camera].
   Vector3D GetCameraRight(
     Camera3DD camera,
+  ) => run(
+    () => _debugLabels.GetCameraRight(camera),
+    () => rl.CameraFlat.GetCameraRight(
+      rl.Temp.Camera3D$.Ref1(camera),
+    ),
   );
 
   /// Moves the [camera] in its forward direction by [distance].
@@ -34,14 +48,31 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// regardless of the camera's pitch.
   void CameraMoveForward(
     Camera3DD camera,
-    double distance,
+    num distance,
     bool moveInWorldPlane,
+  ) => run(
+    () => _debugLabels.CameraMoveForward(camera, distance, moveInWorldPlane),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraMoveForward(
+        pc,
+        distance.toDouble(),
+        moveInWorldPlane,
+      ),
+    ),
   );
 
   /// Moves the [camera] in its up direction by [distance].
   void CameraMoveUp(
     Camera3DD camera,
-    double distance,
+    num distance,
+  ) => run(
+    () => _debugLabels.CameraMoveUp(camera, distance),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraMoveUp(
+        pc,
+        distance.toDouble(),
+      ),
+    ),
   );
 
   /// Moves the [camera] target in its current right direction by [distance].
@@ -50,14 +81,31 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// regardless of the camera's pitch.
   void CameraMoveRight(
     Camera3DD camera,
-    double distance,
+    num distance,
     bool moveInWorldPlane,
+  ) => run(
+    () => _debugLabels.CameraMoveRight(camera, distance, moveInWorldPlane),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraMoveRight(
+        pc,
+        distance.toDouble(),
+        moveInWorldPlane,
+      ),
+    ),
   );
 
   /// Moves [camera] closer to or further from its target by [delta].
   void CameraMoveToTarget(
     Camera3DD camera,
-    double delta,
+    num delta,
+  ) => run(
+    () => _debugLabels.CameraMoveToTarget(camera, delta),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraMoveToTarget(
+        pc,
+        delta.toDouble(),
+      ),
+    ),
   );
 
   /// Rotates [camera] around its up vector by [angle] radians.
@@ -68,8 +116,17 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// otherwise it rotates in place.
   void CameraYaw(
     Camera3DD camera,
-    double angle,
+    num angle,
     bool rotateAroundTarget,
+  ) => run(
+    () => _debugLabels.CameraYaw(camera, angle, rotateAroundTarget),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraYaw(
+        pc,
+        angle.toDouble(),
+        rotateAroundTarget,
+      ),
+    ),
   );
 
   /// Rotates [camera] around its right vector by [angle] radians.
@@ -84,10 +141,21 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// If [rotateUp] is `true`, the up vector is rotated as well (typically useful in [CameraMode.CAMERA_FREE]).
   void CameraPitch(
     Camera3DD camera,
-    double angle,
+    num angle,
     bool lockView,
     bool rotateAroundTarget,
     bool rotateUp,
+  ) => run(
+    () => _debugLabels.CameraPitch(camera, angle, lockView, rotateAroundTarget, rotateUp),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraPitch(
+        pc,
+        angle.toDouble(),
+        lockView,
+        rotateAroundTarget,
+        rotateUp,
+      ),
+    ),
   );
 
   /// Rotates [camera] around its forward vector by [angle] radians.
@@ -95,17 +163,36 @@ abstract class RaylibCameraModule<R extends RaylibBase> extends RaylibModule<R> 
   /// Roll is "turning your head sideways to the left or right"
   void CameraRoll(
     Camera3DD camera,
-    double angle,
+    num angle,
+  ) => run(
+    () => _debugLabels.CameraRoll(camera, angle),
+    () => rl.Temp.Camera3D$.RefUpdate1(camera,
+      (pc) => rl.CameraFlat.CameraRoll(
+        pc,
+        angle.toDouble(),
+      ),
+    ),
   );
 
   /// Returns the view matrix for [camera].
   MatrixD GetCameraViewMatrix(
     Camera3DD camera,
+  ) => run(
+    () => _debugLabels.GetCameraViewMatrix(camera),
+    () => rl.CameraFlat.GetCameraViewMatrix(
+      rl.Temp.Camera3D$.Ref1(camera),
+    ),
   );
 
   /// Returns the projection matrix for [camera] with the given [aspect] ratio.
   MatrixD GetCameraProjectionMatrix(
     Camera3DD camera,
-    double aspect,
+    num aspect,
+  ) => run(
+    () => _debugLabels.GetCameraProjectionMatrix(camera, aspect),
+    () => rl.CameraFlat.GetCameraProjectionMatrix(
+      rl.Temp.Camera3D$.Ref1(camera),
+      aspect.toDouble(),
+    ),
   );
 }

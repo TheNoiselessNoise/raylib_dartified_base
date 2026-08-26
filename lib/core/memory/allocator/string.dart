@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Extends [RaylibTempAllocator] with string allocation, handling
 /// UTF-8 encoding and null-termination into temporary slots.
-class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
+final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
 
   /// Number of anonymous (ring-buffer) string slots pre-reserved on construction.
   int slotCount;

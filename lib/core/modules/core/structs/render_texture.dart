@@ -27,7 +27,7 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   };
 
   static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RenderTextureD.new);
+    => .nullable(ptr, structLayout, RenderTextureD.new, RenderTextureD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -66,17 +66,17 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeUint32(id, structLayout.offset(.id));
-    texture.writeInto(p.offsetBy(structLayout.offset(.texture)));
-    depth.writeInto(p.offsetBy(structLayout.offset(.depth)));
+    texture.structWriteInto(p.offsetBy(structLayout.offset(.texture)));
+    depth.structWriteInto(p.offsetBy(structLayout.offset(.depth)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     id = p.readUint32(structLayout.offset(.id));
-    texture.readFrom(p.offsetBy(structLayout.offset(.texture)));
-    depth.readFrom(p.offsetBy(structLayout.offset(.depth)));
+    texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
+    depth.structReadFrom(p.offsetBy(structLayout.offset(.depth)));
   }
 
   @override

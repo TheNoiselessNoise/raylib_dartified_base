@@ -3,7 +3,7 @@ part of '../raylib_dartified_base.dart';
 /// Exposes Raylib's matrix math API as module-level functions by delegating
 /// to the corresponding [MatrixD] methods/factories.
 /// Exists purely for Raylib API symmetry.
-class RaylibMatrixExtension extends RaylibModule {
+class RaylibMatrixExtension<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   RaylibMatrixExtension(super.rl);
 

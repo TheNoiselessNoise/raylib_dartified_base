@@ -2,6 +2,12 @@ part of 'raylib_dartified_base.dart';
 
 // TODO: find all raylib functions using `va_list` and implement our own `rl.Utils.Format` thingy
 
+enum RaylibPlatform { native, web }
+
+const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.io')
+  ? .native
+  : .web;
+
 class RaylibConfig {
   /// MUST match `MAX_MESH_VERTEX_BUFFERS` in the compiled raylib.
   /// 
@@ -9,11 +15,17 @@ class RaylibConfig {
   static int vboIdCount = 7;
 }
 
-enum RaylibPlatform { native, web }
+enum RaylibSupportedLibs {
+  raylib('raylib'),
+  gui('raygui'),
+  msf_gif('msf_gif');
 
-const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.io')
-  ? .native
-  : .web;
+  const RaylibSupportedLibs(this.id);
+  final String id;
+
+  static RaylibSupportedLibs? byId(String id)
+    => values.where((e) => e.id == id).firstOrNull;
+}
 
 /// Base for module debug label generators, providing shared formatting utilities.
 abstract class RaylibDebugLabelsBase {
@@ -38,7 +50,7 @@ mixin RaylibDisposable {
 
 /// Base class for all Raylib module wrappers, providing debug logging, lifecycle
 /// management, and sync control tied to a [RaylibBase] context [rl].
-abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
+abstract class RaylibModule<R extends RaylibBase<R>> with RaylibDisposable {
   final R rl;
 
   RaylibModule(this.rl);
@@ -46,14 +58,13 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
   /// If this module was loaded.
   bool _isLoaded = false;
 
-  /// Ensures [load] is called exactly once, regardless of how many times [doLoad] is invoked.
-  void doLoad() {
+  void _doLoad() {
     if (_isLoaded) return;
     _isLoaded = true;
     load();
   }
 
-  /// Override to perform one-time module initialization. Called by [doLoad].
+  /// Override to perform one-time module initialization.
   void load() {}
 
   /// If this module has debug log enabled.
@@ -94,7 +105,7 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
   /// and the label passes all filters.
   T run<T>(String Function() name, T Function() f) {
     if (_debugEnabled) {
-      final label = '[$runtimeType] ${name()}';
+      final label = name();
       if (_matchesFilters(label)) {
         if (_debugTime) return rl.timeIt(label, f);
         logInfo(label);
@@ -132,91 +143,99 @@ class RaylibTempOptions {
 
 /// Root class for a fully initialized Raylib context, exposing all modules,
 /// extensions, lifecycle management, and forwarded constants and functions.
-abstract class RaylibBase with RaylibDisposable {
+abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
+  R get _self => this as R;
+
   static RaylibBase? _instance;
-  static R getInstance<R extends RaylibBase>() {
-    if (_instance == null) throw StateError('Raylib not initialized.');
-    return _instance! as R;
+
+  static RaylibBase get instance {
+    if (_instance == null) {
+      throw StateError('Raylib not initialized.');
+    }
+    return _instance!;
+  }
+
+  static R getInstance<R extends RaylibBase<R>>() {
+    return instance as R;
   }
 
   final RaylibTempOptions tempOptions;
 
   /// See [RaylibTemp].
-  late final RaylibTemp Temp;
+  late final RaylibTemp<R> Temp;
 
   /// See [RaylibEaseExtension].
-  late final RaylibEaseExtension Ease;
+  late final RaylibEaseExtension<R> Ease;
 
   /// See [RaylibQuaternionExtension].
-  late final RaylibQuaternionExtension Quat;
+  late final RaylibQuaternionExtension<R> Quat;
 
   /// See [RaylibMatrixExtension].
-  late final RaylibMatrixExtension Matrix;
+  late final RaylibMatrixExtension<R> Matrix;
   
   /// See [RaylibVectorExtension].
-  late final RaylibVectorExtension Vector;
-
-  // TODO: can we rather `registerModule()` and `module()` instead of specifying it like this??
+  late final RaylibVectorExtension<R> Vector;
 
   /// See [RaylibAudioFlatModule].
-  RaylibAudioFlatModule get AudioFlat;
+  RaylibAudioFlatModule<R> get AudioFlat;
 
   /// See [RaylibAudioModule].
-  RaylibAudioModule get AudioD;
+  late RaylibAudioModule<R> AudioDart;
 
   /// See [RaylibCameraFlatModule].
-  RaylibCameraFlatModule get CameraFlat;
+  RaylibCameraFlatModule<R> get CameraFlat;
 
   /// See [RaylibCameraModule].
-  RaylibCameraModule get CameraD;
+  late RaylibCameraModule<R> CameraDart;
 
   /// See [RaylibCoreFlatModule].
-  RaylibCoreFlatModule get CoreFlat;
+  RaylibCoreFlatModule<R> get CoreFlat;
 
   /// See [RaylibCoreModule].
-  RaylibCoreModule get CoreD;
+  late RaylibCoreModule<R> CoreDart;
 
   /// See [RaylibGuiFlatModule].
-  RaylibGuiFlatModule get GuiFlat;
+  RaylibGuiFlatModule<R> get GuiFlat;
 
   /// See [RaylibGuiModule].
-  RaylibGuiModule get GuiD;
+  late RaylibGuiModule<R> GuiDart;
 
   /// See [RaylibLightFlatModule].
-  RaylibLightFlatModule get LightFlat;
+  late RaylibLightFlatModule<R> LightFlat;
 
   /// See [RaylibLightModule].
-  RaylibLightModule get LightD;
+  late RaylibLightModule<R> LightDart;
 
   /// See [RaylibMsfGifFlatModule].
-  RaylibMsfGifFlatModule get MsfGifFlat;
+  RaylibMsfGifFlatModule<R> get MsfGifFlat;
 
   /// See [RaylibMsfGifModule].
-  RaylibMsfGifModule get MsfGifD;
+  late RaylibMsfGifModule<R> MsfGifDart;
 
   /// See [RaylibRlglFlatModule].
-  RaylibRlglFlatModule get RlglFlat;
+  RaylibRlglFlatModule<R> get RlglFlat;
 
   /// See [RaylibRlglModule].
-  RaylibRlglModule get RlglD;
+  late RaylibRlglModule<R> RlglDart;
 
   /// See [RaylibUtilsModule].
-  late final RaylibUtilsModule Utils;
+  late final RaylibUtilsModule<R> Utils;
 
   /// Random number generator used by [rand] and [randC].
   math.Random random;
 
+  final bool _silent;
+
   RaylibBase({
     RaylibTempOptions? tempOptions,
     math.Random? random,
-    void Function()? initializer,
+    bool silent = false,
   }) :
     tempOptions = tempOptions ?? .new(),
-    random = random ?? .new()
+    random = random ?? .new(),
+    _silent = silent
   {
-    initializer?.call();
-    
-    if (_instance != null) throw StateError("There can only be one instance of a $runtimeType!");
+    if (_instance != null) throw StateError("There can only be one instance of $runtimeType!");
     _instance = this;
 
     if (this.tempOptions.stringCount < 4) {
@@ -224,28 +243,44 @@ abstract class RaylibBase with RaylibDisposable {
         "Raylib expects at least 4 preallocated String slots, got ${this.tempOptions.stringCount}",
       );
     }
+  }
 
+  bool _booted = false;
+
+  @mustCallSuper
+  void boot() {
+    if (_booted) return;
+    _booted = true;
     _registerBuiltins();
   }
 
   void _registerBuiltins() {
-    registerModule(Temp = .new(this));
+    registerModule(Temp = .new(_self));
 
-    registerModule(Ease = .new(this));
-    registerModule(Quat = .new(this));
-    registerModule(Matrix = .new(this));
-    registerModule(Vector = .new(this));
-    registerModule(Utils = .new(this));
+    registerModule(Ease = .new(_self));
+    registerModule(Quat = .new(_self));
+    registerModule(Matrix = .new(_self));
+    registerModule(Vector = .new(_self));
+    registerModule(Utils = .new(_self));
+
+    registerModule(AudioDart = .new(_self));
+    registerModule(CameraDart = .new(_self));
+    registerModule(CoreDart = .new(_self));
+    registerModule(GuiDart = .new(_self));
+    registerModule(LightFlat = .new(_self)); // direct implementation
+    registerModule(LightDart = .new(_self));
+    registerModule(MsfGifDart = .new(_self));
+    registerModule(RlglDart = .new(_self));
   }
 
   /// Calls [RaylibCoreModule.CloseWindow] and [dispose].
   void CloseWindowAndDispose() {
-    CoreD.CloseWindow();
+    CoreDart.CloseWindow();
     dispose();
   }
 
   /// All currently registered modules.
-  List<RaylibModule> get registeredModules => _registeredModules.values.toList();
+  List<RaylibModule<R>> get registeredModules => _registeredModules.values.toList();
 
   /// Enables or disables debug logging across all modules and the temp allocator.
   void debugEverything(bool debug) {
@@ -281,27 +316,43 @@ abstract class RaylibBase with RaylibDisposable {
   }
 
   /// Registry of registered modules.
-  final Map<Type, RaylibModule> _registeredModules = {};
+  final Map<Type, RaylibModule<R>> _registeredModules = {};
 
-  /// Registers [module], calls [RaylibModule.doLoad] on it, and returns it.
+  /// Registers [module], calls [RaylibModule.load] on it, and returns it.
   /// Throws [StateError] if a module of the same type is already registered.
-  T registerModule<T extends RaylibModule>(T module) {
-    logInfo('Registering $T');
-    final key = module.runtimeType;
-    if (_registeredModules.containsKey(key)) {
-      throw StateError("Module '$key' is already registered!");
+  T registerModule<T extends RaylibModule<R>>(T module) {
+    if (!_silent) logInfo('Registering $T');
+
+    if (_registeredModules.containsKey(T)) {
+      throw StateError("Module '$T' is already registered!");
     }
-    _registeredModules[key] = module;
-    module.doLoad();
+
+    _registeredModules[T] = module;
+    module._doLoad();
     return module;
   }
 
+  /// Prints the current stack trace for debugging.
+  static Null stackTrace({String? title, bool exit = false}) {
+    if (title != null) print(title);
+    print(StackTrace.current);
+    if (exit) throw '';
+  }
+
   /// Returns the registered module of type [T]. Throws if not registered.
-  T module<T extends RaylibModule>() => _registeredModules[T]! as T;
+  T module<T extends RaylibModule<R>>() {
+    final module = _registeredModules[T];
+
+    if (module == null) {
+      throw StateError("Module '$T' is not registered!");
+    }
+
+    return module as T;
+  }
 
   /// Disposes a provided module. Does **not** remove it from the registry.
-  void _disposeModule(RaylibModule module) {
-    logInfo('Disposing ${module.runtimeType}');
+  void _disposeModule(RaylibModule<R> module) {
+    if (!_silent) logInfo('Disposing ${module.runtimeType}');
     module.dispose();
   }
 
@@ -443,7 +494,7 @@ abstract class RaylibBase with RaylibDisposable {
 /// 2. [loop] = called every frame
 /// 3. [close] = called when [shouldClose] returns `true`; call [RaylibCoreModule.CloseWindow] here
 /// 4. [dispose] = release Dart-side resources
-abstract class RaylibGameBase<R extends RaylibBase> {
+abstract class RaylibGameBase<R extends RaylibBase<R>> {
 
   /// Called once before the game loop starts.
   ///
@@ -455,7 +506,7 @@ abstract class RaylibGameBase<R extends RaylibBase> {
   ///
   /// Defaults to [RaylibCoreModule.WindowShouldClose]; override to
   /// implement custom exit conditions.
-  bool shouldClose(R rl) => rl.CoreD.WindowShouldClose();
+  bool shouldClose(R rl) => rl.CoreDart.WindowShouldClose();
 
   /// Called once per frame while [shouldClose] returns `false`.
   Future<void> loop(R rl);
@@ -464,7 +515,7 @@ abstract class RaylibGameBase<R extends RaylibBase> {
   ///
   /// Defaults to [RaylibCoreModule.CloseWindow]; override to perform
   /// additional cleanup before the window closes.
-  void close(R rl) => rl.CoreD.CloseWindow();
+  void close(R rl) => rl.CoreDart.CloseWindow();
 
   /// Called after [close] to release any remaining Dart-side resources.
   ///

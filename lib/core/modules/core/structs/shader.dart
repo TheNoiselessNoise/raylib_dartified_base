@@ -25,7 +25,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   };
 
   static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ShaderD.new);
+    => .nullable(ptr, structLayout, ShaderD.new, ShaderD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -79,7 +79,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
     _id = id
   {
     _locs = .new(
-      locs ?? .filled(shaderLocsCount, 0), RInt32.scalarByteSize,
+      locs ?? .filled(shaderLocsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.locs))
@@ -96,7 +96,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeUint32(_id, structLayout.offset(.id));
     p.writePtr(_locs.ptr, structLayout.offset(.locs));
 
@@ -104,7 +104,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _id = p.readUint32(structLayout.offset(.id));
     _locs.ptr = p.readPtr(structLayout.offset(.locs));
 

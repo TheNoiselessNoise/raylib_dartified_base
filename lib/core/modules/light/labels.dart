@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Light module function call,
-/// logged to the console when debug output is enabled.
-class RaylibLightModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibLightModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibLightModule.CreateLight].
   String CreateLight(

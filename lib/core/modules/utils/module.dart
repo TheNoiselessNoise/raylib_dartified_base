@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Dart-side utility helpers with no direct Raylib counterpart.
-class RaylibUtilsModule extends RaylibModule {
+final class RaylibUtilsModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   RaylibUtilsModule(super.rl);
 
@@ -168,5 +168,28 @@ class RaylibUtilsModule extends RaylibModule {
     if (conv == 'E' || conv == 'G') body = body.toUpperCase();
     if (v >= 0) body = plus ? '+$body' : (space ? ' $body' : body);
     return body;
+  }
+
+  /// Splits on `_`, `-`, ` ` and camel/Pascal-case boundaries.
+  List<String> TextSplitWords(String text) {
+    final result = <String>[];
+    final buffer = StringBuffer();
+    for (var i = 0; i < text.length; i++) {
+      final c = text[i];
+      if (c == '_' || c == '-' || c == ' ') {
+        if (buffer.isNotEmpty) {
+          result.add(buffer.toString());
+          buffer.clear();
+        }
+      } else if (buffer.isNotEmpty && c != c.toLowerCase() && c == c.toUpperCase()) {
+        result.add(buffer.toString());
+        buffer.clear();
+        buffer.write(c);
+      } else {
+        buffer.write(c);
+      }
+    }
+    if (buffer.isNotEmpty) result.add(buffer.toString());
+    return result;
   }
 }

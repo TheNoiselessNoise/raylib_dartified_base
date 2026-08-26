@@ -7,7 +7,7 @@ part of '../../raylib_dartified_base.dart';
 /// Extends [RaylibTempAllocator] with struct allocation, providing
 /// [PointerTo], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
 /// Dart mirror objects ([X]).
-class RaylibTempStructAllocator<
+final class RaylibTempStructAllocator<
   X extends RaylibStruct<X> // Dart mirror object
 > extends RaylibTempAllocator<RStruct> {
 
@@ -24,13 +24,13 @@ class RaylibTempStructAllocator<
   @override
   String get name => '$X';
 
-  StructPointer<X> StructRaw([int count = 1])
+  StructPointer<X> RawStruct([int count = 1])
     => pointerFactory(Raw(count));
 
-  StructPointer<X> StructAt(String key, [int count = 1])
+  StructPointer<X> AtStruct(String key, [int count = 1])
     => pointerFactory(At(key, count));
 
-  StructPointer<X> StructAtUnique({String key = '_unique_', int count = 1})
+  StructPointer<X> AtUniqueStruct({String key = '_unique_', int count = 1})
     => pointerFactory(AtUnique(key: key, count: count));
 
   late final RaylibTempStructPointerAllocator<X> $ = .new(temp,
@@ -47,52 +47,48 @@ class RaylibTempStructAllocator<
   /// Like [getBaseKey] but prefixed with [value]'s `internalId`, used for
   /// pointer-owning structs to prevent cross-instance key collisions.
   @nonVirtual
-  String getBaseKeyWithId(X value, [String? inner]) => '${value.$state.nextId}_${getBaseKey(value, inner)}';
+  String getBaseKeyUnique(X value, [String? inner]) => '${value.$state.nextId}_${getBaseKey(value, inner)}';
 
   /// Allocates or syncs [value] to a tracked slot at [key].
   StructPointer<X> PointerTo(X value, [String? key]) {
-    if (!value.structRequiresOp) {
-      String baseKey = getBaseKey(value, slotKey(key));
-      value.$state.allocKey = baseKey;
-      final p = At(baseKey);
-      value.structAllocateInto(temp, p, baseKey);
-      value.structSyncInto(temp, p, baseKey);
-      return pointerFactory(p);
-    }
-
+    final requiresOp = value.structRequiresOp;
     final op = value.op;
 
-    if (op != null) {
+    if (op != null && requiresOp) {
       String allocKey = value.$state.allocKey ??= '<CHILD-POINTER>';
 
       if (value.$state.isFirstSync) {
-        if (value.$state.isDisposed) return pointerFactory(op);
-        if (!temp.doSync) return pointerFactory(op);
+        if (value.$state.isDisposed) return op;
+        if (!temp.doSync) return op;
 
         // full sync once to push pre-promotion Dart state to memory
         temp.debugSyncInfo('[SYNC] ${value.structName} first sync into $allocKey');
-        value.structSyncInto(temp, op, allocKey);
+        value.structWriteInto(op.ptr);
         value.$state.isFirstSync = false;
       } else {
         // already live, setters handle write-through, skip full sync
         temp.debugSyncInfo('[SYNC] ${value.structName} skipping sync (live) $allocKey');
       }
       
-      return pointerFactory(op);
+      return op;
     }
 
     if (value.$state.isDisposed) {
       throw StateError('You are trying to allocate disposed $value object!');
     }
 
-    String baseKey = getBaseKeyWithId(value, slotKey(key));
-    temp.debugSyncInfo('[SYNC] ${value.structName} allocate into $baseKey');
+    String baseKey = requiresOp
+      ? getBaseKeyUnique(value, slotKey(key))
+      : getBaseKey(value, slotKey(key));
+
+    if (requiresOp) temp.debugSyncInfo('[SYNC] ${value.structName} allocate into $baseKey');
+    
     value.$state.allocKey = baseKey;
-    final p = At(baseKey);
-    value.structAllocateInto(temp, p, baseKey);
-    value.structSyncInto(temp, p, baseKey);
-    value.op = p;
-    return pointerFactory(p);
+    final p = pointerFactory(At(baseKey));
+    if (requiresOp) value.op = p;
+    value.structAllocateInto(temp, p.ptr, baseKey);
+    value.structWriteInto(p.ptr);
+    return p;
   }
 
   /// Allocates an unslotted array and populates it from [array].
@@ -100,7 +96,7 @@ class RaylibTempStructAllocator<
   /// The caller is responsible for freeing the returned pointer.
   StructPointer<X> RawArray(List<X> array) {
     final p = Raw(array.length);
-    for (int i = 0; i < array.length; i++) array[i].writeInto(p.readPtr(i));
+    for (int i = 0; i < array.length; i++) array[i].structWriteInto(p.readPtr(i));
     return pointerFactory(p);
   }
 
@@ -116,7 +112,7 @@ class RaylibTempStructAllocator<
   /// Allocates the slot on first use.
   StructPointer<X> Value([X? value, String? key]) {
     final p = At(slotKey(key));
-    if (value != null) value.writeInto(p);
+    if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
 
@@ -125,7 +121,7 @@ class RaylibTempStructAllocator<
   /// The caller is responsible for freeing the returned pointer.
   StructPointer<X> RawValue([X? value, String? key]) {
     final p = Raw();
-    if (value != null) value.writeInto(p);
+    if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
 
@@ -137,7 +133,7 @@ class RaylibTempStructAllocator<
   /// call that happens to use the same base key.
   StructPointer<X> ValueUnique(X? value, {String key = '__value_unique__'}) {
     final p = At(uniqueSlotKey(key));
-    if (value != null) value.writeInto(p);
+    if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
 
@@ -147,21 +143,21 @@ class RaylibTempStructAllocator<
   /// The caller is responsible for freeing the returned pointer.
   StructPointer<X> RawValueUnique(X? value) {
     final p = Raw();
-    if (value != null) value.writeInto(p);
+    if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
 
   /// Writes [array] into a tracked slot of sufficient capacity.
   StructPointer<X> Array(List<X> array, {String? key}) {
     final p = At(slotKey(key), array.length);
-    for (int i = 0; i < array.length; i++) array[i].writeInto(p.readPtr(i));
+    for (int i = 0; i < array.length; i++) array[i].structWriteInto(p.readPtr(i));
     return pointerFactory(p);
   }
 
   /// Fills a tracked slot of [count] structs, producing each element via `init(i)` and writing it to memory.
   StructPointer<X> Fill(int count, X Function(int) init, {String? key}) {
     final p = At(slotKey(key), count);
-    for (int i = 0; i < count; i++) init(i).writeInto(p.readPtr(i));
+    for (int i = 0; i < count; i++) init(i).structWriteInto(p.readPtr(i));
     return pointerFactory(p);
   }
 
@@ -171,9 +167,9 @@ class RaylibTempStructAllocator<
     final p = At(slotKey(key), count);
     for (int i = 0; i < count; i++) {
       final inner = p.readPtr<RStruct>(i);
-      final value = factory(op: inner);
+      final value = factory(op: pointerFactory(inner));
       init(i, value);
-      value.writeInto(inner);
+      value.structWriteInto(inner);
     }
     return pointerFactory(p);
   }
@@ -184,7 +180,7 @@ class RaylibTempStructAllocator<
     final p = At(slotKey(key), count);
     for (int i = 0; i < count; i++) {
       final inner = p.readPtr<RStruct>(i);
-      init(pointerFactory(inner), i).writeInto(inner);
+      init(pointerFactory(inner), i).structWriteInto(inner);
     }
     return pointerFactory(p);
   }
@@ -328,7 +324,7 @@ class RaylibTempStructAllocator<
       ? alloc(o)
       : pointerFactory(MemoryPointer.nullptr);
     final result = fn(p);
-    if (o != null) o.readFrom(p.ptr);
+    if (o != null) o.structReadFrom(p.ptr);
     return result;
   }
 
@@ -388,27 +384,22 @@ class RaylibTempStructAllocator<
   /// you want the mutations reflected in [o] after the call.
   R RefUpdate8<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref8);
 
-  /// Copies the native struct return by [fn] into a uniquely-keyed tracked slot and
-  /// returns its Dart-side [X] wrapper via [pointerToStruct].
+  /// Allocates a uniquely-keyed tracked slot and passes it into [fn].
   ///
   /// Unique key of the form `'<id>_<key>'` is generated from the allocator's
   /// ID counter. The returned [X] holds a live reference into temp-managed
   /// memory.
   /// 
   /// [fn] can either:
-  /// - return [V] directly (native: struct returned by value)
+  /// - return [X] directly (native: struct returned by value)
   /// - return void/null and mutate [ptr] in place (WASM: sret convention)
-  X RefCapture(String key, X Function(StructPointer<X> ptr) fn) {
-    final ptr = AtUnique(key: key);
-    final result = fn(pointerFactory(ptr));
-
-    result.op = ptr;
-    result.structSyncToMemory();
-
-    result.$state.allocKey = key;
-    result.$state.nextId; // trigger the ID
-    
-    return result;
+  X RefCapture(String key, dynamic Function(StructPointer<X> ptr) fn) {
+    final ptr = pointerFactory(AtUnique(key: key));
+    fn(ptr);
+    final value = ptr.ref;
+    value.structSyncFromMemory();
+    value.$state.allocKey = _lastKey;
+    return value;
   }
 
   /// Allocates an uninitialized slot via [alloc], passes the raw [S] pointer to
@@ -429,7 +420,9 @@ class RaylibTempStructAllocator<
   ) {
     final ptr = alloc();
     fn(ptr);
-    return ptr.ref;
+    final result = ptr.ref;
+    if (!result.structRequiresOp) result.op = null;
+    return result;
   }
 
   /// Allocates slot `'1'` as an uninitialized sret destination, passes its raw
@@ -582,7 +575,7 @@ class RaylibTempStructAllocator<
 }
 
 /// Extends [RaylibTempAllocator] with pointer-to-struct allocation,
-class RaylibTempStructPointerAllocator<
+final class RaylibTempStructPointerAllocator<
   X extends RaylibStruct<X> // Dart mirror object
 > extends RaylibTempAllocator<RPointer<RStruct>> {
 

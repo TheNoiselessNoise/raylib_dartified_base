@@ -80,7 +80,7 @@ class RaylibTempUtils {
 /// and governs the lifetime of all slots allocated.
 /// 
 /// All allocated slots are freed on [dispose].
-class RaylibTemp extends RaylibModule {
+final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   final RaylibTempOptions options;
 
   RaylibTemp(super.rl, {
@@ -471,8 +471,10 @@ class RaylibTemp extends RaylibModule {
     _disposeStructAllocators();
     _disposeOptionalStructAllocators();
 
-    debugFreeInfo('Freeing ${customAllocators.length} allocators...');
-    _disposeCustomAllocators();
+    if (customAllocators.isNotEmpty) {
+      debugFreeInfo('Freeing ${customAllocators.length} allocators...');
+      _disposeCustomAllocators();
+    }
   }
 
   void _disposeCustomAllocators()

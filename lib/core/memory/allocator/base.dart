@@ -17,6 +17,8 @@ abstract class RaylibTempAllocator<R extends RType> {
     name = runtimeType.toString();
   }
 
+  String? _lastKey;
+
   MemoryPointer<RPointer<X>> _allocatePointer<X extends RType>(int count)
     => MemoryPointer.malloc(RType.nativeWordSize * count);
 
@@ -26,11 +28,11 @@ abstract class RaylibTempAllocator<R extends RType> {
 
   /// Returns the canonical slot key for [key], falling back to `'default'`
   /// when [key] is `null`.
-  String slotKey([String? key]) => key ?? 'default';
+  String slotKey([String? key]) => _lastKey = (key ?? 'default');
 
   /// Returns a slot key guaranteed to be unique within this temp context,
   /// by prefixing [key] with the next available ID.
-  String uniqueSlotKey(String key) => '${temp.nextId()}_$key';
+  String uniqueSlotKey(String key) => _lastKey = '${temp.nextId()}_$key';
 
   /// Allocates [count] raw elements and returns the wrapped pointer.
   /// 
@@ -118,7 +120,7 @@ abstract class RaylibTempAllocator<R extends RType> {
 /// Dispatches a [TypedDataList] to the correct typed allocator on [temp],
 /// allowing callers to allocate any supported typed list without knowing
 /// the concrete element type at the call site.
-class RaylibTempTypedDataListAllocator {
+final class RaylibTempTypedDataListAllocator {
   final RaylibTemp temp;
 
   RaylibTempTypedDataListAllocator(this.temp);

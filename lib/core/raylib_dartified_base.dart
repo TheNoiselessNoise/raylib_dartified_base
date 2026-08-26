@@ -46,12 +46,12 @@ part 'modules/camera/module_flat.dart';
 // ===== CORE MODULE =====
 part 'modules/core/callbacks.dart';
 part 'modules/core/capture_ids.dart';
+part 'modules/core/consts.dart';
 part 'modules/core/enums.dart';
 part 'modules/core/extra.dart';
 part 'modules/core/labels.dart';
 part 'modules/core/module_dart.dart';
 part 'modules/core/module_flat.dart';
-part 'modules/core/predefines.dart';
 part 'modules/core/structs/automation_event_list.dart';
 part 'modules/core/structs/automation_event.dart';
 part 'modules/core/structs/bone_info.dart';
@@ -88,18 +88,18 @@ part 'modules/core/structs/vr_stereo_config.dart';
 
 // ===== GUI MODULE =====
 part 'modules/gui/capture_ids.dart';
+part 'modules/gui/consts.dart';
 part 'modules/gui/enums.dart';
 part 'modules/gui/labels.dart';
 part 'modules/gui/module_dart.dart';
 part 'modules/gui/module_flat.dart';
-part 'modules/gui/predefines.dart';
 
 // ===== LIGHT MODULE =====
 part 'modules/light/enums.dart';
+part 'modules/light/consts.dart';
 part 'modules/light/labels.dart';
 part 'modules/light/module_dart.dart';
 part 'modules/light/module_flat.dart';
-part 'modules/light/predefines.dart';
 part 'modules/light/structs/light.dart';
 
 // ===== MSF_GIF MODULE =====
@@ -112,11 +112,11 @@ part 'modules/msf_gif/structs/msf_gif_state.dart';
 
 // ===== RLGL MODULE =====
 part 'modules/rlgl/capture_ids.dart';
+part 'modules/rlgl/consts.dart';
 part 'modules/rlgl/enums.dart';
 part 'modules/rlgl/labels.dart';
 part 'modules/rlgl/module_dart.dart';
 part 'modules/rlgl/module_flat.dart';
-part 'modules/rlgl/predefines.dart';
 part 'modules/rlgl/structs/rl_draw_call.dart';
 part 'modules/rlgl/structs/rl_render_batch.dart';
 part 'modules/rlgl/structs/rl_vertex_buffer.dart';

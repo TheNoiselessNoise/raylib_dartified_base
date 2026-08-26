@@ -8,7 +8,7 @@ typedef AudioCallbackFunction = void Function(
 );
 
 /// Raylib's `AudioCallback` callback.
-abstract class AudioCallbackBase extends RaylibCallback<AudioCallbackFunction> {
+abstract class AudioCallbackBase extends RaylibCallback<AudioCallbackBase, AudioCallbackFunction> {
   AudioCallbackBase([super.name]);
   static final List<AudioCallbackBase> _registry = [];
   @override @nonVirtual get registry => _registry;

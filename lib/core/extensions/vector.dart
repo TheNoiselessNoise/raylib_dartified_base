@@ -3,7 +3,7 @@ part of '../raylib_dartified_base.dart';
 /// Exposes Raylib's vector math API as module-level functions by delegating
 /// to the corresponding [Vector2D]/[Vector3D]/[Vector4D] methods/factories.
 /// Exists purely for Raylib API symmetry.
-class RaylibVectorExtension extends RaylibModule {
+class RaylibVectorExtension<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   RaylibVectorExtension(super.rl);
 

@@ -31,7 +31,7 @@ class MusicD extends RaylibStruct<MusicD> {
   };
 
   static StructPointer<MusicD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MusicD.new);
+    => .nullable(ptr, structLayout, MusicD.new, MusicD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -78,8 +78,8 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    stream.writeInto(p.offsetBy(structLayout.offset(.stream)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    stream.structWriteInto(p.offsetBy(structLayout.offset(.stream)));
     p.writeUint32(frameCount, structLayout.offset(.frameCount));
     p.writeBool(looping, structLayout.offset(.looping));
     p.writeInt32(ctxType.value, structLayout.offset(.ctxType));
@@ -87,8 +87,8 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    stream.readFrom(p.offsetBy(structLayout.offset(.stream)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    stream.structReadFrom(p.offsetBy(structLayout.offset(.stream)));
     frameCount = p.readUint32(structLayout.offset(.frameCount));
     looping = p.readBool(structLayout.offset(.looping));
     ctxType = .fromValue(p.readInt32(structLayout.offset(.ctxType)));

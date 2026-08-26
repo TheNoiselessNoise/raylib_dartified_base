@@ -25,7 +25,7 @@ class RayD extends RaylibStructLiteral<RayD> {
   };
 
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RayD.new);
+    => .nullable(ptr, structLayout, RayD.new, RayD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -59,15 +59,15 @@ class RayD extends RaylibStructLiteral<RayD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    position.writeInto(p.offsetBy(structLayout.offset(.position)));
-    direction.writeInto(p.offsetBy(structLayout.offset(.direction)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
+    direction.structWriteInto(p.offsetBy(structLayout.offset(.direction)));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    position.readFrom(p.offsetBy(structLayout.offset(.position)));
-    direction.readFrom(p.offsetBy(structLayout.offset(.direction)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
+    direction.structReadFrom(p.offsetBy(structLayout.offset(.direction)));
   }
 
   @override

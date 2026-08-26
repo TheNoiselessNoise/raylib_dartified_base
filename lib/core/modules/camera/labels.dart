@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Camera module function call,
-/// logged to the console when debug output is enabled.
-class RaylibCameraModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibCameraModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibCameraModule.GetCameraForward].
   String GetCameraForward(

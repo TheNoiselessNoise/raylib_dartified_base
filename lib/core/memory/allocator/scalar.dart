@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Extends [RaylibTempAllocator] with the ability to write individual
 /// Dart values directly into allocated memory.
-class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
+final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
   /// Writes [value] into the [i]-th element of the array at [ptr].
   final void Function(MemoryPointer<R> ptr, int i, X value) indexSetterFunc;
   
@@ -162,7 +162,7 @@ class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempAllocator<
 /// Extends [RaylibTempScalarAllocator] with typed list interop,
 /// the ability to view allocated memory as a Dart `List<X>` and construct
 /// a typed list from an iterable.
-class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R extends RType> extends RaylibTempScalarAllocator<X, R> {
+final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R extends RType> extends RaylibTempScalarAllocator<X, R> {
   /// Constructs a typed list [L] from an iterable of [X] values.
   final L Function(Iterable<X> list) fromList;
 
@@ -249,7 +249,7 @@ class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R extends R
 
 /// Specializes [RaylibTempScalarTypedListAllocator] for integer element types,
 /// adding integer-specific allocation helpers on top of the typed list interop.
-class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RType> extends RaylibTempScalarTypedListAllocator<num, L, R> {
+final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RType> extends RaylibTempScalarTypedListAllocator<num, L, R> {
   RaylibTempScalarIntAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
@@ -277,7 +277,7 @@ class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RType> ext
 }
 
 /// Specializes [RaylibTempScalarTypedListAllocator] for floating-point element types.
-class RaylibTempScalarFloatAllocator<L extends TypedDataList, R extends RType> extends RaylibTempScalarTypedListAllocator<num, L, R> {
+final class RaylibTempScalarFloatAllocator<L extends TypedDataList, R extends RType> extends RaylibTempScalarTypedListAllocator<num, L, R> {
   RaylibTempScalarFloatAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
@@ -290,7 +290,7 @@ class RaylibTempScalarFloatAllocator<L extends TypedDataList, R extends RType> e
 
 /// Extends [RaylibTempAllocator] with the ability to allocate pointer-to-pointer
 /// slots, where [X] is the pointee's Dart-side value.
-class RaylibTempScalarPointerAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
+final class RaylibTempScalarPointerAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
   /// Converts a flat `List<X>` into an allocated `P` array.
   ///
   /// The caller is responsible for the lifetime of the inner pointers.

@@ -33,7 +33,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   };
 
   static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, NPatchInfoD.new);
+    => .nullable(ptr, structLayout, NPatchInfoD.new, NPatchInfoD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -86,8 +86,8 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    source.writeInto(p.offsetBy(structLayout.offset(.source)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    source.structWriteInto(p.offsetBy(structLayout.offset(.source)));
     p.writeInt32(left, structLayout.offset(.left));
     p.writeInt32(top, structLayout.offset(.top));
     p.writeInt32(right, structLayout.offset(.right));
@@ -96,8 +96,8 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    source.readFrom(p.offsetBy(structLayout.offset(.source)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    source.structReadFrom(p.offsetBy(structLayout.offset(.source)));
     left = p.readInt32(structLayout.offset(.left));
     top = p.readInt32(structLayout.offset(.top));
     right = p.readInt32(structLayout.offset(.right));

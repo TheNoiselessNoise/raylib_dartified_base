@@ -37,7 +37,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   };
 
   static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RlVertexBufferD.new);
+    => .nullable(ptr, structLayout, RlVertexBufferD.new, RlVertexBufferD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -196,35 +196,35 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _vaoId = vaoId
   {
     _vertices = .new(
-      vertices ?? .filled(verticesCount, 0), RFloat32.scalarByteSize,
+      vertices ?? .filled(verticesCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.vertices)),
     );
 
     _texcoords = .new(
-      texcoords ?? .filled(texcoordsCount, 0), RFloat32.scalarByteSize,
+      texcoords ?? .filled(texcoordsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.texcoords)),
     );
 
     _normals = .new(
-      normals ?? .filled(normalsCount, 0), RFloat32.scalarByteSize,
+      normals ?? .filled(normalsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.normals)),
     );
 
     _colors = .new(
-      colors ?? .filled(colorsCount, 0), RUint8.scalarByteSize,
+      colors ?? .filled(colorsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.colors)),
     );
 
     _indices = .new(
-      indices ?? .filled(indicesCount, 0), RUint16.scalarByteSize,
+      indices ?? .filled(indicesCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.indices)),
@@ -255,7 +255,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_elementCount, structLayout.offset(.elementCount));
     p.writePtr(_vertices.ptr, structLayout.offset(.vertices));
     p.writePtr(_texcoords.ptr, structLayout.offset(.texcoords));
@@ -273,7 +273,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _elementCount = p.readInt32(structLayout.offset(.elementCount));
     _vertices.ptr = p.readPtr(structLayout.offset(.vertices));
     _texcoords.ptr = p.readPtr(structLayout.offset(.texcoords));

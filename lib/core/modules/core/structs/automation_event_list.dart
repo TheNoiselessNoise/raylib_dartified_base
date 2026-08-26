@@ -27,7 +27,7 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   };
 
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, AutomationEventListD.new);
+    => .nullable(ptr, structLayout, AutomationEventListD.new, AutomationEventListD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

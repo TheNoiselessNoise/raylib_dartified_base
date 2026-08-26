@@ -33,7 +33,7 @@ class FontD extends RaylibStruct<FontD> {
   };
 
   static StructPointer<FontD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, FontD.new);
+    => .nullable(ptr, structLayout, FontD.new, FontD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -79,12 +79,12 @@ class FontD extends RaylibStruct<FontD> {
   TextureD _texture;
   /// Texture atlas containing the glyphs
   TextureD get texture {
-    structOnOp((p) => _texture.readFrom(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture))));
     return _texture;
   }
   set texture(TextureD value) {
     _texture = value;
-    structOnOp((p) => _texture.writeInto(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => _texture.structWriteInto(p.offsetBy(structLayout.offset(.texture))));
   }
 
   late LiveListPointerStruct<RectangleD> _recs;
@@ -160,11 +160,11 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer<RStruct> p) {
     p.writeInt32(_baseSize, structLayout.offset(.baseSize));
     p.writeInt32(_glyphCount, structLayout.offset(.glyphCount));
     p.writeInt32(_glyphPadding, structLayout.offset(.glyphPadding));
-    _texture.writeInto(p.offsetBy(structLayout.offset(.texture)));
+    _texture.structWriteInto(p.offsetBy(structLayout.offset(.texture)));
     p.writePtr(_recs.ptr, structLayout.offset(.recs));
     p.writePtr(_glyphs.ptr, structLayout.offset(.glyphs));
 
@@ -173,11 +173,11 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer<RStruct> p) {
     _baseSize = p.readInt32(structLayout.offset(.baseSize));
     _glyphCount = p.readInt32(structLayout.offset(.glyphCount));
     _glyphPadding = p.readInt32(structLayout.offset(.glyphPadding));
-    _texture.readFrom(p.offsetBy(structLayout.offset(.texture)));
+    _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
     _recs.ptr = p.readPtr(structLayout.offset(.recs));
     _glyphs.ptr = p.readPtr(structLayout.offset(.glyphs));
 

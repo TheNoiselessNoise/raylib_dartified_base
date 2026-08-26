@@ -1,8 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Produces human-readable debug strings for each Gui module function call,
-/// logged to the console when debug output is enabled.
-class RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibGuiModule.GuiEnable].
   String GuiEnable() => 'GuiEnable()';

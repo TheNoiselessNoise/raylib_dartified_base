@@ -27,7 +27,7 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   };
 
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MaterialMapD.new);
+    => .nullable(ptr, structLayout, MaterialMapD.new, MaterialMapD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -40,23 +40,23 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   TextureD _texture;
   /// Material map texture
   TextureD get texture {
-    structOnOp((p) => _texture.readFrom(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture))));
     return _texture;
   }
   set texture(TextureD value) {
     _texture = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.texture))));
   }
 
   ColorD _color;
   /// Material map color
   ColorD get color {
-    structOnOp((p) => _color.readFrom(p.offsetBy(structLayout.offset(.color))));
+    structOnOp((p) => _color.structReadFrom(p.offsetBy(structLayout.offset(.color))));
     return _color;
   }
   set color(ColorD value) {
     _color = value;
-    structOnOp((p) => value.writeInto(p.offsetBy(structLayout.offset(.color))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.color))));
   }
 
   double _value;
@@ -91,16 +91,16 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   }
 
   @override
-  void writeInto(MemoryPointer<RStruct> p) {
-    _texture.writeInto(p.offsetBy(structLayout.offset(.texture)));
-    _color.writeInto(p.offsetBy(structLayout.offset(.color)));
+  void structWriteInto(MemoryPointer<RStruct> p) {
+    _texture.structWriteInto(p.offsetBy(structLayout.offset(.texture)));
+    _color.structWriteInto(p.offsetBy(structLayout.offset(.color)));
     p.writeFloat(_value, structLayout.offset(.value));
   }
 
   @override
-  void readFrom(MemoryPointer<RStruct> p) {
-    _texture.readFrom(p.offsetBy(structLayout.offset(.texture)));
-    _color.readFrom(p.offsetBy(structLayout.offset(.color)));
+  void structReadFrom(MemoryPointer<RStruct> p) {
+    _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
+    _color.structReadFrom(p.offsetBy(structLayout.offset(.color)));
     _value = p.readFloat32(structLayout.offset(.value));
   }
 
