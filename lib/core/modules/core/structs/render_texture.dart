@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RenderTextureField {
+enum RenderTextureField with StructFields {
   id,
   texture,
   depth,
@@ -17,14 +17,11 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RenderTextureField> structLayout = .aligned(structFields);
-  static final Map<RenderTextureField, RType> structFields = {
+  static final StructLayout<RenderTextureField> structLayout = .aligned({
     .id:      RUint32(),
     .texture: RStruct(TextureD.structLayout),
     .depth:   RStruct(TextureD.structLayout),
-  };
+  });
 
   static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RenderTextureD.new, RenderTextureD.pointer);

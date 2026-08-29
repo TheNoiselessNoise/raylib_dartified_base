@@ -5363,7 +5363,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   List<String> LoadTextLines(
     String text,
   ) => run(
-    () => _debugLabels.TextLength(text),
+    () => _debugLabels.LoadTextLines(text),
     () {
       final textPtr = rl.Temp.String$.RawValue(text);
       final lineCountPtr = rl.Temp.Int$.Ref1();

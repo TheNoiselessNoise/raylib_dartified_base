@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum MsfGifCookedFrameField {
+enum MsfGifCookedFrameField with StructFields {
   pixels,
   depth,
   count,
@@ -9,7 +9,7 @@ enum MsfGifCookedFrameField {
   bbits,
 }
 
-enum MsfGifStateField {
+enum MsfGifStateField with StructFields {
   fileWriteFunc,
   fileWriteData,
   previousFrame,
@@ -33,20 +33,16 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned(cookedFrameStructFields);
-  static final Map<MsfGifCookedFrameField, RType> cookedFrameStructFields = {
+  static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned({
     .pixels: RPointer<RUint32>(),
     .depth:  RInt32(),
     .count:  RInt32(),
     .rbits:  RInt32(),
     .gbits:  RInt32(),
     .bbits:  RInt32(),
-  };
+  });
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MsfGifStateField> structLayout = .aligned(structFields);
-  static final Map<MsfGifStateField, RType> structFields = {
+  static final StructLayout<MsfGifStateField> structLayout = .aligned({
     .fileWriteFunc:          RPointer<RFunction>(),
     .fileWriteData:          RPointer<RVoid>(),
     .previousFrame:          RStruct(cookedFrameStructLayout),
@@ -58,7 +54,7 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
     .height:                 RInt32(),
     .customAllocatorContext: RPointer<RVoid>(),
     .framesSubmitted:        RInt32(),
-  };
+  });
 
   static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MsfGifStateD.new, MsfGifStateD.pointer);

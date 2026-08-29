@@ -2,7 +2,7 @@ part of '../../../raylib_dartified_base.dart';
 
 // TODO: on all structs structOnOp
 
-enum Camera2DField {
+enum Camera2DField with StructFields {
   offset,
   target,
   rotation,
@@ -20,15 +20,12 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<Camera2DField> structLayout = .aligned(structFields);
-  static final Map<Camera2DField, RType> structFields = {
+  static final StructLayout<Camera2DField> structLayout = .aligned({
     .offset:   RStruct(Vector2D.structLayout),
     .target:   RStruct(Vector2D.structLayout),
     .rotation: RFloat32(),
     .zoom:     RFloat32(),
-  };
+  });
 
   static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Camera2DD.new, Camera2DD.pointer);

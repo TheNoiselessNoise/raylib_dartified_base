@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum ColorField {
+enum ColorField with StructFields {
   r,
   g,
   b,
@@ -18,15 +18,12 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<ColorField> structLayout = .aligned(structFields);
-  static final Map<ColorField, RType> structFields = {
+  static final StructLayout<ColorField> structLayout = .aligned({
     .r: RUint8(),
     .g: RUint8(),
     .b: RUint8(),
     .a: RUint8(),
-  };
+  });
 
   static StructPointer<ColorD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ColorD.new, ColorD.pointer);

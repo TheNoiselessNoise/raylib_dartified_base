@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum MaterialMapField {
+enum MaterialMapField with StructFields {
   texture,
   color,
   value,
@@ -17,14 +17,11 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MaterialMapField> structLayout = .aligned(structFields);
-  static final Map<MaterialMapField, RType> structFields = {
+  static final StructLayout<MaterialMapField> structLayout = .aligned({
     .texture: RStruct(TextureD.structLayout),
     .color:   RStruct(ColorD.structLayout),
     .value:   RFloat32(),
-  };
+  });
 
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MaterialMapD.new, MaterialMapD.pointer);

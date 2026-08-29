@@ -1,25 +1,26 @@
 part of '../../raylib_dartified_base.dart';
 
-// TODO: clean up doc comments
-
-// TODO: think about removing `RefCapture`, if `Ref1` is used and struct has `requiresOp` it will do `PointerTo`
-
 /// Extends [RaylibTempAllocator] with struct allocation, providing
 /// [PointerTo], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
 /// Dart mirror objects ([X]).
 final class RaylibTempStructAllocator<
-  X extends RaylibStruct<X> // Dart mirror object
+  X extends RaylibStruct<X>, // Dart mirror object
+  F extends StructFields     // Fields
 > extends RaylibTempAllocator<RStruct> {
+
+  final StructLayout<F> layout;
 
   final StructFactory<X> factory;
 
   final StructPointerFactory<X> pointerFactory;
 
   RaylibTempStructAllocator(super.temp, {
-    required super.byteSize,
+    required this.layout,
     required this.factory,
     required this.pointerFactory,
-  });
+  }) : super(
+    byteSize: layout.byteSize,
+  );
 
   @override
   String get name => '$X';
@@ -314,7 +315,6 @@ final class RaylibTempStructAllocator<
   /// This is the foundation for the [RefUpdate1]–[RefUpdate8] helpers, covering
   /// the common pattern of passing a mutable struct pointer to a C function that
   /// may write into it.
-  // TODO: think about if this is really necessary now, when the structs are complete mirrors
   R _RefUpdate<R>(
     X? o,
     R Function(StructPointer<X> p) fn,
@@ -384,136 +384,152 @@ final class RaylibTempStructAllocator<
   /// you want the mutations reflected in [o] after the call.
   R RefUpdate8<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref8);
 
-  /// Allocates a uniquely-keyed tracked slot and passes it into [fn].
+  /// Allocates a uniquely-keyed temporary slot and passes it to [fn].
   ///
-  /// Unique key of the form `'<id>_<key>'` is generated from the allocator's
-  /// ID counter. The returned [X] holds a live reference into temp-managed
-  /// memory.
-  /// 
-  /// [fn] can either:
-  /// - return [X] directly (native: struct returned by value)
-  /// - return void/null and mutate [ptr] in place (WASM: sret convention)
+  /// The slot is tracked by a unique key of the form `'<id>_<key>'` and remains
+  /// managed by the owning temporary allocator.
+  ///
+  /// [fn] may either:
+  /// - return an [X] containing the result produced by the backend, or
+  /// - return `null`/`void` after populating [ptr] with the result.
+  ///
+  /// The returned [X] is normalized by [_getValue], which associates it with
+  /// the temporary slot, synchronizes its value from memory, and releases the
+  /// temporary backing operation when the value does not require it.
+  ///
+  /// This allows the same extraction mechanism to support different backend
+  /// representations of struct-returning functions.
   X RefCapture(String key, dynamic Function(StructPointer<X> ptr) fn) {
     final ptr = pointerFactory(AtUnique(key: key));
-    fn(ptr);
-    final value = ptr.ref;
-    value.structSyncFromMemory();
+    return _getValue(ptr, fn(ptr));
+  }
+
+  X _getValue(StructPointer<X> ptr, dynamic result) {
+    final value = result is X ? result : ptr.ref;
     value.$state.allocKey = _lastKey;
+    value.op ??= ptr;
+    value.structSyncFromMemory();
+    if (!value.structRequiresOp) value.op = null;
     return value;
   }
 
-  /// Allocates an uninitialized slot via [alloc], passes the raw [S] pointer to
-  /// [fn] (which is expected to write a complete value into it, the sret
-  /// pattern), then reads the resulting struct back out via [pointerToStruct].
+  /// Allocates a temporary slot using [alloc], passes it to [fn], and converts
+  /// the result into a backend-agnostic [X].
   ///
-  /// This is the inverse of [_RefUpdate]: instead of pushing a Dart object into
-  /// native memory before a call, it lets the callee populate native memory and
-  /// then pulls the result back into Dart.
+  /// [fn] may produce the result in either of two ways, depending on the
+  /// backend:
+  /// - return an [X] directly, or
+  /// - populate [ptr] and return `null`/`void`.
   ///
-  /// Only meaningful in the WASM implementation, where C functions returning
-  /// structs by value use an explicit sret pointer argument. The native backend
-  /// does not use this path, but the method lives here so the base API surface
-  /// is complete regardless of implementation.
+  /// The resulting [X] is normalized by [_getValue], which associates it with
+  /// the temporary allocation, synchronizes its value from memory, and removes
+  /// the temporary backing operation when it is no longer required.
+  ///
+  /// This provides a common extraction path for backends whose native APIs
+  /// represent returned structs differently.
   X _Extract(
     StructPointer<X> Function([X]) alloc,
-    void Function(StructPointer<X> ptr) fn,
+    dynamic Function(StructPointer<X> ptr) fn,
   ) {
     final ptr = alloc();
-    fn(ptr);
-    final result = ptr.ref;
-    if (!result.structRequiresOp) result.op = null;
-    return result;
+    return _getValue(ptr, fn(ptr));
   }
 
-  /// Allocates slot `'1'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+  /// Extracts a struct result using temporary slot `'1'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate1] for the
-  /// complementary write-then-read pattern.
-  X Extract1(void Function(StructPointer<X> ptr) fn) => _Extract(Ref1, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract1(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref1, fn);
 
-  /// Allocates slot `'2'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'2'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate2] for the
-  /// complementary write-then-read pattern.
-  X Extract2(void Function(StructPointer<X> ptr) fn) => _Extract(Ref2, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract2(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref2, fn);
 
-  /// Allocates slot `'3'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'3'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate3] for the
-  /// complementary write-then-read pattern.
-  X Extract3(void Function(StructPointer<X> ptr) fn) => _Extract(Ref3, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract3(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref3, fn);
 
-  /// Allocates slot `'4'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'4'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate4] for the
-  /// complementary write-then-read pattern.
-  X Extract4(void Function(StructPointer<X> ptr) fn) => _Extract(Ref4, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract4(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref4, fn);
 
-  /// Allocates slot `'5'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'5'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate5] for the
-  /// complementary write-then-read pattern.
-  X Extract5(void Function(StructPointer<X> ptr) fn) => _Extract(Ref5, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract5(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref5, fn);
 
-  /// Allocates slot `'6'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'6'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate6] for the
-  /// complementary write-then-read pattern.
-  X Extract6(void Function(StructPointer<X> ptr) fn) => _Extract(Ref6, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract6(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref6, fn);
 
-  /// Allocates slot `'7'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'7'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate7] for the
-  /// complementary write-then-read pattern.
-  X Extract7(void Function(StructPointer<X> ptr) fn) => _Extract(Ref7, fn);
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract7(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref7, fn);
 
-  /// Allocates slot `'8'` as an uninitialized sret destination, passes its raw
-  /// pointer to [fn], then returns the struct [fn] wrote into it.
+    /// Extracts a struct result using temporary slot `'8'`.
   ///
-  /// Use this when calling a WASM-compiled C function that returns a struct via
-  /// an implicit sret pointer rather than a return value. The slot lifetime is
-  /// tied to the owning [RaylibTemp].
+  /// [fn] receives a pointer to the temporary slot and may either return the
+  /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
   ///
-  /// See [_Extract] for the underlying mechanism, and [RefUpdate8] for the
-  /// complementary write-then-read pattern.
-  X Extract8(void Function(StructPointer<X> ptr) fn) => _Extract(Ref8, fn);
-
-  // -----
+  /// The resulting value is normalized through [_Extract] and follows the
+  /// lifetime and ownership rules of the owning temporary allocator.
+  ///
+  /// This is the standard single-result extraction operation used by backend
+  /// implementations for functions that return structs.
+  X Extract8(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref8, fn);
 
   /// Fixed scratch slot holding a zero-initialized [X] struct, by pointer.
   ///

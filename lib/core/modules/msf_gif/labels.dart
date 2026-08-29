@@ -32,7 +32,7 @@ class _RaylibMsfGifModuleDebugLabels extends RaylibDebugLabelsBase {
   ) => 'msf_gif_free($result)';
 
   /// Label for [RaylibMsfGifModule.msf_gif_begin_to_file].
-  // TODO: this
+  // TODO: msf_gif_begin_to_file
   // String msf_gif_begin_to_file(
   //   MsfGifStateD handle,
   //   int width,

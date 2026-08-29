@@ -3,7 +3,7 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-enum Vector3Field {
+enum Vector3Field with StructFields {
   x,
   y,
   z,
@@ -20,14 +20,11 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<Vector3Field> structLayout = .aligned(structFields);
-  static final Map<Vector3Field, RType> structFields = {
+  static final StructLayout<Vector3Field> structLayout = .aligned({
     .x: RFloat32(),
     .y: RFloat32(),
     .z: RFloat32(),
-  };
+  });
 
   static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector3D.new, Vector3D.pointer);

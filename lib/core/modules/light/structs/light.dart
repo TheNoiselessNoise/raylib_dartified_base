@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum LightField {
+enum LightField with StructFields {
   type,
   enabled,
   position,
@@ -26,10 +26,7 @@ class LightD extends RaylibStruct<LightD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<LightField> structLayout = .aligned(structFields);
-  static final Map<LightField, RType> structFields = {
+  static final StructLayout<LightField> structLayout = .aligned({
     .type:           RInt32(),
     .enabled:        RBool(),
     .position:       RStruct(Vector3D.structLayout),
@@ -42,7 +39,7 @@ class LightD extends RaylibStruct<LightD> {
     .targetLoc:      RInt32(),
     .colorLoc:       RInt32(),
     .attenuationLoc: RInt32(),
-  };
+  });
 
   static StructPointer<LightD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, LightD.new, LightD.pointer);

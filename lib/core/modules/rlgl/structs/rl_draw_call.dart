@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RlDrawCallField {
+enum RlDrawCallField with StructFields {
   mode,
   vertexCount,
   vertexAlignment,
@@ -18,15 +18,12 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RlDrawCallField> structLayout = .aligned(structFields);
-  static final Map<RlDrawCallField, RType> structFields = {
+  static final StructLayout<RlDrawCallField> structLayout = .aligned({
     .mode:            RInt32(),
     .vertexCount:     RInt32(),
     .vertexAlignment: RInt32(),
     .textureId:       RUint32(),
-  };
+  });
 
   static StructPointer<RlDrawCallD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RlDrawCallD.new, RlDrawCallD.pointer);

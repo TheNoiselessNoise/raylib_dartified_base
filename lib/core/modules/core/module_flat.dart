@@ -1,7 +1,5 @@
 part of '../../raylib_dartified_base.dart';
 
-// TODO: move all @Deprecation from web here
-
 /// Backend-agnostic contract for the Raylib Core module.
 ///
 /// Concrete platform implementations mix in or extend this to provide

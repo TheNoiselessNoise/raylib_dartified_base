@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum FilePathListField {
+enum FilePathListField with StructFields {
   count,
   paths,
 }
@@ -16,13 +16,10 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<FilePathListField> structLayout = .aligned(structFields);
-  static final Map<FilePathListField, RType> structFields = {
+  static final StructLayout<FilePathListField> structLayout = .aligned({
     .count: RUint32(),
     .paths: RPointer<RPointer<RChar>>(),
-  };
+  });
 
   static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, FilePathListD.new, FilePathListD.pointer);

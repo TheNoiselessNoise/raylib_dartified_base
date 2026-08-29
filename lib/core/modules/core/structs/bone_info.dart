@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum BoneInfoField {
+enum BoneInfoField with StructFields {
   name,
   parent,
 }
@@ -16,13 +16,10 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<BoneInfoField> structLayout = .aligned(structFields);
-  static final Map<BoneInfoField, RType> structFields = {
+  static final StructLayout<BoneInfoField> structLayout = .aligned({
     .name:   RChar(BASE_nameLength),
     .parent: RInt32(),
-  };
+  });
 
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, BoneInfoD.new, BoneInfoD.pointer);
@@ -72,13 +69,13 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeString(name, nameLength, structLayout.offset(.name));
+    p.writeStringUTF8(name, nameLength, structLayout.offset(.name));
     p.writeInt32(parent, structLayout.offset(.parent));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    name = p.readString(nameLength, structLayout.offset(.name));
+    name = p.readStringUTF8(nameLength, structLayout.offset(.name));
     parent = p.readInt32(structLayout.offset(.parent));
   }
 

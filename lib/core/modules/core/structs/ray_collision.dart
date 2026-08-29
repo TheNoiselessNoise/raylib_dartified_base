@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RayCollisionField {
+enum RayCollisionField with StructFields {
   hit,
   distance,
   point,
@@ -18,15 +18,12 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RayCollisionField> structLayout = .aligned(structFields);
-  static final Map<RayCollisionField, RType> structFields = {
+  static final StructLayout<RayCollisionField> structLayout = .aligned({
     .hit:      RBool(),
     .distance: RFloat32(),
     .point:    RStruct(Vector3D.structLayout),
     .normal:   RStruct(Vector3D.structLayout),
-  };
+  });
 
   static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RayCollisionD.new, RayCollisionD.pointer);

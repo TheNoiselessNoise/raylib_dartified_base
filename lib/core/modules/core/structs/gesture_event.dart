@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum GestureEventField {
+enum GestureEventField with StructFields {
   touchAction,
   pointCount,
   pointId,
@@ -18,15 +18,12 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<GestureEventField> structLayout = .aligned(structFields);
-  static final Map<GestureEventField, RType> structFields = {
+  static final StructLayout<GestureEventField> structLayout = .aligned({
     .touchAction: RInt32(),
     .pointCount:  RInt32(),
     .pointId:     RInt32(BASE_maxTouchPoints),
     .position:    RStruct(Vector2D.structLayout, BASE_maxTouchPoints),
-  };
+  });
 
   static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, GestureEventD.new, GestureEventD.pointer);

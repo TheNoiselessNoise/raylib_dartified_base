@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum MeshField {
+enum MeshField with StructFields {
   vertexCount,
   triangleCount,
   vertices,
@@ -30,10 +30,7 @@ class MeshD extends RaylibStruct<MeshD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MeshField> structLayout = .aligned(structFields);
-  static final Map<MeshField, RType> structFields = {
+  static final StructLayout<MeshField> structLayout = .aligned({
     .vertexCount:   RInt32(),
     .triangleCount: RInt32(),
     .vertices:      RPointer<RFloat32>(),
@@ -50,7 +47,7 @@ class MeshD extends RaylibStruct<MeshD> {
     .animNormals:   RPointer<RFloat32>(),
     .vaoId:         RUnsignedInt(),
     .vboId:         RPointer<RUnsignedInt>(),
-  };
+  });
 
   static StructPointer<MeshD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MeshD.new, MeshD.pointer);

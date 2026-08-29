@@ -3,7 +3,7 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-enum QuaternionField {
+enum QuaternionField with StructFields {
   x,
   y,
   z,
@@ -21,15 +21,12 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<QuaternionField> structLayout = .aligned(structFields);
-  static final Map<QuaternionField, RType> structFields = {
+  static final StructLayout<QuaternionField> structLayout = .aligned({
     .x: RFloat32(),
     .y: RFloat32(),
     .z: RFloat32(),
     .w: RFloat32(),
-  };
+  });
 
   static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, QuaternionD.new, QuaternionD.pointer);

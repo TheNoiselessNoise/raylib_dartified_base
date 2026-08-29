@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RlVertexBufferField {
+enum RlVertexBufferField with StructFields {
   elementCount,
   vertices,
   texcoords,
@@ -22,10 +22,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RlVertexBufferField> structLayout = .aligned(structFields);
-  static final Map<RlVertexBufferField, RType> structFields = {
+  static final StructLayout<RlVertexBufferField> structLayout = .aligned({
     .elementCount: RInt32(),
     .vertices:     RPointer<RFloat32>(),
     .texcoords:    RPointer<RFloat32>(),
@@ -34,7 +31,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     .indices:      RPointer<RUint32>(),
     .vaoId:        RUint32(),
     .vboId:        RUint32(BASE_vboIdCount),
-  };
+  });
 
   static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RlVertexBufferD.new, RlVertexBufferD.pointer);

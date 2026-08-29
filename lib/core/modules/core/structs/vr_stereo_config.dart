@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum VrStereoConfigField {
+enum VrStereoConfigField with StructFields {
   projection,
   viewOffset,
   leftLensCenter,
@@ -22,10 +22,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<VrStereoConfigField> structLayout = .aligned(structFields);
-  static final Map<VrStereoConfigField, RType> structFields = {
+  static final StructLayout<VrStereoConfigField> structLayout = .aligned({
     .projection:        RStruct(MatrixD.structLayout, BASE_paramsCount),
     .viewOffset:        RStruct(MatrixD.structLayout, BASE_paramsCount),
     .leftLensCenter:    RFloat32(BASE_paramsCount),
@@ -34,7 +31,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     .rightScreenCenter: RFloat32(BASE_paramsCount),
     .scale:             RFloat32(BASE_paramsCount),
     .scaleIn:           RFloat32(BASE_paramsCount),
-  };
+  });
 
   static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, VrStereoConfigD.new, VrStereoConfigD.pointer);

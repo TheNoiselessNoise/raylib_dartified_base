@@ -3,7 +3,7 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-enum Vector4Field {
+enum Vector4Field with StructFields {
   x,
   y,
   z,
@@ -21,15 +21,12 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<Vector4Field> structLayout = .aligned(structFields);
-  static final Map<Vector4Field, RType> structFields = {
+  static final StructLayout<Vector4Field> structLayout = .aligned({
     .x: RFloat32(),
     .y: RFloat32(),
     .z: RFloat32(),
     .w: RFloat32(),
-  };
+  });
 
   static StructPointer<Vector4D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector4D.new, Vector4D.pointer);

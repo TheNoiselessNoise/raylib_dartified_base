@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RlRenderBatchField {
+enum RlRenderBatchField with StructFields {
   bufferCount,
   currentBuffer,
   vertexBuffer,
@@ -20,17 +20,14 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RlRenderBatchField> structLayout = .aligned(structFields);
-  static final Map<RlRenderBatchField, RType> structFields = {
+  static final StructLayout<RlRenderBatchField> structLayout = .aligned({
     .bufferCount:   RInt32(),
     .currentBuffer: RInt32(),
-    .vertexBuffer:  RPointer<RStruct>(),
+    .vertexBuffer:  RPointer<RStruct>(), // TODO: type all `RPointer<RStruct>` to their struct layouts?
     .draws:         RPointer<RStruct>(),
     .drawCounter:   RInt32(),
     .currentDepth:  RFloat32(),
-  };
+  });
 
   static StructPointer<RlRenderBatchD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RlRenderBatchD.new, RlRenderBatchD.pointer);

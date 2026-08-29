@@ -115,7 +115,7 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
   List<String> readStringArray(int count) {
     if (isNull) return const [];
     return .generate(count, (i) {
-      final strPtr = readPtr(i * RType.nativeWordSize);
+      final strPtr = readPtr<RChar>(i * RType.nativeWordSize);
       return strPtr.isNull ? '' : strPtr.toDartString();
     });
   }
@@ -129,7 +129,7 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
     assert(strings.length == slotSizes.length);
 
     for (final (i, s) in strings.indexed) {
-      readPtr(i * RType.nativeWordSize).writeString(s, slotSizes[i]);
+      readPtr<RChar>(i * RType.nativeWordSize).writeString(s, slotSizes[i]);
     }
   }
 

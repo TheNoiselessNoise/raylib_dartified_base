@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum Camera3DField {
+enum Camera3DField with StructFields {
   position,
   target,
   up,
@@ -19,16 +19,13 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<Camera3DField> structLayout = .aligned(structFields);
-  static final Map<Camera3DField, RType> structFields = {
+  static final StructLayout<Camera3DField> structLayout = .aligned({
     .position:   RStruct(Vector3D.structLayout),
     .target:     RStruct(Vector3D.structLayout),
     .up:         RStruct(Vector3D.structLayout),
     .fovy:       RFloat32(),
     .projection: RInt32(),
-  };
+  });
 
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Camera3DD.new, Camera3DD.pointer);

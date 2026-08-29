@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum MusicField {
+enum MusicField with StructFields {
   stream,
   frameCount,
   looping,
@@ -19,16 +19,13 @@ class MusicD extends RaylibStruct<MusicD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MusicField> structLayout = .aligned(structFields);
-  static final Map<MusicField, RType> structFields = {
+  static final StructLayout<MusicField> structLayout = .aligned({
     .stream:     RStruct(AudioStreamD.structLayout),
     .frameCount: RUint32(),
     .looping:    RBool(),
     .ctxType:    RInt32(),
     .ctxData:    RPointer<RVoid>(),
-  };
+  });
 
   static StructPointer<MusicD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MusicD.new, MusicD.pointer);

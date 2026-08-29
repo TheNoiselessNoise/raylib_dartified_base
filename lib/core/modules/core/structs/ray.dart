@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RayField {
+enum RayField with StructFields {
   position,
   direction,
 }
@@ -16,13 +16,10 @@ class RayD extends RaylibStructLiteral<RayD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RayField> structLayout = .aligned(structFields);
-  static final Map<RayField, RType> structFields = {
+  static final StructLayout<RayField> structLayout = .aligned({
     .position:  RStruct(Vector3D.structLayout),
     .direction: RStruct(Vector3D.structLayout),
-  };
+  });
 
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RayD.new, RayD.pointer);

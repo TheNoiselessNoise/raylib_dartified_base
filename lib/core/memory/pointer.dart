@@ -1,7 +1,5 @@
 part of '../raylib_dartified_base.dart';
 
-// TODO: give readString/writeString implementations and ask about utf16 and utf32
-
 sealed class RType {
   final int count;
 
@@ -172,8 +170,8 @@ typedef RFloat = RFloat32;
 /// C `double`. Alias for [RFloat64].
 typedef RDouble = RFloat64;
 
-class RStruct extends RType {
-  final StructLayout layout;
+class RStruct<X extends StructLayout> extends RType {
+  final X layout;
 
   const RStruct(this.layout, [super.count]);
 }
@@ -223,6 +221,37 @@ extension Int8Pointer on MemoryPointer<RInt8> {
   }
 }
 
+extension Utf8StringPointer on MemoryPointer<RInt8> {
+  /// Reads a NUL-terminated C string starting at this pointer,
+  /// decoded as UTF-8. Scans for the NUL byte itself, no length needed.
+  String toDartString() => _decodeUtf8();
+
+  /// Reads at most [maxLength] bytes as a UTF-8 string, stopping
+  /// early at a NUL byte if found first. Use when you know a bound
+  /// (e.g. a fixed-size char buffer) but the string may be shorter.
+  String toDartStringBounded(int maxLength) => _decodeUtf8(0, maxLength);
+
+  String _decodeUtf8([int startOffset = 0, int? maxLength]) {
+    var end = startOffset;
+    while (
+      (maxLength == null || end - startOffset < maxLength) &&
+      readInt8(end) != 0
+    ) end++;
+    return utf8.decode(readBytes(startOffset, end - startOffset));
+  }
+
+  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
+  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
+  /// and zero-pads the remainder.
+  void writeString(String text, int maxLength, [int byteOffset = 0]) {
+    final bytes = utf8.encode(text);
+    final writeLen = bytes.length < maxLength ? bytes.length : maxLength;
+    final dst = offsetBy(byteOffset).asView<Uint8List>(maxLength);
+    dst.setRange(0, writeLen, bytes);
+    dst.fillRange(writeLen, maxLength, 0);
+  }
+}
+
 extension Uint8Pointer on MemoryPointer<RUint8> {
   int get value => readUint8();
   set value(int v) => writeUint8(v);
@@ -253,6 +282,47 @@ extension Int16Pointer on MemoryPointer<RInt16> {
   }
 }
 
+extension Utf16StringPointer on MemoryPointer<RInt16> {
+  String toDartString() => _decodeUtf16();
+  String toDartStringBounded(int maxLength) => _decodeUtf16(0, maxLength);
+
+  String _decodeUtf16([int startOffset = 0, int? maxLength]) {
+    final units = <int>[];
+    var byteOffset = startOffset;
+    var count = 0;
+    while (maxLength == null || count < maxLength) {
+      final unit = readUint16(byteOffset);
+      if (unit == 0) break;
+      units.add(unit);
+      byteOffset += 2;
+      count++;
+    }
+    return String.fromCharCodes(units);
+  }
+
+  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
+  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
+  /// and zero-pads the remainder.
+  /// 
+  /// [maxLength] is in UTF-16 code units, not bytes.
+  void writeString(String text, int maxLength, [int elementOffset = 0]) {
+    var units = text.codeUnits; // List<int>, one per UTF-16 code unit
+    var writeLen = units.length < maxLength ? units.length : maxLength;
+
+    // Don't leave a lone leading surrogate at the truncation boundary.
+    if (
+      writeLen < units.length &&
+      writeLen > 0 && _isHighSurrogate(units[writeLen - 1])
+    ) writeLen--;
+
+    final dst = offsetBy(elementOffset * 2).asView<Uint16List>(maxLength);
+    dst.setRange(0, writeLen, units);
+    dst.fillRange(writeLen, maxLength, 0);
+  }
+
+  bool _isHighSurrogate(int u) => u >= 0xD800 && u <= 0xDBFF;
+}
+
 extension Uint16Pointer on MemoryPointer<RUint16> {
   int get value => readUint16();
   set value(int v) => writeUint16(v);
@@ -280,6 +350,36 @@ extension Int32Pointer on MemoryPointer<RInt32> {
     for (var i = 0; i < values.length; i++) {
       this[i] = values[i];
     }
+  }
+}
+
+extension Utf32StringPointer on MemoryPointer<RInt32> {
+  String toDartString() => _decodeUtf32();
+  String toDartStringBounded(int maxLength) => _decodeUtf32(0, maxLength);
+
+  String _decodeUtf32([int startOffset = 0, int? maxLength]) {
+    final runes = <int>[];
+    var i = startOffset;
+    while (maxLength == null || i - startOffset < maxLength) {
+      final rune = readUint32(i);
+      if (rune == 0) break;
+      runes.add(rune);
+      i += 4;
+    }
+    return .fromCharCodes(runes);
+  }
+
+  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
+  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
+  /// and zero-pads the remainder.
+  /// 
+  /// [maxLength] is in UTF-32 code units (runes), not bytes.
+  void writeString(String text, int maxLength, [int elementOffset = 0]) {
+    final runes = text.runes.toList(); // full scalar values, no surrogates
+    final writeLen = runes.length < maxLength ? runes.length : maxLength;
+    final dst = offsetBy(elementOffset * 4).asView<Uint32List>(maxLength);
+    dst.setRange(0, writeLen, runes);
+    dst.fillRange(writeLen, maxLength, 0);
   }
 }
 
@@ -390,18 +490,12 @@ abstract class MemoryPointer<X extends RType> {
   /// [address] in hexadecimal format.
   String get hex => '0x${address.toRadixString(16).toUpperCase()}';
 
-  /// Reads a NUL-terminated C string starting at this pointer,
-  /// decoded as UTF-8. Scans for the NUL byte itself, no length needed.
-  String toDartString();
-
-  /// Reads at most [maxLength] bytes as a UTF-8 string, stopping
-  /// early at a NUL byte if found first. Use when you know a bound
-  /// (e.g. a fixed-size char buffer) but the string may be shorter.
-  String toDartStringBounded(int maxLength);
-
   /// Same buffer, address advanced by [byteOffset] bytes. Same type [X].
   /// Backends implement via pointer arithmetic (native) or address+offset (wasm).
   MemoryPointer<Y> offsetBy<Y extends RType>(int byteOffset);
+
+  /// Reads [length] bytes at [byteOffset].
+  Uint8List readBytes(int byteOffset, int length);
 
   /// Fills [length] bytes starting at [byteOffset] with the low byte of [value].
   void fillBytes(int value, int length, [int byteOffset = 0]) {
@@ -536,10 +630,17 @@ abstract class MemoryPointer<X extends RType> {
   /// Reads a value of type [RDouble] at given `address + byteOffset`.
   double readDouble([int byteOffset = 0]) => readFloat64(byteOffset);
 
-  /// Reads a fixed-size char-buffer field as a UTF-8 string, stopping early
-  /// at NUL if present. For struct fields like `char name[32]`.
-  String readString(int maxLength, [int byteOffset = 0])
-    => offsetBy(byteOffset).toDartStringBounded(maxLength);
+  /// Reads a fixed-size char-buffer field as a UTF-8 string, stopping early at NUL if present.
+  String readStringUTF8(int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RChar>().toDartStringBounded(maxLength);
+
+  /// Reads a fixed-size char-buffer field as a UTF-16 string, stopping early at NUL if present.
+  String readStringUTF16(int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt16>().toDartStringBounded(maxLength);
+
+  /// Reads a fixed-size char-buffer field as a UTF-32 string, stopping early at NUL if present.
+  String readStringUTF32(int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt32>().toDartStringBounded(maxLength);
 
   /// Writes a [value] of type [RSize] at given `address + byteOffset`.
   void writeSize(int value, [int byteOffset = 0]);
@@ -601,16 +702,23 @@ abstract class MemoryPointer<X extends RType> {
   /// Writes a [value] of type [RDouble] at given `address + byteOffset`.
   void writeDouble(double value, [int byteOffset = 0]) => writeFloat64(value, byteOffset);
 
-  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
+  /// Writes a UTF-8 [text] into a fixed-size [maxLength]-byte buffer field at
   /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
   /// and zero-pads the remainder.
-  void writeString(String text, int maxLength, [int byteOffset = 0]) {
-    final bytes = utf8.encode(text);
-    final writeLen = bytes.length < maxLength ? bytes.length : maxLength;
-    final dst = offsetBy(byteOffset).asView<Uint8List>(maxLength);
-    dst.setRange(0, writeLen, bytes);
-    dst.fillRange(writeLen, maxLength, 0);
-  }
+  void writeStringUTF8(String text, int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RChar>().writeString(text, maxLength);
+
+  /// Writes a UTF-16 [text] into a fixed-size [maxLength]-byte buffer field at
+  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
+  /// and zero-pads the remainder.
+  void writeStringUTF16(String text, int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt16>().writeString(text, maxLength);
+
+  /// Writes a UTF-32 [text] into a fixed-size [maxLength]-byte buffer field at
+  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
+  /// and zero-pads the remainder.
+  void writeStringUTF32(String text, int maxLength, [int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt32>().writeString(text, maxLength);
 }
 
 /// A `MemoryPointer<RStruct>` that also knows its element type D, so it can
@@ -807,8 +915,17 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// See [MemoryPointer.readDouble].
   double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
 
-  /// See [MemoryPointer.readString].
-  String readString(int maxLength, [int byteOffset = 0]) => ptr.readString(maxLength, byteOffset);
+  /// See [MemoryPointer.readStringUTF8].
+  String readStringUTF8(int maxLength, [int byteOffset = 0])
+    => ptr.readStringUTF8(maxLength, byteOffset);
+
+  /// See [MemoryPointer.readStringUTF16].
+  String readStringUTF16(int maxLength, [int byteOffset = 0])
+    => ptr.readStringUTF16(maxLength, byteOffset);
+
+  /// See [MemoryPointer.readStringUTF32].
+  String readStringUTF32(int maxLength, [int byteOffset = 0])
+    => ptr.readStringUTF32(maxLength, byteOffset);
 
   /// See [MemoryPointer.writeSize].
   void writeSize(int value, [int byteOffset = 0]) => ptr.writeSize(value, byteOffset);
@@ -870,7 +987,15 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// See [MemoryPointer.writeDouble].
   void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
 
-  /// See [MemoryPointer.writeString].
-  void writeString(String text, int maxLength, [int byteOffset = 0])
-    => ptr.writeString(text, maxLength, byteOffset);
+  /// See [MemoryPointer.writeStringUTF8].
+  void writeStringUTF8(String text, int maxLength, [int byteOffset = 0])
+    => ptr.writeStringUTF8(text, maxLength, byteOffset);
+
+  /// See [MemoryPointer.writeStringUTF16].
+  void writeStringUTF16(String text, int maxLength, [int byteOffset = 0])
+    => ptr.writeStringUTF16(text, maxLength, byteOffset);
+
+  /// See [MemoryPointer.writeStringUTF32].
+  void writeStringUTF32(String text, int maxLength, [int byteOffset = 0])
+    => ptr.writeStringUTF32(text, maxLength, byteOffset);
 }

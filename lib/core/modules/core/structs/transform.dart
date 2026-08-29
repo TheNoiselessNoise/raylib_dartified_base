@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum TransformField {
+enum TransformField with StructFields {
   translation,
   rotation,
   scale,
@@ -17,14 +17,11 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<TransformField> structLayout = .aligned(structFields);
-  static final Map<TransformField, RType> structFields = {
+  static final StructLayout<TransformField> structLayout = .aligned({
     .translation: RStruct(Vector3D.structLayout),
     .rotation: RStruct(QuaternionD.structLayout),
     .scale: RStruct(Vector3D.structLayout),
-  };
+  });
 
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, TransformD.new, TransformD.pointer);

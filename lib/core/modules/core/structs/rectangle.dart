@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum RectangleField {
+enum RectangleField with StructFields {
   x,
   y,
   width,
@@ -18,15 +18,12 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<RectangleField> structLayout = .aligned(structFields);
-  static final Map<RectangleField, RType> structFields = {
+  static final StructLayout<RectangleField> structLayout = .aligned({
     .x:      RFloat32(),
     .y:      RFloat32(),
     .width:  RFloat32(),
     .height: RFloat32(),
-  };
+  });
 
   static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RectangleD.new, RectangleD.pointer);

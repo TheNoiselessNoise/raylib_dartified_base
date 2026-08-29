@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum ShaderField {
+enum ShaderField with StructFields {
   id,
   locs,
 }
@@ -16,13 +16,10 @@ class ShaderD extends RaylibStruct<ShaderD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<ShaderField> structLayout = .aligned(structFields);
-  static final Map<ShaderField, RType> structFields = {
+  static final StructLayout<ShaderField> structLayout = .aligned({
     .id:   RUint32(),
     .locs: RPointer<RInt32>(), // exactly `shaderLocsCount` values
-  };
+  });
 
   static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ShaderD.new, ShaderD.pointer);

@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum SoundField {
+enum SoundField with StructFields {
   stream,
   frameCount,
 }
@@ -16,13 +16,10 @@ class SoundD extends RaylibStruct<SoundD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<SoundField> structLayout = .aligned(structFields);
-  static final Map<SoundField, RType> structFields = {
+  static final StructLayout<SoundField> structLayout = .aligned({
     .stream:     RStruct(AudioStreamD.structLayout),
     .frameCount: RUint32(),
-  };
+  });
 
   static StructPointer<SoundD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, SoundD.new, SoundD.pointer);

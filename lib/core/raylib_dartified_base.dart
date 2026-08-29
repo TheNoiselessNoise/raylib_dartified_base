@@ -6,8 +6,6 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
 
-// TODO: after you are done porting, try to move `abbr_dart` and `abbr_flat` from native modules in here
-
 part 'base.dart';
 part 'callback.dart';
 part 'ext.dart';

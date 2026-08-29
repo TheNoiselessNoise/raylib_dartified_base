@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum ModelSkeletonField {
+enum ModelSkeletonField with StructFields {
   boneCount,
   bones,
   bindPose
@@ -17,14 +17,11 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<ModelSkeletonField> structLayout = .aligned(structFields);
-  static final Map<ModelSkeletonField, RType> structFields = {
+  static final StructLayout<ModelSkeletonField> structLayout = .aligned({
     .boneCount: RInt32(),
     .bones:     RPointer<RStruct>(),
     .bindPose:  RPointer<RStruct>(),
-  };
+  });
 
   static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ModelSkeletonD.new, ModelSkeletonD.pointer);

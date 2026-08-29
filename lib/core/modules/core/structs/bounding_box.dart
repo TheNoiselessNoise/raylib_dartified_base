@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum BoundingBoxField {
+enum BoundingBoxField with StructFields {
   min,
   max,
 }
@@ -16,13 +16,10 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<BoundingBoxField> structLayout = .aligned(structFields);
-  static final Map<BoundingBoxField, RType> structFields = {
+  static final StructLayout<BoundingBoxField> structLayout = .aligned({
     .min: RStruct(Vector3D.structLayout),
     .max: RStruct(Vector3D.structLayout),
-  };
+  });
 
   static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, BoundingBoxD.new, BoundingBoxD.pointer);

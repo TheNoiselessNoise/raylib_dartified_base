@@ -70,18 +70,21 @@ final class RaylibTempStructState with RaylibDisposable {
 // });
 // -----------------------------
 
+mixin StructFields {}
+
 /// Backend-agnostic struct layout: field -> byte offset, plus total size.
 /// Computes C-style natural-alignment offsets: each field's alignment
 /// equals its own size, offset is rounded up to that alignment, and the
 /// total struct size is rounded up to the largest field alignment.
 /// This reproduces real C struct layout for flat structs of primitives
 /// and pointers.
-final class StructLayout<E extends Enum> {
-  final Map<E, int> _offsets;
+final class StructLayout<E extends StructFields> {
+  Map<E, RType> fields;
+  final Map<E, int> offsets;
   final int byteSize;
   final int alignment;
 
-  StructLayout._(this._offsets, this.byteSize, this.alignment);
+  StructLayout._(this.fields, this.offsets, this.byteSize, this.alignment);
 
   /// [fields] maps each field to the RType describing it.
   factory StructLayout.aligned(Map<E, RType> fields) {
@@ -97,10 +100,10 @@ final class StructLayout<E extends Enum> {
       if (align > maxAlign) maxAlign = align;
     }
     final total = (offset + maxAlign - 1) ~/ maxAlign * maxAlign;
-    return StructLayout._(offsets, total, maxAlign);
+    return StructLayout._(fields, offsets, total, maxAlign);
   }
 
-  int offset(E field) => _offsets[field]!;
+  int offset(E field) => offsets[field]!;
 }
 
 /// Backend-agnostic base for Raylib struct mirror objects that are backed by

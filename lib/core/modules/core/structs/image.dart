@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum ImageField {
+enum ImageField with StructFields {
   data,
   width,
   height,
@@ -19,16 +19,13 @@ class ImageD extends RaylibStruct<ImageD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<ImageField> structLayout = .aligned(structFields);
-  static final Map<ImageField, RType> structFields = {
+  static final StructLayout<ImageField> structLayout = .aligned({
     .data:    RPointer<RUint8>(),
     .width:   RInt32(),
     .height:  RInt32(),
     .mipmaps: RInt32(),
     .format:  RInt32(),
-  };
+  });
 
   static StructPointer<ImageD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ImageD.new, ImageD.pointer);

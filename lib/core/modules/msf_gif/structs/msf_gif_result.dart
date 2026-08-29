@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum MsfGifResultField {
+enum MsfGifResultField with StructFields {
   data,
   dataSize,
   allocSize,
@@ -17,15 +17,12 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MsfGifResultField> structLayout = .aligned(structFields);
-  static final Map<MsfGifResultField, RType> structFields = {
+  static final StructLayout<MsfGifResultField> structLayout = .aligned({
     .data:           RPointer<RVoid>(),
     .dataSize:       RSize(),
     .allocSize:      RSize(),
     .contextPointer: RPointer<RVoid>(),
-  };
+  });
 
   static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MsfGifResultD.new, MsfGifResultD.pointer);

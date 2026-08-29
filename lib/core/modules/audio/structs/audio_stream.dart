@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum AudioStreamField {
+enum AudioStreamField with StructFields {
   buffer,
   processor,
   sampleRate,
@@ -19,16 +19,13 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<AudioStreamField> structLayout = .aligned(structFields);
-  static final Map<AudioStreamField, RType> structFields = {
+  static final StructLayout<AudioStreamField> structLayout = .aligned({
     .buffer:     RPointer<ROpaque>(),
     .processor:  RPointer<ROpaque>(),
     .sampleRate: RUint32(),
     .sampleSize: RUint32(),
     .channels:   RUint32(),
-  };
+  });
 
   static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, AudioStreamD.new, AudioStreamD.pointer);

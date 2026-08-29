@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum AutomationEventListField {
+enum AutomationEventListField with StructFields {
   capacity,
   count,
   events,
@@ -17,14 +17,11 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<AutomationEventListField> structLayout = .aligned(structFields);
-  static final Map<AutomationEventListField, RType> structFields = {
+  static final StructLayout<AutomationEventListField> structLayout = .aligned({
     .capacity: RUint32(),
     .count:    RUint32(),
     .events:   RPointer<RStruct>(),
-  };
+  });
 
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, AutomationEventListD.new, AutomationEventListD.pointer);

@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum GlyphInfoField {
+enum GlyphInfoField with StructFields {
   value,
   offsetX,
   offsetY,
@@ -19,16 +19,13 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<GlyphInfoField> structLayout = .aligned(structFields);
-  static final Map<GlyphInfoField, RType> structFields = {
+  static final StructLayout<GlyphInfoField> structLayout = .aligned({
     .value:    RInt32(),
     .offsetX:  RInt32(),
     .offsetY:  RInt32(),
     .advanceX: RInt32(),
     .image:    RStruct(ImageD.structLayout),
-  };
+  });
 
   static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, GlyphInfoD.new, GlyphInfoD.pointer);

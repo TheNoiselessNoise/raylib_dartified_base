@@ -3,7 +3,7 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-enum MatrixField {
+enum MatrixField with StructFields {
   m0, m4, m8, m12,
   m1, m5, m9, m13,
   m2, m6, m10, m14,
@@ -21,15 +21,12 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<MatrixField> structLayout = .aligned(structFields);
-  static final Map<MatrixField, RType> structFields = {
+  static final StructLayout<MatrixField> structLayout = .aligned({
     .m0: RFloat32(), .m4: RFloat32(), .m8: RFloat32(), .m12: RFloat32(),
     .m1: RFloat32(), .m5: RFloat32(), .m9: RFloat32(), .m13: RFloat32(),
     .m2: RFloat32(), .m6: RFloat32(), .m10: RFloat32(), .m14: RFloat32(),
     .m3: RFloat32(), .m7: RFloat32(), .m11: RFloat32(), .m15: RFloat32(),
-  };
+  });
 
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MatrixD.new, MatrixD.pointer);

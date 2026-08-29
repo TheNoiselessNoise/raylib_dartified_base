@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum WaveField {
+enum WaveField with StructFields {
   frameCount,
   sampleRate,
   sampleSize,
@@ -19,16 +19,13 @@ class WaveD extends RaylibStruct<WaveD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<WaveField> structLayout = .aligned(structFields);
-  static final Map<WaveField, RType> structFields = {
+  static final StructLayout<WaveField> structLayout = .aligned({
     .frameCount: RUint32(),
     .sampleRate: RUint32(),
     .sampleSize: RUint32(),
     .channels:   RUint32(),
     .data:       RPointer<RVoid>(),
-  };
+  });
 
   static StructPointer<WaveD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, WaveD.new, WaveD.pointer);

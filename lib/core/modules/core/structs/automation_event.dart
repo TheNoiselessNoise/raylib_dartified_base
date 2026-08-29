@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum AutomationEventField {
+enum AutomationEventField with StructFields {
   frame,
   type,
   params,
@@ -17,14 +17,11 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<AutomationEventField> structLayout = .aligned(structFields);
-  static final Map<AutomationEventField, RType> structFields = {
+  static final StructLayout<AutomationEventField> structLayout = .aligned({
     .frame:  RUint32(),
     .type:   RUint32(),
     .params: RInt32(BASE_paramsCount),
-  };
+  });
 
   static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, AutomationEventD.new, AutomationEventD.pointer);

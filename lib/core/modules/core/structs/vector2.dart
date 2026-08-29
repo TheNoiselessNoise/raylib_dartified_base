@@ -3,7 +3,7 @@
 // Used under the zlib/libpng license. See LICENSE for details.
 part of '../../../raylib_dartified_base.dart';
 
-enum Vector2Field {
+enum Vector2Field with StructFields {
   x,
   y,
 }
@@ -19,13 +19,10 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<Vector2Field> structLayout = .aligned(structFields);
-  static final Map<Vector2Field, RType> structFields = {
+  static final StructLayout<Vector2Field> structLayout = .aligned({
     .x: RFloat32(),
     .y: RFloat32(),
-  };
+  });
 
   static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector2D.new, Vector2D.pointer);

@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum ModelField {
+enum ModelField with StructFields {
   transform,
   meshCount,
   materialCount,
@@ -23,10 +23,7 @@ class ModelD extends RaylibStruct<ModelD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<ModelField> structLayout = .aligned(structFields);
-  static final Map<ModelField, RType> structFields = {
+  static final StructLayout<ModelField> structLayout = .aligned({
     .transform:     RStruct(MatrixD.structLayout),
     .meshCount:     RInt32(),
     .materialCount: RInt32(),
@@ -36,7 +33,7 @@ class ModelD extends RaylibStruct<ModelD> {
     .skeleton:      RStruct(ModelSkeletonD.structLayout),
     .currentPose:   RPointer<RStruct>(),
     .boneMatrices:  RPointer<RStruct>(),
-  };
+  });
 
   static StructPointer<ModelD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ModelD.new, ModelD.pointer);

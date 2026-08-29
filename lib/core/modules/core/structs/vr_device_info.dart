@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum VrDeviceInfoField {
+enum VrDeviceInfoField with StructFields {
   hResolution,
   vResolution,
   hScreenSize,
@@ -23,10 +23,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<VrDeviceInfoField> structLayout = .aligned(structFields);
-  static final Map<VrDeviceInfoField, RType> structFields = {
+  static final StructLayout<VrDeviceInfoField> structLayout = .aligned({
     .hResolution:            RInt32(),
     .vResolution:            RInt32(),
     .hScreenSize:            RFloat32(),
@@ -36,7 +33,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
     .interpupillaryDistance: RFloat32(),
     .lensDistortionValues:   RFloat32(BASE_paramsCount),
     .chromaAbCorrection:     RFloat32(BASE_paramsCount),
-  };
+  });
 
   static StructPointer<VrDeviceInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, VrDeviceInfoD.new, VrDeviceInfoD.pointer);

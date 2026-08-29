@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum FontField {
+enum FontField with StructFields {
   baseSize,
   glyphCount,
   glyphPadding,
@@ -20,17 +20,14 @@ class FontD extends RaylibStruct<FontD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<FontField> structLayout = .aligned(structFields);
-  static final Map<FontField, RType> structFields = {
+  static final StructLayout<FontField> structLayout = .aligned({
     .baseSize:     RInt32(),
     .glyphCount:   RInt32(),
     .glyphPadding: RInt32(),
     .texture:      RStruct(TextureD.structLayout),
     .recs:         RPointer<RStruct>(),
     .glyphs:       RPointer<RStruct>(),
-  };
+  });
 
   static StructPointer<FontD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, FontD.new, FontD.pointer);

@@ -1,6 +1,6 @@
 part of '../../../raylib_dartified_base.dart';
 
-enum NPatchInfoField {
+enum NPatchInfoField with StructFields {
   source,
   left,
   top,
@@ -20,17 +20,14 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  static final int byteSize = structLayout.byteSize;
-  static final int alignment = structLayout.alignment;
-  static final StructLayout<NPatchInfoField> structLayout = .aligned(structFields);
-  static final Map<NPatchInfoField, RType> structFields = {
+  static final StructLayout<NPatchInfoField> structLayout = .aligned({
     .source: RStruct(RectangleD.structLayout),
     .left:   RInt32(),
     .top:    RInt32(),
     .right:  RInt32(),
     .bottom: RInt32(),
     .layout: RInt32(),
-  };
+  });
 
   static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, NPatchInfoD.new, NPatchInfoD.pointer);

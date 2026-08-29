@@ -64,7 +64,7 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
     ),
   );
 
-  // TODO: this
+  // TODO: msf_gif_begin_to_file
   // int msf_gif_begin_to_file(
   //   MsfGifStateD handle,
   //   int width,
