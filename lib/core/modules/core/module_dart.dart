@@ -5383,7 +5383,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   
   /// Check if two text string are equal
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   bool TextIsEqual(
     String text1,
     String text2,
@@ -5394,7 +5394,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Get text length
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   int TextLength(
     String text,
   ) => run(
@@ -5403,6 +5403,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   );
 
   /// Text formatting with variables (sprintf() style)
+  /// 
+  /// **NOT** calling original Raylib function.
   String TextFormat(
     String text, [
       List<Object?> args = const [],
@@ -5414,7 +5416,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Get a piece of a text string
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   String TextSubtext(
     String text,
     int position,
@@ -5430,7 +5432,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Remove text spaces, concat words
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   String TextRemoveSpaces(
     String text,
   ) => run(
@@ -5440,7 +5442,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Get text between two strings
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   String GetTextBetween(
     String text,
     String begin,
@@ -5459,7 +5461,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Replace text string with new string
   /// 
-  /// NOT calling original Raylib function.
+  /// **NOT** calling original Raylib function.
   String TextReplace(
     String text,
     String search,
@@ -5506,7 +5508,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String delimiter,
   ) => run(
     () => _debugLabels.TextJoin(textList, delimiter),
-    () => textList.join(delimiter),
+    () {
+      assert(delimiter.length > 1);
+      return textList.join(delimiter);
+    },
   );
 
   /// Split text into multiple strings
