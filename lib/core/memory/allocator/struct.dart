@@ -34,6 +34,7 @@ final class RaylibTempStructAllocator<
   StructPointer<X> AtUniqueStruct({String key = '_unique_', int count = 1})
     => pointerFactory(AtUnique(key: key, count: count));
 
+  /// Pointer allocator for this struct [X].
   late final RaylibTempStructPointerAllocator<X> $ = .new(temp,
     byteSize: byteSize,
     valueFunc: Value,
@@ -86,9 +87,9 @@ final class RaylibTempStructAllocator<
     
     value.$state.allocKey = baseKey;
     final p = pointerFactory(At(baseKey));
-    if (requiresOp) value.op = p;
     value.structAllocateInto(temp, p.ptr, baseKey);
     value.structWriteInto(p.ptr);
+    if (requiresOp) value.op = p;
     return p;
   }
 

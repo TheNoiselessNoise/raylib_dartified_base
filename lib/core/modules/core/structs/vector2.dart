@@ -8,7 +8,7 @@ enum Vector2Field with StructFields {
   y,
 }
 
-/// A 2D vector with [x] and [y] components.
+/// Vector2, 2 components
 class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -19,11 +19,14 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector2Field> structLayout = .aligned({
-    .x: RFloat32(),
-    .y: RFloat32(),
+    .x: RFloat(), // Vector x component
+    .y: RFloat(), // Vector y component
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector2D.new, Vector2D.pointer);
 
@@ -35,17 +38,35 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  /// X component
-  double x;
-  
-  /// Y component
-  double y;
+  double _x;
+  /// Vector x component
+  double get x {
+    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    return _x;
+  }
+  set x(double value) {
+    _x = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+  }
+
+  double _y;
+  /// Vector y component
+  double get y {
+    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    return _y;
+  }
+  set y(double value) {
+    _y = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+  }
 
   Vector2D({
     super.op,
-    this.x = 0,
-    this.y = 0,
-  });
+    double x = 0,
+    double y = 0,
+  }) :
+    _x = x,
+    _y = y;
 
   factory Vector2D.zero() => .new();
   factory Vector2D.one() => .vec2(1, 1);
@@ -63,14 +84,14 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat32(x, structLayout.offset(.x));
-    p.writeFloat32(y, structLayout.offset(.y));
+    p.writeFloat(_x, structLayout.offset(.x));
+    p.writeFloat(_y, structLayout.offset(.y));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    x = p.readFloat32(structLayout.offset(.x));
-    y = p.readFloat32(structLayout.offset(.y));
+    _x = p.readFloat(structLayout.offset(.x));
+    _y = p.readFloat(structLayout.offset(.y));
   }
 
   @override
@@ -124,7 +145,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   /// Sets all components at once.
   /// 
-  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// Values are converted using [num.toDouble].
   /// 
   /// Returns this instance for fluent chaining.
   Vector2D set(num x, num y) {

@@ -22,17 +22,23 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RlVertexBufferField> structLayout = .aligned({
-    .elementCount: RInt32(),
-    .vertices:     RPointer<RFloat32>(),
-    .texcoords:    RPointer<RFloat32>(),
-    .normals:      RPointer<RFloat32>(),
-    .colors:       RPointer<RUint8>(),
-    .indices:      RPointer<RUint32>(),
-    .vaoId:        RUint32(),
-    .vboId:        RUint32(BASE_vboIdCount),
+    .elementCount: RInt32(), // Number of elements in the buffer (QUADS)
+    .vertices:     RPointer<RFloat>(), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
+    .texcoords:    RPointer<RFloat>(), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
+    .normals:      RPointer<RFloat>(), // Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
+    .colors:       RPointer<RUint8>(), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
+    .indices: switch (currentRaylibPlatform) {
+      .native =>   RPointer<RUnsignedInt>(), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
+      .web    =>   RPointer<RUnsignedShort>(), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
+    },
+    .vaoId:        RUnsignedInt(), // OpenGL Vertex Array Object id
+    .vboId:        RUnsignedInt(BASE_vboIdCount), // OpenGL Vertex Buffer Objects id (5 types of vertex data)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RlVertexBufferD.new, RlVertexBufferD.pointer);
 
@@ -99,9 +105,9 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     structOnOp((p) => p.writeInt32(value, structLayout.offset(.elementCount)));
   }
   
-  late LiveListPointerScalar<double, RFloat32> _vertices;
+  late LiveListPointerScalar<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-  LiveListPointerScalar<double, RFloat32> get vertices {
+  LiveListPointerScalar<double, RFloat> get vertices {
     structOnOp((p) => _vertices.ptr = p.readPtr(structLayout.offset(.vertices)));
     return _vertices;
   }
@@ -111,9 +117,9 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _vertices.inner = value;
   }
 
-  late LiveListPointerScalar<double, RFloat32> _texcoords;
+  late LiveListPointerScalar<double, RFloat> _texcoords;
   /// Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-  LiveListPointerScalar<double, RFloat32> get texcoords {
+  LiveListPointerScalar<double, RFloat> get texcoords {
     structOnOp((p) => _texcoords.ptr = p.readPtr(structLayout.offset(.texcoords)));
     return _texcoords;
   }
@@ -123,9 +129,9 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _texcoords.inner = value;
   }
 
-  late LiveListPointerScalar<double, RFloat32> _normals;
+  late LiveListPointerScalar<double, RFloat> _normals;
   /// Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
-  LiveListPointerScalar<double, RFloat32> get normals {
+  LiveListPointerScalar<double, RFloat> get normals {
     structOnOp((p) => _normals.ptr = p.readPtr(structLayout.offset(.normals)));
     return _normals;
   }
@@ -147,9 +153,9 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _colors.inner = value;
   }
   
-  late LiveListPointerScalar<int, RUint32> _indices;
+  late LiveListPointerScalar<int, RVoid> _indices;
   /// Vertex indices (in case vertex data comes indexed) (6 indices per quad)
-  LiveListPointerScalar<int, RUint32> get indices {
+  LiveListPointerScalar<int, RVoid> get indices {
     structOnOp((p) => _indices.ptr = p.readPtr(structLayout.offset(.indices)));
     return _indices;
   }
@@ -162,17 +168,17 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   int _vaoId;
   /// OpenGL Vertex Array Object id
   int get vaoId {
-    structOnOp((p) => _vaoId = p.readUint32(structLayout.offset(.vaoId)));
+    structOnOp((p) => _vaoId = p.readUnsignedInt(structLayout.offset(.vaoId)));
     return _vaoId;
   }
   set vaoId(int value) {
     _vaoId = value;
-    structOnOp((p) => p.writeUint32(value, structLayout.offset(.vaoId)));
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.vaoId)));
   }
   
-  late LiveListInlineScalar<int, RUint32> _vboId;
+  late LiveListInlineScalar<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (5 types of vertex data)
-  LiveListInlineScalar<int, RUint32> get vboId => _vboId;
+  LiveListInlineScalar<int, RUnsignedInt> get vboId => _vboId;
   set vboId(List<int> value) {
     assert(value.length <= vboIdCount);
     _vboId.inner = value;
@@ -193,46 +199,52 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _vaoId = vaoId
   {
     _vertices = .new(
-      vertices ?? .filled(verticesCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      vertices ?? .filled(verticesCount, 0),
       op?.offsetBy(structLayout.offset(.vertices)),
     );
 
     _texcoords = .new(
-      texcoords ?? .filled(texcoordsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      texcoords ?? .filled(texcoordsCount, 0),
       op?.offsetBy(structLayout.offset(.texcoords)),
     );
 
     _normals = .new(
-      normals ?? .filled(normalsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      normals ?? .filled(normalsCount, 0),
       op?.offsetBy(structLayout.offset(.normals)),
     );
 
     _colors = .new(
-      colors ?? .filled(colorsCount, 0),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      colors ?? .filled(colorsCount, 0),
       op?.offsetBy(structLayout.offset(.colors)),
     );
 
     _indices = .new(
+      (p, i) => switch (currentRaylibPlatform) {
+        .native => p.cast<RUnsignedInt>()[i],
+        .web => p.cast<RUnsignedShort>()[i],
+      },
+      (p, i, v) => switch (currentRaylibPlatform) {
+        .native => p.cast<RUnsignedInt>()[i] = v,
+        .web => p.cast<RUnsignedShort>()[i] = v,
+      }, 
       indices ?? .filled(indicesCount, 0),
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
       op?.offsetBy(structLayout.offset(.indices)),
     );
 
     _vboId = .new(
-      vboId ?? .filled(vboIdCount, 0),
       () => op?.cast(),
       structLayout.offset(.vboId),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      vboId ?? .filled(vboIdCount, 0),
     );
   }
 
@@ -259,14 +271,17 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     p.writePtr(_normals.ptr, structLayout.offset(.normals));
     p.writePtr(_colors.ptr, structLayout.offset(.colors));
     p.writePtr(_indices.ptr, structLayout.offset(.indices));
-    p.writeUint32(_vaoId, structLayout.offset(.vaoId));
-    p.offsetBy(structLayout.offset(.vboId)).cast<RUint32>().writeArray(_vboId);
+    p.writeUnsignedInt(_vaoId, structLayout.offset(.vaoId));
+    p.offsetBy(structLayout.offset(.vboId)).cast<RUnsignedInt>().writeArray(_vboId);
 
     _vertices.onPointer((p) => p.writeArray(_vertices.inner));
     _texcoords.onPointer((p) => p.writeArray(_texcoords.inner));
     _normals.onPointer((p) => p.writeArray(_normals.inner));
     _colors.onPointer((p) => p.writeArray(_colors.inner));
-    _indices.onPointer((p) => p.writeArray(_indices.inner));
+    _indices.onPointer((p) => switch (currentRaylibPlatform) {
+      .native => p.cast<RUnsignedInt>().writeArray(_indices.inner),
+      .web => p.cast<RUnsignedShort>().writeArray(_indices.inner),
+    });
   }
 
   @override
@@ -277,14 +292,17 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _normals.ptr = p.readPtr(structLayout.offset(.normals));
     _colors.ptr = p.readPtr(structLayout.offset(.colors));
     _indices.ptr = p.readPtr(structLayout.offset(.indices));
-    _vaoId = p.readUint32(structLayout.offset(.vaoId));
-    _vboId.raw = p.offsetBy(structLayout.offset(.vboId)).cast<RUint32>().readArray(vboIdCount);
+    _vaoId = p.readUnsignedInt(structLayout.offset(.vaoId));
+    _vboId.raw = p.offsetBy(structLayout.offset(.vboId)).cast<RUnsignedInt>().readArray(vboIdCount);
 
     _vertices.onPointer((p) => _vertices.raw = p.readArray(verticesCount));
     _texcoords.onPointer((p) => _texcoords.raw = p.readArray(texcoordsCount));
     _normals.onPointer((p) => _normals.raw = p.readArray(normalsCount));
     _colors.onPointer((p) => _colors.raw = p.readArray(colorsCount));
-    _indices.onPointer((p) => _indices.raw = p.readArray(indicesCount));
+    _indices.onPointer((p) => _indices.raw = switch (currentRaylibPlatform) {
+      .native => p.cast<RUnsignedInt>().readArray(indicesCount),
+      .web => p.cast<RUnsignedShort>().readArray(indicesCount),
+    });
   }
 
   @override

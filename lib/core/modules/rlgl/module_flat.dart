@@ -271,7 +271,7 @@ mixin RaylibRlglModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
 abstract class RaylibRlglFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> with RaylibRlglModuleExtras<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = RaylibRlglModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibRlglModuleCaptureIds();
 
   RaylibRlglFlatModule(super.rl);
 

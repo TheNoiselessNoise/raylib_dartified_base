@@ -2510,6 +2510,13 @@ int TextLength(
   String text,
 ) => _module.TextLength(text);
 
+/// See [RaylibCoreModule.TextFormat].
+String TextFormat(
+  String text, [
+    List<Object?> args = const [],
+  ]
+) => _module.TextFormat(text, args);
+
 /// See [RaylibCoreModule.TextSubtext].
 String TextSubtext(
   String text,

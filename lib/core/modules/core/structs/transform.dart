@@ -6,7 +6,7 @@ enum TransformField with StructFields {
   scale,
 }
 
-/// Vertex transformation data.
+/// Transform, vertex transformation data
 class TransformD extends RaylibStructLiteral<TransformD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -17,12 +17,15 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<TransformField> structLayout = .aligned({
-    .translation: RStruct(Vector3D.structLayout),
-    .rotation: RStruct(QuaternionD.structLayout),
-    .scale: RStruct(Vector3D.structLayout),
+    .translation: RStruct(Vector3D.structLayout), // Translation
+    .rotation: RStruct(QuaternionD.structLayout), // Rotation
+    .scale: RStruct(Vector3D.structLayout), // Scale
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, TransformD.new, TransformD.pointer);
 
@@ -33,25 +36,49 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
-  /// Translation
-  Vector3D translation;
-  
-  /// Rotation
-  QuaternionD rotation;
-  
-  /// Scale
-  Vector3D scale;
 
+  Vector3D _translation;
+  /// Translation
+  Vector3D get translation {
+    structOnOp((p) => _translation.structReadFrom(p.offsetBy(structLayout.offset(.translation))));
+    return _translation;
+  }
+  set translation(Vector3D value) {
+    _translation = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.translation))));
+  }
+
+  QuaternionD _rotation;
+  /// Rotation
+  QuaternionD get rotation {
+    structOnOp((p) => _rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation))));
+    return _rotation;
+  }
+  set rotation(QuaternionD value) {
+    _rotation = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.rotation))));
+  }
+
+  Vector3D _scale;
+  /// Scale
+  Vector3D get scale {
+    structOnOp((p) => _scale.structReadFrom(p.offsetBy(structLayout.offset(.scale))));
+    return _scale;
+  }
+  set scale(Vector3D value) {
+    _scale = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.scale))));
+  }
+  
   TransformD({
     super.op,
     Vector3D? translation,
     QuaternionD? rotation,
     Vector3D? scale,
   }) :
-    translation = translation ?? .zero(),
-    rotation = rotation ?? .zero(),
-    scale = scale ?? .zero();
+    _translation = translation ?? .zero(),
+    _rotation = rotation ?? .zero(),
+    _scale = scale ?? .zero();
 
   factory TransformD.zero() => .new();
 
@@ -65,16 +92,16 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    translation.structWriteInto(p.offsetBy(structLayout.offset(.translation)));
-    rotation.structWriteInto(p.offsetBy(structLayout.offset(.rotation)));
-    scale.structWriteInto(p.offsetBy(structLayout.offset(.scale)));
+    _translation.structWriteInto(p.offsetBy(structLayout.offset(.translation)));
+    _rotation.structWriteInto(p.offsetBy(structLayout.offset(.rotation)));
+    _scale.structWriteInto(p.offsetBy(structLayout.offset(.scale)));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    translation.structReadFrom(p.offsetBy(structLayout.offset(.translation)));
-    rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation)));
-    scale.structReadFrom(p.offsetBy(structLayout.offset(.scale)));
+    _translation.structReadFrom(p.offsetBy(structLayout.offset(.translation)));
+    _rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation)));
+    _scale.structReadFrom(p.offsetBy(structLayout.offset(.scale)));
   }
 
   @override

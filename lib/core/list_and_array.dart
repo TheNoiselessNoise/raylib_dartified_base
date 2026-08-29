@@ -5,7 +5,7 @@ part of 'raylib_dartified_base.dart';
 abstract class _RaylibLiveListBase<E, L extends List<E>> extends ListMixin<E> {
   L _inner;
 
-  _RaylibLiveListBase(this._inner);
+  _RaylibLiveListBase([L? inner]) : _inner = (inner ?? <E>[] as L);
 
   L get inner => _inner;
   set inner(L value) {
@@ -40,13 +40,13 @@ abstract class _RaylibLiveListBase<E, L extends List<E>> extends ListMixin<E> {
 
 /// Concrete [_RaylibLiveListBase] for untyped element lists.
 abstract class RaylibLiveList<E> extends _RaylibLiveListBase<E, List<E>> {
-  RaylibLiveList(super._inner);
+  RaylibLiveList([super._inner]);
 }
 
 abstract class LiveListPointerBase<E, R extends RType> extends RaylibLiveList<E> {
   MemoryPointer<R>? ptr;
 
-  LiveListPointerBase(super.inner, [this.ptr]);
+  LiveListPointerBase([super.inner, this.ptr]);
 
   bool get isPointerValid => ptr != null && !ptr!.isNull;
 
@@ -83,7 +83,7 @@ class LiveListPointerStruct<D extends RaylibStruct<D>> extends LiveListPointerBa
   @override
   MemoryPointer<RStruct>? get ptr => structPtr?.ptr.cast();
 
-  LiveListPointerStruct(super.inner, [this.structPtr]);
+  LiveListPointerStruct([super.inner, this.structPtr]);
 
   void onStructPointer(void Function(StructPointer<D> p) fn) {
     if (!isPointerValid) return;
@@ -109,7 +109,7 @@ class LiveListPointerStruct<D extends RaylibStruct<D>> extends LiveListPointerBa
       : raw = array;
 }
 
-extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
+extension MemoryPointerStringIO on MemoryPointer<RPointer<RChar>> {
   /// Reads [count] C strings from a `char**`-style pointer (this pointer
   /// points at an array of char* pointers, each read and decoded).
   List<String> readStringArray(int count) {
@@ -132,8 +132,10 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
       readPtr<RChar>(i * RType.nativeWordSize).writeString(s, slotSizes[i]);
     }
   }
+}
 
-  void writeStructMatrix<D extends RaylibStruct<D>>(
+extension MemoryPointerMatrixIO on MemoryPointer<RPointer<RStruct>> {
+  void writeMatrix<D extends RaylibStruct<D>>(
     List<LiveListPointerStruct<D>> rows
   ) {
     final pSize = RType.nativeWordSize;
@@ -144,7 +146,7 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer> {
     }
   }
 
-  List<List<D>> readStructMatrix<D extends RaylibStruct<D>>(
+  List<List<D>> readMatrix<D extends RaylibStruct<D>>(
     int rowCount,
     int rowLength,
     StructPointer<D> Function(MemoryPointer ptr) factory,
@@ -164,7 +166,15 @@ class LiveListPointerScalar<E, R extends RType> extends LiveListPointerBase<E, R
   final E Function(MemoryPointer<R> ptr, int index) _get;
   final void Function(MemoryPointer<R> ptr, int index, E value) _set;
 
-  LiveListPointerScalar(super.inner, this._get, this._set, [super.ptr]);
+  LiveListPointerScalar(this._get, this._set, [super.inner, super.ptr]);
+
+  List<E> readArray(int count) => .generate(count, (i) => this[i]);
+  
+  void writeArray(List<E> values) {
+    for (var i = 0; i < values.length; i++) {
+      this[i] = values[i];
+    }
+  }
 
   @override
   E indexGetter(MemoryPointer<R> ptr, int index) => _get(ptr, index);
@@ -186,7 +196,7 @@ class LiveListInlineScalar<E, R extends RType> extends RaylibLiveList<E> {
   final E Function(MemoryPointer<R> p, int i) get;
   final void Function(MemoryPointer<R> p, int i, E v) set;
 
-  LiveListInlineScalar(super.inner, this.resolveBase, this.byteOffset, this.get, this.set);
+  LiveListInlineScalar(this.resolveBase, this.byteOffset, this.get, this.set, [super.inner]);
 
   MemoryPointer<R>? get _field {
     final p = resolveBase();
@@ -220,10 +230,10 @@ class LiveListInlineStruct<D extends RaylibStruct<D>> extends RaylibLiveList<D> 
   final StructPointerFactory<D> factory;
 
   LiveListInlineStruct(
-    super.inner,
     this.resolveBase,
     this.byteOffset,
     this.factory,
+    [super.inner]
   );
 
   MemoryPointer<RVoid>? get _field {
@@ -256,7 +266,7 @@ class LiveListPointerPointerStruct<D extends RaylibStruct<D>> extends RaylibLive
   final int elementByteSize; // size of one D (row stride)
   final D Function() create;
 
-  LiveListPointerPointerStruct(super.inner, this.elementByteSize, this.create, [this.ptr]);
+  LiveListPointerPointerStruct(this.elementByteSize, this.create, [super.inner, this.ptr]);
 
   bool get isPointerValid => ptr != null && !ptr!.isNull;
 
@@ -294,7 +304,7 @@ class LiveListPointerPointer<X, R extends LiveListPointerBase<X, RVoid>>
     extends RaylibLiveList<R> {
   MemoryPointer<RVoid>? ptr; // pointer to an array of row pointers
 
-  LiveListPointerPointer(super.inner, [this.ptr]);
+  LiveListPointerPointer([super.inner, this.ptr]);
 
   bool get isPointerValid => ptr != null && !ptr!.isNull;
 

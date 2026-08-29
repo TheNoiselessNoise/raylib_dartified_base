@@ -5,7 +5,7 @@ enum BoneInfoField with StructFields {
   parent,
 }
 
-/// Bone, skeletal animation bone.
+/// Bone, skeletal animation bone
 class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -16,11 +16,14 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<BoneInfoField> structLayout = .aligned({
-    .name:   RChar(BASE_nameLength),
-    .parent: RInt32(),
+    .name:   RChar(BASE_nameLength), // Bone name
+    .parent: RInt(), // Bone parent
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, BoneInfoD.new, BoneInfoD.pointer);
 
@@ -46,17 +49,36 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
+  String _name;
   /// Bone name
-  String name;
+  String get name {
+    structOnOp((p) => _name = p.readStringUTF8(nameLength, structLayout.offset(.name)));
+    return _name;
+  }
+  set name(String value) {
+    assert(value.length <= nameLength);
+    _name = value;
+    structOnOp((p) => p.writeStringUTF8(value, nameLength, structLayout.offset(.name)));
+  }
 
+  int _parent;
   /// Bone parent
-  int parent;
+  int get parent {
+    structOnOp((p) => _parent = p.readInt(structLayout.offset(.parent)));
+    return _parent;
+  }
+  set parent(int value) {
+    _parent = value;
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.parent)));
+  }
 
   BoneInfoD({
     super.op,
-    this.name = '',
-    this.parent = 0,
-  });
+    String name = '',
+    int parent = 0,
+  }) :
+    _name = name,
+    _parent = parent;
 
   factory BoneInfoD.zero() => .new();
 
@@ -69,14 +91,14 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeStringUTF8(name, nameLength, structLayout.offset(.name));
-    p.writeInt32(parent, structLayout.offset(.parent));
+    p.writeStringUTF8(_name, nameLength, structLayout.offset(.name));
+    p.writeInt(_parent, structLayout.offset(.parent));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    name = p.readStringUTF8(nameLength, structLayout.offset(.name));
-    parent = p.readInt32(structLayout.offset(.parent));
+    _name = p.readStringUTF8(nameLength, structLayout.offset(.name));
+    _parent = p.readInt(structLayout.offset(.parent));
   }
 
   @override

@@ -7,7 +7,7 @@ part of '../../raylib_dartified_base.dart';
 abstract class RaylibAudioFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = RaylibAudioModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibAudioModuleCaptureIds();
 
   RaylibAudioFlatModule(super.rl);
 

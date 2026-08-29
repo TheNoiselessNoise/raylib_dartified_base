@@ -18,13 +18,16 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<GestureEventField> structLayout = .aligned({
-    .touchAction: RInt32(),
-    .pointCount:  RInt32(),
-    .pointId:     RInt32(BASE_maxTouchPoints),
+    .touchAction: RInt(),
+    .pointCount:  RInt(),
+    .pointId:     RInt(BASE_maxTouchPoints),
     .position:    RStruct(Vector2D.structLayout, BASE_maxTouchPoints),
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, GestureEventD.new, GestureEventD.pointer);
 
@@ -52,26 +55,26 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   
   TouchAction _touchAction;
   TouchAction get touchAction {
-    structOnOp((p) => _touchAction = .fromValue(p.readInt32(structLayout.offset(.touchAction))));
+    structOnOp((p) => _touchAction = .fromValue(p.readInt(structLayout.offset(.touchAction))));
     return _touchAction;
   }
   set touchAction(TouchAction value) {
     _touchAction = value;
-    structOnOp((p) => p.writeInt32(value.value, structLayout.offset(.touchAction)));
+    structOnOp((p) => p.writeInt(value.value, structLayout.offset(.touchAction)));
   }
 
   int _pointCount;
   int get pointCount {
-    structOnOp((p) => _pointCount = p.readInt32(structLayout.offset(.pointCount)));
+    structOnOp((p) => _pointCount = p.readInt(structLayout.offset(.pointCount)));
     return _pointCount;
   }
   set pointCount(int value) {
     _pointCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.pointCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.pointCount)));
   }
 
-  late LiveListInlineScalar<int, RInt32> _pointId;
-  LiveListInlineScalar<int, RInt32> get pointId => _pointId;
+  late LiveListInlineScalar<int, RInt> _pointId;
+  LiveListInlineScalar<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) {
     assert(value.length <= maxTouchPoints);
     _pointId.inner = value;
@@ -95,18 +98,18 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
     _pointCount = pointCount
   {
     _pointId = .new(
-      pointId ?? .filled(maxTouchPoints, 0),
       () => op?.cast(),
       structLayout.offset(.pointId),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      pointId ?? .filled(maxTouchPoints, 0),
     );
 
     _position = .new(
-      position ?? .generate(maxTouchPoints, (_) => .zero()),
       () => op?.cast(),
       structLayout.offset(.position),
       Vector2D.pointer,
+      position ?? .generate(maxTouchPoints, (_) => .zero()),
     );
   }
 
@@ -123,17 +126,17 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(_touchAction.value, structLayout.offset(.touchAction));
-    p.writeInt32(_pointCount, structLayout.offset(.pointCount));
-    p.offsetBy(structLayout.offset(.pointId)).cast<RInt32>().writeArray(_pointId.inner);
+    p.writeInt(_touchAction.value, structLayout.offset(.touchAction));
+    p.writeInt(_pointCount, structLayout.offset(.pointCount));
+    p.offsetBy(structLayout.offset(.pointId)).cast<RInt>().writeArray(_pointId.inner);
     Vector2D.pointer(p.offsetBy(structLayout.offset(.position))).writeArray(_position.inner);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _touchAction = .fromValue(p.readInt32(structLayout.offset(.touchAction)));
-    _pointCount = p.readInt32(structLayout.offset(.pointCount));
-    _pointId.raw = p.offsetBy(structLayout.offset(.pointId)).cast<RInt32>().readArray(maxTouchPoints);
+    _touchAction = .fromValue(p.readInt(structLayout.offset(.touchAction)));
+    _pointCount = p.readInt(structLayout.offset(.pointCount));
+    _pointId.raw = p.offsetBy(structLayout.offset(.pointId)).cast<RInt>().readArray(maxTouchPoints);
     _position.raw = Vector2D.pointer(p.offsetBy(structLayout.offset(.position))).readArray(maxTouchPoints);
   }
 

@@ -7,7 +7,7 @@ enum ColorField with StructFields {
   a
 }
 
-/// 4 components, R8G8B8A8 (32bit)
+/// Color, 4 components, R8G8B8A8 (32bit)
 class ColorD extends RaylibStructLiteral<ColorD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -18,13 +18,16 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ColorField> structLayout = .aligned({
-    .r: RUint8(),
-    .g: RUint8(),
-    .b: RUint8(),
-    .a: RUint8(),
+    .r: RUnsignedChar(), // Color red value
+    .g: RUnsignedChar(), // Color green value
+    .b: RUnsignedChar(), // Color blue value
+    .a: RUnsignedChar(), // Color alpha value
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ColorD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ColorD.new, ColorD.pointer);
 
@@ -36,33 +39,69 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
+  int _r;
   /// Color red value
   ///
   /// Expected range: 0-255
-  int r;
+  int get r {
+    structOnOp((p) => _r = p.readUnsignedChar(structLayout.offset(.r)));
+    return _r;
+  }
+  set r(int value) {
+    _r = value;
+    structOnOp((p) => p.writeUnsignedChar(value, structLayout.offset(.r)));
+  }
   
+  int _g;
   /// Color green value
   ///
   /// Expected range: 0-255
-  int g;
+  int get g {
+    structOnOp((p) => _g = p.readUnsignedChar(structLayout.offset(.g)));
+    return _g;
+  }
+  set g(int value) {
+    _g = value;
+    structOnOp((p) => p.writeUnsignedChar(value, structLayout.offset(.g)));
+  }
   
+  int _b;
   /// Color blue value
   ///
   /// Expected range: 0-255
-  int b;
+  int get b {
+    structOnOp((p) => _b = p.readUnsignedChar(structLayout.offset(.b)));
+    return _b;
+  }
+  set b(int value) {
+    _b = value;
+    structOnOp((p) => p.writeUnsignedChar(value, structLayout.offset(.b)));
+  }
   
+  int _a;
   /// Color alpha value
   ///
   /// Expected range: 0-255
-  int a;
+  int get a {
+    structOnOp((p) => _a = p.readUnsignedChar(structLayout.offset(.a)));
+    return _a;
+  }
+  set a(int value) {
+    _a = value;
+    structOnOp((p) => p.writeUnsignedChar(value, structLayout.offset(.a)));
+  }
 
   ColorD({
     super.op,
-    this.r = 0,
-    this.g = 0,
-    this.b = 0,
-    this.a = 0,
-  });
+    int r = 0,
+    int g = 0,
+    int b = 0,
+    int a = 0,
+  }) :
+    _r = r,
+    _g = g,
+    _b = b,
+    _a = a;
 
   factory ColorD.zero() => .new();
 
@@ -83,18 +122,18 @@ class ColorD extends RaylibStructLiteral<ColorD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUint8(r, structLayout.offset(.r));
-    p.writeUint8(g, structLayout.offset(.g));
-    p.writeUint8(b, structLayout.offset(.b));
-    p.writeUint8(a, structLayout.offset(.a));
+    p.writeUnsignedChar(_r, structLayout.offset(.r));
+    p.writeUnsignedChar(_g, structLayout.offset(.g));
+    p.writeUnsignedChar(_b, structLayout.offset(.b));
+    p.writeUnsignedChar(_a, structLayout.offset(.a));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    r = p.readUint8(structLayout.offset(.r));
-    g = p.readUint8(structLayout.offset(.g));
-    b = p.readUint8(structLayout.offset(.b));
-    a = p.readUint8(structLayout.offset(.a));
+    _r = p.readUnsignedChar(structLayout.offset(.r));
+    _g = p.readUnsignedChar(structLayout.offset(.g));
+    _b = p.readUnsignedChar(structLayout.offset(.b));
+    _a = p.readUnsignedChar(structLayout.offset(.a));
   }
 
   @override
@@ -240,7 +279,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ///
   /// Values are converted using [num.toInt], truncating any fractional part.
   ///
-  /// Returns this instance for fluent chaining.
+  /// Returns this instance for flu       ent chaining.
   ColorD set(num r, num g, num b, num a) {
     this.r = r.toInt();
     this.g = g.toInt();

@@ -26,21 +26,26 @@ class LightD extends RaylibStruct<LightD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<LightField> structLayout = .aligned({
-    .type:           RInt32(),
+    .type:           RInt(),
     .enabled:        RBool(),
     .position:       RStruct(Vector3D.structLayout),
     .target:         RStruct(Vector3D.structLayout),
     .color:          RStruct(ColorD.structLayout),
-    .attenuation:    RFloat32(),
-    .enabledLoc:     RInt32(),
-    .typeLoc:        RInt32(),
-    .positionLoc:    RInt32(),
-    .targetLoc:      RInt32(),
-    .colorLoc:       RInt32(),
-    .attenuationLoc: RInt32(),
+    .attenuation:    RFloat(),
+
+    // Shader locations
+    .enabledLoc:     RInt(),
+    .typeLoc:        RInt(),
+    .positionLoc:    RInt(),
+    .targetLoc:      RInt(),
+    .colorLoc:       RInt(),
+    .attenuationLoc: RInt(),
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<LightD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, LightD.new, LightD.pointer);
 
@@ -128,34 +133,34 @@ class LightD extends RaylibStruct<LightD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(type.value, structLayout.offset(.type));
+    p.writeInt(type.value, structLayout.offset(.type));
     p.writeBool(enabled, structLayout.offset(.enabled));
     position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
     target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
     color.structWriteInto(p.offsetBy(structLayout.offset(.color)));
-    p.writeFloat32(attenuation, structLayout.offset(.attenuation));
-    p.writeInt32(enabledLoc, structLayout.offset(.enabledLoc));
-    p.writeInt32(typeLoc, structLayout.offset(.typeLoc));
-    p.writeInt32(positionLoc, structLayout.offset(.positionLoc));
-    p.writeInt32(targetLoc, structLayout.offset(.targetLoc));
-    p.writeInt32(colorLoc, structLayout.offset(.colorLoc));
-    p.writeInt32(attenuationLoc, structLayout.offset(.attenuationLoc));
+    p.writeFloat(attenuation, structLayout.offset(.attenuation));
+    p.writeInt(enabledLoc, structLayout.offset(.enabledLoc));
+    p.writeInt(typeLoc, structLayout.offset(.typeLoc));
+    p.writeInt(positionLoc, structLayout.offset(.positionLoc));
+    p.writeInt(targetLoc, structLayout.offset(.targetLoc));
+    p.writeInt(colorLoc, structLayout.offset(.colorLoc));
+    p.writeInt(attenuationLoc, structLayout.offset(.attenuationLoc));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    type = .fromValue(p.readInt32(structLayout.offset(.type)));
+    type = .fromValue(p.readInt(structLayout.offset(.type)));
     enabled = p.readBool(structLayout.offset(.enabled));
     position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
     target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
     color.structReadFrom(p.offsetBy(structLayout.offset(.color)));
-    attenuation = p.readFloat32(structLayout.offset(.attenuation));
-    enabledLoc = p.readInt32(structLayout.offset(.enabledLoc));
-    typeLoc = p.readInt32(structLayout.offset(.typeLoc));
-    positionLoc = p.readInt32(structLayout.offset(.positionLoc));
-    targetLoc = p.readInt32(structLayout.offset(.targetLoc));
-    colorLoc = p.readInt32(structLayout.offset(.colorLoc));
-    attenuationLoc = p.readInt32(structLayout.offset(.attenuationLoc));
+    attenuation = p.readFloat(structLayout.offset(.attenuation));
+    enabledLoc = p.readInt(structLayout.offset(.enabledLoc));
+    typeLoc = p.readInt(structLayout.offset(.typeLoc));
+    positionLoc = p.readInt(structLayout.offset(.positionLoc));
+    targetLoc = p.readInt(structLayout.offset(.targetLoc));
+    colorLoc = p.readInt(structLayout.offset(.colorLoc));
+    attenuationLoc = p.readInt(structLayout.offset(.attenuationLoc));
   }
 
   @override

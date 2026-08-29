@@ -10,6 +10,8 @@ enum QuaternionField with StructFields {
   w,
 }
 
+/// Quaternion, 4 components
+/// 
 /// A unit quaternion representing a 3D rotation as `xi + yj + zk + w`.
 class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
@@ -21,13 +23,16 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<QuaternionField> structLayout = .aligned({
-    .x: RFloat32(),
-    .y: RFloat32(),
-    .z: RFloat32(),
-    .w: RFloat32(),
+    .x: RFloat(), // Imaginary i component
+    .y: RFloat(), // Imaginary j component
+    .z: RFloat(), // Imaginary k component
+    .w: RFloat(), // Real (scalar) component
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, QuaternionD.new, QuaternionD.pointer);
 
@@ -38,26 +43,62 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
+  double _x;
   /// Imaginary i component
-  double x;
+  double get x {
+    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    return _x;
+  }
+  set x(double value) {
+    _x = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+  }
 
+  double _y;
   /// Imaginary j component
-  double y;
+  double get y {
+    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    return _y;
+  }
+  set y(double value) {
+    _y = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+  }
 
+  double _z;
   /// Imaginary k component
-  double z;
+  double get z {
+    structOnOp((p) => _z = p.readFloat(structLayout.offset(.z)));
+    return _z;
+  }
+  set z(double value) {
+    _z = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.z)));
+  }
 
+  double _w;
   /// Real (scalar) component
-  double w;
+  double get w {
+    structOnOp((p) => _w = p.readFloat(structLayout.offset(.w)));
+    return _w;
+  }
+  set w(double value) {
+    _w = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.w)));
+  }
 
   QuaternionD({
     super.op,
-    this.x = 0,
-    this.y = 0,
-    this.z = 0,
-    this.w = 0,
-  });
+    double x = 0,
+    double y = 0,
+    double z = 0,
+    double w = 0,
+  }) :
+    _x = x,
+    _y = y,
+    _z = z,
+    _w = w;
 
   factory QuaternionD.zero() => .new();
   factory QuaternionD.one() => .quat(1, 1, 1, 1);
@@ -79,18 +120,18 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat32(x, structLayout.offset(.x));
-    p.writeFloat32(y, structLayout.offset(.y));
-    p.writeFloat32(z, structLayout.offset(.z));
-    p.writeFloat32(w, structLayout.offset(.w));
+    p.writeFloat(_x, structLayout.offset(.x));
+    p.writeFloat(_y, structLayout.offset(.y));
+    p.writeFloat(_z, structLayout.offset(.z));
+    p.writeFloat(_w, structLayout.offset(.w));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    x = p.readFloat32(structLayout.offset(.x));
-    y = p.readFloat32(structLayout.offset(.y));
-    z = p.readFloat32(structLayout.offset(.z));
-    w = p.readFloat32(structLayout.offset(.w));
+    _x = p.readFloat(structLayout.offset(.x));
+    _y = p.readFloat(structLayout.offset(.y));
+    _z = p.readFloat(structLayout.offset(.z));
+    _w = p.readFloat(structLayout.offset(.w));
   }
 
   @override
@@ -224,7 +265,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   /// Sets all components at once.
   /// 
-  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// Values are converted using [num.toDouble].
   /// 
   /// Returns this instance for fluent chaining.
   QuaternionD set(num x, num y, num z, num w) {

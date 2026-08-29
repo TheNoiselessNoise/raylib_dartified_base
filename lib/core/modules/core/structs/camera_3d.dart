@@ -8,7 +8,7 @@ enum Camera3DField with StructFields {
   projection,
 }
 
-/// Defines position/orientation in 3D space.
+/// Camera, defines position/orientation in 3d space
 class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -19,14 +19,17 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Camera3DField> structLayout = .aligned({
-    .position:   RStruct(Vector3D.structLayout),
-    .target:     RStruct(Vector3D.structLayout),
-    .up:         RStruct(Vector3D.structLayout),
-    .fovy:       RFloat32(),
-    .projection: RInt32(),
+    .position:   RStruct(Vector3D.structLayout), // Camera position
+    .target:     RStruct(Vector3D.structLayout), // Camera target it looks-at
+    .up:         RStruct(Vector3D.structLayout), // Camera up vector (rotation over its axis)
+    .fovy:       RFloat(), // Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
+    .projection: RInt(), // Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Camera3DD.new, Camera3DD.pointer);
 
@@ -38,32 +41,74 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
+  Vector3D _position;
   /// Camera position
-  Vector3D position;
+  Vector3D get position {
+    structOnOp((p) => _position.structReadFrom(p.offsetBy(structLayout.offset(.position))));
+    return _position;
+  }
+  set position(Vector3D value) {
+    _position = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.position))));
+  }
   
+  Vector3D _target;
   /// Camera target it looks-at
-  Vector3D target;
+  Vector3D get target {
+    structOnOp((p) => _target.structReadFrom(p.offsetBy(structLayout.offset(.target))));
+    return _target;
+  }
+  set target(Vector3D value) {
+    _target = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.target))));
+  }
   
+  Vector3D _up;
   /// Camera up vector (rotation over its axis)
-  Vector3D up;
+  Vector3D get up {
+    structOnOp((p) => _up.structReadFrom(p.offsetBy(structLayout.offset(.up))));
+    return _up;
+  }
+  set up(Vector3D value) {
+    _up = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.up))));
+  }
   
-  /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane width in orthographic
-  double fovy;
+  double _fovy;
+  /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
+  double get fovy {
+    structOnOp((p) => _fovy = p.readFloat(structLayout.offset(.fovy)));
+    return _fovy;
+  }
+  set fovy(double value) {
+    _fovy = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.fovy)));
+  }
   
-  /// Camera projection: [CameraProjection.CAMERA_PERSPECTIVE] or [CameraProjection.CAMERA_ORTHOGRAPHIC]
-  CameraProjection projection;
+  CameraProjection _projection;
+  /// Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
+  CameraProjection get projection {
+    structOnOp((p) => _projection = .fromValue(p.readInt(structLayout.offset(.projection))));
+    return _projection;
+  }
+  set projection(CameraProjection value) {
+    _projection = value;
+    structOnOp((p) => p.writeInt(value.value, structLayout.offset(.projection)));
+  }
 
   Camera3DD({
     super.op,
     Vector3D? position,
     Vector3D? target,
     Vector3D? up,
-    this.fovy = 45,
-    this.projection = .CAMERA_PERSPECTIVE,
+    double fovy = 45,
+    CameraProjection projection = .CAMERA_PERSPECTIVE,
   }) :
-    position = position ?? .zero(),
-    target = target ?? .zero(),
-    up = up ?? .zero();
+    _position = position ?? .zero(),
+    _target = target ?? .zero(),
+    _up = up ?? .zero(),
+    _fovy = fovy,
+    _projection = projection;
 
   factory Camera3DD.zero() => .new();
 
@@ -79,20 +124,20 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
-    target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
-    up.structWriteInto(p.offsetBy(structLayout.offset(.up)));
-    p.writeFloat32(fovy, structLayout.offset(.fovy));
-    p.writeInt32(projection.value, structLayout.offset(.projection));
+    _position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
+    _target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
+    _up.structWriteInto(p.offsetBy(structLayout.offset(.up)));
+    p.writeFloat(_fovy, structLayout.offset(.fovy));
+    p.writeInt(_projection.value, structLayout.offset(.projection));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
-    target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
-    up.structReadFrom(p.offsetBy(structLayout.offset(.up)));
-    fovy = p.readFloat32(structLayout.offset(.fovy));
-    projection = .fromValue(p.readInt32(structLayout.offset(.projection)));
+    _position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
+    _target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
+    _up.structReadFrom(p.offsetBy(structLayout.offset(.up)));
+    _fovy = p.readFloat(structLayout.offset(.fovy));
+    _projection = .fromValue(p.readInt(structLayout.offset(.projection)));
   }
 
   @override

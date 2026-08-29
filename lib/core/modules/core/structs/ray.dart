@@ -5,7 +5,7 @@ enum RayField with StructFields {
   direction,
 }
 
-/// Ray for raycasting.
+/// Ray, ray for raycasting
 class RayD extends RaylibStructLiteral<RayD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -16,11 +16,14 @@ class RayD extends RaylibStructLiteral<RayD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RayField> structLayout = .aligned({
-    .position:  RStruct(Vector3D.structLayout),
-    .direction: RStruct(Vector3D.structLayout),
+    .position:  RStruct(Vector3D.structLayout), // Ray position (origin)
+    .direction: RStruct(Vector3D.structLayout), // Ray direction (normalized)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RayD.new, RayD.pointer);
 
@@ -32,19 +35,35 @@ class RayD extends RaylibStructLiteral<RayD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
+  Vector3D _position;
   /// Ray position (origin)
-  Vector3D position;
+  Vector3D get position {
+    structOnOp((p) => _position.structReadFrom(p.offsetBy(structLayout.offset(.position))));
+    return _position;
+  }
+  set position(Vector3D value) {
+    _position = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.position))));
+  }
   
+  Vector3D _direction;
   /// Ray direction (normalized)
-  Vector3D direction;
+  Vector3D get direction {
+    structOnOp((p) => _direction.structReadFrom(p.offsetBy(structLayout.offset(.direction))));
+    return _direction;
+  }
+  set direction(Vector3D value) {
+    _direction = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.direction))));
+  }
 
   RayD({
     super.op,
     Vector3D? position,
     Vector3D? direction
   }) :
-    position = position ?? .zero(),
-    direction = direction ?? .zero();
+    _position = position ?? .zero(),
+    _direction = direction ?? .zero();
 
   factory RayD.zero() => .new();
 
@@ -57,14 +76,14 @@ class RayD extends RaylibStructLiteral<RayD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
-    direction.structWriteInto(p.offsetBy(structLayout.offset(.direction)));
+    _position.structWriteInto(p.offsetBy(structLayout.offset(.position)));
+    _direction.structWriteInto(p.offsetBy(structLayout.offset(.direction)));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
-    direction.structReadFrom(p.offsetBy(structLayout.offset(.direction)));
+    _position.structReadFrom(p.offsetBy(structLayout.offset(.position)));
+    _direction.structReadFrom(p.offsetBy(structLayout.offset(.direction)));
   }
 
   @override

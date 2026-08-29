@@ -133,7 +133,7 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
 abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> with RaylibGuiModuleExtras<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = RaylibGuiModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibGuiModuleCaptureIds();
 
   RaylibGuiFlatModule(super.rl);
 

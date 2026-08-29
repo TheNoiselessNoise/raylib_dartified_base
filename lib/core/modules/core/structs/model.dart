@@ -12,7 +12,7 @@ enum ModelField with StructFields {
   boneMatrices
 }
 
-/// Meshes, materials and animation data.
+/// Model, meshes, materials and animation data
 class ModelD extends RaylibStruct<ModelD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -23,18 +23,25 @@ class ModelD extends RaylibStruct<ModelD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelField> structLayout = .aligned({
-    .transform:     RStruct(MatrixD.structLayout),
-    .meshCount:     RInt32(),
-    .materialCount: RInt32(),
-    .meshes:        RPointer<RStruct>(),
-    .materials:     RPointer<RStruct>(),
-    .meshMaterial:  RPointer<RInt32>(),
-    .skeleton:      RStruct(ModelSkeletonD.structLayout),
-    .currentPose:   RPointer<RStruct>(),
-    .boneMatrices:  RPointer<RStruct>(),
+    .transform:     RStruct(MatrixD.structLayout), // Local transform matrix
+    .meshCount:     RInt(), // Number of meshes
+    .materialCount: RInt(), // Number of materials
+    .meshes:        RPointer<RStruct>(), // Meshes array
+    .materials:     RPointer<RStruct>(), // Materials array
+    .meshMaterial:  RPointer<RInt>(), // Mesh material number
+
+    // Animation data
+    .skeleton:      RStruct(ModelSkeletonD.structLayout), // Skeleton for animation
+
+    // Runtime animation data (CPU/GPU skinning)
+    .currentPose:   RPointer<RStruct>(), // Current animation pose (Transform[])
+    .boneMatrices:  RPointer<RStruct>(), // Bones animated transformation matrices
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ModelD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ModelD.new, ModelD.pointer);
 
@@ -60,23 +67,23 @@ class ModelD extends RaylibStruct<ModelD> {
   int _meshCount;
   /// Number of meshes
   int get meshCount {
-    structOnOp((p) => _meshCount = p.readInt32(structLayout.offset(.meshCount)));
+    structOnOp((p) => _meshCount = p.readInt(structLayout.offset(.meshCount)));
     return _meshCount;
   }
   set meshCount(int value) {
     _meshCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.meshCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.meshCount)));
   }
 
   int _materialCount;
   /// Number of materials
   int get materialCount {
-    structOnOp((p) => _materialCount = p.readInt32(structLayout.offset(.materialCount)));
+    structOnOp((p) => _materialCount = p.readInt(structLayout.offset(.materialCount)));
     return _materialCount;
   }
   set materialCount(int value) {
     _materialCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.materialCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.materialCount)));
   }
   
   late LiveListPointerStruct<MeshD> _meshes;
@@ -101,9 +108,9 @@ class ModelD extends RaylibStruct<ModelD> {
     _materials.inner = value;
   }
 
-  late LiveListPointerScalar<int, RInt32> _meshMaterial;
-  /// Mesh-to-material index mapping
-  LiveListPointerScalar<int, RInt32> get meshMaterial {
+  late LiveListPointerScalar<int, RInt> _meshMaterial;
+  /// Mesh material number
+  LiveListPointerScalar<int, RInt> get meshMaterial {
     structOnOp((p) => _meshMaterial.ptr = p.readPtr(structLayout.offset(.meshMaterial)));
     return _meshMaterial;
   }
@@ -124,7 +131,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
   
   late LiveListPointerStruct<TransformD> _currentPose;
-  /// Current animation pose
+  /// Current animation pose (Transform[])
   LiveListPointerStruct<TransformD> get currentPose {
     structOnOp((p) => _currentPose.ptr = p.readPtr(structLayout.offset(.currentPose)));
     return _currentPose;
@@ -160,32 +167,18 @@ class ModelD extends RaylibStruct<ModelD> {
     _materialCount = materials?.length ?? 0,
     _skeleton = skeleton ?? .new()
   {
-    _meshes = .new(
-      meshes ?? [],
-      MeshD.pointer(op?.readPtr(structLayout.offset(.meshes))),
-    );
-
-    _materials = .new(
-      materials ?? [],
-      MaterialD.pointer(op?.readPtr(structLayout.offset(.materials))),
-    );
+    _meshes = .new(meshes, MeshD.pointer(op?.readPtr(structLayout.offset(.meshes))));
+    _materials = .new(materials, MaterialD.pointer(op?.readPtr(structLayout.offset(.materials))));
 
     _meshMaterial = .new(
-      meshMaterial ?? [],
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      meshMaterial ?? [],
       op?.offsetBy(structLayout.offset(.meshMaterial)),
     );
 
-    _currentPose = .new(
-      currentPose ?? [],
-      TransformD.pointer(op?.readPtr(structLayout.offset(.currentPose))),
-    );
-
-    _boneMatrices = .new(
-      boneMatrices ?? [],
-      MatrixD.pointer(op?.readPtr(structLayout.offset(.boneMatrices))),
-    );
+    _currentPose = .new(currentPose, TransformD.pointer(op?.readPtr(structLayout.offset(.currentPose))));
+    _boneMatrices = .new(boneMatrices, MatrixD.pointer(op?.readPtr(structLayout.offset(.boneMatrices))));
   }
 
   factory ModelD.zero() => .new();
@@ -210,7 +203,7 @@ class ModelD extends RaylibStruct<ModelD> {
       _materials.structPtr = temp.Material$.Array(_materials.inner, key: '${key}_materials');
     }
     if (meshMaterial.inner.isNotEmpty) {
-      _meshMaterial.ptr = temp.Int32$.Array(_meshMaterial.inner, key: '${key}_meshMaterial').cast();
+      _meshMaterial.ptr = temp.Int$.Array(_meshMaterial.inner, key: '${key}_meshMaterial').cast();
     }
     if (currentPose.inner.isNotEmpty) {
       _currentPose.structPtr = temp.Transform$.Array(_currentPose.inner, key: '${key}_currentPose');
@@ -223,8 +216,8 @@ class ModelD extends RaylibStruct<ModelD> {
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
     _transform.structWriteInto(p.offsetBy(structLayout.offset(.transform)));
-    p.writeInt32(_meshCount, structLayout.offset(.meshCount));
-    p.writeInt32(_materialCount, structLayout.offset(.materialCount));
+    p.writeInt(_meshCount, structLayout.offset(.meshCount));
+    p.writeInt(_materialCount, structLayout.offset(.materialCount));
     p.writePtr(_meshes.ptr, structLayout.offset(.meshes));
     p.writePtr(_materials.ptr, structLayout.offset(.materials));
     p.writePtr(_meshMaterial.ptr, structLayout.offset(.meshMaterial));
@@ -242,8 +235,8 @@ class ModelD extends RaylibStruct<ModelD> {
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
     _transform.structReadFrom(p.offsetBy(structLayout.offset(.transform)));
-    _meshCount = p.readInt32(structLayout.offset(.meshCount));
-    _materialCount = p.readInt32(structLayout.offset(.materialCount));
+    _meshCount = p.readInt(structLayout.offset(.meshCount));
+    _materialCount = p.readInt(structLayout.offset(.materialCount));
     _meshes.ptr = p.readPtr(structLayout.offset(.meshes));
     _materials.ptr = p.readPtr(structLayout.offset(.materials));
     _meshMaterial.ptr = p.readPtr(structLayout.offset(.meshMaterial));

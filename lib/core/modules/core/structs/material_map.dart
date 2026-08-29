@@ -17,12 +17,15 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MaterialMapField> structLayout = .aligned({
-    .texture: RStruct(TextureD.structLayout),
-    .color:   RStruct(ColorD.structLayout),
-    .value:   RFloat32(),
+    .texture: RStruct(TextureD.structLayout), // Material map texture
+    .color:   RStruct(ColorD.structLayout), // Material map color
+    .value:   RFloat(), // Material map value
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MaterialMapD.new, MaterialMapD.pointer);
 
@@ -59,12 +62,12 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   double _value;
   /// Material map value
   double get value {
-    structOnOp((p) => _value = p.readFloat32(structLayout.offset(.value)));
+    structOnOp((p) => _value = p.readFloat(structLayout.offset(.value)));
     return _value;
   }
   set value(double value) {
     _value = value;
-    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.value)));
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.value)));
   }
   
   MaterialMapD({
@@ -98,7 +101,7 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   void structReadFrom(MemoryPointer<RStruct> p) {
     _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
     _color.structReadFrom(p.offsetBy(structLayout.offset(.color)));
-    _value = p.readFloat32(structLayout.offset(.value));
+    _value = p.readFloat(structLayout.offset(.value));
   }
 
   @override

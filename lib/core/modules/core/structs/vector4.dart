@@ -10,7 +10,7 @@ enum Vector4Field with StructFields {
   w,
 }
 
-/// A 4D vector with [x], [y], [z], and [w] components.
+/// Vector4, 4 components
 class Vector4D extends RaylibStructLiteral<Vector4D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -21,13 +21,16 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector4Field> structLayout = .aligned({
-    .x: RFloat32(),
-    .y: RFloat32(),
-    .z: RFloat32(),
-    .w: RFloat32(),
+    .x: RFloat(), // Vector x component
+    .y: RFloat(), // Vector y component
+    .z: RFloat(), // Vector z component
+    .w: RFloat(), // Vector w component
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Vector4D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector4D.new, Vector4D.pointer);
 
@@ -39,25 +42,61 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  /// X component
-  double x;
-  
-  /// Y component
-  double y;
-  
-  /// Z component
-  double z;
-  
-  /// W component
-  double w;
+  double _x;
+  /// Vector x component
+  double get x {
+    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    return _x;
+  }
+  set x(double value) {
+    _x = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+  }
+
+  double _y;
+  /// Vector y component
+  double get y {
+    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    return _y;
+  }
+  set y(double value) {
+    _y = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+  }
+
+  double _z;
+  /// Vector z component
+  double get z {
+    structOnOp((p) => _z = p.readFloat(structLayout.offset(.z)));
+    return _z;
+  }
+  set z(double value) {
+    _z = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.z)));
+  }
+
+  double _w;
+  /// Vector w component
+  double get w {
+    structOnOp((p) => _w = p.readFloat(structLayout.offset(.w)));
+    return _w;
+  }
+  set w(double value) {
+    _w = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.w)));
+  }
 
   Vector4D({
     super.op,
-    this.x = 0,
-    this.y = 0,
-    this.z = 0,
-    this.w = 0,
-  });
+    double x = 0,
+    double y = 0,
+    double z = 0,
+    double w = 0,
+  }) :
+    _x = x,
+    _y = y,
+    _z = z,
+    _w = w;
 
   factory Vector4D.zero() => .new();
   factory Vector4D.one() => .vec4(1, 1, 1, 1);
@@ -79,18 +118,18 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat32(x, structLayout.offset(.x));
-    p.writeFloat32(y, structLayout.offset(.y));
-    p.writeFloat32(z, structLayout.offset(.z));
-    p.writeFloat32(w, structLayout.offset(.w));
+    p.writeFloat(_x, structLayout.offset(.x));
+    p.writeFloat(_y, structLayout.offset(.y));
+    p.writeFloat(_z, structLayout.offset(.z));
+    p.writeFloat(_w, structLayout.offset(.w));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    x = p.readFloat32(structLayout.offset(.x));
-    y = p.readFloat32(structLayout.offset(.y));
-    z = p.readFloat32(structLayout.offset(.z));
-    w = p.readFloat32(structLayout.offset(.w));
+    _x = p.readFloat(structLayout.offset(.x));
+    _y = p.readFloat(structLayout.offset(.y));
+    _z = p.readFloat(structLayout.offset(.z));
+    _w = p.readFloat(structLayout.offset(.w));
   }
 
   @override
@@ -145,7 +184,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
 
   /// Sets all components at once.
   /// 
-  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// Values are converted using [num.toDouble].
   /// 
   /// Returns this instance for fluent chaining.
   Vector4D set(num x, num y, num z, num w) {

@@ -9,7 +9,7 @@ enum FontField with StructFields {
   glyphs,
 }
 
-/// Font texture and GlyphInfo array data.
+/// Font, font texture and GlyphInfo array data
 class FontD extends RaylibStruct<FontD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -20,15 +20,18 @@ class FontD extends RaylibStruct<FontD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<FontField> structLayout = .aligned({
-    .baseSize:     RInt32(),
-    .glyphCount:   RInt32(),
-    .glyphPadding: RInt32(),
-    .texture:      RStruct(TextureD.structLayout),
-    .recs:         RPointer<RStruct>(),
-    .glyphs:       RPointer<RStruct>(),
+    .baseSize:     RInt(), // Base size (default chars height)
+    .glyphCount:   RInt(), // Number of glyph characters
+    .glyphPadding: RInt(), // Padding around the glyph characters
+    .texture:      RStruct(TextureD.structLayout), // Texture atlas containing the glyphs
+    .recs:         RPointer<RStruct>(), // Rectangles in texture for the glyphs
+    .glyphs:       RPointer<RStruct>(), // Glyphs info data
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<FontD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, FontD.new, FontD.pointer);
 
@@ -43,34 +46,34 @@ class FontD extends RaylibStruct<FontD> {
   int _baseSize;
   /// Base size (default chars height)
   int get baseSize {
-    structOnOp((p) => _baseSize = p.readInt32(structLayout.offset(.baseSize)));
+    structOnOp((p) => _baseSize = p.readInt(structLayout.offset(.baseSize)));
     return _baseSize;
   }
   set baseSize(int value) {
     _baseSize = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.baseSize)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.baseSize)));
   }
 
   int _glyphCount;
   /// Number of glyph characters
   int get glyphCount {
-    structOnOp((p) => _glyphCount = p.readInt32(structLayout.offset(.glyphCount)));
+    structOnOp((p) => _glyphCount = p.readInt(structLayout.offset(.glyphCount)));
     return _glyphCount;
   }
   set glyphCount(int value) {
     _glyphCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.glyphCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.glyphCount)));
   }
 
   int _glyphPadding;
   /// Padding around the glyph characters
   int get glyphPadding {
-    structOnOp((p) => _glyphPadding = p.readInt32(structLayout.offset(.glyphPadding)));
+    structOnOp((p) => _glyphPadding = p.readInt(structLayout.offset(.glyphPadding)));
     return _glyphPadding;
   }
   set glyphPadding(int value) {
     _glyphPadding = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.glyphPadding)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.glyphPadding)));
   }
 
   TextureD _texture;
@@ -87,12 +90,15 @@ class FontD extends RaylibStruct<FontD> {
   late LiveListPointerStruct<RectangleD> _recs;
   /// Rectangles in texture for the glyphs
   LiveListPointerStruct<RectangleD> get recs {
-    structOnOp((p) => _recs.ptr = p.readPtr(structLayout.offset(.recs)));
+    // structOnOp((p) => _recs.ptr = p.readPtr(structLayout.offset(.recs)));
     return _recs;
   }
   set recs(List<RectangleD> value) {
     assert(value.length <= glyphCount);
-    structOnOp((p) => _recs.ptr = p.readPtr(structLayout.offset(.recs)));
+    structOnOp((p) => _recs.ptr =
+      value.firstOrNull?.op?.ptr ??
+      p.readPtr(structLayout.offset(.recs))
+    );
     _recs.inner = value;
   }
 
@@ -104,7 +110,10 @@ class FontD extends RaylibStruct<FontD> {
   }
   set glyphs(List<GlyphInfoD> value) {
     assert(value.length <= glyphCount);
-    structOnOp((p) => _glyphs.ptr = p.readPtr(structLayout.offset(.glyphs)));
+    structOnOp((p) => _glyphs.ptr =
+      value.firstOrNull?.op?.ptr ??
+      p.readPtr(structLayout.offset(.glyphs))
+    );
     _glyphs.inner = value;
   }
 
@@ -122,15 +131,8 @@ class FontD extends RaylibStruct<FontD> {
     _glyphPadding = glyphPadding,
     _texture = texture ?? .new()
   {
-    _recs = .new(
-      recs ?? [],
-      RectangleD.pointer(op?.readPtr(structLayout.offset(.recs))),
-    );
-
-    _glyphs = .new(
-      glyphs ?? [],
-      GlyphInfoD.pointer(op?.readPtr(structLayout.offset(.glyphs))),
-    );
+    _recs = .new(recs, RectangleD.pointer(op?.readPtr(structLayout.offset(.recs))));
+    _glyphs = .new(glyphs, GlyphInfoD.pointer(op?.readPtr(structLayout.offset(.glyphs))));
   }
 
   factory FontD.zero() => .new();
@@ -149,21 +151,25 @@ class FontD extends RaylibStruct<FontD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
     if (recs.inner.isNotEmpty) {
-      _recs.ptr = temp.Rectangle$.Raw(recs.length);
+      _recs.ptr =
+        recs.inner.firstOrNull?.op?.ptr ??
+        temp.Rectangle$.Raw(recs.inner.length);
     }
     if (glyphs.inner.isNotEmpty) {
-      _glyphs.ptr = temp.GlyphInfo$.Raw(glyphs.length);
+      _glyphs.ptr =
+        glyphs.inner.firstOrNull?.op?.ptr ??
+        temp.GlyphInfo$.Raw(glyphs.inner.length);
     }
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(_baseSize, structLayout.offset(.baseSize));
-    p.writeInt32(_glyphCount, structLayout.offset(.glyphCount));
-    p.writeInt32(_glyphPadding, structLayout.offset(.glyphPadding));
+    p.writeInt(_baseSize, structLayout.offset(.baseSize));
+    p.writeInt(_glyphCount, structLayout.offset(.glyphCount));
+    p.writeInt(_glyphPadding, structLayout.offset(.glyphPadding));
     _texture.structWriteInto(p.offsetBy(structLayout.offset(.texture)));
-    p.writePtr(_recs.ptr, structLayout.offset(.recs));
-    p.writePtr(_glyphs.ptr, structLayout.offset(.glyphs));
+    p.writePtr(_recs.inner.firstOrNull?.op?.ptr ?? _recs.ptr, structLayout.offset(.recs));
+    p.writePtr(_glyphs.inner.firstOrNull?.op?.ptr ?? _glyphs.ptr, structLayout.offset(.glyphs));
 
     _recs.onStructPointer((p) => p.writeArray(_recs.inner));
     _glyphs.onStructPointer((p) => p.writeArray(_glyphs.inner));
@@ -171,9 +177,9 @@ class FontD extends RaylibStruct<FontD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _baseSize = p.readInt32(structLayout.offset(.baseSize));
-    _glyphCount = p.readInt32(structLayout.offset(.glyphCount));
-    _glyphPadding = p.readInt32(structLayout.offset(.glyphPadding));
+    _baseSize = p.readInt(structLayout.offset(.baseSize));
+    _glyphCount = p.readInt(structLayout.offset(.glyphCount));
+    _glyphPadding = p.readInt(structLayout.offset(.glyphPadding));
     _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
     _recs.ptr = p.readPtr(structLayout.offset(.recs));
     _glyphs.ptr = p.readPtr(structLayout.offset(.glyphs));

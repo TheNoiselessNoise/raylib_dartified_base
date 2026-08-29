@@ -8,7 +8,7 @@ enum WaveField with StructFields {
   data,
 }
 
-/// Audio wave data.
+/// Wave, audio wave data
 class WaveD extends RaylibStruct<WaveD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -19,14 +19,17 @@ class WaveD extends RaylibStruct<WaveD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<WaveField> structLayout = .aligned({
-    .frameCount: RUint32(),
-    .sampleRate: RUint32(),
-    .sampleSize: RUint32(),
-    .channels:   RUint32(),
-    .data:       RPointer<RVoid>(),
+    .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
+    .sampleRate: RUnsignedInt(), // Frequency (samples per second)
+    .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
+    .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
+    .data:       RPointer<RVoid>(), // Buffer data pointer
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<WaveD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, WaveD.new, WaveD.pointer);
 
@@ -51,9 +54,9 @@ class WaveD extends RaylibStruct<WaveD> {
   /// [frameCount] and [channels].
   int get waveLength => BASE_waveLength(frameCount, channels);
 
-  /// Total number of samples the [data] buffer can hold, derived from
+  /// Total number of samples the [dataBuffer] buffer can hold, derived from
   /// its byte length and [sampleSize].
-  int get bufferLength => data.lengthInBytes ~/ (sampleSize ~/ 8);
+  int get bufferLength => dataBuffer.lengthInBytes ~/ (sampleSize ~/ 8);
 
   // ░██     ░██ ░██████████░██████░██           ░██████   
   // ░██     ░██     ░██      ░██  ░██          ░██   ░██  
@@ -94,32 +97,72 @@ class WaveD extends RaylibStruct<WaveD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
+  int _frameCount;
   /// Total number of frames (considering channels)
-  int frameCount;
+  int get frameCount {
+    structOnOp((p) => _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount)));
+    return _frameCount;
+  }
+  set frameCount(int value) {
+    _frameCount = value;
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.frameCount)));
+  }
   
+  int _sampleRate;
   /// Frequency (samples per second)
-  int sampleRate;
+  int get sampleRate {
+    structOnOp((p) => _sampleRate = p.readUnsignedInt(structLayout.offset(.sampleRate)));
+    return _sampleRate;
+  }
+  set sampleRate(int value) {
+    _sampleRate = value;
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.sampleRate)));
+  }
   
+  int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-  int sampleSize;
+  int get sampleSize {
+    structOnOp((p) => _sampleSize = p.readUnsignedInt(structLayout.offset(.sampleSize)));
+    return _sampleSize;
+  }
+  set sampleSize(int value) {
+    _sampleSize = value;
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.sampleSize)));
+  }
   
+  int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
-  int channels;
+  int get channels {
+    structOnOp((p) => _channels = p.readUnsignedInt(structLayout.offset(.channels)));
+    return _channels;
+  }
+  set channels(int value) {
+    _channels = value;
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.channels)));
+  }
   
   /// Raw audio buffer data
-  late ByteBuffer data;
+  late ByteBuffer dataBuffer;
 
-  MemoryPointer<RVoid> _dataPtr = MemoryPointer.nullptr;
+  /// Buffer data pointer
+  /// 
+  /// `void *data;`
+  MemoryPointer<RVoid> data = MemoryPointer.nullptr;
 
   WaveD({
     super.op,
-    this.frameCount = 0,
-    this.sampleRate = 0,
-    this.sampleSize = 8,
-    this.channels = 0,
+    int frameCount = 0,
+    int sampleRate = 0,
+    int sampleSize = 0,
+    int channels = 0,
     ByteBuffer? data,
-  }) {
-    this.data = data ?? BASE_dummyData(sampleSize, waveLength);
+  }) :
+    _frameCount = frameCount,
+    _sampleRate = sampleRate,
+    _sampleSize = sampleSize,
+    _channels = channels
+  {
+    dataBuffer = data ?? BASE_dummyData(sampleSize, waveLength);
   }
 
   factory WaveD.zero() => .new();
@@ -130,46 +173,46 @@ class WaveD extends RaylibStruct<WaveD> {
     sampleRate = o.sampleRate;
     sampleSize = o.sampleSize;
     channels = o.channels;
-    data = BASE_bufferCopy(o.data, sampleSize);
+    dataBuffer = BASE_bufferCopy(o.dataBuffer, sampleSize);
     return this;
   }
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
-    if (data.lengthInBytes > 0) _dataPtr = switch (sampleSize) {
-     8  => temp.Uint8$.Array(data.asUint8List(), key: '${key}_data').cast(),
-     16 => temp.Int16$.Array(data.asInt16List(), key: '${key}_data').cast(),
-     32 => temp.Float32$.Array(data.asFloat32List(), key: '${key}_data').cast(),
+    if (dataBuffer.lengthInBytes > 0) data = switch (sampleSize) {
+     8  => temp.Uint8$.Array(dataBuffer.asUint8List(), key: '${key}_data').cast(),
+     16 => temp.Int16$.Array(dataBuffer.asInt16List(), key: '${key}_data').cast(),
+     32 => temp.Float32$.Array(dataBuffer.asFloat32List(), key: '${key}_data').cast(),
       _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
     };
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUint32(frameCount, structLayout.offset(.frameCount));
-    p.writeUint32(sampleRate, structLayout.offset(.sampleRate));
-    p.writeUint32(sampleSize, structLayout.offset(.sampleSize));
-    p.writeUint32(channels, structLayout.offset(.channels));
-    p.writePtr(_dataPtr, structLayout.offset(.data));
+    p.writeUnsignedInt(_frameCount, structLayout.offset(.frameCount));
+    p.writeUnsignedInt(_sampleRate, structLayout.offset(.sampleRate));
+    p.writeUnsignedInt(_sampleSize, structLayout.offset(.sampleSize));
+    p.writeUnsignedInt(_channels, structLayout.offset(.channels));
+    p.writePtr(data, structLayout.offset(.data));
 
-    if (!_dataPtr.isNull) {
-      assert(waveLength <= BASE_bufferLength(data, sampleSize));
-      BASE_dataSetList(_dataPtr, data, sampleSize, waveLength);
+    if (!data.isNull) {
+      assert(waveLength <= BASE_bufferLength(dataBuffer, sampleSize));
+      BASE_dataSetList(data, dataBuffer, sampleSize, waveLength);
     }
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    frameCount = p.readUint32(structLayout.offset(.frameCount));
-    sampleRate = p.readUint32(structLayout.offset(.sampleRate));
-    sampleSize = p.readUint32(structLayout.offset(.sampleSize));
-    channels = p.readUint32(structLayout.offset(.channels));
-    _dataPtr = p.readPtr(structLayout.offset(.data));
+    _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount));
+    _sampleRate = p.readUnsignedInt(structLayout.offset(.sampleRate));
+    _sampleSize = p.readUnsignedInt(structLayout.offset(.sampleSize));
+    _channels = p.readUnsignedInt(structLayout.offset(.channels));
+    data = p.readPtr(structLayout.offset(.data));
 
-    if (!_dataPtr.isNull) data = switch (sampleSize) {
-      8  => _dataPtr.to<Uint8List>(waveLength).buffer,
-      16 => _dataPtr.to<Int16List>(waveLength).buffer,
-      32 => _dataPtr.to<Float32List>(waveLength).buffer,
+    if (!data.isNull) dataBuffer = switch (sampleSize) {
+      8  => data.to<Uint8List>(waveLength).buffer,
+      16 => data.to<Int16List>(waveLength).buffer,
+      32 => data.to<Float32List>(waveLength).buffer,
       _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
     };
   }
@@ -181,7 +224,7 @@ class WaveD extends RaylibStruct<WaveD> {
     sampleRate: sampleRate,
     sampleSize: sampleSize,
     channels: channels,
-    data: BASE_bufferCopy(data, sampleSize),
+    data: BASE_bufferCopy(dataBuffer, sampleSize),
   );
 
   @override

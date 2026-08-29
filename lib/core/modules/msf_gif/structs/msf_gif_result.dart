@@ -7,6 +7,7 @@ enum MsfGifResultField with StructFields {
   contextPointer,
 }
 
+/// MsfGifResult
 class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -17,6 +18,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MsfGifResultField> structLayout = .aligned({
     .data:           RPointer<RVoid>(),
     .dataSize:       RSize(),
@@ -24,6 +26,8 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
     .contextPointer: RPointer<RVoid>(),
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MsfGifResultD.new, MsfGifResultD.pointer);
 
@@ -35,13 +39,13 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  Uint8List get data => getOp().offsetBy(structLayout.offset(.data)).asView(dataSize);
+  Uint8List get data => getOp().readPtr(structLayout.offset(.data)).asView(dataSize);
 
   int get dataSize => getOp().readSize(structLayout.offset(.dataSize));
 
   int get allocSize => getOp().readSize(structLayout.offset(.allocSize));
 
-  MsfGifResultD({super.op});
+  MsfGifResultD({ super.op });
 
   factory MsfGifResultD.zero() => .new();
 

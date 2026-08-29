@@ -9,7 +9,7 @@ enum RlRenderBatchField with StructFields {
   currentDepth,
 }
 
-/// RLGL Render batch
+/// rlRenderBatch type
 class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -20,15 +20,18 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RlRenderBatchField> structLayout = .aligned({
-    .bufferCount:   RInt32(),
-    .currentBuffer: RInt32(),
-    .vertexBuffer:  RPointer<RStruct>(), // TODO: type all `RPointer<RStruct>` to their struct layouts?
-    .draws:         RPointer<RStruct>(),
-    .drawCounter:   RInt32(),
-    .currentDepth:  RFloat32(),
+    .bufferCount:   RInt(), // Number of vertex buffers (multi-buffering support)
+    .currentBuffer: RInt(), // Current buffer tracking in case of multi-buffering
+    .vertexBuffer:  RPointer<RStruct>(), // Dynamic buffer(s) for vertex data
+    .draws:         RPointer<RStruct>(), // Draw calls array, depends on textureId
+    .drawCounter:   RInt(), // Draw calls counter
+    .currentDepth:  RFloat(), // Current depth value for next draw
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RlRenderBatchD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, RlRenderBatchD.new, RlRenderBatchD.pointer);
 
@@ -43,23 +46,23 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   int _bufferCount;
   /// Number of vertex buffers (multi-buffering support)
   int get bufferCount {
-    structOnOp((p) => _bufferCount = p.readInt32(structLayout.offset(.bufferCount)));
+    structOnOp((p) => _bufferCount = p.readInt(structLayout.offset(.bufferCount)));
     return _bufferCount;
   }
   set bufferCount(int value) {
     _bufferCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.bufferCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.bufferCount)));
   }
   
   int _currentBuffer;
   /// Current buffer tracking in case of multi-buffering
   int get currentBuffer {
-    structOnOp((p) => _currentBuffer = p.readInt32(structLayout.offset(.currentBuffer)));
+    structOnOp((p) => _currentBuffer = p.readInt(structLayout.offset(.currentBuffer)));
     return _currentBuffer;
   }
   set currentBuffer(int value) {
     _currentBuffer = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.currentBuffer)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.currentBuffer)));
   }
   
   late LiveListPointerStruct<RlVertexBufferD> _vertexBuffer;
@@ -87,23 +90,23 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   int _drawCounter;
   /// Draw calls counter
   int get drawCounter {
-    structOnOp((p) => _drawCounter = p.readInt32(structLayout.offset(.drawCounter)));
+    structOnOp((p) => _drawCounter = p.readInt(structLayout.offset(.drawCounter)));
     return _drawCounter;
   }
   set drawCounter(int value) {
     _drawCounter = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.drawCounter)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.drawCounter)));
   }
   
   double _currentDepth;
   /// Current depth value for next draw
   double get currentDepth {
-    structOnOp((p) => _currentDepth = p.readFloat32(structLayout.offset(.currentDepth)));
+    structOnOp((p) => _currentDepth = p.readFloat(structLayout.offset(.currentDepth)));
     return _currentDepth;
   }
   set currentDepth(double value) {
     _currentDepth = value;
-    structOnOp((p) => p.writeFloat32(value, structLayout.offset(.currentDepth)));
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.currentDepth)));
   }
 
   RlRenderBatchD({
@@ -120,15 +123,8 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
     _drawCounter = drawCounter,
     _currentDepth = currentDepth
   {
-    _vertexBuffer = .new(
-      vertexBuffer ?? [],
-      RlVertexBufferD.pointer(op?.readPtr(structLayout.offset(.vertexBuffer))),
-    );
-
-    _draws = .new(
-      draws ?? [],
-      RlDrawCallD.pointer(op?.readPtr(structLayout.offset(.draws))),
-    );
+    _vertexBuffer = .new(vertexBuffer, RlVertexBufferD.pointer(op?.readPtr(structLayout.offset(.vertexBuffer))));
+    _draws = .new(draws, RlDrawCallD.pointer(op?.readPtr(structLayout.offset(.draws))));
   }
 
   factory RlRenderBatchD.zero() => .new();
@@ -146,12 +142,12 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(_bufferCount, structLayout.offset(.bufferCount));
-    p.writeInt32(_currentBuffer, structLayout.offset(.currentBuffer));
+    p.writeInt(_bufferCount, structLayout.offset(.bufferCount));
+    p.writeInt(_currentBuffer, structLayout.offset(.currentBuffer));
     p.writePtr(_vertexBuffer.ptr, structLayout.offset(.vertexBuffer));
     p.writePtr(_draws.ptr, structLayout.offset(.draws));
-    p.writeInt32(_drawCounter, structLayout.offset(.drawCounter));
-    p.writeFloat32(_currentDepth, structLayout.offset(.currentDepth));
+    p.writeInt(_drawCounter, structLayout.offset(.drawCounter));
+    p.writeFloat(_currentDepth, structLayout.offset(.currentDepth));
 
     _vertexBuffer.onStructPointer((p) => p.writeArray(_vertexBuffer.inner));
     _draws.onStructPointer((p) => p.writeArray(_draws.inner));
@@ -159,12 +155,12 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _bufferCount = p.readInt32(structLayout.offset(.bufferCount));
-    _currentBuffer = p.readInt32(structLayout.offset(.currentBuffer));
+    _bufferCount = p.readInt(structLayout.offset(.bufferCount));
+    _currentBuffer = p.readInt(structLayout.offset(.currentBuffer));
     _vertexBuffer.ptr = p.readPtr(structLayout.offset(.vertexBuffer));
     _draws.ptr = p.readPtr(structLayout.offset(.draws));
-    _drawCounter = p.readInt32(structLayout.offset(.drawCounter));
-    _currentDepth = p.readFloat32(structLayout.offset(.currentDepth));
+    _drawCounter = p.readInt(structLayout.offset(.drawCounter));
+    _currentDepth = p.readFloat(structLayout.offset(.currentDepth));
 
     _vertexBuffer.onStructPointer((p) => _vertexBuffer.raw = p.readArray(bufferCount));
     _draws.onStructPointer((p) => _draws.raw = p.readArray(drawCounter));

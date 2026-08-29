@@ -11,7 +11,7 @@ enum VrStereoConfigField with StructFields {
   scaleIn,
 }
 
-/// VR stereo rendering configuration for simulator.
+/// VrStereoConfig, VR stereo rendering configuration for simulator
 class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -22,17 +22,20 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<VrStereoConfigField> structLayout = .aligned({
-    .projection:        RStruct(MatrixD.structLayout, BASE_paramsCount),
-    .viewOffset:        RStruct(MatrixD.structLayout, BASE_paramsCount),
-    .leftLensCenter:    RFloat32(BASE_paramsCount),
-    .rightLensCenter:   RFloat32(BASE_paramsCount),
-    .leftScreenCenter:  RFloat32(BASE_paramsCount),
-    .rightScreenCenter: RFloat32(BASE_paramsCount),
-    .scale:             RFloat32(BASE_paramsCount),
-    .scaleIn:           RFloat32(BASE_paramsCount),
+    .projection:        RStruct(MatrixD.structLayout, BASE_paramsCount), // VR projection matrices (per eye)
+    .viewOffset:        RStruct(MatrixD.structLayout, BASE_paramsCount), // VR view offset matrices (per eye)
+    .leftLensCenter:    RFloat(BASE_paramsCount), // VR left lens center
+    .rightLensCenter:   RFloat(BASE_paramsCount), // VR right lens center
+    .leftScreenCenter:  RFloat(BASE_paramsCount), // VR left screen center
+    .rightScreenCenter: RFloat(BASE_paramsCount), // VR right screen center
+    .scale:             RFloat(BASE_paramsCount), // VR distortion scale
+    .scaleIn:           RFloat(BASE_paramsCount), // VR distortion scale in
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, VrStereoConfigD.new, VrStereoConfigD.pointer);
 
@@ -74,49 +77,49 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     _viewOffset.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _leftLensCenter;
+  late LiveListInlineScalar<double, RFloat> _leftLensCenter;
   /// VR left lens center
-  LiveListInlineScalar<double, RFloat32> get leftLensCenter => _leftLensCenter;
+  LiveListInlineScalar<double, RFloat> get leftLensCenter => _leftLensCenter;
   set leftLensCenter(List<double> value) {
     assert(value.length <= paramsCount);
     _leftLensCenter.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _rightLensCenter;
+  late LiveListInlineScalar<double, RFloat> _rightLensCenter;
   /// VR right lens center
-  LiveListInlineScalar<double, RFloat32> get rightLensCenter => _rightLensCenter;
+  LiveListInlineScalar<double, RFloat> get rightLensCenter => _rightLensCenter;
   set rightLensCenter(List<double> value) {
     assert(value.length <= paramsCount);
     _rightLensCenter.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _leftScreenCenter;
+  late LiveListInlineScalar<double, RFloat> _leftScreenCenter;
   /// VR left screen center
-  LiveListInlineScalar<double, RFloat32> get leftScreenCenter => _leftScreenCenter;
+  LiveListInlineScalar<double, RFloat> get leftScreenCenter => _leftScreenCenter;
   set leftScreenCenter(List<double> value) {
     assert(value.length <= paramsCount);
     _leftScreenCenter.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _rightScreenCenter;
+  late LiveListInlineScalar<double, RFloat> _rightScreenCenter;
   /// VR right screen center
-  LiveListInlineScalar<double, RFloat32> get rightScreenCenter => _rightScreenCenter;
+  LiveListInlineScalar<double, RFloat> get rightScreenCenter => _rightScreenCenter;
   set rightScreenCenter(List<double> value) {
     assert(value.length <= paramsCount);
     _rightScreenCenter.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _scale;
+  late LiveListInlineScalar<double, RFloat> _scale;
   /// VR distortion scale
-  LiveListInlineScalar<double, RFloat32> get scale => _scale;
+  LiveListInlineScalar<double, RFloat> get scale => _scale;
   set scale(List<double> value) {
     assert(value.length <= paramsCount);
     _scale.inner = value;
   }
   
-  late LiveListInlineScalar<double, RFloat32> _scaleIn;
+  late LiveListInlineScalar<double, RFloat> _scaleIn;
   /// VR distortion scale in
-  LiveListInlineScalar<double, RFloat32> get scaleIn => _scaleIn;
+  LiveListInlineScalar<double, RFloat> get scaleIn => _scaleIn;
   set scaleIn(List<double> value) {
     assert(value.length <= paramsCount);
     _scaleIn.inner = value;
@@ -134,65 +137,65 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     List<double>? scaleIn,
   }) {
     _projection = .new(
-      projection ?? .generate(paramsCount, (_) => .zero()),
       () => op?.cast(),
       structLayout.offset(.projection),
       MatrixD.pointer,
+      projection ?? .generate(paramsCount, (_) => .zero()),
     );
 
     _viewOffset = .new(
-      viewOffset ?? .generate(paramsCount, (_) => .zero()),
       () => op?.cast(),
       structLayout.offset(.viewOffset),
       MatrixD.pointer,
+      viewOffset ?? .generate(paramsCount, (_) => .zero()),
     );
 
     _leftLensCenter = .new(
-      leftLensCenter ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.leftLensCenter),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      leftLensCenter ?? .filled(paramsCount, 0),
     );
 
     _rightLensCenter = .new(
-      rightLensCenter ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.rightLensCenter),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      rightLensCenter ?? .filled(paramsCount, 0),
     );
 
     _leftScreenCenter = .new(
-      leftScreenCenter ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.leftScreenCenter),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      leftScreenCenter ?? .filled(paramsCount, 0),
     );
 
     _rightScreenCenter = .new(
-      rightScreenCenter ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.rightScreenCenter),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      rightScreenCenter ?? .filled(paramsCount, 0),
     );
 
     _scale = .new(
-      scale ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.scale),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      scale ?? .filled(paramsCount, 0),
     );
 
     _scaleIn = .new(
-      scaleIn ?? .filled(paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.scaleIn),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      scaleIn ?? .filled(paramsCount, 0),
     );
   }
   factory VrStereoConfigD.zero() => .new();
@@ -214,24 +217,24 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   void structWriteInto(MemoryPointer<RStruct> p) {
     MatrixD.pointer(p.offsetBy(structLayout.offset(.projection))).writeArray(_projection.inner);
     MatrixD.pointer(p.offsetBy(structLayout.offset(.viewOffset))).writeArray(_viewOffset.inner);
-    p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat32>().writeArray(_leftLensCenter.inner);
-    p.offsetBy(structLayout.offset(.rightLensCenter)).cast<RFloat32>().writeArray(_rightLensCenter.inner);
-    p.offsetBy(structLayout.offset(.leftScreenCenter)).cast<RFloat32>().writeArray(_leftScreenCenter.inner);
-    p.offsetBy(structLayout.offset(.rightScreenCenter)).cast<RFloat32>().writeArray(_rightScreenCenter.inner);
-    p.offsetBy(structLayout.offset(.scale)).cast<RFloat32>().writeArray(_scale.inner);
-    p.offsetBy(structLayout.offset(.scaleIn)).cast<RFloat32>().writeArray(_scaleIn.inner);
+    p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat>().writeArray(_leftLensCenter.inner);
+    p.offsetBy(structLayout.offset(.rightLensCenter)).cast<RFloat>().writeArray(_rightLensCenter.inner);
+    p.offsetBy(structLayout.offset(.leftScreenCenter)).cast<RFloat>().writeArray(_leftScreenCenter.inner);
+    p.offsetBy(structLayout.offset(.rightScreenCenter)).cast<RFloat>().writeArray(_rightScreenCenter.inner);
+    p.offsetBy(structLayout.offset(.scale)).cast<RFloat>().writeArray(_scale.inner);
+    p.offsetBy(structLayout.offset(.scaleIn)).cast<RFloat>().writeArray(_scaleIn.inner);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    projection = MatrixD.pointer(p.offsetBy(structLayout.offset(.projection))).readArray(paramsCount);
-    viewOffset = MatrixD.pointer(p.offsetBy(structLayout.offset(.viewOffset))).readArray(paramsCount);
-    leftLensCenter = p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat32>().readArray(paramsCount);
-    rightLensCenter = p.offsetBy(structLayout.offset(.rightLensCenter)).cast<RFloat32>().readArray(paramsCount);
-    leftScreenCenter = p.offsetBy(structLayout.offset(.leftScreenCenter)).cast<RFloat32>().readArray(paramsCount);
-    rightScreenCenter = p.offsetBy(structLayout.offset(.rightScreenCenter)).cast<RFloat32>().readArray(paramsCount);
-    scale = p.offsetBy(structLayout.offset(.scale)).cast<RFloat32>().readArray(paramsCount);
-    scaleIn = p.offsetBy(structLayout.offset(.scaleIn)).cast<RFloat32>().readArray(paramsCount);
+    _projection.raw = MatrixD.pointer(p.offsetBy(structLayout.offset(.projection))).readArray(paramsCount);
+    _viewOffset.raw = MatrixD.pointer(p.offsetBy(structLayout.offset(.viewOffset))).readArray(paramsCount);
+    _leftLensCenter.raw = p.offsetBy(structLayout.offset(.leftLensCenter)).cast<RFloat>().readArray(paramsCount);
+    _rightLensCenter.raw = p.offsetBy(structLayout.offset(.rightLensCenter)).cast<RFloat>().readArray(paramsCount);
+    _leftScreenCenter.raw = p.offsetBy(structLayout.offset(.leftScreenCenter)).cast<RFloat>().readArray(paramsCount);
+    _rightScreenCenter.raw = p.offsetBy(structLayout.offset(.rightScreenCenter)).cast<RFloat>().readArray(paramsCount);
+    _scale.raw = p.offsetBy(structLayout.offset(.scale)).cast<RFloat>().readArray(paramsCount);
+    _scaleIn.raw = p.offsetBy(structLayout.offset(.scaleIn)).cast<RFloat>().readArray(paramsCount);
   }
 
   @override

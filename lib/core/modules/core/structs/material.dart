@@ -6,7 +6,7 @@ enum MaterialField with StructFields {
   params
 }
 
-/// Includes shader and maps.
+/// Material, includes shader and maps
 class MaterialD extends RaylibStruct<MaterialD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -17,12 +17,15 @@ class MaterialD extends RaylibStruct<MaterialD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MaterialField> structLayout = .aligned({
-    .shader: RStruct(ShaderD.structLayout),
-    .maps:   RPointer<RStruct>(),
-    .params: RFloat32(BASE_paramsCount),
+    .shader: RStruct(ShaderD.structLayout), // Material shader
+    .maps:   RPointer<RStruct>(), // Material maps array (MAX_MATERIAL_MAPS)
+    .params: RFloat(BASE_paramsCount), // Material generic parameters (if required)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MaterialD.new, MaterialD.pointer);
 
@@ -66,7 +69,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
   
   late LiveListPointerStruct<MaterialMapD> _maps;
-  /// Material maps array of length [RaylibConstants.MAX_MATERIAL_MAPS]
+  /// Material maps array (MAX_MATERIAL_MAPS)
   LiveListPointerStruct<MaterialMapD> get maps {
     structOnOp((p) => _maps.ptr = p.readPtr(structLayout.offset(.maps)));
     return _maps;
@@ -77,9 +80,9 @@ class MaterialD extends RaylibStruct<MaterialD> {
     _maps.inner = value;
   }
 
-  late LiveListInlineScalar<double, RFloat32> _params;
-  /// Material generic parameters (if required) of length [paramsCount]
-  LiveListInlineScalar<double, RFloat32> get params => _params;
+  late LiveListInlineScalar<double, RFloat> _params;
+  /// Material generic parameters (if required)
+  LiveListInlineScalar<double, RFloat> get params => _params;
   set params(List<double> value) {
     assert(value.length <= paramsCount);
     _params.inner = value;
@@ -93,17 +96,14 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = .new(
-      maps ?? [],
-      MaterialMapD.pointer(op?.readPtr(structLayout.offset(.maps))),
-    );
+    _maps = .new(maps, MaterialMapD.pointer(op?.readPtr(structLayout.offset(.maps))));
 
     _params = .new(
-      params ?? .filled(BASE_paramsCount, 0),
       () => op?.cast(),
       structLayout.offset(.params),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
+      params ?? .filled(BASE_paramsCount, 0),
     );
   }
 
@@ -128,7 +128,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   void structWriteInto(MemoryPointer<RStruct> p) {
     _shader.structWriteInto(p.offsetBy(structLayout.offset(.shader)));
     p.writePtr(_maps.ptr, structLayout.offset(.maps));
-    p.offsetBy(structLayout.offset(.params)).cast<RFloat32>().writeArray(_params.inner);
+    p.offsetBy(structLayout.offset(.params)).cast<RFloat>().writeArray(_params.inner);
 
     _maps.onStructPointer((p) => p.writeArray(_maps.inner));
   }
@@ -137,7 +137,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   void structReadFrom(MemoryPointer<RStruct> p) {
     _shader.structReadFrom(p.offsetBy(structLayout.offset(.shader)));
     _maps.ptr = p.readPtr(structLayout.offset(.maps));
-    _params.raw = p.offsetBy(structLayout.offset(.params)).cast<RFloat32>().readArray(paramsCount);
+    _params.raw = p.offsetBy(structLayout.offset(.params)).cast<RFloat>().readArray(paramsCount);
 
     _maps.onStructPointer((p) => _maps.raw = p.readArray(mapsCount));
   }

@@ -727,7 +727,7 @@ abstract class MemoryPointer<X extends RType> {
 /// itself doesn't encode which struct type it is, this wrapper supplies
 /// that missing piece once, explicitly.
 final class StructPointer<D extends RaylibStruct<D>> {
-  final MemoryPointer<RStruct> ptr;
+  MemoryPointer<RStruct> ptr;
   final StructLayout structLayout;
   final StructFactory<D> create;
   final StructPointerFactory<D> pointerFactory;
@@ -758,22 +758,24 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// See [MemoryPointer.hex].
   String get hex => ptr.hex;
 
-  late final D _ref = create(op: this);
-  
+  late D _ref;
+  int? _lastAddress;
+
   /// Live view, mutations write through immediately.
-  D get ref => _ref;
+  D get ref {
+    if (ptr.address == _lastAddress) return _ref;
+    _lastAddress = ptr.address;
+    return _ref = create(op: this)..structSyncFromMemory();
+  }
   
   /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
   set ref(D v) => ref.setD(v);
 
-  D _getAtIndex(int i, {bool owned = false}) {
+  D _getAtIndex(int i, {bool owned = true}) {
     final inner = ptr.offsetBy(i * structLayout.byteSize).cast<RStruct>();
-
-    if (owned) {
-      return create(op: pointerFactory(inner))..structSyncFromMemory();
-    } else {
-      return create()..structReadFrom(inner);
-    }
+    final value = pointerFactory(inner).ref;
+    if (!owned) value.op = null;
+    return value;
   }
 
   /// Returns the struct at [i] as a memory-backed value.
@@ -811,16 +813,8 @@ final class StructPointer<D extends RaylibStruct<D>> {
   ///
   /// If [owned] is `false`, each returned struct is a detached copy and does
   /// not retain a pointer to the underlying memory.
-  List<D> readArray(int count, {bool owned = false}) => .generate(count,
-    (i) {
-      final inner = ptr.offsetBy(i * structLayout.byteSize).cast<RStruct>();
-
-      if (owned) {
-        return create(op: pointerFactory(inner))..structSyncFromMemory();
-      }
-
-      return create()..structReadFrom(inner);
-    }
+  List<D> readArray(int count, {bool owned = true}) => .generate(count,
+    (i) => _getAtIndex(i, owned: owned),
   );
 
   // MemoryPointer redirection

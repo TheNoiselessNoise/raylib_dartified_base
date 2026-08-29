@@ -8,7 +8,7 @@ enum TextureField with StructFields {
   format,
 }
 
-/// Tex data stored in GPU memory (VRAM).
+/// Texture, tex data stored in GPU memory (VRAM)
 class TextureD extends RaylibStruct<TextureD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -19,14 +19,17 @@ class TextureD extends RaylibStruct<TextureD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<TextureField> structLayout = .aligned({
-    .id:      RUnsignedInt(),
-    .width:   RInt(),
-    .height:  RInt(),
-    .mipmaps: RInt(),
-    .format:  RInt(),
+    .id:      RUnsignedInt(), // OpenGL texture id
+    .width:   RInt(), // Texture base width
+    .height:  RInt(), // Texture base height
+    .mipmaps: RInt(), // Mipmap levels, 1 by default
+    .format:  RInt(), // Data format (PixelFormat type)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<TextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, TextureD.new, TextureD.pointer);
 
@@ -83,7 +86,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   PixelFormat _format;
-  /// Data format
+  /// Data format (PixelFormat type)
   PixelFormat get format {
     structOnOp((p) => _format = .fromValue(p.readInt(structLayout.offset(.format))));
     return _format;

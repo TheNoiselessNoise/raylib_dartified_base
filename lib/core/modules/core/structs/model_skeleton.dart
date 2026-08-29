@@ -6,7 +6,7 @@ enum ModelSkeletonField with StructFields {
   bindPose
 }
 
-/// Skeleton, animation bones hierarchy.
+/// Skeleton, animation bones hierarchy
 class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -17,12 +17,15 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelSkeletonField> structLayout = .aligned({
-    .boneCount: RInt32(),
-    .bones:     RPointer<RStruct>(),
-    .bindPose:  RPointer<RStruct>(),
+    .boneCount: RInt(), // Number of bones
+    .bones:     RPointer<RStruct>(), // Bones information (skeleton)
+    .bindPose:  RPointer<RStruct>(), // Bones base transformation (Transform[])
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, ModelSkeletonD.new, ModelSkeletonD.pointer);
 
@@ -37,12 +40,12 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   int _boneCount;
   /// Number of bones
   int get boneCount {
-    structOnOp((p) => _boneCount = p.readInt32(structLayout.offset(.boneCount)));
+    structOnOp((p) => _boneCount = p.readInt(structLayout.offset(.boneCount)));
     return _boneCount;
   }
   set boneCount(int value) {
     _boneCount = value;
-    structOnOp((p) => p.writeInt32(value, structLayout.offset(.boneCount)));
+    structOnOp((p) => p.writeInt(value, structLayout.offset(.boneCount)));
   }
 
   late LiveListPointerStruct<BoneInfoD> _bones;
@@ -55,12 +58,12 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
     _bones.inner = value;
     structOnOp((p) {
       _bones.ptr = p.readPtr(structLayout.offset(.bones));
-      p.writeInt32(value.length, structLayout.offset(.boneCount));
+      p.writeInt(value.length, structLayout.offset(.boneCount));
     });
   }
 
   late LiveListPointerStruct<TransformD> _bindPose;
-  /// Bones base transformation
+  /// Bones base transformation (Transform[])
   LiveListPointerStruct<TransformD> get bindPose {
     structOnOp((p) => _bindPose.ptr = p.readPtr(structLayout.offset(.bindPose)));
     return _bindPose;
@@ -68,7 +71,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   set bindPose(List<TransformD> value) {
     structOnOp((p) {
       _bindPose.ptr = p.readPtr(structLayout.offset(.bindPose));
-      p.writeInt32(value.length, structLayout.offset(.boneCount));
+      p.writeInt(value.length, structLayout.offset(.boneCount));
     });
     _bindPose.inner = value;
   }
@@ -78,14 +81,8 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
     List<BoneInfoD>? bones,
     List<TransformD>? bindPose,
   }) : _boneCount = bones?.length ?? 0 {
-    _bones = .new(
-      bones ?? [],
-      BoneInfoD.pointer(op?.readPtr(structLayout.offset(.bones))),
-    );
-    _bindPose = .new(
-      bindPose ?? [],
-      TransformD.pointer(op?.readPtr(structLayout.offset(.bindPose))),
-    );
+    _bones = .new(bones, BoneInfoD.pointer(op?.readPtr(structLayout.offset(.bones))));
+    _bindPose = .new(bindPose, TransformD.pointer(op?.readPtr(structLayout.offset(.bindPose))));
   }
 
   factory ModelSkeletonD.zero() => .new();
@@ -110,7 +107,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(_boneCount, structLayout.offset(.boneCount));
+    p.writeInt(_boneCount, structLayout.offset(.boneCount));
     p.writePtr(_bones.ptr, structLayout.offset(.bones));
     p.writePtr(_bindPose.ptr, structLayout.offset(.bindPose));
 
@@ -120,7 +117,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _boneCount = p.readInt32(structLayout.offset(.boneCount));
+    _boneCount = p.readInt(structLayout.offset(.boneCount));
     _bones.ptr = p.readPtr(structLayout.offset(.bones));
     _bindPose.ptr = p.readPtr(structLayout.offset(.bindPose));
 

@@ -12,7 +12,7 @@ between native (`dart:ffi`) and WebAssembly (linear memory + imports).
 
 A platform implementation must provide:
 
-- `MemoryPointer<X extends RType>` — pointer abstraction with
+- `MemoryPointer<X extends RType>` => pointer abstraction with
   `readX`/`writeX` at explicit byte offsets, backed by whatever memory
   model the platform uses (FFI pointer vs. WASM linear memory offset).
 - A concrete flat module for each of the following, extending the
@@ -24,13 +24,14 @@ A platform implementation must provide:
   | Camera | `RaylibCameraFlatModule<R>` |
   | Core | `RaylibCoreFlatModule<R>` |
   | Gui | `RaylibGuiFlatModule<R>` |
+  | Light | `RaylibLightFlatModule<R>` |
   | MsfGif | `RaylibMsfGifFlatModule<R>` |
   | Rlgl | `RaylibRlglFlatModule<R>` |
 
   Each module implements its methods by dispatching to the platform's
   native call surface.
 
-Everything else — struct definitions, higher-level bindings — is shared
+Everything else (struct definitions, higher-level bindings, ...) is shared
 and works unmodified once `MemoryPointer` and the six flat modules exist
 for a platform.
 

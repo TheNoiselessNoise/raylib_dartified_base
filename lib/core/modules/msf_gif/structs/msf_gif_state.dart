@@ -23,7 +23,8 @@ enum MsfGifStateField with StructFields {
   framesSubmitted,
 }
 
-class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
+/// MsfGifState
+class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -35,27 +36,30 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
 
   static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned({
     .pixels: RPointer<RUint32>(),
-    .depth:  RInt32(),
-    .count:  RInt32(),
-    .rbits:  RInt32(),
-    .gbits:  RInt32(),
-    .bbits:  RInt32(),
+    .depth:  RInt(),
+    .count:  RInt(),
+    .rbits:  RInt(),
+    .gbits:  RInt(),
+    .bbits:  RInt(),
   });
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MsfGifStateField> structLayout = .aligned({
     .fileWriteFunc:          RPointer<RFunction>(),
     .fileWriteData:          RPointer<RVoid>(),
     .previousFrame:          RStruct(cookedFrameStructLayout),
     .currentFrame:           RStruct(cookedFrameStructLayout),
-    .lzwMem:                 RPointer<RUint16>(),
+    .lzwMem:                 RPointer<RInt16>(),
     .listHead:               RPointer<ROpaque>(),
     .listTail:               RPointer<ROpaque>(),
-    .width:                  RInt32(),
-    .height:                 RInt32(),
+    .width:                  RInt(),
+    .height:                 RInt(),
     .customAllocatorContext: RPointer<RVoid>(),
-    .framesSubmitted:        RInt32(),
+    .framesSubmitted:        RInt(),
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MsfGifStateD.new, MsfGifStateD.pointer);
 
@@ -67,44 +71,15 @@ class MsfGifStateD extends RaylibStruct<MsfGifStateD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  int _width = 0;
-  int get width {
-    structOnOp((p) => _width = p.readInt32(structLayout.offset(.width)));
-    return _width;
-  }
+  int get width => op?.readInt(structLayout.offset(.width)) ?? 0;
 
-  int _height = 0;
-  int get height {
-    structOnOp((p) => _height = p.readInt32(structLayout.offset(.height)));
-    return _height;
-  }
+  int get height => op?.readInt(structLayout.offset(.height)) ?? 0;
 
-  int _framesSubmitted = 0;
-  int get framesSubmitted {
-    structOnOp((p) => _framesSubmitted = p.readInt32(structLayout.offset(.framesSubmitted)));
-    return _framesSubmitted;
-  }
+  int get framesSubmitted => op?.readInt(structLayout.offset(.framesSubmitted)) ?? 0;
 
   MsfGifStateD({ super.op });
 
   factory MsfGifStateD.zero() => .new();
-
-  @override
-  MsfGifStateD setD(MsfGifStateD o) => this;
-
-  @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt32(_width, structLayout.offset(.width));
-    p.writeInt32(_height, structLayout.offset(.height));
-    p.writeInt32(_framesSubmitted, structLayout.offset(.framesSubmitted));
-  }
-
-  @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
-    _width = p.readInt32(structLayout.offset(.width));
-    _height = p.readInt32(structLayout.offset(.height));
-    _framesSubmitted = p.readInt32(structLayout.offset(.framesSubmitted));
-  }
 
   @override
   MsfGifStateD clone() => .new(op: op);

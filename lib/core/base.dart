@@ -1,7 +1,5 @@
 part of 'raylib_dartified_base.dart';
 
-// TODO: find all raylib functions using `va_list` and implement our own `rl.Utils.Format` thingy
-
 enum RaylibPlatform { native, web }
 
 const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.io')
@@ -9,10 +7,12 @@ const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.
   : .web;
 
 class RaylibConfig {
+  /// Maximum vertex buffers (VBO) per mesh
+  /// 
   /// MUST match `MAX_MESH_VERTEX_BUFFERS` in the compiled raylib.
   /// 
   /// Defaults to `7` meaning no support for GPU skinning.
-  static int vboIdCount = 7;
+  static int MAX_MESH_VERTEX_BUFFERS = 7;
 }
 
 enum RaylibSupportedLibs {
@@ -201,7 +201,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   late RaylibGuiModule<R> GuiDart;
 
   /// See [RaylibLightFlatModule].
-  late RaylibLightFlatModule<R> LightFlat;
+  RaylibLightFlatModule<R> get LightFlat;
 
   /// See [RaylibLightModule].
   late RaylibLightModule<R> LightDart;
@@ -267,7 +267,6 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
     registerModule(CameraDart = .new(_self));
     registerModule(CoreDart = .new(_self));
     registerModule(GuiDart = .new(_self));
-    registerModule(LightFlat = .new(_self)); // direct implementation
     registerModule(LightDart = .new(_self));
     registerModule(MsfGifDart = .new(_self));
     registerModule(RlglDart = .new(_self));
@@ -333,9 +332,9 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   }
 
   /// Prints the current stack trace for debugging.
-  static Null stackTrace({String? title, bool exit = false}) {
-    if (title != null) print(title);
-    print(StackTrace.current);
+  Null stackTrace({String? title, bool exit = false}) {
+    if (title != null) logInfo(title);
+    logInfo(StackTrace.current);
     if (exit) throw '';
   }
 

@@ -26,8 +26,6 @@ final class RaylibUtilsModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   // Format
 
-  // TODO: test the `Format`
-
   final _fmtSpecifier = RegExp(r'%(?!%)([-+ #0]*)(\d+|\*)?(?:\.(\d+|\*))?[hlLqjzt]*([diouxXeEfFgGaAcspn])');
 
   /// Formats [fmt] printf-style, consuming positional arguments from [args].

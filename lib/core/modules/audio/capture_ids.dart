@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Produces stable slot key strings identifying the allocation origin of each
 /// Audio module function's captured Struct.
-class RaylibAudioModuleCaptureIds {
+class _RaylibAudioModuleCaptureIds {
 
   /// Capture ID for [RaylibAudioModule.LoadWave].
   String get LoadWave => 'LoadWave';

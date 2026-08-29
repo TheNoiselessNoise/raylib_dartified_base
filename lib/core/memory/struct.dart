@@ -245,9 +245,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 /// and stale/zeroed fields. Use [RaylibStructView] for structs you only
 /// ever observe through a pointer you don't own.
 abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<D> {
-  RaylibStructView({
-    required super.op,
-  });
+  RaylibStructView({ super.op });
 
   @override
   @nonVirtual

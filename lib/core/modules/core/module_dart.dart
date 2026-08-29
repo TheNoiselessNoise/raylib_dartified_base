@@ -1,7 +1,5 @@
 part of '../../raylib_dartified_base.dart';
 
-// TODO: make all `text` stuff pure Dart, do not call raylib functions
-
 /// Backend-agnostic contract for the Raylib Core module.
 ///
 /// Concrete platform implementations mix in or extend this to provide
@@ -4868,7 +4866,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Get Color from a source pixel pointer of certain format
+  /// Get pixel data size in bytes for certain format
   int GetPixelDataSize(
     num width,
     num height,
@@ -4882,13 +4880,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Set color formatted into destination pixel pointer
+  /// Get the default Font
   FontD GetFontDefault() => run(
     () => _debugLabels.GetFontDefault(),
     () => rl.CoreFlat.GetFontDefault(),
   );
 
-  /// Get pixel data size in bytes for certain format
+  /// Load font from file into GPU memory (VRAM)
   FontD LoadFont(
     String fileName,
   ) => run(
@@ -4898,7 +4896,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
     
-  /// Get the default Font
+  /// Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height
   FontD LoadFontEx(
     String fileName,
     num fontSize, [
@@ -4915,7 +4913,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Load font from file into GPU memory (VRAM)
+  /// Load font from Image (XNA style)
   FontD LoadFontFromImage(
     ImageD image,
     ColorD key,
@@ -4929,7 +4927,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height
+  /// Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
   FontD LoadFontFromMemory(
     String fileType,
     Uint8List fileData,
@@ -4947,7 +4945,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Load font from Image (XNA style)
+  /// Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
   bool IsFontValid(
     FontD font,
   ) => run(
@@ -4957,7 +4955,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
+  /// Load font data for further use
   List<GlyphInfoD> LoadFontData(
     Uint8List fileData,
     num fontSize,
@@ -4980,12 +4978,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
       final requestedCount = (codepointCount == null || codepointCount == 0) 
         ? codepoints?.length ?? glyphCount.value 
         : codepointCount.toInt();
-      return glyphs.readArray(requestedCount, owned: true);
+      return glyphs.readArray(requestedCount);
     },
   );
 
-  // TODO: test this
-  /// Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
+  /// Generate image font atlas using chars info
   (ImageD image, List<RectangleD> glyphRecs) GenImageFontAtlas(
     List<GlyphInfoD> glyphs,
     num fontSize,
@@ -4998,7 +4995,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
       try {
         final image = rl.CoreFlat.GenImageFontAtlas(
-          glyphs.firstOrNull?.op ?? rl.Temp.GlyphInfo$.Array(glyphs),
+          glyphs.first.getOp(),
           recsPtr,
           glyphs.length,
           fontSize.toInt(),
@@ -5006,7 +5003,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
           packMethod.toInt(),
         );
 
-        final recs = RectangleD.pointer(recsPtr).readArray(glyphs.length);
+        final innerPtr = recsPtr.readPtr();
+        final recs = RectangleD.pointer(innerPtr).readArray(glyphs.length);
 
         return (image, recs);
       } finally {
@@ -5015,18 +5013,18 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     },
   );
 
-  /// Load font data for further use
+  /// Unload font chars info data (RAM)
   void UnloadFontData(
     List<GlyphInfoD> glyphs,
   ) => run(
     () => _debugLabels.UnloadFontData(glyphs),
     () => rl.CoreFlat.UnloadFontData(
-      glyphs.firstOrNull?.op ?? rl.Temp.GlyphInfo$.Array(glyphs),
+      glyphs.first.getOp(),
       glyphs.length,
     ),
   );
     
-  /// Generate image font atlas using chars info
+  /// Unload font from GPU memory (VRAM)
   void UnloadFont(
     FontD font,
   ) => run(
@@ -5036,7 +5034,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Unload font chars info data (RAM)
+  /// Export font as code file, returns true on success
   bool ExportFontAsCode(
     FontD font,
     String fileName,
@@ -5048,7 +5046,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Unload font from GPU memory (VRAM)
+  /// Draw current FPS
   void DrawFPS(
     num posX,
     num posY,
@@ -5060,7 +5058,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Export font as code file, returns true on success
+  /// Draw text (using default font)
   void DrawText(
     String text,
     num posX,
@@ -5078,7 +5076,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ),
   );
 
-  /// Draw current FPS
+  /// Draw text using font and additional parameters
   void DrawTextEx(
     FontD font,
     String text,

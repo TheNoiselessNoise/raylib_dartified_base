@@ -1,7 +1,5 @@
 part of '../../../raylib_dartified_base.dart';
 
-// TODO: on all structs structOnOp
-
 enum Camera2DField with StructFields {
   offset,
   target,
@@ -9,7 +7,7 @@ enum Camera2DField with StructFields {
   zoom,
 }
 
-/// Defines position/orientation in 2D space.
+/// Camera2D, defines position/orientation in 2d space
 class Camera2DD extends RaylibStructLiteral<Camera2DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -20,13 +18,16 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Camera2DField> structLayout = .aligned({
-    .offset:   RStruct(Vector2D.structLayout),
-    .target:   RStruct(Vector2D.structLayout),
-    .rotation: RFloat32(),
-    .zoom:     RFloat32(),
+    .offset:   RStruct(Vector2D.structLayout), // Camera offset (screen space offset from window origin)
+    .target:   RStruct(Vector2D.structLayout), // Camera target (world space target point that is mapped to screen space offset)
+    .rotation: RFloat(), // Camera rotation in degrees (pivots around target)
+    .zoom:     RFloat(), // Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Camera2DD.new, Camera2DD.pointer);
 
@@ -38,27 +39,61 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  /// Camera offset (displacement from target)
-  Vector2D offset;
+  Vector2D _offset;
+  /// Camera offset (screen space offset from window origin)
+  Vector2D get offset {
+    structOnOp((p) => _offset.structReadFrom(p.offsetBy(structLayout.offset(.offset))));
+    return _offset;
+  }
+  set offset(Vector2D value) {
+    _offset = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.offset))));
+  }
+  
+  Vector2D _target;
+  /// Camera target (world space target point that is mapped to screen space offset)
+  Vector2D get target {
+    structOnOp((p) => _target.structReadFrom(p.offsetBy(structLayout.offset(.target))));
+    return _target;
+  }
+  set target(Vector2D value) {
+    _target = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.target))));
+  }
 
-  /// Camera target (rotation and zoom origin)
-  Vector2D target;
+  double _rotation;
+  /// Camera rotation in degrees (pivots around target)
+  double get rotation {
+    structOnOp((p) => _rotation = p.readFloat(structLayout.offset(.rotation)));
+    return _rotation;
+  }
+  set rotation(double value) {
+    _rotation = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.rotation)));
+  }
 
-  /// Camera rotation in degrees
-  double rotation;
-
-  /// Camera zoom (scaling), should be 1.0f by default
-  double zoom;
+  double _zoom;
+  /// Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
+  double get zoom {
+    structOnOp((p) => _zoom = p.readFloat(structLayout.offset(.zoom)));
+    return _zoom;
+  }
+  set zoom(double value) {
+    _zoom = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.zoom)));
+  }
 
   Camera2DD({
     super.op,
     Vector2D? offset,
     Vector2D? target,
-    this.rotation = 0,
-    this.zoom = 0,
+    double rotation = 0,
+    double zoom = 1,
   }) :
-    offset = offset ?? .zero(),
-    target = target ?? .zero();
+    _offset = offset ?? .zero(),
+    _target = target ?? .zero(),
+    _rotation = rotation,
+    _zoom = zoom;
 
   factory Camera2DD.zero() => .new();
 
@@ -73,18 +108,18 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    offset.structWriteInto(p.offsetBy(structLayout.offset(.offset)));
-    target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
-    p.writeFloat32(rotation, structLayout.offset(.rotation));
-    p.writeFloat32(zoom, structLayout.offset(.zoom));
+    _offset.structWriteInto(p.offsetBy(structLayout.offset(.offset)));
+    _target.structWriteInto(p.offsetBy(structLayout.offset(.target)));
+    p.writeFloat(_rotation, structLayout.offset(.rotation));
+    p.writeFloat(_zoom, structLayout.offset(.zoom));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    offset.structReadFrom(p.offsetBy(structLayout.offset(.offset)));
-    target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
-    rotation = p.readFloat32(structLayout.offset(.rotation));
-    zoom = p.readFloat32(structLayout.offset(.zoom));
+    _offset.structReadFrom(p.offsetBy(structLayout.offset(.offset)));
+    _target.structReadFrom(p.offsetBy(structLayout.offset(.target)));
+    _rotation = p.readFloat(structLayout.offset(.rotation));
+    _zoom = p.readFloat(structLayout.offset(.zoom));
   }
   
   @override

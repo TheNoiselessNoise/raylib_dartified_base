@@ -10,7 +10,7 @@ enum MatrixField with StructFields {
   m3, m7, m11, m15,
 }
 
-/// 4x4 components, column major, OpenGL style, right-handed.
+/// Matrix, 4x4 components, column major, OpenGL style, right-handed
 class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -21,13 +21,16 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MatrixField> structLayout = .aligned({
-    .m0: RFloat32(), .m4: RFloat32(), .m8: RFloat32(), .m12: RFloat32(),
-    .m1: RFloat32(), .m5: RFloat32(), .m9: RFloat32(), .m13: RFloat32(),
-    .m2: RFloat32(), .m6: RFloat32(), .m10: RFloat32(), .m14: RFloat32(),
-    .m3: RFloat32(), .m7: RFloat32(), .m11: RFloat32(), .m15: RFloat32(),
+    .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)
+    .m1: RFloat(), .m5: RFloat(), .m9: RFloat(), .m13: RFloat(), // Matrix second row (4 components)
+    .m2: RFloat(), .m6: RFloat(), .m10: RFloat(), .m14: RFloat(), // Matrix third row (4 components)
+    .m3: RFloat(), .m7: RFloat(), .m11: RFloat(), .m15: RFloat(), // Matrix fourth row (4 components)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, MatrixD.new, MatrixD.pointer);
 
@@ -38,62 +41,109 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
+  double _r(double def, MatrixField field) {
+    double v = def;
+    structOnOp((p) => v = p.readFloat(structLayout.offset(field)));
+    return v;
+  }
+
+  double _w(double value, MatrixField field) {
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(field)));
+    return value;
+  }
+
+  double _m0;
   /// Column 0, row 0
-  double m0;
+  double get m0 => _m0 = _r(_m0, .m0);
+  set m0(double value) => _m0 = _w(value, .m0);
   
+  double _m1;
   /// Column 0, row 1
-  double m1;
+  double get m1 => _m1 = _r(_m1, .m1);
+  set m1(double value) => _m1 = _w(value, .m1);
   
+  double _m2;
   /// Column 0, row 2
-  double m2;
+  double get m2 => _m2 = _r(_m2, .m2);
+  set m2(double value) => _m2 = _w(value, .m2);
   
+  double _m3;
   /// Column 0, row 3
-  double m3;
-  
+  double get m3 => _m3 = _r(_m3, .m3);
+  set m3(double value) => _m3 = _w(value, .m3);
+
+  double _m4;
   /// Column 1, row 0
-  double m4;
-  
+  double get m4 => _m4 = _r(_m4, .m4);
+  set m4(double value) => _m4 = _w(value, .m4);
+
+  double _m5;
   /// Column 1, row 1
-  double m5;
-  
+  double get m5 => _m5 = _r(_m5, .m5);
+  set m5(double value) => _m5 = _w(value, .m5);
+
+  double _m6;
   /// Column 1, row 2
-  double m6;
+  double get m6 => _m6 = _r(_m6, .m6);
+  set m6(double value) => _m6 = _w(value, .m6);
   
+  double _m7;
   /// Column 1, row 3
-  double m7;
-  
+  double get m7 => _m7 = _r(_m7, .m7);
+  set m7(double value) => _m7 = _w(value, .m7);
+
+  double _m8;
   /// Column 2, row 0
-  double m8;
+  double get m8 => _m8 = _r(_m8, .m8);
+  set m8(double value) => _m8 = _w(value, .m8);
   
+  double _m9;
   /// Column 2, row 1
-  double m9;
+  double get m9 => _m9 = _r(_m9, .m9);
+  set m9(double value) => _m9 = _w(value, .m9);
   
+  double _m10;
   /// Column 2, row 2
-  double m10;
-  
+  double get m10 => _m10 = _r(_m10, .m10);
+  set m10(double value) => _m10 = _w(value, .m10);
+
+  double _m11;
   /// Column 2, row 3
-  double m11;
+  double get m11 => _m11 = _r(_m11, .m11);
+  set m11(double value) => _m11 = _w(value, .m11);
   
+  double _m12;
   /// Column 3, row 0 (translation X)
-  double m12;
+  double get m12 => _m12 = _r(_m12, .m12);
+  set m12(double value) => _m12 = _w(value, .m12);
   
+  double _m13;
   /// Column 3, row 1 (translation Y)
-  double m13;
+  double get m13 => _m13 = _r(_m13, .m13);
+  set m13(double value) => _m13 = _w(value, .m13);
   
+  double _m14;
   /// Column 3, row 2 (translation Z)
-  double m14;
+  double get m14 => _m14 = _r(_m14, .m14);
+  set m14(double value) => _m14 = _w(value, .m14);
   
+  double _m15;
   /// Column 3, row 3
-  double m15;
+  double get m15 => _m15 = _r(_m15, .m15);
+  set m15(double value) => _m15 = _w(value, .m15);
 
   MatrixD({
     super.op,
-    this.m0 = 0, this.m1 = 0, this.m2 = 0, this.m3 = 0,
-    this.m4 = 0, this.m5 = 0, this.m6 = 0, this.m7 = 0,
-    this.m8 = 0, this.m9 = 0, this.m10 = 0, this.m11 = 0,
-    this.m12 = 0, this.m13 = 0, this.m14 = 0, this.m15 = 0,
-  });
+    double m0 = 0, double m1 = 0, double m2 = 0, double m3 = 0,
+    double m4 = 0, double m5 = 0, double m6 = 0, double m7 = 0,
+    double m8 = 0, double m9 = 0, double m10 = 0, double m11 = 0,
+    double m12 = 0, double m13 = 0, double m14 = 0, double m15 = 0,
+  }) :
+    _m0 = m0, _m1 = m1, _m2 = m2, _m3 = m3,
+    _m4 = m4, _m5 = m5, _m6 = m6, _m7 = m7,
+    _m8 = m8, _m9 = m9, _m10 = m10, _m11 = m11,
+    _m12 = m12, _m13 = m13, _m14 = m14, _m15 = m15;
 
   factory MatrixD.zero() => .new();
 
@@ -125,48 +175,48 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat32(m0, structLayout.offset(.m0));
-    p.writeFloat32(m4, structLayout.offset(.m4));
-    p.writeFloat32(m8, structLayout.offset(.m8));
-    p.writeFloat32(m12, structLayout.offset(.m12));
+    p.writeFloat(_m0, structLayout.offset(.m0));
+    p.writeFloat(_m4, structLayout.offset(.m4));
+    p.writeFloat(_m8, structLayout.offset(.m8));
+    p.writeFloat(_m12, structLayout.offset(.m12));
 
-    p.writeFloat32(m1, structLayout.offset(.m1));
-    p.writeFloat32(m5, structLayout.offset(.m5));
-    p.writeFloat32(m9, structLayout.offset(.m9));
-    p.writeFloat32(m13, structLayout.offset(.m13));
+    p.writeFloat(_m1, structLayout.offset(.m1));
+    p.writeFloat(_m5, structLayout.offset(.m5));
+    p.writeFloat(_m9, structLayout.offset(.m9));
+    p.writeFloat(_m13, structLayout.offset(.m13));
 
-    p.writeFloat32(m2, structLayout.offset(.m2));
-    p.writeFloat32(m6, structLayout.offset(.m6));
-    p.writeFloat32(m10, structLayout.offset(.m10));
-    p.writeFloat32(m14, structLayout.offset(.m14));
+    p.writeFloat(_m2, structLayout.offset(.m2));
+    p.writeFloat(_m6, structLayout.offset(.m6));
+    p.writeFloat(_m10, structLayout.offset(.m10));
+    p.writeFloat(_m14, structLayout.offset(.m14));
 
-    p.writeFloat32(m3, structLayout.offset(.m3));
-    p.writeFloat32(m7, structLayout.offset(.m7));
-    p.writeFloat32(m11, structLayout.offset(.m11));
-    p.writeFloat32(m15, structLayout.offset(.m15)); 
+    p.writeFloat(_m3, structLayout.offset(.m3));
+    p.writeFloat(_m7, structLayout.offset(.m7));
+    p.writeFloat(_m11, structLayout.offset(.m11));
+    p.writeFloat(_m15, structLayout.offset(.m15)); 
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    m0 = p.readFloat32(structLayout.offset(.m0));
-    m4 = p.readFloat32(structLayout.offset(.m4));
-    m8 = p.readFloat32(structLayout.offset(.m8));
-    m12 = p.readFloat32(structLayout.offset(.m12));
+    _m0 = p.readFloat(structLayout.offset(.m0));
+    _m4 = p.readFloat(structLayout.offset(.m4));
+    _m8 = p.readFloat(structLayout.offset(.m8));
+    _m12 = p.readFloat(structLayout.offset(.m12));
 
-    m1 = p.readFloat32(structLayout.offset(.m1));
-    m5 = p.readFloat32(structLayout.offset(.m5));
-    m9 = p.readFloat32(structLayout.offset(.m9));
-    m13 = p.readFloat32(structLayout.offset(.m13));
+    _m1 = p.readFloat(structLayout.offset(.m1));
+    _m5 = p.readFloat(structLayout.offset(.m5));
+    _m9 = p.readFloat(structLayout.offset(.m9));
+    _m13 = p.readFloat(structLayout.offset(.m13));
 
-    m2 = p.readFloat32(structLayout.offset(.m2));
-    m6 = p.readFloat32(structLayout.offset(.m6));
-    m10 = p.readFloat32(structLayout.offset(.m10));
-    m14 = p.readFloat32(structLayout.offset(.m14));
+    _m2 = p.readFloat(structLayout.offset(.m2));
+    _m6 = p.readFloat(structLayout.offset(.m6));
+    _m10 = p.readFloat(structLayout.offset(.m10));
+    _m14 = p.readFloat(structLayout.offset(.m14));
 
-    m3 = p.readFloat32(structLayout.offset(.m3));
-    m7 = p.readFloat32(structLayout.offset(.m7));
-    m11 = p.readFloat32(structLayout.offset(.m11));
-    m15 = p.readFloat32(structLayout.offset(.m15)); 
+    _m3 = p.readFloat(structLayout.offset(.m3));
+    _m7 = p.readFloat(structLayout.offset(.m7));
+    _m11 = p.readFloat(structLayout.offset(.m11));
+    _m15 = p.readFloat(structLayout.offset(.m15)); 
   }
 
   @override
@@ -465,7 +515,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   /// Sets all components in column-major order at once.
   /// 
-  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// Values are converted using [num.toDouble].
   /// 
   /// Returns this instance for fluent chaining.
   MatrixD set(

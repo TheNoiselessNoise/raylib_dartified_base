@@ -16,11 +16,14 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<FilePathListField> structLayout = .aligned({
-    .count: RUint32(),
-    .paths: RPointer<RPointer<RChar>>(),
+    .count: RUnsignedInt(), // Filepaths entries count
+    .paths: RPointer<RPointer<RChar>>(), // Filepaths entries
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, FilePathListD.new, FilePathListD.pointer);
 
@@ -33,14 +36,16 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   // ░███████   ░██████████ ░██        
 
   /// Filepaths entries count
-  int get count => getOp().readUint32(structLayout.offset(.count));
+  int get count => getOp().readUnsignedInt(structLayout.offset(.count));
 
   /// Filepaths entries
   List<String> get paths => getOp()
-    .readPtr<RPointer>(structLayout.offset(.paths))
+    .readPtr<RPointer<RChar>>(structLayout.offset(.paths))
     .readStringArray(count);
   
-  FilePathListD({super.op});
+  FilePathListD({ super.op });
+
+  factory FilePathListD.zero() => .new();
 
   @override
   FilePathListD clone() => .new(op: getOp());

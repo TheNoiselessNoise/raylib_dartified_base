@@ -16,11 +16,14 @@ class SoundD extends RaylibStruct<SoundD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<SoundField> structLayout = .aligned({
-    .stream:     RStruct(AudioStreamD.structLayout),
-    .frameCount: RUint32(),
+    .stream:     RStruct(AudioStreamD.structLayout), // Audio stream
+    .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<SoundD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, SoundD.new, SoundD.pointer);
 
@@ -32,18 +35,35 @@ class SoundD extends RaylibStruct<SoundD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
+  AudioStreamD _stream;
   /// Audio stream
-  AudioStreamD stream;
+  AudioStreamD get stream {
+    structOnOp((p) => _stream.structReadFrom(p.offsetBy(structLayout.offset(.stream))));
+    return _stream;
+  }
+  set stream(AudioStreamD value) {
+    _stream = value;
+    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.stream))));
+  }
   
+  int _frameCount;
   /// Total number of frames (considering channels)
-  int frameCount;
+  int get frameCount {
+    structOnOp((p) => _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount)));
+    return _frameCount;
+  }
+  set frameCount(int value) {
+    _frameCount = value;
+    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.frameCount)));
+  }
 
   SoundD({
     super.op,
     AudioStreamD? stream,
-    this.frameCount = 0,
+    int frameCount = 0,
   }) :
-    stream = stream ?? .zero();
+    _stream = stream ?? .zero(),
+    _frameCount = frameCount;
 
   factory SoundD.zero() => .new();
 
@@ -56,14 +76,14 @@ class SoundD extends RaylibStruct<SoundD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    stream.structWriteInto(p.offsetBy(structLayout.offset(.stream)));
-    p.writeUint32(frameCount, structLayout.offset(.frameCount));
+    _stream.structWriteInto(p.offsetBy(structLayout.offset(.stream)));
+    p.writeUnsignedInt(_frameCount, structLayout.offset(.frameCount));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    stream.structReadFrom(p.offsetBy(structLayout.offset(.stream)));
-    frameCount = p.readUint32(structLayout.offset(.frameCount));
+    _stream.structReadFrom(p.offsetBy(structLayout.offset(.stream)));
+    _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount));
   }
 
   @override

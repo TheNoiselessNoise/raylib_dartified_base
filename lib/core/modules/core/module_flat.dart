@@ -7,7 +7,7 @@ part of '../../raylib_dartified_base.dart';
 abstract class RaylibCoreFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = RaylibCoreModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibCoreModuleCaptureIds();
 
   RaylibCoreFlatModule(super.rl);
 

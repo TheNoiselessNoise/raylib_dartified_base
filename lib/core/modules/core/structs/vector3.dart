@@ -9,7 +9,7 @@ enum Vector3Field with StructFields {
   z,
 }
 
-/// A 3D vector with [x], [y], and [z] components.
+/// Vector3, 3 components
 class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
@@ -20,12 +20,15 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector3Field> structLayout = .aligned({
-    .x: RFloat32(),
-    .y: RFloat32(),
-    .z: RFloat32(),
+    .x: RFloat(), // Vector x component
+    .y: RFloat(), // Vector y component
+    .z: RFloat(), // Vector z component
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, Vector3D.new, Vector3D.pointer);
 
@@ -36,22 +39,49 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
-  /// X component
-  double x;
-  
-  /// Y component
-  double y;
-  
-  /// Z component
-  double z;
 
+  double _x;
+  /// Vector x component
+  double get x {
+    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    return _x;
+  }
+  set x(double value) {
+    _x = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+  }
+
+  double _y;
+  /// Vector y component
+  double get y {
+    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    return _y;
+  }
+  set y(double value) {
+    _y = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+  }
+
+  double _z;
+  /// Vector z component
+  double get z {
+    structOnOp((p) => _z = p.readFloat(structLayout.offset(.z)));
+    return _z;
+  }
+  set z(double value) {
+    _z = value;
+    structOnOp((p) => p.writeFloat(value, structLayout.offset(.z)));
+  }
+  
   Vector3D({
     super.op,
-    this.x = 0,
-    this.y = 0,
-    this.z = 0,
-  });
+    double x = 0,
+    double y = 0,
+    double z = 0,
+  }) :
+    _x = x,
+    _y = y,
+    _z = z;
 
   factory Vector3D.zero() => .new();
   factory Vector3D.one() => .vec3(1, 1, 1);
@@ -71,16 +101,16 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat32(x, structLayout.offset(.x));
-    p.writeFloat32(y, structLayout.offset(.y));
-    p.writeFloat32(z, structLayout.offset(.z));
+    p.writeFloat(_x, structLayout.offset(.x));
+    p.writeFloat(_y, structLayout.offset(.y));
+    p.writeFloat(_z, structLayout.offset(.z));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    x = p.readFloat32(structLayout.offset(.x));
-    y = p.readFloat32(structLayout.offset(.y));
-    z = p.readFloat32(structLayout.offset(.z));
+    _x = p.readFloat(structLayout.offset(.x));
+    _y = p.readFloat(structLayout.offset(.y));
+    _z = p.readFloat(structLayout.offset(.z));
   }
 
   @override
@@ -134,7 +164,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   /// Sets all components at once.
   /// 
-  /// Values are converted using [num.toDouble], truncating any fractional part.
+  /// Values are converted using [num.toDouble].
   /// 
   /// Returns this instance for fluent chaining.
   Vector3D set(num x, num y, num z) {

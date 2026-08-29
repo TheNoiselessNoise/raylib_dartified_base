@@ -17,12 +17,15 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<AutomationEventListField> structLayout = .aligned({
-    .capacity: RUint32(),
-    .count:    RUint32(),
-    .events:   RPointer<RStruct>(),
+    .capacity: RUnsignedInt(), // Events max entries (MAX_AUTOMATION_EVENTS)
+    .count:    RUnsignedInt(), // Events entries count
+    .events:   RPointer<RStruct>(), // Events entries
   });
 
+  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
+  /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, structLayout, AutomationEventListD.new, AutomationEventListD.pointer);
 
@@ -34,26 +37,24 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  /// Events max entries
-  int get capacity
-    => getOp().readUint32(structLayout.offset(.capacity));
+  // NOTE: there's no need for `capacity`
   
   /// Events entries count
-  /// 
-  /// Number of recorded events currently stored in [events].
   int get count
-    => getOp().readUint32(structLayout.offset(.count));
+    => getOp().readUnsignedInt(structLayout.offset(.count));
 
   /// Events entries
   List<AutomationEventD> get events => AutomationEventD
     .pointer(getOp().readPtr(structLayout.offset(.events)))
     .readArray(count);
 
-  AutomationEventListD({super.op});
+  AutomationEventListD({ super.op });
+
+  factory AutomationEventListD.zero() => .new();
 
   @override
   AutomationEventListD clone() => .new(op: getOp());
   
   @override
-  String signature() => '$structName(capacity: $capacity, count: $count)';
+  String signature() => '$structName(count: $count)';
 }
