@@ -81,8 +81,8 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
     List<BoneInfoD>? bones,
     List<TransformD>? bindPose,
   }) : _boneCount = bones?.length ?? 0 {
-    _bones = .new(bones, BoneInfoD.pointer(op?.readPtr(structLayout.offset(.bones))));
-    _bindPose = .new(bindPose, TransformD.pointer(op?.readPtr(structLayout.offset(.bindPose))));
+    _bones = .new(BoneInfoD.pointer, bones, BoneInfoD.pointer(op?.readPtr(structLayout.offset(.bones))));
+    _bindPose = .new(TransformD.pointer, bindPose, TransformD.pointer(op?.readPtr(structLayout.offset(.bindPose))));
   }
 
   factory ModelSkeletonD.zero() => .new();
@@ -117,6 +117,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
+    print('$runtimeType.structReadFrom(${p.hex})');
     _boneCount = p.readInt(structLayout.offset(.boneCount));
     _bones.ptr = p.readPtr(structLayout.offset(.bones));
     _bindPose.ptr = p.readPtr(structLayout.offset(.bindPose));

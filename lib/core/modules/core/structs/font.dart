@@ -131,8 +131,8 @@ class FontD extends RaylibStruct<FontD> {
     _glyphPadding = glyphPadding,
     _texture = texture ?? .new()
   {
-    _recs = .new(recs, RectangleD.pointer(op?.readPtr(structLayout.offset(.recs))));
-    _glyphs = .new(glyphs, GlyphInfoD.pointer(op?.readPtr(structLayout.offset(.glyphs))));
+    _recs = .new(RectangleD.pointer, recs, RectangleD.pointer(op?.readPtr(structLayout.offset(.recs))));
+    _glyphs = .new(GlyphInfoD.pointer, glyphs, GlyphInfoD.pointer(op?.readPtr(structLayout.offset(.glyphs))));
   }
 
   factory FontD.zero() => .new();

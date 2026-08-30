@@ -38,7 +38,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _r;
   /// Color red value
   ///

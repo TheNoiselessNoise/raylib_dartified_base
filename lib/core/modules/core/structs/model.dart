@@ -167,8 +167,8 @@ class ModelD extends RaylibStruct<ModelD> {
     _materialCount = materials?.length ?? 0,
     _skeleton = skeleton ?? .new()
   {
-    _meshes = .new(meshes, MeshD.pointer(op?.readPtr(structLayout.offset(.meshes))));
-    _materials = .new(materials, MaterialD.pointer(op?.readPtr(structLayout.offset(.materials))));
+    _meshes = .new(MeshD.pointer, meshes, MeshD.pointer(op?.readPtr(structLayout.offset(.meshes))));
+    _materials = .new(MaterialD.pointer, materials, MaterialD.pointer(op?.readPtr(structLayout.offset(.materials))));
 
     _meshMaterial = .new(
       (p, i) => p[i],
@@ -177,8 +177,8 @@ class ModelD extends RaylibStruct<ModelD> {
       op?.offsetBy(structLayout.offset(.meshMaterial)),
     );
 
-    _currentPose = .new(currentPose, TransformD.pointer(op?.readPtr(structLayout.offset(.currentPose))));
-    _boneMatrices = .new(boneMatrices, MatrixD.pointer(op?.readPtr(structLayout.offset(.boneMatrices))));
+    _currentPose = .new(TransformD.pointer, currentPose, TransformD.pointer(op?.readPtr(structLayout.offset(.currentPose))));
+    _boneMatrices = .new(MatrixD.pointer, boneMatrices, MatrixD.pointer(op?.readPtr(structLayout.offset(.boneMatrices))));
   }
 
   factory ModelD.zero() => .new();

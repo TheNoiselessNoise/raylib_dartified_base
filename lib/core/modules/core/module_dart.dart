@@ -6506,7 +6506,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.String$.ValueOrNull(fileName),
         animCount,
       );
-      return .new(anims.readArray(animCount.value), anims);
+      return .new(ModelAnimationD.pointer, anims.readArray(animCount.value), anims);
     },
   );
     

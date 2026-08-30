@@ -80,10 +80,21 @@ abstract class LiveListPointerBase<E, R extends RType> extends RaylibLiveList<E>
 class LiveListPointerStruct<D extends RaylibStruct<D>> extends LiveListPointerBase<D, RStruct> {
   StructPointer<D>? structPtr;
 
+  final StructPointerFactory<D> pointerFactory;
+
   @override
   MemoryPointer<RStruct>? get ptr => structPtr?.ptr.cast();
 
-  LiveListPointerStruct([super.inner, this.structPtr]);
+  @override
+  set ptr(MemoryPointer<RStruct>? value) {
+    if (structPtr == null) {
+      structPtr = pointerFactory(value);
+    } else {
+      structPtr!.ptr = value ?? MemoryPointer.nullptr.cast();
+    }
+  }
+
+  LiveListPointerStruct(this.pointerFactory, [super.inner, this.structPtr]);
 
   void onStructPointer(void Function(StructPointer<D> p) fn) {
     if (!isPointerValid) return;

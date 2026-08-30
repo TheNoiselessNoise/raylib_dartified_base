@@ -100,7 +100,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     });
 
     _keyframePoses.inner = .generate(value.length,
-      (i) => .new(value[i], TransformD.pointer(_keyframePoses.innerPointer(i)))
+      (i) => .new(TransformD.pointer, value[i], TransformD.pointer(_keyframePoses.innerPointer(i)))
     );
   }
 
@@ -149,7 +149,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     _keyframePoses.onPointer((outer) {
       final rows = outer.cast<RPointer<RStruct>>().readMatrix(_keyframeCount, boneCount, TransformD.pointer);
       _keyframePoses.raw = .generate(_keyframeCount,
-        (i) => .new(rows[i], TransformD.pointer(outer.readPtr(i * RType.nativeWordSize)))
+        (i) => .new(TransformD.pointer, rows[i], TransformD.pointer(outer.readPtr(i * RType.nativeWordSize)))
       );
     });
   }

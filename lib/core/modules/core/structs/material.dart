@@ -96,7 +96,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = .new(maps, MaterialMapD.pointer(op?.readPtr(structLayout.offset(.maps))));
+    _maps = .new(MaterialMapD.pointer, maps, MaterialMapD.pointer(op?.readPtr(structLayout.offset(.maps))));
 
     _params = .new(
       () => op?.cast(),

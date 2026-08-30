@@ -123,8 +123,8 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
     _drawCounter = drawCounter,
     _currentDepth = currentDepth
   {
-    _vertexBuffer = .new(vertexBuffer, RlVertexBufferD.pointer(op?.readPtr(structLayout.offset(.vertexBuffer))));
-    _draws = .new(draws, RlDrawCallD.pointer(op?.readPtr(structLayout.offset(.draws))));
+    _vertexBuffer = .new(RlVertexBufferD.pointer, vertexBuffer, RlVertexBufferD.pointer(op?.readPtr(structLayout.offset(.vertexBuffer))));
+    _draws = .new(RlDrawCallD.pointer, draws, RlDrawCallD.pointer(op?.readPtr(structLayout.offset(.draws))));
   }
 
   factory RlRenderBatchD.zero() => .new();
