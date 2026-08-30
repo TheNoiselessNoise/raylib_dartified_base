@@ -1,3 +1,9 @@
+## 6.0.0
+
+- [BREAKING] Unified `MemoryPointer<X extends RType>` abstraction replacing per-backend pointer handling
+- [BREAKING] Unified struct definitions via `StructLayout`
+- [BREAKING] Unified allocators
+
 ## 5.5.4
 
 - [BREAKING] Rename `RefOrNull<X>` of a struct allocator

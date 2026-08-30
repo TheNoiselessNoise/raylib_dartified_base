@@ -56,7 +56,7 @@ class LightD extends RaylibStruct<LightD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   /// Light type (directional or point)
   LightType type;
   
