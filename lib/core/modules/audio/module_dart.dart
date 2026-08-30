@@ -659,12 +659,12 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Audio thread callback to request new data
   void SetAudioStreamCallback(
     AudioStreamD stream,
-    covariant AudioCallbackBase callback,
+    covariant AudioCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetAudioStreamCallback(stream, callback),
     () => rl.AudioFlat.SetAudioStreamCallback(
       stream,
-      callback.attach(),
+      callback?.attach() ?? MemoryPointer.nullptr.cast(),
     ),
   );
 

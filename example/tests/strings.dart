@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 import 'package:test/test.dart';
 
-class RaylibBaseTestStrings<R extends RaylibBase<R>> extends RaylibGameBase<R> {
+class RaylibBaseTestStrings<R extends RaylibBase<R>> extends RaylibAppBase<R> {
   @override
   bool shouldClose(_) => true;
 

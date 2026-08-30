@@ -101,6 +101,7 @@ part 'modules/light/module_flat.dart';
 part 'modules/light/structs/light.dart';
 
 // ===== MSF_GIF MODULE =====
+part 'modules/msf_gif/callbacks.dart';
 part 'modules/msf_gif/capture_ids.dart';
 part 'modules/msf_gif/labels.dart';
 part 'modules/msf_gif/module_dart.dart';

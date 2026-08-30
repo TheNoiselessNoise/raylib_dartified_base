@@ -11,6 +11,14 @@ abstract class RaylibMsfGifFlatModule<R extends RaylibBase<R>> extends RaylibMod
 
   RaylibMsfGifFlatModule(super.rl);
 
+  @override
+  @nonVirtual
+  @DoNotAbbreviate()
+  void dispose() {
+    super.dispose();
+    MsfGifFileWriteCallbackBase.disposeRegistry();
+  }
+
   abstract int msf_gif_alpha_threshold;
 
   abstract int msf_gif_bgra_flag;

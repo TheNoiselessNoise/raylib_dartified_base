@@ -321,7 +321,7 @@ class _RaylibAudioModuleDebugLabels extends RaylibDebugLabelsBase {
   /// Label for [RaylibAudioModule.SetAudioStreamCallback].
   String SetAudioStreamCallback(
     AudioStreamD stream,
-    AudioCallbackBase callback,
+    AudioCallbackBase? callback,
   ) => 'SetAudioStreamCallback($stream, callback: $callback)';
 
   /// Label for [RaylibAudioModule.AttachAudioStreamProcessor].

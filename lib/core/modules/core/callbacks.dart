@@ -16,9 +16,9 @@ typedef TraceLogCallbackFriendlyFunction = void Function(
 /// Raylib's `TraceLogCallback` callback.
 abstract class TraceLogCallbackBase extends RaylibCallback<TraceLogCallbackBase, TraceLogCallbackFunction> {
   TraceLogCallbackBase([super.name]);
-  static final List<TraceLogCallbackBase> _registry = [];
-  @override @nonVirtual get registry => _registry;
-  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  static final Map<int, TraceLogCallbackBase> callbackRegistry = {};
+  @override @nonVirtual get registry => callbackRegistry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
 }
 
 // MemoryPointer<UnsignedChar> (MemoryPointer<Char>, MemoryPointer<Int>)
@@ -37,9 +37,9 @@ typedef LoadFileDataCallbackFriendlyFunction = MemoryPointer<RUint8> Function(
 /// Raylib's `LoadFileDataCallback` callback.
 abstract class LoadFileDataCallbackBase extends RaylibCallback<LoadFileDataCallbackBase, LoadFileDataCallbackFunction> {
   LoadFileDataCallbackBase([super.name]);
-  static final List<LoadFileDataCallbackBase> _registry = [];
-  @override @nonVirtual get registry => _registry;
-  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  static final Map<int, LoadFileDataCallbackBase> callbackRegistry = {};
+  @override @nonVirtual get registry => callbackRegistry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
 }
 
 // bool (MemoryPointer<Char>, MemoryPointer<Void>, Int)
@@ -60,9 +60,9 @@ typedef SaveFileDataCallbackFriendlyFunction = bool Function(
 /// Raylib's `SaveFileDataCallback` callback.
 abstract class SaveFileDataCallbackBase extends RaylibCallback<SaveFileDataCallbackBase, SaveFileDataCallbackFunction> {
   SaveFileDataCallbackBase([super.name]);
-  static final List<SaveFileDataCallbackBase> _registry = [];
-  @override @nonVirtual get registry => _registry;
-  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  static final Map<int, SaveFileDataCallbackBase> callbackRegistry = {};
+  @override @nonVirtual get registry => callbackRegistry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
 }
 
 // MemoryPointer<Char> (MemoryPointer<Char>)
@@ -78,9 +78,9 @@ typedef LoadFileTextCallbackFriendlyFunction = String Function(
 /// Raylib's `LoadFileTextCallback` callback.
 abstract class LoadFileTextCallbackBase extends RaylibCallback<LoadFileTextCallbackBase, LoadFileTextCallbackFunction> {
   LoadFileTextCallbackBase([super.name]);
-  static final List<LoadFileTextCallbackBase> _registry = [];
-  @override @nonVirtual get registry => _registry;
-  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  static final Map<int, LoadFileTextCallbackBase> callbackRegistry = {};
+  @override @nonVirtual get registry => callbackRegistry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
 }
 
 // bool (MemoryPointer<Char>, MemoryPointer<Char>)
@@ -98,7 +98,7 @@ typedef SaveFileTextCallbackFriendlyFunction = bool Function(
 /// Raylib's `SaveFileTextCallback` callback.
 abstract class SaveFileTextCallbackBase extends RaylibCallback<SaveFileTextCallbackBase, SaveFileTextCallbackFunction> {
   SaveFileTextCallbackBase([super.name]);
-  static final List<SaveFileTextCallbackBase> _registry = [];
-  @override @nonVirtual get registry => _registry;
-  static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  static final Map<int, SaveFileTextCallbackBase> callbackRegistry = {};
+  @override @nonVirtual get registry => callbackRegistry;
+  static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
 }

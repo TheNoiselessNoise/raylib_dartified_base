@@ -39,14 +39,14 @@ abstract class RaylibCallback<B, D extends Function> {
   /// Each concrete subclass owns a static `List<RaylibCallback>` and returns it
   /// here. The registry is used to track active callbacks and support bulk
   /// disposal via [disposeRegistry].
-  List<RaylibCallback> get registry;
+  Map<int, RaylibCallback> get registry;
 
   /// Registers this callback and returns its function pointer.
   ///
   /// Adds `this` to [registry] if not already present, then returns
   /// [nativeFunction].
   MemoryPointer<RFunction<B>> attach() {
-    if (!registry.contains(this)) registry.add(this);
+    registry.putIfAbsent(_funcPtr.address, () => this);
     return nativeFunction;
   }
 
@@ -58,7 +58,7 @@ abstract class RaylibCallback<B, D extends Function> {
   /// detaching without releasing resources.
   MemoryPointer<RFunction<B>> detach([bool keepAlive = false]) {
     if (keepAlive) return nativeFunction;
-    registry.remove(this);
+    registry.remove(_funcPtr.address);
     dispose();
     return nativeFunction;
   }
@@ -78,10 +78,10 @@ abstract class RaylibCallback<B, D extends Function> {
   /// typed static wrapper:
   ///
   /// ```dart
-  /// static void disposeRegistry() => RaylibCallback.disposeRegistry(_registry);
+  /// static void disposeRegistry() => RaylibCallback.disposeRegistry(callbackRegistry);
   /// ```
-  static void disposeRegistry(List<RaylibCallback> registry) {
-    registry.forEach((f) => f.dispose());
+  static void disposeRegistry(Map<int, RaylibCallback> registry) {
+    registry.values.forEach((f) => f.dispose());
     registry.clear();
   }
 

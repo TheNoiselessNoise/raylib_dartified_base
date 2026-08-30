@@ -118,10 +118,10 @@ final class RaylibTempStructAllocator<
     return pointerFactory(p);
   }
 
-  /// Returns the pointer for slot [key], optionally writing [value] into it.
+  /// Allocates an unslotted pointer, optionally writing [value] into it.
   ///
   /// The caller is responsible for freeing the returned pointer.
-  StructPointer<X> RawValue([X? value, String? key]) {
+  StructPointer<X> RawValue([X? value]) {
     final p = Raw();
     if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
@@ -139,16 +139,6 @@ final class RaylibTempStructAllocator<
     return pointerFactory(p);
   }
 
-  /// Returns the pointer for the slot identified by a unique [key] suffix
-  /// optionally writing [value] into it.
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  StructPointer<X> RawValueUnique(X? value) {
-    final p = Raw();
-    if (value != null) value.structWriteInto(p);
-    return pointerFactory(p);
-  }
-
   /// Writes [array] into a tracked slot of sufficient capacity.
   StructPointer<X> Array(List<X> array, {String? key}) {
     final p = At(slotKey(key), array.length);
@@ -156,43 +146,12 @@ final class RaylibTempStructAllocator<
     return pointerFactory(p);
   }
 
-  /// Fills a tracked slot of [count] structs, producing each element via `init(i)` and writing it to memory.
-  StructPointer<X> Fill(int count, X Function(int) init, {String? key}) {
-    final p = At(slotKey(key), count);
-    for (int i = 0; i < count; i++) init(i).structWriteInto(p.readPtr(i));
-    return pointerFactory(p);
-  }
-
-  /// Fills a tracked slot of [count] structs by calling `init(i, struct)`
-  /// which writes directly into the native struct fields.
-  StructPointer<X> FillInto(int count, void Function(int, X) init, {String? key}) {
-    final p = At(slotKey(key), count);
-    for (int i = 0; i < count; i++) {
-      final inner = p.readPtr<RStruct>(i);
-      final value = factory(op: pointerFactory(inner));
-      init(i, value);
-      value.structWriteInto(inner);
-    }
-    return pointerFactory(p);
-  }
-
-  /// Fills a tracked slot of [count] structs by setting each element to the
-  /// [C] returned by `init(ptr, i)`.
-  StructPointer<X> FillWith(int count, X Function(StructPointer<X>, int) init, {String? key}) {
-    final p = At(slotKey(key), count);
-    for (int i = 0; i < count; i++) {
-      final inner = p.readPtr<RStruct>(i);
-      init(pointerFactory(inner), i).structWriteInto(inner);
-    }
-    return pointerFactory(p);
-  }
-
-  /// Returns a `P` for the given [V] value, using the existing allocation at [key]
+  /// Returns a [StructPointer] for the given [X] value, using the existing allocation at [key]
   /// when [x] is `null`, or allocating [x] into [key] via [PointerTo].
   ///
   /// Unlike [_RefOrNull], a `null` [x] does not produce a nullptr, it reuses
-  /// the slot's current allocation via [At]. Use [_RefOrNull] when a null input
-  /// should produce a nullptr instead.
+  /// the slot's current allocation via [At]. Use [_RefOrNull] when a `null` input
+  /// should produce a `nullptr` instead.
   StructPointer<X> _Ref(X? x, String key) => x == null
     ? pointerFactory(At(key))
     : PointerTo(x, key);
@@ -253,10 +212,9 @@ final class RaylibTempStructAllocator<
   /// Use [RefUpdate8] if the callee may write back into the pointer.
   StructPointer<X> Ref8([X? o]) => _Ref(o, '8');
 
-  /// Returns a `P` for the given [V] value, using `nullptr` when [x] is `null`.
+  /// Returns a [StructPointer] for the given [X] value, using `nullptr` when [x] is `null`.
   ///
-  /// Allocates into a numbered slot (1–8) via the corresponding [PointerTo] call,
-  /// so the lifetime is tied to the owning [RaylibTemp].
+  /// This is the foundation for the [RefOrNull1]–[RefOrNull8] helpers.
   StructPointer<X> _RefOrNull(X? x, String key) => x == null
     ? pointerFactory(MemoryPointer.nullptr)
     : PointerTo(x, key);
@@ -396,7 +354,7 @@ final class RaylibTempStructAllocator<
   ///
   /// The returned [X] is normalized by [_getValue], which associates it with
   /// the temporary slot, synchronizes its value from memory, and releases the
-  /// temporary backing operation when the value does not require it.
+  /// temporary backing pointer when the value does not require it.
   ///
   /// This allows the same extraction mechanism to support different backend
   /// representations of struct-returning functions.
@@ -448,7 +406,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract1(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref1, fn);
 
-    /// Extracts a struct result using temporary slot `'2'`.
+  /// Extracts a struct result using temporary slot `'2'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -460,7 +418,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract2(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref2, fn);
 
-    /// Extracts a struct result using temporary slot `'3'`.
+  /// Extracts a struct result using temporary slot `'3'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -472,7 +430,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract3(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref3, fn);
 
-    /// Extracts a struct result using temporary slot `'4'`.
+  /// Extracts a struct result using temporary slot `'4'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -484,7 +442,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract4(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref4, fn);
 
-    /// Extracts a struct result using temporary slot `'5'`.
+  /// Extracts a struct result using temporary slot `'5'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -496,7 +454,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract5(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref5, fn);
 
-    /// Extracts a struct result using temporary slot `'6'`.
+  /// Extracts a struct result using temporary slot `'6'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -508,7 +466,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract6(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref6, fn);
 
-    /// Extracts a struct result using temporary slot `'7'`.
+  /// Extracts a struct result using temporary slot `'7'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -520,7 +478,7 @@ final class RaylibTempStructAllocator<
   /// implementations for functions that return structs.
   X Extract7(dynamic Function(StructPointer<X> ptr) fn) => _Extract(Ref7, fn);
 
-    /// Extracts a struct result using temporary slot `'8'`.
+  /// Extracts a struct result using temporary slot `'8'`.
   ///
   /// [fn] receives a pointer to the temporary slot and may either return the
   /// backend-agnostic [X] directly or populate the slot and return `null`/`void`.
@@ -627,22 +585,5 @@ final class RaylibTempStructPointerAllocator<
     final p = At(key, array.length);
     for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, valueFunc(array[i], '${key}_$i').ptr.cast());
     return p;
-  }
-
-  /// Writes each sub-array in [arrays] into a tracked slot and returns the
-  /// outer `PP`
-  MemoryPointer<RPointer<RStruct>> Fill(List<List<X>> arrays, {String? key}) {
-    final p = At(slotKey(key), arrays.length);
-    for (int i = 0; i < arrays.length; i++) indexSetterFunc(p, i, rawArrayFunc(arrays[i]).ptr.cast());
-    return p;
-  }
-
-  /// Fills an unslotted pointer of [count] pointers by calling `init(i)` for each index.
-  /// 
-  /// The caller is responsible for freeing the returned pointer.
-  MemoryPointer<RPointer<RStruct>> FillRaw(int count, MemoryPointer<RVoid> Function(int) init) {
-    final pp = Raw(count);
-    for (int i = 0; i < count; i++) indexSetterFunc(pp, i, init(i));
-    return pp;
   }
 }

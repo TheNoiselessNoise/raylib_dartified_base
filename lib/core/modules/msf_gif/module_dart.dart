@@ -64,39 +64,9 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
     ),
   );
 
-  // TODO: msf_gif_begin_to_file
-  // int msf_gif_begin_to_file(
-  //   MsfGifStateD handle,
-  //   int width,
-  //   int height,
-  //   MsfGifFileWriteFuncC func,
-  //   Pointer<Void> filePointer,
-  // )
-  //   => _msf_gif_begin_to_file(handle, width, height, func, filePointer);
+  // NOTE: msf_gif_begin_to_file makes sense only in Flat API
 
-  int msf_gif_frame_to_file(
-    MsfGifStateD handle,
-    Uint8List pixelData,
-    num centiSecondsPerFame,
-    num maxBitDepth,
-    num pitchInBytes,
-  ) => run(
-    () => _debugLabels.msf_gif_frame_to_file(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes),
-    () => rl.MsfGifFlat.msf_gif_frame_to_file(
-      rl.Temp.MsfGifState$.Ref1(handle),
-      rl.Temp.TypedDataList$.Array(pixelData).cast(),
-      centiSecondsPerFame.toInt(),
-      maxBitDepth.toInt(),
-      pitchInBytes.toInt(),
-    ),
-  );
+  // NOTE: msf_gif_frame_to_file makes sense only in Flat API
 
-  int msf_gif_end_to_file(
-    MsfGifStateD handle,
-  ) => run(
-    () => _debugLabels.msf_gif_end_to_file(handle),
-    () => rl.MsfGifFlat.msf_gif_end_to_file(
-      rl.Temp.MsfGifState$.Ref1(handle),
-    ),
-  );
+  // NOTE: msf_gif_end_to_file makes sense only in Flat API
 }

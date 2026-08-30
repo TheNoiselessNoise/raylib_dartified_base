@@ -30,28 +30,4 @@ class _RaylibMsfGifModuleDebugLabels extends RaylibDebugLabelsBase {
   String msf_gif_free(
     MsfGifResultD result,
   ) => 'msf_gif_free($result)';
-
-  /// Label for [RaylibMsfGifModule.msf_gif_begin_to_file].
-  // TODO: msf_gif_begin_to_file
-  // String msf_gif_begin_to_file(
-  //   MsfGifStateD handle,
-  //   int width,
-  //   int height,
-  //   MsfGifFileWriteFuncC func,
-  //   Pointer<Void> filePointer,
-  // ) => 'msf_gif_begin_to_file($handle, $width, $height)';
-
-  /// Label for [RaylibMsfGifModule.msf_gif_frame_to_file].
-  String msf_gif_frame_to_file(
-    MsfGifStateD handle,
-    Uint8List pixelData,
-    num centiSecondsPerFame,
-    num maxBitDepth,
-    num pitchInBytes,
-  ) => 'msf_gif_frame_to_file($handle, pixelData: ${pixelData.length})';
-
-  /// Label for [RaylibMsfGifModule.msf_gif_end_to_file].
-  String msf_gif_end_to_file(
-    MsfGifStateD handle,
-  ) => 'msf_gif_end_to_file($handle)';
 }

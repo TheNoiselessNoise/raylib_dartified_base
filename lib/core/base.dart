@@ -485,7 +485,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
 /// Platform-agnostic game lifecycle interface for Raylib applications.
 ///
 /// Implement this to define your game logic independently of the backend.
-/// Each backend provides its own [RaylibGameBase] subclass
+/// Each backend provides its own [RaylibAppBase] subclass
 /// and [runRaylib] function that drives the lifecycle in a platform-appropriate way.
 ///
 /// The expected call order is:
@@ -493,7 +493,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
 /// 2. [loop] = called every frame
 /// 3. [close] = called when [shouldClose] returns `true`; call [RaylibCoreModule.CloseWindow] here
 /// 4. [dispose] = release Dart-side resources
-abstract class RaylibGameBase<R extends RaylibBase<R>> {
+abstract class RaylibAppBase<R extends RaylibBase<R>> {
 
   /// Called once before the game loop starts.
   ///
@@ -519,8 +519,10 @@ abstract class RaylibGameBase<R extends RaylibBase<R>> {
   /// Called after [close] to release any remaining Dart-side resources.
   ///
   /// Defaults to [RaylibBase.dispose].
+  @mustCallSuper
   void dispose(R rl) => rl.dispose();
 }
 
 // NOTE: each backend implements it's own function
-// void runRaylib(RaylibGameBase game, {String? nativeLibPath});
+// `nativeLibPath` leaking into WASM version... we can't do anything
+// void runRaylib(RaylibAppBase game, {String? nativeLibPath, bool silent = false});

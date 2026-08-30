@@ -36,22 +36,3 @@ MsfGifResultD msf_gif_end(
 void msf_gif_free(
   MsfGifResultD result,
 ) => _module.msf_gif_free(result);
-
-// TODO: msf_gif_begin_to_file
-// /// See [RaylibMsfGifModule.msf_gif_begin_to_file].
-// int msf_gif_begin_to_file(MsfGifStateD handle, int width, int height, MsfGifFileWriteFunc func, Pointer<Void> filePointer)
-//   => _module.msf_gif_begin_to_file(handle, width, height, func, filePointer);
-
-/// See [RaylibMsfGifModule.msf_gif_frame_to_file].
-int msf_gif_frame_to_file(
-  MsfGifStateD handle,
-  Uint8List pixelData,
-  num centiSecondsPerFame,
-  num maxBitDepth,
-  num pitchInBytes,
-) => _module.msf_gif_frame_to_file(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes);
-
-/// See [RaylibMsfGifModule.msf_gif_end_to_file].
-int msf_gif_end_to_file(
-  MsfGifStateD handle,
-) => _module.msf_gif_end_to_file(handle);
