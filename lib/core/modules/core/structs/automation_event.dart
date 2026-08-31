@@ -21,7 +21,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   static final StructLayout<AutomationEventField> struct = .aligned({
     .frame:  RUnsignedInt(), // Event frame
     .type:   RUnsignedInt(), // Event type (AutomationEventType)
-    .params: RInt(BASE_paramsCount), // Event parameters (if required)
+    .params: RArray(RInt(), BASE_paramsCount), // Event parameters (if required)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

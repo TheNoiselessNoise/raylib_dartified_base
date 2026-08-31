@@ -20,7 +20,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelAnimationField> struct = .aligned({
-    .name:          RChar(BASE_nameLength), // Animation name
+    .name:          RArray(RChar(), BASE_nameLength), // Animation name
     .boneCount:     RInt(), // Number of bones (per pose)
     .keyframeCount: RInt(), // Number of animation key frames
     .keyframePoses: RPointer(RPointer(RStruct(TransformD.struct))), // Animation sequence keyframe poses [keyframe][pose]

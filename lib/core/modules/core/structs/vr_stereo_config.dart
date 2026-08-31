@@ -24,14 +24,14 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<VrStereoConfigField> struct = .aligned({
-    .projection:        RStruct(MatrixD.struct, BASE_paramsCount), // VR projection matrices (per eye)
-    .viewOffset:        RStruct(MatrixD.struct, BASE_paramsCount), // VR view offset matrices (per eye)
-    .leftLensCenter:    RFloat(BASE_paramsCount), // VR left lens center
-    .rightLensCenter:   RFloat(BASE_paramsCount), // VR right lens center
-    .leftScreenCenter:  RFloat(BASE_paramsCount), // VR left screen center
-    .rightScreenCenter: RFloat(BASE_paramsCount), // VR right screen center
-    .scale:             RFloat(BASE_paramsCount), // VR distortion scale
-    .scaleIn:           RFloat(BASE_paramsCount), // VR distortion scale in
+    .projection:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR projection matrices (per eye)
+    .viewOffset:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR view offset matrices (per eye)
+    .leftLensCenter:    RArray(RFloat(), BASE_paramsCount), // VR left lens center
+    .rightLensCenter:   RArray(RFloat(), BASE_paramsCount), // VR right lens center
+    .leftScreenCenter:  RArray(RFloat(), BASE_paramsCount), // VR left screen center
+    .rightScreenCenter: RArray(RFloat(), BASE_paramsCount), // VR right screen center
+    .scale:             RArray(RFloat(), BASE_paramsCount), // VR distortion scale
+    .scaleIn:           RArray(RFloat(), BASE_paramsCount), // VR distortion scale in
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

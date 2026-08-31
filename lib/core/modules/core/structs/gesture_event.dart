@@ -22,8 +22,8 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   static final StructLayout<GestureEventField> struct = .aligned({
     .touchAction: RInt(),
     .pointCount:  RInt(),
-    .pointId:     RInt(BASE_maxTouchPoints),
-    .position:    RStruct(Vector2D.struct, BASE_maxTouchPoints),
+    .pointId:     RArray(RInt(), BASE_maxTouchPoints),
+    .position:    RArray(RStruct(Vector2D.struct), BASE_maxTouchPoints),
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

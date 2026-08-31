@@ -21,7 +21,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   static final StructLayout<MaterialField> struct = .aligned({
     .shader: RStruct(ShaderD.struct), // Material shader
     .maps:   RPointer(RStruct(MaterialMapD.struct)), // Material maps array (MAX_MATERIAL_MAPS)
-    .params: RFloat(BASE_paramsCount), // Material generic parameters (if required)
+    .params: RArray(RFloat(), BASE_paramsCount), // Material generic parameters (if required)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

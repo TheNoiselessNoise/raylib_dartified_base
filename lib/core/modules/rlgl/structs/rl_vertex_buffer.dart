@@ -34,7 +34,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
       .web      => RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
     },
     .vaoId:        RUnsignedInt(), // OpenGL Vertex Array Object id
-    .vboId:        RUnsignedInt(BASE_vboIdCount), // OpenGL Vertex Buffer Objects id (5 types of vertex data)
+    .vboId:        RArray(RUnsignedInt(), BASE_vboIdCount), // OpenGL Vertex Buffer Objects id (5 types of vertex data)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

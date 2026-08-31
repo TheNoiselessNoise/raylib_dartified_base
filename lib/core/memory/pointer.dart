@@ -1,9 +1,7 @@
 part of '../raylib_dartified_base.dart';
 
 sealed class RType {
-  final int count;
-
-  const RType([this.count = 1]);
+  const RType();
 
   static int? _nativeWordSize;
 
@@ -24,74 +22,85 @@ sealed class RType {
 
   static bool get isNative32Bit => RType.nativeWordSize == 4;
 
-  /// Size of a single element, ignoring count. Also the natural alignment
-  /// for this field, per C rules, arrays align to their element size,
-  /// not their total size.
-  int get elementByteSize => switch (this) {
-    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this does not have a known size'),
-    RPointer()  => nativeWordSize,
-    RSize()     => nativeWordSize,
-    RBool()     => RBool.scalarByteSize,
-    RInt8()     => RInt8.scalarByteSize,
-    RUint8()    => RUint8.scalarByteSize,
-    RInt16()    => RInt16.scalarByteSize,
-    RUint16()   => RUint16.scalarByteSize,
-    RInt32()    => RInt32.scalarByteSize,
-    RUint32()   => RUint32.scalarByteSize,
-    RInt64()    => RInt64.scalarByteSize,
-    RUint64()   => RUint64.scalarByteSize,
-    RFloat32()  => RFloat32.scalarByteSize,
-    RFloat64()  => RFloat64.scalarByteSize,
-    RStruct(:final layout) => layout.byteSize,
-  };
+  /// Size of a single element.
+  int get byteSize;
 
-  int get byteSize => elementByteSize * count;
+  /// Natural alignment for this field, per C rules,
+  /// arrays align to their element size, not their total size.
+  int get alignment => byteSize;
 
-  X? read<X>(MemoryPointer p, int offset) => switch (this) {
-    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this is not readable'),
-    RPointer()  => p.readPtr(offset),
-    RSize()     => p.readSize(offset),
-    RBool()     => p.readBool(offset),
-    RInt8()     => p.readInt8(offset),
-    RUint8()    => p.readUnsignedChar(offset),
-    RInt16()    => p.readInt16(offset),
-    RUint16()   => p.readUint16(offset),
-    RInt32()    => p.readInt32(offset),
-    RUint32()   => p.readUint32(offset),
-    RInt64()    => p.readInt64(offset),
-    RUint64()   => p.readUint64(offset),
-    RFloat32()  => p.readFloat(offset),
-    RFloat64()  => p.readDouble(offset),
-    RStruct()   => p.offsetBy(offset),
-  } as X?;
+  /// Read this [RType] from a [p] at given [offset].
+  V? read<V>(MemoryPointer p, int offset);
 
-  void write<X>(MemoryPointer p, int offset, X? value) => switch (this) {
-    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this is not writable'),
-    RPointer()  => p.writePtr(value as MemoryPointer?, offset),
-    RSize()     => p.writeSize(value as int, offset),
-    RBool()     => p.writeBool(value as bool, offset),
-    RInt8()     => p.writeInt8(value as int, offset),
-    RUint8()    => p.writeUnsignedChar(value as int, offset),
-    RInt16()    => p.writeInt16(value as int, offset),
-    RUint16()   => p.writeUint16(value as int, offset),
-    RInt32()    => p.writeInt32(value as int, offset),
-    RUint32()   => p.writeUint32(value as int, offset),
-    RInt64()    => p.writeInt64(value as int, offset),
-    RUint64()   => p.writeUint64(value as int, offset),
-    RFloat32()  => p.writeFloat(value as double, offset),
-    RFloat64()  => p.writeDouble(value as double, offset),
-    RStruct()   => throw UnsupportedError('$this requires a struct factory. Use `StructTypeField`, not `StructField`.'),
-  };
+  /// Write a [value] of [RType] into a [p] at given [offset].
+  void write<V>(MemoryPointer p, int offset, V? value);
+}
+
+final class RArray<E extends RType> extends RType {
+  final E element;
+  final int count;
+
+  const RArray(this.element, this.count);
+
+  @override
+  int get byteSize => element.byteSize * count;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => throw UnsupportedError('$this is not directly readable. Use appropriate field, not `StructField`.');
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => throw UnsupportedError('$this is not directly writable. Use appropriate field, not `StructField`.');
 }
 
 /// Marker type for a `callback/function` pointer.
-final class RFunction<F> extends RType { const RFunction([super.count]); }
+final class RFunction<F> extends RType {
+  const RFunction();
+
+  @override
+  int get byteSize => throw UnsupportedError('$this does not have a known size');
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => throw UnsupportedError('$this is not readable');
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => throw UnsupportedError('$this is not writable');
+}
 
 /// Marker type for a `opaque` type - any type.
-final class ROpaque extends RType { const ROpaque([super.count]); }
+final class ROpaque extends RType {
+  const ROpaque();
+
+  @override
+  int get byteSize => throw UnsupportedError('$this does not have a known size');
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => throw UnsupportedError('$this is not readable');
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => throw UnsupportedError('$this is not writable');
+}
 
 /// Marker type for a `void` type - any type.
-final class RVoid extends RType { const RVoid([super.count]); }
+final class RVoid extends RType {
+  const RVoid();
+
+  @override
+  int get byteSize => throw UnsupportedError('$this does not have a known size');
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => throw UnsupportedError('$this is not readable');
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => throw UnsupportedError('$this is not writable');
+}
 
 /// A raw address into backend memory.
 /// 
@@ -101,87 +110,232 @@ final class RVoid extends RType { const RVoid([super.count]); }
 final class RPointer<X extends RType> extends RType {
   final X target;
   
-  const RPointer(this.target, [super.count]);
+  const RPointer(this.target);
+
+  @override
+  int get byteSize => RType.nativeWordSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readPtr(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writePtr(value as MemoryPointer?, offset);
 }
 
 /// Unsigned pointer-sized integer. Maps to C `size_t`.
-final class RSize extends RType { const RSize([super.count]); }
+final class RSize extends RType {
+  const RSize();
+
+  @override
+  int get byteSize => RType.nativeWordSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readSize(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeSize(value as int, offset);
+}
 
 /// Unsigned 8-bit integer. Maps to C `bool`.
 final class RBool extends RType {
-  const RBool([super.count]);
+  const RBool();
 
   static final int scalarByteSize = 1;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readBool(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeBool(value as bool, offset);
 }
 
 /// Signed 8-bit integer. Maps to C `int8_t`.
 final class RInt8 extends RType {
-  const RInt8([super.count]);
+  const RInt8();
 
   static final int scalarByteSize = 1;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readInt8(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeInt8(value as int, offset);
 }
 
 /// Unsigned 8-bit integer. Maps to C `uint8_t`.
 final class RUint8 extends RType {
-  const RUint8([super.count]);
+  const RUint8();
 
   static final int scalarByteSize = 1;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUnsignedChar(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUnsignedChar(value as int, offset);
 }
 
 /// Signed 16-bit integer. Maps to C `int16_t`.
 final class RInt16 extends RType {
-  const RInt16([super.count]);
+  const RInt16();
 
   static final int scalarByteSize = 2;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readInt16(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeInt16(value as int, offset);
 }
 
 /// Unsigned 16-bit integer. Maps to C `uint16_t`.
 final class RUint16 extends RType {
-  const RUint16([super.count]);
+  const RUint16();
 
   static final int scalarByteSize = 2;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUint16(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUint16(value as int, offset);
 }
 
 /// Signed 32-bit integer. Maps to C `int32_t`.
 final class RInt32 extends RType {
-  const RInt32([super.count]);
+  const RInt32();
 
   static final int scalarByteSize = 4;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readInt32(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeInt32(value as int, offset);
 }
 
 /// Unsigned 32-bit integer. Maps to C `uint32_t`.
 final class RUint32 extends RType {
-  const RUint32([super.count]);
+  const RUint32();
 
   static final int scalarByteSize = 4;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUint32(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUint32(value as int, offset);
 }
 
 /// Signed 64-bit integer. Maps to C `int64_t`.
 final class RInt64 extends RType {
-  const RInt64([super.count]);
+  const RInt64();
 
   static final int scalarByteSize = 8;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readInt64(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeInt64(value as int, offset);
 }
 
 /// Unsigned 64-bit integer. Maps to C `uint64_t`.
 final class RUint64 extends RType {
-  const RUint64([super.count]);
+  const RUint64();
 
   static final int scalarByteSize = 8;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUint64(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUint64(value as int, offset);
 }
 
 /// IEEE-754 single-precision float. Maps to C `float`.
 final class RFloat32 extends RType {
-  const RFloat32([super.count]);
+  const RFloat32();
 
   static final int scalarByteSize = 4;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readFloat32(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeFloat32(value as double, offset);
 }
 
 /// IEEE-754 double-precision float. Maps to C `double`.
 final class RFloat64 extends RType {
-  const RFloat64([super.count]);
+  const RFloat64();
 
   static final int scalarByteSize = 8;
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readFloat64(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeFloat64(value as double, offset);
 }
 
 /// C `char`. Alias for [RInt8].
@@ -211,7 +365,18 @@ typedef RDouble = RFloat64;
 class RStruct extends RType {
   final StructLayout layout;
 
-  const RStruct(this.layout, [super.count]);
+  const RStruct(this.layout);
+
+  @override
+  int get byteSize => layout.byteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => throw UnsupportedError('$this is not directly readable. Use appropriate field, not `StructField`.');
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => throw UnsupportedError('$this is not directly writable. Use appropriate field, not `StructField`.');
 }
 
 extension SizePointer on MemoryPointer<RSize> {
@@ -543,14 +708,14 @@ abstract class MemoryPointer<X extends RType> {
   }
 
   /// Bulk-copies [length] bytes from [src] into this pointer.
-  void copyBytesFrom(MemoryPointer<RType> src, int length, {int destOffset = 0, int srcOffset = 0}) {
+  void copyBytesFrom(MemoryPointer src, int length, {int destOffset = 0, int srcOffset = 0}) {
     offsetBy(destOffset)
       .asView<Uint8List>(length)
       .setRange(0, length, src.offsetBy(srcOffset).asView<Uint8List>(length));
   }
 
   /// memcmp-style comparison of [length] bytes.
-  int compareBytes(MemoryPointer<RType> other, int length, {int offset = 0, int otherOffset = 0}) {
+  int compareBytes(MemoryPointer other, int length, {int offset = 0, int otherOffset = 0}) {
     final a = offsetBy(offset).asView<Uint8List>(length);
     final b = other.offsetBy(otherOffset).asView<Uint8List>(length);
     for (int i = 0; i < length; i++) {
@@ -606,7 +771,7 @@ abstract class MemoryPointer<X extends RType> {
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]);
 
   /// Writes a pointer at given `address + byteOffset`.
-  void writePtr(MemoryPointer<RType>? value, [int byteOffset = 0]);
+  void writePtr(MemoryPointer? value, [int byteOffset = 0]);
 
   /// Reads a value of type [RSize] at given `address + byteOffset`.
   int readSize([int byteOffset = 0]);
@@ -887,7 +1052,7 @@ final class StructPointer<D extends RaylibStruct<D>> {
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]) => ptr.readPtr(byteOffset);
 
   /// See [MemoryPointer.writePtr].
-  void writePtr(MemoryPointer<RType>? value, [int byteOffset = 0]) => ptr.writePtr(value, byteOffset);
+  void writePtr(MemoryPointer? value, [int byteOffset = 0]) => ptr.writePtr(value, byteOffset);
 
   /// See [MemoryPointer.readSize].
   int readSize([int byteOffset = 0]) => ptr.readSize(byteOffset);

@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Extends [RaylibTempAllocator] with struct allocation, providing
-/// [PointerTo], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
+/// [Allocate], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
 /// Dart mirror objects ([X]).
 final class RaylibTempStructAllocator<
   X extends RaylibStruct<X> // Dart mirror object
@@ -55,7 +55,7 @@ final class RaylibTempStructAllocator<
   String getBaseKeyUnique(X value, [String? inner]) => '${value.$state.nextId}_${getBaseKey(value, inner)}';
 
   /// Allocates or syncs [value] to a tracked slot at [key].
-  StructPointer<X> PointerTo(X value, [String? key]) {
+  StructPointer<X> Allocate(X value, [String? key]) {
     final requiresOp = value.structRequiresOp;
     final op = value.op;
 
@@ -134,14 +134,14 @@ final class RaylibTempStructAllocator<
   }
 
   /// Returns a [StructPointer] for the given [X] value, using the existing allocation at [key]
-  /// when [x] is `null`, or allocating [x] into [key] via [PointerTo].
+  /// when [x] is `null`, or allocating [x] into [key] via [Allocate].
   ///
   /// Unlike [_RefOrNull], a `null` [x] does not produce a nullptr, it reuses
   /// the slot's current allocation via [At]. Use [_RefOrNull] when a `null` input
   /// should produce a `nullptr` instead.
   StructPointer<X> _Ref(X? x, String key) => x == null
     ? pointerFactory(At(key))
-    : PointerTo(x, key);
+    : Allocate(x, key);
 
   /// Allocates [o] into slot `'1'`, or reuses the existing slot `'1'` allocation
   /// if [o] is `null`.
@@ -204,7 +204,7 @@ final class RaylibTempStructAllocator<
   /// This is the foundation for the [RefOrNull1]–[RefOrNull8] helpers.
   StructPointer<X> _RefOrNull(X? x, String key) => x == null
     ? pointerFactory(MemoryPointer.nullptr)
-    : PointerTo(x, key);
+    : Allocate(x, key);
 
   /// Allocates [o] into slot `'1'`, or returns `nullptr` if [o] is `null`.
   ///

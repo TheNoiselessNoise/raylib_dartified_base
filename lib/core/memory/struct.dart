@@ -8,26 +8,26 @@ typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Funct
 
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
 /// tracking its current slot key, tag, disposal status, and stable identity
-/// across repeated [RaylibTempStructAllocator.PointerTo] calls.
+/// across repeated [RaylibTempStructAllocator.Allocate] calls.
 final class RaylibTempStructState with RaylibDisposable {
   /// The slot tag used to disambiguate [RaylibTemp] keys for this instance.
   ///
   /// Defaults to `'default'`. Change via [RaylibStruct.structSetTag].
   String tag = 'struct';
   
-  /// The [RaylibTemp] slot key used during the most recent [RaylibTempStructAllocator.PointerTo] allocation.
+  /// The [RaylibTemp] slot key used during the most recent [RaylibTempStructAllocator.Allocate] allocation.
   String? allocKey;
   
   /// Whether [RaylibStruct.structMarkDisposed] has been called on this instance.
   bool isDisposed = false;
   
-  /// Whether [RaylibTempStructAllocator.PointerTo] has never been called for this instance.
+  /// Whether [RaylibTempStructAllocator.Allocate] has never been called for this instance.
   ///
   /// Used to full sync once to push pre-promotion Dart state to memory on the first
-  /// [RaylibTempStructAllocator.PointerTo] allocation.
+  /// [RaylibTempStructAllocator.Allocate] allocation.
   bool isFirstSync = true;
 
-  /// A stable numeric ID assigned on first [RaylibTempStructAllocator.PointerTo] call for pointer-owning structs.
+  /// A stable numeric ID assigned on first [RaylibTempStructAllocator.Allocate] call for pointer-owning structs.
   ///
   /// Incorporated into slot keys to prevent collisions between distinct instances
   /// of the same struct type sharing the same [tag].
@@ -79,21 +79,21 @@ mixin StructFields {}
 /// This reproduces real C struct layout for flat structs of primitives
 /// and pointers.
 final class StructLayout<E extends StructFields> {
+  /// Maps each field to the [RType] describing it.
   final Map<E, RType> fields;
   final Map<E, int> offsets;
   final int byteSize;
   final int alignment;
 
-  StructLayout._(this.fields, this.offsets, this.byteSize, this.alignment);
+  const StructLayout._(this.fields, this.offsets, this.byteSize, this.alignment);
 
-  /// [fields] maps each field to the RType describing it.
   factory StructLayout.aligned(Map<E, RType> fields) {
     final offsets = <E, int>{};
     var offset = 0;
     var maxAlign = 1;
     for (final entry in fields.entries) {
       final type = entry.value;
-      final align = type is RStruct ? type.layout.alignment : type.elementByteSize;
+      final align = type is RStruct ? type.layout.alignment : type.byteSize;
       offset = (offset + align - 1) ~/ align * align;
       offsets[entry.key] = offset;
       offset += type.byteSize;
@@ -108,24 +108,30 @@ final class StructLayout<E extends StructFields> {
   // scalars
   StructField<T> field<T>(E f) => .new(offset(f), fields[f]!);
 
-  StructInlineArrayField<X, R> inlineScalarArray<X, R extends RType>(E f, int count)
-    => .new(offset(f), count, ScalarCodec(fields[f]! as R));
+  StructInlineArrayField<X, R> inlineScalarArrayField<X, R extends RType>(E f) {
+    final type = fields[f]! as RArray<R>;
+    return .new(offset(f), type.count, ScalarCodec(type.element));
+  }
 
-  StructPointerArrayField<X, R> pointerScalarArray<X, R extends RType>(E f)
-    => .new(offset(f), ScalarCodec((fields[f]! as RPointer<R>).target));
+  StructPointerArrayField<X, R> pointerScalarArrayField<X, R extends RType>(E f) {
+    final type = fields[f]! as RPointer<R>;
+    return .new(offset(f), ScalarCodec(type.target));
+  }
 
   // structs
 
   StructTypeField<D> structField<D extends RaylibStruct<D>>(E f, StructPointer<D> Function(MemoryPointer?) pointer)
     => .new(offset(f), pointer);
 
-  StructInlineArrayField<X, RStruct> inlineStructArray<X extends RaylibStruct<X>>(
+  StructInlineArrayField<X, RStruct> inlineStructArrayField<X extends RaylibStruct<X>>(
     E f,
-    int count,
     StructPointerFactory<X> pointerFactory,
-  ) => .new(offset(f), count, StructCodec(pointerFactory));
+  ) {
+    final type = fields[f]! as RArray<RStruct>;
+    return .new(offset(f), type.count, StructCodec(pointerFactory));
+  }
 
-  StructPointerArrayStructField<X> pointerStructArray<X extends RaylibStruct<X>>(
+  StructPointerArrayStructField<X> pointerStructArrayField<X extends RaylibStruct<X>>(
     E f,
     StructPointerFactory<X> pointerFactory,
   ) => .new(offset(f), StructCodec(pointerFactory));

@@ -32,8 +32,8 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
     .eyeToScreenDistance:    RFloat(), // Distance between eye and display in meters
     .lensSeparationDistance: RFloat(), // Lens separation distance in meters
     .interpupillaryDistance: RFloat(), // IPD (distance between pupils) in meters
-    .lensDistortionValues:   RFloat(BASE_paramsCount), // Lens distortion constant parameters
-    .chromaAbCorrection:     RFloat(BASE_paramsCount), // Chromatic aberration correction parameters
+    .lensDistortionValues:   RArray(RFloat(), BASE_paramsCount), // Lens distortion constant parameters
+    .chromaAbCorrection:     RArray(RFloat(), BASE_paramsCount), // Chromatic aberration correction parameters
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned

@@ -12,13 +12,13 @@ class ScalarCodec<E, R extends RType> implements ElementCodec<E, R> {
 
   @override
   List<E> readArray(MemoryPointer<R> p, int count) {
-    final stride = type.elementByteSize;
+    final stride = type.byteSize;
     return .generate(count, (i) => type.read(p, i * stride));
   }
 
   @override
   void writeArray(MemoryPointer<R> p, List<E> values) {
-    final stride = type.elementByteSize;
+    final stride = type.byteSize;
     for (var i = 0; i < values.length; i++) {
       type.write(p, i * stride, values[i]);
     }
@@ -114,12 +114,12 @@ class StructPointerArrayField<E, R extends RType> {
 
   MemoryPointer<R> basePointer(MemoryPointer p) => p.readPtr(offset).cast();
 
-  // RaylibTempArrayAllocator? _allocator(RaylibTemp temp)
-  //   => temp.scalarAlloc<R>();
+  RaylibTempArrayAllocator? _allocator(RaylibTemp temp)
+    => temp.scalarAlloc<R>();
 
   void allocate(RaylibTemp temp, MemoryPointer at, String key, List<E> values) {
     if (basePointer(at).isNull) {
-      final allocator = temp.scalarAlloc<R>();
+      final allocator = _allocator(temp);
 
       if (allocator == null) {
         throw StateError(
@@ -152,23 +152,7 @@ class StructPointerArrayField<E, R extends RType> {
 class StructPointerArrayStructField<E extends RaylibStruct<E>> extends StructPointerArrayField<E, RStruct> {
   const StructPointerArrayStructField(super.offset, super.codec);
 
-  // @override
-  // RaylibTempArrayAllocator<E, RStruct>? _allocator(RaylibTemp temp)
-  //   => temp.structAlloc<E>();
-
   @override
-  void allocate(RaylibTemp temp, MemoryPointer at, String key, List<E> values) {
-    if (basePointer(at).isNull) {
-      final allocator = temp.structAlloc<E>();
-
-      if (allocator == null) {
-        throw StateError(
-          'No allocator registered for $E',
-        );
-      }
-
-      final inner = allocator.At('${key}_${offset}_array', values.length);
-      at.offsetBy(offset).writePtr(inner.cast());
-    }
-  }
+  RaylibTempArrayAllocator<E, RStruct>? _allocator(RaylibTemp temp)
+    => temp.structAlloc<E>();
 }

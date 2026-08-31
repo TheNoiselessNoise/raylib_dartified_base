@@ -18,7 +18,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<BoneInfoField> struct = .aligned({
-    .name:   RChar(BASE_nameLength), // Bone name
+    .name:   RArray(RChar(), BASE_nameLength), // Bone name
     .parent: RInt(), // Bone parent
   });
 
