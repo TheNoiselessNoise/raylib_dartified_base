@@ -54,7 +54,6 @@ abstract class RaylibTempAllocator<R extends RType> {
       final (ptr, currentCount) = existing;
 
       if (count <= currentCount) {
-        slots[key] = (ptr, count);
         return ptr.cast();
       }
 
@@ -114,6 +113,35 @@ abstract class RaylibTempAllocator<R extends RType> {
       });
       slots.clear();
     }
+  }
+}
+
+abstract class RaylibTempArrayAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
+  /// Writes [value] into the [i]-th element of the array at [ptr].
+  final void Function(MemoryPointer<R> ptr, int i, X value) indexSetterFunc;
+  
+  RaylibTempArrayAllocator(super.temp, {
+    required super.byteSize,
+    required this.indexSetterFunc,
+  });
+  
+  /// Allocates an unslotted array and populates it from [array].
+  ///
+  /// The caller is responsible for freeing the returned pointer.
+  MemoryPointer<R> RawArray(List<X> array) {
+    final p = Raw(array.length);
+    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
+    return p;
+  }
+
+  /// Writes [array] into a slot of sufficient capacity and returns the pointer.
+  ///
+  /// [key] defaults to `'default'`. The slot is grown automatically if the
+  /// current capacity is smaller than `array.length`.
+  MemoryPointer<R> Array(List<X> array, {String? key}) {
+    final p = At(slotKey(key), array.length);
+    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
+    return p;
   }
 }
 

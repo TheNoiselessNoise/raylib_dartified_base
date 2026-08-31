@@ -9,6 +9,7 @@ import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
 part 'base.dart';
 part 'callback.dart';
 part 'ext.dart';
+part 'fields.dart';
 part 'list_and_array.dart';
 
 part 'extensions/ease.dart';

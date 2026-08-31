@@ -19,7 +19,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RectangleField> structLayout = .aligned({
+  static final StructLayout<RectangleField> struct = .aligned({
     .x:      RFloat(), // Rectangle top-left corner position x
     .y:      RFloat(), // Rectangle top-left corner position y
     .width:  RFloat(), // Rectangle width
@@ -29,7 +29,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RectangleD.new, RectangleD.pointer);
+    => .nullable(ptr, struct, RectangleD.new, RectangleD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -42,45 +42,45 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   double _x;
   /// Rectangle top-left corner position x
   double get x {
-    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
     return _x;
   }
   set x(double value) {
     _x = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
   }
 
   double _y;
   /// Rectangle top-left corner position y
   double get y {
-    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
     return _y;
   }
   set y(double value) {
     _y = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
   }
 
   double _width;
   /// Rectangle width
   double get width {
-    structOnOp((p) => _width = p.readFloat(structLayout.offset(.width)));
+    structOnOp((p) => _width = p.readFloat(struct.offset(.width)));
     return _width;
   }
   set width(double value) {
     _width = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.width)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.width)));
   }
 
   double _height;
   /// Rectangle height
   double get height {
-    structOnOp((p) => _height = p.readFloat(structLayout.offset(.height)));
+    structOnOp((p) => _height = p.readFloat(struct.offset(.height)));
     return _height;
   }
   set height(double value) {
     _height = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.height)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.height)));
   }
   
   RectangleD({
@@ -116,18 +116,18 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, structLayout.offset(.x));
-    p.writeFloat(_y, structLayout.offset(.y));
-    p.writeFloat(_width, structLayout.offset(.width));
-    p.writeFloat(_height, structLayout.offset(.height));
+    p.writeFloat(_x, struct.offset(.x));
+    p.writeFloat(_y, struct.offset(.y));
+    p.writeFloat(_width, struct.offset(.width));
+    p.writeFloat(_height, struct.offset(.height));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(structLayout.offset(.x));
-    _y = p.readFloat(structLayout.offset(.y));
-    _width = p.readFloat(structLayout.offset(.width));
-    _height = p.readFloat(structLayout.offset(.height));
+    _x = p.readFloat(struct.offset(.x));
+    _y = p.readFloat(struct.offset(.y));
+    _width = p.readFloat(struct.offset(.width));
+    _height = p.readFloat(struct.offset(.height));
   }
 
   @override

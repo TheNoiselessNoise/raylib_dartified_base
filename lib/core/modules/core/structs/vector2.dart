@@ -20,7 +20,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<Vector2Field> structLayout = .aligned({
+  static final StructLayout<Vector2Field> struct = .aligned({
     .x: RFloat(), // Vector x component
     .y: RFloat(), // Vector y component
   });
@@ -28,7 +28,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, Vector2D.new, Vector2D.pointer);
+    => .nullable(ptr, struct, Vector2D.new, Vector2D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -41,23 +41,23 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   double _x;
   /// Vector x component
   double get x {
-    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
     return _x;
   }
   set x(double value) {
     _x = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
   }
 
   double _y;
   /// Vector y component
   double get y {
-    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
     return _y;
   }
   set y(double value) {
     _y = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
   }
 
   Vector2D({
@@ -84,14 +84,14 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, structLayout.offset(.x));
-    p.writeFloat(_y, structLayout.offset(.y));
+    p.writeFloat(_x, struct.offset(.x));
+    p.writeFloat(_y, struct.offset(.y));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(structLayout.offset(.x));
-    _y = p.readFloat(structLayout.offset(.y));
+    _x = p.readFloat(struct.offset(.x));
+    _y = p.readFloat(struct.offset(.y));
   }
 
   @override

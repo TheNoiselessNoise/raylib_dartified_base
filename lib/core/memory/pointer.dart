@@ -28,9 +28,7 @@ sealed class RType {
   /// for this field, per C rules, arrays align to their element size,
   /// not their total size.
   int get elementByteSize => switch (this) {
-    RFunction() => 0,
-    ROpaque()   => 0,
-    RVoid()     => 0,
+    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this does not have a known size'),
     RPointer()  => nativeWordSize,
     RSize()     => nativeWordSize,
     RBool()     => RBool.scalarByteSize,
@@ -48,6 +46,42 @@ sealed class RType {
   };
 
   int get byteSize => elementByteSize * count;
+
+  X? read<X>(MemoryPointer p, int offset) => switch (this) {
+    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this is not readable'),
+    RPointer()  => p.readPtr(offset),
+    RSize()     => p.readSize(offset),
+    RBool()     => p.readBool(offset),
+    RInt8()     => p.readInt8(offset),
+    RUint8()    => p.readUnsignedChar(offset),
+    RInt16()    => p.readInt16(offset),
+    RUint16()   => p.readUint16(offset),
+    RInt32()    => p.readInt32(offset),
+    RUint32()   => p.readUint32(offset),
+    RInt64()    => p.readInt64(offset),
+    RUint64()   => p.readUint64(offset),
+    RFloat32()  => p.readFloat(offset),
+    RFloat64()  => p.readDouble(offset),
+    RStruct()   => p.offsetBy(offset),
+  } as X?;
+
+  void write<X>(MemoryPointer p, int offset, X? value) => switch (this) {
+    RFunction() || ROpaque() || RVoid() => throw UnsupportedError('$this is not writable'),
+    RPointer()  => p.writePtr(value as MemoryPointer?, offset),
+    RSize()     => p.writeSize(value as int, offset),
+    RBool()     => p.writeBool(value as bool, offset),
+    RInt8()     => p.writeInt8(value as int, offset),
+    RUint8()    => p.writeUnsignedChar(value as int, offset),
+    RInt16()    => p.writeInt16(value as int, offset),
+    RUint16()   => p.writeUint16(value as int, offset),
+    RInt32()    => p.writeInt32(value as int, offset),
+    RUint32()   => p.writeUint32(value as int, offset),
+    RInt64()    => p.writeInt64(value as int, offset),
+    RUint64()   => p.writeUint64(value as int, offset),
+    RFloat32()  => p.writeFloat(value as double, offset),
+    RFloat64()  => p.writeDouble(value as double, offset),
+    RStruct()   => throw UnsupportedError('$this requires a struct factory. Use `StructTypeField`, not `StructField`.'),
+  };
 }
 
 /// Marker type for a `callback/function` pointer.
@@ -64,7 +98,11 @@ final class RVoid extends RType { const RVoid([super.count]); }
 /// Maps to any C pointer type (`void*`, `Image*`, `unsigned char*`, ...).
 /// 
 /// [X] works only as an information what this pointer **SHOULD** point to.
-final class RPointer<X extends RType> extends RType { const RPointer([super.count]); }
+final class RPointer<X extends RType> extends RType {
+  final X target;
+  
+  const RPointer(this.target, [super.count]);
+}
 
 /// Unsigned pointer-sized integer. Maps to C `size_t`.
 final class RSize extends RType { const RSize([super.count]); }
@@ -170,8 +208,8 @@ typedef RFloat = RFloat32;
 /// C `double`. Alias for [RFloat64].
 typedef RDouble = RFloat64;
 
-class RStruct<X extends StructLayout> extends RType {
-  final X layout;
+class RStruct extends RType {
+  final StructLayout layout;
 
   const RStruct(this.layout, [super.count]);
 }
@@ -728,20 +766,20 @@ abstract class MemoryPointer<X extends RType> {
 /// that missing piece once, explicitly.
 final class StructPointer<D extends RaylibStruct<D>> {
   MemoryPointer<RStruct> ptr;
-  final StructLayout structLayout;
+  final StructLayout struct;
   final StructFactory<D> create;
   final StructPointerFactory<D> pointerFactory;
 
-  StructPointer(this.ptr, this.structLayout, this.create, this.pointerFactory);
+  StructPointer(this.ptr, this.struct, this.create, this.pointerFactory);
 
   factory StructPointer.nullable(
     MemoryPointer? ptr,
-    StructLayout structLayout,
+    StructLayout struct,
     StructFactory<D> create,
     StructPointerFactory<D> pointerFactory,
   ) => .new(
     (ptr ?? MemoryPointer.nullptr).cast(),
-    structLayout,
+    struct,
     create,
     pointerFactory,
   );
@@ -765,14 +803,16 @@ final class StructPointer<D extends RaylibStruct<D>> {
   D get ref {
     if (ptr.address == _lastAddress) return _ref;
     _lastAddress = ptr.address;
-    return _ref = create(op: this)..structSyncFromMemory();
+    final value = create(op: this)..structSyncFromMemory();
+    if (!value.structRequiresOp) value.op = null;
+    return _ref = value;
   }
   
   /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
   set ref(D v) => ref.setD(v);
 
   D _getAtIndex(int i, {bool owned = true}) {
-    final inner = ptr.offsetBy(i * structLayout.byteSize).cast<RStruct>();
+    final inner = ptr.offsetBy(i * struct.byteSize).cast<RStruct>();
     final value = pointerFactory(inner).ref;
     if (!owned) value.op = null;
     return value;
@@ -793,7 +833,7 @@ final class StructPointer<D extends RaylibStruct<D>> {
   ///
   /// This copies the value into memory and does not attach [v] to the
   /// destination memory location.
-  void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * structLayout.byteSize));
+  void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * struct.byteSize));
 
   /// Writes [items] sequentially into the memory referenced by this pointer.
   ///
@@ -801,7 +841,7 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// capacity.
   void writeArray(List<D> items) {
     for (var i = 0; i < items.length; i++) {
-      items[i].structWriteInto(ptr.offsetBy(i * structLayout.byteSize));
+      items[i].structWriteInto(ptr.offsetBy(i * struct.byteSize));
     }
   }
 

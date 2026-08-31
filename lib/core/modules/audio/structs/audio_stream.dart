@@ -20,9 +20,9 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<AudioStreamField> structLayout = .aligned({
-    .buffer:     RPointer<ROpaque>(), // Pointer to internal data used by the audio system
-    .processor:  RPointer<ROpaque>(), // Pointer to internal data processor, useful for audio effects
+  static final StructLayout<AudioStreamField> struct = .aligned({
+    .buffer:     RPointer(ROpaque()), // Pointer to internal data used by the audio system
+    .processor:  RPointer(ROpaque()), // Pointer to internal data processor, useful for audio effects
     .sampleRate: RUnsignedInt(), // Frequency (samples per second)
     .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
     .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
@@ -31,7 +31,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, AudioStreamD.new, AudioStreamD.pointer);
+    => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -54,34 +54,34 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   int _sampleRate;
   /// Frequency (samples per second)
   int get sampleRate {
-    structOnOp((p) => _sampleRate = p.readUnsignedInt(structLayout.offset(.sampleRate)));
+    structOnOp((p) => _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate)));
     return _sampleRate;
   }
   set sampleRate(int value) {
     _sampleRate = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.sampleRate)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.sampleRate)));
   }
   
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
   int get sampleSize {
-    structOnOp((p) => _sampleSize = p.readUnsignedInt(structLayout.offset(.sampleSize)));
+    structOnOp((p) => _sampleSize = p.readUnsignedInt(struct.offset(.sampleSize)));
     return _sampleSize;
   }
   set sampleSize(int value) {
     _sampleSize = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.sampleSize)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.sampleSize)));
   }
   
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
   int get channels {
-    structOnOp((p) => _channels = p.readUnsignedInt(structLayout.offset(.channels)));
+    structOnOp((p) => _channels = p.readUnsignedInt(struct.offset(.channels)));
     return _channels;
   }
   set channels(int value) {
     _channels = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.channels)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.channels)));
   }
 
   AudioStreamD({
@@ -106,20 +106,20 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writePtr(buffer, structLayout.offset(.buffer));
-    p.writePtr(processor, structLayout.offset(.processor));
-    p.writeUnsignedInt(_sampleRate, structLayout.offset(.sampleRate));
-    p.writeUnsignedInt(_sampleSize, structLayout.offset(.sampleSize));
-    p.writeUnsignedInt(_channels, structLayout.offset(.channels));
+    p.writePtr(buffer, struct.offset(.buffer));
+    p.writePtr(processor, struct.offset(.processor));
+    p.writeUnsignedInt(_sampleRate, struct.offset(.sampleRate));
+    p.writeUnsignedInt(_sampleSize, struct.offset(.sampleSize));
+    p.writeUnsignedInt(_channels, struct.offset(.channels));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    buffer = p.readPtr(structLayout.offset(.buffer));
-    processor = p.readPtr(structLayout.offset(.processor));
-    _sampleRate = p.readUnsignedInt(structLayout.offset(.sampleRate));
-    _sampleSize = p.readUnsignedInt(structLayout.offset(.sampleSize));
-    _channels = p.readUnsignedInt(structLayout.offset(.channels));
+    buffer = p.readPtr(struct.offset(.buffer));
+    processor = p.readPtr(struct.offset(.processor));
+    _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate));
+    _sampleSize = p.readUnsignedInt(struct.offset(.sampleSize));
+    _channels = p.readUnsignedInt(struct.offset(.channels));
   }
 
   @override

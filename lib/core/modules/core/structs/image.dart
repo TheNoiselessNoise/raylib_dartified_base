@@ -20,8 +20,8 @@ class ImageD extends RaylibStruct<ImageD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ImageField> structLayout = .aligned({
-    .data:    RPointer<RVoid>(), // Image raw data
+  static final StructLayout<ImageField> struct = .aligned({
+    .data:    RPointer(RVoid()), // Image raw data
     .width:   RInt(), // Image base width
     .height:  RInt(), // Image base height
     .mipmaps: RInt(), // Mipmap levels, 1 by default
@@ -31,7 +31,7 @@ class ImageD extends RaylibStruct<ImageD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ImageD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ImageD.new, ImageD.pointer);
+    => .nullable(ptr, struct, ImageD.new, ImageD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -111,35 +111,35 @@ class ImageD extends RaylibStruct<ImageD> {
   /// 
   /// For multi-frame images (e.g. animated GIFs) this is `frameSize * frameCount` bytes.
   LiveListPointerScalar<int, RUint8> get data {
-    structOnOp((p) => _data.ptr = p.readPtr(structLayout.offset(.data)));
+    structOnOp((p) => _data.ptr = p.readPtr(struct.offset(.data)));
     return _data;
   }
   set data(Uint8List value) {
     assert(value.length <= dataLength);
-    structOnOp((p) => _data.ptr = p.readPtr(structLayout.offset(.data)));
+    structOnOp((p) => _data.ptr = p.readPtr(struct.offset(.data)));
     _data.inner = value;
   }
 
   int _width;
   /// Image base width
   int get width {
-    structOnOp((p) => _width = p.readInt(structLayout.offset(.width)));
+    structOnOp((p) => _width = p.readInt(struct.offset(.width)));
     return _width;
   }
   set width(int value) {
     _width = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.width)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.width)));
   }
   
   int _height;
   /// Image base height
   int get height {
-    structOnOp((p) => _height = p.readInt(structLayout.offset(.height)));
+    structOnOp((p) => _height = p.readInt(struct.offset(.height)));
     return _height;
   }
   set height(int value) {
     _height = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.height)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.height)));
   }
   
   int _mipmaps;
@@ -147,12 +147,12 @@ class ImageD extends RaylibStruct<ImageD> {
   /// 
   /// 1 means no mipmaps (base image only).
   int get mipmaps {
-    structOnOp((p) => _mipmaps = p.readInt(structLayout.offset(.mipmaps)));
+    structOnOp((p) => _mipmaps = p.readInt(struct.offset(.mipmaps)));
     return _mipmaps;
   }
   set mipmaps(int value) {
     _mipmaps = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.mipmaps)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.mipmaps)));
   }
   
   PixelFormat _format;
@@ -161,12 +161,12 @@ class ImageD extends RaylibStruct<ImageD> {
   /// Must be set to a value other than [PixelFormat.PIXELFORMAT_NONE] before
   /// accessing [bytesPerPixel], [frameSize], or [dataLength].
   PixelFormat get format {
-    structOnOp((p) => _format = .fromValue(p.readInt(structLayout.offset(.format))));
+    structOnOp((p) => _format = .fromValue(p.readInt(struct.offset(.format))));
     return _format;
   }
   set format(PixelFormat value) {
     _format = value;
-    structOnOp((p) => p.writeInt(value.value, structLayout.offset(.format)));
+    structOnOp((p) => p.writeInt(value.value, struct.offset(.format)));
   }
 
   int _frameCount = 1;
@@ -198,7 +198,7 @@ class ImageD extends RaylibStruct<ImageD> {
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       data ?? .filled(dataLength, 0),
-      op?.offsetBy(structLayout.offset(.data)),
+      op?.offsetBy(struct.offset(.data)),
     );
   }
 
@@ -221,22 +221,22 @@ class ImageD extends RaylibStruct<ImageD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writePtr(_data.ptr, structLayout.offset(.data));
-    p.writeInt(_width, structLayout.offset(.width));
-    p.writeInt(_height, structLayout.offset(.height));
-    p.writeInt(_mipmaps, structLayout.offset(.mipmaps));
-    p.writeInt(_format.value, structLayout.offset(.format));
+    p.writePtr(_data.ptr, struct.offset(.data));
+    p.writeInt(_width, struct.offset(.width));
+    p.writeInt(_height, struct.offset(.height));
+    p.writeInt(_mipmaps, struct.offset(.mipmaps));
+    p.writeInt(_format.value, struct.offset(.format));
     
     _data.onPointer((p) => p.writeArray(_data.inner));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _data.ptr = p.readPtr(structLayout.offset(.data));
-    _width = p.readInt(structLayout.offset(.width));
-    _height = p.readInt(structLayout.offset(.height));
-    _mipmaps = p.readInt(structLayout.offset(.mipmaps));
-    _format = .fromValue(p.readInt(structLayout.offset(.format)));
+    _data.ptr = p.readPtr(struct.offset(.data));
+    _width = p.readInt(struct.offset(.width));
+    _height = p.readInt(struct.offset(.height));
+    _mipmaps = p.readInt(struct.offset(.mipmaps));
+    _format = .fromValue(p.readInt(struct.offset(.format)));
     
     _data.onPointer((p) => _data.raw = p.readArray(dataLength));
   }

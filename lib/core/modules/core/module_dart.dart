@@ -182,7 +182,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetWindowIcons(images),
     () => rl.CoreFlat.SetWindowIcons(
-      rl.Temp.Image$.Array(images),
+      rl.Temp.Image$.ArrayStruct(images),
       images.length,
     ),
   );
@@ -2234,7 +2234,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawLineStrip(points, color),
     () => rl.CoreFlat.DrawLineStrip(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
     ),
@@ -2741,7 +2741,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawTriangleFan(points, color),
     () => rl.CoreFlat.DrawTriangleFan(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
     ),
@@ -2754,7 +2754,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawTriangleStrip(points, color),
     () => rl.CoreFlat.DrawTriangleStrip(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
     ),
@@ -2824,7 +2824,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawSplineLinear(points, thick, color),
     () => rl.CoreFlat.DrawSplineLinear(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
       color,
@@ -2839,7 +2839,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawSplineBasis(points, thick, color),
     () => rl.CoreFlat.DrawSplineBasis(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
       color,
@@ -2854,7 +2854,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawSplineCatmullRom(points, thick, color),
     () => rl.CoreFlat.DrawSplineCatmullRom(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length, 
       thick.toDouble(), 
       color,
@@ -2869,7 +2869,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawSplineBezierQuadratic(points, thick, color),
     () => rl.CoreFlat.DrawSplineBezierQuadratic(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
       color,
@@ -2884,7 +2884,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawSplineBezierCubic(points, thick, color),
     () => rl.CoreFlat.DrawSplineBezierCubic(
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
       color,
@@ -3193,7 +3193,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.CheckCollisionPointPoly(point, points),
     () => rl.CoreFlat.CheckCollisionPointPoly(
       point,
-      rl.Temp.Vector2$.Array(points),
+      rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
     ),
   );
@@ -4351,7 +4351,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => rl.Temp.Image$.RefUpdate1(dst,
       (p) => rl.CoreFlat.ImageDrawTriangleFan(
         p,
-        rl.Temp.Vector2$.Array(points),
+        rl.Temp.Vector2$.ArrayStruct(points),
         points.length,
         color,
       ),
@@ -4368,7 +4368,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => rl.Temp.Image$.RefUpdate1(dst,
       (p) => rl.CoreFlat.ImageDrawTriangleStrip(
         p,
-        rl.Temp.Vector2$.Array(points),
+        rl.Temp.Vector2$.ArrayStruct(points),
         points.length,
         color,
       ),
@@ -5672,7 +5672,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.DrawTriangleStrip3D(points, color),
     () => rl.CoreFlat.DrawTriangleStrip3D(
-      rl.Temp.Vector3$.Array(points),
+      rl.Temp.Vector3$.ArrayStruct(points),
       points.length,
       color,
     ),
@@ -6219,7 +6219,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => rl.CoreFlat.DrawMeshInstanced(
       mesh,
       material,
-      rl.Temp.Matrix$.Array(transforms),
+      rl.Temp.Matrix$.ArrayStruct(transforms),
       transforms.length,
     ),
   );

@@ -152,13 +152,9 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     );
   }
 
-  void _disposeSpecialAllocators() {
-    String$.dispose();
-  }
-
   // scalars
 
-  late final RaylibTempScalarAllocator<bool ,RBool> Bool$;
+  late final RaylibTempScalarAllocator<bool, RBool> Bool$;
   late final RaylibTempScalarIntAllocator<Int8List, RInt8> Int8$;
   late final RaylibTempScalarIntAllocator<Uint8List, RUint8> Uint8$;
   late final RaylibTempScalarIntAllocator<Int16List, RInt16> Int16$;
@@ -169,295 +165,257 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   late final RaylibTempScalarIntAllocator<Uint64List, RUint64> Uint64$;
   late final RaylibTempScalarFloatAllocator<Float32List, RFloat32> Float32$;
   late final RaylibTempScalarFloatAllocator<Float64List, RFloat64> Float64$;
-  RaylibTempScalarIntAllocator<Int8List, RInt8> get Char$ => Int8$;
-  RaylibTempScalarIntAllocator<Uint8List, RUint8> get UnsignedChar$ => Uint8$;
-  RaylibTempScalarIntAllocator<Int16List, RInt16> get Short$ => Int16$;
-  RaylibTempScalarIntAllocator<Uint16List, RUint16> get UnsignedShort$ => Uint16$;
-  RaylibTempScalarIntAllocator<Int32List, RInt32> get Int$ => Int32$;
-  RaylibTempScalarIntAllocator<Uint32List, RUint32> get UnsignedInt$ => Uint32$;
-  RaylibTempScalarFloatAllocator<Float32List, RFloat32> get Float$ => Float32$;
-  RaylibTempScalarFloatAllocator<Float64List, RFloat64> get Double$ => Float64$;
+  RaylibTempScalarIntAllocator<Int8List, RChar> get Char$ => Int8$;
+  RaylibTempScalarIntAllocator<Uint8List, RUnsignedChar> get UnsignedChar$ => Uint8$;
+  RaylibTempScalarIntAllocator<Int16List, RShort> get Short$ => Int16$;
+  RaylibTempScalarIntAllocator<Uint16List, RUnsignedShort> get UnsignedShort$ => Uint16$;
+  RaylibTempScalarIntAllocator<Int32List, RInt> get Int$ => Int32$;
+  RaylibTempScalarIntAllocator<Uint32List, RUnsignedInt> get UnsignedInt$ => Uint32$;
+  RaylibTempScalarFloatAllocator<Float32List, RFloat> get Float$ => Float32$;
+  RaylibTempScalarFloatAllocator<Float64List, RDouble> get Double$ => Float64$;
+
+  final Map<Type, RaylibTempScalarAllocator> _builtInScalarAllocators = {};
+  A _bScalar<X extends RType, A extends RaylibTempScalarAllocator>(A allocator)
+    => _builtInScalarAllocators[X] = allocator;
 
   void _initScalarAllocators() {
-    Bool$ = .new(this,
+    Bool$ = _bScalar(.new(this,
       byteSize: RBool.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value,
       scalarSetterFunc: (ptr, value) => ptr.value = value,
-    );
+    ));
 
-    Int8$ = .new(this,
+    Int8$ = _bScalar(.new(this,
       byteSize: RInt8.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt8List(offset, len),
-    );
+    ));
 
-    Uint8$ = .new(this,
+    Uint8$ = _bScalar(.new(this,
       byteSize: RUint8.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint8List(offset, len),
-    );
+    ));
 
-    Int16$ = .new(this,
+    Int16$ = _bScalar(.new(this,
       byteSize: RInt16.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt16List(offset, len),
-    );
+    ));
 
-    Uint16$ = .new(this,
+    Uint16$ = _bScalar(.new(this,
       byteSize: RUint16.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint16List(offset, len),
-    );
+    ));
 
-    Int32$ = .new(this,
+    Int32$ = _bScalar(.new(this,
       byteSize: RInt32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt32List(offset, len),
-    );
+    ));
 
-    Uint32$ = .new(this,
+    Uint32$ = _bScalar(.new(this,
       byteSize: RUint32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint32List(offset, len),
-    );
+    ));
 
-    Int64$ = .new(this,
+    Int64$ = _bScalar(.new(this,
       byteSize: RInt64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt64List(offset, len),
-    );
+    ));
 
-    Uint64$ = .new(this,
+    Uint64$ = _bScalar(.new(this,
       byteSize: RUint64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint64List(offset, len),
-    );
+    ));
 
-    Float32$ = .new(this,
+    Float32$ = _bScalar(.new(this,
       byteSize: RFloat32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toDouble(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toDouble(),
       fromList: (list) => .fromList(list.cast<double>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asFloat32List(offset, len),
-    );
+    ));
 
-    Float64$ = .new(this,
+    Float64$ = _bScalar(.new(this,
       byteSize: RFloat64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toDouble(),
       scalarSetterFunc: (ptr, value) => ptr.value = value.toDouble(),
       fromList: (list) => .fromList(list.cast<double>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asFloat64List(offset, len),
-    );
-  }
+    ));
 
-  void _disposeScalarAllocators() {
-    Bool$.dispose();
-    Int8$.dispose();
-    Uint8$.dispose();
-    Int16$.dispose();
-    Uint16$.dispose();
-    Int32$.dispose();
-    Uint32$.dispose();
-    Int64$.dispose();
-    Uint64$.dispose();
-    Float32$.dispose();
-    Float64$.dispose();
+    _bScalar<RChar, RaylibTempScalarAllocator>(Char$);
+    _bScalar<RUnsignedChar, RaylibTempScalarAllocator>(UnsignedChar$);
+    _bScalar<RShort, RaylibTempScalarAllocator>(Short$);
+    _bScalar<RUnsignedShort, RaylibTempScalarAllocator>(UnsignedShort$);
+    _bScalar<RInt, RaylibTempScalarAllocator>(Int$);
+    _bScalar<RUnsignedInt, RaylibTempScalarAllocator>(UnsignedInt$);
+    _bScalar<RFloat, RaylibTempScalarAllocator>(Float$);
+    _bScalar<RDouble, RaylibTempScalarAllocator>(Double$);
   }
 
   // structs
 
-  late final RaylibTempStructAllocator<AutomationEventListD, AutomationEventListField> AutomationEventList$;
-  late final RaylibTempStructAllocator<AutomationEventD, AutomationEventField> AutomationEvent$;
-  late final RaylibTempStructAllocator<AudioStreamD, AudioStreamField> AudioStream$;
-  late final RaylibTempStructAllocator<BoneInfoD, BoneInfoField> BoneInfo$;
-  late final RaylibTempStructAllocator<BoundingBoxD, BoundingBoxField> BoundingBox$;
-  late final RaylibTempStructAllocator<Camera2DD, Camera2DField> Camera2D$;
-  late final RaylibTempStructAllocator<Camera3DD, Camera3DField> Camera3D$;
-  late final RaylibTempStructAllocator<ColorD, ColorField> Color$;
-  late final RaylibTempStructAllocator<FilePathListD, FilePathListField> FilePathList$;
-  late final RaylibTempStructAllocator<FontD, FontField> Font$;
-  late final RaylibTempStructAllocator<GestureEventD, GestureEventField> GestureEvent$;
-  late final RaylibTempStructAllocator<GlyphInfoD, GlyphInfoField> GlyphInfo$;
-  late final RaylibTempStructAllocator<ImageD, ImageField> Image$;
-  late final RaylibTempStructAllocator<LightD, LightField> Light$;
-  late final RaylibTempStructAllocator<MaterialMapD, MaterialMapField> MaterialMap$;
-  late final RaylibTempStructAllocator<MaterialD, MaterialField> Material$;
-  late final RaylibTempStructAllocator<MatrixD, MatrixField> Matrix$;
-  late final RaylibTempStructAllocator<MeshD, MeshField> Mesh$;
-  late final RaylibTempStructAllocator<ModelAnimationD, ModelAnimationField> ModelAnimation$;
-  late final RaylibTempStructAllocator<ModelSkeletonD, ModelSkeletonField> ModelSkeleton$;
-  late final RaylibTempStructAllocator<ModelD, ModelField> Model$;
-  late final RaylibTempStructAllocator<MusicD, MusicField> Music$;
-  late final RaylibTempStructAllocator<NPatchInfoD, NPatchInfoField> NPatchInfo$;
-  late final RaylibTempStructAllocator<QuaternionD, QuaternionField> Quaternion$;
-  late final RaylibTempStructAllocator<RayCollisionD, RayCollisionField> RayCollision$;
-  late final RaylibTempStructAllocator<RayD, RayField> Ray$;
-  late final RaylibTempStructAllocator<RectangleD, RectangleField> Rectangle$;
-  late final RaylibTempStructAllocator<RenderTextureD, RenderTextureField> RenderTexture$;
-  late final RaylibTempStructAllocator<RlDrawCallD, RlDrawCallField> RlDrawCall$;
-  late final RaylibTempStructAllocator<RlRenderBatchD, RlRenderBatchField> RlRenderBatch$;
-  late final RaylibTempStructAllocator<RlVertexBufferD, RlVertexBufferField> RlVertexBuffer$;
-  late final RaylibTempStructAllocator<ShaderD, ShaderField> Shader$;
-  late final RaylibTempStructAllocator<SoundD, SoundField> Sound$;
-  late final RaylibTempStructAllocator<TextureD, TextureField> Texture$;
-  late final RaylibTempStructAllocator<TransformD, TransformField> Transform$;
-  late final RaylibTempStructAllocator<Vector2D, Vector2Field> Vector2$;
-  late final RaylibTempStructAllocator<Vector3D, Vector3Field> Vector3$;
-  late final RaylibTempStructAllocator<Vector4D, Vector4Field> Vector4$;
-  late final RaylibTempStructAllocator<VrDeviceInfoD, VrDeviceInfoField> VrDeviceInfo$;
-  late final RaylibTempStructAllocator<VrStereoConfigD, VrStereoConfigField> VrStereoConfig$;
-  late final RaylibTempStructAllocator<WaveD, WaveField> Wave$;
+  late final RaylibTempStructAllocator<AutomationEventListD> AutomationEventList$;
+  late final RaylibTempStructAllocator<AutomationEventD> AutomationEvent$;
+  late final RaylibTempStructAllocator<AudioStreamD> AudioStream$;
+  late final RaylibTempStructAllocator<BoneInfoD> BoneInfo$;
+  late final RaylibTempStructAllocator<BoundingBoxD> BoundingBox$;
+  late final RaylibTempStructAllocator<Camera2DD> Camera2D$;
+  late final RaylibTempStructAllocator<Camera3DD> Camera3D$;
+  late final RaylibTempStructAllocator<ColorD> Color$;
+  late final RaylibTempStructAllocator<FilePathListD> FilePathList$;
+  late final RaylibTempStructAllocator<FontD> Font$;
+  late final RaylibTempStructAllocator<GestureEventD> GestureEvent$;
+  late final RaylibTempStructAllocator<GlyphInfoD> GlyphInfo$;
+  late final RaylibTempStructAllocator<ImageD> Image$;
+  late final RaylibTempStructAllocator<LightD> Light$;
+  late final RaylibTempStructAllocator<MaterialMapD> MaterialMap$;
+  late final RaylibTempStructAllocator<MaterialD> Material$;
+  late final RaylibTempStructAllocator<MatrixD> Matrix$;
+  late final RaylibTempStructAllocator<MeshD> Mesh$;
+  late final RaylibTempStructAllocator<ModelAnimationD> ModelAnimation$;
+  late final RaylibTempStructAllocator<ModelSkeletonD> ModelSkeleton$;
+  late final RaylibTempStructAllocator<ModelD> Model$;
+  late final RaylibTempStructAllocator<MusicD> Music$;
+  late final RaylibTempStructAllocator<NPatchInfoD> NPatchInfo$;
+  late final RaylibTempStructAllocator<QuaternionD> Quaternion$;
+  late final RaylibTempStructAllocator<RayCollisionD> RayCollision$;
+  late final RaylibTempStructAllocator<RayD> Ray$;
+  late final RaylibTempStructAllocator<RectangleD> Rectangle$;
+  late final RaylibTempStructAllocator<RenderTextureD> RenderTexture$;
+  late final RaylibTempStructAllocator<RlDrawCallD> RlDrawCall$;
+  late final RaylibTempStructAllocator<RlRenderBatchD> RlRenderBatch$;
+  late final RaylibTempStructAllocator<RlVertexBufferD> RlVertexBuffer$;
+  late final RaylibTempStructAllocator<ShaderD> Shader$;
+  late final RaylibTempStructAllocator<SoundD> Sound$;
+  late final RaylibTempStructAllocator<TextureD> Texture$;
+  late final RaylibTempStructAllocator<TransformD> Transform$;
+  late final RaylibTempStructAllocator<Vector2D> Vector2$;
+  late final RaylibTempStructAllocator<Vector3D> Vector3$;
+  late final RaylibTempStructAllocator<Vector4D> Vector4$;
+  late final RaylibTempStructAllocator<VrDeviceInfoD> VrDeviceInfo$;
+  late final RaylibTempStructAllocator<VrStereoConfigD> VrStereoConfig$;
+  late final RaylibTempStructAllocator<WaveD> Wave$;
+
+  final Map<Type, RaylibTempStructAllocator> _builtInStructAllocators = {};
+  RaylibTempStructAllocator<X> _bStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator)
+    => _builtInStructAllocators[X] = allocator;
 
   void _initStructAllocators() {
-    AutomationEventList$ = .new(this, layout: AutomationEventListD.structLayout, factory: AutomationEventListD.new, pointerFactory: AutomationEventListD.pointer);
-    AutomationEvent$ = .new(this, layout: AutomationEventD.structLayout, factory: AutomationEventD.new, pointerFactory: AutomationEventD.pointer);
-    AudioStream$ = .new(this, layout: AudioStreamD.structLayout, factory: AudioStreamD.new, pointerFactory: AudioStreamD.pointer);
-    BoneInfo$ = .new(this, layout: BoneInfoD.structLayout, factory: BoneInfoD.new, pointerFactory: BoneInfoD.pointer);
-    BoundingBox$ = .new(this, layout: BoundingBoxD.structLayout, factory: BoundingBoxD.new, pointerFactory: BoundingBoxD.pointer);
-    Camera2D$ = .new(this, layout: Camera2DD.structLayout, factory: Camera2DD.new, pointerFactory: Camera2DD.pointer);
-    Camera3D$ = .new(this, layout: Camera3DD.structLayout, factory: Camera3DD.new, pointerFactory: Camera3DD.pointer);
-    Color$ = .new(this, layout: ColorD.structLayout, factory: ColorD.new, pointerFactory: ColorD.pointer);
-    FilePathList$ = .new(this, layout: FilePathListD.structLayout, factory: FilePathListD.new, pointerFactory: FilePathListD.pointer);
-    Font$ = .new(this, layout: FontD.structLayout, factory: FontD.new, pointerFactory: FontD.pointer);
-    GestureEvent$ = .new(this, layout: GestureEventD.structLayout, factory: GestureEventD.new, pointerFactory: GestureEventD.pointer);
-    GlyphInfo$ = .new(this, layout: GlyphInfoD.structLayout, factory: GlyphInfoD.new, pointerFactory: GlyphInfoD.pointer);
-    Image$ = .new(this, layout: ImageD.structLayout, factory: ImageD.new, pointerFactory: ImageD.pointer);
-    Light$ = .new(this, layout: LightD.structLayout, factory: LightD.new, pointerFactory: LightD.pointer);
-    MaterialMap$ = .new(this, layout: MaterialMapD.structLayout, factory: MaterialMapD.new, pointerFactory: MaterialMapD.pointer);
-    Material$ = .new(this, layout: MaterialD.structLayout, factory: MaterialD.new, pointerFactory: MaterialD.pointer);
-    Matrix$ = .new(this, layout: MatrixD.structLayout, factory: MatrixD.new, pointerFactory: MatrixD.pointer);
-    Mesh$ = .new(this, layout: MeshD.structLayout, factory: MeshD.new, pointerFactory: MeshD.pointer);
-    ModelAnimation$ = .new(this, layout: ModelAnimationD.structLayout, factory: ModelAnimationD.new, pointerFactory: ModelAnimationD.pointer);
-    ModelSkeleton$ = .new(this, layout: ModelSkeletonD.structLayout, factory: ModelSkeletonD.new, pointerFactory: ModelSkeletonD.pointer);
-    Model$ = .new(this, layout: ModelD.structLayout, factory: ModelD.new, pointerFactory: ModelD.pointer);
-    Music$ = .new(this, layout: MusicD.structLayout, factory: MusicD.new, pointerFactory: MusicD.pointer);
-    NPatchInfo$ = .new(this, layout: NPatchInfoD.structLayout, factory: NPatchInfoD.new, pointerFactory: NPatchInfoD.pointer);
-    Quaternion$ = .new(this, layout: QuaternionD.structLayout, factory: QuaternionD.new, pointerFactory: QuaternionD.pointer);
-    RayCollision$ = .new(this, layout: RayCollisionD.structLayout, factory: RayCollisionD.new, pointerFactory: RayCollisionD.pointer);
-    Ray$ = .new(this, layout: RayD.structLayout, factory: RayD.new, pointerFactory: RayD.pointer);
-    Rectangle$ = .new(this, layout: RectangleD.structLayout, factory: RectangleD.new, pointerFactory: RectangleD.pointer);
-    RenderTexture$ = .new(this, layout: RenderTextureD.structLayout, factory: RenderTextureD.new, pointerFactory: RenderTextureD.pointer);
-    RlDrawCall$ = .new(this, layout: RlDrawCallD.structLayout, factory: RlDrawCallD.new, pointerFactory: RlDrawCallD.pointer);
-    RlRenderBatch$ = .new(this, layout: RlRenderBatchD.structLayout, factory: RlRenderBatchD.new, pointerFactory: RlRenderBatchD.pointer);
-    RlVertexBuffer$ = .new(this, layout: RlVertexBufferD.structLayout, factory: RlVertexBufferD.new, pointerFactory: RlVertexBufferD.pointer);
-    Shader$ = .new(this, layout: ShaderD.structLayout, factory: ShaderD.new, pointerFactory: ShaderD.pointer);
-    Sound$ = .new(this, layout: SoundD.structLayout, factory: SoundD.new, pointerFactory: SoundD.pointer);
-    Texture$ = .new(this, layout: TextureD.structLayout, factory: TextureD.new, pointerFactory: TextureD.pointer);
-    Transform$ = .new(this, layout: TransformD.structLayout, factory: TransformD.new, pointerFactory: TransformD.pointer);
-    Vector2$ = .new(this, layout: Vector2D.structLayout, factory: Vector2D.new, pointerFactory: Vector2D.pointer);
-    Vector3$ = .new(this, layout: Vector3D.structLayout, factory: Vector3D.new, pointerFactory: Vector3D.pointer);
-    Vector4$ = .new(this, layout: Vector4D.structLayout, factory: Vector4D.new, pointerFactory: Vector4D.pointer);
-    VrDeviceInfo$ = .new(this, layout: VrDeviceInfoD.structLayout, factory: VrDeviceInfoD.new, pointerFactory: VrDeviceInfoD.pointer);
-    VrStereoConfig$ = .new(this, layout: VrStereoConfigD.structLayout, factory: VrStereoConfigD.new, pointerFactory: VrStereoConfigD.pointer);
-    Wave$ = .new(this, layout: WaveD.structLayout, factory: WaveD.new, pointerFactory: WaveD.pointer);
-  }
-
-  void _disposeStructAllocators() {
-    AutomationEventList$.dispose();
-    AutomationEvent$.dispose();
-    AudioStream$.dispose();
-    BoneInfo$.dispose();
-    BoundingBox$.dispose();
-    Camera2D$.dispose();
-    Camera3D$.dispose();
-    Color$.dispose();
-    FilePathList$.dispose();
-    Font$.dispose();
-    GestureEvent$.dispose();
-    GlyphInfo$.dispose();
-    Image$.dispose();
-    Light$.dispose();
-    Material$.dispose();
-    MaterialMap$.dispose();
-    Matrix$.dispose();
-    Mesh$.dispose();
-    Model$.dispose();
-    ModelAnimation$.dispose();
-    ModelSkeleton$.dispose();
-    Music$.dispose();
-    NPatchInfo$.dispose();
-    Quaternion$.dispose();
-    Rectangle$.dispose();
-    RlDrawCall$.dispose();
-    RlRenderBatch$.dispose();
-    RlVertexBuffer$.dispose();
-    Ray$.dispose();
-    RayCollision$.dispose();
-    RenderTexture$.dispose();
-    Shader$.dispose();
-    Sound$.dispose();
-    Texture$.dispose();
-    Transform$.dispose();
-    Vector2$.dispose();
-    Vector3$.dispose();
-    Vector4$.dispose();
-    VrDeviceInfo$.dispose();
-    VrStereoConfig$.dispose();
-    Wave$.dispose();
+    AutomationEventList$ = _bStruct(.new(this, byteSize: AutomationEventListD.struct.byteSize, factory: AutomationEventListD.new, pointerFactory: AutomationEventListD.pointer));
+    AutomationEvent$ = _bStruct(.new(this, byteSize: AutomationEventD.struct.byteSize, factory: AutomationEventD.new, pointerFactory: AutomationEventD.pointer));
+    AudioStream$ = _bStruct(.new(this, byteSize: AudioStreamD.struct.byteSize, factory: AudioStreamD.new, pointerFactory: AudioStreamD.pointer));
+    BoneInfo$ = _bStruct(.new(this, byteSize: BoneInfoD.struct.byteSize, factory: BoneInfoD.new, pointerFactory: BoneInfoD.pointer));
+    BoundingBox$ = _bStruct(.new(this, byteSize: BoundingBoxD.struct.byteSize, factory: BoundingBoxD.new, pointerFactory: BoundingBoxD.pointer));
+    Camera2D$ = _bStruct(.new(this, byteSize: Camera2DD.struct.byteSize, factory: Camera2DD.new, pointerFactory: Camera2DD.pointer));
+    Camera3D$ = _bStruct(.new(this, byteSize: Camera3DD.struct.byteSize, factory: Camera3DD.new, pointerFactory: Camera3DD.pointer));
+    Color$ = _bStruct(.new(this, byteSize: ColorD.struct.byteSize, factory: ColorD.new, pointerFactory: ColorD.pointer));
+    FilePathList$ = _bStruct(.new(this, byteSize: FilePathListD.struct.byteSize, factory: FilePathListD.new, pointerFactory: FilePathListD.pointer));
+    Font$ = _bStruct(.new(this, byteSize: FontD.struct.byteSize, factory: FontD.new, pointerFactory: FontD.pointer));
+    GestureEvent$ = _bStruct(.new(this, byteSize: GestureEventD.struct.byteSize, factory: GestureEventD.new, pointerFactory: GestureEventD.pointer));
+    GlyphInfo$ = _bStruct(.new(this, byteSize: GlyphInfoD.struct.byteSize, factory: GlyphInfoD.new, pointerFactory: GlyphInfoD.pointer));
+    Image$ = _bStruct(.new(this, byteSize: ImageD.struct.byteSize, factory: ImageD.new, pointerFactory: ImageD.pointer));
+    Light$ = _bStruct(.new(this, byteSize: LightD.struct.byteSize, factory: LightD.new, pointerFactory: LightD.pointer));
+    MaterialMap$ = _bStruct(.new(this, byteSize: MaterialMapD.struct.byteSize, factory: MaterialMapD.new, pointerFactory: MaterialMapD.pointer));
+    Material$ = _bStruct(.new(this, byteSize: MaterialD.struct.byteSize, factory: MaterialD.new, pointerFactory: MaterialD.pointer));
+    Matrix$ = _bStruct(.new(this, byteSize: MatrixD.struct.byteSize, factory: MatrixD.new, pointerFactory: MatrixD.pointer));
+    Mesh$ = _bStruct(.new(this, byteSize: MeshD.struct.byteSize, factory: MeshD.new, pointerFactory: MeshD.pointer));
+    ModelAnimation$ = _bStruct(.new(this, byteSize: ModelAnimationD.struct.byteSize, factory: ModelAnimationD.new, pointerFactory: ModelAnimationD.pointer));
+    ModelSkeleton$ = _bStruct(.new(this, byteSize: ModelSkeletonD.struct.byteSize, factory: ModelSkeletonD.new, pointerFactory: ModelSkeletonD.pointer));
+    Model$ = _bStruct(.new(this, byteSize: ModelD.struct.byteSize, factory: ModelD.new, pointerFactory: ModelD.pointer));
+    Music$ = _bStruct(.new(this, byteSize: MusicD.struct.byteSize, factory: MusicD.new, pointerFactory: MusicD.pointer));
+    NPatchInfo$ = _bStruct(.new(this, byteSize: NPatchInfoD.struct.byteSize, factory: NPatchInfoD.new, pointerFactory: NPatchInfoD.pointer));
+    Quaternion$ = _bStruct(.new(this, byteSize: QuaternionD.struct.byteSize, factory: QuaternionD.new, pointerFactory: QuaternionD.pointer));
+    RayCollision$ = _bStruct(.new(this, byteSize: RayCollisionD.struct.byteSize, factory: RayCollisionD.new, pointerFactory: RayCollisionD.pointer));
+    Ray$ = _bStruct(.new(this, byteSize: RayD.struct.byteSize, factory: RayD.new, pointerFactory: RayD.pointer));
+    Rectangle$ = _bStruct(.new(this, byteSize: RectangleD.struct.byteSize, factory: RectangleD.new, pointerFactory: RectangleD.pointer));
+    RenderTexture$ = _bStruct(.new(this, byteSize: RenderTextureD.struct.byteSize, factory: RenderTextureD.new, pointerFactory: RenderTextureD.pointer));
+    RlDrawCall$ = _bStruct(.new(this, byteSize: RlDrawCallD.struct.byteSize, factory: RlDrawCallD.new, pointerFactory: RlDrawCallD.pointer));
+    RlRenderBatch$ = _bStruct(.new(this, byteSize: RlRenderBatchD.struct.byteSize, factory: RlRenderBatchD.new, pointerFactory: RlRenderBatchD.pointer));
+    RlVertexBuffer$ = _bStruct(.new(this, byteSize: RlVertexBufferD.struct.byteSize, factory: RlVertexBufferD.new, pointerFactory: RlVertexBufferD.pointer));
+    Shader$ = _bStruct(.new(this, byteSize: ShaderD.struct.byteSize, factory: ShaderD.new, pointerFactory: ShaderD.pointer));
+    Sound$ = _bStruct(.new(this, byteSize: SoundD.struct.byteSize, factory: SoundD.new, pointerFactory: SoundD.pointer));
+    Texture$ = _bStruct(.new(this, byteSize: TextureD.struct.byteSize, factory: TextureD.new, pointerFactory: TextureD.pointer));
+    Transform$ = _bStruct(.new(this, byteSize: TransformD.struct.byteSize, factory: TransformD.new, pointerFactory: TransformD.pointer));
+    Vector2$ = _bStruct(.new(this, byteSize: Vector2D.struct.byteSize, factory: Vector2D.new, pointerFactory: Vector2D.pointer));
+    Vector3$ = _bStruct(.new(this, byteSize: Vector3D.struct.byteSize, factory: Vector3D.new, pointerFactory: Vector3D.pointer));
+    Vector4$ = _bStruct(.new(this, byteSize: Vector4D.struct.byteSize, factory: Vector4D.new, pointerFactory: Vector4D.pointer));
+    VrDeviceInfo$ = _bStruct(.new(this, byteSize: VrDeviceInfoD.struct.byteSize, factory: VrDeviceInfoD.new, pointerFactory: VrDeviceInfoD.pointer));
+    VrStereoConfig$ = _bStruct(.new(this, byteSize: VrStereoConfigD.struct.byteSize, factory: VrStereoConfigD.new, pointerFactory: VrStereoConfigD.pointer));
+    Wave$ = _bStruct(.new(this, byteSize: WaveD.struct.byteSize, factory: WaveD.new, pointerFactory: WaveD.pointer));
   }
 
   // optional structs
 
-  late final RaylibTempStructAllocator<MsfGifResultD, MsfGifResultField> MsfGifResult$;
-  late final RaylibTempStructAllocator<MsfGifStateD, MsfGifStateField> MsfGifState$;
+  late final RaylibTempStructAllocator<MsfGifResultD> MsfGifResult$;
+  late final RaylibTempStructAllocator<MsfGifStateD> MsfGifState$;
 
   void _initOptionalStructAllocators() {
-    MsfGifResult$ = .new(this, layout: MsfGifResultD.structLayout, factory: MsfGifResultD.new, pointerFactory: MsfGifResultD.pointer);
-    MsfGifState$ = .new(this, layout: MsfGifStateD.structLayout, factory: MsfGifStateD.new, pointerFactory: MsfGifStateD.pointer);
+    MsfGifResult$ = _bStruct(.new(this, byteSize: MsfGifResultD.struct.byteSize, factory: MsfGifResultD.new, pointerFactory: MsfGifResultD.pointer));
+    MsfGifState$ = _bStruct(.new(this, byteSize: MsfGifStateD.struct.byteSize, factory: MsfGifStateD.new, pointerFactory: MsfGifStateD.pointer));
   }
 
-  void _disposeOptionalStructAllocators() {
-    MsfGifResult$.dispose();
-    MsfGifState$.dispose();
-  }
+  final Map<Type, RaylibTempScalarAllocator> _customScalarAllocators = {};
+  // A _cScalar<X extends RType, A extends RaylibTempScalarAllocator>(A allocator)
+  //   => _customScalarAllocators[X] = allocator;
 
-  /// All user-registered allocators keyed by [Type], iterated during [dispose].
-  final Map<Type, RaylibTempAllocator> customAllocators = {};
+  final Map<Type, RaylibTempStructAllocator> _customStructAllocators = {};
+  RaylibTempStructAllocator<X> _cStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator)
+    => _customStructAllocators[X] = allocator;
 
-  /// Registers a allocator [alloc]. Throws [StateError] if [A] already exists.
-  void registerAllocator<A extends RaylibTempAllocator>(A alloc) {
-    if (customAllocators.containsKey(A)) {
-      throw StateError("Allocator '${alloc.name}' ('$A') already exists!");
-    }
+  /// Creates and registers a struct allocator.
+  RaylibTempStructAllocator<X> createStructAllocator<X extends RaylibStruct<X>>({
+    required int byteSize,
+    required StructFactory<X> factory,
+    required StructPointerFactory<X> pointerFactory,
+  }) => _cStruct(.new(this,
+    byteSize: byteSize,
+    factory: factory,
+    pointerFactory: pointerFactory,
+  ));
 
-    customAllocators[A] = alloc;
-  }
+  /// Returns the struct allocator registered under struct type [X].
+  RaylibTempScalarAllocator? scalarAlloc<Y extends RType>()
+    => _builtInScalarAllocators[Y] ?? _customScalarAllocators[Y];
 
-  /// Returns the allocator registered under distinct type [A], or throws [StateError] if absent.
-  A getAllocatorOrThrow<A extends RaylibTempAllocator>() {
-    final alloc = customAllocators[A];
-    if (alloc == null) throw StateError("No allocator registered for '$A'!");
-    return alloc as A;
-  }
-
-  /// Returns the allocator registered under distinct type [A].
-  A? alloc<A extends RaylibTempAllocator>() => customAllocators[A] as A?;
+  /// Returns the struct allocator registered under struct type [X].
+  RaylibTempStructAllocator<X>? structAlloc<X extends RaylibStruct<X>>()
+    => (
+      _builtInStructAllocators[X] ??
+      _customStructAllocators[X]
+    ) as RaylibTempStructAllocator<X>?;
 
   /// Frees all allocators, then delegates to [RaylibModule.dispose].
   @override
@@ -465,18 +423,21 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   void dispose() {
     super.dispose();
 
-    debugFreeInfo('Freeing built-in allocators...');
-    _disposeSpecialAllocators();
-    _disposeScalarAllocators();
-    _disposeStructAllocators();
-    _disposeOptionalStructAllocators();
+    debugFreeInfo('Freeing built-in ${_builtInScalarAllocators.length + 1} scalar allocators...');
+    String$.dispose();
+    _builtInScalarAllocators.values.forEach((a) => a.dispose());
 
-    if (customAllocators.isNotEmpty) {
-      debugFreeInfo('Freeing ${customAllocators.length} allocators...');
-      _disposeCustomAllocators();
+    debugFreeInfo('Freeing built-in ${_builtInStructAllocators.length} struct allocators...');
+    _builtInStructAllocators.values.forEach((a) => a.dispose());
+
+    if (_customScalarAllocators.isNotEmpty) {
+      debugFreeInfo('Freeing ${_customScalarAllocators.length} custom scalar allocators...');
+      _customScalarAllocators.values.forEach((a) => a.dispose());
+    }
+
+    if (_customStructAllocators.isNotEmpty) {
+      debugFreeInfo('Freeing ${_customStructAllocators.length} custom struct allocators...');
+      _customStructAllocators.values.forEach((a) => a.dispose());
     }
   }
-
-  void _disposeCustomAllocators()
-    => customAllocators.values.forEach((a) => a.dispose());
 }

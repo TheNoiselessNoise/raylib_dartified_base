@@ -21,8 +21,8 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<NPatchInfoField> structLayout = .aligned({
-    .source: RStruct(RectangleD.structLayout), // Texture source rectangle
+  static final StructLayout<NPatchInfoField> struct = .aligned({
+    .source: RStruct(RectangleD.struct), // Texture source rectangle
     .left:   RInt(), // Left border offset
     .top:    RInt(), // Top border offset
     .right:  RInt(), // Right border offset
@@ -33,7 +33,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, NPatchInfoD.new, NPatchInfoD.pointer);
+    => .nullable(ptr, struct, NPatchInfoD.new, NPatchInfoD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,67 +46,67 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   RectangleD _source;
   /// Texture source rectangle
   RectangleD get source {
-    structOnOp((p) => _source.structReadFrom(p.offsetBy(structLayout.offset(.source))));
+    structOnOp((p) => _source.structReadFrom(p.offsetBy(struct.offset(.source))));
     return _source;
   }
   set source(RectangleD value) {
     _source = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.source))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.source))));
   }
   
   int _left;
   /// Left border offset
   int get left {
-    structOnOp((p) => _left = p.readInt(structLayout.offset(.left)));
+    structOnOp((p) => _left = p.readInt(struct.offset(.left)));
     return _left;
   }
   set left(int value) {
     _left = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.left)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.left)));
   }
   
   int _top;
   /// Top border offset
   int get top {
-    structOnOp((p) => _top = p.readInt(structLayout.offset(.top)));
+    structOnOp((p) => _top = p.readInt(struct.offset(.top)));
     return _top;
   }
   set top(int value) {
     _top = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.top)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.top)));
   }
   
   int _right;
   /// Right border offset
   int get right {
-    structOnOp((p) => _right = p.readInt(structLayout.offset(.right)));
+    structOnOp((p) => _right = p.readInt(struct.offset(.right)));
     return _right;
   }
   set right(int value) {
     _right = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.right)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.right)));
   }
   
   int _bottom;
   /// Bottom border offset
   int get bottom {
-    structOnOp((p) => _bottom = p.readInt(structLayout.offset(.bottom)));
+    structOnOp((p) => _bottom = p.readInt(struct.offset(.bottom)));
     return _bottom;
   }
   set bottom(int value) {
     _bottom = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.bottom)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.bottom)));
   }
   
   NPatchLayout _layout;
   /// Layout of the n-patch: 3x3, 1x3 or 3x1
   NPatchLayout get layout {
-    structOnOp((p) => _layout = .fromValue(p.readInt(structLayout.offset(.layout))));
+    structOnOp((p) => _layout = .fromValue(p.readInt(struct.offset(.layout))));
     return _layout;
   }
   set layout(NPatchLayout value) {
     _layout = value;
-    structOnOp((p) => p.writeInt(value.value, structLayout.offset(.layout)));
+    structOnOp((p) => p.writeInt(value.value, struct.offset(.layout)));
   }
 
   NPatchInfoD({
@@ -140,22 +140,22 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _source.structWriteInto(p.offsetBy(structLayout.offset(.source)));
-    p.writeInt(_left, structLayout.offset(.left));
-    p.writeInt(_top, structLayout.offset(.top));
-    p.writeInt(_right, structLayout.offset(.right));
-    p.writeInt(_bottom, structLayout.offset(.bottom));
-    p.writeInt(_layout.value, structLayout.offset(.layout));
+    _source.structWriteInto(p.offsetBy(struct.offset(.source)));
+    p.writeInt(_left, struct.offset(.left));
+    p.writeInt(_top, struct.offset(.top));
+    p.writeInt(_right, struct.offset(.right));
+    p.writeInt(_bottom, struct.offset(.bottom));
+    p.writeInt(_layout.value, struct.offset(.layout));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _source.structReadFrom(p.offsetBy(structLayout.offset(.source)));
-    _left = p.readInt(structLayout.offset(.left));
-    _top = p.readInt(structLayout.offset(.top));
-    _right = p.readInt(structLayout.offset(.right));
-    _bottom = p.readInt(structLayout.offset(.bottom));
-    _layout = .fromValue(p.readInt(structLayout.offset(.layout)));
+    _source.structReadFrom(p.offsetBy(struct.offset(.source)));
+    _left = p.readInt(struct.offset(.left));
+    _top = p.readInt(struct.offset(.top));
+    _right = p.readInt(struct.offset(.right));
+    _bottom = p.readInt(struct.offset(.bottom));
+    _layout = .fromValue(p.readInt(struct.offset(.layout)));
   }
 
   @override

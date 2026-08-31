@@ -20,18 +20,18 @@ class MusicD extends RaylibStruct<MusicD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MusicField> structLayout = .aligned({
-    .stream:     RStruct(AudioStreamD.structLayout), // Audio stream
+  static final StructLayout<MusicField> struct = .aligned({
+    .stream:     RStruct(AudioStreamD.struct), // Audio stream
     .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
     .looping:    RBool(), // Music looping enable
     .ctxType:    RInt32(), // Type of music context (audio filetype)
-    .ctxData:    RPointer<RVoid>(), // Audio context data, depends on type
+    .ctxData:    RPointer(RVoid()), // Audio context data, depends on type
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MusicD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MusicD.new, MusicD.pointer);
+    => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -44,45 +44,45 @@ class MusicD extends RaylibStruct<MusicD> {
   AudioStreamD _stream;
   /// Audio stream
   AudioStreamD get stream {
-    structOnOp((p) => _stream.structReadFrom(p.offsetBy(structLayout.offset(.stream))));
+    structOnOp((p) => _stream.structReadFrom(p.offsetBy(struct.offset(.stream))));
     return _stream;
   }
   set stream(AudioStreamD value) {
     _stream = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.stream))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.stream))));
   }
   
   int _frameCount;
   /// Total number of frames (considering channels)
   int get frameCount {
-    structOnOp((p) => _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount)));
+    structOnOp((p) => _frameCount = p.readUnsignedInt(struct.offset(.frameCount)));
     return _frameCount;
   }
   set frameCount(int value) {
     _frameCount = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.frameCount)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.frameCount)));
   }
 
   bool _looping;
   /// Music looping enable
   bool get looping {
-    structOnOp((p) => _looping = p.readBool(structLayout.offset(.looping)));
+    structOnOp((p) => _looping = p.readBool(struct.offset(.looping)));
     return _looping;
   }
   set looping(bool value) {
     _looping = value;
-    structOnOp((p) => p.writeBool(value, structLayout.offset(.looping)));
+    structOnOp((p) => p.writeBool(value, struct.offset(.looping)));
   }
 
   MusicContextType _ctxType;
   /// Type of music context (audio filetype)
   MusicContextType get ctxType {
-    structOnOp((p) => _ctxType = .fromValue(p.readInt32(structLayout.offset(.ctxType))));
+    structOnOp((p) => _ctxType = .fromValue(p.readInt32(struct.offset(.ctxType))));
     return _ctxType;
   }
   set ctxType(MusicContextType value) {
     _ctxType = value;
-    structOnOp((p) => p.writeInt32(value.value, structLayout.offset(.ctxType)));
+    structOnOp((p) => p.writeInt32(value.value, struct.offset(.ctxType)));
   }
   
   /// Audio context data, depends on type
@@ -115,20 +115,20 @@ class MusicD extends RaylibStruct<MusicD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _stream.structWriteInto(p.offsetBy(structLayout.offset(.stream)));
-    p.writeUnsignedInt(_frameCount, structLayout.offset(.frameCount));
-    p.writeBool(_looping, structLayout.offset(.looping));
-    p.writeInt32(_ctxType.value, structLayout.offset(.ctxType));
-    p.writePtr(ctxData, structLayout.offset(.ctxData));
+    _stream.structWriteInto(p.offsetBy(struct.offset(.stream)));
+    p.writeUnsignedInt(_frameCount, struct.offset(.frameCount));
+    p.writeBool(_looping, struct.offset(.looping));
+    p.writeInt32(_ctxType.value, struct.offset(.ctxType));
+    p.writePtr(ctxData, struct.offset(.ctxData));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _stream.structReadFrom(p.offsetBy(structLayout.offset(.stream)));
-    _frameCount = p.readUnsignedInt(structLayout.offset(.frameCount));
-    _looping = p.readBool(structLayout.offset(.looping));
-    _ctxType = .fromValue(p.readInt32(structLayout.offset(.ctxType)));
-    ctxData = p.readPtr(structLayout.offset(.ctxData));
+    _stream.structReadFrom(p.offsetBy(struct.offset(.stream)));
+    _frameCount = p.readUnsignedInt(struct.offset(.frameCount));
+    _looping = p.readBool(struct.offset(.looping));
+    _ctxType = .fromValue(p.readInt32(struct.offset(.ctxType)));
+    ctxData = p.readPtr(struct.offset(.ctxData));
   }
 
   @override

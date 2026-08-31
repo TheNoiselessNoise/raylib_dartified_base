@@ -2,27 +2,15 @@ part of '../../raylib_dartified_base.dart';
 
 /// Extends [RaylibTempAllocator] with the ability to write individual
 /// Dart values directly into allocated memory.
-final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
-  /// Writes [value] into the [i]-th element of the array at [ptr].
-  final void Function(MemoryPointer<R> ptr, int i, X value) indexSetterFunc;
-  
+final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArrayAllocator<X, R> {
   /// Writes a single Dart value [value] into the memory pointed to by [ptr].
   final void Function(MemoryPointer<R> ptr, X value) scalarSetterFunc;
 
   RaylibTempScalarAllocator(super.temp, {
     required super.byteSize,
-    required this.indexSetterFunc,
+    required super.indexSetterFunc,
     required this.scalarSetterFunc,
   });
-
-  /// Allocates an unslotted array and populates it from [array].
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  MemoryPointer<R> RawArray(List<X> array) {
-    final p = Raw(array.length);
-    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
-    return p;
-  }
 
   /// Returns the pointer for the slot identified by [key] (default: `'default'`),
   /// writing [value] into it when provided.
@@ -43,24 +31,6 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempAllo
   MemoryPointer<R> ValueUnique(X? value, {String key = '__value_unique__'}) {
     final p = At(uniqueSlotKey(key));
     if (value != null) scalarSetterFunc(p, value);
-    return p;
-  }
-
-  /// Writes [array] into a slot of sufficient capacity and returns the pointer.
-  ///
-  /// [key] defaults to `'default'`. The slot is grown automatically if the
-  /// current capacity is smaller than `array.length`.
-  MemoryPointer<R> Array(List<X> array, {String? key}) {
-    final p = At(slotKey(key), array.length);
-    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
-    return p;
-  }
-
-  /// Allocates (or reuses) a slot of [count] elements, populating each index
-  /// [i] with the value returned by `init(i)`.
-  MemoryPointer<R> Fill(int count, X Function(int) init, {String? key}) {
-    final p = At(slotKey(key), count);
-    for (int i = 0; i < count; i++) indexSetterFunc(p, i, init(i));
     return p;
   }
 
@@ -313,24 +283,6 @@ final class RaylibTempScalarPointerAllocator<X, R extends RType> extends RaylibT
   MemoryPointer<RPointer> RawArray(List<List<X>> arrays) {
     final pp = Raw(arrays.length).cast<RPointer>();
     for (int i = 0; i < arrays.length; i++) indexSetterFunc(pp, i, rawArrayFunc(arrays[i]));
-    return pp;
-  }
-
-  /// Writes each sub-array in [arrays] into a tracked slot via [rawArrayFunc]
-  /// and returns the outer `PP`
-  MemoryPointer<RPointer> Fill(List<List<X>> arrays, {String? key}) {
-    final pp = At(slotKey(key), arrays.length).cast<RPointer>();
-    for (int i = 0; i < arrays.length; i++) indexSetterFunc(pp, i, rawArrayFunc(arrays[i]));
-    return pp;
-  }
-
-  /// Fills an unslotted pointer of [count] pointers by calling `init(i)` for each
-  /// index and storing the result.
-  /// 
-  /// The caller is responsible for freeing the returned pointer.
-  MemoryPointer<RPointer> FillRaw(int count, MemoryPointer<R> Function(int) init) {
-    final pp = Raw(count).cast<RPointer>();
-    for (int i = 0; i < count; i++) indexSetterFunc(pp, i, init(i));
     return pp;
   }
 }

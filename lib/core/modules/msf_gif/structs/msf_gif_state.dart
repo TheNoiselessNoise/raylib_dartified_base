@@ -35,7 +35,7 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned({
-    .pixels: RPointer<RUint32>(),
+    .pixels: RPointer(RUint32()),
     .depth:  RInt(),
     .count:  RInt(),
     .rbits:  RInt(),
@@ -44,24 +44,24 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   });
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MsfGifStateField> structLayout = .aligned({
-    .fileWriteFunc:          RPointer<RFunction>(),
-    .fileWriteData:          RPointer<RVoid>(),
+  static final StructLayout<MsfGifStateField> struct = .aligned({
+    .fileWriteFunc:          RPointer(RFunction()),
+    .fileWriteData:          RPointer(RVoid()),
     .previousFrame:          RStruct(cookedFrameStructLayout),
     .currentFrame:           RStruct(cookedFrameStructLayout),
-    .lzwMem:                 RPointer<RInt16>(),
-    .listHead:               RPointer<ROpaque>(),
-    .listTail:               RPointer<ROpaque>(),
+    .lzwMem:                 RPointer(RInt16()),
+    .listHead:               RPointer(ROpaque()),
+    .listTail:               RPointer(ROpaque()),
     .width:                  RInt(),
     .height:                 RInt(),
-    .customAllocatorContext: RPointer<RVoid>(),
+    .customAllocatorContext: RPointer(RVoid()),
     .framesSubmitted:        RInt(),
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MsfGifStateD.new, MsfGifStateD.pointer);
+    => .nullable(ptr, struct, MsfGifStateD.new, MsfGifStateD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -71,11 +71,11 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  int get width => op?.readInt(structLayout.offset(.width)) ?? 0;
+  int get width => op?.readInt(struct.offset(.width)) ?? 0;
 
-  int get height => op?.readInt(structLayout.offset(.height)) ?? 0;
+  int get height => op?.readInt(struct.offset(.height)) ?? 0;
 
-  int get framesSubmitted => op?.readInt(structLayout.offset(.framesSubmitted)) ?? 0;
+  int get framesSubmitted => op?.readInt(struct.offset(.framesSubmitted)) ?? 0;
 
   MsfGifStateD({ super.op });
 

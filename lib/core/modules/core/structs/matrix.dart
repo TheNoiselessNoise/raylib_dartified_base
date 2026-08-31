@@ -22,7 +22,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MatrixField> structLayout = .aligned({
+  static final StructLayout<MatrixField> struct = .aligned({
     .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)
     .m1: RFloat(), .m5: RFloat(), .m9: RFloat(), .m13: RFloat(), // Matrix second row (4 components)
     .m2: RFloat(), .m6: RFloat(), .m10: RFloat(), .m14: RFloat(), // Matrix third row (4 components)
@@ -32,7 +32,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MatrixD.new, MatrixD.pointer);
+    => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -44,12 +44,12 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   double _r(double def, MatrixField field) {
     double v = def;
-    structOnOp((p) => v = p.readFloat(structLayout.offset(field)));
+    structOnOp((p) => v = p.readFloat(struct.offset(field)));
     return v;
   }
 
   double _w(double value, MatrixField field) {
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(field)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(field)));
     return value;
   }
 
@@ -175,48 +175,48 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_m0, structLayout.offset(.m0));
-    p.writeFloat(_m4, structLayout.offset(.m4));
-    p.writeFloat(_m8, structLayout.offset(.m8));
-    p.writeFloat(_m12, structLayout.offset(.m12));
+    p.writeFloat(_m0, struct.offset(.m0));
+    p.writeFloat(_m4, struct.offset(.m4));
+    p.writeFloat(_m8, struct.offset(.m8));
+    p.writeFloat(_m12, struct.offset(.m12));
 
-    p.writeFloat(_m1, structLayout.offset(.m1));
-    p.writeFloat(_m5, structLayout.offset(.m5));
-    p.writeFloat(_m9, structLayout.offset(.m9));
-    p.writeFloat(_m13, structLayout.offset(.m13));
+    p.writeFloat(_m1, struct.offset(.m1));
+    p.writeFloat(_m5, struct.offset(.m5));
+    p.writeFloat(_m9, struct.offset(.m9));
+    p.writeFloat(_m13, struct.offset(.m13));
 
-    p.writeFloat(_m2, structLayout.offset(.m2));
-    p.writeFloat(_m6, structLayout.offset(.m6));
-    p.writeFloat(_m10, structLayout.offset(.m10));
-    p.writeFloat(_m14, structLayout.offset(.m14));
+    p.writeFloat(_m2, struct.offset(.m2));
+    p.writeFloat(_m6, struct.offset(.m6));
+    p.writeFloat(_m10, struct.offset(.m10));
+    p.writeFloat(_m14, struct.offset(.m14));
 
-    p.writeFloat(_m3, structLayout.offset(.m3));
-    p.writeFloat(_m7, structLayout.offset(.m7));
-    p.writeFloat(_m11, structLayout.offset(.m11));
-    p.writeFloat(_m15, structLayout.offset(.m15)); 
+    p.writeFloat(_m3, struct.offset(.m3));
+    p.writeFloat(_m7, struct.offset(.m7));
+    p.writeFloat(_m11, struct.offset(.m11));
+    p.writeFloat(_m15, struct.offset(.m15)); 
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _m0 = p.readFloat(structLayout.offset(.m0));
-    _m4 = p.readFloat(structLayout.offset(.m4));
-    _m8 = p.readFloat(structLayout.offset(.m8));
-    _m12 = p.readFloat(structLayout.offset(.m12));
+    _m0 = p.readFloat(struct.offset(.m0));
+    _m4 = p.readFloat(struct.offset(.m4));
+    _m8 = p.readFloat(struct.offset(.m8));
+    _m12 = p.readFloat(struct.offset(.m12));
 
-    _m1 = p.readFloat(structLayout.offset(.m1));
-    _m5 = p.readFloat(structLayout.offset(.m5));
-    _m9 = p.readFloat(structLayout.offset(.m9));
-    _m13 = p.readFloat(structLayout.offset(.m13));
+    _m1 = p.readFloat(struct.offset(.m1));
+    _m5 = p.readFloat(struct.offset(.m5));
+    _m9 = p.readFloat(struct.offset(.m9));
+    _m13 = p.readFloat(struct.offset(.m13));
 
-    _m2 = p.readFloat(structLayout.offset(.m2));
-    _m6 = p.readFloat(structLayout.offset(.m6));
-    _m10 = p.readFloat(structLayout.offset(.m10));
-    _m14 = p.readFloat(structLayout.offset(.m14));
+    _m2 = p.readFloat(struct.offset(.m2));
+    _m6 = p.readFloat(struct.offset(.m6));
+    _m10 = p.readFloat(struct.offset(.m10));
+    _m14 = p.readFloat(struct.offset(.m14));
 
-    _m3 = p.readFloat(structLayout.offset(.m3));
-    _m7 = p.readFloat(structLayout.offset(.m7));
-    _m11 = p.readFloat(structLayout.offset(.m11));
-    _m15 = p.readFloat(structLayout.offset(.m15)); 
+    _m3 = p.readFloat(struct.offset(.m3));
+    _m7 = p.readFloat(struct.offset(.m7));
+    _m11 = p.readFloat(struct.offset(.m11));
+    _m15 = p.readFloat(struct.offset(.m15)); 
   }
 
   @override

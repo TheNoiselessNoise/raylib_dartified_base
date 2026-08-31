@@ -19,17 +19,17 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ModelAnimationField> structLayout = .aligned({
+  static final StructLayout<ModelAnimationField> struct = .aligned({
     .name:          RChar(BASE_nameLength), // Animation name
     .boneCount:     RInt(), // Number of bones (per pose)
     .keyframeCount: RInt(), // Number of animation key frames
-    .keyframePoses: RPointer<RPointer<RStruct>>(), // Animation sequence keyframe poses [keyframe][pose]
+    .keyframePoses: RPointer(RPointer(RStruct(TransformD.struct))), // Animation sequence keyframe poses [keyframe][pose]
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ModelAnimationD.new, ModelAnimationD.pointer);
+    => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -56,47 +56,47 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   String _name;
   /// Animation name
   String get name {
-    structOnOp((p) => _name = p.offsetBy(structLayout.offset(.name)).readStringUTF8(nameLength));
+    structOnOp((p) => _name = p.offsetBy(struct.offset(.name)).readStringUTF8(nameLength));
     return _name;
   }
   set name(String value) {
     assert(value.length <= nameLength);
     _name = value;
-    structOnOp((p) => p.offsetBy(structLayout.offset(.name)).writeStringUTF8(value, nameLength));
+    structOnOp((p) => p.offsetBy(struct.offset(.name)).writeStringUTF8(value, nameLength));
   }
 
   int _boneCount;
   /// Number of bones (per pose)
   int get boneCount {
-    structOnOp((p) => _boneCount = p.readInt(structLayout.offset(.boneCount)));
+    structOnOp((p) => _boneCount = p.readInt(struct.offset(.boneCount)));
     return _boneCount;
   }
   set boneCount(int value) {
     _boneCount = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.boneCount)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.boneCount)));
   }
 
   int _keyframeCount;
   /// Number of animation key frames
   int get keyframeCount {
-    structOnOp((p) => _keyframeCount = p.readInt(structLayout.offset(.keyframeCount)));
+    structOnOp((p) => _keyframeCount = p.readInt(struct.offset(.keyframeCount)));
     return _keyframeCount;
   }
   set keyframeCount(int value) {
     _keyframeCount = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.keyframeCount)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.keyframeCount)));
   }
 
   late LiveListPointerPointerStruct<TransformD> _keyframePoses;
   /// Animation sequence keyframe poses `[keyframe][pose]`
   LiveListPointerPointerStruct<TransformD> get keyframePoses {
-    structOnOp((p) => _keyframePoses.ptr = p.readPtr(structLayout.offset(.keyframePoses)));
+    structOnOp((p) => _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses)));
     return _keyframePoses;
   }
   set keyframePoses(List<List<TransformD>> value) {
     structOnOp((p) {
-      _keyframePoses.ptr = p.readPtr(structLayout.offset(.keyframePoses));
-      p.writeInt(value.length, structLayout.offset(.keyframeCount));
+      _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
+      p.writeInt(value.length, struct.offset(.keyframeCount));
     });
 
     _keyframePoses.inner = .generate(value.length,
@@ -114,8 +114,8 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     _keyframeCount = keyframePoses?.length ?? 0
   {
     _keyframePoses = .new(
-      TransformD.structLayout.byteSize, TransformD.new, [],
-      op?.readPtr(structLayout.offset(.keyframePoses)),
+      TransformD.struct.byteSize, TransformD.new, [],
+      op?.readPtr(struct.offset(.keyframePoses)),
     );
     if (keyframePoses != null) this.keyframePoses = keyframePoses;
   }
@@ -131,20 +131,20 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeStringUTF8(_name, nameLength, structLayout.offset(.name));
-    p.writeInt(_boneCount, structLayout.offset(.boneCount));
-    p.writeInt(_keyframeCount, structLayout.offset(.keyframeCount));
-    p.writePtr(_keyframePoses.ptr, structLayout.offset(.keyframePoses));
+    p.writeStringUTF8(_name, nameLength, struct.offset(.name));
+    p.writeInt(_boneCount, struct.offset(.boneCount));
+    p.writeInt(_keyframeCount, struct.offset(.keyframeCount));
+    p.writePtr(_keyframePoses.ptr, struct.offset(.keyframePoses));
     
     _keyframePoses.onPointer((outer) => outer.cast<RPointer<RStruct>>().writeMatrix(_keyframePoses.inner));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _name = p.readStringUTF8(nameLength, structLayout.offset(.name));
-    _boneCount = p.readInt(structLayout.offset(.boneCount));
-    _keyframeCount = p.readInt(structLayout.offset(.keyframeCount));
-    _keyframePoses.ptr = p.readPtr(structLayout.offset(.keyframePoses));
+    _name = p.readStringUTF8(nameLength, struct.offset(.name));
+    _boneCount = p.readInt(struct.offset(.boneCount));
+    _keyframeCount = p.readInt(struct.offset(.keyframeCount));
+    _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
 
     _keyframePoses.onPointer((outer) {
       final rows = outer.cast<RPointer<RStruct>>().readMatrix(_keyframeCount, boneCount, TransformD.pointer);

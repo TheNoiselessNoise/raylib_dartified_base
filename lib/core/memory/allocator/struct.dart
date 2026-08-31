@@ -4,22 +4,19 @@ part of '../../raylib_dartified_base.dart';
 /// [PointerTo], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
 /// Dart mirror objects ([X]).
 final class RaylibTempStructAllocator<
-  X extends RaylibStruct<X>, // Dart mirror object
-  F extends StructFields     // Fields
-> extends RaylibTempAllocator<RStruct> {
-
-  final StructLayout<F> layout;
+  X extends RaylibStruct<X> // Dart mirror object
+> extends RaylibTempArrayAllocator<X, RStruct> {
 
   final StructFactory<X> factory;
 
   final StructPointerFactory<X> pointerFactory;
 
   RaylibTempStructAllocator(super.temp, {
-    required this.layout,
+    required super.byteSize,
     required this.factory,
     required this.pointerFactory,
   }) : super(
-    byteSize: layout.byteSize,
+    indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * byteSize)),
   );
 
   @override
@@ -27,6 +24,12 @@ final class RaylibTempStructAllocator<
 
   StructPointer<X> RawStruct([int count = 1])
     => pointerFactory(Raw(count));
+
+  StructPointer<X> RawArrayStruct(List<X> array)
+    => pointerFactory(RawArray(array));
+
+  StructPointer<X> ArrayStruct(List<X> array, {String? key})
+    => pointerFactory(Array(array));
 
   StructPointer<X> AtStruct(String key, [int count = 1])
     => pointerFactory(At(key, count));
@@ -38,7 +41,7 @@ final class RaylibTempStructAllocator<
   late final RaylibTempStructPointerAllocator<X> $ = .new(temp,
     byteSize: byteSize,
     valueFunc: Value,
-    rawArrayFunc: RawArray,
+    rawArrayFunc: RawArrayStruct,
     indexSetterFunc: (ptr, i, value) => ptr.writePtr(value, i),
   );
 
@@ -93,15 +96,6 @@ final class RaylibTempStructAllocator<
     return p;
   }
 
-  /// Allocates an unslotted array and populates it from [array].
-  ///
-  /// The caller is responsible for freeing the returned pointer.
-  StructPointer<X> RawArray(List<X> array) {
-    final p = Raw(array.length);
-    for (int i = 0; i < array.length; i++) array[i].structWriteInto(p.readPtr(i));
-    return pointerFactory(p);
-  }
-
   /// Copies [length] structs from [src] into a tracked slot.
   StructPointer<X> Copy(MemoryPointer<RStruct> src, int length, {String? key}) {
     final p = At(slotKey(key), length);
@@ -136,13 +130,6 @@ final class RaylibTempStructAllocator<
   StructPointer<X> ValueUnique(X? value, {String key = '__value_unique__'}) {
     final p = At(uniqueSlotKey(key));
     if (value != null) value.structWriteInto(p);
-    return pointerFactory(p);
-  }
-
-  /// Writes [array] into a tracked slot of sufficient capacity.
-  StructPointer<X> Array(List<X> array, {String? key}) {
-    final p = At(slotKey(key), array.length);
-    for (int i = 0; i < array.length; i++) array[i].structWriteInto(p.readPtr(i));
     return pointerFactory(p);
   }
 

@@ -18,16 +18,16 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<TransformField> structLayout = .aligned({
-    .translation: RStruct(Vector3D.structLayout), // Translation
-    .rotation: RStruct(QuaternionD.structLayout), // Rotation
-    .scale: RStruct(Vector3D.structLayout), // Scale
+  static final StructLayout<TransformField> struct = .aligned({
+    .translation: RStruct(Vector3D.struct), // Translation
+    .rotation: RStruct(QuaternionD.struct), // Rotation
+    .scale: RStruct(Vector3D.struct), // Scale
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, TransformD.new, TransformD.pointer);
+    => .nullable(ptr, struct, TransformD.new, TransformD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -40,34 +40,34 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   Vector3D _translation;
   /// Translation
   Vector3D get translation {
-    structOnOp((p) => _translation.structReadFrom(p.offsetBy(structLayout.offset(.translation))));
+    structOnOp((p) => _translation.structReadFrom(p.offsetBy(struct.offset(.translation))));
     return _translation;
   }
   set translation(Vector3D value) {
     _translation = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.translation))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.translation))));
   }
 
   QuaternionD _rotation;
   /// Rotation
   QuaternionD get rotation {
-    structOnOp((p) => _rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation))));
+    structOnOp((p) => _rotation.structReadFrom(p.offsetBy(struct.offset(.rotation))));
     return _rotation;
   }
   set rotation(QuaternionD value) {
     _rotation = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.rotation))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.rotation))));
   }
 
   Vector3D _scale;
   /// Scale
   Vector3D get scale {
-    structOnOp((p) => _scale.structReadFrom(p.offsetBy(structLayout.offset(.scale))));
+    structOnOp((p) => _scale.structReadFrom(p.offsetBy(struct.offset(.scale))));
     return _scale;
   }
   set scale(Vector3D value) {
     _scale = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.scale))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.scale))));
   }
   
   TransformD({
@@ -92,16 +92,16 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _translation.structWriteInto(p.offsetBy(structLayout.offset(.translation)));
-    _rotation.structWriteInto(p.offsetBy(structLayout.offset(.rotation)));
-    _scale.structWriteInto(p.offsetBy(structLayout.offset(.scale)));
+    _translation.structWriteInto(p.offsetBy(struct.offset(.translation)));
+    _rotation.structWriteInto(p.offsetBy(struct.offset(.rotation)));
+    _scale.structWriteInto(p.offsetBy(struct.offset(.scale)));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _translation.structReadFrom(p.offsetBy(structLayout.offset(.translation)));
-    _rotation.structReadFrom(p.offsetBy(structLayout.offset(.rotation)));
-    _scale.structReadFrom(p.offsetBy(structLayout.offset(.scale)));
+    _translation.structReadFrom(p.offsetBy(struct.offset(.translation)));
+    _rotation.structReadFrom(p.offsetBy(struct.offset(.rotation)));
+    _scale.structReadFrom(p.offsetBy(struct.offset(.scale)));
   }
 
   @override

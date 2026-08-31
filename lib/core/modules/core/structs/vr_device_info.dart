@@ -24,7 +24,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<VrDeviceInfoField> structLayout = .aligned({
+  static final StructLayout<VrDeviceInfoField> struct = .aligned({
     .hResolution:            RInt(), // Horizontal resolution in pixels
     .vResolution:            RInt(), // Vertical resolution in pixels
     .hScreenSize:            RFloat(), // Horizontal size in meters
@@ -39,7 +39,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<VrDeviceInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, VrDeviceInfoD.new, VrDeviceInfoD.pointer);
+    => .nullable(ptr, struct, VrDeviceInfoD.new, VrDeviceInfoD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -66,78 +66,78 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   int _hResolution;
   /// Horizontal resolution in pixels
   int get hResolution {
-    structOnOp((p) => _hResolution = p.readInt(structLayout.offset(.hResolution)));
+    structOnOp((p) => _hResolution = p.readInt(struct.offset(.hResolution)));
     return _hResolution;
   }
   set hResolution(int value) {
     _hResolution = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.hResolution)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.hResolution)));
   }
 
   int _vResolution;
   /// Vertical resolution in pixels
   int get vResolution {
-    structOnOp((p) => _vResolution = p.readInt(structLayout.offset(.vResolution)));
+    structOnOp((p) => _vResolution = p.readInt(struct.offset(.vResolution)));
     return _vResolution;
   }
   set vResolution(int value) {
     _vResolution = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.vResolution)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.vResolution)));
   }
 
   double _hScreenSize;
   /// Horizontal size in meters
   double get hScreenSize {
-    structOnOp((p) => _hScreenSize = p.readFloat(structLayout.offset(.hScreenSize)));
+    structOnOp((p) => _hScreenSize = p.readFloat(struct.offset(.hScreenSize)));
     return _hScreenSize;
   }
   set hScreenSize(double value) {
     _hScreenSize = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.hScreenSize)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.hScreenSize)));
   }
 
   double _vScreenSize;
   /// Vertical size in meters
   double get vScreenSize {
-    structOnOp((p) => _vScreenSize = p.readFloat(structLayout.offset(.vScreenSize)));
+    structOnOp((p) => _vScreenSize = p.readFloat(struct.offset(.vScreenSize)));
     return _vScreenSize;
   }
   set vScreenSize(double value) {
     _vScreenSize = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.vScreenSize)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.vScreenSize)));
   }
 
   double _eyeToScreenDistance;
   /// Distance between eye and display in meters
   double get eyeToScreenDistance {
-    structOnOp((p) => _eyeToScreenDistance = p.readFloat(structLayout.offset(.eyeToScreenDistance)));
+    structOnOp((p) => _eyeToScreenDistance = p.readFloat(struct.offset(.eyeToScreenDistance)));
     return _eyeToScreenDistance;
   }
   set eyeToScreenDistance(double value) {
     _eyeToScreenDistance = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.eyeToScreenDistance)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.eyeToScreenDistance)));
   }
 
   double _lensSeparationDistance;
   /// Lens separation distance in meters
   double get lensSeparationDistance {
-    structOnOp((p) => _lensSeparationDistance = p.readFloat(structLayout.offset(.lensSeparationDistance)));
+    structOnOp((p) => _lensSeparationDistance = p.readFloat(struct.offset(.lensSeparationDistance)));
     return _lensSeparationDistance;
   }
   set lensSeparationDistance(double value) {
     _lensSeparationDistance = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.lensSeparationDistance)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.lensSeparationDistance)));
   }
 
   double _interpupillaryDistance;
   /// IPD (distance between pupils) in meters
   double get interpupillaryDistance {
-    structOnOp((p) => _interpupillaryDistance = p.readFloat(structLayout.offset(.interpupillaryDistance)));
+    structOnOp((p) => _interpupillaryDistance = p.readFloat(struct.offset(.interpupillaryDistance)));
     return _interpupillaryDistance;
   }
   set interpupillaryDistance(double value) {
     _interpupillaryDistance = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.interpupillaryDistance)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.interpupillaryDistance)));
   }
 
   late LiveListInlineScalar<double, RFloat> _lensDistortionValues;
@@ -178,7 +178,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   {
     _lensDistortionValues = .new(
       () => op?.cast(),
-      structLayout.offset(.lensDistortionValues),
+      struct.offset(.lensDistortionValues),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       lensDistortionValues ?? .filled(paramsCount, 0),
@@ -186,7 +186,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
     _chromaAbCorrection = .new(
       () => op?.cast(),
-      structLayout.offset(.chromaAbCorrection),
+      struct.offset(.chromaAbCorrection),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       chromaAbCorrection ?? .filled(paramsCount, 0),
@@ -211,28 +211,28 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt(_hResolution, structLayout.offset(.hResolution));
-    p.writeInt(_vResolution, structLayout.offset(.vResolution));
-    p.writeFloat(_hScreenSize, structLayout.offset(.hScreenSize));
-    p.writeFloat(_vScreenSize, structLayout.offset(.vScreenSize));
-    p.writeFloat(_eyeToScreenDistance, structLayout.offset(.eyeToScreenDistance));
-    p.writeFloat(_lensSeparationDistance, structLayout.offset(.lensSeparationDistance));
-    p.writeFloat(_interpupillaryDistance, structLayout.offset(.interpupillaryDistance));
-    p.offsetBy(structLayout.offset(.lensDistortionValues)).cast<RFloat>().writeArray(_lensDistortionValues.inner);
-    p.offsetBy(structLayout.offset(.chromaAbCorrection)).cast<RFloat>().writeArray(_chromaAbCorrection.inner);
+    p.writeInt(_hResolution, struct.offset(.hResolution));
+    p.writeInt(_vResolution, struct.offset(.vResolution));
+    p.writeFloat(_hScreenSize, struct.offset(.hScreenSize));
+    p.writeFloat(_vScreenSize, struct.offset(.vScreenSize));
+    p.writeFloat(_eyeToScreenDistance, struct.offset(.eyeToScreenDistance));
+    p.writeFloat(_lensSeparationDistance, struct.offset(.lensSeparationDistance));
+    p.writeFloat(_interpupillaryDistance, struct.offset(.interpupillaryDistance));
+    p.offsetBy(struct.offset(.lensDistortionValues)).cast<RFloat>().writeArray(_lensDistortionValues.inner);
+    p.offsetBy(struct.offset(.chromaAbCorrection)).cast<RFloat>().writeArray(_chromaAbCorrection.inner);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _hResolution = p.readInt(structLayout.offset(.hResolution));
-    _vResolution = p.readInt(structLayout.offset(.vResolution));
-    _hScreenSize = p.readFloat(structLayout.offset(.hScreenSize));
-    _vScreenSize = p.readFloat(structLayout.offset(.vScreenSize));
-    _eyeToScreenDistance = p.readFloat(structLayout.offset(.eyeToScreenDistance));
-    _lensSeparationDistance = p.readFloat(structLayout.offset(.lensSeparationDistance));
-    _interpupillaryDistance = p.readFloat(structLayout.offset(.interpupillaryDistance));
-    _lensDistortionValues.raw = p.offsetBy(structLayout.offset(.lensDistortionValues)).cast<RFloat>().readArray(paramsCount);
-    _chromaAbCorrection.raw = p.offsetBy(structLayout.offset(.chromaAbCorrection)).cast<RFloat>().readArray(paramsCount);
+    _hResolution = p.readInt(struct.offset(.hResolution));
+    _vResolution = p.readInt(struct.offset(.vResolution));
+    _hScreenSize = p.readFloat(struct.offset(.hScreenSize));
+    _vScreenSize = p.readFloat(struct.offset(.vScreenSize));
+    _eyeToScreenDistance = p.readFloat(struct.offset(.eyeToScreenDistance));
+    _lensSeparationDistance = p.readFloat(struct.offset(.lensSeparationDistance));
+    _interpupillaryDistance = p.readFloat(struct.offset(.interpupillaryDistance));
+    _lensDistortionValues.raw = p.offsetBy(struct.offset(.lensDistortionValues)).cast<RFloat>().readArray(paramsCount);
+    _chromaAbCorrection.raw = p.offsetBy(struct.offset(.chromaAbCorrection)).cast<RFloat>().readArray(paramsCount);
   }
 
   @override

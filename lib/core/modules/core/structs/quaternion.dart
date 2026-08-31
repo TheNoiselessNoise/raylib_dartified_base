@@ -24,7 +24,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<QuaternionField> structLayout = .aligned({
+  static final StructLayout<QuaternionField> struct = .aligned({
     .x: RFloat(), // Imaginary i component
     .y: RFloat(), // Imaginary j component
     .z: RFloat(), // Imaginary k component
@@ -34,7 +34,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, QuaternionD.new, QuaternionD.pointer);
+    => .nullable(ptr, struct, QuaternionD.new, QuaternionD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -47,45 +47,45 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   double _x;
   /// Imaginary i component
   double get x {
-    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
     return _x;
   }
   set x(double value) {
     _x = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
   }
 
   double _y;
   /// Imaginary j component
   double get y {
-    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
     return _y;
   }
   set y(double value) {
     _y = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
   }
 
   double _z;
   /// Imaginary k component
   double get z {
-    structOnOp((p) => _z = p.readFloat(structLayout.offset(.z)));
+    structOnOp((p) => _z = p.readFloat(struct.offset(.z)));
     return _z;
   }
   set z(double value) {
     _z = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.z)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.z)));
   }
 
   double _w;
   /// Real (scalar) component
   double get w {
-    structOnOp((p) => _w = p.readFloat(structLayout.offset(.w)));
+    structOnOp((p) => _w = p.readFloat(struct.offset(.w)));
     return _w;
   }
   set w(double value) {
     _w = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.w)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.w)));
   }
 
   QuaternionD({
@@ -120,18 +120,18 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, structLayout.offset(.x));
-    p.writeFloat(_y, structLayout.offset(.y));
-    p.writeFloat(_z, structLayout.offset(.z));
-    p.writeFloat(_w, structLayout.offset(.w));
+    p.writeFloat(_x, struct.offset(.x));
+    p.writeFloat(_y, struct.offset(.y));
+    p.writeFloat(_z, struct.offset(.z));
+    p.writeFloat(_w, struct.offset(.w));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(structLayout.offset(.x));
-    _y = p.readFloat(structLayout.offset(.y));
-    _z = p.readFloat(structLayout.offset(.z));
-    _w = p.readFloat(structLayout.offset(.w));
+    _x = p.readFloat(struct.offset(.x));
+    _y = p.readFloat(struct.offset(.y));
+    _z = p.readFloat(struct.offset(.z));
+    _w = p.readFloat(struct.offset(.w));
   }
 
   @override

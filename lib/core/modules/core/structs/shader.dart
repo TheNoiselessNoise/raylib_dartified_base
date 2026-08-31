@@ -17,15 +17,15 @@ class ShaderD extends RaylibStruct<ShaderD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ShaderField> structLayout = .aligned({
+  static final StructLayout<ShaderField> struct = .aligned({
     .id:   RUnsignedInt(), // Shader program id
-    .locs: RPointer<RInt>(), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
+    .locs: RPointer(RInt()), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, ShaderD.new, ShaderD.pointer);
+    => .nullable(ptr, struct, ShaderD.new, ShaderD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -52,22 +52,22 @@ class ShaderD extends RaylibStruct<ShaderD> {
   int _id;
   /// Shader program id
   int get id {
-    structOnOp((p) => _id = p.readUnsignedInt(structLayout.offset(.id)));
+    structOnOp((p) => _id = p.readUnsignedInt(struct.offset(.id)));
     return _id;
   }
   set id(int value) {
     _id = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.id)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.id)));
   }
 
   late LiveListPointerScalar<int, RInt> _locs;
   /// Shader locations array (RL_MAX_SHADER_LOCATIONS)
   LiveListPointerScalar<int, RInt> get locs {
-    structOnOp((p) => _locs.ptr = p.readPtr(structLayout.offset(.locs)));
+    structOnOp((p) => _locs.ptr = p.readPtr(struct.offset(.locs)));
     return _locs;
   }
   set locs(List<int> value) {
-    structOnOp((p) => _locs.ptr = p.readPtr(structLayout.offset(.locs)));
+    structOnOp((p) => _locs.ptr = p.readPtr(struct.offset(.locs)));
     _locs.raw = value;
   }
 
@@ -82,7 +82,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       locs ?? .filled(shaderLocsCount, 0),
-      op?.offsetBy(structLayout.offset(.locs))
+      op?.offsetBy(struct.offset(.locs))
     );
   }
 
@@ -97,16 +97,16 @@ class ShaderD extends RaylibStruct<ShaderD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_id, structLayout.offset(.id));
-    p.writePtr(_locs.ptr, structLayout.offset(.locs));
+    p.writeUnsignedInt(_id, struct.offset(.id));
+    p.writePtr(_locs.ptr, struct.offset(.locs));
 
     _locs.onPointer((p) => p.writeArray(_locs.inner));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _id = p.readUnsignedInt(structLayout.offset(.id));
-    _locs.ptr = p.readPtr(structLayout.offset(.locs));
+    _id = p.readUnsignedInt(struct.offset(.id));
+    _locs.ptr = p.readPtr(struct.offset(.locs));
 
     _locs.onPointer((p) => _locs.raw = p.readArray(shaderLocsCount));
   }

@@ -18,16 +18,16 @@ class MaterialD extends RaylibStruct<MaterialD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MaterialField> structLayout = .aligned({
-    .shader: RStruct(ShaderD.structLayout), // Material shader
-    .maps:   RPointer<RStruct>(), // Material maps array (MAX_MATERIAL_MAPS)
+  static final StructLayout<MaterialField> struct = .aligned({
+    .shader: RStruct(ShaderD.struct), // Material shader
+    .maps:   RPointer(RStruct(MaterialMapD.struct)), // Material maps array (MAX_MATERIAL_MAPS)
     .params: RFloat(BASE_paramsCount), // Material generic parameters (if required)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MaterialD.new, MaterialD.pointer);
+    => .nullable(ptr, struct, MaterialD.new, MaterialD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -60,23 +60,23 @@ class MaterialD extends RaylibStruct<MaterialD> {
   ShaderD _shader;
   /// Material shader
   ShaderD get shader {
-    structOnOp((p) => _shader.structReadFrom(p.offsetBy(structLayout.offset(.shader))));
+    structOnOp((p) => _shader.structReadFrom(p.offsetBy(struct.offset(.shader))));
     return _shader;
   }
   set shader(ShaderD value) {
     _shader = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.shader))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.shader))));
   }
   
   late LiveListPointerStruct<MaterialMapD> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
   LiveListPointerStruct<MaterialMapD> get maps {
-    structOnOp((p) => _maps.ptr = p.readPtr(structLayout.offset(.maps)));
+    structOnOp((p) => _maps.ptr = p.readPtr(struct.offset(.maps)));
     return _maps;
   }
   set maps(List<MaterialMapD> value) {
     assert(value.length <= mapsCount);
-    structOnOp((p) => _maps.ptr = p.readPtr(structLayout.offset(.maps)));
+    structOnOp((p) => _maps.ptr = p.readPtr(struct.offset(.maps)));
     _maps.inner = value;
   }
 
@@ -96,11 +96,11 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = .new(MaterialMapD.pointer, maps, MaterialMapD.pointer(op?.readPtr(structLayout.offset(.maps))));
+    _maps = .new(MaterialMapD.pointer, maps, MaterialMapD.pointer(op?.readPtr(struct.offset(.maps))));
 
     _params = .new(
       () => op?.cast(),
-      structLayout.offset(.params),
+      struct.offset(.params),
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       params ?? .filled(BASE_paramsCount, 0),
@@ -120,24 +120,24 @@ class MaterialD extends RaylibStruct<MaterialD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
     if (_maps.inner.isNotEmpty) {
-      _maps.structPtr = temp.MaterialMap$.Array(_maps.inner, key: '${key}_maps');
+      _maps.structPtr = temp.MaterialMap$.ArrayStruct(_maps.inner, key: '${key}_maps');
     }
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _shader.structWriteInto(p.offsetBy(structLayout.offset(.shader)));
-    p.writePtr(_maps.ptr, structLayout.offset(.maps));
-    p.offsetBy(structLayout.offset(.params)).cast<RFloat>().writeArray(_params.inner);
+    _shader.structWriteInto(p.offsetBy(struct.offset(.shader)));
+    p.writePtr(_maps.ptr, struct.offset(.maps));
+    p.offsetBy(struct.offset(.params)).cast<RFloat>().writeArray(_params.inner);
 
     _maps.onStructPointer((p) => p.writeArray(_maps.inner));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _shader.structReadFrom(p.offsetBy(structLayout.offset(.shader)));
-    _maps.ptr = p.readPtr(structLayout.offset(.maps));
-    _params.raw = p.offsetBy(structLayout.offset(.params)).cast<RFloat>().readArray(paramsCount);
+    _shader.structReadFrom(p.offsetBy(struct.offset(.shader)));
+    _maps.ptr = p.readPtr(struct.offset(.maps));
+    _params.raw = p.offsetBy(struct.offset(.params)).cast<RFloat>().readArray(paramsCount);
 
     _maps.onStructPointer((p) => _maps.raw = p.readArray(mapsCount));
   }

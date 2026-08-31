@@ -17,7 +17,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<BoneInfoField> structLayout = .aligned({
+  static final StructLayout<BoneInfoField> struct = .aligned({
     .name:   RChar(BASE_nameLength), // Bone name
     .parent: RInt(), // Bone parent
   });
@@ -25,7 +25,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, BoneInfoD.new, BoneInfoD.pointer);
+    => .nullable(ptr, struct, BoneInfoD.new, BoneInfoD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -52,24 +52,24 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   String _name;
   /// Bone name
   String get name {
-    structOnOp((p) => _name = p.readStringUTF8(nameLength, structLayout.offset(.name)));
+    structOnOp((p) => _name = p.readStringUTF8(nameLength, struct.offset(.name)));
     return _name;
   }
   set name(String value) {
     assert(value.length <= nameLength);
     _name = value;
-    structOnOp((p) => p.writeStringUTF8(value, nameLength, structLayout.offset(.name)));
+    structOnOp((p) => p.writeStringUTF8(value, nameLength, struct.offset(.name)));
   }
 
   int _parent;
   /// Bone parent
   int get parent {
-    structOnOp((p) => _parent = p.readInt(structLayout.offset(.parent)));
+    structOnOp((p) => _parent = p.readInt(struct.offset(.parent)));
     return _parent;
   }
   set parent(int value) {
     _parent = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.parent)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.parent)));
   }
 
   BoneInfoD({
@@ -91,14 +91,14 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeStringUTF8(_name, nameLength, structLayout.offset(.name));
-    p.writeInt(_parent, structLayout.offset(.parent));
+    p.writeStringUTF8(_name, nameLength, struct.offset(.name));
+    p.writeInt(_parent, struct.offset(.parent));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _name = p.readStringUTF8(nameLength, structLayout.offset(.name));
-    _parent = p.readInt(structLayout.offset(.parent));
+    _name = p.readStringUTF8(nameLength, struct.offset(.name));
+    _parent = p.readInt(struct.offset(.parent));
   }
 
   @override

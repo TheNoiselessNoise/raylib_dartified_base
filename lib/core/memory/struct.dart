@@ -79,7 +79,7 @@ mixin StructFields {}
 /// This reproduces real C struct layout for flat structs of primitives
 /// and pointers.
 final class StructLayout<E extends StructFields> {
-  Map<E, RType> fields;
+  final Map<E, RType> fields;
   final Map<E, int> offsets;
   final int byteSize;
   final int alignment;
@@ -104,6 +104,31 @@ final class StructLayout<E extends StructFields> {
   }
 
   int offset(E field) => offsets[field]!;
+
+  // scalars
+  StructField<T> field<T>(E f) => .new(offset(f), fields[f]!);
+
+  StructInlineArrayField<X, R> inlineScalarArray<X, R extends RType>(E f, int count)
+    => .new(offset(f), count, ScalarCodec(fields[f]! as R));
+
+  StructPointerArrayField<X, R> pointerScalarArray<X, R extends RType>(E f)
+    => .new(offset(f), ScalarCodec((fields[f]! as RPointer<R>).target));
+
+  // structs
+
+  StructTypeField<D> structField<D extends RaylibStruct<D>>(E f, StructPointer<D> Function(MemoryPointer?) pointer)
+    => .new(offset(f), pointer);
+
+  StructInlineArrayField<X, RStruct> inlineStructArray<X extends RaylibStruct<X>>(
+    E f,
+    int count,
+    StructPointerFactory<X> pointerFactory,
+  ) => .new(offset(f), count, StructCodec(pointerFactory));
+
+  StructPointerArrayStructField<X> pointerStructArray<X extends RaylibStruct<X>>(
+    E f,
+    StructPointerFactory<X> pointerFactory,
+  ) => .new(offset(f), StructCodec(pointerFactory));
 }
 
 /// Backend-agnostic base for Raylib struct mirror objects that are backed by
@@ -124,7 +149,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   // === MUST IMPLEMENT PER-TYPE ===
 
   /// Copies the fields of [o] into this instance and returns `this`.
-  D setD(D o);
+  D setD(D o) => this as D;
 
   void structWriteInto(MemoryPointer<RStruct> p);
   

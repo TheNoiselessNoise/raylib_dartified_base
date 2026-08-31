@@ -31,38 +31,38 @@ class MeshD extends RaylibStruct<MeshD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MeshField> structLayout = .aligned({
+  static final StructLayout<MeshField> struct = .aligned({
     .vertexCount:   RInt(), // Number of vertices stored in arrays
     .triangleCount: RInt(), // Number of triangles stored (indexed or not)
 
     // Vertex attributes data
-    .vertices:      RPointer<RFloat>(), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-    .texcoords:     RPointer<RFloat>(), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-    .texcoords2:    RPointer<RFloat>(), // Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
-    .normals:       RPointer<RFloat>(), // Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
-    .tangents:      RPointer<RFloat>(), // Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
-    .colors:        RPointer<RUnsignedChar>(), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-    .indices:       RPointer<RUnsignedShort>(), // Vertex indices (in case vertex data comes indexed)
+    .vertices:      RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
+    .texcoords:     RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
+    .texcoords2:    RPointer(RFloat()), // Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
+    .normals:       RPointer(RFloat()), // Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
+    .tangents:      RPointer(RFloat()), // Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
+    .colors:        RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
+    .indices:       RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed)
 
     // Skin data for animation
     .boneCount:     RInt(), // Number of bones (MAX: 256 bones)
-    .boneIndices:   RPointer<RUnsignedChar>(), // Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-    .boneWeights:   RPointer<RFloat>(), // Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
+    .boneIndices:   RPointer(RUnsignedChar()), // Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
+    .boneWeights:   RPointer(RFloat()), // Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
 
     // Runtime animation vertex data (CPU skinning)
     // NOTE: In case of GPU skinning, not used, pointers are NULL
-    .animVertices:  RPointer<RFloat>(), // Animated vertex positions (after bones transformations)
-    .animNormals:   RPointer<RFloat>(), // Animated normals (after bones transformations)
+    .animVertices:  RPointer(RFloat()), // Animated vertex positions (after bones transformations)
+    .animNormals:   RPointer(RFloat()), // Animated normals (after bones transformations)
 
     // OpenGL identifiers
     .vaoId:         RUnsignedInt(), // OpenGL Vertex Array Object id
-    .vboId:         RPointer<RUnsignedInt>(), // OpenGL Vertex Buffer Objects id (default vertex data)
+    .vboId:         RPointer(RUnsignedInt()), // OpenGL Vertex Buffer Objects id (default vertex data)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<MeshD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, MeshD.new, MeshD.pointer);
+    => .nullable(ptr, struct, MeshD.new, MeshD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -155,23 +155,23 @@ class MeshD extends RaylibStruct<MeshD> {
   int _vertexCount;
   /// Number of vertices stored in arrays
   int get vertexCount {
-    structOnOp((p) => _vertexCount = p.readInt(structLayout.offset(.vertexCount)));
+    structOnOp((p) => _vertexCount = p.readInt(struct.offset(.vertexCount)));
     return _vertexCount;
   }
   set vertexCount(int value) {
     _vertexCount = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.vertexCount)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.vertexCount)));
   }
   
   int _triangleCount;
   /// Number of triangles stored (indexed or not)
   int get triangleCount {
-    structOnOp((p) => _triangleCount = p.readInt(structLayout.offset(.triangleCount)));
+    structOnOp((p) => _triangleCount = p.readInt(struct.offset(.triangleCount)));
     return _triangleCount;
   }
   set triangleCount(int value) {
     _triangleCount = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.triangleCount)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.triangleCount)));
   }
 
   // Vertex attributes data
@@ -179,84 +179,84 @@ class MeshD extends RaylibStruct<MeshD> {
   late LiveListPointerScalar<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
   LiveListPointerScalar<double, RFloat> get vertices {
-    structOnOp((p) => _vertices.ptr = p.readPtr(structLayout.offset(.vertices)));
+    structOnOp((p) => _vertices.ptr = p.readPtr(struct.offset(.vertices)));
     return _vertices;
   }
   set vertices(List<double> value) {
     assert(value.length <= verticesCount);
-    structOnOp((p) => _vertices.ptr = p.readPtr(structLayout.offset(.vertices)));
+    structOnOp((p) => _vertices.ptr = p.readPtr(struct.offset(.vertices)));
     _vertices.inner = value;
   }
   
   late LiveListPointerScalar<double, RFloat> _texcoords;
   /// Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
   LiveListPointerScalar<double, RFloat> get texcoords {
-    structOnOp((p) => _texcoords.ptr = p.readPtr(structLayout.offset(.texcoords)));
+    structOnOp((p) => _texcoords.ptr = p.readPtr(struct.offset(.texcoords)));
     return _texcoords;
   }
   set texcoords(List<double> value) {
     assert(value.length <= texcoordsCount);
-    structOnOp((p) => _texcoords.ptr = p.readPtr(structLayout.offset(.texcoords)));
+    structOnOp((p) => _texcoords.ptr = p.readPtr(struct.offset(.texcoords)));
     _texcoords.inner = value;
   }
 
   late LiveListPointerScalar<double, RFloat> _texcoords2;
   /// Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
   LiveListPointerScalar<double, RFloat> get texcoords2 {
-    structOnOp((p) => _texcoords2.ptr = p.readPtr(structLayout.offset(.texcoords2)));
+    structOnOp((p) => _texcoords2.ptr = p.readPtr(struct.offset(.texcoords2)));
     return _texcoords2;
   }
   set texcoords2(List<double> value) {
     assert(value.length <= texcoords2Count);
-    structOnOp((p) => _texcoords2.ptr = p.readPtr(structLayout.offset(.texcoords2)));
+    structOnOp((p) => _texcoords2.ptr = p.readPtr(struct.offset(.texcoords2)));
     _texcoords2.inner = value;
   }
 
   late LiveListPointerScalar<double, RFloat> _normals;
   /// Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
   LiveListPointerScalar<double, RFloat> get normals {
-    structOnOp((p) => _normals.ptr = p.readPtr(structLayout.offset(.normals)));
+    structOnOp((p) => _normals.ptr = p.readPtr(struct.offset(.normals)));
     return _normals;
   }
   set normals(List<double> value) {
     assert(value.length <= normalsCount);
-    structOnOp((p) => _normals.ptr = p.readPtr(structLayout.offset(.normals)));
+    structOnOp((p) => _normals.ptr = p.readPtr(struct.offset(.normals)));
     _normals.inner = value;
   }
 
   late LiveListPointerScalar<double, RFloat> _tangents;
   /// Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
   LiveListPointerScalar<double, RFloat> get tangents {
-    structOnOp((p) => _tangents.ptr = p.readPtr(structLayout.offset(.tangents)));
+    structOnOp((p) => _tangents.ptr = p.readPtr(struct.offset(.tangents)));
     return _tangents;
   }
   set tangents(List<double> value) {
     assert(value.length <= tangentsCount);
-    structOnOp((p) => _tangents.ptr = p.readPtr(structLayout.offset(.tangents)));
+    structOnOp((p) => _tangents.ptr = p.readPtr(struct.offset(.tangents)));
     _tangents.inner = value;
   }
 
   late LiveListPointerScalar<int, RUnsignedChar> _colors;
   /// Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
   LiveListPointerScalar<int, RUnsignedChar> get colors {
-    structOnOp((p) => _colors.ptr = p.readPtr(structLayout.offset(.colors)));
+    structOnOp((p) => _colors.ptr = p.readPtr(struct.offset(.colors)));
     return _colors;
   }
   set colors(List<int> value) {
     assert(value.length <= colorsCount);
-    structOnOp((p) => _colors.ptr = p.readPtr(structLayout.offset(.colors)));
+    structOnOp((p) => _colors.ptr = p.readPtr(struct.offset(.colors)));
     _colors.inner = value;
   }
 
   late LiveListPointerScalar<int, RUnsignedShort> _indices;
   /// Vertex indices (in case vertex data comes indexed)
   LiveListPointerScalar<int, RUnsignedShort> get indices {
-    structOnOp((p) => _indices.ptr = p.readPtr(structLayout.offset(.indices)));
+    structOnOp((p) => _indices.ptr = p.readPtr(struct.offset(.indices)));
     return _indices;
   }
   set indices(List<int> value) {
     assert(value.length <= indicesCount);
-    structOnOp((p) => _indices.ptr = p.readPtr(structLayout.offset(.indices)));
+    structOnOp((p) => _indices.ptr = p.readPtr(struct.offset(.indices)));
     _indices.inner = value;
   }
 
@@ -265,35 +265,35 @@ class MeshD extends RaylibStruct<MeshD> {
   int _boneCount;
   // Number of bones (MAX: 256 bones)
   int get boneCount {
-    structOnOp((p) => _boneCount = p.readInt(structLayout.offset(.boneCount)));
+    structOnOp((p) => _boneCount = p.readInt(struct.offset(.boneCount)));
     return _boneCount;
   }
   set boneCount(int value) {
     _boneCount = value;
-    structOnOp((p) => p.writeInt(value, structLayout.offset(.boneCount)));
+    structOnOp((p) => p.writeInt(value, struct.offset(.boneCount)));
   }
 
   late LiveListPointerScalar<int, RUnsignedChar> _boneIndices;
   /// Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
   LiveListPointerScalar<int, RUnsignedChar> get boneIndices {
-    structOnOp((p) => _boneIndices.ptr = p.readPtr(structLayout.offset(.boneIndices)));
+    structOnOp((p) => _boneIndices.ptr = p.readPtr(struct.offset(.boneIndices)));
     return _boneIndices;
   }
   set boneIndices(List<int> value) {
     assert(value.length <= boneIndicesCount);
-    structOnOp((p) => _boneIndices.ptr = p.readPtr(structLayout.offset(.boneIndices)));
+    structOnOp((p) => _boneIndices.ptr = p.readPtr(struct.offset(.boneIndices)));
     _boneIndices.inner = value;
   }
   
   late LiveListPointerScalar<double, RFloat> _boneWeights;
   /// Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
   LiveListPointerScalar<double, RFloat> get boneWeights {
-    structOnOp((p) => _boneWeights.ptr = p.readPtr(structLayout.offset(.boneWeights)));
+    structOnOp((p) => _boneWeights.ptr = p.readPtr(struct.offset(.boneWeights)));
     return _boneWeights;
   }
   set boneWeights(List<double> value) {
     assert(value.length <= boneWeightsCount);
-    structOnOp((p) => _boneWeights.ptr = p.readPtr(structLayout.offset(.boneWeights)));
+    structOnOp((p) => _boneWeights.ptr = p.readPtr(struct.offset(.boneWeights)));
     _boneWeights.inner = value;
   }
 
@@ -302,47 +302,47 @@ class MeshD extends RaylibStruct<MeshD> {
   late LiveListPointerScalar<double, RFloat> _animVertices;
   /// Animated vertex positions (after bones transformations)
   LiveListPointerScalar<double, RFloat> get animVertices {
-    structOnOp((p) => _animVertices.ptr = p.readPtr(structLayout.offset(.animVertices)));
+    structOnOp((p) => _animVertices.ptr = p.readPtr(struct.offset(.animVertices)));
     return _animVertices;
   }
   set animVertices(List<double> value) {
     assert(value.length <= animVerticesCount);
-    structOnOp((p) => _animVertices.ptr = p.readPtr(structLayout.offset(.animVertices)));
+    structOnOp((p) => _animVertices.ptr = p.readPtr(struct.offset(.animVertices)));
     _animVertices.inner = value;
   }
 
   late LiveListPointerScalar<double, RFloat> _animNormals;
   /// Animated normals (after bones transformations)
   LiveListPointerScalar<double, RFloat> get animNormals {
-    structOnOp((p) => _animNormals.ptr = p.readPtr(structLayout.offset(.animNormals)));
+    structOnOp((p) => _animNormals.ptr = p.readPtr(struct.offset(.animNormals)));
     return _animNormals;
   }
   set animNormals(List<double> value) {
     assert(value.length <= animNormalsCount);
-    structOnOp((p) => _animNormals.ptr = p.readPtr(structLayout.offset(.animNormals)));
+    structOnOp((p) => _animNormals.ptr = p.readPtr(struct.offset(.animNormals)));
     _animNormals.inner = value;
   }
 
   int _vaoId;
   /// OpenGL Vertex Array Object id
   int get vaoId {
-    structOnOp((p) => _vaoId = p.readUnsignedInt(structLayout.offset(.vaoId)));
+    structOnOp((p) => _vaoId = p.readUnsignedInt(struct.offset(.vaoId)));
     return _vaoId;
   }
   set vaoId(int value) {
     _vaoId = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.vaoId)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.vaoId)));
   }
   
   late LiveListPointerScalar<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (default vertex data)
   LiveListPointerScalar<int, RUnsignedInt> get vboId {
-    structOnOp((p) => _vboId.ptr = p.readPtr(structLayout.offset(.vboId)));
+    structOnOp((p) => _vboId.ptr = p.readPtr(struct.offset(.vboId)));
     return _vboId;
   }
   set vboId(List<int> value) {
     assert(value.length <= vboIdCount);
-    structOnOp((p) => _vboId.ptr = p.readPtr(structLayout.offset(.vboId)));
+    structOnOp((p) => _vboId.ptr = p.readPtr(struct.offset(.vboId)));
     _vboId.inner = value;
   }
 
@@ -374,84 +374,84 @@ class MeshD extends RaylibStruct<MeshD> {
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       vertices ?? .filled(verticesCount, 0),
-      op?.offsetBy(structLayout.offset(.vertices)),
+      op?.offsetBy(struct.offset(.vertices)),
     );
 
     _texcoords = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       texcoords ?? .filled(texcoordsCount, 0),
-      op?.offsetBy(structLayout.offset(.texcoords)),
+      op?.offsetBy(struct.offset(.texcoords)),
     );
 
     _texcoords2 = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       texcoords2 ?? .filled(texcoords2Count, 0),
-      op?.offsetBy(structLayout.offset(.texcoords2)),
+      op?.offsetBy(struct.offset(.texcoords2)),
     );
 
     _normals = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       normals ?? .filled(normalsCount, 0),
-      op?.offsetBy(structLayout.offset(.normals)),
+      op?.offsetBy(struct.offset(.normals)),
     );
 
     _tangents = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       tangents ?? .filled(tangentsCount, 0),
-      op?.offsetBy(structLayout.offset(.tangents)),
+      op?.offsetBy(struct.offset(.tangents)),
     );
 
     _colors = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       colors ?? .filled(colorsCount, 0),
-      op?.offsetBy(structLayout.offset(.colors)),
+      op?.offsetBy(struct.offset(.colors)),
     );
 
     _indices = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       indices ?? .filled(indicesCount, 0),
-      op?.offsetBy(structLayout.offset(.indices)),
+      op?.offsetBy(struct.offset(.indices)),
     );
 
     _boneIndices = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       boneIndices ?? .filled(boneIndicesCount, 0),
-      op?.offsetBy(structLayout.offset(.boneIndices)),
+      op?.offsetBy(struct.offset(.boneIndices)),
     );
 
     _boneWeights = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       boneWeights ?? .filled(boneWeightsCount, 0),
-      op?.offsetBy(structLayout.offset(.boneWeights)),
+      op?.offsetBy(struct.offset(.boneWeights)),
     );
 
     _animVertices = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       animVertices ?? .filled(animVerticesCount, 0),
-      op?.offsetBy(structLayout.offset(.animVertices)),
+      op?.offsetBy(struct.offset(.animVertices)),
     );
 
     _animNormals = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       animNormals ?? .filled(animNormalsCount, 0),
-      op?.offsetBy(structLayout.offset(.animNormals)),
+      op?.offsetBy(struct.offset(.animNormals)),
     );
 
     _vboId = .new(
       (p, i) => p[i],
       (p, i, v) => p[i] = v,
       vboId ?? .filled(vboIdCount, 0),
-      op?.offsetBy(structLayout.offset(.vboId)),
+      op?.offsetBy(struct.offset(.vboId)),
     );
   }
 
@@ -519,22 +519,22 @@ class MeshD extends RaylibStruct<MeshD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt(_vertexCount, structLayout.offset(.vertexCount));
-    p.writeInt(_triangleCount, structLayout.offset(.triangleCount));
-    p.writePtr(_vertices.ptr, structLayout.offset(.vertices));
-    p.writePtr(_texcoords.ptr, structLayout.offset(.texcoords));
-    p.writePtr(_texcoords2.ptr, structLayout.offset(.texcoords2));
-    p.writePtr(_normals.ptr, structLayout.offset(.normals));
-    p.writePtr(_tangents.ptr, structLayout.offset(.tangents));
-    p.writePtr(_colors.ptr, structLayout.offset(.colors));
-    p.writePtr(_indices.ptr, structLayout.offset(.indices));
-    p.writeInt(_boneCount, structLayout.offset(.boneCount));
-    p.writePtr(_boneIndices.ptr, structLayout.offset(.boneIndices));
-    p.writePtr(_boneWeights.ptr, structLayout.offset(.boneWeights));
-    p.writePtr(_animVertices.ptr, structLayout.offset(.animVertices));
-    p.writePtr(_animNormals.ptr, structLayout.offset(.animNormals));
-    p.writeUnsignedInt(_vaoId, structLayout.offset(.vaoId));
-    p.writePtr(_vboId.ptr, structLayout.offset(.vboId));
+    p.writeInt(_vertexCount, struct.offset(.vertexCount));
+    p.writeInt(_triangleCount, struct.offset(.triangleCount));
+    p.writePtr(_vertices.ptr, struct.offset(.vertices));
+    p.writePtr(_texcoords.ptr, struct.offset(.texcoords));
+    p.writePtr(_texcoords2.ptr, struct.offset(.texcoords2));
+    p.writePtr(_normals.ptr, struct.offset(.normals));
+    p.writePtr(_tangents.ptr, struct.offset(.tangents));
+    p.writePtr(_colors.ptr, struct.offset(.colors));
+    p.writePtr(_indices.ptr, struct.offset(.indices));
+    p.writeInt(_boneCount, struct.offset(.boneCount));
+    p.writePtr(_boneIndices.ptr, struct.offset(.boneIndices));
+    p.writePtr(_boneWeights.ptr, struct.offset(.boneWeights));
+    p.writePtr(_animVertices.ptr, struct.offset(.animVertices));
+    p.writePtr(_animNormals.ptr, struct.offset(.animNormals));
+    p.writeUnsignedInt(_vaoId, struct.offset(.vaoId));
+    p.writePtr(_vboId.ptr, struct.offset(.vboId));
 
     _vertices.onPointer((p) => p.writeArray(_vertices.inner));
     _texcoords.onPointer((p) => p.writeArray(_texcoords.inner));
@@ -552,22 +552,22 @@ class MeshD extends RaylibStruct<MeshD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _vertexCount = p.readInt(structLayout.offset(.vertexCount));
-    _triangleCount = p.readInt(structLayout.offset(.triangleCount));
-    _vertices.ptr = p.readPtr(structLayout.offset(.vertices));
-    _texcoords.ptr = p.readPtr(structLayout.offset(.texcoords));
-    _texcoords2.ptr = p.readPtr(structLayout.offset(.texcoords2));
-    _normals.ptr = p.readPtr(structLayout.offset(.normals));
-    _tangents.ptr = p.readPtr(structLayout.offset(.tangents));
-    _colors.ptr = p.readPtr(structLayout.offset(.colors));
-    _indices.ptr = p.readPtr(structLayout.offset(.indices));
-    _boneCount = p.readInt(structLayout.offset(.boneCount));
-    _boneIndices.ptr = p.readPtr(structLayout.offset(.boneIndices));
-    _boneWeights.ptr = p.readPtr(structLayout.offset(.boneWeights));
-    _animVertices.ptr = p.readPtr(structLayout.offset(.animVertices));
-    _animNormals.ptr = p.readPtr(structLayout.offset(.animNormals));
-    _vaoId = p.readUnsignedInt(structLayout.offset(.vaoId));
-    _vboId.ptr = p.readPtr(structLayout.offset(.vboId));
+    _vertexCount = p.readInt(struct.offset(.vertexCount));
+    _triangleCount = p.readInt(struct.offset(.triangleCount));
+    _vertices.ptr = p.readPtr(struct.offset(.vertices));
+    _texcoords.ptr = p.readPtr(struct.offset(.texcoords));
+    _texcoords2.ptr = p.readPtr(struct.offset(.texcoords2));
+    _normals.ptr = p.readPtr(struct.offset(.normals));
+    _tangents.ptr = p.readPtr(struct.offset(.tangents));
+    _colors.ptr = p.readPtr(struct.offset(.colors));
+    _indices.ptr = p.readPtr(struct.offset(.indices));
+    _boneCount = p.readInt(struct.offset(.boneCount));
+    _boneIndices.ptr = p.readPtr(struct.offset(.boneIndices));
+    _boneWeights.ptr = p.readPtr(struct.offset(.boneWeights));
+    _animVertices.ptr = p.readPtr(struct.offset(.animVertices));
+    _animNormals.ptr = p.readPtr(struct.offset(.animNormals));
+    _vaoId = p.readUnsignedInt(struct.offset(.vaoId));
+    _vboId.ptr = p.readPtr(struct.offset(.vboId));
     
     _vertices.onPointer((p) => _vertices.raw = p.readArray(verticesCount));
     _texcoords.onPointer((p) => _texcoords.raw = p.readArray(texcoordsCount));

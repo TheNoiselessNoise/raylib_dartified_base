@@ -18,16 +18,16 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RenderTextureField> structLayout = .aligned({
+  static final StructLayout<RenderTextureField> struct = .aligned({
     .id:      RUnsignedInt(), // OpenGL framebuffer object id
-    .texture: RStruct(TextureD.structLayout), // Color buffer attachment texture
-    .depth:   RStruct(TextureD.structLayout), // Depth buffer attachment texture
+    .texture: RStruct(TextureD.struct), // Color buffer attachment texture
+    .depth:   RStruct(TextureD.struct), // Depth buffer attachment texture
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RenderTextureD.new, RenderTextureD.pointer);
+    => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -40,34 +40,34 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   int _id;
   /// OpenGL framebuffer object id
   int get id {
-    structOnOp((p) => _id = p.readUnsignedInt(structLayout.offset(.id)));
+    structOnOp((p) => _id = p.readUnsignedInt(struct.offset(.id)));
     return _id;
   }
   set id(int value) {
     _id = value;
-    structOnOp((p) => p.writeUnsignedInt(value, structLayout.offset(.id)));
+    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.id)));
   }
 
   TextureD _texture;
   /// Color buffer attachment texture
   TextureD get texture {
-    structOnOp((p) => _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => _texture.structReadFrom(p.offsetBy(struct.offset(.texture))));
     return _texture;
   }
   set texture(TextureD value) {
     _texture = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.texture))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.texture))));
   }
   
   TextureD _depth;
   /// Depth buffer attachment texture
   TextureD get depth {
-    structOnOp((p) => _depth.structReadFrom(p.offsetBy(structLayout.offset(.depth))));
+    structOnOp((p) => _depth.structReadFrom(p.offsetBy(struct.offset(.depth))));
     return _depth;
   }
   set depth(TextureD value) {
     _depth = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.depth))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.depth))));
   }
 
   RenderTextureD({
@@ -92,16 +92,16 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_id, structLayout.offset(.id));
-    _texture.structWriteInto(p.offsetBy(structLayout.offset(.texture)));
-    _depth.structWriteInto(p.offsetBy(structLayout.offset(.depth)));
+    p.writeUnsignedInt(_id, struct.offset(.id));
+    _texture.structWriteInto(p.offsetBy(struct.offset(.texture)));
+    _depth.structWriteInto(p.offsetBy(struct.offset(.depth)));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _id = p.readUnsignedInt(structLayout.offset(.id));
-    _texture.structReadFrom(p.offsetBy(structLayout.offset(.texture)));
-    _depth.structReadFrom(p.offsetBy(structLayout.offset(.depth)));
+    _id = p.readUnsignedInt(struct.offset(.id));
+    _texture.structReadFrom(p.offsetBy(struct.offset(.texture)));
+    _depth.structReadFrom(p.offsetBy(struct.offset(.depth)));
   }
 
   @override

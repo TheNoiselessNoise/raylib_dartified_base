@@ -1558,7 +1558,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
     () => _debugLabels.rlSetUniformMatrices(locIndex, mat),
     () => rl.RlglFlat.rlSetUniformMatrices(
       locIndex.toInt(),
-      rl.Temp.Matrix$.Array(mat),
+      rl.Temp.Matrix$.ArrayStruct(mat),
       mat.length,
     ),
   );

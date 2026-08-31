@@ -19,17 +19,17 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RayCollisionField> structLayout = .aligned({
+  static final StructLayout<RayCollisionField> struct = .aligned({
     .hit:      RBool(), // Did the ray hit something?
     .distance: RFloat(), // Distance to the nearest hit
-    .point:    RStruct(Vector3D.structLayout), // Point of the nearest hit
-    .normal:   RStruct(Vector3D.structLayout), // Surface normal of hit
+    .point:    RStruct(Vector3D.struct), // Point of the nearest hit
+    .normal:   RStruct(Vector3D.struct), // Surface normal of hit
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, RayCollisionD.new, RayCollisionD.pointer);
+    => .nullable(ptr, struct, RayCollisionD.new, RayCollisionD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -42,45 +42,45 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   bool _hit;
   /// Did the ray hit something?
   bool get hit {
-    structOnOp((p) => _hit = p.readBool(structLayout.offset(.hit)));
+    structOnOp((p) => _hit = p.readBool(struct.offset(.hit)));
     return _hit;
   }
   set hit(bool value) {
     _hit = value;
-    structOnOp((p) => p.writeBool(value, structLayout.offset(.hit)));
+    structOnOp((p) => p.writeBool(value, struct.offset(.hit)));
   }
 
   double _distance;
   /// Distance to the nearest hit
   double get distance {
-    structOnOp((p) => _distance = p.readFloat(structLayout.offset(.distance)));
+    structOnOp((p) => _distance = p.readFloat(struct.offset(.distance)));
     return _distance;
   }
   set distance(double value) {
     _distance = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.distance)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.distance)));
   }
   
   Vector3D _point;
   /// Point of the nearest hit
   Vector3D get point {
-    structOnOp((p) => _point.structReadFrom(p.offsetBy(structLayout.offset(.point))));
+    structOnOp((p) => _point.structReadFrom(p.offsetBy(struct.offset(.point))));
     return _point;
   }
   set point(Vector3D value) {
     _point = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.point))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.point))));
   }
   
   Vector3D _normal;
   /// Surface normal of hit
   Vector3D get normal {
-    structOnOp((p) => _normal.structReadFrom(p.offsetBy(structLayout.offset(.normal))));
+    structOnOp((p) => _normal.structReadFrom(p.offsetBy(struct.offset(.normal))));
     return _normal;
   }
   set normal(Vector3D value) {
     _normal = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(structLayout.offset(.normal))));
+    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.normal))));
   }
 
   RayCollisionD({
@@ -108,18 +108,18 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeBool(_hit, structLayout.offset(.hit));
-    p.writeFloat(_distance, structLayout.offset(.distance));
-    _point.structWriteInto(p.offsetBy(structLayout.offset(.point)));
-    _normal.structWriteInto(p.offsetBy(structLayout.offset(.normal)));
+    p.writeBool(_hit, struct.offset(.hit));
+    p.writeFloat(_distance, struct.offset(.distance));
+    _point.structWriteInto(p.offsetBy(struct.offset(.point)));
+    _normal.structWriteInto(p.offsetBy(struct.offset(.normal)));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _hit = p.readBool(structLayout.offset(.hit));
-    _distance = p.readFloat(structLayout.offset(.distance));
-    _point.structReadFrom(p.offsetBy(structLayout.offset(.point)));
-    _normal.structReadFrom(p.offsetBy(structLayout.offset(.normal)));
+    _hit = p.readBool(struct.offset(.hit));
+    _distance = p.readFloat(struct.offset(.distance));
+    _point.structReadFrom(p.offsetBy(struct.offset(.point)));
+    _normal.structReadFrom(p.offsetBy(struct.offset(.normal)));
   }
 
   @override

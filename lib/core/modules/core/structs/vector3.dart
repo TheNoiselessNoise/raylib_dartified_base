@@ -21,7 +21,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<Vector3Field> structLayout = .aligned({
+  static final StructLayout<Vector3Field> struct = .aligned({
     .x: RFloat(), // Vector x component
     .y: RFloat(), // Vector y component
     .z: RFloat(), // Vector z component
@@ -30,7 +30,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, Vector3D.new, Vector3D.pointer);
+    => .nullable(ptr, struct, Vector3D.new, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -43,34 +43,34 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   double _x;
   /// Vector x component
   double get x {
-    structOnOp((p) => _x = p.readFloat(structLayout.offset(.x)));
+    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
     return _x;
   }
   set x(double value) {
     _x = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.x)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
   }
 
   double _y;
   /// Vector y component
   double get y {
-    structOnOp((p) => _y = p.readFloat(structLayout.offset(.y)));
+    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
     return _y;
   }
   set y(double value) {
     _y = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.y)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
   }
 
   double _z;
   /// Vector z component
   double get z {
-    structOnOp((p) => _z = p.readFloat(structLayout.offset(.z)));
+    structOnOp((p) => _z = p.readFloat(struct.offset(.z)));
     return _z;
   }
   set z(double value) {
     _z = value;
-    structOnOp((p) => p.writeFloat(value, structLayout.offset(.z)));
+    structOnOp((p) => p.writeFloat(value, struct.offset(.z)));
   }
   
   Vector3D({
@@ -101,16 +101,16 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, structLayout.offset(.x));
-    p.writeFloat(_y, structLayout.offset(.y));
-    p.writeFloat(_z, structLayout.offset(.z));
+    p.writeFloat(_x, struct.offset(.x));
+    p.writeFloat(_y, struct.offset(.y));
+    p.writeFloat(_z, struct.offset(.z));
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(structLayout.offset(.x));
-    _y = p.readFloat(structLayout.offset(.y));
-    _z = p.readFloat(structLayout.offset(.z));
+    _x = p.readFloat(struct.offset(.x));
+    _y = p.readFloat(struct.offset(.y));
+    _z = p.readFloat(struct.offset(.z));
   }
 
   @override

@@ -18,16 +18,16 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<AutomationEventListField> structLayout = .aligned({
+  static final StructLayout<AutomationEventListField> struct = .aligned({
     .capacity: RUnsignedInt(), // Events max entries (MAX_AUTOMATION_EVENTS)
     .count:    RUnsignedInt(), // Events entries count
-    .events:   RPointer<RStruct>(), // Events entries
+    .events:   RPointer(RStruct(AutomationEventD.struct)), // Events entries
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, structLayout, AutomationEventListD.new, AutomationEventListD.pointer);
+    => .nullable(ptr, struct, AutomationEventListD.new, AutomationEventListD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -41,11 +41,11 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   
   /// Events entries count
   int get count
-    => getOp().readUnsignedInt(structLayout.offset(.count));
+    => getOp().readUnsignedInt(struct.offset(.count));
 
   /// Events entries
   List<AutomationEventD> get events => AutomationEventD
-    .pointer(getOp().readPtr(structLayout.offset(.events)))
+    .pointer(getOp().readPtr(struct.offset(.events)))
     .readArray(count);
 
   AutomationEventListD({ super.op });
