@@ -29,6 +29,10 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
 
+  static final _textureF = struct.struct<TextureD>(.texture, TextureD.pointer);
+  static final _colorF = struct.struct<ColorD>(.color, ColorD.pointer);
+  static final _valueF = struct.scalar<double, RFloat>(.value);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -36,39 +40,21 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   TextureD _texture;
   /// Material map texture
-  TextureD get texture {
-    structOnOp((p) => _texture.structReadFrom(p.offsetBy(struct.offset(.texture))));
-    return _texture;
-  }
-  set texture(TextureD value) {
-    _texture = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.texture))));
-  }
+  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
 
   ColorD _color;
   /// Material map color
-  ColorD get color {
-    structOnOp((p) => _color.structReadFrom(p.offsetBy(struct.offset(.color))));
-    return _color;
-  }
-  set color(ColorD value) {
-    _color = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.color))));
-  }
+  ColorD get color => _color = _colorF.readOr(op?.ptr, _color);
+  set color(ColorD value) => _color = _colorF.writeIf(op?.ptr, value);
 
   double _value;
   /// Material map value
-  double get value {
-    structOnOp((p) => _value = p.readFloat(struct.offset(.value)));
-    return _value;
-  }
-  set value(double value) {
-    _value = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.value)));
-  }
+  double get value => _value = _valueF.readOr(op?.ptr, _value);
+  set value(double value) => _value = _valueF.writeIf(op?.ptr, value);
   
   MaterialMapD({
     super.op,
@@ -83,25 +69,25 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   factory MaterialMapD.zero() => .new();
 
   @override
-  MaterialMapD setD(MaterialMapD o) {
-    texture.setD(o.texture); 
-    color.setD(o.color); 
+  MaterialMapD setDart(MaterialMapD o) {
+    texture.setDart(o.texture); 
+    color.setDart(o.color); 
     value = o.value;
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _texture.structWriteInto(p.offsetBy(struct.offset(.texture)));
-    _color.structWriteInto(p.offsetBy(struct.offset(.color)));
-    p.writeFloat(_value, struct.offset(.value));
+    _textureF.write(p, _texture);
+    _colorF.write(p, _color);
+    _valueF.write(p, _value);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _texture.structReadFrom(p.offsetBy(struct.offset(.texture)));
-    _color.structReadFrom(p.offsetBy(struct.offset(.color)));
-    _value = p.readFloat(struct.offset(.value));
+    _texture = _textureF.read(p);
+    _color = _colorF.read(p);
+    _value = _valueF.read(p);
   }
 
   @override

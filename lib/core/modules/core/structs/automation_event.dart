@@ -6,6 +6,8 @@ enum AutomationEventField with StructFields {
   params,
 }
 
+// TODO: translate
+
 /// Automation event
 class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
@@ -102,7 +104,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   factory AutomationEventD.zero() => .new();
 
   @override
-  AutomationEventD setD(AutomationEventD o) {
+  AutomationEventD setDart(AutomationEventD o) {
     frame = o.frame;
     type = o.type;
     params = .from(o.params);

@@ -11,6 +11,8 @@ enum RlVertexBufferField with StructFields {
   vboId,
 }
 
+// TODO: translate
+
 /// RLGL Vertex buffer
 class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
@@ -251,7 +253,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   factory RlVertexBufferD.zero() => .new();
 
   @override
-  RlVertexBufferD setD(RlVertexBufferD o) {
+  RlVertexBufferD setDart(RlVertexBufferD o) {
     elementCount = o.elementCount;
     vertices = .from(o.vertices);
     texcoords = .from(o.texcoords);

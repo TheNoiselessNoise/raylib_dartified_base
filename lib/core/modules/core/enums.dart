@@ -65,7 +65,7 @@ enum ConfigFlags with RaylibEnum {
 }
 
 /// Raylib `TraceLogLevel` enum.
-enum TraceLogLevel {
+enum TraceLogLevel with RaylibEnum {
   /// `LOG_ALL`
   LOG_ALL(0),
   /// `LOG_TRACE`
@@ -86,6 +86,7 @@ enum TraceLogLevel {
   const TraceLogLevel(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [TraceLogLevel] for the given native [value].
@@ -105,7 +106,7 @@ enum TraceLogLevel {
 }
 
 /// Raylib `KeyboardKey` enum.
-enum KeyboardKey {
+enum KeyboardKey with RaylibEnum {
   /// `KEY_NULL`
   KEY_NULL(0),
   /// `KEY_APOSTROPHE`
@@ -330,6 +331,7 @@ enum KeyboardKey {
   const KeyboardKey(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [KeyboardKey] for the given native [value].
@@ -451,7 +453,7 @@ enum KeyboardKey {
 }
 
 /// Raylib `MouseButton` enum.
-enum MouseButton {
+enum MouseButton with RaylibEnum {
   /// `MOUSE_BUTTON_LEFT`
   MOUSE_BUTTON_LEFT(0),
   /// `MOUSE_BUTTON_RIGHT`
@@ -470,6 +472,7 @@ enum MouseButton {
   const MouseButton(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [MouseButton] for the given native [value].
@@ -488,7 +491,7 @@ enum MouseButton {
 }
 
 /// Raylib `MouseCursor` enum.
-enum MouseCursor {
+enum MouseCursor with RaylibEnum {
   /// `MOUSE_CURSOR_DEFAULT`
   MOUSE_CURSOR_DEFAULT(0),
   /// `MOUSE_CURSOR_ARROW`
@@ -515,6 +518,7 @@ enum MouseCursor {
   const MouseCursor(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [MouseCursor] for the given native [value].
@@ -537,7 +541,7 @@ enum MouseCursor {
 }
 
 /// Raylib `GamepadButton` enum.
-enum GamepadButton {
+enum GamepadButton with RaylibEnum {
   /// `GAMEPAD_BUTTON_UNKNOWN`
   GAMEPAD_BUTTON_UNKNOWN(0),
   /// `GAMEPAD_BUTTON_LEFT_FACE_UP`
@@ -578,6 +582,7 @@ enum GamepadButton {
   const GamepadButton(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GamepadButton] for the given native [value].
@@ -607,7 +612,7 @@ enum GamepadButton {
 }
 
 /// Raylib `GamepadAxis` enum.
-enum GamepadAxis {
+enum GamepadAxis with RaylibEnum {
   /// `GAMEPAD_AXIS_LEFT_X`
   GAMEPAD_AXIS_LEFT_X(0),
   /// `GAMEPAD_AXIS_LEFT_Y`
@@ -624,6 +629,7 @@ enum GamepadAxis {
   const GamepadAxis(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GamepadAxis] for the given native [value].
@@ -641,7 +647,7 @@ enum GamepadAxis {
 }
 
 /// Raylib `MaterialMapIndex` enum.
-enum MaterialMapIndex {
+enum MaterialMapIndex with RaylibEnum {
   /// `MATERIAL_MAP_ALBEDO`
   MATERIAL_MAP_ALBEDO(0),
   /// `MATERIAL_MAP_METALNESS`
@@ -668,6 +674,7 @@ enum MaterialMapIndex {
   const MaterialMapIndex(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [MaterialMapIndex] for the given native [value].
@@ -690,7 +697,7 @@ enum MaterialMapIndex {
 }
 
 /// Raylib `ShaderLocationIndex` enum.
-enum ShaderLocationIndex {
+enum ShaderLocationIndex with RaylibEnum {
   /// `SHADER_LOC_VERTEX_POSITION`
   SHADER_LOC_VERTEX_POSITION(0),
   /// `SHADER_LOC_VERTEX_TEXCOORD01`
@@ -755,6 +762,7 @@ enum ShaderLocationIndex {
   const ShaderLocationIndex(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [ShaderLocationIndex] for the given native [value].
@@ -796,7 +804,7 @@ enum ShaderLocationIndex {
 }
 
 /// Raylib `ShaderUniformDataType` enum.
-enum ShaderUniformDataType {
+enum ShaderUniformDataType with RaylibEnum {
   /// `SHADER_UNIFORM_FLOAT`
   SHADER_UNIFORM_FLOAT(0),
   /// `SHADER_UNIFORM_VEC2`
@@ -827,6 +835,7 @@ enum ShaderUniformDataType {
   const ShaderUniformDataType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [ShaderUniformDataType] for the given native [value].
@@ -942,7 +951,7 @@ enum PixelFormat with RaylibEnum {
 }
 
 /// Raylib `TextureFilter` enum.
-enum TextureFilter {
+enum TextureFilter with RaylibEnum {
   /// `TEXTURE_FILTER_POINT`
   TEXTURE_FILTER_POINT(0),
   /// `TEXTURE_FILTER_BILINEAR`
@@ -959,6 +968,7 @@ enum TextureFilter {
   const TextureFilter(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [TextureFilter] for the given native [value].
@@ -976,7 +986,7 @@ enum TextureFilter {
 }
 
 /// Raylib `TextureWrap` enum.
-enum TextureWrap {
+enum TextureWrap with RaylibEnum {
   /// `TEXTURE_WRAP_REPEAT`
   TEXTURE_WRAP_REPEAT(0),
   /// `TEXTURE_WRAP_CLAMP`
@@ -989,6 +999,7 @@ enum TextureWrap {
   const TextureWrap(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [TextureWrap] for the given native [value].
@@ -1004,7 +1015,7 @@ enum TextureWrap {
 }
 
 /// Raylib `CubemapLayout` enum.
-enum CubemapLayout {
+enum CubemapLayout with RaylibEnum {
   /// `CUBEMAP_LAYOUT_AUTO_DETECT`
   CUBEMAP_LAYOUT_AUTO_DETECT(0),
   /// `CUBEMAP_LAYOUT_LINE_VERTICAL`
@@ -1019,6 +1030,7 @@ enum CubemapLayout {
   const CubemapLayout(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [CubemapLayout] for the given native [value].
@@ -1035,7 +1047,7 @@ enum CubemapLayout {
 }
 
 /// Raylib `FontType` enum.
-enum FontType {
+enum FontType with RaylibEnum {
   /// `FONT_DEFAULT`
   FONT_DEFAULT(0),
   /// `FONT_BITMAP`
@@ -1046,6 +1058,7 @@ enum FontType {
   const FontType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [FontType] for the given native [value].
@@ -1060,7 +1073,7 @@ enum FontType {
 }
 
 /// Raylib `BlendMode` enum.
-enum BlendMode {
+enum BlendMode with RaylibEnum {
   /// `BLEND_ALPHA`
   BLEND_ALPHA(0),
   /// `BLEND_ADDITIVE`
@@ -1081,6 +1094,7 @@ enum BlendMode {
   const BlendMode(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [BlendMode] for the given native [value].
@@ -1149,7 +1163,7 @@ enum Gesture with RaylibEnum {
 }
 
 /// Raylib `CameraMode` enum.
-enum CameraMode {
+enum CameraMode with RaylibEnum {
   /// `CAMERA_CUSTOM`
   CAMERA_CUSTOM(0),
   /// `CAMERA_FREE`
@@ -1164,6 +1178,7 @@ enum CameraMode {
   const CameraMode(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [CameraMode] for the given native [value].
@@ -1180,7 +1195,7 @@ enum CameraMode {
 }
 
 /// Raylib `CameraProjection` enum.
-enum CameraProjection {
+enum CameraProjection with RaylibEnum {
   /// `CAMERA_PERSPECTIVE`
   CAMERA_PERSPECTIVE(0),
   /// `CAMERA_ORTHOGRAPHIC`
@@ -1189,6 +1204,7 @@ enum CameraProjection {
   const CameraProjection(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [CameraProjection] for the given native [value].
@@ -1202,7 +1218,7 @@ enum CameraProjection {
 }
 
 /// Raylib `NPatchLayout` enum.
-enum NPatchLayout {
+enum NPatchLayout with RaylibEnum {
   /// `NPATCH_NINE_PATCH`
   NPATCH_NINE_PATCH(0),
   /// `NPATCH_THREE_PATCH_VERTICAL`
@@ -1213,6 +1229,7 @@ enum NPatchLayout {
   const NPatchLayout(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [NPatchLayout] for the given native [value].
@@ -1227,7 +1244,7 @@ enum NPatchLayout {
 }
 
 /// Raylib `AutomationEventType` enum.
-enum AutomationEventType {
+enum AutomationEventType with RaylibEnum {
   /// `EVENT_NONE`
   EVENT_NONE(0),
 
@@ -1289,6 +1306,7 @@ enum AutomationEventType {
   const AutomationEventType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [AutomationEventType] for the given native [value].
@@ -1324,7 +1342,7 @@ enum AutomationEventType {
 }
 
 /// Raylib `TouchAction` enum.
-enum TouchAction {
+enum TouchAction with RaylibEnum {
   /// `TOUCH_ACTION_UP`
   TOUCH_ACTION_UP(0),
   /// `TOUCH_ACTION_DOWN`
@@ -1337,6 +1355,7 @@ enum TouchAction {
   const TouchAction(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [TouchAction] for the given native [value].

@@ -8,6 +8,8 @@ enum MusicField with StructFields {
   ctxData,
 }
 
+// TODO: translate
+
 /// Music, audio stream, anything longer than ~10 seconds should be streamed
 class MusicD extends RaylibStruct<MusicD> {
 
@@ -105,8 +107,8 @@ class MusicD extends RaylibStruct<MusicD> {
   factory MusicD.zero() => .new();
 
   @override
-  MusicD setD(MusicD o) {
-    stream.setD(o.stream);
+  MusicD setDart(MusicD o) {
+    stream.setDart(o.stream);
     frameCount = o.frameCount;
     looping = o.looping;
     ctxType = o.ctxType;

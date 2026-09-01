@@ -5,6 +5,8 @@ enum FilePathListField with StructFields {
   paths,
 }
 
+// TODO: translate
+
 /// File path list
 class FilePathListD extends RaylibStructView<FilePathListD> {
 

@@ -34,6 +34,23 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
 
+  static final _m0F = struct.scalar<double, RFloat>(.m0);
+  static final _m4F = struct.scalar<double, RFloat>(.m4);
+  static final _m8F = struct.scalar<double, RFloat>(.m8);
+  static final _m12F = struct.scalar<double, RFloat>(.m12);
+  static final _m1F = struct.scalar<double, RFloat>(.m1);
+  static final _m5F = struct.scalar<double, RFloat>(.m5);
+  static final _m9F = struct.scalar<double, RFloat>(.m9);
+  static final _m13F = struct.scalar<double, RFloat>(.m13);
+  static final _m2F = struct.scalar<double, RFloat>(.m2);
+  static final _m6F = struct.scalar<double, RFloat>(.m6);
+  static final _m10F = struct.scalar<double, RFloat>(.m10);
+  static final _m14F = struct.scalar<double, RFloat>(.m14);
+  static final _m3F = struct.scalar<double, RFloat>(.m3);
+  static final _m7F = struct.scalar<double, RFloat>(.m7);
+  static final _m11F = struct.scalar<double, RFloat>(.m11);
+  static final _m15F = struct.scalar<double, RFloat>(.m15);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -42,96 +59,85 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  double _r(double def, MatrixField field) {
-    double v = def;
-    structOnOp((p) => v = p.readFloat(struct.offset(field)));
-    return v;
-  }
-
-  double _w(double value, MatrixField field) {
-    structOnOp((p) => p.writeFloat(value, struct.offset(field)));
-    return value;
-  }
-
   double _m0;
   /// Column 0, row 0
-  double get m0 => _m0 = _r(_m0, .m0);
-  set m0(double value) => _m0 = _w(value, .m0);
+  double get m0 => _m0 = _m0F.readOr(op?.ptr, _m0);
+  set m0(double value) => _m0 = _m0F.writeIf(op?.ptr, value);
   
   double _m1;
   /// Column 0, row 1
-  double get m1 => _m1 = _r(_m1, .m1);
-  set m1(double value) => _m1 = _w(value, .m1);
+  double get m1 => _m1 = _m1F.readOr(op?.ptr, _m1);
+  set m1(double value) => _m1 = _m1F.writeIf(op?.ptr, value);
   
   double _m2;
   /// Column 0, row 2
-  double get m2 => _m2 = _r(_m2, .m2);
-  set m2(double value) => _m2 = _w(value, .m2);
+  double get m2 => _m2 = _m2F.readOr(op?.ptr, _m2);
+  set m2(double value) => _m2 = _m2F.writeIf(op?.ptr, value);
   
   double _m3;
   /// Column 0, row 3
-  double get m3 => _m3 = _r(_m3, .m3);
-  set m3(double value) => _m3 = _w(value, .m3);
+  double get m3 => _m3 = _m3F.readOr(op?.ptr, _m3);
+  set m3(double value) => _m3 = _m3F.writeIf(op?.ptr, value);
 
   double _m4;
   /// Column 1, row 0
-  double get m4 => _m4 = _r(_m4, .m4);
-  set m4(double value) => _m4 = _w(value, .m4);
+  double get m4 => _m4 = _m4F.readOr(op?.ptr, _m4);
+  set m4(double value) => _m4 = _m4F.writeIf(op?.ptr, value);
 
   double _m5;
   /// Column 1, row 1
-  double get m5 => _m5 = _r(_m5, .m5);
-  set m5(double value) => _m5 = _w(value, .m5);
+  double get m5 => _m5 = _m5F.readOr(op?.ptr, _m5);
+  set m5(double value) => _m5 = _m5F.writeIf(op?.ptr, value);
 
   double _m6;
   /// Column 1, row 2
-  double get m6 => _m6 = _r(_m6, .m6);
-  set m6(double value) => _m6 = _w(value, .m6);
+  double get m6 => _m6 = _m6F.readOr(op?.ptr, _m6);
+  set m6(double value) => _m6 = _m6F.writeIf(op?.ptr, value);
   
   double _m7;
   /// Column 1, row 3
-  double get m7 => _m7 = _r(_m7, .m7);
-  set m7(double value) => _m7 = _w(value, .m7);
+  double get m7 => _m7 = _m7F.readOr(op?.ptr, _m7);
+  set m7(double value) => _m7 = _m7F.writeIf(op?.ptr, value);
 
   double _m8;
   /// Column 2, row 0
-  double get m8 => _m8 = _r(_m8, .m8);
-  set m8(double value) => _m8 = _w(value, .m8);
+  double get m8 => _m8 = _m8F.readOr(op?.ptr, _m8);
+  set m8(double value) => _m8 = _m8F.writeIf(op?.ptr, value);
   
   double _m9;
   /// Column 2, row 1
-  double get m9 => _m9 = _r(_m9, .m9);
-  set m9(double value) => _m9 = _w(value, .m9);
+  double get m9 => _m9 = _m9F.readOr(op?.ptr, _m9);
+  set m9(double value) => _m9 = _m9F.writeIf(op?.ptr, value);
   
   double _m10;
   /// Column 2, row 2
-  double get m10 => _m10 = _r(_m10, .m10);
-  set m10(double value) => _m10 = _w(value, .m10);
+  double get m10 => _m10 = _m10F.readOr(op?.ptr, _m10);
+  set m10(double value) => _m10 = _m10F.writeIf(op?.ptr, value);
 
   double _m11;
   /// Column 2, row 3
-  double get m11 => _m11 = _r(_m11, .m11);
-  set m11(double value) => _m11 = _w(value, .m11);
+  double get m11 => _m11 = _m11F.readOr(op?.ptr, _m11);
+  set m11(double value) => _m11 = _m11F.writeIf(op?.ptr, value);
   
   double _m12;
   /// Column 3, row 0 (translation X)
-  double get m12 => _m12 = _r(_m12, .m12);
-  set m12(double value) => _m12 = _w(value, .m12);
+  double get m12 => _m12 = _m12F.readOr(op?.ptr, _m12);
+  set m12(double value) => _m12 = _m12F.writeIf(op?.ptr, value);
   
   double _m13;
   /// Column 3, row 1 (translation Y)
-  double get m13 => _m13 = _r(_m13, .m13);
-  set m13(double value) => _m13 = _w(value, .m13);
+  double get m13 => _m13 = _m13F.readOr(op?.ptr, _m13);
+  set m13(double value) => _m13 = _m13F.writeIf(op?.ptr, value);
   
   double _m14;
   /// Column 3, row 2 (translation Z)
-  double get m14 => _m14 = _r(_m14, .m14);
-  set m14(double value) => _m14 = _w(value, .m14);
+  double get m14 => _m14 = _m14F.readOr(op?.ptr, _m14);
+  set m14(double value) => _m14 = _m14F.writeIf(op?.ptr, value);
   
   double _m15;
   /// Column 3, row 3
-  double get m15 => _m15 = _r(_m15, .m15);
-  set m15(double value) => _m15 = _w(value, .m15);
+  double get m15 => _m15 = _m15F.readOr(op?.ptr, _m15);
+  set m15(double value) => _m15 = _m15F.writeIf(op?.ptr, value);
 
   MatrixD({
     super.op,
@@ -164,7 +170,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  MatrixD setD(MatrixD o) {
+  MatrixD setDart(MatrixD o) {
     return set(
       o.m0, o.m1, o.m2, o.m3,
       o.m4, o.m5, o.m6, o.m7,
@@ -175,48 +181,48 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_m0, struct.offset(.m0));
-    p.writeFloat(_m4, struct.offset(.m4));
-    p.writeFloat(_m8, struct.offset(.m8));
-    p.writeFloat(_m12, struct.offset(.m12));
+    _m0F.write(p, _m0);
+    _m4F.write(p, _m4);
+    _m8F.write(p, _m8);
+    _m12F.write(p, _m12);
 
-    p.writeFloat(_m1, struct.offset(.m1));
-    p.writeFloat(_m5, struct.offset(.m5));
-    p.writeFloat(_m9, struct.offset(.m9));
-    p.writeFloat(_m13, struct.offset(.m13));
+    _m1F.write(p, _m1);
+    _m5F.write(p, _m5);
+    _m9F.write(p, _m9);
+    _m13F.write(p, _m13);
 
-    p.writeFloat(_m2, struct.offset(.m2));
-    p.writeFloat(_m6, struct.offset(.m6));
-    p.writeFloat(_m10, struct.offset(.m10));
-    p.writeFloat(_m14, struct.offset(.m14));
+    _m2F.write(p, _m2);
+    _m6F.write(p, _m6);
+    _m10F.write(p, _m10);
+    _m14F.write(p, _m14);
 
-    p.writeFloat(_m3, struct.offset(.m3));
-    p.writeFloat(_m7, struct.offset(.m7));
-    p.writeFloat(_m11, struct.offset(.m11));
-    p.writeFloat(_m15, struct.offset(.m15)); 
+    _m3F.write(p, _m3);
+    _m7F.write(p, _m7);
+    _m11F.write(p, _m11);
+    _m15F.write(p, _m15);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _m0 = p.readFloat(struct.offset(.m0));
-    _m4 = p.readFloat(struct.offset(.m4));
-    _m8 = p.readFloat(struct.offset(.m8));
-    _m12 = p.readFloat(struct.offset(.m12));
+    _m0 = _m0F.read(p);
+    _m4 = _m4F.read(p);
+    _m8 = _m8F.read(p);
+    _m12 = _m12F.read(p);
 
-    _m1 = p.readFloat(struct.offset(.m1));
-    _m5 = p.readFloat(struct.offset(.m5));
-    _m9 = p.readFloat(struct.offset(.m9));
-    _m13 = p.readFloat(struct.offset(.m13));
+    _m1 = _m1F.read(p);
+    _m5 = _m5F.read(p);
+    _m9 = _m9F.read(p);
+    _m13 = _m13F.read(p);
 
-    _m2 = p.readFloat(struct.offset(.m2));
-    _m6 = p.readFloat(struct.offset(.m6));
-    _m10 = p.readFloat(struct.offset(.m10));
-    _m14 = p.readFloat(struct.offset(.m14));
+    _m2 = _m2F.read(p);
+    _m6 = _m6F.read(p);
+    _m10 = _m10F.read(p);
+    _m14 = _m14F.read(p);
 
-    _m3 = p.readFloat(struct.offset(.m3));
-    _m7 = p.readFloat(struct.offset(.m7));
-    _m11 = p.readFloat(struct.offset(.m11));
-    _m15 = p.readFloat(struct.offset(.m15)); 
+    _m3 = _m3F.read(p);
+    _m7 = _m7F.read(p);
+    _m11 = _m11F.read(p);
+    _m15 = _m15F.read(p);
   }
 
   @override

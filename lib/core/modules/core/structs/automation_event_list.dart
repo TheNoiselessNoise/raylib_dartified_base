@@ -6,6 +6,8 @@ enum AutomationEventListField with StructFields {
   events,
 }
 
+// TODO: translate
+
 /// Automation event list
 class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
 

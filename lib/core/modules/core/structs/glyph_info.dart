@@ -33,6 +33,12 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, GlyphInfoD.new, GlyphInfoD.pointer);
 
+  static final _valueF = struct.scalar<int, RInt>(.value);
+  static final _offsetXF = struct.scalar<int, RInt>(.offsetX);
+  static final _offsetYF = struct.scalar<int, RInt>(.offsetY);
+  static final _advanceXF = struct.scalar<int, RInt>(.advanceX);
+  static final _imageF = struct.struct<ImageD>(.image, ImageD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -40,61 +46,31 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _value;
   /// Character value (Unicode)
-  int get value {
-    structOnOp((p) => _value = p.readInt(struct.offset(.value)));
-    return _value;
-  }
-  set value(int value) {
-    _value = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.value)));
-  }
-  
+  int get value => _value = _valueF.readOr(op?.ptr, _value);
+  set value(int value) => _value = _valueF.writeIf(op?.ptr, value);
+
   int _offsetX;
   /// Character offset X when drawing
-  int get offsetX {
-    structOnOp((p) => _offsetX = p.readInt(struct.offset(.offsetX)));
-    return _offsetX;
-  }
-  set offsetX(int value) {
-    _offsetX = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.offsetX)));
-  }
-  
+  int get offsetX => _offsetX = _offsetXF.readOr(op?.ptr, _offsetX);
+  set offsetX(int value) => _offsetX = _offsetXF.writeIf(op?.ptr, value);
+
   int _offsetY;
   /// Character offset Y when drawing
-  int get offsetY {
-    structOnOp((p) => _offsetY = p.readInt(struct.offset(.offsetY)));
-    return _offsetY;
-  }
-  set offsetY(int value) {
-    _offsetY = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.offsetY)));
-  }
-  
+  int get offsetY => _offsetY = _offsetYF.readOr(op?.ptr, _offsetY);
+  set offsetY(int value) => _offsetY = _offsetYF.writeIf(op?.ptr, value);
+
   int _advanceX;
   /// Character advance position X
-  int get advanceX {
-    structOnOp((p) => _advanceX = p.readInt(struct.offset(.advanceX)));
-    return _advanceX;
-  }
-  set advanceX(int value) {
-    _advanceX = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.advanceX)));
-  }
-  
+  int get advanceX => _advanceX = _advanceXF.readOr(op?.ptr, _advanceX);
+  set advanceX(int value) => _advanceX = _advanceXF.writeIf(op?.ptr, value);
+
   ImageD _image;
   /// Character image data
-  ImageD get image {
-    structOnOp((p) => _image.structReadFrom(p.offsetBy(struct.offset(.image))));
-    return _image;
-  }
-  set image(ImageD value) {
-    _image = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.image))));
-  }
+  ImageD get image => _image = _imageF.readOr(op?.ptr, _image);
+  set image(ImageD value) => _image = _imageF.writeIf(op?.ptr, value);
 
   GlyphInfoD({
     super.op,
@@ -113,31 +89,31 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   factory GlyphInfoD.zero() => .new();
 
   @override
-  GlyphInfoD setD(GlyphInfoD o) {
+  GlyphInfoD setDart(GlyphInfoD o) {
     value = o.value;
     offsetX = o.offsetX;
     offsetY = o.offsetY;
     advanceX = o.advanceX;
-    image.setD(o.image);
+    image.setDart(o.image);
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt(_value, struct.offset(.value));
-    p.writeInt(_offsetX, struct.offset(.offsetX));
-    p.writeInt(_offsetY, struct.offset(.offsetY));
-    p.writeInt(_advanceX, struct.offset(.advanceX));
-    _image.structWriteInto(p.offsetBy(struct.offset(.image)));
+    _valueF.write(p, _value);
+    _offsetXF.write(p, _offsetX);
+    _offsetYF.write(p, _offsetY);
+    _advanceXF.write(p, _advanceX);
+    _imageF.write(p, _image);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _value = p.readInt(struct.offset(.value));
-    _offsetX = p.readInt(struct.offset(.offsetX));
-    _offsetY = p.readInt(struct.offset(.offsetY));
-    _advanceX = p.readInt(struct.offset(.advanceX));
-    _image.structReadFrom(p.offsetBy(struct.offset(.image)));
+    _value = _valueF.read(p);
+    _offsetX = _offsetXF.read(p);
+    _offsetY = _offsetYF.read(p);
+    _advanceX = _advanceXF.read(p);
+    _image = _imageF.read(p);
   }
 
   @override

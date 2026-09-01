@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Raylib `MusicContextType` enum.
-enum MusicContextType {
+enum MusicContextType with RaylibEnum {
   /// `MUSIC_AUDIO_NONE`, no audio context loaded
   MUSIC_AUDIO_NONE(0),
   /// `MUSIC_AUDIO_WAV`, WAV audio context
@@ -22,6 +22,7 @@ enum MusicContextType {
   const MusicContextType(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [MusicContextType] for the given native [value].

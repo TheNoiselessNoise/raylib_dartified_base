@@ -7,6 +7,8 @@ enum RlDrawCallField with StructFields {
   textureId,
 }
 
+// TODO: translate
+
 /// Draw call type
 class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
@@ -98,7 +100,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   factory RlDrawCallD.zero() => .new();
 
   @override
-  RlDrawCallD setD(RlDrawCallD o) {
+  RlDrawCallD setDart(RlDrawCallD o) {
     mode = o.mode;
     vertexCount = o.vertexCount;
     vertexAlignment = o.vertexAlignment;

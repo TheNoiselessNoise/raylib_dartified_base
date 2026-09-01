@@ -32,6 +32,10 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector3D.new, Vector3D.pointer);
 
+  static final _xF = struct.scalar<double, RFloat>(.x);
+  static final _yF = struct.scalar<double, RFloat>(.y);
+  static final _zF = struct.scalar<double, RFloat>(.z);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -39,39 +43,21 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-
+  
   double _x;
   /// Vector x component
-  double get x {
-    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
-    return _x;
-  }
-  set x(double value) {
-    _x = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
-  }
+  double get x => _x = _xF.readOr(op?.ptr, _x);
+  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
 
   double _y;
   /// Vector y component
-  double get y {
-    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
-    return _y;
-  }
-  set y(double value) {
-    _y = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
-  }
+  double get y => _y = _yF.readOr(op?.ptr, _y);
+  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
 
   double _z;
   /// Vector z component
-  double get z {
-    structOnOp((p) => _z = p.readFloat(struct.offset(.z)));
-    return _z;
-  }
-  set z(double value) {
-    _z = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.z)));
-  }
+  double get z => _z = _zF.readOr(op?.ptr, _z);
+  set z(double value) => _z = _zF.writeIf(op?.ptr, value);
   
   Vector3D({
     super.op,
@@ -84,7 +70,6 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
     _z = z;
 
   factory Vector3D.zero() => .new();
-  factory Vector3D.one() => .vec3(1, 1, 1);
 
   factory Vector3D.vec3(
     num x,
@@ -97,20 +82,20 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   );
 
   @override
-  Vector3D setD(Vector3D o) => set(o.x, o.y, o.z);
+  Vector3D setDart(Vector3D o) => set(o.x, o.y, o.z);
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, struct.offset(.x));
-    p.writeFloat(_y, struct.offset(.y));
-    p.writeFloat(_z, struct.offset(.z));
+    _xF.write(p, _x);
+    _yF.write(p, _y);
+    _zF.write(p, _z);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(struct.offset(.x));
-    _y = p.readFloat(struct.offset(.y));
-    _z = p.readFloat(struct.offset(.z));
+    _x = _xF.read(p);
+    _y = _yF.read(p);
+    _z = _zF.read(p);
   }
 
   @override
@@ -339,12 +324,12 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   /// Orthonormalizes this vector against [o] using the Gram-Schmidt process.
   ///
-  /// Normalizes `this` in place via [setD], then returns a vector
+  /// Normalizes `this` in place via [setDart], then returns a vector
   /// perpendicular to the normalized `this` in the plane of `this` and [o].
   Vector3D orthoNormalize(Vector3D o) {
     final n1 = normalize();
     final vn1 = n1.crossProduct(o).normalize();
-    setD(n1);
+    setDart(n1);
     return vn1.crossProduct(n1);
   }
 

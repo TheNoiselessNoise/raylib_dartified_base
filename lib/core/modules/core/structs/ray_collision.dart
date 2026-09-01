@@ -31,6 +31,11 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayCollisionD.new, RayCollisionD.pointer);
 
+  static final _hitF = struct.scalar<bool, RBool>(.hit);
+  static final _distanceF = struct.scalar<double, RFloat>(.distance);
+  static final _pointF = struct.struct<Vector3D>(.point, Vector3D.pointer);
+  static final _normalF = struct.struct<Vector3D>(.normal, Vector3D.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -38,50 +43,26 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   bool _hit;
   /// Did the ray hit something?
-  bool get hit {
-    structOnOp((p) => _hit = p.readBool(struct.offset(.hit)));
-    return _hit;
-  }
-  set hit(bool value) {
-    _hit = value;
-    structOnOp((p) => p.writeBool(value, struct.offset(.hit)));
-  }
+  bool get hit => _hit = _hitF.readOr(op?.ptr, _hit);
+  set hit(bool value) => _hit = _hitF.writeIf(op?.ptr, value);
 
   double _distance;
   /// Distance to the nearest hit
-  double get distance {
-    structOnOp((p) => _distance = p.readFloat(struct.offset(.distance)));
-    return _distance;
-  }
-  set distance(double value) {
-    _distance = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.distance)));
-  }
-  
+  double get distance => _distance = _distanceF.readOr(op?.ptr, _distance);
+  set distance(double value) => _distance = _distanceF.writeIf(op?.ptr, value);
+
   Vector3D _point;
   /// Point of the nearest hit
-  Vector3D get point {
-    structOnOp((p) => _point.structReadFrom(p.offsetBy(struct.offset(.point))));
-    return _point;
-  }
-  set point(Vector3D value) {
-    _point = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.point))));
-  }
-  
+  Vector3D get point => _point = _pointF.readOr(op?.ptr, _point);
+  set point(Vector3D value) => _point = _pointF.writeIf(op?.ptr, value);
+
   Vector3D _normal;
   /// Surface normal of hit
-  Vector3D get normal {
-    structOnOp((p) => _normal.structReadFrom(p.offsetBy(struct.offset(.normal))));
-    return _normal;
-  }
-  set normal(Vector3D value) {
-    _normal = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.normal))));
-  }
+  Vector3D get normal => _normal = _normalF.readOr(op?.ptr, _normal);
+  set normal(Vector3D value) => _normal = _normalF.writeIf(op?.ptr, value);
 
   RayCollisionD({
     super.op,
@@ -98,28 +79,28 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   factory RayCollisionD.zero() => .new();
 
   @override
-  RayCollisionD setD(RayCollisionD o) {
+  RayCollisionD setDart(RayCollisionD o) {
     hit = o.hit;
     distance = o.distance;
-    point.setD(o.point);
-    normal.setD(o.normal);
+    point.setDart(o.point);
+    normal.setDart(o.normal);
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeBool(_hit, struct.offset(.hit));
-    p.writeFloat(_distance, struct.offset(.distance));
-    _point.structWriteInto(p.offsetBy(struct.offset(.point)));
-    _normal.structWriteInto(p.offsetBy(struct.offset(.normal)));
+    _hitF.write(p, _hit);
+    _distanceF.write(p, _distance);
+    _pointF.write(p, _point);
+    _normalF.write(p, _normal);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _hit = p.readBool(struct.offset(.hit));
-    _distance = p.readFloat(struct.offset(.distance));
-    _point.structReadFrom(p.offsetBy(struct.offset(.point)));
-    _normal.structReadFrom(p.offsetBy(struct.offset(.normal)));
+    _hit = _hitF.read(p);
+    _distance = _distanceF.read(p);
+    _point = _pointF.read(p);
+    _normal = _normalF.read(p);
   }
 
   @override

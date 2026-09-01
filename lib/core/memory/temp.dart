@@ -275,14 +275,14 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
       fromBuffer: (buf, offset, len) => buf.asFloat64List(offset, len),
     ));
 
-    _bScalar<RChar, RaylibTempScalarAllocator>(Char$);
-    _bScalar<RUnsignedChar, RaylibTempScalarAllocator>(UnsignedChar$);
-    _bScalar<RShort, RaylibTempScalarAllocator>(Short$);
-    _bScalar<RUnsignedShort, RaylibTempScalarAllocator>(UnsignedShort$);
-    _bScalar<RInt, RaylibTempScalarAllocator>(Int$);
-    _bScalar<RUnsignedInt, RaylibTempScalarAllocator>(UnsignedInt$);
-    _bScalar<RFloat, RaylibTempScalarAllocator>(Float$);
-    _bScalar<RDouble, RaylibTempScalarAllocator>(Double$);
+    _builtInScalarAllocators[RChar] = Char$;
+    _builtInScalarAllocators[RUnsignedChar] = UnsignedChar$;
+    _builtInScalarAllocators[RShort] = Short$;
+    _builtInScalarAllocators[RUnsignedShort] = UnsignedShort$;
+    _builtInScalarAllocators[RInt] = Int$;
+    _builtInScalarAllocators[RUnsignedInt] = UnsignedInt$;
+    _builtInScalarAllocators[RFloat] = Float$;
+    _builtInScalarAllocators[RDouble] = Double$;
   }
 
   // structs

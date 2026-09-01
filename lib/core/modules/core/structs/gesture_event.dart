@@ -7,6 +7,8 @@ enum GestureEventField with StructFields {
   position,
 }
 
+// TODO: translate
+
 /// Gesture event
 class GestureEventD extends RaylibStruct<GestureEventD> {
 
@@ -31,6 +33,12 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, GestureEventD.new, GestureEventD.pointer);
 
+  static final _touchActionF = struct.scalar<int, RInt>(.touchAction);
+  static final _pointCountF = struct.scalar<int, RInt>(.pointCount);
+  // TODO: this
+  // static final _pointIdF = struct.scalarArray<int, RInt>(.pointId);
+  // static final _positionF = struct.structArray<Vector2D>(.position, Vector2D.pointer);
+
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
   // ░██        ░██     ░██ ░██░██  ░██ ░██             ░██    
@@ -54,25 +62,16 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   // ░███████   ░██████████ ░██        
   
   TouchAction _touchAction;
-  TouchAction get touchAction {
-    structOnOp((p) => _touchAction = .fromValue(p.readInt(struct.offset(.touchAction))));
-    return _touchAction;
-  }
-  set touchAction(TouchAction value) {
-    _touchAction = value;
-    structOnOp((p) => p.writeInt(value.value, struct.offset(.touchAction)));
-  }
+  /// Touch action
+  TouchAction get touchAction => _touchAction = .fromValue(_touchActionF.readOr(op?.ptr, _touchAction.value));
+  set touchAction(TouchAction value) => _touchAction = .fromValue(_touchActionF.writeIf(op?.ptr, value.value));
 
   int _pointCount;
-  int get pointCount {
-    structOnOp((p) => _pointCount = p.readInt(struct.offset(.pointCount)));
-    return _pointCount;
-  }
-  set pointCount(int value) {
-    _pointCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.pointCount)));
-  }
+  /// Point count
+  int get pointCount => _pointCount = _pointCountF.readOr(op?.ptr, _pointCount);
+  set pointCount(int value) => _pointCount = _pointCountF.writeIf(op?.ptr, value);
 
+  // TOOD: live list
   late LiveListInlineScalar<int, RInt> _pointId;
   LiveListInlineScalar<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) {
@@ -80,6 +79,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
     _pointId.inner = value;
   }
 
+  // TOOD: live list
   late LiveListInlineStruct<Vector2D> _position;
   LiveListInlineStruct<Vector2D> get position => _position;
   set position(List<Vector2D> value) {
@@ -116,7 +116,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   factory GestureEventD.zero() => .new();
 
   @override
-  GestureEventD setD(GestureEventD o) {
+  GestureEventD setDart(GestureEventD o) {
     touchAction = o.touchAction;
     pointCount = o.pointCount;
     pointId = .from(o.pointId);
@@ -126,18 +126,28 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeInt(_touchAction.value, struct.offset(.touchAction));
-    p.writeInt(_pointCount, struct.offset(.pointCount));
-    p.offsetBy(struct.offset(.pointId)).cast<RInt>().writeArray(_pointId.inner);
-    Vector2D.pointer(p.offsetBy(struct.offset(.position))).writeArray(_position.inner);
+    // _touchActionF.write(p, _touchAction.value);
+    // _pointCountF.write(p, _pointCount);
+    // _pointIdF.write(p, _pointId);
+    // _positionF.write(p, _position);
+
+    // p.writeInt(_touchAction.value, struct.offset(.touchAction));
+    // p.writeInt(_pointCount, struct.offset(.pointCount));
+    // p.offsetBy(struct.offset(.pointId)).cast<RInt>().writeArray(_pointId.inner);
+    // Vector2D.pointer(p.offsetBy(struct.offset(.position))).writeArray(_position.inner);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _touchAction = .fromValue(p.readInt(struct.offset(.touchAction)));
-    _pointCount = p.readInt(struct.offset(.pointCount));
-    _pointId.raw = p.offsetBy(struct.offset(.pointId)).cast<RInt>().readArray(maxTouchPoints);
-    _position.raw = Vector2D.pointer(p.offsetBy(struct.offset(.position))).readArray(maxTouchPoints);
+    // _touchAction = _touchActionF.read(p);
+    // _pointCount = _pointCountF.read(p);
+    // _pointId = _pointIdF.read(p);
+    // _position = _positionF.read(p);
+
+    // _touchAction = .fromValue(p.readInt(struct.offset(.touchAction)));
+    // _pointCount = p.readInt(struct.offset(.pointCount));
+    // _pointId.raw = p.offsetBy(struct.offset(.pointId)).cast<RInt>().readArray(maxTouchPoints);
+    // _position.raw = Vector2D.pointer(p.offsetBy(struct.offset(.position))).readArray(maxTouchPoints);
   }
 
   @override

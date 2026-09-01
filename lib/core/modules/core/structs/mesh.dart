@@ -19,6 +19,8 @@ enum MeshField with StructFields {
   vboId,
 }
 
+// TODO: translate
+
 /// Mesh, vertex data and vao/vbo
 class MeshD extends RaylibStruct<MeshD> {
 
@@ -458,7 +460,7 @@ class MeshD extends RaylibStruct<MeshD> {
   factory MeshD.zero() => .new();
 
   @override
-  MeshD setD(MeshD o) {
+  MeshD setDart(MeshD o) {
     vertexCount = o.vertexCount;
     triangleCount = o.triangleCount;
     boneCount = o.boneCount;

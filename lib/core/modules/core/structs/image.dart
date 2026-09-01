@@ -8,6 +8,8 @@ enum ImageField with StructFields {
   format,
 }
 
+// TODO: translate
+
 /// Image, pixel data stored in CPU memory (RAM)
 class ImageD extends RaylibStruct<ImageD> {
 
@@ -205,7 +207,7 @@ class ImageD extends RaylibStruct<ImageD> {
   factory ImageD.zero() => .new();
 
   @override
-  ImageD setD(ImageD o) {
+  ImageD setDart(ImageD o) {
     width = o.width;
     height = o.height;
     mipmaps = o.mipmaps;

@@ -33,6 +33,12 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera3DD.new, Camera3DD.pointer);
 
+  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
+  static final _targetF = struct.struct<Vector3D>(.target, Vector3D.pointer);
+  static final _upF = struct.struct<Vector3D>(.up, Vector3D.pointer);
+  static final _fovyF = struct.scalar<double, RFloat>(.fovy);
+  static final _projectionF = struct.scalar<int, RInt>(.projection);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -40,61 +46,31 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   Vector3D _position;
   /// Camera position
-  Vector3D get position {
-    structOnOp((p) => _position.structReadFrom(p.offsetBy(struct.offset(.position))));
-    return _position;
-  }
-  set position(Vector3D value) {
-    _position = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.position))));
-  }
-  
+  Vector3D get position => _position = _positionF.readOr(op?.ptr, _position);
+  set position(Vector3D value) => _position = _positionF.writeIf(op?.ptr, value);
+
   Vector3D _target;
   /// Camera target it looks-at
-  Vector3D get target {
-    structOnOp((p) => _target.structReadFrom(p.offsetBy(struct.offset(.target))));
-    return _target;
-  }
-  set target(Vector3D value) {
-    _target = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.target))));
-  }
-  
+  Vector3D get target => _target = _targetF.readOr(op?.ptr, _target);
+  set target(Vector3D value) => _target = _targetF.writeIf(op?.ptr, value);
+
   Vector3D _up;
   /// Camera up vector (rotation over its axis)
-  Vector3D get up {
-    structOnOp((p) => _up.structReadFrom(p.offsetBy(struct.offset(.up))));
-    return _up;
-  }
-  set up(Vector3D value) {
-    _up = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.up))));
-  }
-  
+  Vector3D get up => _up = _upF.readOr(op?.ptr, _up);
+  set up(Vector3D value) => _up = _upF.writeIf(op?.ptr, value);
+
   double _fovy;
   /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
-  double get fovy {
-    structOnOp((p) => _fovy = p.readFloat(struct.offset(.fovy)));
-    return _fovy;
-  }
-  set fovy(double value) {
-    _fovy = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.fovy)));
-  }
-  
+  double get fovy => _fovy = _fovyF.readOr(op?.ptr, _fovy);
+  set fovy(double value) => _fovy = _fovyF.writeIf(op?.ptr, value);
+
   CameraProjection _projection;
   /// Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
-  CameraProjection get projection {
-    structOnOp((p) => _projection = .fromValue(p.readInt(struct.offset(.projection))));
-    return _projection;
-  }
-  set projection(CameraProjection value) {
-    _projection = value;
-    structOnOp((p) => p.writeInt(value.value, struct.offset(.projection)));
-  }
+  CameraProjection get projection => _projection = .fromValue(_projectionF.readOr(op?.ptr, _projection.value));
+  set projection(CameraProjection value) => _projection = .fromValue(_projectionF.writeIf(op?.ptr, value.value));
 
   Camera3DD({
     super.op,
@@ -113,10 +89,10 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   factory Camera3DD.zero() => .new();
 
   @override
-  Camera3DD setD(Camera3DD o) {
-    position.setD(o.position);
-    target.setD(o.target);
-    up.setD(o.up);
+  Camera3DD setDart(Camera3DD o) {
+    position.setDart(o.position);
+    target.setDart(o.target);
+    up.setDart(o.up);
     fovy = o.fovy;
     projection = o.projection;
     return this;
@@ -124,20 +100,20 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _position.structWriteInto(p.offsetBy(struct.offset(.position)));
-    _target.structWriteInto(p.offsetBy(struct.offset(.target)));
-    _up.structWriteInto(p.offsetBy(struct.offset(.up)));
-    p.writeFloat(_fovy, struct.offset(.fovy));
-    p.writeInt(_projection.value, struct.offset(.projection));
+    _positionF.write(p, _position);
+    _targetF.write(p, _target);
+    _upF.write(p, _up);
+    _fovyF.write(p, _fovy);
+    _projectionF.write(p, _projection.value);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _position.structReadFrom(p.offsetBy(struct.offset(.position)));
-    _target.structReadFrom(p.offsetBy(struct.offset(.target)));
-    _up.structReadFrom(p.offsetBy(struct.offset(.up)));
-    _fovy = p.readFloat(struct.offset(.fovy));
-    _projection = .fromValue(p.readInt(struct.offset(.projection)));
+    _position = _positionF.read(p);
+    _target = _targetF.read(p);
+    _up = _upF.read(p);
+    _fovy = _fovyF.read(p);
+    _projection = .fromValue(_projectionF.read(p));
   }
 
   @override

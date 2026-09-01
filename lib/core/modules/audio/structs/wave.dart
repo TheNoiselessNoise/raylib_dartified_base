@@ -8,6 +8,8 @@ enum WaveField with StructFields {
   data,
 }
 
+// TODO: translate
+
 /// Wave, audio wave data
 class WaveD extends RaylibStruct<WaveD> {
 
@@ -168,7 +170,7 @@ class WaveD extends RaylibStruct<WaveD> {
   factory WaveD.zero() => .new();
 
   @override
-  WaveD setD(WaveD o) {
+  WaveD setDart(WaveD o) {
     frameCount = o.frameCount;
     sampleRate = o.sampleRate;
     sampleSize = o.sampleSize;

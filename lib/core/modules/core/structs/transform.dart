@@ -29,6 +29,10 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, TransformD.new, TransformD.pointer);
 
+  static final _translationF = struct.struct<Vector3D>(.translation, Vector3D.pointer);
+  static final _rotationF = struct.struct<QuaternionD>(.rotation, QuaternionD.pointer);
+  static final _scaleF = struct.struct<Vector3D>(.scale, Vector3D.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -39,36 +43,18 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   Vector3D _translation;
   /// Translation
-  Vector3D get translation {
-    structOnOp((p) => _translation.structReadFrom(p.offsetBy(struct.offset(.translation))));
-    return _translation;
-  }
-  set translation(Vector3D value) {
-    _translation = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.translation))));
-  }
+  Vector3D get translation => _translation = _translationF.readOr(op?.ptr, _translation);
+  set translation(Vector3D value) => _translation = _translationF.writeIf(op?.ptr, value);
 
   QuaternionD _rotation;
   /// Rotation
-  QuaternionD get rotation {
-    structOnOp((p) => _rotation.structReadFrom(p.offsetBy(struct.offset(.rotation))));
-    return _rotation;
-  }
-  set rotation(QuaternionD value) {
-    _rotation = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.rotation))));
-  }
+  QuaternionD get rotation => _rotation = _rotationF.readOr(op?.ptr, _rotation);
+  set rotation(QuaternionD value) => _rotation = _rotationF.writeIf(op?.ptr, value);
 
   Vector3D _scale;
   /// Scale
-  Vector3D get scale {
-    structOnOp((p) => _scale.structReadFrom(p.offsetBy(struct.offset(.scale))));
-    return _scale;
-  }
-  set scale(Vector3D value) {
-    _scale = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.scale))));
-  }
+  Vector3D get scale => _scale = _scaleF.readOr(op?.ptr, _scale);
+  set scale(Vector3D value) => _scale = _scaleF.writeIf(op?.ptr, value);
   
   TransformD({
     super.op,
@@ -83,25 +69,25 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   factory TransformD.zero() => .new();
 
   @override
-  TransformD setD(TransformD o) {
-    translation.setD(o.translation);
-    rotation.setD(o.rotation);
-    scale.setD(o.scale);
+  TransformD setDart(TransformD o) {
+    translation.setDart(o.translation);
+    rotation.setDart(o.rotation);
+    scale.setDart(o.scale);
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _translation.structWriteInto(p.offsetBy(struct.offset(.translation)));
-    _rotation.structWriteInto(p.offsetBy(struct.offset(.rotation)));
-    _scale.structWriteInto(p.offsetBy(struct.offset(.scale)));
+    _translationF.write(p, _translation);
+    _rotationF.write(p, _rotation);
+    _scaleF.write(p, _scale);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _translation.structReadFrom(p.offsetBy(struct.offset(.translation)));
-    _rotation.structReadFrom(p.offsetBy(struct.offset(.rotation)));
-    _scale.structReadFrom(p.offsetBy(struct.offset(.scale)));
+    _translation = _translationF.read(p);
+    _rotation = _rotationF.read(p);
+    _scale = _scaleF.read(p);
   }
 
   @override

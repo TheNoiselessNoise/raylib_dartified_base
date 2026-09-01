@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Rlgl `DrawMode` enum.
-enum RlDrawMode {
+enum RlDrawMode with RaylibEnum {
   /// `RL_NONE` (for uninitialized [RlDrawCallD] slots only)
   RL_NONE(0),
   /// `RL_LINES`
@@ -14,6 +14,7 @@ enum RlDrawMode {
   const RlDrawMode(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlDrawMode] for the given native [value].
@@ -28,7 +29,7 @@ enum RlDrawMode {
 }
 
 /// Rlgl `ShaderType` enum.
-enum RlShaderType {
+enum RlShaderType with RaylibEnum {
   /// `RL_FRAGMENT_SHADER`
   RL_FRAGMENT_SHADER(0x8B30),
   /// `RL_VERTEX_SHADER`
@@ -39,6 +40,7 @@ enum RlShaderType {
   const RlShaderType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlShaderType] for the given native [value].
@@ -53,7 +55,7 @@ enum RlShaderType {
 }
 
 /// Rlgl `UsageHint` enum.
-enum RlUsageHint {
+enum RlUsageHint with RaylibEnum {
   /// `RL_STREAM_DRAW`
   RL_STREAM_DRAW(0x88E0),
   /// `RL_STREAM_READ`
@@ -76,6 +78,7 @@ enum RlUsageHint {
   const RlUsageHint(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlUsageHint] for the given native [value].
@@ -96,7 +99,7 @@ enum RlUsageHint {
 }
 
 /// Rlgl `MatrixMode` enum.
-enum RlMatrixMode {
+enum RlMatrixMode with RaylibEnum {
   /// `RL_MODELVIEW`
   RL_MODELVIEW(0x1700),
   /// `RL_PROJECTION`
@@ -107,6 +110,7 @@ enum RlMatrixMode {
   const RlMatrixMode(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlMatrixMode] for the given native [value].
@@ -121,7 +125,7 @@ enum RlMatrixMode {
 }
 
 /// Rlgl `GlVersion` enum.
-enum RlGlVersion {
+enum RlGlVersion with RaylibEnum {
   /// `RL_OPENGL_11`
   RL_OPENGL_11(1),
   /// `RL_OPENGL_21`
@@ -138,6 +142,7 @@ enum RlGlVersion {
   const RlGlVersion(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlGlVersion] for the given native [value].
@@ -155,7 +160,7 @@ enum RlGlVersion {
 }
 
 /// Rlgl `ShaderUniformDataType` enum.
-enum RlShaderUniformDataType {
+enum RlShaderUniformDataType with RaylibEnum {
   /// `RL_SHADER_UNIFORM_FLOAT`
   RL_SHADER_UNIFORM_FLOAT(0),
   /// `RL_SHADER_UNIFORM_VEC2`
@@ -186,6 +191,7 @@ enum RlShaderUniformDataType {
   const RlShaderUniformDataType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlShaderUniformDataType] for the given native [value].
@@ -210,7 +216,7 @@ enum RlShaderUniformDataType {
 }
 
 /// Rlgl `ShaderAttributeDataType` enum.
-enum RlShaderAttributeDataType {
+enum RlShaderAttributeDataType with RaylibEnum {
   /// `RL_SHADER_ATTRIB_FLOAT`
   RL_SHADER_ATTRIB_FLOAT(0),
   /// `RL_SHADER_ATTRIB_VEC2`
@@ -223,6 +229,7 @@ enum RlShaderAttributeDataType {
   const RlShaderAttributeDataType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlShaderAttributeDataType] for the given native [value].
@@ -238,7 +245,7 @@ enum RlShaderAttributeDataType {
 }
 
 /// Rlgl `FramebufferAttachType` enum.
-enum RlFramebufferAttachType {
+enum RlFramebufferAttachType with RaylibEnum {
   /// `RL_ATTACHMENT_COLOR_CHANNEL0`
   RL_ATTACHMENT_COLOR_CHANNEL0(0),
   /// `RL_ATTACHMENT_COLOR_CHANNEL1`
@@ -263,6 +270,7 @@ enum RlFramebufferAttachType {
   const RlFramebufferAttachType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlFramebufferAttachType] for the given native [value].
@@ -284,7 +292,7 @@ enum RlFramebufferAttachType {
 }
 
 /// Rlgl `FramebufferAttachTextureType` enum.
-enum RlFramebufferAttachTextureType {
+enum RlFramebufferAttachTextureType with RaylibEnum {
   /// `RL_ATTACHMENT_CUBEMAP_POSITIVE_X`
   RL_ATTACHMENT_CUBEMAP_POSITIVE_X(0),
   /// `RL_ATTACHMENT_CUBEMAP_NEGATIVE_X`
@@ -305,6 +313,7 @@ enum RlFramebufferAttachTextureType {
   const RlFramebufferAttachTextureType(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlFramebufferAttachTextureType] for the given native [value].
@@ -324,7 +333,7 @@ enum RlFramebufferAttachTextureType {
 }
 
 /// Rlgl `CullMode` enum.
-enum RlCullMode {
+enum RlCullMode with RaylibEnum {
   /// `RL_CULL_FACE_FRONT`
   RL_CULL_FACE_FRONT(0),
   /// `RL_CULL_FACE_BACK`
@@ -333,6 +342,7 @@ enum RlCullMode {
   const RlCullMode(this.value);
   
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [RlCullMode] for the given native [value].

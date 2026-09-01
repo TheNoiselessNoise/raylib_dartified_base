@@ -49,19 +49,19 @@ class LightD extends RaylibStruct<LightD> {
   static StructPointer<LightD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, LightD.new, LightD.pointer);
 
-  static final _typeF = struct.field<int>(.type);
-  static final _enabledF = struct.field<bool>(.enabled);
-  static final _positionF = struct.structField<Vector3D>(.position, Vector3D.pointer);
-  static final _targetF = struct.structField<Vector3D>(.target, Vector3D.pointer);
-  static final _colorF = struct.structField<ColorD>(.color, ColorD.pointer);
-  static final _attenuationF = struct.field<double>(.attenuation);
+  static final _typeF = struct.scalar<int, RInt>(.type);
+  static final _enabledF = struct.scalar<bool, RBool>(.enabled);
+  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
+  static final _targetF = struct.struct<Vector3D>(.target, Vector3D.pointer);
+  static final _colorF = struct.struct<ColorD>(.color, ColorD.pointer);
+  static final _attenuationF = struct.scalar<double, RFloat>(.attenuation);
   
-  static final _enabledLocF = struct.field<int>(.enabledLoc);
-  static final _typeLocF = struct.field<int>(.typeLoc);
-  static final _positionLocF = struct.field<int>(.positionLoc);
-  static final _targetLocF = struct.field<int>(.targetLoc);
-  static final _colorLocF = struct.field<int>(.colorLoc);
-  static final _attenuationLocF = struct.field<int>(.attenuationLoc);
+  static final _enabledLocF = struct.scalar<int, RInt>(.enabledLoc);
+  static final _typeLocF = struct.scalar<int, RInt>(.typeLoc);
+  static final _positionLocF = struct.scalar<int, RInt>(.positionLoc);
+  static final _targetLocF = struct.scalar<int, RInt>(.targetLoc);
+  static final _colorLocF = struct.scalar<int, RInt>(.colorLoc);
+  static final _attenuationLocF = struct.scalar<int, RInt>(.attenuationLoc);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -162,12 +162,12 @@ class LightD extends RaylibStruct<LightD> {
   factory LightD.zero() => .new();
 
   @override
-  LightD setD(LightD o) {
+  LightD setDart(LightD o) {
     type = o.type;
     enabled = o.enabled;
-    position.setD(o.position);
-    target.setD(o.target);
-    color.setD(o.color);
+    position.setDart(o.position);
+    target.setDart(o.target);
+    color.setDart(o.color);
     attenuation = o.attenuation;
     enabledLoc = o.enabledLoc;
     typeLoc = o.typeLoc;

@@ -34,6 +34,11 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   static StructPointer<Vector4D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector4D.new, Vector4D.pointer);
 
+  static final _xF = struct.scalar<double, RFloat>(.x);
+  static final _yF = struct.scalar<double, RFloat>(.y);
+  static final _zF = struct.scalar<double, RFloat>(.z);
+  static final _wF = struct.scalar<double, RFloat>(.w);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -44,47 +49,23 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   
   double _x;
   /// Vector x component
-  double get x {
-    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
-    return _x;
-  }
-  set x(double value) {
-    _x = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
-  }
+  double get x => _x = _xF.readOr(op?.ptr, _x);
+  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
 
   double _y;
   /// Vector y component
-  double get y {
-    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
-    return _y;
-  }
-  set y(double value) {
-    _y = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
-  }
+  double get y => _y = _yF.readOr(op?.ptr, _y);
+  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
 
   double _z;
   /// Vector z component
-  double get z {
-    structOnOp((p) => _z = p.readFloat(struct.offset(.z)));
-    return _z;
-  }
-  set z(double value) {
-    _z = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.z)));
-  }
+  double get z => _z = _zF.readOr(op?.ptr, _z);
+  set z(double value) => _z = _zF.writeIf(op?.ptr, value);
 
   double _w;
   /// Vector w component
-  double get w {
-    structOnOp((p) => _w = p.readFloat(struct.offset(.w)));
-    return _w;
-  }
-  set w(double value) {
-    _w = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.w)));
-  }
+  double get w => _w = _wF.readOr(op?.ptr, _w);
+  set w(double value) => _w = _wF.writeIf(op?.ptr, value);
 
   Vector4D({
     super.op,
@@ -99,7 +80,6 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
     _w = w;
 
   factory Vector4D.zero() => .new();
-  factory Vector4D.one() => .vec4(1, 1, 1, 1);
 
   factory Vector4D.vec4(
     num x,
@@ -114,22 +94,22 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   );
 
   @override
-  Vector4D setD(Vector4D o) => set(o.x, o.y, o.z, o.w);
+  Vector4D setDart(Vector4D o) => set(o.x, o.y, o.z, o.w);
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, struct.offset(.x));
-    p.writeFloat(_y, struct.offset(.y));
-    p.writeFloat(_z, struct.offset(.z));
-    p.writeFloat(_w, struct.offset(.w));
+    _xF.write(p, _x);
+    _yF.write(p, _y);
+    _zF.write(p, _z);
+    _wF.write(p, _w);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(struct.offset(.x));
-    _y = p.readFloat(struct.offset(.y));
-    _z = p.readFloat(struct.offset(.z));
-    _w = p.readFloat(struct.offset(.w));
+    _x = _xF.read(p);
+    _y = _yF.read(p);
+    _z = _zF.read(p);
+    _w = _wF.read(p);
   }
 
   @override

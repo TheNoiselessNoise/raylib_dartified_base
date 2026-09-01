@@ -7,6 +7,8 @@ enum ModelAnimationField with StructFields {
   keyframePoses,
 }
 
+// TODO: translate
+
 /// ModelAnimation, contains a full animation sequence
 class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
 
@@ -123,7 +125,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   factory ModelAnimationD.zero() => .new();
 
   @override
-  ModelAnimationD setD(ModelAnimationD o) {
+  ModelAnimationD setDart(ModelAnimationD o) {
     keyframePoses = .from(o.keyframePoses); 
     name = o.name;
     return this;

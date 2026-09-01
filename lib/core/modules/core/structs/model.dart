@@ -9,8 +9,10 @@ enum ModelField with StructFields {
   meshMaterial,
   skeleton,
   currentPose,
-  boneMatrices
+  boneMatrices,
 }
+
+// TODO: translate
 
 /// Model, meshes, materials and animation data
 class ModelD extends RaylibStruct<ModelD> {
@@ -184,8 +186,8 @@ class ModelD extends RaylibStruct<ModelD> {
   factory ModelD.zero() => .new();
 
   @override
-  ModelD setD(ModelD o) {
-    transform.setD(o.transform);
+  ModelD setDart(ModelD o) {
+    transform.setDart(o.transform);
     meshes = .from(o.meshes);
     materials = .from(o.materials);
     meshMaterial = .from(o.meshMaterial);

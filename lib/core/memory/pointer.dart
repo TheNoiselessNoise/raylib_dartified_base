@@ -36,6 +36,9 @@ sealed class RType {
   void write<V>(MemoryPointer p, int offset, V? value);
 }
 
+/// Marker type for any int-like [RType]s.
+mixin RTypeIntLike on RType {}
+
 final class RArray<E extends RType> extends RType {
   final E element;
   final int count;
@@ -125,7 +128,7 @@ final class RPointer<X extends RType> extends RType {
 }
 
 /// Unsigned pointer-sized integer. Maps to C `size_t`.
-final class RSize extends RType {
+final class RSize extends RType with RTypeIntLike {
   const RSize();
 
   @override
@@ -159,7 +162,7 @@ final class RBool extends RType {
 }
 
 /// Signed 8-bit integer. Maps to C `int8_t`.
-final class RInt8 extends RType {
+final class RInt8 extends RType with RTypeIntLike {
   const RInt8();
 
   static final int scalarByteSize = 1;
@@ -177,7 +180,7 @@ final class RInt8 extends RType {
 }
 
 /// Unsigned 8-bit integer. Maps to C `uint8_t`.
-final class RUint8 extends RType {
+final class RUint8 extends RType with RTypeIntLike {
   const RUint8();
 
   static final int scalarByteSize = 1;
@@ -195,7 +198,7 @@ final class RUint8 extends RType {
 }
 
 /// Signed 16-bit integer. Maps to C `int16_t`.
-final class RInt16 extends RType {
+final class RInt16 extends RType with RTypeIntLike {
   const RInt16();
 
   static final int scalarByteSize = 2;
@@ -213,7 +216,7 @@ final class RInt16 extends RType {
 }
 
 /// Unsigned 16-bit integer. Maps to C `uint16_t`.
-final class RUint16 extends RType {
+final class RUint16 extends RType with RTypeIntLike {
   const RUint16();
 
   static final int scalarByteSize = 2;
@@ -231,7 +234,7 @@ final class RUint16 extends RType {
 }
 
 /// Signed 32-bit integer. Maps to C `int32_t`.
-final class RInt32 extends RType {
+final class RInt32 extends RType with RTypeIntLike {
   const RInt32();
 
   static final int scalarByteSize = 4;
@@ -249,7 +252,7 @@ final class RInt32 extends RType {
 }
 
 /// Unsigned 32-bit integer. Maps to C `uint32_t`.
-final class RUint32 extends RType {
+final class RUint32 extends RType with RTypeIntLike {
   const RUint32();
 
   static final int scalarByteSize = 4;
@@ -267,7 +270,7 @@ final class RUint32 extends RType {
 }
 
 /// Signed 64-bit integer. Maps to C `int64_t`.
-final class RInt64 extends RType {
+final class RInt64 extends RType with RTypeIntLike {
   const RInt64();
 
   static final int scalarByteSize = 8;
@@ -285,7 +288,7 @@ final class RInt64 extends RType {
 }
 
 /// Unsigned 64-bit integer. Maps to C `uint64_t`.
-final class RUint64 extends RType {
+final class RUint64 extends RType with RTypeIntLike {
   const RUint64();
 
   static final int scalarByteSize = 8;
@@ -443,15 +446,18 @@ extension Utf8StringPointer on MemoryPointer<RInt8> {
     return utf8.decode(readBytes(startOffset, end - startOffset));
   }
 
-  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
-  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
-  /// and zero-pads the remainder.
-  void writeString(String text, int maxLength, [int byteOffset = 0]) {
+  /// Writes [text] into a buffer field at `address + byteOffset`. If
+  /// [maxLength] is null, it's derived from the UTF-8 byte length of [text]
+  /// (caller is responsible for the field actually being that size).
+  /// Truncates if [text] exceeds [maxLength]; otherwise NUL-terminates and
+  /// zero-pads the remainder.
+  void writeString(String text, [int? maxLength, int byteOffset = 0]) {
     final bytes = utf8.encode(text);
-    final writeLen = bytes.length < maxLength ? bytes.length : maxLength;
-    final dst = offsetBy(byteOffset).asView<Uint8List>(maxLength);
+    final len = maxLength ?? bytes.length;
+    final writeLen = bytes.length < len ? bytes.length : len;
+    final dst = offsetBy(byteOffset).asView<Uint8List>(len);
     dst.setRange(0, writeLen, bytes);
-    dst.fillRange(writeLen, maxLength, 0);
+    dst.fillRange(writeLen, len, 0);
   }
 }
 
@@ -503,14 +509,17 @@ extension Utf16StringPointer on MemoryPointer<RInt16> {
     return String.fromCharCodes(units);
   }
 
-  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
-  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
-  /// and zero-pads the remainder.
-  /// 
-  /// [maxLength] is in UTF-16 code units, not bytes.
-  void writeString(String text, int maxLength, [int elementOffset = 0]) {
+  /// Writes [text] into a buffer field at `address + elementOffset*2`. If
+  /// [maxLength] is null, it's derived from the UTF-16 code unit length of
+  /// [text] (caller is responsible for the field actually being that size).
+  ///
+  /// [maxLength] is in UTF-16 code units, not bytes. Truncates if [text]
+  /// exceeds [maxLength]; otherwise NUL-terminates and zero-pads the
+  /// remainder.
+  void writeString(String text, [int? maxLength, int elementOffset = 0]) {
     var units = text.codeUnits; // List<int>, one per UTF-16 code unit
-    var writeLen = units.length < maxLength ? units.length : maxLength;
+    var len = maxLength ?? units.length;
+    var writeLen = units.length < len ? units.length : len;
 
     // Don't leave a lone leading surrogate at the truncation boundary.
     if (
@@ -518,9 +527,9 @@ extension Utf16StringPointer on MemoryPointer<RInt16> {
       writeLen > 0 && _isHighSurrogate(units[writeLen - 1])
     ) writeLen--;
 
-    final dst = offsetBy(elementOffset * 2).asView<Uint16List>(maxLength);
+    final dst = offsetBy(elementOffset * 2).asView<Uint16List>(len);
     dst.setRange(0, writeLen, units);
-    dst.fillRange(writeLen, maxLength, 0);
+    dst.fillRange(writeLen, len, 0);
   }
 
   bool _isHighSurrogate(int u) => u >= 0xD800 && u <= 0xDBFF;
@@ -572,17 +581,21 @@ extension Utf32StringPointer on MemoryPointer<RInt32> {
     return .fromCharCodes(runes);
   }
 
-  /// Writes [text] into a fixed-size [maxLength]-byte buffer field at
-  /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
-  /// and zero-pads the remainder.
-  /// 
-  /// [maxLength] is in UTF-32 code units (runes), not bytes.
-  void writeString(String text, int maxLength, [int elementOffset = 0]) {
+  /// Writes [text] into a buffer field at `address + elementOffset*4`. If
+  /// [maxLength] is null, it's derived from the UTF-32 code unit (rune)
+  /// length of [text] (caller is responsible for the field actually being
+  /// that size).
+  ///
+  /// [maxLength] is in UTF-32 code units (runes), not bytes. Truncates if
+  /// [text] exceeds [maxLength]; otherwise NUL-terminates and zero-pads the
+  /// remainder.
+  void writeString(String text, [int? maxLength, int elementOffset = 0]) {
     final runes = text.runes.toList(); // full scalar values, no surrogates
-    final writeLen = runes.length < maxLength ? runes.length : maxLength;
-    final dst = offsetBy(elementOffset * 4).asView<Uint32List>(maxLength);
+    final len = maxLength ?? runes.length;
+    final writeLen = runes.length < len ? runes.length : len;
+    final dst = offsetBy(elementOffset * 4).asView<Uint32List>(len);
     dst.setRange(0, writeLen, runes);
-    dst.fillRange(writeLen, maxLength, 0);
+    dst.fillRange(writeLen, len, 0);
   }
 }
 
@@ -961,20 +974,23 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// See [MemoryPointer.hex].
   String get hex => ptr.hex;
 
-  late D _ref;
-  int? _lastAddress;
+  late final D _ref = create(op: this)..structSyncFromMemory();
 
   /// Live view, mutations write through immediately.
-  D get ref {
-    if (ptr.address == _lastAddress) return _ref;
-    _lastAddress = ptr.address;
-    final value = create(op: this)..structSyncFromMemory();
-    if (!value.structRequiresOp) value.op = null;
-    return _ref = value;
-  }
+  D get ref => _ref;
   
   /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
-  set ref(D v) => ref.setD(v);
+  set ref(D v) => _copyOrWrite(ptr, v);
+
+  void _copyOrWrite(MemoryPointer<RStruct> dst, D v) {
+    final src = v.op;
+    if (src != null) {
+      if (src.address == dst.address) return;
+      dst.copyBytesFrom(src.ptr, struct.byteSize);
+    } else {
+      v.structWriteInto(dst);
+    }
+  }
 
   D _getAtIndex(int i, {bool owned = true}) {
     final inner = ptr.offsetBy(i * struct.byteSize).cast<RStruct>();
@@ -998,7 +1014,8 @@ final class StructPointer<D extends RaylibStruct<D>> {
   ///
   /// This copies the value into memory and does not attach [v] to the
   /// destination memory location.
-  void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * struct.byteSize));
+  // void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * struct.byteSize));
+  void operator []=(int i, D v) => _copyOrWrite(ptr.offsetBy(i * struct.byteSize), v);
 
   /// Writes [items] sequentially into the memory referenced by this pointer.
   ///
@@ -1006,7 +1023,7 @@ final class StructPointer<D extends RaylibStruct<D>> {
   /// capacity.
   void writeArray(List<D> items) {
     for (var i = 0; i < items.length; i++) {
-      items[i].structWriteInto(ptr.offsetBy(i * struct.byteSize));
+      _copyOrWrite(ptr.offsetBy(i * struct.byteSize), items[i]);
     }
   }
 

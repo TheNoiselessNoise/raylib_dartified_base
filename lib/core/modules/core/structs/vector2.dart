@@ -30,6 +30,9 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector2D.new, Vector2D.pointer);
 
+  static final _xF = struct.scalar<double, RFloat>(.x);
+  static final _yF = struct.scalar<double, RFloat>(.y);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -40,25 +43,13 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   
   double _x;
   /// Vector x component
-  double get x {
-    structOnOp((p) => _x = p.readFloat(struct.offset(.x)));
-    return _x;
-  }
-  set x(double value) {
-    _x = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.x)));
-  }
+  double get x => _x = _xF.readOr(op?.ptr, _x);
+  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
 
   double _y;
   /// Vector y component
-  double get y {
-    structOnOp((p) => _y = p.readFloat(struct.offset(.y)));
-    return _y;
-  }
-  set y(double value) {
-    _y = value;
-    structOnOp((p) => p.writeFloat(value, struct.offset(.y)));
-  }
+  double get y => _y = _yF.readOr(op?.ptr, _y);
+  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
 
   Vector2D({
     super.op,
@@ -69,7 +60,6 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
     _y = y;
 
   factory Vector2D.zero() => .new();
-  factory Vector2D.one() => .vec2(1, 1);
 
   factory Vector2D.vec2(
     num x,
@@ -80,18 +70,18 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   );
 
   @override
-  Vector2D setD(Vector2D o) => set(o.x, o.y);
+  Vector2D setDart(Vector2D o) => set(o.x, o.y);
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeFloat(_x, struct.offset(.x));
-    p.writeFloat(_y, struct.offset(.y));
+    _xF.write(p, _x);
+    _yF.write(p, _y);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _x = p.readFloat(struct.offset(.x));
-    _y = p.readFloat(struct.offset(.y));
+    _x = _xF.read(p);
+    _y = _yF.read(p);
   }
 
   @override

@@ -11,6 +11,8 @@ enum VrStereoConfigField with StructFields {
   scaleIn,
 }
 
+// TODO: translate
+
 /// VrStereoConfig, VR stereo rendering configuration for simulator
 class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
@@ -201,7 +203,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   factory VrStereoConfigD.zero() => .new();
 
   @override
-  VrStereoConfigD setD(VrStereoConfigD o) {
+  VrStereoConfigD setDart(VrStereoConfigD o) {
     projection = .from(o.projection);
     viewOffset = .from(o.viewOffset);
     leftLensCenter = .from(o.leftLensCenter);

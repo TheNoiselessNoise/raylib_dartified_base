@@ -9,6 +9,8 @@ enum RlRenderBatchField with StructFields {
   currentDepth,
 }
 
+// TODO: translate
+
 /// rlRenderBatch type
 class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
 
@@ -130,7 +132,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   factory RlRenderBatchD.zero() => .new();
 
   @override
-  RlRenderBatchD setD(RlRenderBatchD o) {
+  RlRenderBatchD setDart(RlRenderBatchD o) {
     bufferCount = o.bufferCount;
     currentBuffer = o.currentBuffer;
     vertexBuffer = o.vertexBuffer.map((e) => e.clone()).toList();

@@ -2,13 +2,10 @@ part of '../../raylib_dartified_base.dart';
 
 /// Marker for raygui property enums, each exposing a raw [value] for use
 /// with the GUI styling API.
-mixin GuiProperty on Enum {
-  /// The underlying native integer value.
-  int get value;
-}
+mixin GuiProperty on RaylibEnum {}
 
 /// raygui `GuiState` enum.
-enum GuiState {
+enum GuiState with RaylibEnum {
   /// `STATE_NORMAL`
   STATE_NORMAL(0),
   /// `STATE_FOCUSED`
@@ -21,6 +18,7 @@ enum GuiState {
   const GuiState(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiState] for the given native [value].
@@ -36,7 +34,7 @@ enum GuiState {
 }
 
 /// raygui `GuiTextAlignment` enum.
-enum GuiTextAlignment {
+enum GuiTextAlignment with RaylibEnum {
   /// `TEXT_ALIGN_LEFT`
   TEXT_ALIGN_LEFT(0),
   /// `TEXT_ALIGN_CENTER`
@@ -47,6 +45,7 @@ enum GuiTextAlignment {
   const GuiTextAlignment(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiTextAlignment] for the given native [value].
@@ -61,7 +60,7 @@ enum GuiTextAlignment {
 }
 
 /// raygui `GuiTextAlignmentVertical` enum.
-enum GuiTextAlignmentVertical {
+enum GuiTextAlignmentVertical with RaylibEnum {
   /// `TEXT_ALIGN_TOP`
   TEXT_ALIGN_TOP(0),
   /// `TEXT_ALIGN_MIDDLE`
@@ -72,6 +71,7 @@ enum GuiTextAlignmentVertical {
   const GuiTextAlignmentVertical(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiTextAlignmentVertical] for the given native [value].
@@ -86,7 +86,7 @@ enum GuiTextAlignmentVertical {
 }
 
 /// raygui `GuiTextWrapMode` enum.
-enum GuiTextWrapMode {
+enum GuiTextWrapMode with RaylibEnum {
   /// `TEXT_WRAP_NONE`
   TEXT_WRAP_NONE(0),
   /// `TEXT_WRAP_CHAR`
@@ -97,6 +97,7 @@ enum GuiTextWrapMode {
   const GuiTextWrapMode(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiTextWrapMode] for the given native [value].
@@ -111,7 +112,7 @@ enum GuiTextWrapMode {
 }
 
 /// raygui `GuiControl` enum.
-enum GuiControl {
+enum GuiControl with RaylibEnum {
   /// `DEFAULT`
   DEFAULT(0),
   /// `LABEL`
@@ -148,6 +149,7 @@ enum GuiControl {
   const GuiControl(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiControl] for the given native [value].
@@ -175,7 +177,7 @@ enum GuiControl {
 }
 
 /// raygui `GuiControlProperty` enum.
-enum GuiControlProperty with GuiProperty {
+enum GuiControlProperty with RaylibEnum, GuiProperty {
   /// `BORDER_COLOR_NORMAL`
   BORDER_COLOR_NORMAL(0),
   /// `BASE_COLOR_NORMAL`
@@ -209,6 +211,7 @@ enum GuiControlProperty with GuiProperty {
 
   const GuiControlProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -236,7 +239,7 @@ enum GuiControlProperty with GuiProperty {
 }
 
 /// raygui `GuiDefaultProperty` enum.
-enum GuiDefaultProperty with GuiProperty {
+enum GuiDefaultProperty with RaylibEnum, GuiProperty {
   /// `TEXT_SIZE`
   TEXT_SIZE(16),
   /// `TEXT_SPACING`
@@ -254,6 +257,7 @@ enum GuiDefaultProperty with GuiProperty {
 
   const GuiDefaultProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -273,12 +277,13 @@ enum GuiDefaultProperty with GuiProperty {
 }
 
 /// raygui `GuiToggleProperty` enum.
-enum GuiToggleProperty with GuiProperty {
+enum GuiToggleProperty with RaylibEnum, GuiProperty {
   /// `GROUP_PADDING`
   GROUP_PADDING(16);
 
   const GuiToggleProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -292,7 +297,7 @@ enum GuiToggleProperty with GuiProperty {
 }
 
 /// raygui `GuiSliderProperty` enum.
-enum GuiSliderProperty with GuiProperty {
+enum GuiSliderProperty with RaylibEnum, GuiProperty {
   /// `SLIDER_WIDTH`
   SLIDER_WIDTH(16),
   /// `SLIDER_PADDING`
@@ -300,6 +305,7 @@ enum GuiSliderProperty with GuiProperty {
 
   const GuiSliderProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -314,7 +320,7 @@ enum GuiSliderProperty with GuiProperty {
 }
 
 /// raygui `GuiProgressBarProperty` enum.
-enum GuiProgressBarProperty with GuiProperty {
+enum GuiProgressBarProperty with RaylibEnum, GuiProperty {
   /// `PROGRESS_PADDING`
   PROGRESS_PADDING(16),
   /// `PROGRESS_PADDING`
@@ -322,6 +328,7 @@ enum GuiProgressBarProperty with GuiProperty {
 
   const GuiProgressBarProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -335,7 +342,7 @@ enum GuiProgressBarProperty with GuiProperty {
 }
 
 /// raygui `GuiScrollBarProperty` enum.
-enum GuiScrollBarProperty with GuiProperty {
+enum GuiScrollBarProperty with RaylibEnum, GuiProperty {
   /// `ARROWS_SIZE`
   ARROWS_SIZE(16),
   /// `ARROWS_VISIBLE`
@@ -351,6 +358,7 @@ enum GuiScrollBarProperty with GuiProperty {
 
   const GuiScrollBarProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -369,12 +377,13 @@ enum GuiScrollBarProperty with GuiProperty {
 }
 
 /// raygui `GuiCheckBoxProperty` enum.
-enum GuiCheckBoxProperty with GuiProperty {
+enum GuiCheckBoxProperty with RaylibEnum, GuiProperty {
   /// `CHECK_PADDING`
   CHECK_PADDING(16);
 
   const GuiCheckBoxProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -388,7 +397,7 @@ enum GuiCheckBoxProperty with GuiProperty {
 }
 
 /// raygui `GuiComboBoxProperty` enum.
-enum GuiComboBoxProperty with GuiProperty {
+enum GuiComboBoxProperty with RaylibEnum, GuiProperty {
   /// `COMBO_BUTTON_WIDTH`
   COMBO_BUTTON_WIDTH(16),
   /// `COMBO_BUTTON_SPACING`
@@ -396,6 +405,7 @@ enum GuiComboBoxProperty with GuiProperty {
 
   const GuiComboBoxProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -410,7 +420,7 @@ enum GuiComboBoxProperty with GuiProperty {
 }
 
 /// raygui `GuiDropdownBoxProperty` enum.
-enum GuiDropdownBoxProperty with GuiProperty {
+enum GuiDropdownBoxProperty with RaylibEnum, GuiProperty {
   /// `ARROW_PADDING`
   ARROW_PADDING(16),
   /// `DROPDOWN_ITEMS_SPACING`
@@ -422,6 +432,7 @@ enum GuiDropdownBoxProperty with GuiProperty {
 
   const GuiDropdownBoxProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -438,12 +449,13 @@ enum GuiDropdownBoxProperty with GuiProperty {
 }
 
 /// raygui `GuiTextBoxProperty` enum.
-enum GuiTextBoxProperty with GuiProperty {
+enum GuiTextBoxProperty with RaylibEnum, GuiProperty {
   /// `TEXT_READONLY`
   TEXT_READONLY(16);
 
   const GuiTextBoxProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -457,7 +469,7 @@ enum GuiTextBoxProperty with GuiProperty {
 }
 
 /// raygui `GuiValueBoxProperty` enum.
-enum GuiValueBoxProperty with GuiProperty {
+enum GuiValueBoxProperty with RaylibEnum, GuiProperty {
   /// `SPINNER_BUTTON_WIDTH`
   SPINNER_BUTTON_WIDTH(16),
   /// `SPINNER_BUTTON_SPACING`
@@ -465,6 +477,7 @@ enum GuiValueBoxProperty with GuiProperty {
 
   const GuiValueBoxProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -479,7 +492,7 @@ enum GuiValueBoxProperty with GuiProperty {
 }
 
 /// raygui `GuiListViewProperty` enum.
-enum GuiListViewProperty with GuiProperty {
+enum GuiListViewProperty with RaylibEnum, GuiProperty {
   /// `LIST_ITEMS_HEIGHT`
   LIST_ITEMS_HEIGHT(16),
   /// `LIST_ITEMS_SPACING`
@@ -495,6 +508,7 @@ enum GuiListViewProperty with GuiProperty {
 
   const GuiListViewProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -513,7 +527,7 @@ enum GuiListViewProperty with GuiProperty {
 }
 
 /// raygui `GuiColorPickerProperty` enum.
-enum GuiColorPickerProperty with GuiProperty {
+enum GuiColorPickerProperty with RaylibEnum, GuiProperty {
   /// `COLOR_SELECTOR_SIZE`
   COLOR_SELECTOR_SIZE(16),
   /// `HUEBAR_WIDTH`
@@ -527,6 +541,7 @@ enum GuiColorPickerProperty with GuiProperty {
 
   const GuiColorPickerProperty(this.value);
 
+  /// The underlying native integer value.
   @override
   final int value;
 
@@ -544,7 +559,7 @@ enum GuiColorPickerProperty with GuiProperty {
 }
 
 /// raygui `GuiIconName` enum.
-enum GuiIconName {
+enum GuiIconName with RaylibEnum {
   /// `ICON_NONE`
   ICON_NONE(0),
   /// `ICON_FOLDER_FILE_OPEN`
@@ -1061,6 +1076,7 @@ enum GuiIconName {
   const GuiIconName(this.value);
 
   /// The underlying native integer value.
+  @override
   final int value;
 
   /// Returns the [GuiIconName] for the given native [value].

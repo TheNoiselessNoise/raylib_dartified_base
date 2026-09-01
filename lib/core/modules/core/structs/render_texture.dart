@@ -29,6 +29,10 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
+  static final _idF = struct.scalar<int, RUnsignedInt>(.id);
+  static final _textureF = struct.struct<TextureD>(.texture, TextureD.pointer);
+  static final _depthF = struct.struct<TextureD>(.depth, TextureD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -36,39 +40,21 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _id;
   /// OpenGL framebuffer object id
-  int get id {
-    structOnOp((p) => _id = p.readUnsignedInt(struct.offset(.id)));
-    return _id;
-  }
-  set id(int value) {
-    _id = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.id)));
-  }
+  int get id => _id = _idF.readOr(op?.ptr, _id);
+  set id(int value) => _id = _idF.writeIf(op?.ptr, value);
 
   TextureD _texture;
   /// Color buffer attachment texture
-  TextureD get texture {
-    structOnOp((p) => _texture.structReadFrom(p.offsetBy(struct.offset(.texture))));
-    return _texture;
-  }
-  set texture(TextureD value) {
-    _texture = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.texture))));
-  }
-  
+  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
+
   TextureD _depth;
   /// Depth buffer attachment texture
-  TextureD get depth {
-    structOnOp((p) => _depth.structReadFrom(p.offsetBy(struct.offset(.depth))));
-    return _depth;
-  }
-  set depth(TextureD value) {
-    _depth = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.depth))));
-  }
+  TextureD get depth => _depth = _depthF.readOr(op?.ptr, _depth);
+  set depth(TextureD value) => _depth = _depthF.writeIf(op?.ptr, value);
 
   RenderTextureD({
     super.op,
@@ -83,7 +69,7 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   factory RenderTextureD.zero() => .new();
 
   @override
-  RenderTextureD setD(RenderTextureD o) {
+  RenderTextureD setDart(RenderTextureD o) {
     id = o.id;
     texture = o.texture;
     depth = o.texture;
@@ -92,16 +78,16 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_id, struct.offset(.id));
-    _texture.structWriteInto(p.offsetBy(struct.offset(.texture)));
-    _depth.structWriteInto(p.offsetBy(struct.offset(.depth)));
+    _idF.write(p, _id);
+    _textureF.write(p, _texture);
+    _depthF.write(p, _depth);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _id = p.readUnsignedInt(struct.offset(.id));
-    _texture.structReadFrom(p.offsetBy(struct.offset(.texture)));
-    _depth.structReadFrom(p.offsetBy(struct.offset(.depth)));
+    _id = _idF.read(p);
+    _texture = _textureF.read(p);
+    _depth = _depthF.read(p);
   }
 
   @override

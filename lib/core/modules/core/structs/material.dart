@@ -3,8 +3,10 @@ part of '../../../raylib_dartified_base.dart';
 enum MaterialField with StructFields {
   shader,
   maps,
-  params
+  params,
 }
+
+// TODO: translate
 
 /// Material, includes shader and maps
 class MaterialD extends RaylibStruct<MaterialD> {
@@ -110,8 +112,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   factory MaterialD.zero() => .new();
 
   @override
-  MaterialD setD(MaterialD o) {
-    shader.setD(o.shader);
+  MaterialD setDart(MaterialD o) {
+    shader.setDart(o.shader);
     maps = o.maps.map((x) => x.clone()).toList();
     params = .from(o.params);
     return this;

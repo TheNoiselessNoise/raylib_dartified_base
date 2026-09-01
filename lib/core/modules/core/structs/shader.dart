@@ -5,6 +5,8 @@ enum ShaderField with StructFields {
   locs,
 }
 
+// TODO: translate
+
 /// Shader
 class ShaderD extends RaylibStruct<ShaderD> {
 
@@ -89,7 +91,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   factory ShaderD.zero() => .new();
 
   @override
-  ShaderD setD(ShaderD o) {
+  ShaderD setDart(ShaderD o) {
     id = o.id;
     locs = .from(o.locs);
     return this;

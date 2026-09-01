@@ -9,6 +9,8 @@ enum FontField with StructFields {
   glyphs,
 }
 
+// TODO: translate
+
 /// Font, font texture and GlyphInfo array data
 class FontD extends RaylibStruct<FontD> {
 
@@ -138,11 +140,11 @@ class FontD extends RaylibStruct<FontD> {
   factory FontD.zero() => .new();
 
   @override
-  FontD setD(FontD o) {
+  FontD setDart(FontD o) {
     baseSize = o.baseSize;
     glyphCount = o.glyphCount;
     glyphPadding = o.glyphPadding;
-    texture.setD(o.texture);
+    texture.setDart(o.texture);
     recs = .generate(o.glyphCount, (i) => o.recs[i]);
     glyphs = .generate(o.glyphCount, (i) => o.glyphs[i]);
     return this;

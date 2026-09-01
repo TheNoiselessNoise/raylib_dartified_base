@@ -27,6 +27,9 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, BoundingBoxD.new, BoundingBoxD.pointer);
 
+  static final _minF = struct.struct<Vector3D>(.min, Vector3D.pointer);
+  static final _maxF = struct.struct<Vector3D>(.max, Vector3D.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -37,25 +40,13 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
 
   Vector3D _min;
   /// Minimum vertex box-corner
-  Vector3D get min {
-    structOnOp((p) => _min.structReadFrom(p.offsetBy(struct.offset(.min))));
-    return _min;
-  }
-  set min(Vector3D value) {
-    _min = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.min))));
-  }
-  
+  Vector3D get min => _min = _minF.readOr(op?.ptr, _min);
+  set min(Vector3D value) => _min = _minF.writeIf(op?.ptr, value);
+
   Vector3D _max;
   /// Maximum vertex box-corner
-  Vector3D get max {
-    structOnOp((p) => _max.structReadFrom(p.offsetBy(struct.offset(.max))));
-    return _max;
-  }
-  set max(Vector3D value) {
-    _max = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.max))));
-  }
+  Vector3D get max => _max = _maxF.readOr(op?.ptr, _max);
+  set max(Vector3D value) => _max = _maxF.writeIf(op?.ptr, value);
 
   BoundingBoxD({
     super.op,
@@ -76,22 +67,22 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   );
 
   @override
-  BoundingBoxD setD(BoundingBoxD o) {
-    min.setD(o.min);
-    max.setD(o.max);
+  BoundingBoxD setDart(BoundingBoxD o) {
+    min.setDart(o.min);
+    max.setDart(o.max);
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _min.structWriteInto(p.offsetBy(struct.offset(.min)));
-    _max.structWriteInto(p.offsetBy(struct.offset(.max)));
+    _minF.write(p, _min);
+    _maxF.write(p, _max);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _min.structReadFrom(p.offsetBy(struct.offset(.min)));
-    _max.structReadFrom(p.offsetBy(struct.offset(.max)));
+    _min = _minF.read(p);
+    _max = _maxF.read(p);
   }
   
   @override

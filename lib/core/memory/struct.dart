@@ -70,7 +70,7 @@ final class RaylibTempStructState with RaylibDisposable {
 // });
 // -----------------------------
 
-mixin StructFields {}
+mixin StructFields on Enum {}
 
 /// Backend-agnostic struct layout: field -> byte offset, plus total size.
 /// Computes C-style natural-alignment offsets: each field's alignment
@@ -105,36 +105,154 @@ final class StructLayout<E extends StructFields> {
 
   int offset(E field) => offsets[field]!;
 
-  // scalars
-  StructField<T> field<T>(E f) => .new(offset(f), fields[f]!);
+  void _checkField(E f) {
+    if (!offsets.containsKey(f)) {
+      throw StateError("You have defined a field `${f.name}`, but you didn't provide it in a struct layout!");
+    }
+  }
+  
+  // String values
 
-  StructInlineArrayField<X, R> inlineScalarArrayField<X, R extends RType>(E f) {
+  StructStringCharArrayField<R> stringCharArray<R extends RType>(E f) {
+    _checkField(f);
+    
     final type = fields[f]! as RArray<R>;
-    return .new(offset(f), type.count, ScalarCodec(type.element));
+    final element = type.element;
+
+    if (element is! RInt8 && element is! RInt16 && element is! RInt32) {
+      throw UnsupportedError(
+        "Invalid element type $R for char array field. Use either RInt8, RInt16 or RInt32."
+      );
+    }
+
+    return .new(offset(f), type.count);
   }
 
-  StructPointerArrayField<X, R> pointerScalarArrayField<X, R extends RType>(E f) {
+  StructStringPointerCharField<R> stringPointerChar<R extends RType>(E f) {
+    _checkField(f);
+
     final type = fields[f]! as RPointer<R>;
-    return .new(offset(f), ScalarCodec(type.target));
+    final element = type.target;
+
+    if (element is! RInt8 && element is! RInt16 && element is! RInt32) {
+      throw UnsupportedError(
+        "Invalid element type $R for pointer char field. Use either RInt8, RInt16 or RInt32."
+      );
+    }
+
+    return .new(offset(f));
   }
 
-  // structs
+  // Inline values
 
-  StructTypeField<D> structField<D extends RaylibStruct<D>>(E f, StructPointer<D> Function(MemoryPointer?) pointer)
-    => .new(offset(f), pointer);
+  StructValueField<T, R> scalar<T, R extends RType>(E f) {
+    _checkField(f);
+    final type = fields[f]! as R;
+    return .new(offset(f), ScalarCodec<T, R>(type));
+  }
 
-  StructInlineArrayField<X, RStruct> inlineStructArrayField<X extends RaylibStruct<X>>(
+  StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
     E f,
-    StructPointerFactory<X> pointerFactory,
+    StructPointerFactory<T> pointer,
   ) {
-    final type = fields[f]! as RArray<RStruct>;
-    return .new(offset(f), type.count, StructCodec(pointerFactory));
+    _checkField(f);
+    return .new(offset(f), StructCodec<T>(pointer));
   }
 
-  StructPointerArrayStructField<X> pointerStructArrayField<X extends RaylibStruct<X>>(
+  R _getFieldAs<R extends RType>(E f) {
+    final type = fields[f]!;
+    try {
+      return type as R;
+    } catch (_) {
+      throw ArgumentError(
+        "Layout field `${f.name}` is `${type.runtimeType}`, but was requested as `$R`."
+      );
+    }
+  }
+
+  StructEnumValueField<X, R> enumValue<
+    X extends RaylibEnum,
+    R extends RType
+  >(E f, X Function(int) enumFactory) {
+    _checkField(f);
+    final type = _getFieldAs<R>(f);
+    if (type is! RTypeIntLike) {
+      throw ArgumentError(
+        "Layout field `${f.name}` has element type `$R`, which is not int-like. "
+        "Enum values require an RTypeIntLike (e.g. RInt8, RUint32)."
+      );
+    }
+    return .new(offset(f), .new(type, enumFactory));
+  }
+
+  // Inline arrays
+
+  StructArrayField<T, R> scalarArray<T, R extends RType>(E f) {
+    _checkField(f);
+    final type = fields[f]! as RArray<R>;
+    return .new(offset(f), type.count, ScalarCodec<T, R>(type.element));
+  }
+
+  StructArrayField<T, RStruct> structArray<T extends RaylibStruct<T>>(
     E f,
-    StructPointerFactory<X> pointerFactory,
-  ) => .new(offset(f), StructCodec(pointerFactory));
+    StructPointerFactory<T> pointer,
+  ) {
+    _checkField(f);
+    final type = fields[f]! as RArray<RStruct>;
+    return .new(offset(f), type.count, StructCodec<T>(pointer));
+  }
+
+  // Pointer to one value
+
+  StructPointerField<T, R> pointerScalar<T, R extends RType>(E f) {
+    _checkField(f);
+    final type = fields[f]! as RPointer<R>;
+    return .new(offset(f), ScalarCodec<T, R>(type.target));
+  }
+
+  StructPointerField<T, RStruct> pointerStruct<T extends RaylibStruct<T>>(
+    E f,
+    StructPointerFactory<T> pointer,
+  ) {
+    _checkField(f);
+    final _ = fields[f]! as RPointer<RStruct>; // exists to check the type
+    return .new(offset(f), StructCodec<T>(pointer));
+  }
+
+  // Pointer to variable-size array
+
+  StructPointerArrayField<T, R> pointerScalarArray<T, R extends RType>(E f) {
+    _checkField(f);
+    final type = fields[f]! as RPointer<R>;
+    return .new(offset(f), ScalarCodec<T, R>(type.target));
+  }
+
+  StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
+    E f,
+    StructPointerFactory<T> pointer,
+  ) {
+    _checkField(f);
+    return .new(offset(f), StructCodec<T>(pointer));
+  }
+
+  // Pointer to fixed-size array
+
+  StructPointerArrayField<T, R> pointerScalarFixedArray<T, R extends RType>(E f) {
+    _checkField(f);
+    final type = fields[f]! as RPointer<RArray<R>>;
+    final array = type.target;
+    return .new(offset(f), ScalarCodec<T, R>(array.element), count: array.count);
+  }
+
+  StructPointerArrayField<T, RStruct> pointerStructFixedArray<T extends RaylibStruct<T>>(
+    E f,
+    StructPointerFactory<T> pointer,
+  ) {
+    _checkField(f);
+    final type = fields[f]! as RPointer<RArray<RStruct>>;
+    final array = type.target;
+    return .new(offset(f), StructCodec<T>(pointer), count: array.count);
+  }
 }
 
 /// Backend-agnostic base for Raylib struct mirror objects that are backed by
@@ -155,7 +273,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   // === MUST IMPLEMENT PER-TYPE ===
 
   /// Copies the fields of [o] into this instance and returns `this`.
-  D setD(D o) => this as D;
+  D setDart(D o) => this as D;
 
   void structWriteInto(MemoryPointer<RStruct> p);
   
@@ -267,7 +385,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 ///
 /// Unlike a regular [RaylibStruct], a view never copies field values into
 /// Dart-side storage and never writes through: [structWriteInto] and [structReadFrom]
-/// are no-ops, and [setD] throws, since there is no independent Dart-side
+/// are no-ops, and [setDart] throws, since there is no independent Dart-side
 /// state to sync, every field read reflects [op] at the moment of access.
 ///
 /// [copy] is overridden to behave like [clone] (it keeps [op] instead
@@ -280,7 +398,7 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
 
   @override
   @nonVirtual
-  D setD(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
+  D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {} // NOTE: do nothing

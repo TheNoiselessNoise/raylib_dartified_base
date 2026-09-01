@@ -33,6 +33,12 @@ class TextureD extends RaylibStruct<TextureD> {
   static StructPointer<TextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, TextureD.new, TextureD.pointer);
 
+  static final _idF = struct.scalar<int, RUnsignedInt>(.id);
+  static final _widthF = struct.scalar<int, RInt>(.width);
+  static final _heightF = struct.scalar<int, RInt>(.height);
+  static final _mipmapsF = struct.scalar<int, RInt>(.mipmaps);
+  static final _formatF = struct.scalar<int, RInt>(.format);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -40,61 +46,31 @@ class TextureD extends RaylibStruct<TextureD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _id;
   /// OpenGL texture id
-  int get id {
-    structOnOp((p) => _id = p.readUnsignedInt(struct.offset(.id)));
-    return _id;
-  }
-  set id(int value) {
-    _id = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.id)));
-  }
+  int get id => _id = _idF.readOr(op?.ptr, _id);
+  set id(int value) => _id = _idF.writeIf(op?.ptr, value);
 
   int _width;
-  /// Texture base width
-  int get width {
-    structOnOp((p) => _width = p.readInt(struct.offset(.width)));
-    return _width;
-  }
-  set width(int value) {
-    _width = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.width)));
-  }
+  /// Texture base wwidthth
+  int get width => _width = _widthF.readOr(op?.ptr, _width);
+  set width(int value) => _width = _widthF.writeIf(op?.ptr, value);
 
   int _height;
   /// Texture base height
-  int get height {
-    structOnOp((p) => _height = p.readInt(struct.offset(.height)));
-    return _height;
-  }
-  set height(int value) {
-    _height = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.height)));
-  }
+  int get height => _height = _heightF.readOr(op?.ptr, _height);
+  set height(int value) => _height = _heightF.writeIf(op?.ptr, value);
 
   int _mipmaps;
   /// Mipmap levels, 1 by default
-  int get mipmaps {
-    structOnOp((p) => _mipmaps = p.readInt(struct.offset(.mipmaps)));
-    return _mipmaps;
-  }
-  set mipmaps(int value) {
-    _mipmaps = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.mipmaps)));
-  }
+  int get mipmaps => _mipmaps = _mipmapsF.readOr(op?.ptr, _mipmaps);
+  set mipmaps(int value) => _mipmaps = _mipmapsF.writeIf(op?.ptr, value);
 
   PixelFormat _format;
   /// Data format (PixelFormat type)
-  PixelFormat get format {
-    structOnOp((p) => _format = .fromValue(p.readInt(struct.offset(.format))));
-    return _format;
-  }
-  set format(PixelFormat value) {
-    _format = value;
-    structOnOp((p) => p.writeInt(value.value, struct.offset(.format)));
-  }
+  PixelFormat get format => _format = .fromValue(_formatF.readOr(op?.ptr, _format.value));
+  set format(PixelFormat value) => _format = .fromValue(_formatF.writeIf(op?.ptr, value.value));
 
   TextureD({
     super.op,
@@ -113,7 +89,7 @@ class TextureD extends RaylibStruct<TextureD> {
   factory TextureD.zero() => .new();
 
   @override
-  TextureD setD(TextureD o) {
+  TextureD setDart(TextureD o) {
     id = o.id;
     width = o.width;
     height = o.height;
@@ -124,20 +100,20 @@ class TextureD extends RaylibStruct<TextureD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_id, struct.offset(.id));
-    p.writeInt(_width, struct.offset(.width));
-    p.writeInt(_height, struct.offset(.height));
-    p.writeInt(_mipmaps, struct.offset(.mipmaps));
-    p.writeInt(_format.value, struct.offset(.format));
+    _idF.write(p, _id);
+    _widthF.write(p, _width);
+    _heightF.write(p, _height);
+    _mipmapsF.write(p, _mipmaps);
+    _formatF.write(p, _format.value);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _id = p.readUnsignedInt(struct.offset(.id));
-    _width = p.readInt(struct.offset(.width));
-    _height = p.readInt(struct.offset(.height));
-    _mipmaps = p.readInt(struct.offset(.mipmaps));
-    _format = .fromValue(p.readInt(struct.offset(.format)));
+    _id = _idF.read(p);
+    _width = _widthF.read(p);
+    _height = _heightF.read(p);
+    _mipmaps = _mipmapsF.read(p);
+    _format = .fromValue(_formatF.read(p));
   }
 
   @override

@@ -12,6 +12,8 @@ enum VrDeviceInfoField with StructFields {
   chromaAbCorrection,
 }
 
+// TODO: translate
+
 /// VrDeviceInfo, Head-Mounted-Display device parameters
 class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
@@ -196,7 +198,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   factory VrDeviceInfoD.zero() => .new();
 
   @override
-  VrDeviceInfoD setD(VrDeviceInfoD o) {
+  VrDeviceInfoD setDart(VrDeviceInfoD o) {
     hResolution = o.hResolution;
     vResolution = o.vResolution;
     hScreenSize = o.hScreenSize;

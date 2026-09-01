@@ -23,6 +23,8 @@ enum MsfGifStateField with StructFields {
   framesSubmitted,
 }
 
+// TODO: translate
+
 /// MsfGifState
 class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 

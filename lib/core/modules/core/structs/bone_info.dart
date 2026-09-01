@@ -27,6 +27,9 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, BoneInfoD.new, BoneInfoD.pointer);
 
+  static final _nameF = struct.stringCharArray<RChar>(.name);
+  static final _parentF = struct.scalar<int, RInt>(.parent);
+
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
   // ░██        ░██     ░██ ░██░██  ░██ ░██             ░██    
@@ -48,29 +51,16 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   String _name;
   /// Bone name
-  String get name {
-    structOnOp((p) => _name = p.readStringUTF8(nameLength, struct.offset(.name)));
-    return _name;
-  }
-  set name(String value) {
-    assert(value.length <= nameLength);
-    _name = value;
-    structOnOp((p) => p.writeStringUTF8(value, nameLength, struct.offset(.name)));
-  }
-
+  String get name => _name = _nameF.readOr(op?.ptr, _name);
+  set name(String value) => _name = _nameF.writeIf(op?.ptr, value);
+  
   int _parent;
   /// Bone parent
-  int get parent {
-    structOnOp((p) => _parent = p.readInt(struct.offset(.parent)));
-    return _parent;
-  }
-  set parent(int value) {
-    _parent = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.parent)));
-  }
+  int get parent => _parent = _parentF.readOr(op?.ptr, _parent);
+  set parent(int value) => _parent = _parentF.writeIf(op?.ptr, value);
 
   BoneInfoD({
     super.op,
@@ -83,7 +73,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   factory BoneInfoD.zero() => .new();
 
   @override
-  BoneInfoD setD(BoneInfoD o) {
+  BoneInfoD setDart(BoneInfoD o) {
     name = o.name;
     parent = o.parent;
     return this;
@@ -91,14 +81,14 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeStringUTF8(_name, nameLength, struct.offset(.name));
-    p.writeInt(_parent, struct.offset(.parent));
+    _nameF.write(p, _name);
+    _parentF.write(p, _parent);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _name = p.readStringUTF8(nameLength, struct.offset(.name));
-    _parent = p.readInt(struct.offset(.parent));
+    _name = _nameF.read(p);
+    _parent = _parentF.read(p);
   }
 
   @override

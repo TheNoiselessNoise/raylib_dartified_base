@@ -7,6 +7,8 @@ enum MsfGifResultField with StructFields {
   contextPointer,
 }
 
+// TODO: translate
+
 /// MsfGifResult
 class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 

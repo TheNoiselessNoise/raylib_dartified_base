@@ -3,8 +3,10 @@ part of '../../../raylib_dartified_base.dart';
 enum ModelSkeletonField with StructFields {
   boneCount,
   bones,
-  bindPose
+  bindPose,
 }
+
+// TODO: translate
 
 /// Skeleton, animation bones hierarchy
 class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
@@ -88,7 +90,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   factory ModelSkeletonD.zero() => .new();
 
   @override
-  ModelSkeletonD setD(ModelSkeletonD o) {
+  ModelSkeletonD setDart(ModelSkeletonD o) {
     boneCount = o.boneCount;
     bones = .from(o.bones);
     bindPose = .from(o.bindPose); 

@@ -201,7 +201,7 @@ class RaylibVectorExtension<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   /// See [Vector3D.orthoNormalize].
   void Vector3OrthoNormalize(Vector3D v1, Vector3D v2)
-    => v2.setD(v1.orthoNormalize(v2));
+    => v2.setDart(v1.orthoNormalize(v2));
 
   /// See [Vector3D.transform].
   Vector3D Vector3Transform(Vector3D v, MatrixD mat)

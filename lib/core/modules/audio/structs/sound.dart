@@ -5,6 +5,8 @@ enum SoundField with StructFields {
   frameCount,
 }
 
+// TODO: translate
+
 /// Sound
 class SoundD extends RaylibStruct<SoundD> {
 
@@ -68,8 +70,8 @@ class SoundD extends RaylibStruct<SoundD> {
   factory SoundD.zero() => .new();
 
   @override
-  SoundD setD(SoundD o) {
-    stream.setD(o.stream);
+  SoundD setDart(SoundD o) {
+    stream.setDart(o.stream);
     frameCount = o.frameCount;
     return this;
   }

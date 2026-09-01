@@ -8,6 +8,8 @@ enum AudioStreamField with StructFields {
   channels,
 }
 
+// TODO: translate
+
 /// AudioStream, custom audio stream
 class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
@@ -97,7 +99,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   factory AudioStreamD.zero() => .new();
 
   @override
-  AudioStreamD setD(AudioStreamD o) {
+  AudioStreamD setDart(AudioStreamD o) {
     sampleRate = o.sampleRate;
     sampleSize = o.sampleSize;
     channels = o.channels;

@@ -27,6 +27,9 @@ class RayD extends RaylibStructLiteral<RayD> {
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayD.new, RayD.pointer);
 
+  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
+  static final _directionF = struct.struct<Vector3D>(.direction, Vector3D.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -34,28 +37,16 @@ class RayD extends RaylibStructLiteral<RayD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   Vector3D _position;
   /// Ray position (origin)
-  Vector3D get position {
-    structOnOp((p) => _position.structReadFrom(p.offsetBy(struct.offset(.position))));
-    return _position;
-  }
-  set position(Vector3D value) {
-    _position = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.position))));
-  }
-  
+  Vector3D get position => _position = _positionF.readOr(op?.ptr, _position);
+  set position(Vector3D value) => _position = _positionF.writeIf(op?.ptr, value);
+
   Vector3D _direction;
   /// Ray direction (normalized)
-  Vector3D get direction {
-    structOnOp((p) => _direction.structReadFrom(p.offsetBy(struct.offset(.direction))));
-    return _direction;
-  }
-  set direction(Vector3D value) {
-    _direction = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.direction))));
-  }
+  Vector3D get direction => _direction = _directionF.readOr(op?.ptr, _direction);
+  set direction(Vector3D value) => _direction = _directionF.writeIf(op?.ptr, value);
 
   RayD({
     super.op,
@@ -68,22 +59,22 @@ class RayD extends RaylibStructLiteral<RayD> {
   factory RayD.zero() => .new();
 
   @override
-  RayD setD(RayD o) {
-    position.setD(o.position);
-    direction.setD(o.direction);
+  RayD setDart(RayD o) {
+    position.setDart(o.position);
+    direction.setDart(o.direction);
     return this;
   }
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    _position.structWriteInto(p.offsetBy(struct.offset(.position)));
-    _direction.structWriteInto(p.offsetBy(struct.offset(.direction)));
+    _positionF.write(p, _position);
+    _directionF.write(p, _direction);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    _position.structReadFrom(p.offsetBy(struct.offset(.position)));
-    _direction.structReadFrom(p.offsetBy(struct.offset(.direction)));
+    _position = _positionF.read(p);
+    _direction = _directionF.read(p);
   }
 
   @override

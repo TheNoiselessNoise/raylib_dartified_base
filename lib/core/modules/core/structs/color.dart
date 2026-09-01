@@ -4,7 +4,7 @@ enum ColorField with StructFields {
   r,
   g,
   b,
-  a
+  a,
 }
 
 /// Color, 4 components, R8G8B8A8 (32bit)
@@ -31,10 +31,10 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   static StructPointer<ColorD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ColorD.new, ColorD.pointer);
 
-  static final _rF = struct.field<int>(.r);
-  static final _gF = struct.field<int>(.g);
-  static final _bF = struct.field<int>(.b);
-  static final _aF = struct.field<int>(.a);
+  static final _rF = struct.scalar<int, RUnsignedChar>(.r);
+  static final _gF = struct.scalar<int, RUnsignedChar>(.g);
+  static final _bF = struct.scalar<int, RUnsignedChar>(.b);
+  static final _aF = struct.scalar<int, RUnsignedChar>(.a);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -99,7 +99,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   );
 
   @override
-  ColorD setD(ColorD o) => set(o.r, o.g, o.b, o.a);
+  ColorD setDart(ColorD o) => set(o.r, o.g, o.b, o.a);
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
@@ -111,10 +111,10 @@ class ColorD extends RaylibStructLiteral<ColorD> {
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    r = _rF.read(p);
-    g = _gF.read(p);
-    b = _bF.read(p);
-    a = _aF.read(p);
+    _r = _rF.read(p);
+    _g = _gF.read(p);
+    _b = _bF.read(p);
+    _a = _aF.read(p);
   }
 
   @override
@@ -260,7 +260,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ///
   /// Values are converted using [num.toInt], truncating any fractional part.
   ///
-  /// Returns this instance for flu       ent chaining.
+  /// Returns this instance for fluent chaining.
   ColorD set(num r, num g, num b, num a) {
     this.r = r.toInt();
     this.g = g.toInt();
