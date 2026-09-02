@@ -27,8 +27,8 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, BoundingBoxD.new, BoundingBoxD.pointer);
 
-  static final _minF = struct.struct<Vector3D>(.min, Vector3D.pointer);
-  static final _maxF = struct.struct<Vector3D>(.max, Vector3D.pointer);
+  static final _minF = struct.struct(.min, Vector3D.pointer);
+  static final _maxF = struct.struct(.max, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

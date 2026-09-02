@@ -33,8 +33,8 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
 
   static final _hitF = struct.scalar<bool, RBool>(.hit);
   static final _distanceF = struct.scalar<double, RFloat>(.distance);
-  static final _pointF = struct.struct<Vector3D>(.point, Vector3D.pointer);
-  static final _normalF = struct.struct<Vector3D>(.normal, Vector3D.pointer);
+  static final _pointF = struct.struct(.point, Vector3D.pointer);
+  static final _normalF = struct.struct(.normal, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

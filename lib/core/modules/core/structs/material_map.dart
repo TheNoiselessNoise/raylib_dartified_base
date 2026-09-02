@@ -29,8 +29,8 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
 
-  static final _textureF = struct.struct<TextureD>(.texture, TextureD.pointer);
-  static final _colorF = struct.struct<ColorD>(.color, ColorD.pointer);
+  static final _textureF = struct.struct(.texture, TextureD.pointer);
+  static final _colorF = struct.struct(.color, ColorD.pointer);
   static final _valueF = struct.scalar<double, RFloat>(.value);
 
   // ░███████   ░██████████ ░██████████

@@ -27,7 +27,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, BoneInfoD.new, BoneInfoD.pointer);
 
-  static final _nameF = struct.stringCharArray<RChar>(.name);
+  static final _nameF = struct.stringAsCharArray<RChar>(.name);
   static final _parentF = struct.scalar<int, RInt>(.parent);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████

@@ -35,9 +35,8 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   static final _touchActionF = struct.scalar<int, RInt>(.touchAction);
   static final _pointCountF = struct.scalar<int, RInt>(.pointCount);
-  // TODO: this
-  // static final _pointIdF = struct.scalarArray<int, RInt>(.pointId);
-  // static final _positionF = struct.structArray<Vector2D>(.position, Vector2D.pointer);
+  static final _pointIdF = struct.scalarArray<int, RInt>(.pointId);
+  static final _positionF = struct.structArray<Vector2D>(.position, Vector2D.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -71,19 +70,19 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   int get pointCount => _pointCount = _pointCountF.readOr(op?.ptr, _pointCount);
   set pointCount(int value) => _pointCount = _pointCountF.writeIf(op?.ptr, value);
 
-  // TOOD: live list
-  late LiveListInlineScalar<int, RInt> _pointId;
-  LiveListInlineScalar<int, RInt> get pointId => _pointId;
+  late LiveStructList<int, RInt> _pointId;
+  /// Point Id
+  LiveStructList<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) {
-    assert(value.length <= maxTouchPoints);
+    assert(value.length <= _pointIdF.codec.type.count);
     _pointId.inner = value;
   }
 
-  // TOOD: live list
-  late LiveListInlineStruct<Vector2D> _position;
-  LiveListInlineStruct<Vector2D> get position => _position;
+  late LiveStructList<Vector2D, RStruct> _position;
+  /// Position
+  LiveStructList<Vector2D, RStruct> get position => _position;
   set position(List<Vector2D> value) {
-    assert(value.length <= maxTouchPoints);
+    assert(value.length <= _positionF.codec.type.count);
     _position.inner = value;
   }
 
@@ -97,19 +96,14 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
     _touchAction = touchAction,
     _pointCount = pointCount
   {
-    _pointId = .new(
-      () => op?.cast(),
-      struct.offset(.pointId),
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
-      pointId ?? .filled(maxTouchPoints, 0),
+    _pointId = _pointIdF.live(
+      () => op?.ptr,
+      .filled(_pointIdF.codec.type.count, 0),
     );
 
-    _position = .new(
-      () => op?.cast(),
-      struct.offset(.position),
-      Vector2D.pointer,
-      position ?? .generate(maxTouchPoints, (_) => .zero()),
+    _position = _positionF.live(
+      () => op?.ptr,
+      .generate(_positionF.codec.type.count, (_) => .zero()),
     );
   }
 
@@ -126,28 +120,18 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   @override
   void structWriteInto(MemoryPointer<RStruct> p) {
-    // _touchActionF.write(p, _touchAction.value);
-    // _pointCountF.write(p, _pointCount);
-    // _pointIdF.write(p, _pointId);
-    // _positionF.write(p, _position);
-
-    // p.writeInt(_touchAction.value, struct.offset(.touchAction));
-    // p.writeInt(_pointCount, struct.offset(.pointCount));
-    // p.offsetBy(struct.offset(.pointId)).cast<RInt>().writeArray(_pointId.inner);
-    // Vector2D.pointer(p.offsetBy(struct.offset(.position))).writeArray(_position.inner);
+    _touchActionF.write(p, _touchAction.value);
+    _pointCountF.write(p, _pointCount);
+    _pointIdF.write(p, _pointId);
+    _positionF.write(p, _position);
   }
 
   @override
   void structReadFrom(MemoryPointer<RStruct> p) {
-    // _touchAction = _touchActionF.read(p);
-    // _pointCount = _pointCountF.read(p);
-    // _pointId = _pointIdF.read(p);
-    // _position = _positionF.read(p);
-
-    // _touchAction = .fromValue(p.readInt(struct.offset(.touchAction)));
-    // _pointCount = p.readInt(struct.offset(.pointCount));
-    // _pointId.raw = p.offsetBy(struct.offset(.pointId)).cast<RInt>().readArray(maxTouchPoints);
-    // _position.raw = Vector2D.pointer(p.offsetBy(struct.offset(.position))).readArray(maxTouchPoints);
+    _touchAction = .fromValue(_touchActionF.read(p));
+    _pointCount = _pointCountF.read(p);
+    _pointId.raw = _pointIdF.read(p);
+    _position.raw = _positionF.read(p);
   }
 
   @override

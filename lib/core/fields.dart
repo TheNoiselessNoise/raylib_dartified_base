@@ -1,7 +1,9 @@
 part of 'raylib_dartified_base.dart';
 
 abstract class ElementCodec<E, R extends RType> {
-  const ElementCodec();
+  final R type;
+
+  const ElementCodec(this.type);
 
   void _check(MemoryPointer<R> p, String action) {
     if (p.isNull) throw StateError('You are trying to $action on a nullptr.');
@@ -16,46 +18,83 @@ abstract class ElementCodec<E, R extends RType> {
   void writeArray(MemoryPointer<R> p, List<E> values);
 
   RaylibTempAllocator? allocator(RaylibTemp temp);
+
+  void allocate(RaylibTemp temp, MemoryPointer<R> p, String key, [int count = 1]) {
+    // no-op by default, most codecs (Scalar, Enum, Struct) don't own
+    // pointers, so there's nothing to allocate.
+  }
+}
+
+abstract mixin class IndexedCodec<E, R extends RType> {
+  /// Address of element [index], given the codec's own field pointer
+  /// (i.e. the struct-relative pointer, pre-dereference).
+  MemoryPointer<R> elementPtr(MemoryPointer fieldPtr, int index);
+
+  E readAt(MemoryPointer fieldPtr, int index)
+    => elementRead(elementPtr(fieldPtr, index));
+  
+  E writeAt(MemoryPointer fieldPtr, int index, E value) {
+    elementWrite(elementPtr(fieldPtr, index), value);
+    return value;
+  }
+
+  E elementRead(MemoryPointer<R> p);
+ 
+  void elementWrite(MemoryPointer<R> p, E value);
 }
 
 class StringCodec<R extends RType> extends ElementCodec<String, R> {
-  @override
-  String read(MemoryPointer<R> p) => switch (R) {
-    const (RInt8) => p.cast<RInt8>().toDartString(),
-    const (RInt16) => p.cast<RInt16>().toDartString(),
-    const (RInt32) => p.cast<RInt32>().toDartString(),
-    _ => throw UnsupportedError("Invalid type $R for reading a string value."),
-  };
+  const StringCodec(super.type);
 
-  String readString(MemoryPointer<R> p, int maxLength) => switch (R) {
-    const (RInt8) => p.cast<RInt8>().toDartStringBounded(maxLength),
-    const (RInt16) => p.cast<RInt16>().toDartStringBounded(maxLength),
-    const (RInt32) => p.cast<RInt32>().toDartStringBounded(maxLength),
-    _ => throw UnsupportedError("Invalid type $R for reading a string value."),
-  };
+  @override
+  String read(MemoryPointer<R> p) {
+    _check(p, 'read string');
+    return switch (R) {
+      const (RInt8) => p.cast<RInt8>().toDartString(),
+      const (RInt16) => p.cast<RInt16>().toDartString(),
+      const (RInt32) => p.cast<RInt32>().toDartString(),
+      _ => throw UnsupportedError("Invalid type $R for reading a string value."),
+    };
+  }
+
+  String readString(MemoryPointer<R> p, int maxLength) {
+    _check(p, 'readString');
+    return switch (R) {
+      const (RInt8) => p.cast<RInt8>().toDartStringBounded(maxLength),
+      const (RInt16) => p.cast<RInt16>().toDartStringBounded(maxLength),
+      const (RInt32) => p.cast<RInt32>().toDartStringBounded(maxLength),
+      _ => throw UnsupportedError("Invalid type $R for reading a string value."),
+    };
+  }
 
   @override
   List<String> readArray(MemoryPointer<R> p, int count)
-    => throw UnsupportedError("Invalid operation.");
+    => throw UnsupportedError("Invalid operation `readArray` for a $runtimeType.");
 
   @override
-  void write(MemoryPointer<R> p, String value) => switch (R) {
-    const (RInt8) => p.cast<RInt8>().writeString(value),
-    const (RInt16) => p.cast<RInt16>().writeString(value),
-    const (RInt32) => p.cast<RInt32>().writeString(value),
-    _ => throw UnsupportedError("Invalid type $R for reading a string value."),
-  };
+  void write(MemoryPointer<R> p, String value) {
+    _check(p, 'write string');
+    return switch (R) {
+      const (RInt8) => p.cast<RInt8>().writeString(value),
+      const (RInt16) => p.cast<RInt16>().writeString(value),
+      const (RInt32) => p.cast<RInt32>().writeString(value),
+      _ => throw UnsupportedError("Invalid type $R for reading a string value."),
+    };
+  }
 
-  void writeString(MemoryPointer<R> p, String value, int maxLength) => switch (R) {
-    const (RInt8) => p.cast<RInt8>().writeString(value, maxLength),
-    const (RInt16) => p.cast<RInt16>().writeString(value, maxLength),
-    const (RInt32) => p.cast<RInt32>().writeString(value, maxLength),
-    _ => throw UnsupportedError("Invalid type $R for reading a string value."),
-  };
+  void writeString(MemoryPointer<R> p, String value, int maxLength) {
+    _check(p, 'writeString');
+    return switch (R) {
+      const (RInt8) => p.cast<RInt8>().writeString(value, maxLength),
+      const (RInt16) => p.cast<RInt16>().writeString(value, maxLength),
+      const (RInt32) => p.cast<RInt32>().writeString(value, maxLength),
+      _ => throw UnsupportedError("Invalid type $R for reading a string value."),
+    };
+  }
 
   @override
   void writeArray(MemoryPointer<R> p, List<String> values)
-    => throw UnsupportedError("Invalid operation.");
+    => throw UnsupportedError("Invalid operation `writeArray` for a $runtimeType.");
 
   @override
   RaylibTempAllocator? allocator(RaylibTemp temp)
@@ -63,9 +102,7 @@ class StringCodec<R extends RType> extends ElementCodec<String, R> {
 }
 
 class ScalarCodec<E, R extends RType> extends ElementCodec<E, R> {
-  final R type;
-
-  const ScalarCodec(this.type);
+  const ScalarCodec(super.type);
 
   @override
   E read(MemoryPointer<R> p) {
@@ -101,10 +138,9 @@ class ScalarCodec<E, R extends RType> extends ElementCodec<E, R> {
 }
 
 class EnumCodec<E extends RaylibEnum, R extends RType> extends ElementCodec<E, R> {
-  final R type;
   final E Function(int) enumFactory;
 
-  const EnumCodec(this.type, this.enumFactory);
+  const EnumCodec(super.type, this.enumFactory);
 
   @override
   E read(MemoryPointer<R> p) {
@@ -139,10 +175,158 @@ class EnumCodec<E extends RaylibEnum, R extends RType> extends ElementCodec<E, R
     => temp.scalarAlloc<R>();
 }
 
+class PointerCodec<E, R extends RType>
+  extends ElementCodec<E, RPointer<R>>
+  with IndexedCodec<E, R>
+{
+  final ElementCodec<E, R> inner;
+
+  const PointerCodec(super.type, this.inner);
+
+  MemoryPointer<R> _deref(MemoryPointer<RPointer<R>> p) => p.readPtr(0).cast<R>();
+
+  @override
+  E read(MemoryPointer<RPointer<R>> p) {
+    _check(p, 'read pointer');
+    return inner.read(_deref(p));
+  }
+
+  E readSafe(MemoryPointer<RPointer<R>> p, E fallback) {
+    final ref = _deref(p);
+    if (ref.isNull) return fallback;
+    return inner.read(ref);
+  }
+
+  @override
+  void write(MemoryPointer<RPointer<R>> p, E value) {
+    _check(p, 'write pointer');
+    inner.write(_deref(p), value);
+  }
+
+  void writeSafe(MemoryPointer<RPointer<R>> p, E value) {
+    final ref = _deref(p);
+    if (ref.isNull) return;
+    return inner.write(ref, value);
+  }
+
+  @override
+  List<E> readArray(MemoryPointer<RPointer<R>> p, int count) => List.generate(
+    count,
+    (i) => inner.read(_deref(p.offsetBy(i * RType.nativeWordSize).cast<RPointer<R>>())),
+  );
+
+  @override
+  void writeArray(MemoryPointer<RPointer<R>> p, List<E> values) {
+    for (var i = 0; i < values.length; i++) {
+      inner.write(
+        _deref(p.offsetBy(i * RType.nativeWordSize).cast<RPointer<R>>()),
+        values[i],
+      );
+    }
+  }
+
+  @override
+  RaylibTempAllocator? allocator(RaylibTemp temp) => temp._pointerAllocator;
+
+  @override
+  void allocate(RaylibTemp temp, MemoryPointer<RPointer<R>> p, String key, [int count = 1]) {
+    if (!_deref(p).isNull) return;
+    final alloc = inner.allocator(temp);
+    if (alloc == null) throw StateError('No allocator for ${inner.runtimeType}');
+    final block = alloc.At(key, count);
+    p.writePtr(block.cast());
+    inner.allocate(temp, block.cast(), '${key}_inner', count);
+  }
+
+  // indexed codec
+
+  bool isValid(MemoryPointer fieldPtr) => !_deref(fieldPtr.cast()).isNull;
+
+  @override
+  MemoryPointer<R> elementPtr(MemoryPointer fieldPtr, int index)
+    => _deref(fieldPtr.cast()).offsetBy(index * type.target.byteSize);
+
+  @override
+  E elementRead(MemoryPointer<R> p)
+    => inner.read(p);
+
+  @override
+  void elementWrite(MemoryPointer<R> p, E value)
+    => inner.write(p, value);
+}
+
+class ArrayCodec<E, R extends RType>
+  extends ElementCodec<List<E>, RArray<R>>
+  with IndexedCodec<E, R>
+{
+  final ElementCodec<E, R> inner;
+  final int count;
+  const ArrayCodec(super.type, this.inner, this.count);
+
+  @override
+  List<E> read(MemoryPointer<RArray<R>> p) => inner.readArray(p.cast(), count);
+
+  @override
+  void write(MemoryPointer<RArray<R>> p, List<E> values) {
+    if (values.length != count) throw ArgumentError('Expected $count, got ${values.length}');
+    inner.writeArray(p.cast(), values);
+  }
+
+  @override
+  List<List<E>> readArray(MemoryPointer<RArray<R>> p, int count) {
+    // count groups of `this.count` contiguous elements, read them all in one
+    // flat pass (so stride/byteSize logic stays entirely in `inner`) and chunk.
+    final flat = inner.readArray(p.cast(), count * this.count);
+    return List.generate(
+      count,
+      (i) => flat.sublist(i * this.count, (i + 1) * this.count),
+    );
+  }
+
+  @override
+  void writeArray(MemoryPointer<RArray<R>> p, List<List<E>> values) {
+    final flat = <E>[];
+    for (final group in values) {
+      if (group.length != count) {
+        throw ArgumentError('Expected $count elements per group, got ${group.length}.');
+      }
+      flat.addAll(group);
+    }
+    inner.writeArray(p.cast(), flat);
+  }
+
+  @override
+  RaylibTempAllocator? allocator(RaylibTemp temp)
+    => inner.allocator(temp);
+
+  @override
+  void allocate(RaylibTemp temp, MemoryPointer<RArray<R>> p, String key, [int count = 1]) {
+    for (var i = 0; i < count; i++) {
+      for (var j = 0; j < this.count; j++) {
+        inner.allocate(temp, p.offsetBy((i * this.count + j) * inner.type.byteSize).cast(), '${key}_${i}_$j', 1);
+      }
+    }
+  }
+
+  // indexed codec
+
+  @override
+  MemoryPointer<R> elementPtr(MemoryPointer fieldPtr, int index)
+    => fieldPtr.offsetBy(index * type.element.byteSize);
+
+  @override
+  E elementRead(MemoryPointer<R> p)
+    => inner.read(p);
+
+  @override
+  void elementWrite(MemoryPointer<R> p, E value)
+    => inner.write(p, value);
+}
+
 class StructCodec<E extends RaylibStruct<E>> extends ElementCodec<E, RStruct> {
   final StructPointerFactory<E> pointer;
 
-  const StructCodec(this.pointer);
+  const StructCodec(super.type, this.pointer);
 
   @override
   E read(MemoryPointer<RStruct> p) {
@@ -204,239 +388,190 @@ class StructValueField<E, R extends RType> extends StructFieldBase<E> {
     codec.write(p.offsetBy(offset), value);
     return value;
   }
+
+  LiveStructList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+    => throw UnsupportedError("Invalid field type for live list support.");
 }
 
-class StructEnumValueField<E extends RaylibEnum, R extends RType> extends StructFieldBase<E> {
-  final int offset;
-  final EnumCodec<E, R> codec;
-
-  const StructEnumValueField(this.offset, this.codec);
-
-  @override
-  E read(MemoryPointer p)
-    => codec.read(p.offsetBy(offset));
-
-  @override
-  E write(MemoryPointer p, E value) {
-    codec.write(p.offsetBy(offset), value);
-    return value;
-  }
-}
-
-class StructArrayField<E, R extends RType> extends StructFieldBase<List<E>> {
-  final int offset;
-  final int count;
-  final ElementCodec<E, R> codec;
-
-  const StructArrayField(this.offset, this.count, this.codec);
-
-  @override
-  List<E> read(MemoryPointer p)
-    => codec.readArray(p.offsetBy(offset), count);
-
-  @override
-  List<E> write(MemoryPointer p, List<E> values) {
-    codec.writeArray(p.offsetBy(offset), values);
-    return values;
-  }
-}
-
-class StructStringCharArrayField<R extends RType> extends StructFieldBase<String> {
-  final int offset;
-  final int maxLength;
-  final StringCodec<R> codec = .new();
-
-  StructStringCharArrayField(this.offset, this.maxLength);
-
-  @override
-  String read(MemoryPointer p)
-    => codec.readString(p.offsetBy(offset), maxLength);
-
-  @override
-  String write(MemoryPointer p, String value) {
-    codec.writeString(p.offsetBy(offset), value, maxLength);
-    return value;
-  }
-}
-
-class StructStringPointerCharField<R extends RType> extends StructFieldBase<String> {
-  final int offset;
-  final StringCodec<R> codec = .new();
-
-  StructStringPointerCharField(this.offset);
-
-  MemoryPointer<R> basePointer(MemoryPointer p)
-    => p.readPtr(offset).cast<R>();
-
-  @override
-  String read(MemoryPointer p)
-    => codec.read(basePointer(p));
-
-  String readSafeOr(MemoryPointer? p, String fallback) {
-    if (p == null) return fallback;
-    return readSafe(p, fallback);
-  }
-
-  String readSafe(MemoryPointer p, String fallback) {
-    final inner = basePointer(p);
-    if (inner.isNull) return fallback;
-    return codec.read(inner);
-  }
-
-  @override
-  String write(MemoryPointer p, String value) {
-    final inner = basePointer(p);
-    if (inner.isNull) return value;
-    codec.write(inner, value);
-    return value;
-  }
-
-  String writeSafeIf(MemoryPointer? p, String value) {
-    if (p == null) return value;
-    return write(p, value);
-  }
-
-  void allocate(RaylibTemp temp, MemoryPointer at, String key, int count) {
-    if (!basePointer(at).isNull) return;
-
-    final allocator = codec.allocator(temp);
-
-    if (allocator == null) {
-      throw StateError(
-        'No allocator registered for ${codec.runtimeType}',
-      );
-    }
-
-    final inner = allocator.At('${key}_${offset}_string', count);
-    at.offsetBy(offset).writePtr(inner.cast());
-  }
-}
-
-class StructPointerField<E, R extends RType> extends StructFieldBase<E> {
-  final int offset;
-  final ElementCodec<E, R> codec;
-
-  const StructPointerField(this.offset, this.codec);
-
-  MemoryPointer<R> basePointer(MemoryPointer p)
-    => p.readPtr(offset).cast<R>();
-
-  @override
-  E read(MemoryPointer p)
-    => codec.read(basePointer(p));
+class StructPointerValueField<E, R extends RType> extends StructValueField<E, R> {
+  const StructPointerValueField(super.offset, super.codec);
 
   E readSafe(MemoryPointer p, E fallback) {
-    final inner = basePointer(p);
-    if (inner.isNull) return fallback;
-    return codec.read(inner);
+    if (codec case PointerCodec<E, R> pcodec) {
+      return pcodec.readSafe(p.cast(), fallback);
+    }
+    return super.read(p);
+  }
+
+  void writeSafe(MemoryPointer p, E value) {
+    if (codec case PointerCodec<E, R> pcodec) {
+      pcodec.writeSafe(p.cast(), value);
+      return;
+    }
+    super.write(p, value);
   }
 
   @override
-  E write(MemoryPointer p, E value) {
-    codec.write(basePointer(p), value);
-    return value;
-  }
-
-  void allocate(RaylibTemp temp, MemoryPointer at, String key) {
-    if (!basePointer(at).isNull) return;
-
-    final allocator = codec.allocator(temp);
-
-    if (allocator == null) {
-      throw StateError(
-        'No allocator registered for ${codec.runtimeType}',
-      );
-    }
-
-    final inner = allocator.At('${key}_${offset}_value', 1);
-    at.offsetBy(offset).writePtr(inner.cast());
-  }
+  LiveStructList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+    => .pointer(ptrOf, this, initial);
 }
 
 class StructPointerArrayField<E, R extends RType> extends StructFieldBase<List<E>> {
   final int offset;
-  final ElementCodec<E, R> codec;
+  final PointerCodec<E, R> codec;
 
-  /// If non-null, this is a fixed-size pointer array.
-  final int? count;
-
-  const StructPointerArrayField(
-    this.offset,
-    this.codec, {
-    this.count,
-  });
-
-  MemoryPointer<R> basePointer(MemoryPointer p)
-    => p.readPtr(offset).cast<R>();
-
-  int _resolveCount(int? count) {
-    final fixed = this.count;
-
-    if (fixed != null) {
-      if (count != null && count != fixed) {
-        throw ArgumentError('Expected exactly $fixed elements, got $count.');
-      }
-
-      return fixed;
-    }
-
-    if (count == null) {
-      throw ArgumentError('A count is required for a variable-size pointer array.');
-    }
-
-    return count;
-  }
+  const StructPointerArrayField(this.offset, this.codec);
 
   @override
-  List<E> read(MemoryPointer p) {
-    final resolvedCount = _resolveCount(null);
-    return codec.readArray(basePointer(p), resolvedCount);
-  }
+  List<E> read(MemoryPointer p)
+    => throw UnsupportedError('Length is runtime-determined, use `readCount`.');
+
+  @override
+  List<E> write(MemoryPointer p, List<E> values)
+    => throw UnsupportedError('Length is runtime-determined, use `writeCount`.');
 
   List<E> readCountOr(MemoryPointer? p, int count, List<E> fallback) {
     if (p == null) return fallback;
-    final inner = basePointer(p);
-    if (inner.isNull) return fallback;
-    final resolvedCount = _resolveCount(count);
-    return codec.readArray(inner, resolvedCount);
+    return readCount(p, count, fallback);
   }
 
   List<E> readCount(MemoryPointer p, int count, List<E> fallback) {
-    final resolvedCount = _resolveCount(count);
-    final inner = basePointer(p);
-    if (inner.isNull) return fallback;
-    return codec.readArray(inner, resolvedCount);
+    final ref = codec._deref(p.offsetBy(offset).cast());
+    if (ref.isNull) return fallback;
+    return codec.inner.readArray(ref, count);
   }
 
-  @override
-  List<E> write(MemoryPointer p, List<E> values) {
-    final resolvedCount = _resolveCount(values.length);
-
-    if (values.length != resolvedCount) {
-      throw ArgumentError(
-        'Expected exactly $resolvedCount elements, '
-        'got ${values.length}.',
-      );
-    }
-
-    codec.writeArray(basePointer(p), values);
+  List<E> writeCount(MemoryPointer p, List<E> values) {
+    final ref = codec._deref(p.offsetBy(offset).cast());
+    codec.inner.writeArray(ref, values);
     return values;
   }
 
-  void allocate(RaylibTemp temp, MemoryPointer at, String key, int count) {
-    final resolvedCount = _resolveCount(count);
-
-    if (!basePointer(at).isNull) return;
-
-    final allocator = codec.allocator(temp);
-
-    if (allocator == null) {
-      throw StateError(
-        'No allocator registered for ${codec.runtimeType}',
-      );
-    }
-
-    final inner = allocator.At('${key}_${offset}_array', resolvedCount);
-    at.offsetBy(offset).writePtr(inner.cast());
+  List<E> writeCountIf(MemoryPointer? p, List<E> fallback) {
+    if (p == null) return fallback;
+    final ref = codec._deref(p.offsetBy(offset).cast());
+    codec.inner.writeArray(ref, fallback);
+    return fallback;
   }
 }
+
+class LiveStructList<E, R extends RType> extends ListMixin<E> {
+  final MemoryPointer? Function() _ptrOf;
+  final StructValueField _field;
+  final int? _fixedCount; // non-null only for ArrayCodec fields
+  List<E> _cache;
+
+  LiveStructList._(this._ptrOf, this._field, this._fixedCount, List<E> initial)
+    : _cache = List<E>.of(initial);
+
+  /// Fixed-size inline array field, length is locked to the array's declared count.
+  factory LiveStructList.array(
+    MemoryPointer? Function() ptrOf,
+    StructValueField<List<E>, RArray<R>> field,
+    List<E> initial,
+  ) {
+    final codec = field.codec as ArrayCodec<E, R>;
+    assert(initial.length <= codec.count);
+    return LiveStructList._(ptrOf, field, codec.count, initial);
+  }
+
+  /// Pointer-backed field, length is whatever the caller says it is.
+  /// Indexing past what's actually allocated natively is the caller's problem.
+  factory LiveStructList.pointer(
+    MemoryPointer? Function() ptrOf,
+    StructValueField<E, RPointer<R>> field,
+    List<E> initial,
+  ) {
+    return LiveStructList._(ptrOf, field, null, initial);
+  }
+
+  MemoryPointer? get _fieldPtr {
+    final p = _ptrOf();
+    return p?.offsetBy(_field.offset);
+  }
+
+  @override
+  int get length => _cache.length;
+
+  @override
+  set length(int newLength) {
+    if (_fixedCount != null) {
+      throw UnsupportedError('fixed-size array field, length is $_fixedCount');
+    }
+    _cache.length = newLength; // resizes the Dart-side list
+  }
+
+  @override
+  E operator [](int index) {
+    final fp = _fieldPtr;
+    if (fp == null) return _cache[index];
+    final codec = _field.codec;
+    if (codec case ArrayCodec<E, R> array) {
+      return array.readAt(fp, index);
+    } else if (codec case PointerCodec<E, R> pointer) {
+      return pointer.readAt(fp, index);
+    } else {
+      throw UnsupportedError('Unknown codec ${codec.runtimeType} for live list [] operation.');
+    }
+  }
+
+  @override
+  void operator []=(int index, E value) {
+    if (index >= _cache.length) _cache.length = index + 1;
+    _cache[index] = value;
+    final fp = _fieldPtr;
+    if (fp == null) return;
+    final codec = _field.codec;
+    if (_fixedCount != null) assert(index < _fixedCount);
+    if (codec case ArrayCodec<E, R> array) {
+      array.writeAt(fp, index, value);
+    } else if (codec case PointerCodec<E, R> pointer) {
+      pointer.writeAt(fp, index, value);
+    } else {
+      throw UnsupportedError('Unknown codec ${codec.runtimeType} for live list []= operation.');
+    }
+  }
+
+  List<E> get inner => _cache;
+  set inner(List<E> value) {
+    _cache = .of(value);
+    final fp = _fieldPtr;
+    if (fp == null) return;
+    if (_fixedCount != null) {
+      assert(value.length <= _fixedCount);
+      _field.write(fp, _cache);
+    } else {
+      final codec = _field.codec;
+      if (codec case PointerCodec<E, R> pointer) {
+        pointer.writeArray(fp.cast(), _cache);
+      } else {
+        throw UnsupportedError('Unknown codec ${codec.runtimeType} for live list `set inner` operation.');
+      }
+    }
+  }
+
+  set raw(List<E> value) => _cache = .of(value);
+
+  /// Force a live re-read of [count] elements from native memory,
+  /// refreshing the cache and returning the fresh values.
+  List<E> materialize(int count) {
+    final fp = _fieldPtr;
+    if (fp == null) return _cache; // unbound, nothing to read
+    final codec = _field.codec;
+    List<dynamic> values; // TODO: can't we just use `readArray` of the codec directly?
+    if (codec case ArrayCodec<E, R> array) {
+      values = array.readArray(fp.cast(), count);
+    } else if (codec case PointerCodec<E, R> pointer) {
+      values = pointer.inner.readArray(pointer._deref(fp.cast()), count);
+    } else {
+      throw UnsupportedError('Unknown codec ${codec.runtimeType} for live list `materialize` operation.');
+    }
+    _cache = .from(values);
+    return _cache;
+  }
+}
+
+// LiveStructList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+//   => .array(ptrOf, this, initial);
+// LiveStructList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+//   => .pointer(ptrOf, this, initial);

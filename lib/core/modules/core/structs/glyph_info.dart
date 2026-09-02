@@ -37,7 +37,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   static final _offsetXF = struct.scalar<int, RInt>(.offsetX);
   static final _offsetYF = struct.scalar<int, RInt>(.offsetY);
   static final _advanceXF = struct.scalar<int, RInt>(.advanceX);
-  static final _imageF = struct.struct<ImageD>(.image, ImageD.pointer);
+  static final _imageF = struct.struct(.image, ImageD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

@@ -31,8 +31,8 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera2DD.new, Camera2DD.pointer);
 
-  static final _offsetF = struct.struct<Vector2D>(.offset, Vector2D.pointer);
-  static final _targetF = struct.struct<Vector2D>(.target, Vector2D.pointer);
+  static final _offsetF = struct.struct(.offset, Vector2D.pointer);
+  static final _targetF = struct.struct(.target, Vector2D.pointer);
   static final _rotationF = struct.scalar<double, RFloat>(.rotation);
   static final _zoomF = struct.scalar<double, RFloat>(.zoom);
 

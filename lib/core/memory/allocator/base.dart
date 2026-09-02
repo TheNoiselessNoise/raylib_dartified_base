@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Base class for Raylib temporary allocators, managing typed memory slots
 /// with a consistent allocation/free lifecycle.
-abstract class RaylibTempAllocator<R extends RType> {
+class RaylibTempAllocator<R extends RType> {
   final RaylibTemp temp;
 
   /// Debug name for this allocator, used in logging and diagnostics.

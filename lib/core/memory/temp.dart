@@ -142,6 +142,8 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   late final RaylibTempTypedDataListAllocator TypedDataList$;
   late final RaylibTempStringAllocator String$;
 
+  late final RaylibTempAllocator<RPointer> _pointerAllocator;
+
   void _initSpecialAllocators() {
     TypedDataList$ = .new(this);
 
@@ -283,6 +285,8 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     _builtInScalarAllocators[RUnsignedInt] = UnsignedInt$;
     _builtInScalarAllocators[RFloat] = Float$;
     _builtInScalarAllocators[RDouble] = Double$;
+
+    _pointerAllocator = .new(this, byteSize: RType.nativeWordSize);
   }
 
   // structs
@@ -423,8 +427,9 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   void dispose() {
     super.dispose();
 
-    debugFreeInfo('Freeing built-in ${_builtInScalarAllocators.length + 1} scalar allocators...');
+    debugFreeInfo('Freeing built-in ${_builtInScalarAllocators.length + 2} scalar allocators...');
     String$.dispose();
+    _pointerAllocator.dispose();
     _builtInScalarAllocators.values.forEach((a) => a.dispose());
 
     debugFreeInfo('Freeing built-in ${_builtInStructAllocators.length} struct allocators...');

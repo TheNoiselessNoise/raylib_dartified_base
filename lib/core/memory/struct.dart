@@ -37,7 +37,7 @@ final class RaylibTempStructState with RaylibDisposable {
   int get nextId => internalId ??= ++_internalIdCounter;
 }
 
-// NOTE: customizable alignment?
+// TODO: customizable alignment?
 // -----------------------------
 // class FieldSpec {
 //   final RType type;
@@ -52,7 +52,7 @@ final class RaylibTempStructState with RaylibDisposable {
 //   for (final entry in fields.entries) {
 //     final spec = entry.value;
 //     final type = spec.type;
-//     var align = type is RStruct ? type.alignment : type.elementByteSize;
+//     var align = type is RStruct ? type.layout.alignment : type.byteSize;
 //     if (spec.alignOverride != null) align = spec.alignOverride!;
 //     offset = (offset + align - 1) ~/ align * align;
 //     offsets[entry.key] = offset;
@@ -78,17 +78,17 @@ mixin StructFields on Enum {}
 /// total struct size is rounded up to the largest field alignment.
 /// This reproduces real C struct layout for flat structs of primitives
 /// and pointers.
-final class StructLayout<E extends StructFields> {
+final class StructLayout<F extends StructFields> {
   /// Maps each field to the [RType] describing it.
-  final Map<E, RType> fields;
-  final Map<E, int> offsets;
+  final Map<F, RType> fields;
+  final Map<F, int> offsets;
   final int byteSize;
   final int alignment;
 
   const StructLayout._(this.fields, this.offsets, this.byteSize, this.alignment);
 
-  factory StructLayout.aligned(Map<E, RType> fields) {
-    final offsets = <E, int>{};
+  factory StructLayout.aligned(Map<F, RType> fields) {
+    final offsets = <F, int>{};
     var offset = 0;
     var maxAlign = 1;
     for (final entry in fields.entries) {
@@ -103,63 +103,32 @@ final class StructLayout<E extends StructFields> {
     return StructLayout._(fields, offsets, total, maxAlign);
   }
 
-  int offset(E field) => offsets[field]!;
+  int offset(F field) => offsets[field]!;
 
-  void _checkField(E f) {
+  void _checkField(F f) {
     if (!offsets.containsKey(f)) {
-      throw StateError("You have defined a field `${f.name}`, but you didn't provide it in a struct layout!");
+      throw StateError("You have defined a field `${f.name}`, but you didn't provide it in a struct layout.");
     }
   }
-  
-  // String values
 
-  StructStringCharArrayField<R> stringCharArray<R extends RType>(E f) {
-    _checkField(f);
-    
-    final type = fields[f]! as RArray<R>;
-    final element = type.element;
-
-    if (element is! RInt8 && element is! RInt16 && element is! RInt32) {
-      throw UnsupportedError(
-        "Invalid element type $R for char array field. Use either RInt8, RInt16 or RInt32."
+  void _checkEnumType(F f, RType type) {
+    if (type is! RTypeIntLike) {
+      throw ArgumentError(
+        "Layout field `${f.name}` has element type `${type.runtimeType}`, which is not int-like. "
+        "Enum values require an RTypeIntLike (e.g. RInt8, RUint32)."
       );
     }
-
-    return .new(offset(f), type.count);
   }
 
-  StructStringPointerCharField<R> stringPointerChar<R extends RType>(E f) {
-    _checkField(f);
-
-    final type = fields[f]! as RPointer<R>;
-    final element = type.target;
-
-    if (element is! RInt8 && element is! RInt16 && element is! RInt32) {
+  void _checkStringType(F f, RType type, String forWhat) {
+    if (type is! RInt8 && type is! RInt16 && type is! RInt32) {
       throw UnsupportedError(
-        "Invalid element type $R for pointer char field. Use either RInt8, RInt16 or RInt32."
+        "Invalid element type ${type.runtimeType} for $forWhat. Use either RInt8, RInt16 or RInt32."
       );
     }
-
-    return .new(offset(f));
   }
 
-  // Inline values
-
-  StructValueField<T, R> scalar<T, R extends RType>(E f) {
-    _checkField(f);
-    final type = fields[f]! as R;
-    return .new(offset(f), ScalarCodec<T, R>(type));
-  }
-
-  StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
-    E f,
-    StructPointerFactory<T> pointer,
-  ) {
-    _checkField(f);
-    return .new(offset(f), StructCodec<T>(pointer));
-  }
-
-  R _getFieldAs<R extends RType>(E f) {
+  R _getFieldAs<R extends RType>(F f) {
     final type = fields[f]!;
     try {
       return type as R;
@@ -170,88 +139,138 @@ final class StructLayout<E extends StructFields> {
     }
   }
 
-  StructEnumValueField<X, R> enumValue<
-    X extends RaylibEnum,
-    R extends RType
-  >(E f, X Function(int) enumFactory) {
+  StructValueField<E, R> scalar<E, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<R>(f);
-    if (type is! RTypeIntLike) {
-      throw ArgumentError(
-        "Layout field `${f.name}` has element type `$R`, which is not int-like. "
-        "Enum values require an RTypeIntLike (e.g. RInt8, RUint32)."
-      );
-    }
-    return .new(offset(f), .new(type, enumFactory));
+    return .new(offset(f), ScalarCodec(type));
   }
 
-  // Inline arrays
+  StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
+    F f,
+    StructPointerFactory<T> pointer,
+  ) {
+    _checkField(f);
+    final type = _getFieldAs<RStruct>(f);
+    return .new(offset(f), StructCodec<T>(type, pointer));
+  }
 
-  StructArrayField<T, R> scalarArray<T, R extends RType>(E f) {
+  StructValueField<X, R> enumValue<
+    X extends RaylibEnum,
+    R extends RType
+  >(F f, X Function(int) enumFactory) {
+    _checkField(f);
+    final type = _getFieldAs<R>(f);
+    _checkEnumType(f, type);
+    final enumCodec = EnumCodec(type, enumFactory);
+    return .new(offset(f), enumCodec);
+  }
+
+  StructValueField<String, R> stringAsCharArray<R extends RType>(F f) {
     _checkField(f);
     final type = fields[f]! as RArray<R>;
-    return .new(offset(f), type.count, ScalarCodec<T, R>(type.element));
+    final element = type.element;
+    _checkStringType(f, element, 'char array field');
+    return .new(offset(f), StringCodec(element));
   }
 
-  StructArrayField<T, RStruct> structArray<T extends RaylibStruct<T>>(
-    E f,
+  StructPointerValueField<String, RPointer<R>> stringAsPointerChar<R extends RType>(F f) {
+    _checkField(f);
+    final type = fields[f]! as RPointer<R>;
+    final element = type.target;
+    _checkStringType(f, element, 'pointer char field');
+    final stringCodec = StringCodec(element);
+    final pointerCodec = PointerCodec(type, stringCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructValueField<List<T>, RArray<R>> scalarArray<T, R extends RType>(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RArray<R>>(f);
+    final scalarCodec = ScalarCodec<T, R>(type.element);
+    final arrayCodec = ArrayCodec(type, scalarCodec, type.count);
+    return .new(offset(f), arrayCodec);
+  }
+
+  StructValueField<List<T>, RArray<RStruct>> structArray<T extends RaylibStruct<T>>(
+    F f,
     StructPointerFactory<T> pointer,
   ) {
     _checkField(f);
-    final type = fields[f]! as RArray<RStruct>;
-    return .new(offset(f), type.count, StructCodec<T>(pointer));
+    final type = _getFieldAs<RArray<RStruct>>(f);
+    final structCodec = StructCodec(type.element, pointer);
+    final arrayCodec = ArrayCodec(type, structCodec, type.count);
+    return .new(offset(f), arrayCodec);
   }
 
-  // Pointer to one value
+  StructPointerValueField<T, RPointer<R>> pointerScalar<T, R extends RType>(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<R>>(f);
+    final scalarCodec = ScalarCodec<T, R>(type.target);
+    final pointerCodec = PointerCodec(type, scalarCodec);
+    return .new(offset(f), pointerCodec);
+  }
 
-  StructPointerField<T, R> pointerScalar<T, R extends RType>(E f) {
+  StructPointerValueField<T, RPointer<RStruct>> pointerStruct<
+    T extends RaylibStruct<T>
+  >(F f, StructPointerFactory<T> pointer) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<RStruct>>(f);
+    final structCodec = StructCodec(type.target, pointer);
+    final pointerCodec = PointerCodec(type, structCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerValueField<X, RPointer<R>> pointerEnumValue<
+    X extends RaylibEnum,
+    R extends RType
+  >(F f, X Function(int) enumFactory) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<R>>(f);
+    _checkEnumType(f, type.target);
+    final enumCodec = EnumCodec(type.target, enumFactory);
+    final pointerCodec = PointerCodec(type, enumCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerValueField<List<T>, RPointer<RArray<R>>> pointerScalarFixedArray<T, R extends RType>(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<RArray<R>>>(f);
+    final array = type.target;
+    final scalarCodec = ScalarCodec<T, R>(array.element);
+    final arrayCodec = ArrayCodec(type.target, scalarCodec, array.count);
+    final pointerCodec = PointerCodec(type, arrayCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerValueField<List<T>, RPointer<RArray<RStruct>>> pointerStructFixedArray<
+    T extends RaylibStruct<T>
+  >(F f, StructPointerFactory<T> pointer) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<RArray<RStruct>>>(f);
+    final array = type.target;
+    final structCodec = StructCodec(array.element, pointer);
+    final arrayCodec = ArrayCodec(type.target, structCodec, array.count);
+    final pointerCodec = PointerCodec(type, arrayCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerArrayField<T, R> pointerScalarArray<T, R extends RType>(F f) {
     _checkField(f);
     final type = fields[f]! as RPointer<R>;
-    return .new(offset(f), ScalarCodec<T, R>(type.target));
-  }
-
-  StructPointerField<T, RStruct> pointerStruct<T extends RaylibStruct<T>>(
-    E f,
-    StructPointerFactory<T> pointer,
-  ) {
-    _checkField(f);
-    final _ = fields[f]! as RPointer<RStruct>; // exists to check the type
-    return .new(offset(f), StructCodec<T>(pointer));
-  }
-
-  // Pointer to variable-size array
-
-  StructPointerArrayField<T, R> pointerScalarArray<T, R extends RType>(E f) {
-    _checkField(f);
-    final type = fields[f]! as RPointer<R>;
-    return .new(offset(f), ScalarCodec<T, R>(type.target));
+    final scalarCodec = ScalarCodec<T, R>(type.target);
+    final pointerCodec = PointerCodec(type, scalarCodec);
+    return .new(offset(f), pointerCodec);
   }
 
   StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
-    E f,
+    F f,
     StructPointerFactory<T> pointer,
   ) {
     _checkField(f);
-    return .new(offset(f), StructCodec<T>(pointer));
-  }
-
-  // Pointer to fixed-size array
-
-  StructPointerArrayField<T, R> pointerScalarFixedArray<T, R extends RType>(E f) {
-    _checkField(f);
-    final type = fields[f]! as RPointer<RArray<R>>;
-    final array = type.target;
-    return .new(offset(f), ScalarCodec<T, R>(array.element), count: array.count);
-  }
-
-  StructPointerArrayField<T, RStruct> pointerStructFixedArray<T extends RaylibStruct<T>>(
-    E f,
-    StructPointerFactory<T> pointer,
-  ) {
-    _checkField(f);
-    final type = fields[f]! as RPointer<RArray<RStruct>>;
-    final array = type.target;
-    return .new(offset(f), StructCodec<T>(pointer), count: array.count);
+    final type = fields[f]! as RPointer<RStruct>;
+    final structCodec = StructCodec(type.target, pointer);
+    final pointerCodec = PointerCodec(type, structCodec);
+    return .new(offset(f), pointerCodec);
   }
 }
 
@@ -315,8 +334,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// Calls [callback] with [op] if it is set, otherwise no-ops.
   @nonVirtual
   void structOnOp(void Function(StructPointer<D> p) callback) {
-    // ignore: null_check_on_nullable_type_parameter
-    if (op != null) callback(op!);
+    if (op case StructPointer<D> op) callback(op);
   }
 
   /// Returns [op], throwing a descriptive [StateError] if unavailable or this instance [RaylibTempStructState.isDisposed].
@@ -324,17 +342,17 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   StructPointer<D> getOp() {
     if ($state.isDisposed) {
       throw StateError(
-        '$structName.getop() was called on a disposed struct. '
+        '$structName.getOp() was called on a disposed struct. '
         'The pointer is no longer valid and cannot be accessed.'
       );
     }
 
     if (op == null) {
       if (!structRequiresOp) {
-        throw StateError('$structName.getop() was called on a value-type struct that never owns a pointer.');
+        throw StateError('$structName.getOp() was called on a value-type struct that never owns a pointer.');
       } else {
         throw StateError(
-          '$structName.getop() was called but op is null. '
+          '$structName.getOp() was called but op is null. '
           'This struct requires a raylib-owned pointer but none has been assigned yet.'
         );
       }

@@ -35,7 +35,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, NPatchInfoD.new, NPatchInfoD.pointer);
 
-  static final _sourceF = struct.struct<RectangleD>(.source, RectangleD.pointer);
+  static final _sourceF = struct.struct(.source, RectangleD.pointer);
   static final _leftF = struct.scalar<int, RInt>(.left);
   static final _topF = struct.scalar<int, RInt>(.top);
   static final _rightF = struct.scalar<int, RInt>(.right);

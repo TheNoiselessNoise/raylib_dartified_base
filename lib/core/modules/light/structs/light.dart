@@ -51,9 +51,9 @@ class LightD extends RaylibStruct<LightD> {
 
   static final _typeF = struct.scalar<int, RInt>(.type);
   static final _enabledF = struct.scalar<bool, RBool>(.enabled);
-  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
-  static final _targetF = struct.struct<Vector3D>(.target, Vector3D.pointer);
-  static final _colorF = struct.struct<ColorD>(.color, ColorD.pointer);
+  static final _positionF = struct.struct(.position, Vector3D.pointer);
+  static final _targetF = struct.struct(.target, Vector3D.pointer);
+  static final _colorF = struct.struct(.color, ColorD.pointer);
   static final _attenuationF = struct.scalar<double, RFloat>(.attenuation);
   
   static final _enabledLocF = struct.scalar<int, RInt>(.enabledLoc);

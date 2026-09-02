@@ -29,9 +29,9 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   static StructPointer<TransformD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, TransformD.new, TransformD.pointer);
 
-  static final _translationF = struct.struct<Vector3D>(.translation, Vector3D.pointer);
-  static final _rotationF = struct.struct<QuaternionD>(.rotation, QuaternionD.pointer);
-  static final _scaleF = struct.struct<Vector3D>(.scale, Vector3D.pointer);
+  static final _translationF = struct.struct(.translation, Vector3D.pointer);
+  static final _rotationF = struct.struct(.rotation, QuaternionD.pointer);
+  static final _scaleF = struct.struct(.scale, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

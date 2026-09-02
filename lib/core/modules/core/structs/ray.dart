@@ -27,8 +27,8 @@ class RayD extends RaylibStructLiteral<RayD> {
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayD.new, RayD.pointer);
 
-  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
-  static final _directionF = struct.struct<Vector3D>(.direction, Vector3D.pointer);
+  static final _positionF = struct.struct(.position, Vector3D.pointer);
+  static final _directionF = struct.struct(.direction, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

@@ -33,9 +33,9 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera3DD.new, Camera3DD.pointer);
 
-  static final _positionF = struct.struct<Vector3D>(.position, Vector3D.pointer);
-  static final _targetF = struct.struct<Vector3D>(.target, Vector3D.pointer);
-  static final _upF = struct.struct<Vector3D>(.up, Vector3D.pointer);
+  static final _positionF = struct.struct(.position, Vector3D.pointer);
+  static final _targetF = struct.struct(.target, Vector3D.pointer);
+  static final _upF = struct.struct(.up, Vector3D.pointer);
   static final _fovyF = struct.scalar<double, RFloat>(.fovy);
   static final _projectionF = struct.scalar<int, RInt>(.projection);
 

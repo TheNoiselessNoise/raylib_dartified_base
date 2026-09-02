@@ -30,8 +30,8 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
     => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
-  static final _textureF = struct.struct<TextureD>(.texture, TextureD.pointer);
-  static final _depthF = struct.struct<TextureD>(.depth, TextureD.pointer);
+  static final _textureF = struct.struct(.texture, TextureD.pointer);
+  static final _depthF = struct.struct(.depth, TextureD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
