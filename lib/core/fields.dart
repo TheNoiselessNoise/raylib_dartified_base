@@ -178,16 +178,18 @@ class UnknownCodec<E, R extends RType> extends ElementCodec<E, R> {
     => throw UnsupportedError('Cannot write unknown value.');
 }
 
-/// A single pointer to one [E] value. `type` is the [RPointer<R>] describing
-/// the pointer field itself; [inner] decodes whatever it points to.
+/// A single pointer to one [E] value.
 ///
-/// Two unrelated "array-ish" abilities live here — don't conflate them:
-///  - [readArray]/[writeArray] (via [ContiguousCodec]) read N consecutive
-///    *pointer slots*, each dereferenced through [inner]. Fixed stride =
-///    word size, so it's a legitimate contiguous read (e.g. `void* xs[8]`
-///    via `ArrayCodec<E, RPointer<X>>`).
-///  - [readAt]/[writeAt] index into the *single* array this one pointer
-///    points to (no count needed upfront; caller indexes on demand).
+/// [type] is the [RPointer<R>] describing the pointer field itself;
+/// [inner] decodes whatever the pointer points to.
+///
+/// Two unrelated "array-ish" abilities live here:
+///
+///  - [readArray]/[writeArray] operate on a contiguous array of pointer
+///    slots, e.g. `void* xs[8]`.
+///
+///  - [readAt]/[writeAt] index into the array pointed to by a single
+///    pointer, e.g. `T* xs`.
 class PointerCodec<E, R extends RType>
   extends ElementCodec<E, RPointer<R>>
   with ContiguousCodec<E, RPointer<R>>
@@ -196,6 +198,7 @@ class PointerCodec<E, R extends RType>
 
   const PointerCodec(super.type, this.inner);
 
+  /// Dereference a pointer field.
   MemoryPointer<Y> deref<Y extends RType>(MemoryPointer p) => p.readPtr();
 
   bool isValid(MemoryPointer p) => !deref(p).isNull;
@@ -203,6 +206,7 @@ class PointerCodec<E, R extends RType>
   @override
   E read(MemoryPointer p) {
     _check(p, 'read pointer');
+
     return inner.read(deref(p));
   }
 
@@ -213,10 +217,8 @@ class PointerCodec<E, R extends RType>
   }
 
   @override
-  void write(MemoryPointer p, E value) {
-    _check(p, 'write pointer');
-    inner.write(deref(p), value);
-  }
+  void write(MemoryPointer p, E value)
+    => inner.write(deref(p), value);
 
   void writeSafe(MemoryPointer p, E value) {
     final ref = deref(p);
@@ -227,8 +229,7 @@ class PointerCodec<E, R extends RType>
   @override
   List<E> readArray(MemoryPointer p, int count) {
     _check(p, 'read pointer array');
-    return .generate(
-      count,
+    return .generate(count,
       (i) => inner.read(deref(p.offsetBy(i * RType.nativeWordSize))),
     );
   }
@@ -241,9 +242,37 @@ class PointerCodec<E, R extends RType>
     }
   }
 
-  /// Address of element [index] in the run this pointer points to.
+  /// Address of element [index] in the array pointed to by this pointer.
+  ///
+  /// For:
+  ///
+  ///     T* p
+  ///
+  /// this means:
+  ///
+  ///     p[index]
+  ///
+  /// and therefore:
+  ///
+  ///     *p + index * sizeof(T)
   MemoryPointer<R> elementPtr(MemoryPointer fieldPtr, int index)
     => deref(fieldPtr).offsetBy(index * type.target.byteSize);
+
+  /// Address stored in pointer slot [index].
+  ///
+  /// For:
+  ///
+  ///     T** p
+  ///
+  /// this means:
+  ///
+  ///     p[index]
+  ///
+  /// where every [p[index]] is itself a `T*`.
+  ///
+  /// This is intentionally different from [elementPtr].
+  MemoryPointer<R> pointerElementPtr(MemoryPointer fieldPtr, int index)
+    => fieldPtr.offsetBy(index * RType.nativeWordSize).readPtr();
 
   E readAt(MemoryPointer fieldPtr, int index)
     => inner.read(elementPtr(fieldPtr, index));
@@ -515,11 +544,18 @@ class LivePointerSync<R extends RType> {
 }
 
 class LiveStructList<E, R extends RType> extends ListMixin<E> {
+  /// Returns the memory pointer representing the object containing this list.
+  ///
+  /// For a normal struct field this is the struct pointer.
+  /// For a nested live list this may instead return the actual array pointer.
   final MemoryPointer? Function() ptrOf;
+
   final int _offset;
   final int? _fixedCount;
+
   final E Function(MemoryPointer fieldPtr, int index) _readAt;
   final void Function(MemoryPointer fieldPtr, int index, E value) _writeAt;
+
   List<E> _cache;
 
   LiveStructList._(
@@ -531,6 +567,19 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     List<E> initial,
   ) : _cache = .of(initial);
 
+  /// Creates a live list directly from an already-resolved pointer.
+  ///
+  /// Unlike the other factories, [ptrOf] here points directly at the
+  /// beginning of the array represented by this list. Therefore [offset]
+  /// is always zero.
+  factory LiveStructList.live(
+    MemoryPointer? Function() ptrOf, {
+    required int? fixedCount,
+    required E Function(MemoryPointer fieldPtr, int index) readAt,
+    required void Function(MemoryPointer fieldPtr, int index, E value) writeAt,
+    List<E> initial = const [],
+  }) => ._(ptrOf, 0, fixedCount, readAt, writeAt, initial);
+
   /// Fixed-size inline array field.
   factory LiveStructList.array(
     MemoryPointer? Function() ptrOf,
@@ -538,9 +587,10 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     List<E> initial,
   ) {
     final codec = field.codec as ArrayCodec<E, R>;
+
     assert(initial.length <= codec.count);
-    return ._(
-      ptrOf, field.offset, codec.count,
+
+    return ._(ptrOf, field.offset, codec.count,
       (fp, i) => codec.readAt(fp, i),
       (fp, i, v) => codec.writeAt(fp, i, v),
       initial,
@@ -554,8 +604,8 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     List<E> initial,
   ) {
     final codec = field.codec;
-    return ._(
-      ptrOf, field.offset, null,
+
+    return ._(ptrOf, field.offset, null,
       (fp, i) => codec.readAt(fp, i),
       (fp, i, v) => codec.writeAt(fp, i, v),
       initial,
@@ -570,16 +620,84 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   ) {
     final pointerCodec = field.codec;
     final arrayCodec = pointerCodec.inner as ArrayCodec<E, R>;
+
     assert(initial.length <= arrayCodec.count);
-    return ._(
-      ptrOf, field.offset, arrayCodec.count,
+
+    return ._(ptrOf, field.offset, arrayCodec.count,
       (fp, i) => arrayCodec.readAt(pointerCodec.deref(fp), i),
       (fp, i, v) => arrayCodec.writeAt(pointerCodec.deref(fp), i, v),
       initial,
     );
   }
 
-  MemoryPointer? _fieldPtr([MemoryPointer? src]) => (src ?? ptrOf())?.offsetBy(_offset);
+  /// Pointer to an array of pointers.
+  ///
+  /// Conceptually:
+  ///
+  ///     T** -> T* -> T[]
+  ///
+  /// The outer list represents the array of T* pointers.
+  /// Every element of that outer list is itself a live list representing
+  /// the T[] pointed to by that particular T*.
+  static LiveStructList<LiveStructList<T, RInner>, RPointer<RInner>> pointerPointerArray<
+    T,
+    RInner extends RType
+  >(
+    MemoryPointer? Function() ptrOf,
+    StructPointerArrayField<T, RPointer<RInner>> field,
+    List<List<T>> initial,
+  ) {
+    final outerCodec = field.codec;
+    final innerPointerCodec = outerCodec.inner as PointerCodec<T, RInner>;
+    final nestedCache = <LiveStructList<T, RInner>>[];
+
+    late final LiveStructList<LiveStructList<T, RInner>, RPointer<RInner>> result;
+
+    result = .live(ptrOf, fixedCount: null,
+      readAt: (_, index) {
+        while (nestedCache.length <= index) {
+          final innerIndex = nestedCache.length;
+          final initialInner = innerIndex < initial.length ? initial[innerIndex] : const [];
+          final innerList =
+              LiveStructList<T, RInner>.live(
+                () {
+                  final p = ptrOf();
+                  if (p == null) return null;
+                  final outerFieldPtr = p.offsetBy(field.offset);
+                  return outerCodec.pointerElementPtr(outerFieldPtr, innerIndex);
+                },
+                fixedCount: null,
+                readAt: (fp, elementIndex) {
+                  final elementPtr = fp.offsetBy(elementIndex * innerPointerCodec.type.byteSize);
+                  return innerPointerCodec.read(elementPtr);
+                },
+                writeAt: (fp, elementIndex, value) {
+                  final elementPtr = fp.offsetBy(elementIndex * innerPointerCodec.type.byteSize);
+                  innerPointerCodec.write(elementPtr, value);
+                },
+                initial: .from(initialInner),
+              );
+
+          nestedCache.add(innerList);
+        }
+
+        return nestedCache[index];
+      },
+      writeAt: (_, _, _) {
+        throw UnsupportedError(
+          'Cannot assign a nested LiveStructList as a value. '
+          'Modify the inner list returned by operator [].',
+        );
+      },
+      initial: nestedCache,
+    );
+
+    return result;
+  }
+
+  MemoryPointer? _fieldPtr([MemoryPointer? src]) {
+    return (src ?? ptrOf())?.offsetBy(_offset);
+  }
 
   @override
   int get length => _fixedCount ?? _cache.length;
@@ -595,7 +713,8 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   @override
   E operator [](int index) {
     final fp = _fieldPtr();
-    return fp != null ? _readAt(fp, index) : _cache[index];
+    if (fp != null) return _readAt(fp, index);
+    return _cache[index];
   }
 
   @override
@@ -606,45 +725,70 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     if (fp != null) _writeAt(fp, index, value);
   }
 
+  /// The current non-live cached representation.
+  ///
+  /// This does not force a read from native memory.
   List<E> get inner => _cache;
+
+  /// Replaces the cached representation and writes it into native memory.
   set inner(List<E> value) {
     if (_fixedCount != null) assert(value.length <= _fixedCount);
     _cache = .of(value);
     final fp = _fieldPtr();
     if (fp == null) return;
-    for (var i = 0; i < value.length; i++) {
-      _writeAt(fp, i, value[i]);
-    }
+    for (var i = 0; i < value.length; i++) _writeAt(fp, i, value[i]);
   }
 
+  /// Replaces only the local cache.
+  ///
+  /// Unlike [inner], this does not write anything to native memory.
   set raw(List<E> value) => _cache = .of(value);
 
   /// Force a live re-read of [count] elements, refreshing the cache.
   List<E> materialize([int? count]) {
     final int? resolvedCount = count ?? _fixedCount;
-    if (resolvedCount == null) throw StateError("Expected `count` for `materialize`.");
+    if (resolvedCount == null) throw StateError('Expected `count` for `materialize`.');
     final fp = _fieldPtr();
     if (fp == null) return _cache;
     _cache = .generate(resolvedCount, (i) => _readAt(fp, i));
     return _cache;
   }
 
-  void writeInto(MemoryPointer p, [List<E>? values]) {
+  /// Writes cached data into another struct/object pointer.
+  void writeInto(MemoryPointer p, [ List<E>? values ]) {
     values ??= inner;
     final fp = _fieldPtr(p);
     if (fp == null) return;
-    if (fp.isNull) throw StateError("You are trying to write livelist cached data into nullptr.");
+    if (fp.isNull) throw StateError('You are trying to write livelist cached data into nullptr.');
     for (final (i, v) in values.indexed) _writeAt(fp, i, v);
   }
 
-  List<E> readFrom(MemoryPointer p, [int? count]) {
+  /// Reads data from another struct/object pointer.
+  List<E> readFrom(
+    MemoryPointer p, [
+    int? count,
+  ]) {
     final int? resolvedCount = count ?? _fixedCount;
-    if (resolvedCount == null) throw StateError("Expected `count` for `readFrom`.");
+    if (resolvedCount == null) throw StateError('Expected `count` for `readFrom`.');
     final fp = _fieldPtr(p);
     if (fp == null) return _cache;
-    if (fp.isNull) throw StateError("You are trying to read into livelist from a nullptr.");
+    if (fp.isNull) throw StateError('You are trying to read into livelist from a nullptr.');
     _cache = .generate(resolvedCount, (i) => _readAt(fp, i));
     return _cache;
+  }
+}
+
+extension ListStructListNested<E, R extends RType> on LiveStructList<List<E>, RPointer<R>> {
+  List<List<E>> get innerNested => _cache;
+
+  set innerNested(List<List<E>> value) {
+    if (_fixedCount != null) assert(value.length <= _fixedCount);
+    for (var i = 0; i < value.length; i++) {
+      if (i >= _cache.length) this[i]; // lazily create the inner live list
+      final inner = _cache[i];
+      if (inner case LiveStructList inner) inner.inner = value[i];
+    }
+    if (_cache.length > value.length) _cache.length = value.length;
   }
 }
 
@@ -661,6 +805,11 @@ extension LivePointerArrayFieldX<E, R extends RType> on StructPointerArrayField<
 extension LivePointerFixedArrayFieldX<E, R extends RType> on StructPointerValueField<List<E>, RArray<R>> {
   LiveStructList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
     => .pointerFixedArray(ptrOf, this, initial);
+}
+
+extension LivePointerPointerArrayFieldX<E, R extends RType> on StructPointerArrayField<E, RPointer<R>> {
+  LiveStructList<LiveStructList<E, R>, RPointer<R>> liveNested(MemoryPointer? Function() ptrOf, List<List<E>> initial)
+    => .pointerPointerArray(ptrOf, this, initial);
 }
 
 extension LivePointerUnknownSyncFieldX<R extends RTypeUnknownLike> on StructPointerValueField<dynamic, R> {

@@ -37,7 +37,7 @@ final class RaylibTempStructState with RaylibDisposable {
   int get nextId => internalId ??= ++_internalIdCounter;
 }
 
-// TODO: customizable alignment?
+// NTOE: customizable alignment?
 // -----------------------------
 // class FieldSpec {
 //   final RType type;
@@ -205,7 +205,7 @@ final class StructLayout<F extends StructFields> {
 
   StructValueField<String, R> stringAsCharArray<R extends RTypeIntLike>(F f) {
     _checkField(f);
-    final type = fields[f]! as RArray<R>;
+    final type = _getFieldAs<RArray<R>>(f);
     final element = type.element;
     _checkStringType(f, element, 'char array field');
     return .new(offset(f), StringCodec(element));
@@ -213,7 +213,7 @@ final class StructLayout<F extends StructFields> {
 
   StructPointerValueField<String, R> stringAsPointerChar<R extends RTypeIntLike>(F f) {
     _checkField(f);
-    final type = fields[f]! as RPointer<R>;
+    final type = _getFieldAs<RPointer<R>>(f);
     final element = type.target;
     _checkStringType(f, element, 'pointer char field');
     final stringCodec = StringCodec(element);
@@ -308,22 +308,54 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  // T*
   StructPointerArrayField<T, R> pointerScalarArray<T, R extends RType>(F f) {
     _checkField(f);
-    final type = fields[f]! as RPointer<R>;
+    final type = _getFieldAs<RPointer<R>>(f);
     final scalarCodec = ScalarCodec<T, R>(type.target);
     final pointerCodec = PointerCodec(type, scalarCodec);
     return .new(offset(f), pointerCodec);
   }
 
-  StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
+  // T* where T is a struct
+  StructPointerArrayField<T, RStruct> pointerStructArray<
+    T extends RaylibStruct<T>
+  >(
     F f,
     StructPointerFactory<T> pointerFactory,
   ) {
     _checkField(f);
-    final type = fields[f]! as RPointer<RStruct>;
+    final type = _getFieldAs<RPointer<RStruct>>(f);
     final structCodec = StructCodec(type.target, pointerFactory);
     final pointerCodec = PointerCodec(type, structCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  // T**
+  StructPointerArrayField<T, RPointer<R>> pointerPointerScalarArray<
+    T,
+    R extends RType
+  >(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<RPointer<R>>>(f);
+    final scalarCodec = ScalarCodec<T, R>(type.target.target);
+    final innerPointerCodec = PointerCodec(type.target, scalarCodec);
+    final pointerCodec = PointerCodec(type, innerPointerCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  // T** where T is a struct
+  StructPointerArrayField<T, RPointer<RStruct>> pointerPointerStructArray<
+    T extends RaylibStruct<T>
+  >(
+    F f,
+    StructPointerFactory<T> pointerFactory,
+  ) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<RPointer<RStruct>>>(f);
+    final structCodec = StructCodec(type.target.target, pointerFactory);
+    final innerPointerCodec = PointerCodec(type.target, structCodec);
+    final pointerCodec = PointerCodec(type, innerPointerCodec);
     return .new(offset(f), pointerCodec);
   }
 }

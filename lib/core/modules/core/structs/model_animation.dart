@@ -7,8 +7,6 @@ enum ModelAnimationField with StructFields {
   keyframePoses,
 }
 
-// TODO: translate
-
 /// ModelAnimation, contains a full animation sequence
 class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
 
@@ -39,7 +37,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   static final _nameF = struct.stringAsCharArray(.name);
   static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
   static final _keyframeCountF = struct.scalar<int, RInt>(.keyframeCount);
-  // NOTE: no direct field **stuff (`keyframePoses`)
+  static final _keyframePosesF = struct.pointerPointerStructArray(.keyframePoses, TransformD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -78,23 +76,9 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   int get keyframeCount => _keyframeCount = _keyframeCountF.readOr(op?.ptr, _keyframeCount);
   set keyframeCount(int value) => _keyframeCount = _keyframeCountF.writeIf(op?.ptr, value);
 
-  // TODO: _keyframePoses
-  // late LiveListPointerPointerStruct<TransformD> _keyframePoses;
-  // /// Animation sequence keyframe poses `[keyframe][pose]`
-  // LiveListPointerPointerStruct<TransformD> get keyframePoses {
-  //   structOnOp((p) => _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses)));
-  //   return _keyframePoses;
-  // }
-  // set keyframePoses(List<List<TransformD>> value) {
-  //   structOnOp((p) {
-  //     _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
-  //     p.writeInt(value.length, struct.offset(.keyframeCount));
-  //   });
-
-  //   _keyframePoses.inner = .generate(value.length,
-  //     (i) => .new(TransformD.pointer, value[i], TransformD.pointer(_keyframePoses.innerPointer(i)))
-  //   );
-  // }
+  late final LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>> _keyframePoses;
+  LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>> get keyframePoses => _keyframePoses;
+  set keyframePoses(List<List<TransformD>> value) => _keyframePoses.innerNested = value;
 
   ModelAnimationD({
     super.op,
@@ -107,12 +91,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     _boneCount = boneCount ?? keyframePoses?.firstOrNull?.length ?? 0,
     _keyframeCount = keyframeCount ?? keyframePoses?.length ?? 0
   {
-    // TODO: _keyframePoses
-    // _keyframePoses = .new(
-    //   TransformD.struct.byteSize, TransformD.new, [],
-    //   op?.readPtr(struct.offset(.keyframePoses)),
-    // );
-    // if (keyframePoses != null) this.keyframePoses = keyframePoses;
+    _keyframePoses = _keyframePosesF.liveNested(() => op?.ptr, keyframePoses ?? []);
   }
 
   factory ModelAnimationD.zero() => .new();
@@ -122,17 +101,15 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     name = o.name;
     boneCount = o.boneCount;
     keyframeCount = o.keyframeCount;
-    // TODO: _keyframePoses
-    // keyframePoses = .from(o.keyframePoses); 
+    keyframePoses = .from(o.keyframePoses); 
     return this;
   }
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    // TODO: _keyframePoses
-    // if (keyframePoses.inner.isNotEmpty) {
-    //   _keyframePosesF.allocate(temp, p, '${key}_keyframePoses', _keyframePoses.inner.length);
-    // }
+    if (keyframePoses.inner.isNotEmpty) {
+      _keyframePosesF.allocate(temp, p, '${key}_keyframePoses', _keyframePoses.inner.length);
+    }
   }
 
   @override
@@ -140,8 +117,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     _nameF.write(p, _name);
     _boneCountF.write(p, _boneCount);
     _keyframeCountF.write(p, _keyframeCount);
-    // TODO: _keyframePoses
-    // p.writePtr(_keyframePoses.ptr, struct.offset(.keyframePoses));
+    _keyframePoses.writeInto(p);
   }
 
   @override
@@ -149,8 +125,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     _name = _nameF.read(p);
     _boneCount = _boneCountF.read(p);
     _keyframeCount = _keyframeCountF.read(p);
-    // TODO: _keyframePoses
-    // _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
+    _keyframePoses.readFrom(p);
   }
 
   @override
@@ -159,10 +134,9 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
     name: name,
     boneCount: boneCount,
     keyframeCount: keyframeCount,
-    // TODO: _keyframePoses
-    // keyframePoses: keyframePoses.map((frame) => 
-    //   frame.map((transform) => transform.clone()).toList()
-    // ).toList(),
+    keyframePoses: keyframePoses.map((frame) => 
+      frame.map((transform) => transform.clone()).toList()
+    ).toList(),
   );
 
   @override

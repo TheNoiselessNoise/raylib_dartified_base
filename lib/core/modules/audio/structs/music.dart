@@ -27,7 +27,7 @@ class MusicD extends RaylibStruct<MusicD> {
     .stream:     RStruct(AudioStreamD.struct), // Audio stream
     .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
     .looping:    RBool(), // Music looping enable
-    .ctxType:    RInt32(), // Type of music context (audio filetype)
+    .ctxType:    RInt(), // Type of music context (audio filetype)
     .ctxData:    RPointer(RVoid()), // Audio context data, depends on type
   });
 

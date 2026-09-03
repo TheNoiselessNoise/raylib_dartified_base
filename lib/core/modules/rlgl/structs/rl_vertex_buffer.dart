@@ -11,8 +11,6 @@ enum RlVertexBufferField with StructFields {
   vboId,
 }
 
-// TODO: actually look through all `StructLayout`s and compare them with raylib C structs fields (RInt32 > RInt)
-
 /// RLGL Vertex buffer
 class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 

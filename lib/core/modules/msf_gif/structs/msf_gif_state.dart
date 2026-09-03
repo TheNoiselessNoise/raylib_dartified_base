@@ -48,7 +48,7 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MsfGifStateField> struct = .aligned({
-    .fileWriteFunc:          RPointer(RFunction()),
+    .fileWriteFunc:          RPointer(RFunction<MsfGifFileWriteCallbackBase>()),
     .fileWriteData:          RPointer(RVoid()),
     .previousFrame:          RStruct(cookedFrameStructLayout),
     .currentFrame:           RStruct(cookedFrameStructLayout),
