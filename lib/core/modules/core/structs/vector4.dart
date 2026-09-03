@@ -21,6 +21,9 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<Vector4Field> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector4Field> struct = .aligned({
     .x: RFloat(), // Vector x component

@@ -20,6 +20,9 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<NPatchInfoField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<NPatchInfoField> struct = .aligned({
     .source: RStruct(RectangleD.struct), // Texture source rectangle
@@ -40,7 +43,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   static final _topF = struct.scalar<int, RInt>(.top);
   static final _rightF = struct.scalar<int, RInt>(.right);
   static final _bottomF = struct.scalar<int, RInt>(.bottom);
-  static final _layoutF = struct.scalar<int, RInt>(.layout);
+  static final _layoutF = struct.enumValue(.layout, NPatchLayout.fromValue);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -77,8 +80,8 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   NPatchLayout _layout;
   /// Layout of the n-patch: 3x3, 1x3 or 3x1
-  NPatchLayout get layout => _layout = .fromValue(_layoutF.readOr(op?.ptr, _layout.value));
-  set layout(NPatchLayout value) => _layout = .fromValue(_layoutF.writeIf(op?.ptr, value.value));
+  NPatchLayout get layout => _layout = _layoutF.readOr(op?.ptr, _layout);
+  set layout(NPatchLayout value) => _layout = _layoutF.writeIf(op?.ptr, value);
 
   NPatchInfoD({
     super.op,
@@ -116,7 +119,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
     _topF.write(p, _top);
     _rightF.write(p, _right);
     _bottomF.write(p, _bottom);
-    _layoutF.write(p, _layout.value);
+    _layoutF.write(p, _layout);
   }
 
   @override
@@ -126,8 +129,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
     _top = _topF.read(p);
     _right = _rightF.read(p);
     _bottom = _bottomF.read(p);
-    // TODO: enumField???
-    _layout = .fromValue(_layoutF.read(p));
+    _layout = _layoutF.read(p);
   }
 
   @override

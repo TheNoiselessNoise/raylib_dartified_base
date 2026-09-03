@@ -19,6 +19,9 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<Vector2Field> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector2Field> struct = .aligned({
     .x: RFloat(), // Vector x component

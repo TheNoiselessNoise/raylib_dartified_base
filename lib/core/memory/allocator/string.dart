@@ -39,7 +39,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     final len = bytes.length + 1; // +1 for NUL
     final bufSize = (bufferSize != null && bufferSize > len) ? bufferSize : len;
 
-    final ptr = MemoryPointer.malloc<RChar>(bufSize);
+    final ptr = MemoryPointer.calloc<RChar>(bufSize, RChar.scalarByteSize);
     ptr.asView<Uint8List>(bufSize)
       ..setRange(0, bytes.length, bytes)
       ..fillRange(bytes.length, bufSize, 0); // NUL + pad rest of buffer

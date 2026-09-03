@@ -19,6 +19,9 @@ class TextureD extends RaylibStruct<TextureD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<TextureField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<TextureField> struct = .aligned({
     .id:      RUnsignedInt(), // OpenGL texture id

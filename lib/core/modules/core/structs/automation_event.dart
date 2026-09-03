@@ -17,6 +17,9 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<AutomationEventField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<AutomationEventField> struct = .aligned({
     .frame:  RUnsignedInt(), // Event frame
@@ -65,7 +68,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   AutomationEventType get type => _type = _typeF.readOr(op?.ptr, _type);
   set type(AutomationEventType value) => _type = _typeF.writeIf(op?.ptr, value);
 
-  late LiveStructList<int, RInt> _params;
+  late final LiveStructList<int, RInt> _params;
   /// Event parameters (if required)
   LiveStructList<int, RInt> get params => _params;
   set params(List<int> value) => _params.inner = value;

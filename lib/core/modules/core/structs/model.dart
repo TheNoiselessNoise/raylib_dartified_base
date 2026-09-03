@@ -12,8 +12,6 @@ enum ModelField with StructFields {
   boneMatrices,
 }
 
-// TODO: translate
-
 /// Model, meshes, materials and animation data
 class ModelD extends RaylibStruct<ModelD> {
 
@@ -24,6 +22,9 @@ class ModelD extends RaylibStruct<ModelD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<ModelField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelField> struct = .aligned({
@@ -47,6 +48,16 @@ class ModelD extends RaylibStruct<ModelD> {
   static StructPointer<ModelD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelD.new, ModelD.pointer);
 
+  static final _transformF = struct.struct(.transform, MatrixD.pointer);
+  static final _meshCountF = struct.scalar<int, RInt>(.meshCount);
+  static final _materialCountF = struct.scalar<int, RInt>(.materialCount);
+  static final _meshesF = struct.pointerStructArray(.meshes, MeshD.pointer);
+  static final _materialsF = struct.pointerStructArray(.materials, MaterialD.pointer);
+  static final _meshMaterialF = struct.pointerScalarArray<int, RInt>(.meshMaterial);
+  static final _skeletonF = struct.struct(.skeleton, ModelSkeletonD.pointer);
+  static final _currentPoseF = struct.pointerStructArray(.currentPose, TransformD.pointer);
+  static final _boneMatricesF = struct.pointerStructArray(.boneMatrices, MatrixD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -57,102 +68,48 @@ class ModelD extends RaylibStruct<ModelD> {
 
   MatrixD _transform;
   /// Local transform matrix
-  MatrixD get transform {
-    structOnOp((p) => _transform.structReadFrom(p.offsetBy(struct.offset(.transform))));
-    return _transform;
-  }
-  set transform(MatrixD value) {
-    _transform = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.transform))));
-  }
-
+  MatrixD get transform => _transform = _transformF.readOr(op?.ptr, _transform);
+  set transform(MatrixD value) => _transform = _transformF.writeIf(op?.ptr, value);
+  
   int _meshCount;
   /// Number of meshes
-  int get meshCount {
-    structOnOp((p) => _meshCount = p.readInt(struct.offset(.meshCount)));
-    return _meshCount;
-  }
-  set meshCount(int value) {
-    _meshCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.meshCount)));
-  }
+  int get meshCount => _meshCount = _meshCountF.readOr(op?.ptr, _meshCount);
+  set meshCount(int value) => _meshCount = _meshCountF.writeIf(op?.ptr, value);
 
   int _materialCount;
   /// Number of materials
-  int get materialCount {
-    structOnOp((p) => _materialCount = p.readInt(struct.offset(.materialCount)));
-    return _materialCount;
-  }
-  set materialCount(int value) {
-    _materialCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.materialCount)));
-  }
-  
-  late LiveListPointerStruct<MeshD> _meshes;
-  /// Meshes array
-  LiveListPointerStruct<MeshD> get meshes {
-    structOnOp((p) => _meshes.ptr = p.readPtr(struct.offset(.meshes)));
-    return _meshes;
-  }
-  set meshes(List<MeshD> value) {
-    structOnOp((p) => _meshes.ptr = p.readPtr(struct.offset(.meshes)));
-    _meshes.inner = value;
-  }
-  
-  late LiveListPointerStruct<MaterialD> _materials;
-  /// Materials array
-  LiveListPointerStruct<MaterialD> get materials {
-    structOnOp((p) => _materials.ptr = p.readPtr(struct.offset(.materials)));
-    return _materials;
-  }
-  set materials(List<MaterialD> value) {
-    structOnOp((p) => _materials.ptr = p.readPtr(struct.offset(.materials)));
-    _materials.inner = value;
-  }
+  int get materialCount => _materialCount = _materialCountF.readOr(op?.ptr, _materialCount);
+  set materialCount(int value) => _materialCount = _materialCountF.writeIf(op?.ptr, value);
 
-  late LiveListPointerScalar<int, RInt> _meshMaterial;
+  late final LiveStructList<MeshD, RStruct> _meshes;
+  /// Meshes array
+  LiveStructList<MeshD, RStruct> get meshes => _meshes;
+  set meshes(List<MeshD> value) => _meshes.inner = value;
+  
+  late final LiveStructList<MaterialD, RStruct> _materials;
+  /// Materials array
+  LiveStructList<MaterialD, RStruct> get materials => _materials;
+  set materials(List<MaterialD> value) => _materials.inner = value;
+
+  late final LiveStructList<int, RInt> _meshMaterial;
   /// Mesh material number
-  LiveListPointerScalar<int, RInt> get meshMaterial {
-    structOnOp((p) => _meshMaterial.ptr = p.readPtr(struct.offset(.meshMaterial)));
-    return _meshMaterial;
-  }
-  set meshMaterial(List<int> value) {
-    structOnOp((p) => _meshMaterial.ptr = p.readPtr(struct.offset(.meshMaterial)));
-    _meshMaterial.inner = value;
-  }
+  LiveStructList<int, RInt> get meshMaterial => _meshMaterial;
+  set meshMaterial(List<int> value) => _meshMaterial.inner = value;
 
   ModelSkeletonD _skeleton;
   /// Skeleton for animation
-  ModelSkeletonD get skeleton {
-    structOnOp((p) => _skeleton.structReadFrom(p.offsetBy(struct.offset(.skeleton))));
-    return _skeleton;
-  }
-  set skeleton(ModelSkeletonD value) {
-    _skeleton = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.skeleton))));
-  }
-  
-  late LiveListPointerStruct<TransformD> _currentPose;
+  ModelSkeletonD get skeleton => _skeleton = _skeletonF.readOr(op?.ptr, _skeleton);
+  set skeleton(ModelSkeletonD value) => _skeleton = _skeletonF.writeIf(op?.ptr, value);
+
+  late final LiveStructList<TransformD, RStruct> _currentPose;
   /// Current animation pose (Transform[])
-  LiveListPointerStruct<TransformD> get currentPose {
-    structOnOp((p) => _currentPose.ptr = p.readPtr(struct.offset(.currentPose)));
-    return _currentPose;
-  }
-  set currentPose(List<TransformD> value) {
-    structOnOp((p) => _currentPose.ptr = p.readPtr(struct.offset(.currentPose)));
-    _currentPose.inner = value;
-  }
+  LiveStructList<TransformD, RStruct> get currentPose => _currentPose;
+  set currentPose(List<TransformD> value) => _currentPose.inner = value;
   
-  late LiveListPointerStruct<MatrixD> _boneMatrices;
+  late final LiveStructList<MatrixD, RStruct> _boneMatrices;
   /// Bones animated transformation matrices
-  LiveListPointerStruct<MatrixD> get boneMatrices {
-    structOnOp((p) => _boneMatrices.ptr = p.readPtr(struct.offset(.boneMatrices)));
-    return _boneMatrices;
-  }
-  set boneMatrices(List<MatrixD> value) {
-    structOnOp((p) => _boneMatrices.ptr = p.readPtr(struct.offset(.boneMatrices)));
-    _boneMatrices.inner = value;
-  }
+  LiveStructList<MatrixD, RStruct> get boneMatrices => _boneMatrices;
+  set boneMatrices(List<MatrixD> value) => _boneMatrices.inner = value;
 
   ModelD({
     super.op,
@@ -169,18 +126,11 @@ class ModelD extends RaylibStruct<ModelD> {
     _materialCount = materials?.length ?? 0,
     _skeleton = skeleton ?? .new()
   {
-    _meshes = .new(MeshD.pointer, meshes, MeshD.pointer(op?.readPtr(struct.offset(.meshes))));
-    _materials = .new(MaterialD.pointer, materials, MaterialD.pointer(op?.readPtr(struct.offset(.materials))));
-
-    _meshMaterial = .new(
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
-      meshMaterial ?? [],
-      op?.offsetBy(struct.offset(.meshMaterial)),
-    );
-
-    _currentPose = .new(TransformD.pointer, currentPose, TransformD.pointer(op?.readPtr(struct.offset(.currentPose))));
-    _boneMatrices = .new(MatrixD.pointer, boneMatrices, MatrixD.pointer(op?.readPtr(struct.offset(.boneMatrices))));
+    _meshes = _meshesF.live(() => op?.ptr, meshes ?? []);
+    _materials = _materialsF.live(() => op?.ptr, materials ?? []);
+    _meshMaterial = _meshMaterialF.live(() => op?.ptr, meshMaterial ?? []);
+    _currentPose = _currentPoseF.live(() => op?.ptr, currentPose ?? []);
+    _boneMatrices = _boneMatricesF.live(() => op?.ptr, boneMatrices ?? []);
   }
 
   factory ModelD.zero() => .new();
@@ -199,58 +149,46 @@ class ModelD extends RaylibStruct<ModelD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (meshes.inner.isNotEmpty) {
-      _meshes.structPtr = temp.Mesh$.ArrayStruct(_meshes.inner, key: '${key}_meshes');
+      _meshesF.allocate(temp, p, '${key}_meshes', _meshes.inner.length);
     }
     if (materials.inner.isNotEmpty) {
-      _materials.structPtr = temp.Material$.ArrayStruct(_materials.inner, key: '${key}_materials');
+      _materialsF.allocate(temp, p, '${key}_materials', _materials.inner.length);
     }
     if (meshMaterial.inner.isNotEmpty) {
-      _meshMaterial.ptr = temp.Int$.Array(_meshMaterial.inner, key: '${key}_meshMaterial').cast();
+      _meshMaterialF.allocate(temp, p, '${key}_meshMaterial', _meshMaterial.inner.length);
     }
     if (currentPose.inner.isNotEmpty) {
-      _currentPose.structPtr = temp.Transform$.ArrayStruct(_currentPose.inner, key: '${key}_currentPose');
+      _currentPoseF.allocate(temp, p, '${key}_currentPose', _currentPose.inner.length);
     }
     if (boneMatrices.inner.isNotEmpty) {
-      _boneMatrices.structPtr = temp.Matrix$.ArrayStruct(_boneMatrices.inner, key: '${key}_boneMatrices');
+      _boneMatricesF.allocate(temp, p, '${key}_boneMatrices', _boneMatrices.inner.length);
     }
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _transform.structWriteInto(p.offsetBy(struct.offset(.transform)));
-    p.writeInt(_meshCount, struct.offset(.meshCount));
-    p.writeInt(_materialCount, struct.offset(.materialCount));
-    p.writePtr(_meshes.ptr, struct.offset(.meshes));
-    p.writePtr(_materials.ptr, struct.offset(.materials));
-    p.writePtr(_meshMaterial.ptr, struct.offset(.meshMaterial));
-    _skeleton.structWriteInto(p.offsetBy(struct.offset(.skeleton)));
-    p.writePtr(_currentPose.ptr, struct.offset(.currentPose));
-    p.writePtr(_boneMatrices.ptr, struct.offset(.boneMatrices));
-
-    _meshes.onStructPointer((p) => p.writeArray(_meshes.inner));
-    _materials.onStructPointer((p) => p.writeArray(_materials.inner));
-    _meshMaterial.onPointer((p) => p.writeArray(_meshMaterial.inner));
-    _currentPose.onStructPointer((p) => p.writeArray(_currentPose.inner));
-    _boneMatrices.onStructPointer((p) => p.writeArray(_boneMatrices.inner));
+    _transformF.write(p, _transform);
+    _meshCountF.write(p, _meshCount);
+    _materialCountF.write(p, _materialCount);
+    _meshes.writeInto(p);
+    _materials.writeInto(p);
+    _meshMaterial.writeInto(p);
+    _skeletonF.write(p, _skeleton);
+    _currentPose.writeInto(p);
+    _boneMatrices.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _transform.structReadFrom(p.offsetBy(struct.offset(.transform)));
-    _meshCount = p.readInt(struct.offset(.meshCount));
-    _materialCount = p.readInt(struct.offset(.materialCount));
-    _meshes.ptr = p.readPtr(struct.offset(.meshes));
-    _materials.ptr = p.readPtr(struct.offset(.materials));
-    _meshMaterial.ptr = p.readPtr(struct.offset(.meshMaterial));
-    _skeleton.structReadFrom(p.offsetBy(struct.offset(.skeleton)));
-    _currentPose.ptr = p.readPtr(struct.offset(.currentPose));
-    _boneMatrices.ptr = p.readPtr(struct.offset(.boneMatrices));
-
-    _meshes.onStructPointer((p) => _meshes.raw = p.readArray(_meshCount));
-    _materials.onStructPointer((p) => _materials.raw = p.readArray(_materialCount));
-    _meshMaterial.onPointer((p) => _meshMaterial.raw = p.readArray(_meshCount));
-    _currentPose.onStructPointer((p) => _currentPose.raw = p.readArray(_skeleton.boneCount));
-    _boneMatrices.onStructPointer((p) => _boneMatrices.raw = p.readArray(_skeleton.boneCount));
+    _transform = _transformF.read(p);
+    _meshCount = _meshCountF.read(p);
+    _materialCount = _materialCountF.read(p);
+    _meshes.readFrom(p);
+    _materials.readFrom(p);
+    _meshMaterial.readFrom(p);
+    _skeleton = _skeletonF.read(p);
+    _currentPose.readFrom(p);
+    _boneMatrices.readFrom(p);
   }
 
   @override

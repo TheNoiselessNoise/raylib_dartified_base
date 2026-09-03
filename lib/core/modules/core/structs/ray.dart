@@ -16,6 +16,9 @@ class RayD extends RaylibStructLiteral<RayD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<RayField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RayField> struct = .aligned({
     .position:  RStruct(Vector3D.struct), // Ray position (origin)

@@ -16,6 +16,9 @@ class ShaderD extends RaylibStruct<ShaderD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<ShaderField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ShaderField> struct = .aligned({
     .id:   RUnsignedInt(), // Shader program id
@@ -57,7 +60,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   int get id => _id = _idF.readOr(op?.ptr, _id);
   set id(int value) => _id = _idF.writeIf(op?.ptr, value);
 
-  late LiveStructList<int, RInt> _locs;
+  late final LiveStructList<int, RInt> _locs;
   /// Shader locations array (RL_MAX_SHADER_LOCATIONS)
   LiveStructList<int, RInt> get locs => _locs;
   set locs(List<int> value) => _locs.inner = value;
@@ -83,7 +86,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _locsF.codec.allocate(temp, p, '${key}_locs', BASE_shaderLocsCount);
+    _locsF.allocate(temp, p, '${key}_locs', BASE_shaderLocsCount);
   }
 
   @override

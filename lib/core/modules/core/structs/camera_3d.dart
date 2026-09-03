@@ -19,6 +19,9 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<Camera3DField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Camera3DField> struct = .aligned({
     .position:   RStruct(Vector3D.struct), // Camera position

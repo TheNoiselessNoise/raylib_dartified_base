@@ -9,8 +9,6 @@ enum FontField with StructFields {
   glyphs,
 }
 
-// TODO: translate
-
 /// Font, font texture and GlyphInfo array data
 class FontD extends RaylibStruct<FontD> {
 
@@ -21,6 +19,9 @@ class FontD extends RaylibStruct<FontD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<FontField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<FontField> struct = .aligned({
@@ -37,6 +38,13 @@ class FontD extends RaylibStruct<FontD> {
   static StructPointer<FontD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, FontD.new, FontD.pointer);
 
+  static final _baseSizeF = struct.scalar<int, RInt>(.baseSize);
+  static final _glyphCountF = struct.scalar<int, RInt>(.glyphCount);
+  static final _glyphPaddingF = struct.scalar<int, RInt>(.glyphPadding);
+  static final _textureF = struct.struct(.texture, TextureD.pointer);
+  static final _recsF = struct.pointerStructArray(.recs, RectangleD.pointer);
+  static final _glyphsF = struct.pointerStructArray(.glyphs, GlyphInfoD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -44,80 +52,36 @@ class FontD extends RaylibStruct<FontD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _baseSize;
   /// Base size (default chars height)
-  int get baseSize {
-    structOnOp((p) => _baseSize = p.readInt(struct.offset(.baseSize)));
-    return _baseSize;
-  }
-  set baseSize(int value) {
-    _baseSize = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.baseSize)));
-  }
+  int get baseSize => _baseSize = _baseSizeF.readOr(op?.ptr, _baseSize);
+  set baseSize(int value) => _baseSize = _baseSizeF.writeIf(op?.ptr, value);
 
   int _glyphCount;
   /// Number of glyph characters
-  int get glyphCount {
-    structOnOp((p) => _glyphCount = p.readInt(struct.offset(.glyphCount)));
-    return _glyphCount;
-  }
-  set glyphCount(int value) {
-    _glyphCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.glyphCount)));
-  }
+  int get glyphCount => _glyphCount = _glyphCountF.readOr(op?.ptr, _glyphCount);
+  set glyphCount(int value) => _glyphCount = _glyphCountF.writeIf(op?.ptr, value);
 
   int _glyphPadding;
   /// Padding around the glyph characters
-  int get glyphPadding {
-    structOnOp((p) => _glyphPadding = p.readInt(struct.offset(.glyphPadding)));
-    return _glyphPadding;
-  }
-  set glyphPadding(int value) {
-    _glyphPadding = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.glyphPadding)));
-  }
+  int get glyphPadding => _glyphPadding = _glyphPaddingF.readOr(op?.ptr, _glyphPadding);
+  set glyphPadding(int value) => _glyphPadding = _glyphPaddingF.writeIf(op?.ptr, value);
 
   TextureD _texture;
   /// Texture atlas containing the glyphs
-  TextureD get texture {
-    structOnOp((p) => _texture.structReadFrom(p.offsetBy(struct.offset(.texture))));
-    return _texture;
-  }
-  set texture(TextureD value) {
-    _texture = value;
-    structOnOp((p) => _texture.structWriteInto(p.offsetBy(struct.offset(.texture))));
-  }
+  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
 
-  late LiveListPointerStruct<RectangleD> _recs;
+  late final LiveStructList<RectangleD, RStruct> _recs;
   /// Rectangles in texture for the glyphs
-  LiveListPointerStruct<RectangleD> get recs {
-    // structOnOp((p) => _recs.ptr = p.readPtr(struct.offset(.recs)));
-    return _recs;
-  }
-  set recs(List<RectangleD> value) {
-    assert(value.length <= glyphCount);
-    structOnOp((p) => _recs.ptr =
-      value.firstOrNull?.op?.ptr ??
-      p.readPtr(struct.offset(.recs))
-    );
-    _recs.inner = value;
-  }
+  LiveStructList<RectangleD, RStruct> get recs => _recs;
+  set recs(List<RectangleD> value) => _recs.inner = value;
 
-  late LiveListPointerStruct<GlyphInfoD> _glyphs;
+  late final LiveStructList<GlyphInfoD, RStruct> _glyphs;
   /// Glyphs info data
-  LiveListPointerStruct<GlyphInfoD> get glyphs {
-    structOnOp((p) => _glyphs.ptr = p.readPtr(struct.offset(.glyphs)));
-    return _glyphs;
-  }
-  set glyphs(List<GlyphInfoD> value) {
-    assert(value.length <= glyphCount);
-    structOnOp((p) => _glyphs.ptr =
-      value.firstOrNull?.op?.ptr ??
-      p.readPtr(struct.offset(.glyphs))
-    );
-    _glyphs.inner = value;
-  }
+  LiveStructList<GlyphInfoD, RStruct> get glyphs => _glyphs;
+  set glyphs(List<GlyphInfoD> value) => _glyphs.inner = value;
 
   FontD({
     super.op,
@@ -133,8 +97,8 @@ class FontD extends RaylibStruct<FontD> {
     _glyphPadding = glyphPadding,
     _texture = texture ?? .new()
   {
-    _recs = .new(RectangleD.pointer, recs, RectangleD.pointer(op?.readPtr(struct.offset(.recs))));
-    _glyphs = .new(GlyphInfoD.pointer, glyphs, GlyphInfoD.pointer(op?.readPtr(struct.offset(.glyphs))));
+    _recs = _recsF.live(() => op?.ptr, recs ?? []);
+    _glyphs = _glyphsF.live(() => op?.ptr, glyphs ?? []);
   }
 
   factory FontD.zero() => .new();
@@ -152,42 +116,42 @@ class FontD extends RaylibStruct<FontD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (recs.inner.isNotEmpty) {
+    // TODO: do i need this?
+    /*
       _recs.ptr =
         recs.inner.firstOrNull?.op?.ptr ??
         temp.Rectangle$.Raw(recs.inner.length);
-    }
-    if (glyphs.inner.isNotEmpty) {
+      
       _glyphs.ptr =
         glyphs.inner.firstOrNull?.op?.ptr ??
         temp.GlyphInfo$.Raw(glyphs.inner.length);
+    */
+    if (recs.inner.isNotEmpty) {
+      _recsF.allocate(temp, p, '${key}_recs', _recs.inner.length);
+    }
+    if (glyphs.inner.isNotEmpty) {
+      _glyphsF.allocate(temp, p, '${key}_glyphs', _glyphs.inner.length);
     }
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    p.writeInt(_baseSize, struct.offset(.baseSize));
-    p.writeInt(_glyphCount, struct.offset(.glyphCount));
-    p.writeInt(_glyphPadding, struct.offset(.glyphPadding));
-    _texture.structWriteInto(p.offsetBy(struct.offset(.texture)));
-    p.writePtr(_recs.inner.firstOrNull?.op?.ptr ?? _recs.ptr, struct.offset(.recs));
-    p.writePtr(_glyphs.inner.firstOrNull?.op?.ptr ?? _glyphs.ptr, struct.offset(.glyphs));
-
-    _recs.onStructPointer((p) => p.writeArray(_recs.inner));
-    _glyphs.onStructPointer((p) => p.writeArray(_glyphs.inner));
+    _baseSizeF.write(p, _baseSize);
+    _glyphCountF.write(p, _glyphCount);
+    _glyphPaddingF.write(p, _glyphPadding);
+    _textureF.write(p, _texture);
+    _recs.writeInto(p);
+    _glyphs.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _baseSize = p.readInt(struct.offset(.baseSize));
-    _glyphCount = p.readInt(struct.offset(.glyphCount));
-    _glyphPadding = p.readInt(struct.offset(.glyphPadding));
-    _texture.structReadFrom(p.offsetBy(struct.offset(.texture)));
-    _recs.ptr = p.readPtr(struct.offset(.recs));
-    _glyphs.ptr = p.readPtr(struct.offset(.glyphs));
-
-    _recs.onStructPointer((p) => _recs.raw = p.readArray(glyphCount));
-    _glyphs.onStructPointer((p) => _glyphs.raw = p.readArray(glyphCount));
+    _baseSize = _baseSizeF.read(p);
+    _glyphCount = _glyphCountF.read(p);
+    _glyphPadding = _glyphPaddingF.read(p);
+    _texture = _textureF.read(p);
+    _recs.readFrom(p);
+    _glyphs.readFrom(p);
   }
 
   @override

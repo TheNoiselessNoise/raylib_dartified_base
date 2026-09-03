@@ -6496,7 +6496,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   );
     
   /// Load model animations from file
-  LiveListPointerStruct<ModelAnimationD> LoadModelAnimations(
+  LiveStructList<ModelAnimationD, RStruct> LoadModelAnimations(
     String fileName,
   ) => run(
     () => _debugLabels.LoadModelAnimations(fileName),
@@ -6506,7 +6506,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.String$.ValueOrNull(fileName),
         animCount,
       );
-      return .new(ModelAnimationD.pointer, anims.readArray(animCount.value), anims);
+      return anims.live(anims.readArray(animCount.value));
     },
   );
     
@@ -6551,11 +6551,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     
   /// Unload animation array data
   void UnloadModelAnimations(
-    LiveListPointerStruct<ModelAnimationD> animations,
+    LiveStructList<ModelAnimationD, RStruct> animations,
   ) => run(
     () => _debugLabels.UnloadModelAnimations(animations),
     () => rl.CoreFlat.UnloadModelAnimations(
-      ModelAnimationD.pointer(animations.ptr!),
+      ModelAnimationD.pointer(animations.ptrOf()!),
       animations.length,
     ),
   );

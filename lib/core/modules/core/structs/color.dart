@@ -18,6 +18,9 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<ColorField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ColorField> struct = .aligned({
     .r: RUnsignedChar(), // Color red value

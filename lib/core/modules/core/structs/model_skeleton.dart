@@ -6,8 +6,6 @@ enum ModelSkeletonField with StructFields {
   bindPose,
 }
 
-// TODO: translate
-
 /// Skeleton, animation bones hierarchy
 class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
@@ -18,6 +16,9 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<ModelSkeletonField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelSkeletonField> struct = .aligned({
@@ -31,6 +32,10 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelSkeletonD.new, ModelSkeletonD.pointer);
 
+  static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
+  static final _bonesF = struct.pointerStructArray(.bones, BoneInfoD.pointer);
+  static final _bindPoseF = struct.pointerStructArray(.bindPose, TransformD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -38,53 +43,30 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _boneCount;
   /// Number of bones
-  int get boneCount {
-    structOnOp((p) => _boneCount = p.readInt(struct.offset(.boneCount)));
-    return _boneCount;
-  }
-  set boneCount(int value) {
-    _boneCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.boneCount)));
-  }
+  int get boneCount => _boneCount = _boneCountF.readOr(op?.ptr, _boneCount);
+  set boneCount(int value) => _boneCount = _boneCountF.writeIf(op?.ptr, value);
 
-  late LiveListPointerStruct<BoneInfoD> _bones;
+  late final LiveStructList<BoneInfoD, RStruct> _bones;
   /// Bones information (skeleton)
-  LiveListPointerStruct<BoneInfoD> get bones {
-    structOnOp((p) => _bones.ptr = p.readPtr(struct.offset(.bones)));
-    return _bones;
-  }
-  set bones(List<BoneInfoD> value) {
-    _bones.inner = value;
-    structOnOp((p) {
-      _bones.ptr = p.readPtr(struct.offset(.bones));
-      p.writeInt(value.length, struct.offset(.boneCount));
-    });
-  }
+  LiveStructList<BoneInfoD, RStruct> get bones => _bones;
+  set bones(List<BoneInfoD> value) => _bones.inner = value;
 
-  late LiveListPointerStruct<TransformD> _bindPose;
+  late final LiveStructList<TransformD, RStruct> _bindPose;
   /// Bones base transformation (Transform[])
-  LiveListPointerStruct<TransformD> get bindPose {
-    structOnOp((p) => _bindPose.ptr = p.readPtr(struct.offset(.bindPose)));
-    return _bindPose;
-  }
-  set bindPose(List<TransformD> value) {
-    structOnOp((p) {
-      _bindPose.ptr = p.readPtr(struct.offset(.bindPose));
-      p.writeInt(value.length, struct.offset(.boneCount));
-    });
-    _bindPose.inner = value;
-  }
-
+  LiveStructList<TransformD, RStruct> get bindPose => _bindPose;
+  set bindPose(List<TransformD> value) => _bindPose.inner = value;
+  
   ModelSkeletonD({
     super.op,
+    int? boneCount,
     List<BoneInfoD>? bones,
     List<TransformD>? bindPose,
-  }) : _boneCount = bones?.length ?? 0 {
-    _bones = .new(BoneInfoD.pointer, bones, BoneInfoD.pointer(op?.readPtr(struct.offset(.bones))));
-    _bindPose = .new(TransformD.pointer, bindPose, TransformD.pointer(op?.readPtr(struct.offset(.bindPose))));
+  }) : _boneCount = boneCount ?? bones?.length ?? 0 {
+    _bones = _bonesF.live(() => op?.ptr, bones ?? []);
+    _bindPose = _bindPoseF.live(() => op?.ptr, bindPose ?? []);
   }
 
   factory ModelSkeletonD.zero() => .new();
@@ -99,37 +81,32 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (_bones.inner.isNotEmpty) {
-      _bones.structPtr = temp.BoneInfo$.ArrayStruct(_bones.inner, key: '${key}_bones');
+    if (bones.inner.isNotEmpty) {
+      _bonesF.allocate(temp, p, '${key}_bones', _bones.inner.length);
     }
-    if (_bindPose.inner.isNotEmpty) {
-      _bindPose.structPtr = temp.Transform$.ArrayStruct(_bindPose.inner, key: '${key}_bindPose');
+    if (bindPose.inner.isNotEmpty) {
+      _bindPoseF.allocate(temp, p, '${key}_bindPose', _bindPose.inner.length);
     }
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    p.writeInt(_boneCount, struct.offset(.boneCount));
-    p.writePtr(_bones.ptr, struct.offset(.bones));
-    p.writePtr(_bindPose.ptr, struct.offset(.bindPose));
-
-    _bones.onStructPointer((p) => p.writeArray(_bones.inner));
-    _bindPose.onStructPointer((p) => p.writeArray(_bindPose.inner));
+    _boneCountF.write(p, _boneCount);
+    _bones.writeInto(p);
+    _bindPose.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _boneCount = p.readInt(struct.offset(.boneCount));
-    _bones.ptr = p.readPtr(struct.offset(.bones));
-    _bindPose.ptr = p.readPtr(struct.offset(.bindPose));
-
-    _bones.onStructPointer((p) => _bones.raw = p.readArray(_boneCount));
-    _bindPose.onStructPointer((p) => _bindPose.raw = p.readArray(_boneCount));
+    _boneCount = _boneCountF.read(p);
+    _bones.readFrom(p);
+    _bindPose.readFrom(p);
   }
 
   @override
   ModelSkeletonD clone() => .new(
     op: op,
+    boneCount: boneCount,
     bones: bones.map((x) => x.clone()).toList(),
     bindPose: bindPose.map((x) => x.clone()).toList(),
   );

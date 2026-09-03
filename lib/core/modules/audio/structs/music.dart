@@ -8,8 +8,6 @@ enum MusicField with StructFields {
   ctxData,
 }
 
-// TODO: translate
-
 /// Music, audio stream, anything longer than ~10 seconds should be streamed
 class MusicD extends RaylibStruct<MusicD> {
 
@@ -20,6 +18,9 @@ class MusicD extends RaylibStruct<MusicD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<MusicField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MusicField> struct = .aligned({
@@ -35,6 +36,12 @@ class MusicD extends RaylibStruct<MusicD> {
   static StructPointer<MusicD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
 
+  static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
+  static final _frameCountF = struct.scalar<int, RUnsignedInt>(.frameCount);
+  static final _loopingF = struct.scalar<bool, RBool>(.looping);
+  static final _ctxTypeF = struct.enumValue(.ctxType, MusicContextType.fromValue);
+  static final _ctxDataF = struct.pointerUnknown<RVoid>(.ctxData);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -45,52 +52,29 @@ class MusicD extends RaylibStruct<MusicD> {
 
   AudioStreamD _stream;
   /// Audio stream
-  AudioStreamD get stream {
-    structOnOp((p) => _stream.structReadFrom(p.offsetBy(struct.offset(.stream))));
-    return _stream;
-  }
-  set stream(AudioStreamD value) {
-    _stream = value;
-    structOnOp((p) => value.structWriteInto(p.offsetBy(struct.offset(.stream))));
-  }
+  AudioStreamD get stream => _stream = _streamF.readOr(op?.ptr, _stream);
+  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op?.ptr, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
-  int get frameCount {
-    structOnOp((p) => _frameCount = p.readUnsignedInt(struct.offset(.frameCount)));
-    return _frameCount;
-  }
-  set frameCount(int value) {
-    _frameCount = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.frameCount)));
-  }
+  int get frameCount => _frameCount = _frameCountF.readOr(op?.ptr, _frameCount);
+  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op?.ptr, value);
 
   bool _looping;
   /// Music looping enable
-  bool get looping {
-    structOnOp((p) => _looping = p.readBool(struct.offset(.looping)));
-    return _looping;
-  }
-  set looping(bool value) {
-    _looping = value;
-    structOnOp((p) => p.writeBool(value, struct.offset(.looping)));
-  }
+  bool get looping => _looping = _loopingF.readOr(op?.ptr, _looping);
+  set looping(bool value) => _looping = _loopingF.writeIf(op?.ptr, value);
 
   MusicContextType _ctxType;
   /// Type of music context (audio filetype)
-  MusicContextType get ctxType {
-    structOnOp((p) => _ctxType = .fromValue(p.readInt32(struct.offset(.ctxType))));
-    return _ctxType;
-  }
-  set ctxType(MusicContextType value) {
-    _ctxType = value;
-    structOnOp((p) => p.writeInt32(value.value, struct.offset(.ctxType)));
-  }
-  
+  MusicContextType get ctxType => _ctxType = _ctxTypeF.readOr(op?.ptr, _ctxType);
+  set ctxType(MusicContextType value) => _ctxType = _ctxTypeF.writeIf(op?.ptr, value);
+
   /// Audio context data, depends on type
   /// 
   /// `void *ctxData;`
-  MemoryPointer<RVoid> ctxData = MemoryPointer.nullptr;
+  late final LivePointerSync<RVoid> _ctxData = _ctxDataF.live(() => op?.ptr);
+  MemoryPointer<RVoid> get ctxData => _ctxData.fieldPtr();
 
   MusicD({
     super.op,
@@ -107,30 +91,30 @@ class MusicD extends RaylibStruct<MusicD> {
   factory MusicD.zero() => .new();
 
   @override
-  MusicD setDart(MusicD o) {
-    stream.setDart(o.stream);
-    frameCount = o.frameCount;
-    looping = o.looping;
-    ctxType = o.ctxType;
-    return this;
+  MusicD setDart(MusicD o)
+    => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
+
+  @override
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    _ctxDataF.allocate(temp, p, '${key}_ctxData');
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _stream.structWriteInto(p.offsetBy(struct.offset(.stream)));
-    p.writeUnsignedInt(_frameCount, struct.offset(.frameCount));
-    p.writeBool(_looping, struct.offset(.looping));
-    p.writeInt32(_ctxType.value, struct.offset(.ctxType));
-    p.writePtr(ctxData, struct.offset(.ctxData));
+    _streamF.write(p, _stream);
+    _frameCountF.write(p, _frameCount);
+    _loopingF.write(p, _looping);
+    _ctxTypeF.write(p, _ctxType);
+    _ctxData.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _stream.structReadFrom(p.offsetBy(struct.offset(.stream)));
-    _frameCount = p.readUnsignedInt(struct.offset(.frameCount));
-    _looping = p.readBool(struct.offset(.looping));
-    _ctxType = .fromValue(p.readInt32(struct.offset(.ctxType)));
-    ctxData = p.readPtr(struct.offset(.ctxData));
+    _stream = _streamF.read(p);
+    _frameCount = _frameCountF.read(p);
+    _looping = _loopingF.read(p);
+    _ctxType = _ctxTypeF.read(p);
+    _ctxData.readFrom(p, borrow: true);
   }
 
   @override

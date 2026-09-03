@@ -23,8 +23,6 @@ enum MsfGifStateField with StructFields {
   framesSubmitted,
 }
 
-// TODO: translate
-
 /// MsfGifState
 class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
@@ -35,6 +33,9 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<MsfGifStateField> get structLayout => struct;
 
   static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned({
     .pixels: RPointer(RUint32()),
@@ -65,6 +66,10 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MsfGifStateD.new, MsfGifStateD.pointer);
 
+  static final _widthF = struct.scalar<int, RInt>(.width);
+  static final _heightF = struct.scalar<int, RInt>(.height);
+  static final _framesSubmittedF = struct.scalar<int, RInt>(.framesSubmitted);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -73,11 +78,11 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  int get width => op?.readInt(struct.offset(.width)) ?? 0;
-
-  int get height => op?.readInt(struct.offset(.height)) ?? 0;
-
-  int get framesSubmitted => op?.readInt(struct.offset(.framesSubmitted)) ?? 0;
+  int get width => _widthF.readOr(op?.ptr, 0);
+  
+  int get height => _heightF.readOr(op?.ptr, 0);
+  
+  int get framesSubmitted => _framesSubmittedF.readOr(op?.ptr, 0);
 
   MsfGifStateD({ super.op });
 

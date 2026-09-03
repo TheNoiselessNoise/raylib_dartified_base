@@ -7,8 +7,6 @@ enum MsfGifResultField with StructFields {
   contextPointer,
 }
 
-// TODO: translate
-
 /// MsfGifResult
 class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 
@@ -19,6 +17,9 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<MsfGifResultField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MsfGifResultField> struct = .aligned({
@@ -33,6 +34,11 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MsfGifResultD.new, MsfGifResultD.pointer);
 
+  static final _dataF = struct.pointerUnknown<RVoid>(.data);
+  static final _dataSizeF = struct.scalar<int, RSize>(.dataSize);
+  static final _allocSizeF = struct.scalar<int, RSize>(.allocSize);
+  static final _contextPointerF = struct.pointerUnknown<RVoid>(.contextPointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -41,11 +47,16 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  Uint8List get data => getOp().readPtr(struct.offset(.data)).asView(dataSize);
+  late final LivePointerSync<RVoid> _data = _dataF.live(() => op?.ptr);
+  MemoryPointer<RVoid> get data => _data.fieldPtr();
+  Uint8List get dataView => data.asView(dataSize);
 
-  int get dataSize => getOp().readSize(struct.offset(.dataSize));
+  int get dataSize => _dataSizeF.read(getOp().ptr);
 
-  int get allocSize => getOp().readSize(struct.offset(.allocSize));
+  int get allocSize => _allocSizeF.read(getOp().ptr);
+
+  late final LivePointerSync<RVoid> _contextPointer = _contextPointerF.live(() => op?.ptr);
+  MemoryPointer<RVoid> get contextPointer => _contextPointer.fieldPtr();
 
   MsfGifResultD({ super.op });
 

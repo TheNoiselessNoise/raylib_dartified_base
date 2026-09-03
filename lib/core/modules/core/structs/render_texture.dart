@@ -17,6 +17,9 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<RenderTextureField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RenderTextureField> struct = .aligned({
     .id:      RUnsignedInt(), // OpenGL framebuffer object id

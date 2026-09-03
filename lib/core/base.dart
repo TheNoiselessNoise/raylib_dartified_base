@@ -15,6 +15,8 @@ class RaylibConfig {
   static int MAX_MESH_VERTEX_BUFFERS = 7;
 
   static bool get IS_GPU_SKINNING_SUPPORTED => MAX_MESH_VERTEX_BUFFERS != 7;
+
+  static int MAX_STRUCT_BYTE_SIZE = 1024;
 }
 
 enum RaylibSupportedLibs {
@@ -253,6 +255,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   void boot() {
     if (_booted) return;
     _booted = true;
+    MemoryPointer._initializeScratchBuffers();
     _registerBuiltins();
   }
 
@@ -363,6 +366,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   void dispose() {
     super.dispose();
     registeredModules.forEach(_disposeModule);
+    MemoryPointer._freeScratchBuffers();
   }
 
   // Functions

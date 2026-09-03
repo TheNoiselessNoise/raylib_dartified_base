@@ -18,6 +18,9 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<Camera2DField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Camera2DField> struct = .aligned({
     .offset:   RStruct(Vector2D.struct), // Camera offset (screen space offset from window origin)

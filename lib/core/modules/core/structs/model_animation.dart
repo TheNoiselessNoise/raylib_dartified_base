@@ -20,6 +20,9 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<ModelAnimationField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ModelAnimationField> struct = .aligned({
     .name:          RArray(RChar(), BASE_nameLength), // Animation name
@@ -32,6 +35,11 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
+
+  static final _nameF = struct.stringAsCharArray(.name);
+  static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
+  static final _keyframeCountF = struct.scalar<int, RInt>(.keyframeCount);
+  // NOTE: no direct field **stuff (`keyframePoses`)
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -54,115 +62,107 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   String _name;
   /// Animation name
-  String get name {
-    structOnOp((p) => _name = p.offsetBy(struct.offset(.name)).readStringUTF8(nameLength));
-    return _name;
-  }
-  set name(String value) {
-    assert(value.length <= nameLength);
-    _name = value;
-    structOnOp((p) => p.offsetBy(struct.offset(.name)).writeStringUTF8(value, nameLength));
-  }
+  String get name => _name = _nameF.readOr(op?.ptr, _name);
+  set name(String value) => _name = _nameF.writeIf(op?.ptr, value);
 
   int _boneCount;
   /// Number of bones (per pose)
-  int get boneCount {
-    structOnOp((p) => _boneCount = p.readInt(struct.offset(.boneCount)));
-    return _boneCount;
-  }
-  set boneCount(int value) {
-    _boneCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.boneCount)));
-  }
+  int get boneCount => _boneCount = _boneCountF.readOr(op?.ptr, _boneCount);
+  set boneCount(int value) => _boneCount = _boneCountF.writeIf(op?.ptr, value);
 
   int _keyframeCount;
   /// Number of animation key frames
-  int get keyframeCount {
-    structOnOp((p) => _keyframeCount = p.readInt(struct.offset(.keyframeCount)));
-    return _keyframeCount;
-  }
-  set keyframeCount(int value) {
-    _keyframeCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.keyframeCount)));
-  }
+  int get keyframeCount => _keyframeCount = _keyframeCountF.readOr(op?.ptr, _keyframeCount);
+  set keyframeCount(int value) => _keyframeCount = _keyframeCountF.writeIf(op?.ptr, value);
 
-  late LiveListPointerPointerStruct<TransformD> _keyframePoses;
-  /// Animation sequence keyframe poses `[keyframe][pose]`
-  LiveListPointerPointerStruct<TransformD> get keyframePoses {
-    structOnOp((p) => _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses)));
-    return _keyframePoses;
-  }
-  set keyframePoses(List<List<TransformD>> value) {
-    structOnOp((p) {
-      _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
-      p.writeInt(value.length, struct.offset(.keyframeCount));
-    });
+  // TODO: _keyframePoses
+  // late LiveListPointerPointerStruct<TransformD> _keyframePoses;
+  // /// Animation sequence keyframe poses `[keyframe][pose]`
+  // LiveListPointerPointerStruct<TransformD> get keyframePoses {
+  //   structOnOp((p) => _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses)));
+  //   return _keyframePoses;
+  // }
+  // set keyframePoses(List<List<TransformD>> value) {
+  //   structOnOp((p) {
+  //     _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
+  //     p.writeInt(value.length, struct.offset(.keyframeCount));
+  //   });
 
-    _keyframePoses.inner = .generate(value.length,
-      (i) => .new(TransformD.pointer, value[i], TransformD.pointer(_keyframePoses.innerPointer(i)))
-    );
-  }
+  //   _keyframePoses.inner = .generate(value.length,
+  //     (i) => .new(TransformD.pointer, value[i], TransformD.pointer(_keyframePoses.innerPointer(i)))
+  //   );
+  // }
 
   ModelAnimationD({
     super.op,
-    List<List<TransformD>>? keyframePoses,
     String name = '',
+    int? boneCount,
+    int? keyframeCount,
+    List<List<TransformD>>? keyframePoses,
   }) :
     _name = name,
-    _boneCount = keyframePoses?.firstOrNull?.length ?? 0,
-    _keyframeCount = keyframePoses?.length ?? 0
+    _boneCount = boneCount ?? keyframePoses?.firstOrNull?.length ?? 0,
+    _keyframeCount = keyframeCount ?? keyframePoses?.length ?? 0
   {
-    _keyframePoses = .new(
-      TransformD.struct.byteSize, TransformD.new, [],
-      op?.readPtr(struct.offset(.keyframePoses)),
-    );
-    if (keyframePoses != null) this.keyframePoses = keyframePoses;
+    // TODO: _keyframePoses
+    // _keyframePoses = .new(
+    //   TransformD.struct.byteSize, TransformD.new, [],
+    //   op?.readPtr(struct.offset(.keyframePoses)),
+    // );
+    // if (keyframePoses != null) this.keyframePoses = keyframePoses;
   }
 
   factory ModelAnimationD.zero() => .new();
 
   @override
   ModelAnimationD setDart(ModelAnimationD o) {
-    keyframePoses = .from(o.keyframePoses); 
     name = o.name;
+    boneCount = o.boneCount;
+    keyframeCount = o.keyframeCount;
+    // TODO: _keyframePoses
+    // keyframePoses = .from(o.keyframePoses); 
     return this;
   }
 
   @override
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    // TODO: _keyframePoses
+    // if (keyframePoses.inner.isNotEmpty) {
+    //   _keyframePosesF.allocate(temp, p, '${key}_keyframePoses', _keyframePoses.inner.length);
+    // }
+  }
+
+  @override
   void structWriteInto(MemoryPointer p) {
-    p.writeStringUTF8(_name, nameLength, struct.offset(.name));
-    p.writeInt(_boneCount, struct.offset(.boneCount));
-    p.writeInt(_keyframeCount, struct.offset(.keyframeCount));
-    p.writePtr(_keyframePoses.ptr, struct.offset(.keyframePoses));
-    
-    _keyframePoses.onPointer((outer) => outer.cast<RPointer<RStruct>>().writeMatrix(_keyframePoses.inner));
+    _nameF.write(p, _name);
+    _boneCountF.write(p, _boneCount);
+    _keyframeCountF.write(p, _keyframeCount);
+    // TODO: _keyframePoses
+    // p.writePtr(_keyframePoses.ptr, struct.offset(.keyframePoses));
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _name = p.readStringUTF8(nameLength, struct.offset(.name));
-    _boneCount = p.readInt(struct.offset(.boneCount));
-    _keyframeCount = p.readInt(struct.offset(.keyframeCount));
-    _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
-
-    _keyframePoses.onPointer((outer) {
-      final rows = outer.cast<RPointer<RStruct>>().readMatrix(_keyframeCount, boneCount, TransformD.pointer);
-      _keyframePoses.raw = .generate(_keyframeCount,
-        (i) => .new(TransformD.pointer, rows[i], TransformD.pointer(outer.readPtr(i * RType.nativeWordSize)))
-      );
-    });
+    _name = _nameF.read(p);
+    _boneCount = _boneCountF.read(p);
+    _keyframeCount = _keyframeCountF.read(p);
+    // TODO: _keyframePoses
+    // _keyframePoses.ptr = p.readPtr(struct.offset(.keyframePoses));
   }
 
   @override
   ModelAnimationD clone() => .new(
     op: op,
-    keyframePoses: keyframePoses.map((frame) => 
-      frame.map((transform) => transform.clone()).toList()
-    ).toList(),
     name: name,
+    boneCount: boneCount,
+    keyframeCount: keyframeCount,
+    // TODO: _keyframePoses
+    // keyframePoses: keyframePoses.map((frame) => 
+    //   frame.map((transform) => transform.clone()).toList()
+    // ).toList(),
   );
 
   @override

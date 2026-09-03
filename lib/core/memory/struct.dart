@@ -13,7 +13,7 @@ final class RaylibTempStructState with RaylibDisposable {
   /// The slot tag used to disambiguate [RaylibTemp] keys for this instance.
   ///
   /// Defaults to `'default'`. Change via [RaylibStruct.structSetTag].
-  String tag = 'struct';
+  String tag = 'default';
   
   /// The [RaylibTemp] slot key used during the most recent [RaylibTempStructAllocator.Allocate] allocation.
   String? allocKey;
@@ -72,6 +72,12 @@ final class RaylibTempStructState with RaylibDisposable {
 
 mixin StructFields on Enum {}
 
+class StructLayoutFloatSlot {
+  final int offset;
+  final int size; // 4 or 8, from RFloat/RDouble
+  const StructLayoutFloatSlot(this.offset, this.size);
+}
+
 /// Backend-agnostic struct layout: field -> byte offset, plus total size.
 /// Computes C-style natural-alignment offsets: each field's alignment
 /// equals its own size, offset is rounded up to that alignment, and the
@@ -82,10 +88,11 @@ final class StructLayout<F extends StructFields> {
   /// Maps each field to the [RType] describing it.
   final Map<F, RType> fields;
   final Map<F, int> offsets;
+  final List<StructLayoutFloatSlot> floatFields;
   final int byteSize;
   final int alignment;
 
-  const StructLayout._(this.fields, this.offsets, this.byteSize, this.alignment);
+  const StructLayout._(this.fields, this.offsets, this.floatFields, this.byteSize, this.alignment);
 
   factory StructLayout.aligned(Map<F, RType> fields) {
     final offsets = <F, int>{};
@@ -100,10 +107,41 @@ final class StructLayout<F extends StructFields> {
       if (align > maxAlign) maxAlign = align;
     }
     final total = (offset + maxAlign - 1) ~/ maxAlign * maxAlign;
-    return StructLayout._(fields, offsets, total, maxAlign);
+    final floatFields = _collectFloatSlots(fields, offsets);
+    assert(total <= RaylibConfig.MAX_STRUCT_BYTE_SIZE, '$F StructLayout byteSize ($total) exceeds MAX_STRUCT_BYTE_SIZE');
+    return StructLayout._(fields, offsets, floatFields, total, maxAlign);
   }
 
   int offset(F field) => offsets[field]!;
+  
+  static List<StructLayoutFloatSlot> _collectFloatSlots<F extends StructFields>(
+    Map<F, RType> fields, Map<F, int> offsets
+  ) {
+    final slots = <StructLayoutFloatSlot>[];
+    for (final entry in fields.entries) {
+      final type = entry.value;
+      final offset = offsets[entry.key]!;
+      _walkFloatSlots(type, offset, slots);
+    }
+    return slots;
+  }
+
+  static void _walkFloatSlots(RType type, int baseOffset, List<StructLayoutFloatSlot> slots) {
+    if (type is RFloat) {
+      slots.add(.new(baseOffset, type.byteSize));
+    } else if (type is RDouble) {
+      slots.add(.new(baseOffset, type.byteSize));
+    } else if (type is RArray) {
+      final elemSize = type.element.byteSize;
+      for (var i = 0; i < type.count; i++) {
+        _walkFloatSlots(type.element, baseOffset + i * elemSize, slots);
+      }
+    } else if (type is RStruct) {
+      for (final e in type.layout.fields.entries) {
+        _walkFloatSlots(e.value, baseOffset + type.layout.offset(e.key), slots);
+      }
+    }
+  }
 
   void _checkField(F f) {
     if (!offsets.containsKey(f)) {
@@ -147,11 +185,11 @@ final class StructLayout<F extends StructFields> {
 
   StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
     F f,
-    StructPointerFactory<T> pointer,
+    StructPointerFactory<T> pointerFactory,
   ) {
     _checkField(f);
     final type = _getFieldAs<RStruct>(f);
-    return .new(offset(f), StructCodec<T>(type, pointer));
+    return .new(offset(f), StructCodec<T>(type, pointerFactory));
   }
 
   StructValueField<X, R> enumValue<
@@ -165,7 +203,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), enumCodec);
   }
 
-  StructValueField<String, R> stringAsCharArray<R extends RType>(F f) {
+  StructValueField<String, R> stringAsCharArray<R extends RTypeIntLike>(F f) {
     _checkField(f);
     final type = fields[f]! as RArray<R>;
     final element = type.element;
@@ -173,7 +211,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), StringCodec(element));
   }
 
-  StructPointerValueField<String, RPointer<R>> stringAsPointerChar<R extends RType>(F f) {
+  StructPointerValueField<String, R> stringAsPointerChar<R extends RTypeIntLike>(F f) {
     _checkField(f);
     final type = fields[f]! as RPointer<R>;
     final element = type.target;
@@ -193,16 +231,16 @@ final class StructLayout<F extends StructFields> {
 
   StructValueField<List<T>, RArray<RStruct>> structArray<T extends RaylibStruct<T>>(
     F f,
-    StructPointerFactory<T> pointer,
+    StructPointerFactory<T> pointerFactory,
   ) {
     _checkField(f);
     final type = _getFieldAs<RArray<RStruct>>(f);
-    final structCodec = StructCodec(type.element, pointer);
+    final structCodec = StructCodec(type.element, pointerFactory);
     final arrayCodec = ArrayCodec(type, structCodec, type.count);
     return .new(offset(f), arrayCodec);
   }
 
-  StructPointerValueField<T, RPointer<R>> pointerScalar<T, R extends RType>(F f) {
+  StructPointerValueField<T, R> pointerScalar<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
     final scalarCodec = ScalarCodec<T, R>(type.target);
@@ -210,7 +248,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  StructPointerValueField<T, RPointer<RStruct>> pointerStruct<
+  StructPointerValueField<T, RStruct> pointerStruct<
     T extends RaylibStruct<T>
   >(F f, StructPointerFactory<T> pointer) {
     _checkField(f);
@@ -220,7 +258,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  StructPointerValueField<X, RPointer<R>> pointerEnumValue<
+  StructPointerValueField<X, R> pointerEnumValue<
     X extends RaylibEnum,
     R extends RType
   >(F f, X Function(int) enumFactory) {
@@ -232,7 +270,23 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  StructPointerValueField<List<T>, RPointer<RArray<R>>> pointerScalarFixedArray<T, R extends RType>(F f) {
+  StructPointerValueField<dynamic, R> pointerUnknown<R extends RTypeUnknownLike>(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<R>>(f);
+    final unknownCodec = UnknownCodec(type.target);
+    final pointerCodec = PointerCodec(type, unknownCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerValueField<X, R> pointerSync<X, R extends RType>(F f) {
+    _checkField(f);
+    final type = _getFieldAs<RPointer<R>>(f);
+    final unknownCodec = UnknownCodec<X, R>(type.target);
+    final pointerCodec = PointerCodec(type, unknownCodec);
+    return .new(offset(f), pointerCodec);
+  }
+
+  StructPointerValueField<List<T>, RArray<R>> pointerScalarFixedArray<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RArray<R>>>(f);
     final array = type.target;
@@ -242,7 +296,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  StructPointerValueField<List<T>, RPointer<RArray<RStruct>>> pointerStructFixedArray<
+  StructPointerValueField<List<T>, RArray<RStruct>> pointerStructFixedArray<
     T extends RaylibStruct<T>
   >(F f, StructPointerFactory<T> pointer) {
     _checkField(f);
@@ -264,11 +318,11 @@ final class StructLayout<F extends StructFields> {
 
   StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
     F f,
-    StructPointerFactory<T> pointer,
+    StructPointerFactory<T> pointerFactory,
   ) {
     _checkField(f);
     final type = fields[f]! as RPointer<RStruct>;
-    final structCodec = StructCodec(type.target, pointer);
+    final structCodec = StructCodec(type.target, pointerFactory);
     final pointerCodec = PointerCodec(type, structCodec);
     return .new(offset(f), pointerCodec);
   }
@@ -390,6 +444,65 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   
   /// Syncs all fields to the memory. Requires [op].
   void structSyncToMemory() => structWriteInto(getOp().ptr);
+
+  /// [StructLayout] of this object.
+  StructLayout get structLayout;
+
+  void _canonicalizeFloats(MemoryPointer p) {
+    for (final f in structLayout.floatFields) {
+      if (f.size == 4) {
+        final bits = p.readUint32(f.offset);
+        if (bits == 0x80000000) p.writeUint32(f.offset, 0);
+      } else {
+        final bits = p.readUint64(f.offset);
+        if (bits == 0x8000000000000000) p.writeUint64(f.offset, 0);
+      }
+    }
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! D) return false;
+
+    MemoryPointer? srcPtr = op?.ptr;
+    if (srcPtr == null) {
+      srcPtr = MemoryPointer.scratch(0);
+      // TODO: this writes all the data (including data at pointers, which is unrelated)
+      structWriteInto(srcPtr);
+      _canonicalizeFloats(srcPtr);
+    }
+
+    MemoryPointer? dstPtr = other.op?.ptr;
+    if (dstPtr == null) {
+      dstPtr = MemoryPointer.scratch(1);
+      // TODO: this writes all the data (including data at pointers, which is unrelated)
+      other.structWriteInto(dstPtr);
+      _canonicalizeFloats(dstPtr);
+    }
+
+    if (srcPtr.address == dstPtr.address) return true;
+
+    return srcPtr.compareBytes(dstPtr, structLayout.byteSize) == 0;
+  }
+
+  @override
+  int get hashCode {
+    final op = this.op;
+
+    // If memory-backed, hash native memory directly
+    if (op != null) {
+      _canonicalizeFloats(op.ptr);
+      return op.ptr.computeByteHash(structLayout.byteSize);
+    }
+
+    // If unbacked, serialize and hash the bytes
+    final scratch = MemoryPointer.scratch(0);
+    // TODO: this writes all the data (including data at pointers, which is unrelated)
+    structWriteInto(scratch);
+    _canonicalizeFloats(scratch);
+    return scratch.computeByteHash(structLayout.byteSize);
+  }
 
   /// Returns a human-readable representation of this struct.
   String signature() => structName;

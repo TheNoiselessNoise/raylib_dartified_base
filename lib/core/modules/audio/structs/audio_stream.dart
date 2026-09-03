@@ -8,8 +8,6 @@ enum AudioStreamField with StructFields {
   channels,
 }
 
-// TODO: translate
-
 /// AudioStream, custom audio stream
 class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
@@ -20,6 +18,9 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<AudioStreamField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<AudioStreamField> struct = .aligned({
@@ -35,6 +36,12 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
 
+  static final _bufferF = struct.pointerUnknown<ROpaque>(.buffer);
+  static final _processorF = struct.pointerUnknown<ROpaque>(.processor);
+  static final _sampleRateF = struct.scalar<int, RUnsignedInt>(.sampleRate);
+  static final _sampleSizeF = struct.scalar<int, RUnsignedInt>(.sampleSize);
+  static final _channelsF = struct.scalar<int, RUnsignedInt>(.channels);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -46,45 +53,29 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   /// Pointer to internal data used by the audio system
   /// 
   /// `rAudioBuffer *buffer;`
-  MemoryPointer<ROpaque> buffer = MemoryPointer.nullptr.cast();
+  late final LivePointerSync<ROpaque> _buffer = _bufferF.live(() => op?.ptr);
+  MemoryPointer<ROpaque> get buffer => _buffer.fieldPtr();
 
   /// Pointer to internal data processor, useful for audio effects
   /// 
   /// `rAudioProcessor *processor;`
-  MemoryPointer<ROpaque> processor = MemoryPointer.nullptr.cast();
+  late final LivePointerSync<ROpaque> _processor = _processorF.live(() => op?.ptr);
+  MemoryPointer<ROpaque> get processor => _processor.fieldPtr();
 
   int _sampleRate;
   /// Frequency (samples per second)
-  int get sampleRate {
-    structOnOp((p) => _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate)));
-    return _sampleRate;
-  }
-  set sampleRate(int value) {
-    _sampleRate = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.sampleRate)));
-  }
-  
+  int get sampleRate => _sampleRate = _sampleRateF.readOr(op?.ptr, _sampleRate);
+  set sampleRate(int value) => _sampleRate = _sampleRateF.writeIf(op?.ptr, value);
+
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-  int get sampleSize {
-    structOnOp((p) => _sampleSize = p.readUnsignedInt(struct.offset(.sampleSize)));
-    return _sampleSize;
-  }
-  set sampleSize(int value) {
-    _sampleSize = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.sampleSize)));
-  }
-  
+  int get sampleSize => _sampleSize = _sampleSizeF.readOr(op?.ptr, _sampleSize);
+  set sampleSize(int value) => _sampleSize = _sampleSizeF.writeIf(op?.ptr, value);
+
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
-  int get channels {
-    structOnOp((p) => _channels = p.readUnsignedInt(struct.offset(.channels)));
-    return _channels;
-  }
-  set channels(int value) {
-    _channels = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.channels)));
-  }
+  int get channels => _channels = _channelsF.readOr(op?.ptr, _channels);
+  set channels(int value) => _channels = _channelsF.writeIf(op?.ptr, value);
 
   AudioStreamD({
     super.op,
@@ -99,29 +90,31 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   factory AudioStreamD.zero() => .new();
 
   @override
-  AudioStreamD setDart(AudioStreamD o) {
-    sampleRate = o.sampleRate;
-    sampleSize = o.sampleSize;
-    channels = o.channels;
-    return this;
+  AudioStreamD setDart(AudioStreamD o)
+    => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
+
+  @override
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    _bufferF.allocate(temp, p, '${key}_buffer');
+    _processorF.allocate(temp, p, '${key}_processor');
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    p.writePtr(buffer, struct.offset(.buffer));
-    p.writePtr(processor, struct.offset(.processor));
-    p.writeUnsignedInt(_sampleRate, struct.offset(.sampleRate));
-    p.writeUnsignedInt(_sampleSize, struct.offset(.sampleSize));
-    p.writeUnsignedInt(_channels, struct.offset(.channels));
+    _buffer.writeInto(p);
+    _processor.writeInto(p);
+    _sampleRateF.write(p, _sampleRate);
+    _sampleSizeF.write(p, _sampleSize);
+    _channelsF.write(p, _channels);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    buffer = p.readPtr(struct.offset(.buffer));
-    processor = p.readPtr(struct.offset(.processor));
-    _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate));
-    _sampleSize = p.readUnsignedInt(struct.offset(.sampleSize));
-    _channels = p.readUnsignedInt(struct.offset(.channels));
+    _buffer.readFrom(p, borrow: true);
+    _processor.readFrom(p, borrow: true);
+    _sampleRate = _sampleRateF.read(p);
+    _sampleSize = _sampleSizeF.read(p);
+    _channels = _channelsF.read(p);
   }
 
   @override

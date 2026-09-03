@@ -18,6 +18,9 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<RectangleField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RectangleField> struct = .aligned({
     .x:      RFloat(), // Rectangle top-left corner position x

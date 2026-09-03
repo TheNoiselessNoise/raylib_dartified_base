@@ -5,8 +5,6 @@ enum FilePathListField with StructFields {
   paths,
 }
 
-// TODO: translate
-
 /// File path list
 class FilePathListD extends RaylibStructView<FilePathListD> {
 
@@ -17,6 +15,9 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<FilePathListField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<FilePathListField> struct = .aligned({
@@ -29,6 +30,9 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, FilePathListD.new, FilePathListD.pointer);
 
+  static final _countF = struct.scalar<int, RUnsignedChar>(.count);
+  // NOTE: no direct field `paths`
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -38,7 +42,7 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   // ░███████   ░██████████ ░██        
 
   /// Filepaths entries count
-  int get count => getOp().readUnsignedInt(struct.offset(.count));
+  int get count => _countF.read(getOp().ptr);
 
   /// Filepaths entries
   List<String> get paths => getOp()

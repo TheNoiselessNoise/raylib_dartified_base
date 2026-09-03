@@ -39,11 +39,17 @@ sealed class RType {
 /// Marker type for any int-like [RType]s.
 mixin RTypeIntLike on RType {}
 
+/// Marker type for any double-like [RType]s.
+mixin RTypeDoubleLike on RType {}
+
+/// Marker type for any unknown-like [RType]s.
+mixin RTypeUnknownLike on RType {}
+
 final class RArray<E extends RType> extends RType {
   final E element;
   final int count;
 
-  const RArray(this.element, this.count);
+  const RArray(this.element, [this.count = 1]);
 
   @override
   int get byteSize => element.byteSize * count;
@@ -74,7 +80,7 @@ final class RFunction<F> extends RType {
 }
 
 /// Marker type for a `opaque` type - any type.
-final class ROpaque extends RType {
+final class ROpaque extends RType with RTypeUnknownLike {
   const ROpaque();
 
   @override
@@ -90,7 +96,7 @@ final class ROpaque extends RType {
 }
 
 /// Marker type for a `void` type - any type.
-final class RVoid extends RType {
+final class RVoid extends RType with RTypeUnknownLike {
   const RVoid();
 
   @override
@@ -412,6 +418,31 @@ extension BoolPointer on MemoryPointer<RBool> {
   }
 }
 
+extension MemoryPointerStringIO on MemoryPointer<RPointer<RChar>> {
+  /// Reads [count] C strings from a `char**`-style pointer (this pointer
+  /// points at an array of char* pointers, each read and decoded).
+  List<String> readStringArray(int count) {
+    if (isNull) return const [];
+    return .generate(count, (i) {
+      final strPtr = readPtr<RChar>(i * RType.nativeWordSize);
+      return strPtr.isNull ? '' : strPtr.toDartString();
+    });
+  }
+
+  /// Writes [strings] into this pre-allocated char**-sized buffer.
+  /// Both the outer array (strings.length pointer slots) and each inner
+  /// char* target buffer must already exist. [slotSizes[i]] is the real
+  /// allocated byte capacity of slot i's buffer (bytes available,
+  /// terminator included).
+  void writeStringArray(List<String> strings, List<int> slotSizes) {
+    assert(strings.length == slotSizes.length);
+
+    for (final (i, s) in strings.indexed) {
+      readPtr<RChar>(i * RType.nativeWordSize).writeString(s, slotSizes[i]);
+    }
+  }
+}
+
 extension Int8Pointer on MemoryPointer<RInt8> {
   int get value => readInt8();
   set value(int v) => writeInt8(v);
@@ -430,12 +461,12 @@ extension Int8Pointer on MemoryPointer<RInt8> {
 extension Utf8StringPointer on MemoryPointer<RInt8> {
   /// Reads a NUL-terminated C string starting at this pointer,
   /// decoded as UTF-8. Scans for the NUL byte itself, no length needed.
-  String toDartString() => _decodeUtf8();
-
-  /// Reads at most [maxLength] bytes as a UTF-8 string, stopping
-  /// early at a NUL byte if found first. Use when you know a bound
-  /// (e.g. a fixed-size char buffer) but the string may be shorter.
-  String toDartStringBounded(int maxLength) => _decodeUtf8(0, maxLength);
+  /// 
+  /// If [maxLength] is provided reads at most [maxLength] bytes as
+  /// a UTF-8 string, stopping early at a NUL byte if found first.
+  /// Use when you know a bound (e.g. a fixed-size char buffer) but
+  /// the string may be shorter.
+  String toDartString([int? maxLength]) => _decodeUtf8(0, maxLength);
 
   String _decodeUtf8([int startOffset = 0, int? maxLength]) {
     var end = startOffset;
@@ -492,8 +523,7 @@ extension Int16Pointer on MemoryPointer<RInt16> {
 }
 
 extension Utf16StringPointer on MemoryPointer<RInt16> {
-  String toDartString() => _decodeUtf16();
-  String toDartStringBounded(int maxLength) => _decodeUtf16(0, maxLength);
+  String toDartString([int? maxLength]) => _decodeUtf16(0, maxLength);
 
   String _decodeUtf16([int startOffset = 0, int? maxLength]) {
     final units = <int>[];
@@ -566,8 +596,7 @@ extension Int32Pointer on MemoryPointer<RInt32> {
 }
 
 extension Utf32StringPointer on MemoryPointer<RInt32> {
-  String toDartString() => _decodeUtf32();
-  String toDartStringBounded(int maxLength) => _decodeUtf32(0, maxLength);
+  String toDartString([int? maxLength]) => _decodeUtf32(0, maxLength);
 
   String _decodeUtf32([int startOffset = 0, int? maxLength]) {
     final runes = <int>[];
@@ -673,6 +702,36 @@ extension Float64Pointer on MemoryPointer<RFloat64> {
     }
   }
 }
+
+extension MemoryPointerMatrixIO on MemoryPointer<RPointer<RStruct>> {
+  void writeMatrix<D extends RaylibStruct<D>>(
+    List<LiveStructList<D, RStruct>> rows
+  ) {
+    final pSize = RType.nativeWordSize;
+    for (var i = 0; i < rows.length; i++) {
+      final row = rows[i];
+      final p = row.ptrOf()!;
+      writePtr(p, i * pSize);
+      row.writeInto(p);
+    }
+  }
+
+  List<List<D>> readMatrix<D extends RaylibStruct<D>>(
+    int rowCount,
+    int rowLength,
+    StructPointer<D> Function(MemoryPointer ptr) factory,
+    {bool owned = false}
+  ) {
+    final pSize = RType.nativeWordSize;
+    return List.generate(rowCount, (i) {
+      final rowPtr = factory(readPtr(i * pSize));
+      return rowPtr.ptr.isNull 
+        ? const []
+        : rowPtr.readArray(rowLength, owned: owned);
+    });
+  }
+}
+
 
 /// Backend-agnostic handle to a raw memory buffer returned by a C function.
 abstract class MemoryPointer<X extends RType> {
@@ -780,6 +839,55 @@ abstract class MemoryPointer<X extends RType> {
   /// Allocates a memory of given [size].
   static MemoryPointer<Y> Function<Y extends RType>(int size) malloc = _defaultMalloc;
 
+  static MemoryPointer<Y> _defaultCalloc<Y extends RType>(int nmemb, int size) {
+    throw StateError(
+      'MemoryPointer.calloc called before a memory backend was initialized.'
+    );
+  }
+
+  /// Allocates a memory of given `nmemb * size` and zero initializes it.
+  static MemoryPointer<Y> Function<Y extends RType>(int nmemb, int size) calloc = _defaultCalloc;
+
+  static final List<MemoryPointer> _scratchBuffers = [];
+
+  /// Called automatically at [RaylibBase.boot] (backend has initialized).
+  static void _initializeScratchBuffers() {
+    if (_scratchBuffers.isNotEmpty) _freeScratchBuffers();
+    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
+    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
+  }
+
+  /// Called automatically at [RaylibBase.dispose].
+  static void _freeScratchBuffers() {
+    _scratchBuffers.forEach((s) => s.free());
+    _scratchBuffers.clear();
+  }
+
+  /// Returns a static thread-local scratch buffer for short-lived operations.
+  /// Standard slots: 0 and 1 (used for binary operations like equality).
+  static MemoryPointer<Y> scratch<Y extends RType>(int slot) {
+    if (slot < 0 || slot >= _scratchBuffers.length) {
+      throw StateError('MemoryPointer invalid scratch buffer index $slot.');
+    }
+    return _scratchBuffers[slot].cast();
+  }
+
+  /// Hashes the bytes until [byteSize].
+  int computeByteHash(int byteSize) {
+    // 0x811c9dc5 is the 32-bit FNV offset basis
+    var hash = 0x811c9dc5; 
+    
+    // Read bytes from memory address
+    for (var i = 0; i < byteSize; i++) {
+      // 0x01000193 is the 32-bit FNV prime
+      hash = (hash ^ readUint8(i)) * 0x01000193; 
+      // Force 32-bit unsigned wrap in Dart VM
+      hash &= 0xFFFFFFFF; 
+    }
+    
+    return hash;
+  }
+
   /// Reads a pointer value at `address + byteOffset` and returns it typed as pointing to [Y].
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]);
 
@@ -847,16 +955,16 @@ abstract class MemoryPointer<X extends RType> {
   double readDouble([int byteOffset = 0]) => readFloat64(byteOffset);
 
   /// Reads a fixed-size char-buffer field as a UTF-8 string, stopping early at NUL if present.
-  String readStringUTF8(int maxLength, [int byteOffset = 0])
-    => offsetBy(byteOffset).cast<RChar>().toDartStringBounded(maxLength);
+  String readStringUTF8([int? maxLength, int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt8>().toDartString(maxLength);
 
   /// Reads a fixed-size char-buffer field as a UTF-16 string, stopping early at NUL if present.
-  String readStringUTF16(int maxLength, [int byteOffset = 0])
-    => offsetBy(byteOffset).cast<RInt16>().toDartStringBounded(maxLength);
+  String readStringUTF16([int? maxLength, int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt16>().toDartString(maxLength);
 
   /// Reads a fixed-size char-buffer field as a UTF-32 string, stopping early at NUL if present.
-  String readStringUTF32(int maxLength, [int byteOffset = 0])
-    => offsetBy(byteOffset).cast<RInt32>().toDartStringBounded(maxLength);
+  String readStringUTF32([int? maxLength, int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt32>().toDartString(maxLength);
 
   /// Writes a [value] of type [RSize] at given `address + byteOffset`.
   void writeSize(int value, [int byteOffset = 0]);
@@ -921,19 +1029,19 @@ abstract class MemoryPointer<X extends RType> {
   /// Writes a UTF-8 [text] into a fixed-size [maxLength]-byte buffer field at
   /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
   /// and zero-pads the remainder.
-  void writeStringUTF8(String text, int maxLength, [int byteOffset = 0])
-    => offsetBy(byteOffset).cast<RChar>().writeString(text, maxLength);
+  void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0])
+    => offsetBy(byteOffset).cast<RInt8>().writeString(text, maxLength);
 
   /// Writes a UTF-16 [text] into a fixed-size [maxLength]-byte buffer field at
   /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
   /// and zero-pads the remainder.
-  void writeStringUTF16(String text, int maxLength, [int byteOffset = 0])
+  void writeStringUTF16(String text, [int? maxLength, int byteOffset = 0])
     => offsetBy(byteOffset).cast<RInt16>().writeString(text, maxLength);
 
   /// Writes a UTF-32 [text] into a fixed-size [maxLength]-byte buffer field at
   /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
   /// and zero-pads the remainder.
-  void writeStringUTF32(String text, int maxLength, [int byteOffset = 0])
+  void writeStringUTF32(String text, [int? maxLength, int byteOffset = 0])
     => offsetBy(byteOffset).cast<RInt32>().writeString(text, maxLength);
 }
 
@@ -1039,6 +1147,15 @@ final class StructPointer<D extends RaylibStruct<D>> {
     (i) => _getAtIndex(i, owned: owned),
   );
 
+  LiveStructList<D, RStruct> live([List<D>? initial]) => ._(
+    () => ptr,
+    0,
+    null,
+    (_, i) => this[i],
+    (_, i, v) => this[i] = v,
+    initial ?? [],
+  );
+
   // MemoryPointer redirection
 
   /// See [MemoryPointer.cast].
@@ -1132,15 +1249,15 @@ final class StructPointer<D extends RaylibStruct<D>> {
   double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
 
   /// See [MemoryPointer.readStringUTF8].
-  String readStringUTF8(int maxLength, [int byteOffset = 0])
+  String readStringUTF8([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF8(maxLength, byteOffset);
 
   /// See [MemoryPointer.readStringUTF16].
-  String readStringUTF16(int maxLength, [int byteOffset = 0])
+  String readStringUTF16([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF16(maxLength, byteOffset);
 
   /// See [MemoryPointer.readStringUTF32].
-  String readStringUTF32(int maxLength, [int byteOffset = 0])
+  String readStringUTF32([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF32(maxLength, byteOffset);
 
   /// See [MemoryPointer.writeSize].
@@ -1204,14 +1321,14 @@ final class StructPointer<D extends RaylibStruct<D>> {
   void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
 
   /// See [MemoryPointer.writeStringUTF8].
-  void writeStringUTF8(String text, int maxLength, [int byteOffset = 0])
+  void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF8(text, maxLength, byteOffset);
 
   /// See [MemoryPointer.writeStringUTF16].
-  void writeStringUTF16(String text, int maxLength, [int byteOffset = 0])
+  void writeStringUTF16(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF16(text, maxLength, byteOffset);
 
   /// See [MemoryPointer.writeStringUTF32].
-  void writeStringUTF32(String text, int maxLength, [int byteOffset = 0])
+  void writeStringUTF32(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF32(text, maxLength, byteOffset);
 }

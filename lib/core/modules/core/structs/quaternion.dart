@@ -23,6 +23,9 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<QuaternionField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<QuaternionField> struct = .aligned({
     .x: RFloat(), // Imaginary i component

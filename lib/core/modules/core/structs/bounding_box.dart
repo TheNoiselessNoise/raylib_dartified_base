@@ -16,6 +16,9 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<BoundingBoxField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<BoundingBoxField> struct = .aligned({
     .min: RStruct(Vector3D.struct), // Minimum vertex box-corner

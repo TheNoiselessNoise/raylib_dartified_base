@@ -18,6 +18,9 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<GestureEventField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<GestureEventField> struct = .aligned({
     .touchAction: RInt(),
@@ -34,7 +37,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   static final _touchActionF = struct.scalar<int, RInt>(.touchAction);
   static final _pointCountF = struct.scalar<int, RInt>(.pointCount);
   static final _pointIdF = struct.scalarArray<int, RInt>(.pointId);
-  static final _positionF = struct.structArray<Vector2D>(.position, Vector2D.pointer);
+  static final _positionF = struct.structArray(.position, Vector2D.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -68,12 +71,12 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   int get pointCount => _pointCount = _pointCountF.readOr(op?.ptr, _pointCount);
   set pointCount(int value) => _pointCount = _pointCountF.writeIf(op?.ptr, value);
 
-  late LiveStructList<int, RInt> _pointId;
+  late final LiveStructList<int, RInt> _pointId;
   /// Point Id
   LiveStructList<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) => _pointId.inner = value;
 
-  late LiveStructList<Vector2D, RStruct> _position;
+  late final LiveStructList<Vector2D, RStruct> _position;
   /// Position
   LiveStructList<Vector2D, RStruct> get position => _position;
   set position(List<Vector2D> value) => _position.inner = value;

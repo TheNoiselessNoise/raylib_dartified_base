@@ -7,8 +7,6 @@ enum RlDrawCallField with StructFields {
   textureId,
 }
 
-// TODO: translate
-
 /// Draw call type
 class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
@@ -19,6 +17,9 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<RlDrawCallField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RlDrawCallField> struct = .aligned({
@@ -33,6 +34,11 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   static StructPointer<RlDrawCallD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlDrawCallD.new, RlDrawCallD.pointer);
 
+  static final _modeF = struct.enumValue(.mode, RlDrawMode.fromValue);
+  static final _vertexCountF = struct.scalar<int, RInt>(.vertexCount);
+  static final _vertexAlignmentF = struct.scalar<int, RInt>(.vertexAlignment);
+  static final _textureIdF = struct.scalar<int, RUnsignedInt>(.textureId);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -40,51 +46,27 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   RlDrawMode _mode;
   /// Drawing mode: LINES, TRIANGLES, QUADS
-  RlDrawMode get mode {
-    structOnOp((p) => _mode = .fromValue(p.readInt(struct.offset(.mode))));
-    return _mode;
-  }
-  set mode(RlDrawMode value) {
-    _mode = value;
-    structOnOp((p) => p.writeInt(value.value, struct.offset(.mode)));
-  }
-  
+  RlDrawMode get mode => _mode = _modeF.readOr(op?.ptr, _mode);
+  set mode(RlDrawMode value) => _mode = _modeF.writeIf(op?.ptr, value);
+
   int _vertexCount;
   /// Number of vertex of the draw
-  int get vertexCount {
-    structOnOp((p) => _vertexCount = p.readInt(struct.offset(.vertexCount)));
-    return _vertexCount;
-  }
-  set vertexCount(int value) {
-    _vertexCount = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.vertexCount)));
-  }
-  
+  int get vertexCount => _vertexCount = _vertexCountF.readOr(op?.ptr, _vertexCount);
+  set vertexCount(int value) => _vertexCount = _vertexCountF.writeIf(op?.ptr, value);
+
   int _vertexAlignment;
   /// Number of vertex required for index alignment (LINES, TRIANGLES)
-  int get vertexAlignment {
-    structOnOp((p) => _vertexAlignment = p.readInt(struct.offset(.vertexAlignment)));
-    return _vertexAlignment;
-  }
-  set vertexAlignment(int value) {
-    _vertexAlignment = value;
-    structOnOp((p) => p.writeInt(value, struct.offset(.vertexAlignment)));
-  }
-  
+  int get vertexAlignment => _vertexAlignment = _vertexAlignmentF.readOr(op?.ptr, _vertexAlignment);
+  set vertexAlignment(int value) => _vertexAlignment = _vertexAlignmentF.writeIf(op?.ptr, value);
+
   int _textureId;
   /// Texture id to be used on the draw -> Use to create new draw call if changes
-  int get textureId {
-    structOnOp((p) => _textureId = p.readUnsignedInt(struct.offset(.textureId)));
-    return _textureId;
-  }
-  set textureId(int value) {
-    _textureId = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.textureId)));
-  }
-
+  int get textureId => _textureId = _textureIdF.readOr(op?.ptr, _textureId);
+  set textureId(int value) => _textureId = _textureIdF.writeIf(op?.ptr, value);
+  
   RlDrawCallD({
     super.op,
     RlDrawMode mode = .RL_NONE,
@@ -110,18 +92,18 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    p.writeInt(_mode.value, struct.offset(.mode));
-    p.writeInt(_vertexCount, struct.offset(.vertexCount));
-    p.writeInt(_vertexAlignment, struct.offset(.vertexAlignment));
-    p.writeUnsignedInt(_textureId, struct.offset(.textureId));
+    _modeF.write(p, _mode);
+    _vertexCountF.write(p, _vertexCount);
+    _vertexAlignmentF.write(p, _vertexAlignment);
+    _textureIdF.write(p, _textureId);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _mode = .fromValue(p.readInt(struct.offset(.mode)));
-    _vertexCount = p.readInt(struct.offset(.vertexCount));
-    _vertexAlignment = p.readInt(struct.offset(.vertexAlignment));
-    _textureId = p.readUnsignedInt(struct.offset(.textureId));
+    _mode = _modeF.read(p);
+    _vertexCount = _vertexCountF.read(p);
+    _vertexAlignment = _vertexAlignmentF.read(p);
+    _textureId = _textureIdF.read(p);
   }
 
   @override

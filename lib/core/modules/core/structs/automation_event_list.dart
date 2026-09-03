@@ -6,8 +6,6 @@ enum AutomationEventListField with StructFields {
   events,
 }
 
-// TODO: translate
-
 /// Automation event list
 class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
 
@@ -18,6 +16,9 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   //         ░██     ░██    ░██   ░██   ░██     ░██ ░██            ░██    
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
+
+  @override
+  StructLayout<AutomationEventListField> get structLayout => struct;
 
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<AutomationEventListField> struct = .aligned({
@@ -31,6 +32,10 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventListD.new, AutomationEventListD.pointer);
 
+  static final _capacityF = struct.scalar<int, RUnsignedInt>(.capacity);
+  static final _countF = struct.scalar<int, RUnsignedInt>(.count);
+  static final _eventsF = struct.pointerStructArray(.events, AutomationEventD.pointer);
+
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
   // ░██    ░██ ░██         ░██        
@@ -39,16 +44,14 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  // NOTE: there's no need for `capacity`
+  /// Events max entries (MAX_AUTOMATION_EVENTS)
+  int get capacity => _capacityF.read(getOp().ptr);
   
   /// Events entries count
-  int get count
-    => getOp().readUnsignedInt(struct.offset(.count));
+  int get count => _countF.read(getOp().ptr);
 
   /// Events entries
-  List<AutomationEventD> get events => AutomationEventD
-    .pointer(getOp().readPtr(struct.offset(.events)))
-    .readArray(count);
+  List<AutomationEventD> get events => _eventsF.readCount(getOp().ptr, count);
 
   AutomationEventListD({ super.op });
 

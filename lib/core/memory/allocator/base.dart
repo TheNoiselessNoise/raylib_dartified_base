@@ -20,7 +20,7 @@ class RaylibTempAllocator<R extends RType> {
   String? _lastKey;
 
   MemoryPointer<RPointer<X>> _allocatePointer<X extends RType>(int count)
-    => MemoryPointer.malloc(RType.nativeWordSize * count);
+    => MemoryPointer.calloc(count, RType.nativeWordSize);
 
   /// Active allocation slots, keyed by slot name.
   /// Each entry holds the pointer and its element count.
@@ -37,7 +37,7 @@ class RaylibTempAllocator<R extends RType> {
   /// Allocates [count] raw elements and returns the wrapped pointer.
   /// 
   /// The caller is responsible for freeing the returned pointer.
-  MemoryPointer<R> Raw([int count = 1]) => MemoryPointer.malloc(byteSize*count);
+  MemoryPointer<R> Raw([int count = 1]) => MemoryPointer.calloc(count, byteSize);
 
   /// Returns the pointer stored in [key], allocating (or reallocating)
   /// if necessary.

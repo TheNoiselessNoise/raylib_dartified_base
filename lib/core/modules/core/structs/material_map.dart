@@ -17,6 +17,9 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<MaterialMapField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MaterialMapField> struct = .aligned({
     .texture: RStruct(TextureD.struct), // Material map texture

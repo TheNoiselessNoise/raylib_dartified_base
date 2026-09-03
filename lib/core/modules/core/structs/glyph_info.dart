@@ -19,6 +19,9 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<GlyphInfoField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<GlyphInfoField> struct = .aligned({
     .value:    RInt(), // Character value (Unicode)

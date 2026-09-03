@@ -20,6 +20,9 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<Vector3Field> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<Vector3Field> struct = .aligned({
     .x: RFloat(), // Vector x component

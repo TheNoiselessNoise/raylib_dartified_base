@@ -17,6 +17,9 @@ class MaterialD extends RaylibStruct<MaterialD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<MaterialField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MaterialField> struct = .aligned({
     .shader: RStruct(ShaderD.struct), // Material shader
@@ -100,7 +103,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _mapsF.codec.allocate(temp, p, '${key}_maps', BASE_mapsCount);
+    _mapsF.allocate(temp, p, '${key}_maps', BASE_mapsCount);
   }
 
   @override

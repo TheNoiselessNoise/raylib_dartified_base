@@ -18,6 +18,9 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<RayCollisionField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<RayCollisionField> struct = .aligned({
     .hit:      RBool(), // Did the ray hit something?

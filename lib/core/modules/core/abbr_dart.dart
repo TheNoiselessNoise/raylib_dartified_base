@@ -3059,7 +3059,7 @@ void SetModelMeshMaterial(
 ) => _module.SetModelMeshMaterial(model, meshId, materialId);
 
 /// See [RaylibCoreModule.LoadModelAnimations].
-LiveListPointerStruct<ModelAnimationD> LoadModelAnimations(
+LiveStructList<ModelAnimationD, RStruct> LoadModelAnimations(
   String fileName,
 ) => _module.LoadModelAnimations(fileName);
 
@@ -3082,7 +3082,7 @@ void UpdateModelAnimationEx(
 
 /// See [RaylibCoreModule.UnloadModelAnimations].
 void UnloadModelAnimations(
-  LiveListPointerStruct<ModelAnimationD> animations,
+  LiveStructList<ModelAnimationD, RStruct> animations,
 ) => _module.UnloadModelAnimations(animations);
 
 /// See [RaylibCoreModule.IsModelAnimationValid].

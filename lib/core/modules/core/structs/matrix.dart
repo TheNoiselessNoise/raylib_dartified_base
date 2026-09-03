@@ -21,6 +21,9 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<MatrixField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<MatrixField> struct = .aligned({
     .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)

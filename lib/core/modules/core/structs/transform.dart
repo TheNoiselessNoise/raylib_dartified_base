@@ -17,6 +17,9 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
+  @override
+  StructLayout<TransformField> get structLayout => struct;
+
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<TransformField> struct = .aligned({
     .translation: RStruct(Vector3D.struct), // Translation
