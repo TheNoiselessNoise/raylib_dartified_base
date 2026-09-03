@@ -99,7 +99,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   QuaternionD setDart(QuaternionD o) => set(o.x, o.y, o.z, o.w);
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _zF.write(p, _z);
@@ -107,7 +107,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _z = _zF.read(p);

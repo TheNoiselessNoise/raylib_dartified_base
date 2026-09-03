@@ -107,7 +107,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writePtr(buffer, struct.offset(.buffer));
     p.writePtr(processor, struct.offset(.processor));
     p.writeUnsignedInt(_sampleRate, struct.offset(.sampleRate));
@@ -116,7 +116,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     buffer = p.readPtr(struct.offset(.buffer));
     processor = p.readPtr(struct.offset(.processor));
     _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate));

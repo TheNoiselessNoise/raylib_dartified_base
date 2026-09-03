@@ -77,14 +77,14 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _idF.write(p, _id);
     _textureF.write(p, _texture);
     _depthF.write(p, _depth);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
     _texture = _textureF.read(p);
     _depth = _depthF.read(p);

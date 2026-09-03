@@ -13,6 +13,8 @@ class RaylibConfig {
   /// 
   /// Defaults to `7` meaning no support for GPU skinning.
   static int MAX_MESH_VERTEX_BUFFERS = 7;
+
+  static bool get IS_GPU_SKINNING_SUPPORTED => MAX_MESH_VERTEX_BUFFERS != 7;
 }
 
 enum RaylibSupportedLibs {

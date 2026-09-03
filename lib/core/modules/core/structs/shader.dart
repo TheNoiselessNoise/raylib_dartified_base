@@ -5,8 +5,6 @@ enum ShaderField with StructFields {
   locs,
 }
 
-// TODO: translate
-
 /// Shader
 class ShaderD extends RaylibStruct<ShaderD> {
 
@@ -21,13 +19,16 @@ class ShaderD extends RaylibStruct<ShaderD> {
   /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
   static final StructLayout<ShaderField> struct = .aligned({
     .id:   RUnsignedInt(), // Shader program id
-    .locs: RPointer(RInt()), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
+    .locs: RPointer(RArray(RInt(), BASE_shaderLocsCount)), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
   });
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ShaderD.new, ShaderD.pointer);
+
+  static final _idF = struct.scalar<int, RUnsignedInt>(.id);
+  static final _locsF = struct.pointerScalarFixedArray<int, RInt>(.locs);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -50,28 +51,16 @@ class ShaderD extends RaylibStruct<ShaderD> {
   // ░██    ░██ ░██         ░██        
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
-  
+
   int _id;
   /// Shader program id
-  int get id {
-    structOnOp((p) => _id = p.readUnsignedInt(struct.offset(.id)));
-    return _id;
-  }
-  set id(int value) {
-    _id = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.id)));
-  }
+  int get id => _id = _idF.readOr(op?.ptr, _id);
+  set id(int value) => _id = _idF.writeIf(op?.ptr, value);
 
-  late LiveListPointerScalar<int, RInt> _locs;
+  late LiveStructList<int, RInt> _locs;
   /// Shader locations array (RL_MAX_SHADER_LOCATIONS)
-  LiveListPointerScalar<int, RInt> get locs {
-    structOnOp((p) => _locs.ptr = p.readPtr(struct.offset(.locs)));
-    return _locs;
-  }
-  set locs(List<int> value) {
-    structOnOp((p) => _locs.ptr = p.readPtr(struct.offset(.locs)));
-    _locs.raw = value;
-  }
+  LiveStructList<int, RInt> get locs => _locs;
+  set locs(List<int> value) => _locs.inner = value;
 
   ShaderD({
     super.op,
@@ -80,12 +69,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }) :
     _id = id
   {
-    _locs = .new(
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
-      locs ?? .filled(shaderLocsCount, 0),
-      op?.offsetBy(struct.offset(.locs))
-    );
+    _locs = _locsF.live(() => op?.ptr, .filled(BASE_shaderLocsCount, 0));
   }
 
   factory ShaderD.zero() => .new();
@@ -98,19 +82,20 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_id, struct.offset(.id));
-    p.writePtr(_locs.ptr, struct.offset(.locs));
-
-    _locs.onPointer((p) => p.writeArray(_locs.inner));
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    _locsF.codec.allocate(temp, p, '${key}_locs', BASE_shaderLocsCount);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
-    _id = p.readUnsignedInt(struct.offset(.id));
-    _locs.ptr = p.readPtr(struct.offset(.locs));
+  void structWriteInto(MemoryPointer p) {
+    _idF.write(p, _id);
+    _locs.writeInto(p);
+  }
 
-    _locs.onPointer((p) => _locs.raw = p.readArray(shaderLocsCount));
+  @override
+  void structReadFrom(MemoryPointer p) {
+    _id = _idF.read(p);
+    _locs.readFrom(p);
   }
 
   @override

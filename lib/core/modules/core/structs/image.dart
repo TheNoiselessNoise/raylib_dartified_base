@@ -217,12 +217,12 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _data.ptr = temp.Uint8$.RawArray(data.inner);
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writePtr(_data.ptr, struct.offset(.data));
     p.writeInt(_width, struct.offset(.width));
     p.writeInt(_height, struct.offset(.height));
@@ -233,7 +233,7 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _data.ptr = p.readPtr(struct.offset(.data));
     _width = p.readInt(struct.offset(.width));
     _height = p.readInt(struct.offset(.height));

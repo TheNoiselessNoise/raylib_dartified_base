@@ -116,7 +116,7 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _stream.structWriteInto(p.offsetBy(struct.offset(.stream)));
     p.writeUnsignedInt(_frameCount, struct.offset(.frameCount));
     p.writeBool(_looping, struct.offset(.looping));
@@ -125,7 +125,7 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _stream.structReadFrom(p.offsetBy(struct.offset(.stream)));
     _frameCount = p.readUnsignedInt(struct.offset(.frameCount));
     _looping = p.readBool(struct.offset(.looping));

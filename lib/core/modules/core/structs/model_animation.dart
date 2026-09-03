@@ -132,7 +132,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeStringUTF8(_name, nameLength, struct.offset(.name));
     p.writeInt(_boneCount, struct.offset(.boneCount));
     p.writeInt(_keyframeCount, struct.offset(.keyframeCount));
@@ -142,7 +142,7 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _name = p.readStringUTF8(nameLength, struct.offset(.name));
     _boneCount = p.readInt(struct.offset(.boneCount));
     _keyframeCount = p.readInt(struct.offset(.keyframeCount));

@@ -179,7 +179,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _typeF.write(p, _type.value);
     _enabledF.write(p, _enabled);
     _positionF.write(p, _position);
@@ -195,7 +195,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _type = .fromValue(_typeF.read(p));
     _enabled = _enabledF.read(p);
     _position = _positionF.read(p);

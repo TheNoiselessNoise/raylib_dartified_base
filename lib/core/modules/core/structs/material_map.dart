@@ -77,14 +77,14 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _textureF.write(p, _texture);
     _colorF.write(p, _color);
     _valueF.write(p, _value);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _texture = _textureF.read(p);
     _color = _colorF.read(p);
     _value = _valueF.read(p);

@@ -151,7 +151,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (recs.inner.isNotEmpty) {
       _recs.ptr =
         recs.inner.firstOrNull?.op?.ptr ??
@@ -165,7 +165,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt(_baseSize, struct.offset(.baseSize));
     p.writeInt(_glyphCount, struct.offset(.glyphCount));
     p.writeInt(_glyphPadding, struct.offset(.glyphPadding));
@@ -178,7 +178,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _baseSize = p.readInt(struct.offset(.baseSize));
     _glyphCount = p.readInt(struct.offset(.glyphCount));
     _glyphPadding = p.readInt(struct.offset(.glyphPadding));

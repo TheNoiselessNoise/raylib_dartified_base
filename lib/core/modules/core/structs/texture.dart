@@ -99,7 +99,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _idF.write(p, _id);
     _widthF.write(p, _width);
     _heightF.write(p, _height);
@@ -108,7 +108,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
     _width = _widthF.read(p);
     _height = _heightF.read(p);

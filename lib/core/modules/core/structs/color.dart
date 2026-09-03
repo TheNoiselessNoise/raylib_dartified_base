@@ -102,7 +102,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ColorD setDart(ColorD o) => set(o.r, o.g, o.b, o.a);
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _rF.write(p, _r);
     _gF.write(p, _g);
     _bF.write(p, _b);
@@ -110,7 +110,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _r = _rF.read(p);
     _g = _gF.read(p);
     _b = _bF.read(p);

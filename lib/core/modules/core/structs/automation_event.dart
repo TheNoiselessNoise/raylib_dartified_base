@@ -6,8 +6,6 @@ enum AutomationEventField with StructFields {
   params,
 }
 
-// TODO: translate
-
 /// Automation event
 class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
@@ -30,6 +28,10 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   /// [StructPointer] wraps [MemoryPointer.nullptr].
   static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventD.new, AutomationEventD.pointer);
+
+  static final _frameF = struct.scalar<int, RUnsignedInt>(.frame);
+  static final _typeF = struct.enumValue(.type, AutomationEventType.fromValue);
+  static final _paramsF = struct.scalarArray<int, RInt>(.params);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -55,33 +57,18 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   int _frame;
   /// Event frame
-  int get frame {
-    structOnOp((p) => _frame = p.readUnsignedInt(struct.offset(.frame)));
-    return _frame;
-  }
-  set frame(int value) {
-    _frame = value;
-    structOnOp((p) => p.writeUnsignedInt(value, struct.offset(.frame)));
-  }
+  int get frame => _frame = _frameF.readOr(op?.ptr, _frame);
+  set frame(int value) => _frame = _frameF.writeIf(op?.ptr, value);
 
   AutomationEventType _type;
   /// Event type
-  AutomationEventType get type {
-    structOnOp((p) => _type = .fromValue(p.readUnsignedInt(struct.offset(.type))));
-    return _type;
-  }
-  set type(AutomationEventType value) {
-    _type = value;
-    structOnOp((p) => p.writeUnsignedInt(value.value, struct.offset(.type)));
-  }
+  AutomationEventType get type => _type = _typeF.readOr(op?.ptr, _type);
+  set type(AutomationEventType value) => _type = _typeF.writeIf(op?.ptr, value);
 
-  late LiveListInlineScalar<int, RInt> _params;
+  late LiveStructList<int, RInt> _params;
   /// Event parameters (if required)
-  LiveListInlineScalar<int, RInt> get params => _params;
-  set params(List<int> value) {
-    assert(value.length <= paramsCount);
-    _params.inner = value;
-  }
+  LiveStructList<int, RInt> get params => _params;
+  set params(List<int> value) => _params.inner = value;
 
   AutomationEventD({
     super.op,
@@ -92,12 +79,9 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
     _frame = frame,
     _type = type
   {
-    _params = .new(
-      () => op?.cast(),
-      struct.offset(.params),
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
-      params ?? .filled(BASE_paramsCount, 0),
+    _params = _paramsF.live(
+      () => op?.ptr,
+      .filled(_paramsF.codec.type.count, 0),
     );
   }
 
@@ -112,17 +96,17 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
-    p.writeUnsignedInt(_frame, struct.offset(.frame));
-    p.writeUnsignedInt(_type.value, struct.offset(.type));
-    p.offsetBy(struct.offset(.params)).cast<RInt>().writeArray(_params.inner);
+  void structWriteInto(MemoryPointer p) {
+    _frameF.write(p, _frame);
+    _typeF.write(p, _type);
+    _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
-    _frame = p.readUnsignedInt(struct.offset(.frame));
-    _type = .fromValue(p.readUnsignedInt(struct.offset(.type)));
-    _params.raw = p.offsetBy(struct.offset(.params)).cast<RInt>().readArray(paramsCount);
+  void structReadFrom(MemoryPointer p) {
+    _frame = _frameF.read(p);
+    _type = _typeF.read(p);
+    _params.readFrom(p);
   }
 
   @override

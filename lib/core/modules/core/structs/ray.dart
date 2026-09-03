@@ -66,13 +66,13 @@ class RayD extends RaylibStructLiteral<RayD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _positionF.write(p, _position);
     _directionF.write(p, _direction);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _position = _positionF.read(p);
     _direction = _directionF.read(p);
   }

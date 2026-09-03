@@ -73,13 +73,13 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   Vector2D setDart(Vector2D o) => set(o.x, o.y);
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
   }

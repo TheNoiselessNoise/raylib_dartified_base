@@ -98,7 +98,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_bones.inner.isNotEmpty) {
       _bones.structPtr = temp.BoneInfo$.ArrayStruct(_bones.inner, key: '${key}_bones');
     }
@@ -108,7 +108,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt(_boneCount, struct.offset(.boneCount));
     p.writePtr(_bones.ptr, struct.offset(.bones));
     p.writePtr(_bindPose.ptr, struct.offset(.bindPose));
@@ -118,7 +118,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _boneCount = p.readInt(struct.offset(.boneCount));
     _bones.ptr = p.readPtr(struct.offset(.bones));
     _bindPose.ptr = p.readPtr(struct.offset(.bindPose));

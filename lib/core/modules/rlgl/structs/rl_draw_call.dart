@@ -109,7 +109,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt(_mode.value, struct.offset(.mode));
     p.writeInt(_vertexCount, struct.offset(.vertexCount));
     p.writeInt(_vertexAlignment, struct.offset(.vertexAlignment));
@@ -117,7 +117,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _mode = .fromValue(p.readInt(struct.offset(.mode)));
     _vertexCount = p.readInt(struct.offset(.vertexCount));
     _vertexAlignment = p.readInt(struct.offset(.vertexAlignment));

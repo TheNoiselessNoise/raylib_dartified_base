@@ -88,7 +88,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _hitF.write(p, _hit);
     _distanceF.write(p, _distance);
     _pointF.write(p, _point);
@@ -96,7 +96,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _hit = _hitF.read(p);
     _distance = _distanceF.read(p);
     _point = _pointF.read(p);

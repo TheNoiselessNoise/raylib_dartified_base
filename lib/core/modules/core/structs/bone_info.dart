@@ -80,13 +80,13 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _nameF.write(p, _name);
     _parentF.write(p, _parent);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _name = _nameF.read(p);
     _parent = _parentF.read(p);
   }

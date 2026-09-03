@@ -216,7 +216,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     MatrixD.pointer(p.offsetBy(struct.offset(.projection))).writeArray(_projection.inner);
     MatrixD.pointer(p.offsetBy(struct.offset(.viewOffset))).writeArray(_viewOffset.inner);
     p.offsetBy(struct.offset(.leftLensCenter)).cast<RFloat>().writeArray(_leftLensCenter.inner);
@@ -228,7 +228,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _projection.raw = MatrixD.pointer(p.offsetBy(struct.offset(.projection))).readArray(paramsCount);
     _viewOffset.raw = MatrixD.pointer(p.offsetBy(struct.offset(.viewOffset))).readArray(paramsCount);
     _leftLensCenter.raw = p.offsetBy(struct.offset(.leftLensCenter)).cast<RFloat>().readArray(paramsCount);

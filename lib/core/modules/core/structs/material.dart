@@ -6,8 +6,6 @@ enum MaterialField with StructFields {
   params,
 }
 
-// TODO: translate
-
 /// Material, includes shader and maps
 class MaterialD extends RaylibStruct<MaterialD> {
 
@@ -68,21 +66,15 @@ class MaterialD extends RaylibStruct<MaterialD> {
   ShaderD get shader => _shader = _shaderF.readOr(op?.ptr, _shader);
   set shader(ShaderD value) => _shader = _shaderF.writeIf(op?.ptr, value);
 
-  late LiveStructList<MaterialMapD, RStruct> _maps;
+  late final LiveStructList<MaterialMapD, RStruct> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
   LiveStructList<MaterialMapD, RStruct> get maps => _maps;
-  set maps(List<MaterialMapD> value) {
-    assert(value.length <= BASE_mapsCount);
-    _maps.inner = value;
-  }
+  set maps(List<MaterialMapD> value) => _maps.inner = value;
 
-  late LiveStructList<double, RFloat> _params;
+  late final LiveStructList<double, RFloat> _params;
   /// Material generic parameters (if required)
   LiveStructList<double, RFloat> get params => _params;
-  set params(List<double> value) {
-    assert(value.length <= BASE_paramsCount);
-    _params.inner = value;
-  }
+  set params(List<double> value) => _params.inner = value;
 
   MaterialD({
     super.op,
@@ -92,19 +84,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    // TODO: this
-    // _maps = _mapsF.live(
-    //   () => op?.ptr,
-    //   .generate(BASE_mapsCount, (_) => .zero()),
-    // );
-
-    _params = .new(
-      () => op?.cast(),
-      struct.offset(.params),
-      (p, i) => p[i],
-      (p, i, v) => p[i] = v,
-      params ?? .filled(BASE_paramsCount, 0),
-    );
+    _maps = _mapsF.live(() => op?.ptr, .generate(BASE_mapsCount, (_) => .zero()));
+    _params = _paramsF.live(() => op?.ptr, .filled(_paramsF.codec.type.count, 0));
   }
 
   factory MaterialD.zero() => .new();
@@ -118,28 +99,22 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
-    if (_maps.inner.isNotEmpty) {
-      _maps.structPtr = temp.MaterialMap$.ArrayStruct(_maps.inner, key: '${key}_maps');
-    }
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    _mapsF.codec.allocate(temp, p, '${key}_maps', BASE_mapsCount);
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
-    _shader.structWriteInto(p.offsetBy(struct.offset(.shader)));
-    p.writePtr(_maps.ptr, struct.offset(.maps));
-    p.offsetBy(struct.offset(.params)).cast<RFloat>().writeArray(_params.inner);
-
-    _maps.onStructPointer((p) => p.writeArray(_maps.inner));
+  void structWriteInto(MemoryPointer p) {
+    _shaderF.write(p, _shader);
+    _maps.writeInto(p);
+    _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
-    _shader.structReadFrom(p.offsetBy(struct.offset(.shader)));
-    _maps.ptr = p.readPtr(struct.offset(.maps));
-    _params.raw = p.offsetBy(struct.offset(.params)).cast<RFloat>().readArray(paramsCount);
-
-    _maps.onStructPointer((p) => _maps.raw = p.readArray(mapsCount));
+  void structReadFrom(MemoryPointer p) {
+    _shader = _shaderF.read(p);
+    _maps.readFrom(p);
+    _params.readFrom(p);
   }
 
   @override

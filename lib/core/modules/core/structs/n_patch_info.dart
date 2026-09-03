@@ -110,7 +110,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _sourceF.write(p, _source);
     _leftF.write(p, _left);
     _topF.write(p, _top);
@@ -120,7 +120,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _source = _sourceF.read(p);
     _left = _leftF.read(p);
     _top = _topF.read(p);

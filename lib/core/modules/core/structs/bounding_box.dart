@@ -74,13 +74,13 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _minF.write(p, _min);
     _maxF.write(p, _max);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _min = _minF.read(p);
     _max = _maxF.read(p);
   }

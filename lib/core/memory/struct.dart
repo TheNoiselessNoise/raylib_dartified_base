@@ -294,9 +294,9 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// Copies the fields of [o] into this instance and returns `this`.
   D setDart(D o) => this as D;
 
-  void structWriteInto(MemoryPointer<RStruct> p);
+  void structWriteInto(MemoryPointer p);
   
-  void structReadFrom(MemoryPointer<RStruct> p);
+  void structReadFrom(MemoryPointer p);
 
   /// Returns a deep copy of this instance, preserving [op] if present.
   D clone();
@@ -383,7 +383,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   }
 
   /// Allocates nested pointers into [temp] under [key] as needed.
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {}
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {}
 
   /// Syncs all fields from the memory. Requires [op].
   void structSyncFromMemory() => structReadFrom(getOp().ptr);
@@ -419,10 +419,10 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {} // NOTE: do nothing
+  void structWriteInto(MemoryPointer p) {} // NOTE: do nothing
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {} // NOTE: do nothing
+  void structReadFrom(MemoryPointer p) {} // NOTE: do nothing
 
   @override
   D copy() => clone();

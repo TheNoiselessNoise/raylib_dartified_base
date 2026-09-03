@@ -180,7 +180,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _m0F.write(p, _m0);
     _m4F.write(p, _m4);
     _m8F.write(p, _m8);
@@ -203,7 +203,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _m0 = _m0F.read(p);
     _m4 = _m4F.read(p);
     _m8 = _m8F.read(p);

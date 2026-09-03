@@ -180,7 +180,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (dataBuffer.lengthInBytes > 0) data = switch (sampleSize) {
      8  => temp.Uint8$.Array(dataBuffer.asUint8List(), key: '${key}_data').cast(),
      16 => temp.Int16$.Array(dataBuffer.asInt16List(), key: '${key}_data').cast(),
@@ -190,7 +190,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeUnsignedInt(_frameCount, struct.offset(.frameCount));
     p.writeUnsignedInt(_sampleRate, struct.offset(.sampleRate));
     p.writeUnsignedInt(_sampleSize, struct.offset(.sampleSize));
@@ -204,7 +204,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _frameCount = p.readUnsignedInt(struct.offset(.frameCount));
     _sampleRate = p.readUnsignedInt(struct.offset(.sampleRate));
     _sampleSize = p.readUnsignedInt(struct.offset(.sampleSize));

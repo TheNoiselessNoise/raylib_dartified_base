@@ -143,7 +143,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt(_bufferCount, struct.offset(.bufferCount));
     p.writeInt(_currentBuffer, struct.offset(.currentBuffer));
     p.writePtr(_vertexBuffer.ptr, struct.offset(.vertexBuffer));
@@ -156,7 +156,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _bufferCount = p.readInt(struct.offset(.bufferCount));
     _currentBuffer = p.readInt(struct.offset(.currentBuffer));
     _vertexBuffer.ptr = p.readPtr(struct.offset(.vertexBuffer));

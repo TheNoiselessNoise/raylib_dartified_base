@@ -96,7 +96,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _widthF.write(p, _width);
@@ -104,7 +104,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _width = _widthF.read(p);

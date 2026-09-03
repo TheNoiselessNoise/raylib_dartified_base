@@ -266,7 +266,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt32(_elementCount, struct.offset(.elementCount));
     p.writePtr(_vertices.ptr, struct.offset(.vertices));
     p.writePtr(_texcoords.ptr, struct.offset(.texcoords));
@@ -287,7 +287,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _elementCount = p.readInt32(struct.offset(.elementCount));
     _vertices.ptr = p.readPtr(struct.offset(.vertices));
     _texcoords.ptr = p.readPtr(struct.offset(.texcoords));

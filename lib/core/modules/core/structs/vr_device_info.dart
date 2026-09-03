@@ -212,7 +212,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     p.writeInt(_hResolution, struct.offset(.hResolution));
     p.writeInt(_vResolution, struct.offset(.vResolution));
     p.writeFloat(_hScreenSize, struct.offset(.hScreenSize));
@@ -225,7 +225,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _hResolution = p.readInt(struct.offset(.hResolution));
     _vResolution = p.readInt(struct.offset(.vResolution));
     _hScreenSize = p.readFloat(struct.offset(.hScreenSize));

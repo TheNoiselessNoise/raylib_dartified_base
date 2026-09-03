@@ -88,7 +88,7 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _offsetF.write(p, _offset);
     _targetF.write(p, _target);
     _rotationF.write(p, _rotation);
@@ -96,7 +96,7 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _offset = _offsetF.read(p);
     _target = _targetF.read(p);
     _rotation = _rotationF.read(p);

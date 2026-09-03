@@ -99,7 +99,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _valueF.write(p, _value);
     _offsetXF.write(p, _offsetX);
     _offsetYF.write(p, _offsetY);
@@ -108,7 +108,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _value = _valueF.read(p);
     _offsetX = _offsetXF.read(p);
     _offsetY = _offsetYF.read(p);

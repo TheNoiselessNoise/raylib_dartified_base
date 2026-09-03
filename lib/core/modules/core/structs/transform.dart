@@ -77,14 +77,14 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _translationF.write(p, _translation);
     _rotationF.write(p, _rotation);
     _scaleF.write(p, _scale);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _translation = _translationF.read(p);
     _rotation = _rotationF.read(p);
     _scale = _scaleF.read(p);

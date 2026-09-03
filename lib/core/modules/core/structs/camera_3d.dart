@@ -99,7 +99,7 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _positionF.write(p, _position);
     _targetF.write(p, _target);
     _upF.write(p, _up);
@@ -108,7 +108,7 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _position = _positionF.read(p);
     _target = _targetF.read(p);
     _up = _upF.read(p);

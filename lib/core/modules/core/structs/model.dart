@@ -197,7 +197,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer<RStruct> p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (meshes.inner.isNotEmpty) {
       _meshes.structPtr = temp.Mesh$.ArrayStruct(_meshes.inner, key: '${key}_meshes');
     }
@@ -216,7 +216,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _transform.structWriteInto(p.offsetBy(struct.offset(.transform)));
     p.writeInt(_meshCount, struct.offset(.meshCount));
     p.writeInt(_materialCount, struct.offset(.materialCount));
@@ -235,7 +235,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _transform.structReadFrom(p.offsetBy(struct.offset(.transform)));
     _meshCount = p.readInt(struct.offset(.meshCount));
     _materialCount = p.readInt(struct.offset(.materialCount));

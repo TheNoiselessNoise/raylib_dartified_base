@@ -7,8 +7,6 @@ enum GestureEventField with StructFields {
   position,
 }
 
-// TODO: translate
-
 /// Gesture event
 class GestureEventD extends RaylibStruct<GestureEventD> {
 
@@ -73,18 +71,12 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   late LiveStructList<int, RInt> _pointId;
   /// Point Id
   LiveStructList<int, RInt> get pointId => _pointId;
-  set pointId(List<int> value) {
-    assert(value.length <= _pointIdF.codec.type.count);
-    _pointId.inner = value;
-  }
+  set pointId(List<int> value) => _pointId.inner = value;
 
   late LiveStructList<Vector2D, RStruct> _position;
   /// Position
   LiveStructList<Vector2D, RStruct> get position => _position;
-  set position(List<Vector2D> value) {
-    assert(value.length <= _positionF.codec.type.count);
-    _position.inner = value;
-  }
+  set position(List<Vector2D> value) => _position.inner = value;
 
   GestureEventD({
     super.op,
@@ -119,19 +111,19 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer<RStruct> p) {
+  void structWriteInto(MemoryPointer p) {
     _touchActionF.write(p, _touchAction.value);
     _pointCountF.write(p, _pointCount);
-    _pointIdF.write(p, _pointId);
-    _positionF.write(p, _position);
+    _pointId.writeInto(p);
+    _position.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointer<RStruct> p) {
+  void structReadFrom(MemoryPointer p) {
     _touchAction = .fromValue(_touchActionF.read(p));
     _pointCount = _pointCountF.read(p);
-    _pointId.raw = _pointIdF.read(p);
-    _position.raw = _positionF.read(p);
+    _pointId.readFrom(p);
+    _position.readFrom(p);
   }
 
   @override
