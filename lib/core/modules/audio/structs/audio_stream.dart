@@ -33,7 +33,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
+  static StructPointer<AudioStreamD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
 
   static final _bufferF = struct.pointerUnknown<ROpaque>(.buffer);
@@ -53,29 +53,29 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   /// Pointer to internal data used by the audio system
   /// 
   /// `rAudioBuffer *buffer;`
-  late final LivePointerSync<ROpaque> _buffer = _bufferF.live(() => op?.ptr);
+  late final LivePointerSync<ROpaque> _buffer = _bufferF.live(() => op);
   MemoryPointer<ROpaque> get buffer => _buffer.derefPtr();
 
   /// Pointer to internal data processor, useful for audio effects
   /// 
   /// `rAudioProcessor *processor;`
-  late final LivePointerSync<ROpaque> _processor = _processorF.live(() => op?.ptr);
+  late final LivePointerSync<ROpaque> _processor = _processorF.live(() => op);
   MemoryPointer<ROpaque> get processor => _processor.derefPtr();
 
   int _sampleRate;
   /// Frequency (samples per second)
-  int get sampleRate => _sampleRate = _sampleRateF.readOr(op?.ptr, _sampleRate);
-  set sampleRate(int value) => _sampleRate = _sampleRateF.writeIf(op?.ptr, value);
+  int get sampleRate => _sampleRate = _sampleRateF.readOr(op, _sampleRate);
+  set sampleRate(int value) => _sampleRate = _sampleRateF.writeIf(op, value);
 
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-  int get sampleSize => _sampleSize = _sampleSizeF.readOr(op?.ptr, _sampleSize);
-  set sampleSize(int value) => _sampleSize = _sampleSizeF.writeIf(op?.ptr, value);
+  int get sampleSize => _sampleSize = _sampleSizeF.readOr(op, _sampleSize);
+  set sampleSize(int value) => _sampleSize = _sampleSizeF.writeIf(op, value);
 
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
-  int get channels => _channels = _channelsF.readOr(op?.ptr, _channels);
-  set channels(int value) => _channels = _channelsF.writeIf(op?.ptr, value);
+  int get channels => _channels = _channelsF.readOr(op, _channels);
+  set channels(int value) => _channels = _channelsF.writeIf(op, value);
 
   AudioStreamD({
     super.op,
@@ -94,13 +94,13 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     _bufferF.allocate(temp, p, '${key}_buffer');
     _processorF.allocate(temp, p, '${key}_processor');
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _buffer.syncInto(p);
     _processor.syncInto(p);
     _sampleRateF.write(p, _sampleRate);
@@ -109,7 +109,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _buffer.syncFrom(p);
     _processor.syncFrom(p);
     _sampleRate = _sampleRateF.read(p);

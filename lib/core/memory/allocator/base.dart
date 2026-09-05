@@ -50,11 +50,7 @@ class RaylibTempAllocator<R extends RType> {
     final existing = slots[key];
     if (existing != null) {
       final (ptr, currentCount) = existing;
-
-      if (count <= currentCount) {
-        return ptr.cast();
-      }
-
+      if (count <= currentCount) return ptr.cast();
       ptr.free();
     }
 

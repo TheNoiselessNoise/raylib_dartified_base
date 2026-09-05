@@ -1157,7 +1157,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
   ) => run(
     () => _debugLabels.rlLoadTexture(data, width, height, format, mipmapCount),
     () => rl.RlglFlat.rlLoadTexture(
-      (data == null ? MemoryPointer.nullptr : rl.Temp.Uint8$.FromTypedList(data)).cast(),
+      data == null ? MemoryPointer.nullptr() : rl.Temp.Uint8$.FromTypedList(data).cast(),
       width.toInt(),
       height.toInt(),
       format.value,
@@ -1188,7 +1188,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
   ) => run(
     () => _debugLabels.rlLoadTextureCubemap(data, size, format, mipmapCount),
     () => rl.RlglFlat.rlLoadTextureCubemap(
-      (data == null ? MemoryPointer.nullptr : rl.Temp.Uint8$.FromTypedList(data)).cast(),
+      data == null ? MemoryPointer.nullptr() : rl.Temp.Uint8$.FromTypedList(data).cast(),
       size.toInt(),
       format.value,
       mipmapCount.toInt(),
@@ -1506,7 +1506,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
   ) => run(
     () => _debugLabels.rlSetUniform(locIndex, value, uniformType, count),
     () {
-      final MemoryPointer ptr;
+      final MemoryPointerHandle ptr;
       switch (uniformType) {
         case .RL_SHADER_UNIFORM_FLOAT:
         case .RL_SHADER_UNIFORM_VEC2:
@@ -1606,7 +1606,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
     () => _debugLabels.rlLoadShaderBuffer(size, data, usageHint),
     () => rl.RlglFlat.rlLoadShaderBuffer(
       size.toInt(),
-      data == null ? MemoryPointer.nullptr : rl.Temp.TypedDataList$.Array(data),
+      data == null ? MemoryPointer.nullptr() : rl.Temp.TypedDataList$.Array(data),
       usageHint?.value ?? 0,
     ),
   );

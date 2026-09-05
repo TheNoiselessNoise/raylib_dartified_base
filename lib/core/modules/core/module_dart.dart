@@ -1036,7 +1036,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetTraceLogCallback(callback),
     () => rl.CoreFlat.SetTraceLogCallback(
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
     
@@ -1046,7 +1046,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetLoadFileDataCallback(callback),
     () => rl.CoreFlat.SetLoadFileDataCallback(
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
     
@@ -1056,7 +1056,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetSaveFileDataCallback(callback),
     () => rl.CoreFlat.SetSaveFileDataCallback(
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
     
@@ -1066,7 +1066,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetLoadFileTextCallback(callback),
     () => rl.CoreFlat.SetLoadFileTextCallback(
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
     
@@ -1076,7 +1076,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.SetSaveFileTextCallback(callback),
     () => rl.CoreFlat.SetSaveFileTextCallback(
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
     
@@ -4800,7 +4800,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => rl.CoreFlat.LoadFontEx(
       rl.Temp.String$.ValueOrNull(fileName),
       fontSize.toInt(),
-      (codepoints == null ? MemoryPointer.nullptr : rl.Temp.Int$.Array(codepoints)).cast(),
+      codepoints == null ? MemoryPointer.nullptr() : rl.Temp.Int$.Array(codepoints).cast(),
       codepointCount?.toInt() ?? codepoints?.length ?? 0,
     ),
   );
@@ -4862,7 +4862,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.UnsignedChar$.Array(fileData),
         fileData.length,
         fontSize.toInt(),
-        (codepoints == null ? MemoryPointer.nullptr : rl.Temp.Int$.Array(codepoints)).cast(),
+        codepoints == null ? MemoryPointer.nullptr() : rl.Temp.Int$.Array(codepoints).cast(),
         codepointCount?.toInt() ?? codepoints?.length ?? 0,
         type.value,
         glyphCount,

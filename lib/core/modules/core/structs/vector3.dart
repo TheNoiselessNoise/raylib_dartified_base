@@ -32,7 +32,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
+  static StructPointer<Vector3D> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, Vector3D.new, Vector3D.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -49,18 +49,18 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   
   double _x;
   /// Vector x component
-  double get x => _x = _xF.readOr(op?.ptr, _x);
-  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
+  double get x => _x = _xF.readOr(op, _x);
+  set x(double value) => _x = _xF.writeIf(op, value);
 
   double _y;
   /// Vector y component
-  double get y => _y = _yF.readOr(op?.ptr, _y);
-  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
+  double get y => _y = _yF.readOr(op, _y);
+  set y(double value) => _y = _yF.writeIf(op, value);
 
   double _z;
   /// Vector z component
-  double get z => _z = _zF.readOr(op?.ptr, _z);
-  set z(double value) => _z = _zF.writeIf(op?.ptr, value);
+  double get z => _z = _zF.readOr(op, _z);
+  set z(double value) => _z = _zF.writeIf(op, value);
   
   Vector3D({
     super.op,
@@ -88,14 +88,14 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   Vector3D setDart(Vector3D o) => set(o.x, o.y, o.z);
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _zF.write(p, _z);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _z = _zF.read(p);

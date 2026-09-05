@@ -29,7 +29,7 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
+  static StructPointer<MaterialMapD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
 
   static final _textureF = struct.struct(.texture, TextureD.pointer);
@@ -46,18 +46,18 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
 
   TextureD _texture;
   /// Material map texture
-  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
-  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
+  TextureD get texture => _texture = _textureF.readOr(op, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op, value);
 
   ColorD _color;
   /// Material map color
-  ColorD get color => _color = _colorF.readOr(op?.ptr, _color);
-  set color(ColorD value) => _color = _colorF.writeIf(op?.ptr, value);
+  ColorD get color => _color = _colorF.readOr(op, _color);
+  set color(ColorD value) => _color = _colorF.writeIf(op, value);
 
   double _value;
   /// Material map value
-  double get value => _value = _valueF.readOr(op?.ptr, _value);
-  set value(double value) => _value = _valueF.writeIf(op?.ptr, value);
+  double get value => _value = _valueF.readOr(op, _value);
+  set value(double value) => _value = _valueF.writeIf(op, value);
   
   MaterialMapD({
     super.op,
@@ -80,14 +80,14 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _textureF.write(p, _texture);
     _colorF.write(p, _color);
     _valueF.write(p, _value);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _texture = _textureF.read(p);
     _color = _colorF.read(p);
     _value = _valueF.read(p);

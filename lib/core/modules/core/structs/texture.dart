@@ -33,7 +33,7 @@ class TextureD extends RaylibStruct<TextureD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<TextureD> pointer(MemoryPointer? ptr)
+  static StructPointer<TextureD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, TextureD.new, TextureD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
@@ -52,28 +52,28 @@ class TextureD extends RaylibStruct<TextureD> {
 
   int _id;
   /// OpenGL texture id
-  int get id => _id = _idF.readOr(op?.ptr, _id);
-  set id(int value) => _id = _idF.writeIf(op?.ptr, value);
+  int get id => _id = _idF.readOr(op, _id);
+  set id(int value) => _id = _idF.writeIf(op, value);
 
   int _width;
   /// Texture base wwidthth
-  int get width => _width = _widthF.readOr(op?.ptr, _width);
-  set width(int value) => _width = _widthF.writeIf(op?.ptr, value);
+  int get width => _width = _widthF.readOr(op, _width);
+  set width(int value) => _width = _widthF.writeIf(op, value);
 
   int _height;
   /// Texture base height
-  int get height => _height = _heightF.readOr(op?.ptr, _height);
-  set height(int value) => _height = _heightF.writeIf(op?.ptr, value);
+  int get height => _height = _heightF.readOr(op, _height);
+  set height(int value) => _height = _heightF.writeIf(op, value);
 
   int _mipmaps;
   /// Mipmap levels, 1 by default
-  int get mipmaps => _mipmaps = _mipmapsF.readOr(op?.ptr, _mipmaps);
-  set mipmaps(int value) => _mipmaps = _mipmapsF.writeIf(op?.ptr, value);
+  int get mipmaps => _mipmaps = _mipmapsF.readOr(op, _mipmaps);
+  set mipmaps(int value) => _mipmaps = _mipmapsF.writeIf(op, value);
 
   PixelFormat _format;
   /// Data format (PixelFormat type)
-  PixelFormat get format => _format = .fromValue(_formatF.readOr(op?.ptr, _format.value));
-  set format(PixelFormat value) => _format = .fromValue(_formatF.writeIf(op?.ptr, value.value));
+  PixelFormat get format => _format = .fromValue(_formatF.readOr(op, _format.value));
+  set format(PixelFormat value) => _format = .fromValue(_formatF.writeIf(op, value.value));
 
   TextureD({
     super.op,
@@ -102,7 +102,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _idF.write(p, _id);
     _widthF.write(p, _width);
     _heightF.write(p, _height);
@@ -111,7 +111,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _id = _idF.read(p);
     _width = _widthF.read(p);
     _height = _heightF.read(p);

@@ -29,7 +29,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
+  static StructPointer<AutomationEventD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, AutomationEventD.new, AutomationEventD.pointer);
 
   static final _frameF = struct.scalar<int, RUnsignedInt>(.frame);
@@ -60,13 +60,13 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   int _frame;
   /// Event frame
-  int get frame => _frame = _frameF.readOr(op?.ptr, _frame);
-  set frame(int value) => _frame = _frameF.writeIf(op?.ptr, value);
+  int get frame => _frame = _frameF.readOr(op, _frame);
+  set frame(int value) => _frame = _frameF.writeIf(op, value);
 
   AutomationEventType _type;
   /// Event type
-  AutomationEventType get type => _type = _typeF.readOr(op?.ptr, _type);
-  set type(AutomationEventType value) => _type = _typeF.writeIf(op?.ptr, value);
+  AutomationEventType get type => _type = _typeF.readOr(op, _type);
+  set type(AutomationEventType value) => _type = _typeF.writeIf(op, value);
 
   late final StructLiveList<int, RInt> _params;
   /// Event parameters (if required)
@@ -83,7 +83,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
     _type = type
   {
     _params = _paramsF.live(
-      () => op?.ptr,
+      () => op,
       .filled(_paramsF.codec.type.count, 0),
     );
   }
@@ -99,14 +99,14 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _frameF.write(p, _frame);
     _typeF.write(p, _type);
     _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _frame = _frameF.read(p);
     _type = _typeF.read(p);
     _params.readFrom(p);

@@ -29,7 +29,7 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
+  static StructPointer<RenderTextureD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
@@ -46,18 +46,18 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   int _id;
   /// OpenGL framebuffer object id
-  int get id => _id = _idF.readOr(op?.ptr, _id);
-  set id(int value) => _id = _idF.writeIf(op?.ptr, value);
+  int get id => _id = _idF.readOr(op, _id);
+  set id(int value) => _id = _idF.writeIf(op, value);
 
   TextureD _texture;
   /// Color buffer attachment texture
-  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
-  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
+  TextureD get texture => _texture = _textureF.readOr(op, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op, value);
 
   TextureD _depth;
   /// Depth buffer attachment texture
-  TextureD get depth => _depth = _depthF.readOr(op?.ptr, _depth);
-  set depth(TextureD value) => _depth = _depthF.writeIf(op?.ptr, value);
+  TextureD get depth => _depth = _depthF.readOr(op, _depth);
+  set depth(TextureD value) => _depth = _depthF.writeIf(op, value);
 
   RenderTextureD({
     super.op,
@@ -80,14 +80,14 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _idF.write(p, _id);
     _textureF.write(p, _texture);
     _depthF.write(p, _depth);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _id = _idF.read(p);
     _texture = _textureF.read(p);
     _depth = _depthF.read(p);

@@ -33,7 +33,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
+  static StructPointer<GlyphInfoD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, GlyphInfoD.new, GlyphInfoD.pointer);
 
   static final _valueF = struct.scalar<int, RInt>(.value);
@@ -52,28 +52,28 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
 
   int _value;
   /// Character value (Unicode)
-  int get value => _value = _valueF.readOr(op?.ptr, _value);
-  set value(int value) => _value = _valueF.writeIf(op?.ptr, value);
+  int get value => _value = _valueF.readOr(op, _value);
+  set value(int value) => _value = _valueF.writeIf(op, value);
 
   int _offsetX;
   /// Character offset X when drawing
-  int get offsetX => _offsetX = _offsetXF.readOr(op?.ptr, _offsetX);
-  set offsetX(int value) => _offsetX = _offsetXF.writeIf(op?.ptr, value);
+  int get offsetX => _offsetX = _offsetXF.readOr(op, _offsetX);
+  set offsetX(int value) => _offsetX = _offsetXF.writeIf(op, value);
 
   int _offsetY;
   /// Character offset Y when drawing
-  int get offsetY => _offsetY = _offsetYF.readOr(op?.ptr, _offsetY);
-  set offsetY(int value) => _offsetY = _offsetYF.writeIf(op?.ptr, value);
+  int get offsetY => _offsetY = _offsetYF.readOr(op, _offsetY);
+  set offsetY(int value) => _offsetY = _offsetYF.writeIf(op, value);
 
   int _advanceX;
   /// Character advance position X
-  int get advanceX => _advanceX = _advanceXF.readOr(op?.ptr, _advanceX);
-  set advanceX(int value) => _advanceX = _advanceXF.writeIf(op?.ptr, value);
+  int get advanceX => _advanceX = _advanceXF.readOr(op, _advanceX);
+  set advanceX(int value) => _advanceX = _advanceXF.writeIf(op, value);
 
   ImageD _image;
   /// Character image data
-  ImageD get image => _image = _imageF.readOr(op?.ptr, _image);
-  set image(ImageD value) => _image = _imageF.writeIf(op?.ptr, value);
+  ImageD get image => _image = _imageF.readOr(op, _image);
+  set image(ImageD value) => _image = _imageF.writeIf(op, value);
 
   GlyphInfoD({
     super.op,
@@ -102,7 +102,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _valueF.write(p, _value);
     _offsetXF.write(p, _offsetX);
     _offsetYF.write(p, _offsetY);
@@ -111,7 +111,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _value = _valueF.read(p);
     _offsetX = _offsetXF.read(p);
     _offsetY = _offsetYF.read(p);

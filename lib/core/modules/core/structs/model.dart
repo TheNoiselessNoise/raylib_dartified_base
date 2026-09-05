@@ -45,7 +45,7 @@ class ModelD extends RaylibStruct<ModelD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelD> pointer(MemoryPointer? ptr)
+  static StructPointer<ModelD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, ModelD.new, ModelD.pointer);
 
   static final _transformF = struct.struct(.transform, MatrixD.pointer);
@@ -68,18 +68,18 @@ class ModelD extends RaylibStruct<ModelD> {
 
   MatrixD _transform;
   /// Local transform matrix
-  MatrixD get transform => _transform = _transformF.readOr(op?.ptr, _transform);
-  set transform(MatrixD value) => _transform = _transformF.writeIf(op?.ptr, value);
+  MatrixD get transform => _transform = _transformF.readOr(op, _transform);
+  set transform(MatrixD value) => _transform = _transformF.writeIf(op, value);
   
   int _meshCount;
   /// Number of meshes
-  int get meshCount => _meshCount = _meshCountF.readOr(op?.ptr, _meshCount);
-  set meshCount(int value) => _meshCount = _meshCountF.writeIf(op?.ptr, value);
+  int get meshCount => _meshCount = _meshCountF.readOr(op, _meshCount);
+  set meshCount(int value) => _meshCount = _meshCountF.writeIf(op, value);
 
   int _materialCount;
   /// Number of materials
-  int get materialCount => _materialCount = _materialCountF.readOr(op?.ptr, _materialCount);
-  set materialCount(int value) => _materialCount = _materialCountF.writeIf(op?.ptr, value);
+  int get materialCount => _materialCount = _materialCountF.readOr(op, _materialCount);
+  set materialCount(int value) => _materialCount = _materialCountF.writeIf(op, value);
 
   late final StructLiveListStruct<MeshD> _meshes;
   /// Meshes array
@@ -98,8 +98,8 @@ class ModelD extends RaylibStruct<ModelD> {
 
   ModelSkeletonD _skeleton;
   /// Skeleton for animation
-  ModelSkeletonD get skeleton => _skeleton = _skeletonF.readOr(op?.ptr, _skeleton);
-  set skeleton(ModelSkeletonD value) => _skeleton = _skeletonF.writeIf(op?.ptr, value);
+  ModelSkeletonD get skeleton => _skeleton = _skeletonF.readOr(op, _skeleton);
+  set skeleton(ModelSkeletonD value) => _skeleton = _skeletonF.writeIf(op, value);
 
   late final StructLiveListStruct<TransformD> _currentPose;
   /// Current animation pose (Transform[])
@@ -126,11 +126,11 @@ class ModelD extends RaylibStruct<ModelD> {
     _materialCount = materials?.length ?? 0,
     _skeleton = skeleton ?? .new()
   {
-    _meshes = _meshesF.live(() => op?.ptr, meshes ?? []);
-    _materials = _materialsF.live(() => op?.ptr, materials ?? []);
-    _meshMaterial = _meshMaterialF.live(() => op?.ptr, meshMaterial ?? []);
-    _currentPose = _currentPoseF.live(() => op?.ptr, currentPose ?? []);
-    _boneMatrices = _boneMatricesF.live(() => op?.ptr, boneMatrices ?? []);
+    _meshes = _meshesF.live(() => op, meshes ?? []);
+    _materials = _materialsF.live(() => op, materials ?? []);
+    _meshMaterial = _meshMaterialF.live(() => op, meshMaterial ?? []);
+    _currentPose = _currentPoseF.live(() => op, currentPose ?? []);
+    _boneMatrices = _boneMatricesF.live(() => op, boneMatrices ?? []);
   }
 
   factory ModelD.zero() => .new();
@@ -147,7 +147,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     if (meshes.inner.isNotEmpty) {
       _meshesF.allocate(temp, p, '${key}_meshes', count: _meshes.inner.length);
     }
@@ -166,7 +166,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _transformF.write(p, _transform);
     _meshCountF.write(p, _meshCount);
     _materialCountF.write(p, _materialCount);
@@ -179,7 +179,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _transform = _transformF.read(p);
     _meshCount = _meshCountF.read(p);
     _materialCount = _materialCountF.read(p);

@@ -657,7 +657,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
     () => _debugLabels.GuiGrid(bounds, spacing, subdivs, mouseCell),
     () => rl.GuiFlat.GuiGrid(
       bounds,
-      MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+      MemoryPointer.nullptr(), // `text`, it's not used at all
       spacing.toDouble(),
       subdivs.toInt(),
       rl.Temp.Vector2$.RefUnique(mouseCell),
@@ -706,7 +706,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final focusPtr = rl.Temp.Int$.RefOrNull3(focus);
       final result = rl.GuiFlat.GuiListViewEx(
         bounds,
-        (text == null ? MemoryPointer.nullptr : rl.Temp.String$.Array(text)).cast(),
+        text == null ? MemoryPointer.nullptr() : rl.Temp.String$.Array(text).cast(),
         text?.length ?? 0,
         scrollIndexPtr,
         activePtr,
@@ -774,7 +774,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Color$.Ref1(color);
       final result = rl.GuiFlat.GuiColorPicker(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.ref);
@@ -791,7 +791,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Color$.Ref1(color);
       final result = rl.GuiFlat.GuiColorPanel(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.ref);
@@ -808,7 +808,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Float32$.Ref1(alpha.toDouble());
       final result = rl.GuiFlat.GuiColorBarAlpha(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.value);
@@ -825,7 +825,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Float32$.Ref1(value.toDouble());
       final result = rl.GuiFlat.GuiColorBarHue(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.value);
@@ -842,7 +842,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Vector3$.Ref1(colorHsv);
       final result = rl.GuiFlat.GuiColorPickerHSV(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.ref);
@@ -859,7 +859,7 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
       final valuePtr = rl.Temp.Vector3$.Ref1(colorHsv);
       final result = rl.GuiFlat.GuiColorPanelHSV(
         bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+        MemoryPointer.nullptr(), // `text`, it's not used at all
         valuePtr,
       );
       return (result, valuePtr.ref);

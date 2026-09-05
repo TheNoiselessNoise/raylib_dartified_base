@@ -29,7 +29,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// Called during construction and at the end of [dispose].
   void reset() {
     // NOTE: needs to be growable
-    stringSlots = .generate(slotCount, (_) => MemoryPointer.nullptr.cast(), growable: true);
+    stringSlots = .generate(slotCount, (_) => MemoryPointer.nullptr(), growable: true);
     stringCapacities = .filled(slotCount, 0, growable: true);
     stringAnonIndex = 0;
   }
@@ -74,14 +74,6 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     return pp;
   }
 
-  /// Fills a tracked [PP] of [count] elements by calling
-  /// [init](i) for each index.
-  MemoryPointer<RPointer<RChar>> Fill(int count, MemoryPointer<RChar> Function(int) init, {String? key}) {
-    final pp = AtPtr(slotKey(key), count);
-    for (int i = 0; i < count; i++) indexSetterFunc(pp, i, init(i));
-    return pp;
-  }
-
   /// Returns the pointer of pointers.
   /// 
   /// The caller is responsible for freeing the returned pointer.
@@ -102,7 +94,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     final slot = stringAnonIndex;
     stringAnonIndex = (stringAnonIndex + 1) % slotCount;
     _ensureSlotExists(slot);
-    return writeToSlot(slot, text, bufferSize);
+    return _writeToSlot(slot, text, bufferSize);
   }
 
   /// Writes [text] into slot using `Value` and returns its pointer, or returns `nullptr`
@@ -110,7 +102,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   ///
   /// Use this instead of [Value] when the C API uses a null pointer to signal "no value".
   MemoryPointer<RChar> ValueOrNull([String? text, String? key, int? bufferSize])
-    => text == null ? MemoryPointer.nullptr.cast() : Value(text, key, bufferSize);
+    => text == null ? MemoryPointer.nullptr() : Value(text, key, bufferSize);
 
   /// Returns the pointer for the keyed slot [key], optionally writing
   /// [text] into it.
@@ -125,7 +117,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     _ensureSlotExists(slot);
 
     if (text != null) {
-      return writeToSlot(slot, text, bufferSize);
+      return _writeToSlot(slot, text, bufferSize);
     }
 
     assert(
@@ -152,7 +144,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
 
     final growBy = slot + 1 - stringSlots.length;
 
-    stringSlots.addAll(List.generate(growBy, (_) => MemoryPointer.nullptr.cast()));
+    stringSlots.addAll(List.generate(growBy, (_) => MemoryPointer.nullptr()));
     stringCapacities.addAll(List.filled(growBy, 0));
   }
 
@@ -167,10 +159,10 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// insufficient for the UTF-8 encoded length.
   ///
   /// Always null-terminates the written string.
-  MemoryPointer<RChar> writeToSlot(int slot, String text, [int? bufferSize]) {
+  MemoryPointer<RChar> _writeToSlot(int slot, String text, [int? bufferSize]) {
     final requiredBytes = Length(text, bufferSize);
 
-    reallocSlotIfRequired(slot, requiredBytes);
+    _reallocSlotIfRequired(slot, requiredBytes);
 
     final dst = stringSlots[slot].asView<Uint8List>(requiredBytes);
     dst.setAll(0, _lastBytes);
@@ -179,7 +171,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     return stringSlots[slot];
   }
 
-  void reallocSlotIfRequired(int slot, int length) {
+  void _reallocSlotIfRequired(int slot, int length) {
     if (stringSlots[slot].isNull || stringCapacities[slot] < length) {
       if (!stringSlots[slot].isNull) stringSlots[slot].free();
       stringSlots[slot] = Raw(length);
@@ -196,7 +188,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     int slot = stringSlotsKeyed[key]!;
     stringSlots[slot].free();
     stringSlotsKeyed.remove(key);
-    stringSlots[slot] = MemoryPointer.nullptr.cast();
+    stringSlots[slot] = MemoryPointer.nullptr();
     stringCapacities[slot] = 0;
   }
 
@@ -243,7 +235,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
 
   /// Returns a `P` for the given [o] value, using `nullptr` when [o] is `null`.
   MemoryPointer<RChar> _RefOrNull(String? o, MemoryPointer<RChar> Function([String]) alloc)
-    => o == null ? MemoryPointer.nullptr.cast() : alloc(o);
+    => o == null ? MemoryPointer.nullptr() : alloc(o);
 
   /// Writes [o] into slot `'1'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.

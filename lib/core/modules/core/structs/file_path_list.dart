@@ -27,7 +27,7 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
+  static StructPointer<FilePathListD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, FilePathListD.new, FilePathListD.pointer);
 
   static final _countF = struct.scalar<int, RUnsignedInt>(.count);
@@ -42,7 +42,7 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   // ░███████   ░██████████ ░██        
 
   /// Filepaths entries count
-  int get count => _countF.read(getOp().ptr);
+  int get count => _countF.read(getOp());
 
   /// Filepaths entries
   List<String> get paths => getOp()

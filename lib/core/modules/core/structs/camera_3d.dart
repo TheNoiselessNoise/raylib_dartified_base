@@ -33,7 +33,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
+  static StructPointer<Camera3DD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, Camera3DD.new, Camera3DD.pointer);
 
   static final _positionF = struct.struct(.position, Vector3D.pointer);
@@ -52,28 +52,28 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
 
   Vector3D _position;
   /// Camera position
-  Vector3D get position => _position = _positionF.readOr(op?.ptr, _position);
-  set position(Vector3D value) => _position = _positionF.writeIf(op?.ptr, value);
+  Vector3D get position => _position = _positionF.readOr(op, _position);
+  set position(Vector3D value) => _position = _positionF.writeIf(op, value);
 
   Vector3D _target;
   /// Camera target it looks-at
-  Vector3D get target => _target = _targetF.readOr(op?.ptr, _target);
-  set target(Vector3D value) => _target = _targetF.writeIf(op?.ptr, value);
+  Vector3D get target => _target = _targetF.readOr(op, _target);
+  set target(Vector3D value) => _target = _targetF.writeIf(op, value);
 
   Vector3D _up;
   /// Camera up vector (rotation over its axis)
-  Vector3D get up => _up = _upF.readOr(op?.ptr, _up);
-  set up(Vector3D value) => _up = _upF.writeIf(op?.ptr, value);
+  Vector3D get up => _up = _upF.readOr(op, _up);
+  set up(Vector3D value) => _up = _upF.writeIf(op, value);
 
   double _fovy;
   /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
-  double get fovy => _fovy = _fovyF.readOr(op?.ptr, _fovy);
-  set fovy(double value) => _fovy = _fovyF.writeIf(op?.ptr, value);
+  double get fovy => _fovy = _fovyF.readOr(op, _fovy);
+  set fovy(double value) => _fovy = _fovyF.writeIf(op, value);
 
   CameraProjection _projection;
   /// Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
-  CameraProjection get projection => _projection = .fromValue(_projectionF.readOr(op?.ptr, _projection.value));
-  set projection(CameraProjection value) => _projection = .fromValue(_projectionF.writeIf(op?.ptr, value.value));
+  CameraProjection get projection => _projection = .fromValue(_projectionF.readOr(op, _projection.value));
+  set projection(CameraProjection value) => _projection = .fromValue(_projectionF.writeIf(op, value.value));
 
   Camera3DD({
     super.op,
@@ -102,7 +102,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _positionF.write(p, _position);
     _targetF.write(p, _target);
     _upF.write(p, _up);
@@ -111,7 +111,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _position = _positionF.read(p);
     _target = _targetF.read(p);
     _up = _upF.read(p);

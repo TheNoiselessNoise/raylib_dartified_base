@@ -42,7 +42,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
+  static StructPointer<RlVertexBufferD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, RlVertexBufferD.new, RlVertexBufferD.pointer);
 
   static final _elementCountF = struct.scalar<int, RInt>(.elementCount);
@@ -111,8 +111,8 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   int _elementCount;
   /// Number of elements in the buffer (QUADS)
-  int get elementCount => _elementCount = _elementCountF.readOr(op?.ptr, _elementCount);
-  set elementCount(int value) => _elementCount = _elementCountF.writeIf(op?.ptr, value);
+  int get elementCount => _elementCount = _elementCountF.readOr(op, _elementCount);
+  set elementCount(int value) => _elementCount = _elementCountF.writeIf(op, value);
 
   late final StructLiveList<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
@@ -141,8 +141,8 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   int _vaoId;
   /// OpenGL Vertex Array Object id
-  int get vaoId => _vaoId = _vaoIdF.readOr(op?.ptr, _vaoId);
-  set vaoId(int value) => _vaoId = _vaoIdF.writeIf(op?.ptr, value);
+  int get vaoId => _vaoId = _vaoIdF.readOr(op, _vaoId);
+  set vaoId(int value) => _vaoId = _vaoIdF.writeIf(op, value);
   
   late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (5 types of vertex data)
@@ -163,12 +163,12 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _elementCount = elementCount,
     _vaoId = vaoId
   {
-    _vertices = _verticesF.live(() => op?.ptr, vertices ?? .filled(verticesCount, 0));
-    _texcoords = _texcoordsF.live(() => op?.ptr, texcoords ?? .filled(texcoordsCount, 0));
-    _normals = _normalsF.live(() => op?.ptr, normals ?? .filled(normalsCount, 0));
-    _colors = _colorsF.live(() => op?.ptr, colors ?? .filled(colorsCount, 0));
-    _indices = _indicesF.live(() => op?.ptr, indices ?? .filled(indicesCount, 0));
-    _vboId = _vboIdF.live(() => op?.ptr, vboId ?? .filled(vboIdCount, 0));
+    _vertices = _verticesF.live(() => op, vertices ?? .filled(verticesCount, 0));
+    _texcoords = _texcoordsF.live(() => op, texcoords ?? .filled(texcoordsCount, 0));
+    _normals = _normalsF.live(() => op, normals ?? .filled(normalsCount, 0));
+    _colors = _colorsF.live(() => op, colors ?? .filled(colorsCount, 0));
+    _indices = _indicesF.live(() => op, indices ?? .filled(indicesCount, 0));
+    _vboId = _vboIdF.live(() => op, vboId ?? .filled(vboIdCount, 0));
   }
 
   factory RlVertexBufferD.zero() => .new();
@@ -187,7 +187,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     if (_vertices.inner.isNotEmpty) {
       _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length);
     }
@@ -206,7 +206,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _elementCountF.write(p, _elementCount);
     _vertices.writeInto(p);
     _texcoords.writeInto(p);
@@ -218,7 +218,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _elementCount = _elementCountF.read(p);
     _vertices.readFrom(p, count: verticesCount);
     _texcoords.readFrom(p, count: texcoordsCount);

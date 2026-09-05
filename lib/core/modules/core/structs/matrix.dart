@@ -34,7 +34,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
+  static StructPointer<MatrixD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
 
   static final _m0F = struct.scalar<double, RFloat>(.m0);
@@ -64,83 +64,83 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   double _m0;
   /// Column 0, row 0
-  double get m0 => _m0 = _m0F.readOr(op?.ptr, _m0);
-  set m0(double value) => _m0 = _m0F.writeIf(op?.ptr, value);
+  double get m0 => _m0 = _m0F.readOr(op, _m0);
+  set m0(double value) => _m0 = _m0F.writeIf(op, value);
   
   double _m1;
   /// Column 0, row 1
-  double get m1 => _m1 = _m1F.readOr(op?.ptr, _m1);
-  set m1(double value) => _m1 = _m1F.writeIf(op?.ptr, value);
+  double get m1 => _m1 = _m1F.readOr(op, _m1);
+  set m1(double value) => _m1 = _m1F.writeIf(op, value);
   
   double _m2;
   /// Column 0, row 2
-  double get m2 => _m2 = _m2F.readOr(op?.ptr, _m2);
-  set m2(double value) => _m2 = _m2F.writeIf(op?.ptr, value);
+  double get m2 => _m2 = _m2F.readOr(op, _m2);
+  set m2(double value) => _m2 = _m2F.writeIf(op, value);
   
   double _m3;
   /// Column 0, row 3
-  double get m3 => _m3 = _m3F.readOr(op?.ptr, _m3);
-  set m3(double value) => _m3 = _m3F.writeIf(op?.ptr, value);
+  double get m3 => _m3 = _m3F.readOr(op, _m3);
+  set m3(double value) => _m3 = _m3F.writeIf(op, value);
 
   double _m4;
   /// Column 1, row 0
-  double get m4 => _m4 = _m4F.readOr(op?.ptr, _m4);
-  set m4(double value) => _m4 = _m4F.writeIf(op?.ptr, value);
+  double get m4 => _m4 = _m4F.readOr(op, _m4);
+  set m4(double value) => _m4 = _m4F.writeIf(op, value);
 
   double _m5;
   /// Column 1, row 1
-  double get m5 => _m5 = _m5F.readOr(op?.ptr, _m5);
-  set m5(double value) => _m5 = _m5F.writeIf(op?.ptr, value);
+  double get m5 => _m5 = _m5F.readOr(op, _m5);
+  set m5(double value) => _m5 = _m5F.writeIf(op, value);
 
   double _m6;
   /// Column 1, row 2
-  double get m6 => _m6 = _m6F.readOr(op?.ptr, _m6);
-  set m6(double value) => _m6 = _m6F.writeIf(op?.ptr, value);
+  double get m6 => _m6 = _m6F.readOr(op, _m6);
+  set m6(double value) => _m6 = _m6F.writeIf(op, value);
   
   double _m7;
   /// Column 1, row 3
-  double get m7 => _m7 = _m7F.readOr(op?.ptr, _m7);
-  set m7(double value) => _m7 = _m7F.writeIf(op?.ptr, value);
+  double get m7 => _m7 = _m7F.readOr(op, _m7);
+  set m7(double value) => _m7 = _m7F.writeIf(op, value);
 
   double _m8;
   /// Column 2, row 0
-  double get m8 => _m8 = _m8F.readOr(op?.ptr, _m8);
-  set m8(double value) => _m8 = _m8F.writeIf(op?.ptr, value);
+  double get m8 => _m8 = _m8F.readOr(op, _m8);
+  set m8(double value) => _m8 = _m8F.writeIf(op, value);
   
   double _m9;
   /// Column 2, row 1
-  double get m9 => _m9 = _m9F.readOr(op?.ptr, _m9);
-  set m9(double value) => _m9 = _m9F.writeIf(op?.ptr, value);
+  double get m9 => _m9 = _m9F.readOr(op, _m9);
+  set m9(double value) => _m9 = _m9F.writeIf(op, value);
   
   double _m10;
   /// Column 2, row 2
-  double get m10 => _m10 = _m10F.readOr(op?.ptr, _m10);
-  set m10(double value) => _m10 = _m10F.writeIf(op?.ptr, value);
+  double get m10 => _m10 = _m10F.readOr(op, _m10);
+  set m10(double value) => _m10 = _m10F.writeIf(op, value);
 
   double _m11;
   /// Column 2, row 3
-  double get m11 => _m11 = _m11F.readOr(op?.ptr, _m11);
-  set m11(double value) => _m11 = _m11F.writeIf(op?.ptr, value);
+  double get m11 => _m11 = _m11F.readOr(op, _m11);
+  set m11(double value) => _m11 = _m11F.writeIf(op, value);
   
   double _m12;
   /// Column 3, row 0 (translation X)
-  double get m12 => _m12 = _m12F.readOr(op?.ptr, _m12);
-  set m12(double value) => _m12 = _m12F.writeIf(op?.ptr, value);
+  double get m12 => _m12 = _m12F.readOr(op, _m12);
+  set m12(double value) => _m12 = _m12F.writeIf(op, value);
   
   double _m13;
   /// Column 3, row 1 (translation Y)
-  double get m13 => _m13 = _m13F.readOr(op?.ptr, _m13);
-  set m13(double value) => _m13 = _m13F.writeIf(op?.ptr, value);
+  double get m13 => _m13 = _m13F.readOr(op, _m13);
+  set m13(double value) => _m13 = _m13F.writeIf(op, value);
   
   double _m14;
   /// Column 3, row 2 (translation Z)
-  double get m14 => _m14 = _m14F.readOr(op?.ptr, _m14);
-  set m14(double value) => _m14 = _m14F.writeIf(op?.ptr, value);
+  double get m14 => _m14 = _m14F.readOr(op, _m14);
+  set m14(double value) => _m14 = _m14F.writeIf(op, value);
   
   double _m15;
   /// Column 3, row 3
-  double get m15 => _m15 = _m15F.readOr(op?.ptr, _m15);
-  set m15(double value) => _m15 = _m15F.writeIf(op?.ptr, value);
+  double get m15 => _m15 = _m15F.readOr(op, _m15);
+  set m15(double value) => _m15 = _m15F.writeIf(op, value);
 
   MatrixD({
     super.op,
@@ -183,7 +183,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _m0F.write(p, _m0);
     _m4F.write(p, _m4);
     _m8F.write(p, _m8);
@@ -206,7 +206,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _m0 = _m0F.read(p);
     _m4 = _m4F.read(p);
     _m8 = _m8F.read(p);

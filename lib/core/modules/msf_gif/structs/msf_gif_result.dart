@@ -31,7 +31,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
+  static StructPointer<MsfGifResultD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, MsfGifResultD.new, MsfGifResultD.pointer);
 
   static final _dataF = struct.pointerUnknown<RVoid>(.data);
@@ -47,15 +47,15 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  late final LivePointerSync<RVoid> _data = _dataF.live(() => op?.ptr);
+  late final LivePointerSync<RVoid> _data = _dataF.live(() => op);
   MemoryPointer<RVoid> get data => _data.derefPtr();
   Uint8List get dataView => data.asView(dataSize);
 
-  int get dataSize => _dataSizeF.read(getOp().ptr);
+  int get dataSize => _dataSizeF.read(getOp());
 
-  int get allocSize => _allocSizeF.read(getOp().ptr);
+  int get allocSize => _allocSizeF.read(getOp());
 
-  late final LivePointerSync<RVoid> _contextPointer = _contextPointerF.live(() => op?.ptr);
+  late final LivePointerSync<RVoid> _contextPointer = _contextPointerF.live(() => op);
   MemoryPointer<RVoid> get contextPointer => _contextPointer.derefPtr();
 
   MsfGifResultD({ super.op });

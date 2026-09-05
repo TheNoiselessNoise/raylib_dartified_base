@@ -30,7 +30,7 @@ class Vector2D extends RaylibStruct<Vector2D> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
+  static StructPointer<Vector2D> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, Vector2D.new, Vector2D.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -46,13 +46,13 @@ class Vector2D extends RaylibStruct<Vector2D> {
   
   double _x;
   /// Vector x component
-  double get x => _x = _xF.readOr(op?.ptr, _x);
-  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
+  double get x => _x = _xF.readOr(op, _x);
+  set x(double value) => _x = _xF.writeIf(op, value);
 
   double _y;
   /// Vector y component
-  double get y => _y = _yF.readOr(op?.ptr, _y);
-  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
+  double get y => _y = _yF.readOr(op, _y);
+  set y(double value) => _y = _yF.writeIf(op, value);
 
   Vector2D({
     super.op,
@@ -76,13 +76,13 @@ class Vector2D extends RaylibStruct<Vector2D> {
   Vector2D setDart(Vector2D o) => set(o.x, o.y);
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
   }

@@ -27,7 +27,7 @@ class SoundD extends RaylibStruct<SoundD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<SoundD> pointer(MemoryPointer? ptr)
+  static StructPointer<SoundD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, SoundD.new, SoundD.pointer);
 
   static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
@@ -43,13 +43,13 @@ class SoundD extends RaylibStruct<SoundD> {
 
   AudioStreamD _stream;
   /// Audio stream
-  AudioStreamD get stream => _stream = _streamF.readOr(op?.ptr, _stream);
-  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op?.ptr, value);
+  AudioStreamD get stream => _stream = _streamF.readOr(op, _stream);
+  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
-  int get frameCount => _frameCount = _frameCountF.readOr(op?.ptr, _frameCount);
-  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op?.ptr, value);
+  int get frameCount => _frameCount = _frameCountF.readOr(op, _frameCount);
+  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op, value);
 
   SoundD({
     super.op,
@@ -69,13 +69,13 @@ class SoundD extends RaylibStruct<SoundD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _streamF.write(p, _stream);
     _frameCountF.write(p, _frameCount);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _stream = _streamF.read(p);
     _frameCount = _frameCountF.read(p);
   }

@@ -62,25 +62,25 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArra
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref1] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<R> RefOrNull1(X? o) => o == null ? MemoryPointer.nullptr.cast<R>() : Ref1(o);
+  MemoryPointer<R> RefOrNull1(X? o) => o == null ? MemoryPointer.nullptr() : Ref1(o);
 
   /// Writes [o] into slot `'2'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref2] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<R> RefOrNull2(X? o) => o == null ? MemoryPointer.nullptr.cast<R>() : Ref2(o);
+  MemoryPointer<R> RefOrNull2(X? o) => o == null ? MemoryPointer.nullptr() : Ref2(o);
 
   /// Writes [o] into slot `'3'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref3] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<R> RefOrNull3(X? o) => o == null ? MemoryPointer.nullptr.cast<R>() : Ref3(o);
+  MemoryPointer<R> RefOrNull3(X? o) => o == null ? MemoryPointer.nullptr() : Ref3(o);
 
   /// Writes [o] into slot `'4'` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref4] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<R> RefOrNull4(X? o) => o == null ? MemoryPointer.nullptr.cast<R>() : Ref4(o);
+  MemoryPointer<R> RefOrNull4(X? o) => o == null ? MemoryPointer.nullptr() : Ref4(o);
 
   // -----
 
@@ -140,7 +140,7 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   ///
   /// The list is a **view** into native memory, so mutations are reflected
   /// immediately in the native buffer.
-  final L Function(MemoryPointer ptr, int length) asView;
+  final L Function(MemoryPointerHandle ptr, int length) asView;
 
   /// Wraps a region of [buffer] as a Dart [L] list without copying.
   ///
@@ -169,26 +169,26 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   );
 
   /// Returns a Dart `List<X>` with [length] elements copied from [ptr].
-  List<X> asDartList(MemoryPointer ptr, int length)
-    => asView(ptr, length).toList().cast();
+  List<X> asDartList(MemoryPointerHandle ptr, int length)
+    => asView(ptr, length).cast();
 
   /// Returns a [L] with [length] elements copied from [ptr].
-  L asTypedList(MemoryPointer ptr, int length)
+  L asTypedList(MemoryPointerHandle ptr, int length)
     => fromList(asDartList(ptr, length));
 
   /// Allocates (or reuses) a slot of [length] elements and returns its pointer,
   /// without writing any data into it.
   ///
-  /// Unlike [Array] or [Fill], the contents are left uninitialized, useful when
+  /// Unlike [Array], the contents are left uninitialized, useful when
   /// the buffer will be populated by a C call rather than from Dart.
   /// [key] defaults to `'Sized<C>'`.
-  MemoryPointer<R> Sized(int length, {String? key}) => At(key ?? 'Sized$X', length);
+  MemoryPointer<R> Sized(int length, {String? key}) => At(key ?? 'sized_$R', length);
 
   /// Copies [length] elements from [src] into a slot and returns the pointer.
   ///
   /// Uses [asView] for the bulk copy, which avoids an element-by-element
   /// loop. [key] defaults to `'default'`.
-  MemoryPointer<R> Copy(MemoryPointer<RVoid> src, int length, {String? key}) {
+  MemoryPointer<R> Copy(MemoryPointerHandle src, int length, {String? key}) {
     final p = At(slotKey(key), length);
     asView(p, length).setAll(0, asView(src, length));
     return p;
@@ -232,7 +232,7 @@ final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RTyp
   /// Serialises [length] words starting at [ptr] to a flat big-endian byte list.
   ///
   /// Each word is split into `byteSize` bytes, most-significant byte first.
-  L ToBEBytes(MemoryPointer ptr, int length) =>
+  L ToBEBytes(MemoryPointerHandle ptr, int length) =>
     fromList(asDartList(ptr, length).expand((word) =>
       .generate(byteSize, (i) => (word.toInt() >> ((byteSize - 1 - i) * 8)) & 0xFF)
     ));
@@ -240,7 +240,7 @@ final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RTyp
   /// Serialises [length] words starting at [ptr] to a flat little-endian byte list.
   ///
   /// Each word is split into `byteSize` bytes, least-significant byte first.
-  L ToLEBytes(MemoryPointer ptr, int length) =>
+  L ToLEBytes(MemoryPointerHandle ptr, int length) =>
     fromList(asDartList(ptr, length).expand((word) =>
       .generate(byteSize, (i) => (word.toInt() >> (i * 8)) & 0xFF)
     ));

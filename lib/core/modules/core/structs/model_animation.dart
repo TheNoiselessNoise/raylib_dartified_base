@@ -31,7 +31,7 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
+  static StructPointer<ModelAnimationD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
 
   static final _nameF = struct.stringAsCharArray(.name);
@@ -62,15 +62,15 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   // ░███████   ░██████████ ░██        
 
   /// Animation name
-  String get name => _nameF.readOr(op?.ptr, '');
+  String get name => _nameF.readOr(op, '');
 
   /// Number of bones (per pose)
-  int get boneCount => _boneCountF.readOr(op?.ptr, 0);
+  int get boneCount => _boneCountF.readOr(op, 0);
 
   /// Number of animation key frames
-  int get keyframeCount => _keyframeCountF.readOr(op?.ptr, 0);
+  int get keyframeCount => _keyframeCountF.readOr(op, 0);
 
-  StructLiveListStructNested<TransformD> get keyframePoses => _keyframePosesF.liveNested(() => op?.ptr, []);
+  StructLiveListStructNested<TransformD> get keyframePoses => _keyframePosesF.liveNested(() => op, []);
 
   ModelAnimationD({ super.op });
 

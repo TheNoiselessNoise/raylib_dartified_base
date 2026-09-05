@@ -660,7 +660,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.SetAudioStreamCallback(stream, callback),
     () => rl.AudioFlat.SetAudioStreamCallback(
       stream,
-      callback?.attach() ?? MemoryPointer.nullptr.cast(),
+      callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
 

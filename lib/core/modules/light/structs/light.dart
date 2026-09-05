@@ -49,7 +49,7 @@ class LightD extends RaylibStruct<LightD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<LightD> pointer(MemoryPointer? ptr)
+  static StructPointer<LightD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, LightD.new, LightD.pointer);
 
   static final _typeF = struct.scalar<int, RInt>(.type);
@@ -76,63 +76,63 @@ class LightD extends RaylibStruct<LightD> {
 
   LightType _type;
   /// Light type (directional or point)
-  LightType get type => _type = .fromValue(_typeF.readOr(op?.ptr, _type.value));
-  set type(LightType value) => _type = .fromValue(_typeF.writeIf(op?.ptr, value.value));
+  LightType get type => _type = .fromValue(_typeF.readOr(op, _type.value));
+  set type(LightType value) => _type = .fromValue(_typeF.writeIf(op, value.value));
 
   bool _enabled;
   /// Whether the light is currently active
-  bool get enabled => _enabled = _enabledF.readOr(op?.ptr, _enabled);
-  set enabled(bool value) => _enabled = _enabledF.writeIf(op?.ptr, value);
+  bool get enabled => _enabled = _enabledF.readOr(op, _enabled);
+  set enabled(bool value) => _enabled = _enabledF.writeIf(op, value);
   
   Vector3D _position;
   /// Light position in world space
-  Vector3D get position => _position = _positionF.readOr(op?.ptr, _position);
-  set position(Vector3D value) => _position = _positionF.writeIf(op?.ptr, value);
+  Vector3D get position => _position = _positionF.readOr(op, _position);
+  set position(Vector3D value) => _position = _positionF.writeIf(op, value);
   
   Vector3D _target;
   /// Light target direction (used for directional lights)
-  Vector3D get target => _target = _targetF.readOr(op?.ptr, _target);
-  set target(Vector3D value) => _target = _targetF.writeIf(op?.ptr, value);
+  Vector3D get target => _target = _targetF.readOr(op, _target);
+  set target(Vector3D value) => _target = _targetF.writeIf(op, value);
   
   ColorD _color;
   /// Light color
-  ColorD get color => _color = _colorF.readOr(op?.ptr, _color);
-  set color(ColorD value) => _color = _colorF.writeIf(op?.ptr, value);
+  ColorD get color => _color = _colorF.readOr(op, _color);
+  set color(ColorD value) => _color = _colorF.writeIf(op, value);
   
   double _attenuation;
   /// Light attenuation factor (falloff over distance)
-  double get attenuation => _attenuation = _attenuationF.readOr(op?.ptr, _attenuation);
-  set attenuation(double value) => _attenuation = _attenuationF.writeIf(op?.ptr, value);
+  double get attenuation => _attenuation = _attenuationF.readOr(op, _attenuation);
+  set attenuation(double value) => _attenuation = _attenuationF.writeIf(op, value);
 
   int _enabledLoc;
   /// Shader location for [enabled]
-  int get enabledLoc => _enabledLoc = _enabledLocF.readOr(op?.ptr, _enabledLoc);
-  set enabledLoc(int value) => _enabledLoc = _enabledLocF.writeIf(op?.ptr, value);
+  int get enabledLoc => _enabledLoc = _enabledLocF.readOr(op, _enabledLoc);
+  set enabledLoc(int value) => _enabledLoc = _enabledLocF.writeIf(op, value);
   
   int _typeLoc;
   /// Shader location for [type]
-  int get typeLoc => _typeLoc = _typeLocF.readOr(op?.ptr, _typeLoc);
-  set typeLoc(int value) => _typeLoc = _typeLocF.writeIf(op?.ptr, value);
+  int get typeLoc => _typeLoc = _typeLocF.readOr(op, _typeLoc);
+  set typeLoc(int value) => _typeLoc = _typeLocF.writeIf(op, value);
   
   int _positionLoc;
   /// Shader location for [position]
-  int get positionLoc => _positionLoc = _positionLocF.readOr(op?.ptr, _positionLoc);
-  set positionLoc(int value) => _positionLoc = _positionLocF.writeIf(op?.ptr, value);
+  int get positionLoc => _positionLoc = _positionLocF.readOr(op, _positionLoc);
+  set positionLoc(int value) => _positionLoc = _positionLocF.writeIf(op, value);
   
   int _targetLoc;
   /// Shader location for [target]
-  int get targetLoc => _targetLoc = _targetLocF.readOr(op?.ptr, _targetLoc);
-  set targetLoc(int value) => _targetLoc = _targetLocF.writeIf(op?.ptr, value);
+  int get targetLoc => _targetLoc = _targetLocF.readOr(op, _targetLoc);
+  set targetLoc(int value) => _targetLoc = _targetLocF.writeIf(op, value);
   
   int _colorLoc;
   /// Shader location for [color]
-  int get colorLoc => _colorLoc = _colorLocF.readOr(op?.ptr, _colorLoc);
-  set colorLoc(int value) => _colorLoc = _colorLocF.writeIf(op?.ptr, value);
+  int get colorLoc => _colorLoc = _colorLocF.readOr(op, _colorLoc);
+  set colorLoc(int value) => _colorLoc = _colorLocF.writeIf(op, value);
   
   int _attenuationLoc;
   /// Shader location for [attenuation]
-  int get attenuationLoc => _attenuationLoc = _attenuationLocF.readOr(op?.ptr, _attenuationLoc);
-  set attenuationLoc(int value) => _attenuationLoc = _attenuationLocF.writeIf(op?.ptr, value);
+  int get attenuationLoc => _attenuationLoc = _attenuationLocF.readOr(op, _attenuationLoc);
+  set attenuationLoc(int value) => _attenuationLoc = _attenuationLocF.writeIf(op, value);
 
   LightD({
     super.op,
@@ -182,7 +182,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _typeF.write(p, _type.value);
     _enabledF.write(p, _enabled);
     _positionF.write(p, _position);
@@ -198,7 +198,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _type = .fromValue(_typeF.read(p));
     _enabled = _enabledF.read(p);
     _position = _positionF.read(p);

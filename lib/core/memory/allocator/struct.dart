@@ -63,7 +63,7 @@ final class RaylibTempStructAllocator<
 
         // full sync once to push pre-promotion Dart state to memory
         temp.debugSyncInfo('[SYNC] ${value.structName} first sync into $allocKey');
-        value.structWriteInto(op.ptr);
+        value.structWriteInto(op);
         value.$state.isFirstSync = false;
       } else {
         // already live, setters handle write-through, skip full sync
@@ -84,13 +84,13 @@ final class RaylibTempStructAllocator<
       temp.debugSyncInfo('[SYNC] ${value.structName} allocate into ${value.$state.allocKey}');
       value.op = p;
     }
-    value.structAllocateInto(temp, p.ptr, baseKey);
-    value.structWriteInto(p.ptr);
+    value.structAllocateInto(temp, p, baseKey);
+    value.structWriteInto(p);
     return p;
   }
 
   /// Copies [length] structs from [src] into a tracked slot.
-  StructPointer<X> Copy(MemoryPointer<RStruct> src, int length, {String? key}) {
+  StructPointer<X> Copy(MemoryPointerHandle src, int length, {String? key}) {
     final p = At(slotKey(key), length);
     p.copyBytesFrom(src, length * byteSize);
     return pointerFactory(p);
@@ -137,7 +137,7 @@ final class RaylibTempStructAllocator<
     : Allocate(x, key);
 
   StructPointer<X> RefUnique(X? x) {
-    if (x == null) return pointerFactory(MemoryPointer.nullptr);
+    if (x == null) return pointerFactory(MemoryPointer.nullptr());
     x.op ??= AtUniqueStruct();
     x.structSyncToMemory();
     return x.getOp();
@@ -195,7 +195,7 @@ final class RaylibTempStructAllocator<
   ///
   /// This is the foundation for the [RefOrNull1]–[RefOrNull8] helpers.
   StructPointer<X> _RefOrNull(X? x, String key) => x == null
-    ? pointerFactory(MemoryPointer.nullptr)
+    ? pointerFactory(MemoryPointer.nullptr())
     : Allocate(x, key);
 
   /// Allocates [o] into slot `'1'`, or returns `nullptr` if [o] is `null`.
@@ -456,7 +456,7 @@ final class RaylibTempStructPointerAllocator<
   final StructPointer<X> Function(List<X> array) rawArrayFunc;
 
   /// Overwrites the [i]-th element of the array at [ptr] with [value].
-  final void Function(MemoryPointer<RPointer<RStruct>> ptr, int i, MemoryPointer<RVoid> value) indexSetterFunc;
+  final void Function(MemoryPointerHandle ptr, int i, MemoryPointerHandle value) indexSetterFunc;
 
   RaylibTempStructPointerAllocator(super.temp, {
     required super.byteSize,
@@ -470,7 +470,7 @@ final class RaylibTempStructPointerAllocator<
   /// The caller is responsible for freeing the returned pointer.
   MemoryPointer<RPointer<RStruct>> RawArray(List<List<X>> arrays) {
     final p = Raw(arrays.length);
-    for (int i = 0; i < arrays.length; i++) indexSetterFunc(p, i, rawArrayFunc(arrays[i]).ptr.cast());
+    for (int i = 0; i < arrays.length; i++) indexSetterFunc(p, i, rawArrayFunc(arrays[i]));
     return p;
   }
 
@@ -478,7 +478,7 @@ final class RaylibTempStructPointerAllocator<
   MemoryPointer<RPointer<RStruct>> Array(List<X> array, {String? key}) {
     key ??= slotKey(key);
     final p = At(key, array.length);
-    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, valueFunc(array[i], '${key}_$i').ptr.cast());
+    for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, valueFunc(array[i], '${key}_$i'));
     return p;
   }
 }

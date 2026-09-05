@@ -31,7 +31,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
+  static StructPointer<RectangleD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, RectangleD.new, RectangleD.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -49,23 +49,23 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   double _x;
   /// Rectangle top-left corner position x
-  double get x => _x = _xF.readOr(op?.ptr, _x);
-  set x(double value) => _x = _xF.writeIf(op?.ptr, value);
+  double get x => _x = _xF.readOr(op, _x);
+  set x(double value) => _x = _xF.writeIf(op, value);
   
   double _y;
   /// Rectangle top-left corner position y
-  double get y => _y = _yF.readOr(op?.ptr, _y);
-  set y(double value) => _y = _yF.writeIf(op?.ptr, value);
+  double get y => _y = _yF.readOr(op, _y);
+  set y(double value) => _y = _yF.writeIf(op, value);
 
   double _width;
   /// Rectangle width
-  double get width => _width = _widthF.readOr(op?.ptr, _width);
-  set width(double value) => _width = _widthF.writeIf(op?.ptr, value);
+  double get width => _width = _widthF.readOr(op, _width);
+  set width(double value) => _width = _widthF.writeIf(op, value);
 
   double _height;
   /// Rectangle height
-  double get height => _height = _heightF.readOr(op?.ptr, _height);
-  set height(double value) => _height = _heightF.writeIf(op?.ptr, value);
+  double get height => _height = _heightF.readOr(op, _height);
+  set height(double value) => _height = _heightF.writeIf(op, value);
   
   RectangleD({
     super.op,
@@ -99,7 +99,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _widthF.write(p, _width);
@@ -107,7 +107,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _width = _widthF.read(p);

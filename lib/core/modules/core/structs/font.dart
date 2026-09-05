@@ -35,7 +35,7 @@ class FontD extends RaylibStruct<FontD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<FontD> pointer(MemoryPointer? ptr)
+  static StructPointer<FontD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, FontD.new, FontD.pointer);
 
   static final _baseSizeF = struct.scalar<int, RInt>(.baseSize);
@@ -55,23 +55,23 @@ class FontD extends RaylibStruct<FontD> {
 
   int _baseSize;
   /// Base size (default chars height)
-  int get baseSize => _baseSize = _baseSizeF.readOr(op?.ptr, _baseSize);
-  set baseSize(int value) => _baseSize = _baseSizeF.writeIf(op?.ptr, value);
+  int get baseSize => _baseSize = _baseSizeF.readOr(op, _baseSize);
+  set baseSize(int value) => _baseSize = _baseSizeF.writeIf(op, value);
 
   int _glyphCount;
   /// Number of glyph characters
-  int get glyphCount => _glyphCount = _glyphCountF.readOr(op?.ptr, _glyphCount);
-  set glyphCount(int value) => _glyphCount = _glyphCountF.writeIf(op?.ptr, value);
+  int get glyphCount => _glyphCount = _glyphCountF.readOr(op, _glyphCount);
+  set glyphCount(int value) => _glyphCount = _glyphCountF.writeIf(op, value);
 
   int _glyphPadding;
   /// Padding around the glyph characters
-  int get glyphPadding => _glyphPadding = _glyphPaddingF.readOr(op?.ptr, _glyphPadding);
-  set glyphPadding(int value) => _glyphPadding = _glyphPaddingF.writeIf(op?.ptr, value);
+  int get glyphPadding => _glyphPadding = _glyphPaddingF.readOr(op, _glyphPadding);
+  set glyphPadding(int value) => _glyphPadding = _glyphPaddingF.writeIf(op, value);
 
   TextureD _texture;
   /// Texture atlas containing the glyphs
-  TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
-  set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
+  TextureD get texture => _texture = _textureF.readOr(op, _texture);
+  set texture(TextureD value) => _texture = _textureF.writeIf(op, value);
 
   late final StructLiveListStruct<RectangleD> _recs;
   /// Rectangles in texture for the glyphs
@@ -97,8 +97,8 @@ class FontD extends RaylibStruct<FontD> {
     _glyphPadding = glyphPadding,
     _texture = texture ?? .new()
   {
-    _recs = _recsF.live(() => op?.ptr, recs ?? []);
-    _glyphs = _glyphsF.live(() => op?.ptr, glyphs ?? []);
+    _recs = _recsF.live(() => op, recs ?? []);
+    _glyphs = _glyphsF.live(() => op, glyphs ?? []);
   }
 
   factory FontD.zero() => .new();
@@ -115,7 +115,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     if (recs.inner.isNotEmpty) {
       _recsF.allocate(temp, p, '${key}_recs', count: _recs.inner.length, raw: true);
     }
@@ -125,7 +125,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _baseSizeF.write(p, _baseSize);
     _glyphCountF.write(p, _glyphCount);
     _glyphPaddingF.write(p, _glyphPadding);
@@ -135,7 +135,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _baseSize = _baseSizeF.read(p);
     _glyphCount = _glyphCountF.read(p);
     _glyphPadding = _glyphPaddingF.read(p);

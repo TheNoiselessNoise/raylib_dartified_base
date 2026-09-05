@@ -39,7 +39,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
+  static StructPointer<VrStereoConfigD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, VrStereoConfigD.new, VrStereoConfigD.pointer);
 
   static final _projectionF = struct.structArray(.projection, MatrixD.pointer);
@@ -124,14 +124,14 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     List<double>? scale,
     List<double>? scaleIn,
   }) {
-    _projection = _projectionF.live(() => op?.ptr, projection ?? .generate(_projectionF.codec.type.count, (_) => .zero()));
-    _viewOffset = _viewOffsetF.live(() => op?.ptr, viewOffset ?? .generate(_viewOffsetF.codec.type.count, (_) => .zero()));
-    _leftLensCenter = _leftLensCenterF.live(() => op?.ptr, leftLensCenter ?? .filled(_leftLensCenterF.codec.type.count, 0));
-    _rightLensCenter = _rightLensCenterF.live(() => op?.ptr, rightLensCenter ?? .filled(_rightLensCenterF.codec.type.count, 0));
-    _leftScreenCenter = _leftScreenCenterF.live(() => op?.ptr, leftScreenCenter ?? .filled(_leftScreenCenterF.codec.type.count, 0));
-    _rightScreenCenter = _rightScreenCenterF.live(() => op?.ptr, rightScreenCenter ?? .filled(_rightScreenCenterF.codec.type.count, 0));
-    _scale = _scaleF.live(() => op?.ptr, scale ?? .filled(_scaleF.codec.type.count, 0));
-    _scaleIn = _scaleInF.live(() => op?.ptr, scaleIn ?? .filled(_scaleInF.codec.type.count, 0));
+    _projection = _projectionF.live(() => op, projection ?? .generate(_projectionF.codec.type.count, (_) => .zero()));
+    _viewOffset = _viewOffsetF.live(() => op, viewOffset ?? .generate(_viewOffsetF.codec.type.count, (_) => .zero()));
+    _leftLensCenter = _leftLensCenterF.live(() => op, leftLensCenter ?? .filled(_leftLensCenterF.codec.type.count, 0));
+    _rightLensCenter = _rightLensCenterF.live(() => op, rightLensCenter ?? .filled(_rightLensCenterF.codec.type.count, 0));
+    _leftScreenCenter = _leftScreenCenterF.live(() => op, leftScreenCenter ?? .filled(_leftScreenCenterF.codec.type.count, 0));
+    _rightScreenCenter = _rightScreenCenterF.live(() => op, rightScreenCenter ?? .filled(_rightScreenCenterF.codec.type.count, 0));
+    _scale = _scaleF.live(() => op, scale ?? .filled(_scaleF.codec.type.count, 0));
+    _scaleIn = _scaleInF.live(() => op, scaleIn ?? .filled(_scaleInF.codec.type.count, 0));
   }
 
   factory VrStereoConfigD.zero() => .new();
@@ -150,7 +150,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _projection.writeInto(p);
     _viewOffset.writeInto(p);
     _leftLensCenter.writeInto(p);
@@ -162,7 +162,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _projection.readFrom(p);
     _viewOffset.readFrom(p);
     _leftLensCenter.readFrom(p);

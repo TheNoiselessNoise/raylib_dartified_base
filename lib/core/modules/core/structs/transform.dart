@@ -29,7 +29,7 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<TransformD> pointer(MemoryPointer? ptr)
+  static StructPointer<TransformD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, TransformD.new, TransformD.pointer);
 
   static final _translationF = struct.struct(.translation, Vector3D.pointer);
@@ -46,18 +46,18 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   Vector3D _translation;
   /// Translation
-  Vector3D get translation => _translation = _translationF.readOr(op?.ptr, _translation);
-  set translation(Vector3D value) => _translation = _translationF.writeIf(op?.ptr, value);
+  Vector3D get translation => _translation = _translationF.readOr(op, _translation);
+  set translation(Vector3D value) => _translation = _translationF.writeIf(op, value);
 
   QuaternionD _rotation;
   /// Rotation
-  QuaternionD get rotation => _rotation = _rotationF.readOr(op?.ptr, _rotation);
-  set rotation(QuaternionD value) => _rotation = _rotationF.writeIf(op?.ptr, value);
+  QuaternionD get rotation => _rotation = _rotationF.readOr(op, _rotation);
+  set rotation(QuaternionD value) => _rotation = _rotationF.writeIf(op, value);
 
   Vector3D _scale;
   /// Scale
-  Vector3D get scale => _scale = _scaleF.readOr(op?.ptr, _scale);
-  set scale(Vector3D value) => _scale = _scaleF.writeIf(op?.ptr, value);
+  Vector3D get scale => _scale = _scaleF.readOr(op, _scale);
+  set scale(Vector3D value) => _scale = _scaleF.writeIf(op, value);
   
   TransformD({
     super.op,
@@ -80,14 +80,14 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _translationF.write(p, _translation);
     _rotationF.write(p, _rotation);
     _scaleF.write(p, _scale);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _translation = _translationF.read(p);
     _rotation = _rotationF.read(p);
     _scale = _scaleF.read(p);

@@ -29,7 +29,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
+  static StructPointer<MaterialD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, MaterialD.new, MaterialD.pointer);
 
   static final _shaderF = struct.struct(.shader, ShaderD.pointer);
@@ -66,8 +66,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   ShaderD _shader;
   /// Material shader
-  ShaderD get shader => _shader = _shaderF.readOr(op?.ptr, _shader);
-  set shader(ShaderD value) => _shader = _shaderF.writeIf(op?.ptr, value);
+  ShaderD get shader => _shader = _shaderF.readOr(op, _shader);
+  set shader(ShaderD value) => _shader = _shaderF.writeIf(op, value);
 
   late final StructLiveListStruct<MaterialMapD> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
@@ -87,8 +87,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = _mapsF.live(() => op?.ptr, .generate(BASE_mapsCount, (_) => .zero()));
-    _params = _paramsF.live(() => op?.ptr, .filled(_paramsF.codec.type.count, 0));
+    _maps = _mapsF.live(() => op, .generate(BASE_mapsCount, (_) => .zero()));
+    _params = _paramsF.live(() => op, .filled(_paramsF.codec.type.count, 0));
   }
 
   factory MaterialD.zero() => .new();
@@ -102,19 +102,19 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     _mapsF.allocate(temp, p, '${key}_maps', count: BASE_mapsCount);
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _shaderF.write(p, _shader);
     _maps.writeInto(p);
     _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _shader = _shaderF.read(p);
     _maps.readFrom(p, count: mapsCount);
     _params.readFrom(p);

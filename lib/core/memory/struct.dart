@@ -4,7 +4,7 @@ typedef StructFactory<D extends RaylibStruct<D>> = D Function({
   StructPointer<D>? op,
 });
 
-typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointer?);
+typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointerHandle?);
 
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
 /// tracking its current slot key, tag, disposal status, and stable identity
@@ -365,6 +365,8 @@ final class StructLayout<F extends StructFields> {
 /// Backend-agnostic base for Raylib struct mirror objects that are backed by
 /// native memory, adding [op] ownership tracking on top.
 abstract class RaylibStruct<D extends RaylibStruct<D>> {
+  D get _self => this as D;
+
   /// The C-owned or RaylibTemp-owned typed pointer for this struct, if any.
   StructPointer<D>? op;
 
@@ -380,11 +382,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   // === MUST IMPLEMENT PER-TYPE ===
 
   /// Copies the fields of [o] into this instance and returns `this`.
-  D setDart(D o) => this as D;
+  D setDart(D o) => _self;
 
-  void structWriteInto(MemoryPointer p);
+  /// Allocates nested pointers into [temp] under [key] as needed.
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {}
+
+  void structWriteInto(MemoryPointerHandle p);
   
-  void structReadFrom(MemoryPointer p);
+  void structReadFrom(MemoryPointerHandle p);
 
   /// Returns a deep copy of this instance, preserving [op] if present.
   D clone();
@@ -398,7 +403,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   @nonVirtual
   D structSetTag(String newTag) {
     $state.tag = newTag;
-    return this as D;
+    return _self;
   }
 
   /// Whether [structMarkDisposed] has been called on this instance.
@@ -470,19 +475,16 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     return clone;
   }
 
-  /// Allocates nested pointers into [temp] under [key] as needed.
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {}
-
   /// Syncs all fields from the memory. Requires [op].
-  void structSyncFromMemory() => structReadFrom(getOp().ptr);
+  void structSyncFromMemory() => structReadFrom(getOp());
   
   /// Syncs all fields to the memory. Requires [op].
-  void structSyncToMemory() => structWriteInto(getOp().ptr);
+  void structSyncToMemory() => structWriteInto(getOp());
 
   /// [StructLayout] of this object.
   StructLayout get structLayout;
 
-  void _canonicalizeFloats(MemoryPointer p) {
+  void _canonicalizeFloats(MemoryPointerHandle p) {
     for (final f in structLayout.floatFields) {
       switch (f.size) {
         case 4:
@@ -502,14 +504,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     if (identical(this, other)) return true;
     if (other is! D) return false;
 
-    MemoryPointer? srcPtr = op?.ptr;
+    MemoryPointerHandle? srcPtr = op;
     if (srcPtr == null) {
       srcPtr = MemoryPointer.scratch(0);
       structWriteInto(srcPtr);
       _canonicalizeFloats(srcPtr);
     }
 
-    MemoryPointer? dstPtr = other.op?.ptr;
+    MemoryPointerHandle? dstPtr = other.op;
     if (dstPtr == null) {
       dstPtr = MemoryPointer.scratch(1);
       other.structWriteInto(dstPtr);
@@ -527,8 +529,8 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
     // If memory-backed, hash native memory directly
     if (op != null) {
-      _canonicalizeFloats(op.ptr);
-      return op.ptr.computeByteHash(structLayout.byteSize);
+      _canonicalizeFloats(op);
+      return op.computeByteHash(structLayout.byteSize);
     }
 
     // If unbacked, serialize and hash the bytes
@@ -566,10 +568,10 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
-  void structWriteInto(MemoryPointer p) {} // NOTE: do nothing
+  void structWriteInto(MemoryPointerHandle p) {} // NOTE: do nothing
 
   @override
-  void structReadFrom(MemoryPointer p) {} // NOTE: do nothing
+  void structReadFrom(MemoryPointerHandle p) {} // NOTE: do nothing
 
   @override
   D copy() => clone();

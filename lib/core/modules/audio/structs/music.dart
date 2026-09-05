@@ -33,7 +33,7 @@ class MusicD extends RaylibStruct<MusicD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MusicD> pointer(MemoryPointer? ptr)
+  static StructPointer<MusicD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
 
   static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
@@ -52,28 +52,28 @@ class MusicD extends RaylibStruct<MusicD> {
 
   AudioStreamD _stream;
   /// Audio stream
-  AudioStreamD get stream => _stream = _streamF.readOr(op?.ptr, _stream);
-  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op?.ptr, value);
+  AudioStreamD get stream => _stream = _streamF.readOr(op, _stream);
+  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
-  int get frameCount => _frameCount = _frameCountF.readOr(op?.ptr, _frameCount);
-  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op?.ptr, value);
+  int get frameCount => _frameCount = _frameCountF.readOr(op, _frameCount);
+  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op, value);
 
   bool _looping;
   /// Music looping enable
-  bool get looping => _looping = _loopingF.readOr(op?.ptr, _looping);
-  set looping(bool value) => _looping = _loopingF.writeIf(op?.ptr, value);
+  bool get looping => _looping = _loopingF.readOr(op, _looping);
+  set looping(bool value) => _looping = _loopingF.writeIf(op, value);
 
   MusicContextType _ctxType;
   /// Type of music context (audio filetype)
-  MusicContextType get ctxType => _ctxType = _ctxTypeF.readOr(op?.ptr, _ctxType);
-  set ctxType(MusicContextType value) => _ctxType = _ctxTypeF.writeIf(op?.ptr, value);
+  MusicContextType get ctxType => _ctxType = _ctxTypeF.readOr(op, _ctxType);
+  set ctxType(MusicContextType value) => _ctxType = _ctxTypeF.writeIf(op, value);
 
   /// Audio context data, depends on type
   /// 
   /// `void *ctxData;`
-  late final LivePointerSync<RVoid> _ctxData = _ctxDataF.live(() => op?.ptr);
+  late final LivePointerSync<RVoid> _ctxData = _ctxDataF.live(() => op);
   MemoryPointer<RVoid> get ctxData => _ctxData.derefPtr();
 
   MusicD({
@@ -95,12 +95,12 @@ class MusicD extends RaylibStruct<MusicD> {
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
     _ctxDataF.allocate(temp, p, '${key}_ctxData');
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _streamF.write(p, _stream);
     _frameCountF.write(p, _frameCount);
     _loopingF.write(p, _looping);
@@ -109,7 +109,7 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _stream = _streamF.read(p);
     _frameCount = _frameCountF.read(p);
     _looping = _loopingF.read(p);

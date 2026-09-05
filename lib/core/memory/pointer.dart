@@ -30,10 +30,10 @@ sealed class RType {
   int get alignment => byteSize;
 
   /// Read this [RType] from a [p] at given [offset].
-  V? read<V>(MemoryPointer p, int offset);
+  V? read<V>(MemoryPointerHandle p, int offset);
 
   /// Write a [value] of [RType] into a [p] at given [offset].
-  void write<V>(MemoryPointer p, int offset, V? value);
+  void write<V>(MemoryPointerHandle p, int offset, V? value);
 }
 
 /// Marker type for any int-like [RType]s.
@@ -58,11 +58,11 @@ final class RArray<E extends RType> extends RType {
   int get alignment => element.alignment;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => throw UnsupportedError('$this is not directly readable. Use appropriate field, not `StructField`.');
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => throw UnsupportedError('$this is not directly writable. Use appropriate field, not `StructField`.');
 }
 
@@ -74,11 +74,11 @@ final class RFunction<F> extends RType {
   int get byteSize => throw UnsupportedError('$this does not have a known size');
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => throw UnsupportedError('$this is not readable');
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => throw UnsupportedError('$this is not writable');
 }
 
@@ -90,11 +90,11 @@ final class ROpaque extends RType with RTypeUnknownLike {
   int get byteSize => throw UnsupportedError('$this does not have a known size');
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => throw UnsupportedError('$this is not readable');
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => throw UnsupportedError('$this is not writable');
 }
 
@@ -106,11 +106,11 @@ final class RVoid extends RType with RTypeUnknownLike {
   int get byteSize => throw UnsupportedError('$this does not have a known size');
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => throw UnsupportedError('$this is not readable');
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => throw UnsupportedError('$this is not writable');
 }
 
@@ -128,12 +128,12 @@ final class RPointer<X extends RType> extends RType {
   int get byteSize => RType.nativeWordSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readPtr(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
-    => p.writePtr(value as MemoryPointer?, offset);
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
+    => p.writePtr(value as MemoryPointerHandle?, offset);
 }
 
 /// Unsigned pointer-sized integer. Maps to C `size_t`.
@@ -144,11 +144,11 @@ final class RSize extends RType with RTypeIntLike {
   int get byteSize => RType.nativeWordSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readSize(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeSize(value as int, offset);
 }
 
@@ -162,11 +162,11 @@ final class RBool extends RType {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readBool(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeBool(value as bool, offset);
 }
 
@@ -180,11 +180,11 @@ final class RInt8 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readInt8(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeInt8(value as int, offset);
 }
 
@@ -198,11 +198,11 @@ final class RUint8 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readUnsignedChar(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeUnsignedChar(value as int, offset);
 }
 
@@ -216,11 +216,11 @@ final class RInt16 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readInt16(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeInt16(value as int, offset);
 }
 
@@ -234,11 +234,11 @@ final class RUint16 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readUint16(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeUint16(value as int, offset);
 }
 
@@ -252,11 +252,11 @@ final class RInt32 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readInt32(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeInt32(value as int, offset);
 }
 
@@ -270,11 +270,11 @@ final class RUint32 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readUint32(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeUint32(value as int, offset);
 }
 
@@ -288,11 +288,11 @@ final class RInt64 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readInt64(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeInt64(value as int, offset);
 }
 
@@ -306,11 +306,11 @@ final class RUint64 extends RType with RTypeIntLike {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readUint64(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeUint64(value as int, offset);
 }
 
@@ -324,11 +324,11 @@ final class RFloat32 extends RType {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readFloat32(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeFloat32(value as double, offset);
 }
 
@@ -342,11 +342,11 @@ final class RFloat64 extends RType {
   int get byteSize => scalarByteSize;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => p.readFloat64(offset) as V;
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => p.writeFloat64(value as double, offset);
 }
 
@@ -386,11 +386,11 @@ class RStruct extends RType {
   int get alignment => layout.alignment;
 
   @override
-  V? read<V>(MemoryPointer p, int offset)
+  V? read<V>(MemoryPointerHandle p, int offset)
     => throw UnsupportedError('$this is not directly readable. Use appropriate field, not `StructField`.');
 
   @override
-  void write<V>(MemoryPointer p, int offset, V? value)
+  void write<V>(MemoryPointerHandle p, int offset, V? value)
     => throw UnsupportedError('$this is not directly writable. Use appropriate field, not `StructField`.');
 }
 
@@ -725,25 +725,21 @@ extension MemoryPointerMatrixIO on MemoryPointer<RPointer<RStruct>> {
   List<List<D>> readMatrix<D extends RaylibStruct<D>>(
     int rowCount,
     int rowLength,
-    StructPointer<D> Function(MemoryPointer ptr) factory,
+    StructPointer<D> Function(MemoryPointerHandle ptr) factory,
     {bool owned = false}
   ) {
     final pSize = RType.nativeWordSize;
     return List.generate(rowCount, (i) {
       final rowPtr = factory(readPtr(i * pSize));
-      return rowPtr.ptr.isNull 
+      return rowPtr.isNull 
         ? const []
         : rowPtr.readArray(rowLength, owned: owned);
     });
   }
 }
 
-
-/// Backend-agnostic handle to a raw memory buffer returned by a C function.
-abstract class MemoryPointer<X extends RType> {
-  /// Provides more information on double-frees or reads/writes on an invalid pointer.
-  static bool debug = false;
-
+abstract interface class MemoryPointerHandle {
+  /// Check if the pointer is a `nullptr`.
   bool get isNull;
 
   /// Reinterprets this pointer as pointing to [Y] instead of [X].
@@ -786,14 +782,14 @@ abstract class MemoryPointer<X extends RType> {
   }
 
   /// Bulk-copies [length] bytes from [src] into this pointer.
-  void copyBytesFrom(MemoryPointer src, int length, {int destOffset = 0, int srcOffset = 0}) {
+  void copyBytesFrom(MemoryPointerHandle src, int length, {int destOffset = 0, int srcOffset = 0}) {
     offsetBy(destOffset)
       .asView<Uint8List>(length)
       .setRange(0, length, src.offsetBy(srcOffset).asView<Uint8List>(length));
   }
 
   /// memcmp-style comparison of [length] bytes.
-  int compareBytes(MemoryPointer other, int length, {int offset = 0, int otherOffset = 0}) {
+  int compareBytes(MemoryPointerHandle other, int length, {int offset = 0, int otherOffset = 0}) {
     final a = offsetBy(offset).asView<Uint8List>(length);
     final b = other.offsetBy(otherOffset).asView<Uint8List>(length);
     for (int i = 0; i < length; i++) {
@@ -801,81 +797,6 @@ abstract class MemoryPointer<X extends RType> {
       if (diff != 0) return diff;
     }
     return 0;
-  }
-
-  static MemoryPointer<RVoid> _defaultFromBytes<T extends TypedDataList>(T data) {
-    throw StateError(
-      'MemoryPointer.fromBytes called before a memory backend was initialized.'
-    );
-  }
-
-  /// Allocates a new pointer and writes [data] into it.
-  /// 
-  /// Caller owns the result and must free() it.
-  static MemoryPointer<RVoid> Function<T extends TypedDataList>(T data) fromBytes = _defaultFromBytes;
-
-  /// Allocates a new NUL-terminated UTF-8 C string from [text] and
-  /// returns a pointer to it.
-  /// 
-  /// Caller owns the result and must free() it.
-  static MemoryPointer<RUint8> Function(String text, [int? bufferSize]) fromString = (text, [bufferSize]) {
-    throw StateError(
-      'MemoryPointer.fromString called before a memory backend was initialized.'
-    );
-  };
-
-  static MemoryPointer<Y> _defaultNullptrFactory<Y extends RType>() {
-    throw StateError(
-      'MemoryPointer.nullptrFactory called before a memory backend was initialized.'
-    );
-  }
-
-  /// Constructs a nullptr.
-  static MemoryPointer<Y> Function<Y extends RType>() nullptrFactory = _defaultNullptrFactory;
-
-  /// Constructs a nullptr.
-  static MemoryPointer<RVoid> get nullptr => nullptrFactory();
-
-  static MemoryPointer<Y> _defaultMalloc<Y extends RType>(int size) {
-    throw StateError(
-      'MemoryPointer.malloc called before a memory backend was initialized.'
-    );
-  }
-
-  /// Allocates a memory of given [size].
-  static MemoryPointer<Y> Function<Y extends RType>(int size) malloc = _defaultMalloc;
-
-  static MemoryPointer<Y> _defaultCalloc<Y extends RType>(int nmemb, int size) {
-    throw StateError(
-      'MemoryPointer.calloc called before a memory backend was initialized.'
-    );
-  }
-
-  /// Allocates a memory of given `nmemb * size` and zero initializes it.
-  static MemoryPointer<Y> Function<Y extends RType>(int nmemb, int size) calloc = _defaultCalloc;
-
-  static final List<MemoryPointer> _scratchBuffers = [];
-
-  /// Called automatically at [RaylibBase.boot] (backend has initialized).
-  static void _initializeScratchBuffers() {
-    if (_scratchBuffers.isNotEmpty) _freeScratchBuffers();
-    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
-    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
-  }
-
-  /// Called automatically at [RaylibBase.dispose].
-  static void _freeScratchBuffers() {
-    _scratchBuffers.forEach((s) => s.free());
-    _scratchBuffers.clear();
-  }
-
-  /// Returns a static thread-local scratch buffer for short-lived operations.
-  /// Standard slots: 0 and 1 (used for binary operations like equality).
-  static MemoryPointer<Y> scratch<Y extends RType>(int slot) {
-    if (slot < 0 || slot >= _scratchBuffers.length) {
-      throw StateError('MemoryPointer invalid scratch buffer index $slot.');
-    }
-    return _scratchBuffers[slot].cast();
   }
 
   /// Hashes the bytes until [byteSize].
@@ -898,7 +819,7 @@ abstract class MemoryPointer<X extends RType> {
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]);
 
   /// Writes a pointer at given `address + byteOffset`.
-  void writePtr(MemoryPointer? value, [int byteOffset = 0]);
+  void writePtr(MemoryPointerHandle? value, [int byteOffset = 0]);
 
   /// Reads a value of type [RSize] at given `address + byteOffset`.
   int readSize([int byteOffset = 0]);
@@ -1051,13 +972,88 @@ abstract class MemoryPointer<X extends RType> {
     => offsetBy(byteOffset).cast<RInt32>().writeString(text, maxLength);
 }
 
+/// Backend-agnostic handle to a raw memory buffer returned by a C function.
+abstract class MemoryPointer<X extends RType> extends MemoryPointerHandle {
+  /// Provides more information on double-frees or reads/writes on an invalid pointer.
+  static bool debug = false;
+
+  static MemoryPointer<RVoid> _defaultFromBytes<T extends TypedDataList>(T data) {
+    throw StateError(
+      'MemoryPointer.fromBytes called before a memory backend was initialized.'
+    );
+  }
+
+  /// Allocates a new pointer and writes [data] into it.
+  /// 
+  /// Caller owns the result and must free() it.
+  static MemoryPointer<RVoid> Function<T extends TypedDataList>(T data) fromBytes = _defaultFromBytes;
+
+  /// Allocates a new NUL-terminated UTF-8 C string from [text] and
+  /// returns a pointer to it.
+  /// 
+  /// Caller owns the result and must free() it.
+  static MemoryPointer<RUint8> Function(String text, [int? bufferSize]) fromString = (text, [bufferSize]) {
+    throw StateError(
+      'MemoryPointer.fromString called before a memory backend was initialized.'
+    );
+  };
+
+  static MemoryPointer<Y> _defaultNullptrFactory<Y extends RType>() {
+    throw StateError(
+      'MemoryPointer.nullptr called before a memory backend was initialized.'
+    );
+  }
+
+  /// Constructs a nullptr.
+  static MemoryPointer<Y> Function<Y extends RType>() nullptr = _defaultNullptrFactory;
+
+  static MemoryPointer<Y> _defaultMalloc<Y extends RType>(int size) {
+    throw StateError(
+      'MemoryPointer.malloc called before a memory backend was initialized.'
+    );
+  }
+
+  /// Allocates a memory of given [size].
+  static MemoryPointer<Y> Function<Y extends RType>(int size) malloc = _defaultMalloc;
+
+  static MemoryPointer<Y> _defaultCalloc<Y extends RType>(int nmemb, int size) {
+    throw StateError(
+      'MemoryPointer.calloc called before a memory backend was initialized.'
+    );
+  }
+
+  /// Allocates a memory of given `nmemb * size` and zero initializes it.
+  static MemoryPointer<Y> Function<Y extends RType>(int nmemb, int size) calloc = _defaultCalloc;
+
+  static final List<MemoryPointer> _scratchBuffers = [];
+
+  /// Called automatically at [RaylibBase.boot] (backend has initialized).
+  static void _initializeScratchBuffers() {
+    if (_scratchBuffers.isNotEmpty) _freeScratchBuffers();
+    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
+    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
+  }
+
+  /// Called automatically at [RaylibBase.dispose].
+  static void _freeScratchBuffers() {
+    _scratchBuffers.forEach((s) => s.free());
+    _scratchBuffers.clear();
+  }
+
+  /// Returns a static thread-local scratch buffer for short-lived operations.
+  /// Standard slots: 0 and 1 (used for binary operations like equality).
+  static MemoryPointer<Y> scratch<Y extends RType>(int slot) {
+    if (slot < 0 || slot >= _scratchBuffers.length) {
+      throw StateError('MemoryPointer invalid scratch buffer index $slot.');
+    }
+    return _scratchBuffers[slot].cast();
+  }
+}
+
 /// A `MemoryPointer<RStruct>` that also knows its element type D, so it can
-/// offer .value/[]/[]= the same way scalar RType extensions do. Structs
-/// can't get this for free via `on MemoryPointer<RStruct>` because RStruct
-/// itself doesn't encode which struct type it is, this wrapper supplies
-/// that missing piece once, explicitly.
-final class StructPointer<D extends RaylibStruct<D>> {
-  MemoryPointer<RStruct> ptr;
+/// offer .value/[]/[]= the same way scalar RType extensions do.
+final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointerHandle {
+  MemoryPointerHandle ptr;
   final StructLayout struct;
   final StructFactory<D> create;
   final StructPointerFactory<D> pointerFactory;
@@ -1065,49 +1061,37 @@ final class StructPointer<D extends RaylibStruct<D>> {
   StructPointer(this.ptr, this.struct, this.create, this.pointerFactory);
 
   factory StructPointer.nullable(
-    MemoryPointer? ptr,
+    MemoryPointerHandle? ptr,
     StructLayout struct,
     StructFactory<D> create,
     StructPointerFactory<D> pointerFactory,
   ) => .new(
-    (ptr ?? MemoryPointer.nullptr).cast(),
+    ptr ?? MemoryPointer.nullptr(),
     struct,
     create,
     pointerFactory,
   );
 
-  /// See [MemoryPointer.isNull].
-  bool get isNull => ptr.isNull;
-
-  /// See [MemoryPointer.free].
-  void free() => ptr.free();
-
-  /// See [MemoryPointer.address].
-  int get address => ptr.address;
-
-  /// See [MemoryPointer.hex].
-  String get hex => ptr.hex;
-
   late final D _ref = create(op: this)..structSyncFromMemory();
 
   /// Live view, mutations write through immediately.
   D get ref => _ref;
-  
+
   /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
   set ref(D v) => _copyOrWrite(ptr, v);
 
-  void _copyOrWrite(MemoryPointer<RStruct> dst, D v) {
+  void _copyOrWrite(MemoryPointerHandle dst, D v) {
     final src = v.op;
     if (src != null) {
       if (src.address == dst.address) return;
-      dst.copyBytesFrom(src.ptr, struct.byteSize);
+      dst.copyBytesFrom(src, struct.byteSize);
     } else {
       v.structWriteInto(dst);
     }
   }
 
   D _getAtIndex(int i, {bool owned = true}) {
-    final inner = ptr.offsetBy(i * struct.byteSize).cast<RStruct>();
+    final inner = ptr.offsetBy(i * struct.byteSize);
     final value = pointerFactory(inner).ref;
     if (!owned) value.op = null;
     return value;
@@ -1162,177 +1146,196 @@ final class StructPointer<D extends RaylibStruct<D>> {
 
   // MemoryPointer redirection
 
-  /// See [MemoryPointer.cast].
+  @override
+  bool get isNull => ptr.isNull;
+
+  @override
+  void free() => ptr.free();
+
+  @override
+  int get address => ptr.address;
+
+  @override
+  String get hex => ptr.hex;
+
+  @override
   MemoryPointer<Y> cast<Y extends RType>() => ptr.cast();
 
-  /// See [MemoryPointer.to].
+  @override
   T to<T extends TypedDataList>(int length) => ptr.to(length);
 
-  /// See [MemoryPointer.asView].
+  @override
   T asView<T extends TypedDataList>(int length) => ptr.asView(length);
 
-  /// See [MemoryPointer.offsetBy].
+  @override
   MemoryPointer<Y> offsetBy<Y extends RType>(int byteOffset) => ptr.offsetBy(byteOffset);
 
-  /// See [MemoryPointer.fillBytes].
+  @override
+  Uint8List readBytes(int byteOffset, int length) => ptr.readBytes(byteOffset, length);
+
+  @override
   void fillBytes(int value, int length, [int byteOffset = 0])
     => ptr.fillBytes(value, length, byteOffset);
 
-  /// See [MemoryPointer.copyBytesFrom].
-  void copyBytesFrom(StructPointer<D> src, int length, {int destOffset = 0, int srcOffset = 0})
-    => ptr.copyBytesFrom(src.ptr, length, destOffset: destOffset, srcOffset: srcOffset);
+  @override
+  void copyBytesFrom(MemoryPointerHandle src, int length, {int destOffset = 0, int srcOffset = 0})
+    => ptr.copyBytesFrom(src, length, destOffset: destOffset, srcOffset: srcOffset);
 
-  /// See [MemoryPointer.compareBytes].
-  int compareBytes(StructPointer<D> other, int length, {int offset = 0, int otherOffset = 0})
-    => ptr.compareBytes(other.ptr, length, offset: offset, otherOffset: otherOffset);
+  @override
+  int compareBytes(MemoryPointerHandle other, int length, {int offset = 0, int otherOffset = 0})
+    => ptr.compareBytes(other, length, offset: offset, otherOffset: otherOffset);
 
-  /// See [MemoryPointer.readPtr].
+  @override
+  int computeByteHash(int byteSize)
+    => ptr.computeByteHash(byteSize);
+
+  @override
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]) => ptr.readPtr(byteOffset);
 
-  /// See [MemoryPointer.writePtr].
-  void writePtr(MemoryPointer? value, [int byteOffset = 0]) => ptr.writePtr(value, byteOffset);
+  @override
+  void writePtr(MemoryPointerHandle? value, [int byteOffset = 0]) => ptr.writePtr(value, byteOffset);
 
-  /// See [MemoryPointer.readSize].
+  @override
   int readSize([int byteOffset = 0]) => ptr.readSize(byteOffset);
 
-  /// See [MemoryPointer.readBool].
+  @override
   bool readBool([int byteOffset = 0]) => ptr.readBool(byteOffset);
 
-  /// See [MemoryPointer.readInt8].
+  @override
   int readInt8([int byteOffset = 0]) => ptr.readInt8(byteOffset);
 
-  /// See [MemoryPointer.readUint8].
+  @override
   int readUint8([int byteOffset = 0]) => ptr.readUint8(byteOffset);
   
-  /// See [MemoryPointer.readInt16].
+  @override
   int readInt16([int byteOffset = 0]) => ptr.readInt16(byteOffset);
   
-  /// See [MemoryPointer.readUint16].
+  @override
   int readUint16([int byteOffset = 0]) => ptr.readUint16(byteOffset);
   
-  /// See [MemoryPointer.readInt32].
+  @override
   int readInt32([int byteOffset = 0]) => ptr.readInt32(byteOffset);
   
-  /// See [MemoryPointer.readUint32].
+  @override
   int readUint32([int byteOffset = 0]) => ptr.readUint32(byteOffset);
   
-  /// See [MemoryPointer.readInt64].
+  @override
   int readInt64([int byteOffset = 0]) => ptr.readInt64(byteOffset);
   
-  /// See [MemoryPointer.readUint64].
+  @override
   int readUint64([int byteOffset = 0]) => ptr.readUint64(byteOffset);
   
-  /// See [MemoryPointer.readFloat32].
+  @override
   double readFloat32([int byteOffset = 0]) => ptr.readFloat32(byteOffset);
   
-  /// See [MemoryPointer.readFloat64].
+  @override
   double readFloat64([int byteOffset = 0]) => ptr.readFloat64(byteOffset);
 
-  /// See [MemoryPointer.readChar].
+  @override
   int readChar([int byteOffset = 0]) => ptr.readChar(byteOffset);
 
-  /// See [MemoryPointer.readUnsignedChar].
+  @override
   int readUnsignedChar([int byteOffset = 0]) => ptr.readUnsignedChar(byteOffset);
 
-  /// See [MemoryPointer.readShort].
+  @override
   int readShort([int byteOffset = 0]) => ptr.readShort(byteOffset);
 
-  /// See [MemoryPointer.readUnsignedShort].
+  @override
   int readUnsignedShort([int byteOffset = 0]) => ptr.readUnsignedShort(byteOffset);
 
-  /// See [MemoryPointer.readInt].
+  @override
   int readInt([int byteOffset = 0]) => ptr.readInt(byteOffset);
 
-  /// See [MemoryPointer.readUnsignedInt].
+  @override
   int readUnsignedInt([int byteOffset = 0]) => ptr.readUnsignedInt(byteOffset);
 
-  /// See [MemoryPointer.readFloat].
+  @override
   double readFloat([int byteOffset = 0]) => ptr.readFloat(byteOffset);
 
-  /// See [MemoryPointer.readDouble].
+  @override
   double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
 
-  /// See [MemoryPointer.readStringUTF8].
+  @override
   String readStringUTF8([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF8(maxLength, byteOffset);
 
-  /// See [MemoryPointer.readStringUTF16].
+  @override
   String readStringUTF16([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF16(maxLength, byteOffset);
 
-  /// See [MemoryPointer.readStringUTF32].
+  @override
   String readStringUTF32([int? maxLength, int byteOffset = 0])
     => ptr.readStringUTF32(maxLength, byteOffset);
 
-  /// See [MemoryPointer.writeSize].
+  @override
   void writeSize(int value, [int byteOffset = 0]) => ptr.writeSize(value, byteOffset);
 
-  /// See [MemoryPointer.writeBool].
+  @override
   void writeBool(bool value, [int byteOffset = 0]) => ptr.writeBool(value, byteOffset);
 
-  /// See [MemoryPointer.writeInt8].
+  @override
   void writeInt8(int value, [int byteOffset = 0]) => ptr.writeInt8(value, byteOffset);
   
-  /// See [MemoryPointer.writeUint8].
+  @override
   void writeUint8(int value, [int byteOffset = 0]) => ptr.writeUint8(value, byteOffset);
   
-  /// See [MemoryPointer.writeInt16].
+  @override
   void writeInt16(int value, [int byteOffset = 0]) => ptr.writeInt16(value, byteOffset);
   
-  /// See [MemoryPointer.writeUint16].
+  @override
   void writeUint16(int value, [int byteOffset = 0]) => ptr.writeUint16(value, byteOffset);
   
-  /// See [MemoryPointer.writeInt32].
+  @override
   void writeInt32(int value, [int byteOffset = 0]) => ptr.writeInt32(value, byteOffset);
   
-  /// See [MemoryPointer.writeUint32].
+  @override
   void writeUint32(int value, [int byteOffset = 0]) => ptr.writeUint32(value, byteOffset);
   
-  /// See [MemoryPointer.writeInt64].
+  @override
   void writeInt64(int value, [int byteOffset = 0]) => ptr.writeInt64(value, byteOffset);
   
-  /// See [MemoryPointer.writeUint64].
+  @override
   void writeUint64(int value, [int byteOffset = 0]) => ptr.writeUint64(value, byteOffset);
   
-  /// See [MemoryPointer.writeFloat32].
+  @override
   void writeFloat32(double value, [int byteOffset = 0]) => ptr.writeFloat32(value, byteOffset);
   
-  /// See [MemoryPointer.writeFloat64].
+  @override
   void writeFloat64(double value, [int byteOffset = 0]) => ptr.writeFloat64(value, byteOffset);
 
-  /// See [MemoryPointer.writeChar].
+  @override
   void writeChar(int value, [int byteOffset = 0]) => ptr.writeChar(value, byteOffset);
 
-  /// See [MemoryPointer.writeUnsignedChar].
+  @override
   void writeUnsignedChar(int value, [int byteOffset = 0]) => ptr.writeUnsignedChar(value, byteOffset);
 
-  /// See [MemoryPointer.writeShort].
+  @override
   void writeShort(int value, [int byteOffset = 0]) => ptr.writeShort(value, byteOffset);
 
-  /// See [MemoryPointer.writeUnsignedShort].
+  @override
   void writeUnsignedShort(int value, [int byteOffset = 0]) => ptr.writeUnsignedShort(value, byteOffset);
 
-  /// See [MemoryPointer.writeInt].
+  @override
   void writeInt(int value, [int byteOffset = 0]) => ptr.writeInt(value, byteOffset);
 
-  /// See [MemoryPointer.writeUnsignedInt].
+  @override
   void writeUnsignedInt(int value, [int byteOffset = 0]) => ptr.writeUnsignedInt(value, byteOffset);
 
-  /// See [MemoryPointer.writeFloat].
+  @override
   void writeFloat(double value, [int byteOffset = 0]) => ptr.writeFloat(value, byteOffset);
 
-  /// See [MemoryPointer.writeDouble].
+  @override
   void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
 
-  /// See [MemoryPointer.writeStringUTF8].
+  @override
   void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF8(text, maxLength, byteOffset);
 
-  /// See [MemoryPointer.writeStringUTF16].
+  @override
   void writeStringUTF16(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF16(text, maxLength, byteOffset);
 
-  /// See [MemoryPointer.writeStringUTF32].
+  @override
   void writeStringUTF32(String text, [int? maxLength, int byteOffset = 0])
     => ptr.writeStringUTF32(text, maxLength, byteOffset);
 }

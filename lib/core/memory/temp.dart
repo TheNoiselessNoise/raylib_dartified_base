@@ -5,35 +5,35 @@ class RaylibTempUtils {
 
   RaylibTempUtils(this.temp);
 
-  MemoryPointer<RVoid> realloc(MemoryPointer<RVoid> oldPtr, int oldSize, int newSize) {
+  MemoryPointer<RVoid> realloc(MemoryPointerHandle oldPtr, int oldSize, int newSize) {
     final newPtr = MemoryPointer.malloc<RVoid>(newSize);
     newPtr.copyBytesFrom(oldPtr, oldSize < newSize ? oldSize : newSize);
     oldPtr.free();
     return newPtr;
   }
 
-  void memset(MemoryPointer<RVoid> ptr, int value, int size)
+  void memset(MemoryPointerHandle ptr, int value, int size)
     => ptr.fillBytes(value, size);
 
-  void memcpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n)
+  void memcpy(MemoryPointerHandle dest, MemoryPointerHandle src, int n)
     => dest.copyBytesFrom(src, n);
 
-  int memcmp(MemoryPointer<RVoid> a, MemoryPointer<RVoid> b, int n)
+  int memcmp(MemoryPointerHandle a, MemoryPointerHandle b, int n)
     => a.compareBytes(b, n);
 
-  int strlen(MemoryPointer<RVoid> ptr) {
+  int strlen(MemoryPointerHandle ptr) {
     var i = 0;
     while (ptr.readUint8(i) != 0) i++;
     return i;
   }
 
-  int strnlen(MemoryPointer<RVoid> ptr, int maxLen) {
+  int strnlen(MemoryPointerHandle ptr, int maxLen) {
     var i = 0;
     while (i < maxLen && ptr.readUint8(i) != 0) i++;
     return i;
   }
 
-  int strcmp(MemoryPointer<RVoid> a, MemoryPointer<RVoid> b) {
+  int strcmp(MemoryPointerHandle a, MemoryPointerHandle b) {
     var i = 0;
     while (true) {
       final ca = a.readUint8(i), cb = b.readUint8(i);
@@ -43,26 +43,26 @@ class RaylibTempUtils {
     }
   }
 
-  void strcpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src)
+  void strcpy(MemoryPointerHandle dest, MemoryPointerHandle src)
     => dest.copyBytesFrom(src, strlen(src) + 1); // include NUL
 
-  void strncpy(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n) {
+  void strncpy(MemoryPointerHandle dest, MemoryPointerHandle src, int n) {
     final srcLen = strlen(src);
     final copyLen = srcLen < n ? srcLen + 1 : n; // include NUL only if it fits
     dest.copyBytesFrom(src, copyLen);
     if (copyLen < n) dest.fillBytes(0, n - copyLen, copyLen); // pad rest with NUL
   }
 
-  void strncat(MemoryPointer<RVoid> dest, MemoryPointer<RVoid> src, int n) {
+  void strncat(MemoryPointerHandle dest, MemoryPointerHandle src, int n) {
     final destLen = strlen(dest);
     final copyLen = strlen(src).clamp(0, n);
     dest.copyBytesFrom(src, copyLen, destOffset: destLen);
     dest.offsetBy(destLen + copyLen).fillBytes(0, 1); // terminator
   }
 
-  MemoryPointer<RVoid> strstr(MemoryPointer<RVoid> haystack, MemoryPointer<RVoid> needle) {
+  MemoryPointer<RVoid> strstr(MemoryPointerHandle haystack, MemoryPointerHandle needle) {
     final needleLen = strlen(needle);
-    if (needleLen == 0) return haystack;
+    if (needleLen == 0) return haystack.cast();
     var i = 0;
     while (haystack.readUint8(i) != 0) {
       var j = 0;
@@ -70,7 +70,7 @@ class RaylibTempUtils {
       if (j == needleLen) return haystack.offsetBy(i);
       i++;
     }
-    return MemoryPointer.nullptr;
+    return MemoryPointer.nullptr();
   }
 }
 

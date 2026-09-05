@@ -31,7 +31,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ColorD> pointer(MemoryPointer? ptr)
+  static StructPointer<ColorD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, ColorD.new, ColorD.pointer);
 
   static final _rF = struct.scalar<int, RUnsignedChar>(.r);
@@ -51,29 +51,29 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   /// Color red value
   ///
   /// Expected range: 0-255
-  int get r => _r = _rF.readOr(op?.ptr, _r);
-  set r(int value) => _r = _rF.writeIf(op?.ptr, value);
+  int get r => _r = _rF.readOr(op, _r);
+  set r(int value) => _r = _rF.writeIf(op, value);
   
   int _g;
   /// Color green value
   ///
   /// Expected range: 0-255
-  int get g => _g = _gF.readOr(op?.ptr, _g);
-  set g(int value) => _g = _gF.writeIf(op?.ptr, value);
+  int get g => _g = _gF.readOr(op, _g);
+  set g(int value) => _g = _gF.writeIf(op, value);
   
   int _b;
   /// Color blue value
   ///
   /// Expected range: 0-255
-  int get b => _b = _bF.readOr(op?.ptr, _b);
-  set b(int value) => _b = _bF.writeIf(op?.ptr, value);
+  int get b => _b = _bF.readOr(op, _b);
+  set b(int value) => _b = _bF.writeIf(op, value);
   
   int _a;
   /// Color alpha value
   ///
   /// Expected range: 0-255
-  int get a => _a = _aF.readOr(op?.ptr, _a);
-  set a(int value) => _a = _aF.writeIf(op?.ptr, value);
+  int get a => _a = _aF.readOr(op, _a);
+  set a(int value) => _a = _aF.writeIf(op, value);
 
   ColorD({
     super.op,
@@ -105,7 +105,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ColorD setDart(ColorD o) => set(o.r, o.g, o.b, o.a);
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _rF.write(p, _r);
     _gF.write(p, _g);
     _bF.write(p, _b);
@@ -113,7 +113,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _r = _rF.read(p);
     _g = _gF.read(p);
     _b = _bF.read(p);

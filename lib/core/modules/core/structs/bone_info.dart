@@ -27,7 +27,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
+  static StructPointer<BoneInfoD> pointer(MemoryPointerHandle? ptr)
     => .nullable(ptr, struct, BoneInfoD.new, BoneInfoD.pointer);
 
   static final _nameF = struct.stringAsCharArray<RChar>(.name);
@@ -57,13 +57,13 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   String _name;
   /// Bone name
-  String get name => _name = _nameF.readOr(op?.ptr, _name);
-  set name(String value) => _name = _nameF.writeIf(op?.ptr, value);
+  String get name => _name = _nameF.readOr(op, _name);
+  set name(String value) => _name = _nameF.writeIf(op, value);
   
   int _parent;
   /// Bone parent
-  int get parent => _parent = _parentF.readOr(op?.ptr, _parent);
-  set parent(int value) => _parent = _parentF.writeIf(op?.ptr, value);
+  int get parent => _parent = _parentF.readOr(op, _parent);
+  set parent(int value) => _parent = _parentF.writeIf(op, value);
 
   BoneInfoD({
     super.op,
@@ -83,13 +83,13 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointer p) {
+  void structWriteInto(MemoryPointerHandle p) {
     _nameF.write(p, _name);
     _parentF.write(p, _parent);
   }
 
   @override
-  void structReadFrom(MemoryPointer p) {
+  void structReadFrom(MemoryPointerHandle p) {
     _name = _nameF.readBounded(p, BASE_nameLength);
     _parent = _parentF.read(p);
   }
