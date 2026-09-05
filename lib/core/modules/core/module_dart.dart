@@ -2103,11 +2103,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     CameraMode mode,
   ) => run(
     () => _debugLabels.UpdateCamera(camera, mode),
-    () => rl.Temp.Camera3D$.RefUpdate1(camera,
-      (p) => rl.CoreFlat.UpdateCamera(
-        p,
-        mode.value,
-      ),
+    () => rl.CoreFlat.UpdateCamera(
+      rl.Temp.Camera3D$.Ref1(camera),
+      mode.value,
     ),
   );
 
@@ -2119,13 +2117,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num zoom,
   ) => run(
     () => _debugLabels.UpdateCameraPro(camera, movement, rotation, zoom),
-    () => rl.Temp.Camera3D$.RefUpdate1(camera,
-      (p) => rl.CoreFlat.UpdateCameraPro(
-        p,
-        movement,
-        rotation,
-        zoom.toDouble(),
-      ),
+    () => rl.CoreFlat.UpdateCameraPro(
+      rl.Temp.Camera3D$.Ref1(camera),
+      movement,
+      rotation,
+      zoom.toDouble(),
     ),
   );
 
@@ -3604,11 +3600,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     PixelFormat newFormat,
   ) => run(
     () => _debugLabels.ImageFormat(image, newFormat),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageFormat(
-        p,
-        newFormat.value,
-      ),
+    () => rl.CoreFlat.ImageFormat(
+      rl.Temp.Image$.Ref1(image),
+      newFormat.value,
     ),
   );
     
@@ -3618,11 +3612,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD fill,
   ) => run(
     () => _debugLabels.ImageToPOT(image, fill),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageToPOT(
-        p,
-        fill,
-      ),
+    () => rl.CoreFlat.ImageToPOT(
+      rl.Temp.Image$.Ref1(image),
+      fill,
     ),
   );
 
@@ -3632,11 +3624,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD crop,
   ) => run(
     () => _debugLabels.ImageCrop(image, crop),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageCrop(
-        p,
-        crop,
-      ),
+    () => rl.CoreFlat.ImageCrop(
+      rl.Temp.Image$.Ref1(image),
+      crop,
     ),
   );
 
@@ -3646,11 +3636,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.ImageAlphaCrop(image, threshold),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageAlphaCrop(
-        p,
-        threshold.toDouble(),
-      ),
+    () => rl.CoreFlat.ImageAlphaCrop(
+      rl.Temp.Image$.Ref1(image),
+      threshold.toDouble(),
     ),
   );
 
@@ -3661,12 +3649,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.ImageAlphaClear(image, color, threshold),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageAlphaClear(
-        p,
-        color,
-        threshold.toDouble(),
-      ),
+    () => rl.CoreFlat.ImageAlphaClear(
+      rl.Temp.Image$.Ref1(image),
+      color,
+      threshold.toDouble(),
     ),
   );
 
@@ -3676,11 +3662,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD alphaMask,
   ) => run(
     () => _debugLabels.ImageAlphaMask(image, alphaMask),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageAlphaMask(
-        p,
-        alphaMask,
-      ),
+    () => rl.CoreFlat.ImageAlphaMask(
+      rl.Temp.Image$.Ref1(image),
+      alphaMask,
     ),
   );
 
@@ -3689,10 +3673,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageAlphaPremultiply(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageAlphaPremultiply(
-        p,
-      ),
+    () => rl.CoreFlat.ImageAlphaPremultiply(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3702,11 +3684,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num blurSize,
   ) => run(
     () => _debugLabels.ImageBlurGaussian(image, blurSize),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageBlurGaussian(
-        p,
-        blurSize.toInt(),
-      ),
+    () => rl.CoreFlat.ImageBlurGaussian(
+      rl.Temp.Image$.Ref1(image),
+      blurSize.toInt(),
     ),
   );
 
@@ -3716,12 +3696,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<double> kernel,
   ) => run(
     () => _debugLabels.ImageKernelConvolution(image, kernel),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageKernelConvolution(
-        p,
-        rl.Temp.Float32$.Array(kernel),
-        kernel.length,
-      ),
+    () => rl.CoreFlat.ImageKernelConvolution(
+      rl.Temp.Image$.Ref1(image),
+      rl.Temp.Float32$.Array(kernel),
+      kernel.length,
     ),
   );
 
@@ -3732,12 +3710,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num newHeight,
   ) => run(
     () => _debugLabels.ImageResize(image, newWidth, newHeight),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageResize(
-        p,
-        newWidth.toInt(),
-        newHeight.toInt(),
-      ),
+    () => rl.CoreFlat.ImageResize(
+      rl.Temp.Image$.Ref1(image),
+      newWidth.toInt(),
+      newHeight.toInt(),
     ),
   );
 
@@ -3748,12 +3724,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num newHeight,
   ) => run(
     () => _debugLabels.ImageResizeNN(image, newWidth, newHeight),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageResizeNN(
-        p,
-        newWidth.toInt(),
-        newHeight.toInt(),
-      ),
+    () => rl.CoreFlat.ImageResizeNN(
+      rl.Temp.Image$.Ref1(image),
+      newWidth.toInt(),
+      newHeight.toInt(),
     ),
   );
     
@@ -3767,15 +3741,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD fill,
   ) => run(
     () => _debugLabels.ImageResizeCanvas(image, newWidth, newHeight, offsetX, offsetY, fill),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageResizeCanvas(
-        p,
-        newWidth.toInt(),
-        newHeight.toInt(),
-        offsetX.toInt(),
-        offsetY.toInt(),
-        fill,
-      ),
+    () => rl.CoreFlat.ImageResizeCanvas(
+      rl.Temp.Image$.Ref1(image),
+      newWidth.toInt(),
+      newHeight.toInt(),
+      offsetX.toInt(),
+      offsetY.toInt(),
+      fill,
     ),
   );
 
@@ -3784,10 +3756,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageMipmaps(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageMipmaps(
-        p,
-      ),
+    () => rl.CoreFlat.ImageMipmaps(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3800,14 +3770,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num aBpp,
   ) => run(
     () => _debugLabels.ImageDither(image, rBpp, gBpp, bBpp, aBpp),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageDither(
-        p,
-        rBpp.toInt(),
-        gBpp.toInt(),
-        bBpp.toInt(),
-        aBpp.toInt(),
-      ),
+    () => rl.CoreFlat.ImageDither(
+      rl.Temp.Image$.Ref1(image),
+      rBpp.toInt(),
+      gBpp.toInt(),
+      bBpp.toInt(),
+      aBpp.toInt(),
     ),
   );
 
@@ -3816,10 +3784,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageFlipVertical(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageFlipVertical(
-        p,
-      ),
+    () => rl.CoreFlat.ImageFlipVertical(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3828,10 +3794,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageFlipHorizontal(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageFlipHorizontal(
-        p,
-      ),
+    () => rl.CoreFlat.ImageFlipHorizontal(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3841,11 +3805,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num degrees,
   ) => run(
     () => _debugLabels.ImageRotate(image, degrees),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageRotate(
-        p,
-        degrees.toInt(),
-      ),
+    () => rl.CoreFlat.ImageRotate(
+      rl.Temp.Image$.Ref1(image),
+      degrees.toInt(),
     ),
   );
 
@@ -3854,10 +3816,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageRotateCW(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageRotateCW(
-        p,
-      ),
+    () => rl.CoreFlat.ImageRotateCW(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3866,10 +3826,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageRotateCCW(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageRotateCCW(
-        p,
-      ),
+    () => rl.CoreFlat.ImageRotateCCW(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
     
@@ -3879,11 +3837,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageColorTint(image, color),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorTint(
-        p,
-        color,
-      ),
+    () => rl.CoreFlat.ImageColorTint(
+      rl.Temp.Image$.Ref1(image),
+      color,
     ),
   );
 
@@ -3892,10 +3848,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageColorInvert(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorInvert(
-        p,
-      ),
+    () => rl.CoreFlat.ImageColorInvert(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3904,10 +3858,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageColorGrayscale(image),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorGrayscale(
-        p,
-      ),
+    () => rl.CoreFlat.ImageColorGrayscale(
+      rl.Temp.Image$.Ref1(image),
     ),
   );
 
@@ -3917,11 +3869,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num contrast,
   ) => run(
     () => _debugLabels.ImageColorContrast(image, contrast),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorContrast(
-        p,
-        contrast.toDouble(),
-      ),
+    () => rl.CoreFlat.ImageColorContrast(
+      rl.Temp.Image$.Ref1(image),
+      contrast.toDouble(),
     ),
   );
 
@@ -3931,11 +3881,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num brightness,
   ) => run(
     () => _debugLabels.ImageColorBrightness(image, brightness),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorBrightness(
-        p,
-        brightness.toInt(),
-      ),
+    () => rl.CoreFlat.ImageColorBrightness(
+      rl.Temp.Image$.Ref1(image),
+      brightness.toInt(),
     ),
   );
 
@@ -3946,12 +3894,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD replace,
   ) => run(
     () => _debugLabels.ImageColorReplace(image, color, replace),
-    () => rl.Temp.Image$.RefUpdate1(image,
-      (p) => rl.CoreFlat.ImageColorReplace(
-        p,
-        color,
-        replace,
-      ),
+    () => rl.CoreFlat.ImageColorReplace(
+      rl.Temp.Image$.Ref1(image),
+      color,
+      replace,
     ),
   );
 
@@ -4025,11 +3971,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageClearBackground(dst, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageClearBackground(
-        p,
-        color,
-      ),
+    () => rl.CoreFlat.ImageClearBackground(
+      rl.Temp.Image$.Ref1(dst),
+      color,
     ),
   );
 
@@ -4041,13 +3985,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawPixel(dst, posX, posY, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawPixel(
-        p,
-        posX.toInt(),
-        posY.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawPixel(
+      rl.Temp.Image$.Ref1(dst),
+      posX.toInt(),
+      posY.toInt(),
+      color,
     ),
   );
 
@@ -4058,12 +4000,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawPixelV(dst, position, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawPixelV(
-        p,
-        position,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawPixelV(
+      rl.Temp.Image$.Ref1(dst),
+      position,
+      color,
     ),
   );
     
@@ -4077,15 +4017,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLine(dst, startPosX, startPosY, endPosX, endPosY, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawLine(
-        p,
-        startPosX.toInt(),
-        startPosY.toInt(),
-        endPosX.toInt(),
-        endPosY.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawLine(
+      rl.Temp.Image$.Ref1(dst),
+      startPosX.toInt(),
+      startPosY.toInt(),
+      endPosX.toInt(),
+      endPosY.toInt(),
+      color,
     ),
   );
 
@@ -4097,13 +4035,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLineV(dst, start, end, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawLineV(
-        p,
-        start,
-        end,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawLineV(
+      rl.Temp.Image$.Ref1(dst),
+      start,
+      end,
+      color,
     ),
   );
 
@@ -4116,14 +4052,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLineEx(dst, start, end, thick, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawLineEx(
-        p,
-        start,
-        end,
-        thick.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawLineEx(
+      rl.Temp.Image$.Ref1(dst),
+      start,
+      end,
+      thick.toInt(),
+      color,
     ),
   );
 
@@ -4136,14 +4070,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircle(dst, centerX, centerY, radius, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawCircle(
-        p,
-        centerX.toInt(),
-        centerY.toInt(),
-        radius.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawCircle(
+      rl.Temp.Image$.Ref1(dst),
+      centerX.toInt(),
+      centerY.toInt(),
+      radius.toInt(),
+      color,
     ),
   );
 
@@ -4155,13 +4087,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleV(dst, center, radius, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawCircleV(
-        p,
-        center,
-        radius.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawCircleV(
+      rl.Temp.Image$.Ref1(dst),
+      center,
+      radius.toInt(),
+      color,
     ),
   );
 
@@ -4174,14 +4104,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleLines(dst, centerX, centerY, radius, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawCircleLines(
-        p,
-        centerX.toInt(),
-        centerY.toInt(),
-        radius.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawCircleLines(
+      rl.Temp.Image$.Ref1(dst),
+      centerX.toInt(),
+      centerY.toInt(),
+      radius.toInt(),
+      color,
     ),
   );
 
@@ -4193,13 +4121,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleLinesV(dst, center, radius, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawCircleLinesV(
-        p,
-        center,
-        radius.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawCircleLinesV(
+      rl.Temp.Image$.Ref1(dst),
+      center,
+      radius.toInt(),
+      color,
     ),
   );
 
@@ -4213,15 +4139,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangle(dst, posX, posY, width, height, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawRectangle(
-        p,
-        posX.toInt(),
-        posY.toInt(),
-        width.toInt(),
-        height.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawRectangle(
+      rl.Temp.Image$.Ref1(dst),
+      posX.toInt(),
+      posY.toInt(),
+      width.toInt(),
+      height.toInt(),
+      color,
     ),
   );
     
@@ -4233,13 +4157,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleV(dst, position, size, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawRectangleV(
-        p,
-        position,
-        size,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawRectangleV(
+      rl.Temp.Image$.Ref1(dst),
+      position,
+      size,
+      color,
     ),
   );
 
@@ -4250,12 +4172,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleRec(dst, rec, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawRectangleRec(
-        p,
-        rec,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawRectangleRec(
+      rl.Temp.Image$.Ref1(dst),
+      rec,
+      color,
     ),
   );
 
@@ -4267,13 +4187,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleLines(dst, rec, thick, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawRectangleLines(
-        p,
-        rec,
-        thick.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawRectangleLines(
+      rl.Temp.Image$.Ref1(dst),
+      rec,
+      thick.toInt(),
+      color,
     ),
   );
 
@@ -4286,14 +4204,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangle(dst, v1, v2, v3, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTriangle(
-        p,
-        v1,
-        v2,
-        v3,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawTriangle(
+      rl.Temp.Image$.Ref1(dst),
+      v1,
+      v2,
+      v3,
+      color,
     ),
   );
 
@@ -4308,16 +4224,14 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD c3,
   ) => run(
     () => _debugLabels.ImageDrawTriangleEx(dst, v1, v2, v3, c1, c2, c3),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTriangleEx(
-        p,
-        v1,
-        v2,
-        v3,
-        c1,
-        c2,
-        c3,
-      ),
+    () => rl.CoreFlat.ImageDrawTriangleEx(
+      rl.Temp.Image$.Ref1(dst),
+      v1,
+      v2,
+      v3,
+      c1,
+      c2,
+      c3,
     ),
   );
 
@@ -4330,14 +4244,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleLines(dst, v1, v2, v3, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTriangleLines(
-        p,
-        v1,
-        v2,
-        v3,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawTriangleLines(
+      rl.Temp.Image$.Ref1(dst),
+      v1,
+      v2,
+      v3,
+      color,
     ),
   );
     
@@ -4348,13 +4260,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleFan(dst, points, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTriangleFan(
-        p,
-        rl.Temp.Vector2$.ArrayStruct(points),
-        points.length,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawTriangleFan(
+      rl.Temp.Image$.Ref1(dst),
+      rl.Temp.Vector2$.ArrayStruct(points),
+      points.length,
+      color,
     ),
   );
 
@@ -4365,13 +4275,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleStrip(dst, points, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTriangleStrip(
-        p,
-        rl.Temp.Vector2$.ArrayStruct(points),
-        points.length,
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawTriangleStrip(
+      rl.Temp.Image$.Ref1(dst),
+      rl.Temp.Vector2$.ArrayStruct(points),
+      points.length,
+      color,
     ),
   );
 
@@ -4384,14 +4292,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ImageDraw(dst, src, srcRec, dstRec, tint),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDraw(
-        p,
-        src,
-        srcRec,
-        dstRec,
-        tint,
-      ),
+    () => rl.CoreFlat.ImageDraw(
+      rl.Temp.Image$.Ref1(dst),
+      src,
+      srcRec,
+      dstRec,
+      tint,
     ),
   );
 
@@ -4405,15 +4311,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawText(dst, text, posX, posY, fontSize, color),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawText(
-        p,
-        rl.Temp.String$.ValueOrNull(text),
-        posX.toInt(),
-        posY.toInt(),
-        fontSize.toInt(),
-        color,
-      ),
+    () => rl.CoreFlat.ImageDrawText(
+      rl.Temp.Image$.Ref1(dst),
+      rl.Temp.String$.ValueOrNull(text),
+      posX.toInt(),
+      posY.toInt(),
+      fontSize.toInt(),
+      color,
     ),
   );
 
@@ -4428,16 +4332,14 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ImageDrawTextEx(dst, font, text, position, fontSize, spacing, tint),
-    () => rl.Temp.Image$.RefUpdate1(dst,
-      (p) => rl.CoreFlat.ImageDrawTextEx(
-        p,
-        font,
-        rl.Temp.String$.ValueOrNull(text),
-        position,
-        fontSize.toDouble(),
-        spacing.toDouble(),
-        tint,
-      ),
+    () => rl.CoreFlat.ImageDrawTextEx(
+      rl.Temp.Image$.Ref1(dst),
+      font,
+      rl.Temp.String$.ValueOrNull(text),
+      position,
+      fontSize.toDouble(),
+      spacing.toDouble(),
+      tint,
     ),
   );
 
@@ -4534,11 +4436,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List pixels,
   ) => run(
     () => _debugLabels.UpdateTexture(texture, pixels),
-    () => rl.Temp.Texture$.RefUpdate1(texture,
-      (_) => rl.CoreFlat.UpdateTexture(
-        texture,
-        rl.Temp.Uint8$.Array(pixels).cast(),
-      ),
+    () => rl.CoreFlat.UpdateTexture(
+      texture,
+      rl.Temp.Uint8$.Array(pixels).cast(),
     ),
   );
     
@@ -4549,12 +4449,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List pixels,
   ) => run(
     () => _debugLabels.UpdateTextureRec(texture, rec, pixels),
-    () => rl.Temp.Texture$.RefUpdate1(texture,
-      (_) => rl.CoreFlat.UpdateTextureRec(
-        texture,
-        rec,
-        rl.Temp.Uint8$.Array(pixels).cast(),
-      ),
+    () => rl.CoreFlat.UpdateTextureRec(
+      texture,
+      rec,
+      rl.Temp.Uint8$.Array(pixels).cast(),
     ),
   );
 
@@ -4563,10 +4461,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureD texture,
   ) => run(
     () => _debugLabels.GenTextureMipmaps(texture),
-    () => rl.Temp.Texture$.RefUpdate1(texture,
-      (p) => rl.CoreFlat.GenTextureMipmaps(
-        p,
-      ),
+    () => rl.CoreFlat.GenTextureMipmaps(
+      rl.Temp.Texture$.Ref1(texture),
     ),
   );
 
@@ -4576,11 +4472,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureFilter filter,
   ) => run(
     () => _debugLabels.SetTextureFilter(texture, filter),
-    () => rl.Temp.Texture$.RefUpdate1(texture,
-      (_) => rl.CoreFlat.SetTextureFilter(
-        texture,
-        filter.value,
-      ),
+    () => rl.CoreFlat.SetTextureFilter(
+      texture,
+      filter.value,
     ),
   );
 
@@ -4590,11 +4484,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureWrap wrap,
   ) => run(
     () => _debugLabels.SetTextureWrap(texture, wrap),
-    () => rl.Temp.Texture$.RefUpdate1(texture,
-      (_) => rl.CoreFlat.SetTextureWrap(
-        texture,
-        wrap.value,
-      ),
+    () => rl.CoreFlat.SetTextureWrap(
+      texture,
+      wrap.value,
     ),
   );
 
@@ -6160,11 +6052,9 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     bool dynamic,
   ) => run(
     () => _debugLabels.UploadMesh(mesh, dynamic),
-    () => rl.Temp.Mesh$.RefUpdate1(mesh,
-      (p) => rl.CoreFlat.UploadMesh(
-        p,
-        dynamic,
-      ),
+    () => rl.CoreFlat.UploadMesh(
+      rl.Temp.Mesh$.Ref1(mesh),
+      dynamic,
     ),
   );
     
@@ -6239,10 +6129,8 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MeshD mesh,
   ) => run(
     () => _debugLabels.GenMeshTangents(mesh),
-    () => rl.Temp.Mesh$.RefUpdate1(mesh,
-      (p) => rl.CoreFlat.GenMeshTangents(
-        p,
-      ),
+    () => rl.CoreFlat.GenMeshTangents(
+      rl.Temp.Mesh$.Ref1(mesh),
     ),
   );
     
@@ -6496,7 +6384,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   );
     
   /// Load model animations from file
-  LiveStructList<ModelAnimationD, RStruct> LoadModelAnimations(
+  List<ModelAnimationD> LoadModelAnimations(
     String fileName,
   ) => run(
     () => _debugLabels.LoadModelAnimations(fileName),
@@ -6506,7 +6394,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.String$.ValueOrNull(fileName),
         animCount,
       );
-      return anims.live(anims.readArray(animCount.value));
+      return anims.readArray(animCount.value);
     },
   );
     
@@ -6517,14 +6405,10 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num frame,
   ) => run(
     () => _debugLabels.UpdateModelAnimation(model, anim, frame),
-    () => rl.Temp.Model$.RefUpdate1(model,
-      (_) => rl.Temp.ModelAnimation$.RefUpdate1(anim,
-        (_) => rl.CoreFlat.UpdateModelAnimation(
-          model,
-          anim,
-          frame.toDouble(),
-        ),
-      ),
+    () => rl.CoreFlat.UpdateModelAnimation(
+      model,
+      anim,
+      frame.toDouble(),
     ),
   );
     
@@ -6551,11 +6435,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     
   /// Unload animation array data
   void UnloadModelAnimations(
-    LiveStructList<ModelAnimationD, RStruct> animations,
+    List<ModelAnimationD> animations,
   ) => run(
     () => _debugLabels.UnloadModelAnimations(animations),
     () => rl.CoreFlat.UnloadModelAnimations(
-      ModelAnimationD.pointer(animations.ptrOf()!),
+      animations.first.getOp(),
       animations.length,
     ),
   );

@@ -90,7 +90,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _name = _nameF.read(p);
+    _name = _nameF.readBounded(p, BASE_nameLength);
     _parent = _parentF.read(p);
   }
 

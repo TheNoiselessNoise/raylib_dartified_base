@@ -116,21 +116,11 @@ class FontD extends RaylibStruct<FontD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    // TODO: do i need this?
-    /*
-      _recs.ptr =
-        recs.inner.firstOrNull?.op?.ptr ??
-        temp.Rectangle$.Raw(recs.inner.length);
-      
-      _glyphs.ptr =
-        glyphs.inner.firstOrNull?.op?.ptr ??
-        temp.GlyphInfo$.Raw(glyphs.inner.length);
-    */
     if (recs.inner.isNotEmpty) {
-      _recsF.allocate(temp, p, '${key}_recs', _recs.inner.length);
+      _recsF.allocate(temp, p, '${key}_recs', count: _recs.inner.length, raw: true);
     }
     if (glyphs.inner.isNotEmpty) {
-      _glyphsF.allocate(temp, p, '${key}_glyphs', _glyphs.inner.length);
+      _glyphsF.allocate(temp, p, '${key}_glyphs', count: _glyphs.inner.length, raw: true);
     }
   }
 
@@ -150,8 +140,8 @@ class FontD extends RaylibStruct<FontD> {
     _glyphCount = _glyphCountF.read(p);
     _glyphPadding = _glyphPaddingF.read(p);
     _texture = _textureF.read(p);
-    _recs.readFrom(p);
-    _glyphs.readFrom(p);
+    _recs.readFrom(p, count: glyphCount);
+    _glyphs.readFrom(p, count: glyphCount);
   }
 
   @override

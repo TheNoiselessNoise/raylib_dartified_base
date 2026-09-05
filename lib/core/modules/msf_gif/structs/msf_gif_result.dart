@@ -48,7 +48,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   // ░███████   ░██████████ ░██        
 
   late final LivePointerSync<RVoid> _data = _dataF.live(() => op?.ptr);
-  MemoryPointer<RVoid> get data => _data.fieldPtr();
+  MemoryPointer<RVoid> get data => _data.derefPtr();
   Uint8List get dataView => data.asView(dataSize);
 
   int get dataSize => _dataSizeF.read(getOp().ptr);
@@ -56,7 +56,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   int get allocSize => _allocSizeF.read(getOp().ptr);
 
   late final LivePointerSync<RVoid> _contextPointer = _contextPointerF.live(() => op?.ptr);
-  MemoryPointer<RVoid> get contextPointer => _contextPointer.fieldPtr();
+  MemoryPointer<RVoid> get contextPointer => _contextPointer.derefPtr();
 
   MsfGifResultD({ super.op });
 

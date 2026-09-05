@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Extends [RaylibTempAllocator] with struct allocation, providing
-/// [Allocate], [_Ref], [_RefOrNull], [_RefUpdate], and [_Extract] helpers for
+/// [Allocate], [_Ref], [_RefOrNull], and [_Extract] helpers for
 /// Dart mirror objects ([X]).
 final class RaylibTempStructAllocator<
   X extends RaylibStruct<X> // Dart mirror object
@@ -18,9 +18,6 @@ final class RaylibTempStructAllocator<
   }) : super(
     indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * byteSize)),
   );
-
-  @override
-  String get name => '$X';
 
   StructPointer<X> RawStruct([int count = 1])
     => pointerFactory(Raw(count));
@@ -49,15 +46,13 @@ final class RaylibTempStructAllocator<
   @nonVirtual
   String getBaseKey(X value, [String? inner]) => '${value.structName}_${value.$state.tag}_$inner';
 
-  /// Like [getBaseKey] but prefixed with [value]'s `internalId`, used for
-  /// pointer-owning structs to prevent cross-instance key collisions.
-  @nonVirtual
-  String getBaseKeyUnique(X value, [String? inner]) => '${value.$state.nextId}_${getBaseKey(value, inner)}';
-
   /// Allocates or syncs [value] to a tracked slot at [key].
   StructPointer<X> Allocate(X value, [String? key]) {
     final requiresOp = value.structRequiresOp;
     final op = value.op;
+
+    if (requiresOp && value.$state.isAllocated) return value.getOp();
+    value.$state.isAllocated = true;
 
     if (op != null && requiresOp) {
       String allocKey = value.$state.allocKey ??= '<CHILD-POINTER>';
@@ -82,17 +77,15 @@ final class RaylibTempStructAllocator<
       throw StateError('You are trying to allocate disposed $value object!');
     }
 
-    String baseKey = requiresOp
-      ? getBaseKeyUnique(value, slotKey(key))
-      : getBaseKey(value, slotKey(key));
-
-    if (requiresOp) temp.debugSyncInfo('[SYNC] ${value.structName} allocate into $baseKey');
-    
-    value.$state.allocKey = baseKey;
-    final p = pointerFactory(At(baseKey));
+    String baseKey = getBaseKey(value, slotKey(key));    
+    final p = pointerFactory(requiresOp ? AtUnique(key: baseKey) : At(baseKey));
+    value.$state.allocKey = _lastKey;
+    if (requiresOp) {
+      temp.debugSyncInfo('[SYNC] ${value.structName} allocate into ${value.$state.allocKey}');
+      value.op = p;
+    }
     value.structAllocateInto(temp, p.ptr, baseKey);
     value.structWriteInto(p.ptr);
-    if (requiresOp) value.op = p;
     return p;
   }
 
@@ -143,60 +136,57 @@ final class RaylibTempStructAllocator<
     ? pointerFactory(At(key))
     : Allocate(x, key);
 
+  StructPointer<X> RefUnique(X? x) {
+    if (x == null) return pointerFactory(MemoryPointer.nullptr);
+    return Allocate(x);
+  }
+
   /// Allocates [o] into slot `'1'`, or reuses the existing slot `'1'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate1] if the callee may write back into the pointer.
   StructPointer<X> Ref1([X? o]) => _Ref(o, '1');
 
   /// Allocates [o] into slot `'2'`, or reuses the existing slot `'2'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate2] if the callee may write back into the pointer.
   StructPointer<X> Ref2([X? o]) => _Ref(o, '2');
 
   /// Allocates [o] into slot `'3'`, or reuses the existing slot `'3'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate3] if the callee may write back into the pointer.
   StructPointer<X> Ref3([X? o]) => _Ref(o, '3');
 
   /// Allocates [o] into slot `'4'`, or reuses the existing slot `'4'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate4] if the callee may write back into the pointer.
   StructPointer<X> Ref4([X? o]) => _Ref(o, '4');
 
   /// Allocates [o] into slot `'5'`, or reuses the existing slot `'5'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate5] if the callee may write back into the pointer.
   StructPointer<X> Ref5([X? o]) => _Ref(o, '5');
 
   /// Allocates [o] into slot `'6'`, or reuses the existing slot `'6'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate6] if the callee may write back into the pointer.
   StructPointer<X> Ref6([X? o]) => _Ref(o, '6');
 
   /// Allocates [o] into slot `'7'`, or reuses the existing slot `'7'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate7] if the callee may write back into the pointer.
   StructPointer<X> Ref7([X? o]) => _Ref(o, '7');
 
   /// Allocates [o] into slot `'8'`, or reuses the existing slot `'8'` allocation
   /// if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate8] if the callee may write back into the pointer.
   StructPointer<X> Ref8([X? o]) => _Ref(o, '8');
 
   /// Returns a [StructPointer] for the given [X] value, using `nullptr` when [x] is `null`.
@@ -209,126 +199,42 @@ final class RaylibTempStructAllocator<
   /// Allocates [o] into slot `'1'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate1] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull1([X? o]) => _RefOrNull(o, '1');
 
   /// Allocates [o] into slot `'2'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate2] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull2([X? o]) => _RefOrNull(o, '2');
 
   /// Allocates [o] into slot `'3'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate3] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull3([X? o]) => _RefOrNull(o, '3');
 
   /// Allocates [o] into slot `'4'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate4] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull4([X? o]) => _RefOrNull(o, '4');
 
   /// Allocates [o] into slot `'5'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate5] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull5([X? o]) => _RefOrNull(o, '5');
 
   /// Allocates [o] into slot `'6'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate6] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull6([X? o]) => _RefOrNull(o, '6');
 
   /// Allocates [o] into slot `'7'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate7] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull7([X? o]) => _RefOrNull(o, '7');
 
   /// Allocates [o] into slot `'8'`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  /// Use [RefUpdate8] if the callee may write back into the pointer.
   StructPointer<X> RefOrNull8([X? o]) => _RefOrNull(o, '8');
-
-  /// Allocates [o] into a numbered slot, invokes [fn] with the resulting
-  /// pointer, then syncs any mutations back from native memory into [o].
-  ///
-  /// If [o] is `null`, passes `nullptr` to [fn] and skips the sync step.
-  /// This is the foundation for the [RefUpdate1]–[RefUpdate8] helpers, covering
-  /// the common pattern of passing a mutable struct pointer to a C function that
-  /// may write into it.
-  R _RefUpdate<R>(
-    X? o,
-    R Function(StructPointer<X> p) fn,
-    StructPointer<X> Function(X) alloc,
-  ) {
-    final StructPointer<X> p = o != null
-      ? alloc(o)
-      : pointerFactory(MemoryPointer.nullptr);
-    final result = fn(p);
-    if (o != null) o.structReadFrom(p.ptr);
-    return result;
-  }
-
-  /// Allocates [o] into slot `'1'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref1] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate1<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref1);
-
-  /// Allocates [o] into slot `'2'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref2] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate2<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref2);
-
-  /// Allocates [o] into slot `'3'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref3] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate3<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref3);
-
-  /// Allocates [o] into slot `'4'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref4] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate4<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref4);
-
-  /// Allocates [o] into slot `'5'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref5] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate5<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref5);
-
-  /// Allocates [o] into slot `'6'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref6] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate6<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref6);
-
-  /// Allocates [o] into slot `'7'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref7] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate7<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref7);
-
-  /// Allocates [o] into slot `'8'`, calls [fn] with the pointer, then
-  /// syncs native memory back into [o].
-  ///
-  /// Use this instead of [Ref8] when the C function writes into the struct and
-  /// you want the mutations reflected in [o] after the call.
-  R RefUpdate8<R>(X? o, R Function(StructPointer<X> p) fn) => _RefUpdate(o, fn, Ref8);
 
   /// Allocates a uniquely-keyed temporary slot and passes it to [fn].
   ///

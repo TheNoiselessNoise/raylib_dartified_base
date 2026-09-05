@@ -919,10 +919,8 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
     RlRenderBatchD batch,
   ) => run(
     () => _debugLabels.rlDrawRenderBatch(batch),
-    () => rl.Temp.RlRenderBatch$.RefUpdate1(batch,
-      (pb) => rl.RlglFlat.rlDrawRenderBatch(
-        pb,
-      ),
+    () => rl.RlglFlat.rlDrawRenderBatch(
+      rl.Temp.RlRenderBatch$.Ref1(batch),
     ),
   );
 
@@ -931,10 +929,8 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
     RlRenderBatchD? batch,
   ]) => run(
     () => _debugLabels.rlSetRenderBatchActive(batch),
-    () => rl.Temp.RlRenderBatch$.RefUpdate1(batch,
-      (pb) => rl.RlglFlat.rlSetRenderBatchActive(
-        pb,
-      ),
+    () => rl.RlglFlat.rlSetRenderBatchActive(
+      rl.Temp.RlRenderBatch$.Ref1(batch),
     ),
   );
 

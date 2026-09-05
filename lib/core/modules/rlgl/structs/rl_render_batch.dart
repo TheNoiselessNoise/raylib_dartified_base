@@ -117,10 +117,10 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_vertexBuffer.inner.isNotEmpty) {
-      _vertexBufferF.allocate(temp, p, '${key}_vertexBuffer', _vertexBuffer.inner.length);
+      _vertexBufferF.allocate(temp, p, '${key}_vertexBuffer', count: _vertexBuffer.inner.length);
     }
     if (_draws.inner.isNotEmpty) {
-      _drawsF.allocate(temp, p, '${key}_draws', _draws.inner.length);
+      _drawsF.allocate(temp, p, '${key}_draws', count: _draws.inner.length);
     }
   }
 
@@ -138,8 +138,8 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   void structReadFrom(MemoryPointer p) {
     _bufferCount = _bufferCountF.read(p);
     _currentBuffer = _currentBufferF.read(p);
-    _vertexBuffer.readFrom(p);
-    _draws.readFrom(p);
+    _vertexBuffer.readFrom(p, count: bufferCount);
+    _draws.readFrom(p, count: bufferCount);
     _drawCounter = _drawCounterF.read(p);
     _currentDepth = _currentDepthF.read(p);
   }

@@ -74,7 +74,7 @@ class MusicD extends RaylibStruct<MusicD> {
   /// 
   /// `void *ctxData;`
   late final LivePointerSync<RVoid> _ctxData = _ctxDataF.live(() => op?.ptr);
-  MemoryPointer<RVoid> get ctxData => _ctxData.fieldPtr();
+  MemoryPointer<RVoid> get ctxData => _ctxData.derefPtr();
 
   MusicD({
     super.op,

@@ -27,6 +27,9 @@ final class RaylibTempStructState with RaylibDisposable {
   /// [RaylibTempStructAllocator.Allocate] allocation.
   bool isFirstSync = true;
 
+  /// Whether [RaylibTempStructAllocator.Allocate] has ever been called for this instance.
+  bool isAllocated = false;
+
   /// A stable numeric ID assigned on first [RaylibTempStructAllocator.Allocate] call for pointer-owning structs.
   ///
   /// Incorporated into slot keys to prevent collisions between distinct instances
@@ -100,7 +103,7 @@ final class StructLayout<F extends StructFields> {
     var maxAlign = 1;
     for (final entry in fields.entries) {
       final type = entry.value;
-      final align = type is RStruct ? type.layout.alignment : type.byteSize;
+      final align = type.alignment;
       offset = (offset + align - 1) ~/ align * align;
       offsets[entry.key] = offset;
       offset += type.byteSize;
@@ -168,13 +171,12 @@ final class StructLayout<F extends StructFields> {
 
   R _getFieldAs<R extends RType>(F f) {
     final type = fields[f]!;
-    try {
-      return type as R;
-    } catch (_) {
+    if (type is! R) {
       throw ArgumentError(
         "Layout field `${f.name}` is `${type.runtimeType}`, but was requested as `$R`."
       );
     }
+    return type;
   }
 
   StructValueField<E, R> scalar<E, R extends RType>(F f) {
@@ -203,7 +205,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), enumCodec);
   }
 
-  StructValueField<String, R> stringAsCharArray<R extends RTypeIntLike>(F f) {
+  StructStringValueField<R> stringAsCharArray<R extends RTypeIntLike>(F f) {
     _checkField(f);
     final type = _getFieldAs<RArray<R>>(f);
     final element = type.element;
@@ -482,12 +484,15 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
   void _canonicalizeFloats(MemoryPointer p) {
     for (final f in structLayout.floatFields) {
-      if (f.size == 4) {
-        final bits = p.readUint32(f.offset);
-        if (bits == 0x80000000) p.writeUint32(f.offset, 0);
-      } else {
-        final bits = p.readUint64(f.offset);
-        if (bits == 0x8000000000000000) p.writeUint64(f.offset, 0);
+      switch (f.size) {
+        case 4:
+          final bits = p.readUint32(f.offset);
+          if (bits == 0x80000000) p.writeUint32(f.offset, 0);
+        case 8:
+          final bits = p.readUint64(f.offset);
+          if (bits == 0x8000000000000000) p.writeUint64(f.offset, 0);
+        default:
+          throw StateError('Invalid float size: ${f.size}.');
       }
     }
   }
@@ -500,7 +505,6 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     MemoryPointer? srcPtr = op?.ptr;
     if (srcPtr == null) {
       srcPtr = MemoryPointer.scratch(0);
-      // TODO: this writes all the data (including data at pointers, which is unrelated)
       structWriteInto(srcPtr);
       _canonicalizeFloats(srcPtr);
     }
@@ -508,7 +512,6 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     MemoryPointer? dstPtr = other.op?.ptr;
     if (dstPtr == null) {
       dstPtr = MemoryPointer.scratch(1);
-      // TODO: this writes all the data (including data at pointers, which is unrelated)
       other.structWriteInto(dstPtr);
       _canonicalizeFloats(dstPtr);
     }
@@ -530,7 +533,6 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
     // If unbacked, serialize and hash the bytes
     final scratch = MemoryPointer.scratch(0);
-    // TODO: this writes all the data (including data at pointers, which is unrelated)
     structWriteInto(scratch);
     _canonicalizeFloats(scratch);
     return scratch.computeByteHash(structLayout.byteSize);

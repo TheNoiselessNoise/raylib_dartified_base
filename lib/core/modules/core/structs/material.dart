@@ -103,7 +103,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _mapsF.allocate(temp, p, '${key}_maps', BASE_mapsCount);
+    _mapsF.allocate(temp, p, '${key}_maps', count: BASE_mapsCount);
   }
 
   @override
@@ -116,7 +116,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   @override
   void structReadFrom(MemoryPointer p) {
     _shader = _shaderF.read(p);
-    _maps.readFrom(p);
+    _maps.readFrom(p, count: mapsCount);
     _params.readFrom(p);
   }
 

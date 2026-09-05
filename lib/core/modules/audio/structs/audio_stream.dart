@@ -54,13 +54,13 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   /// 
   /// `rAudioBuffer *buffer;`
   late final LivePointerSync<ROpaque> _buffer = _bufferF.live(() => op?.ptr);
-  MemoryPointer<ROpaque> get buffer => _buffer.fieldPtr();
+  MemoryPointer<ROpaque> get buffer => _buffer.derefPtr();
 
   /// Pointer to internal data processor, useful for audio effects
   /// 
   /// `rAudioProcessor *processor;`
   late final LivePointerSync<ROpaque> _processor = _processorF.live(() => op?.ptr);
-  MemoryPointer<ROpaque> get processor => _processor.fieldPtr();
+  MemoryPointer<ROpaque> get processor => _processor.derefPtr();
 
   int _sampleRate;
   /// Frequency (samples per second)

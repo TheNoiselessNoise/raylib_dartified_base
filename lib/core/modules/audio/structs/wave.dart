@@ -130,7 +130,7 @@ class WaveD extends RaylibStruct<WaveD> {
   /// 
   /// `void *data;`
   late final LivePointerSync<RVoid> _data = _dataF.live(() => op?.ptr);
-  MemoryPointer<RVoid> get data => _data.fieldPtr();
+  MemoryPointer<RVoid> get data => _data.derefPtr();
 
   /// Raw audio buffer data
   late ByteBuffer dataBuffer;
@@ -165,7 +165,7 @@ class WaveD extends RaylibStruct<WaveD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _dataF.allocate(temp, p, '${key}_data', dataBuffer.lengthInBytes);
+    _dataF.allocate(temp, p, '${key}_data', count: dataBuffer.lengthInBytes);
   }
 
   @override

@@ -189,19 +189,19 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_vertices.inner.isNotEmpty) {
-      _verticesF.allocate(temp, p, '${key}_vertices', _vertices.inner.length);
+      _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length);
     }
     if (_texcoords.inner.isNotEmpty) {
-      _texcoordsF.allocate(temp, p, '${key}_texcoords', _texcoords.inner.length);
+      _texcoordsF.allocate(temp, p, '${key}_texcoords', count: _texcoords.inner.length);
     }
     if (_normals.inner.isNotEmpty) {
-      _normalsF.allocate(temp, p, '${key}_normals', _normals.inner.length);
+      _normalsF.allocate(temp, p, '${key}_normals', count: _normals.inner.length);
     }
     if (_colors.inner.isNotEmpty) {
-      _colorsF.allocate(temp, p, '${key}_colors', _colors.inner.length);
+      _colorsF.allocate(temp, p, '${key}_colors', count: _colors.inner.length);
     }
     if (_indices.inner.isNotEmpty) {
-      _indicesF.allocate(temp, p, '${key}_indices', _indices.inner.length);
+      _indicesF.allocate(temp, p, '${key}_indices', count: _indices.inner.length);
     }
   }
 
@@ -219,14 +219,14 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _elementCount =_elementCountF.read(p);
-    _vertices.readFrom(p);
-    _texcoords.readFrom(p);
-    _normals.readFrom(p);
-    _colors.readFrom(p);
-    _indices.readFrom(p);
+    _elementCount = _elementCountF.read(p);
+    _vertices.readFrom(p, count: verticesCount);
+    _texcoords.readFrom(p, count: texcoordsCount);
+    _normals.readFrom(p, count: normalsCount);
+    _colors.readFrom(p, count: colorsCount);
+    _indices.readFrom(p, count: indicesCount);
     _vaoId = _vaoIdF.read(p);
-    _vboId.readFrom(p);
+    _vboId.readFrom(p, count: vboIdCount);
   }
 
   @override

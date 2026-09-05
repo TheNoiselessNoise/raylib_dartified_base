@@ -282,18 +282,18 @@ class MeshD extends RaylibStruct<MeshD> {
     _boneCount = boneCount,
     _vaoId = vaoId
   {
-    _vertices = _verticesF.live(() => op?.ptr, vertices ?? .filled(verticesCount, 0));
-    _texcoords = _texcoordsF.live(() => op?.ptr, texcoords ?? .filled(texcoordsCount, 0));
-    _texcoords2 = _texcoords2F.live(() => op?.ptr, texcoords2 ?? .filled(texcoords2Count, 0));
-    _normals = _normalsF.live(() => op?.ptr, normals ?? .filled(normalsCount, 0));
-    _tangents = _tangentsF.live(() => op?.ptr, tangents ?? .filled(tangentsCount, 0));
-    _colors = _colorsF.live(() => op?.ptr, colors ?? .filled(colorsCount, 0));
-    _indices = _indicesF.live(() => op?.ptr, indices ?? .filled(indicesCount, 0));
-    _boneIndices = _boneIndicesF.live(() => op?.ptr, boneIndices ?? .filled(boneIndicesCount, 0));
-    _boneWeights = _boneWeightsF.live(() => op?.ptr, boneWeights ?? .filled(boneWeightsCount, 0));
-    _animVertices = _animVerticesF.live(() => op?.ptr, animVertices ?? .filled(animVerticesCount, 0));
-    _animNormals = _animNormalsF.live(() => op?.ptr, animNormals ?? .filled(animNormalsCount, 0));
-    _vboId = _vboIdF.live(() => op?.ptr, vboId ?? .filled(vboIdCount, 0));
+    _vertices = _verticesF.live(() => op?.ptr, vertices ?? []);
+    _texcoords = _texcoordsF.live(() => op?.ptr, texcoords ?? []);
+    _texcoords2 = _texcoords2F.live(() => op?.ptr, texcoords2 ?? []);
+    _normals = _normalsF.live(() => op?.ptr, normals ?? []);
+    _tangents = _tangentsF.live(() => op?.ptr, tangents ?? []);
+    _colors = _colorsF.live(() => op?.ptr, colors ?? []);
+    _indices = _indicesF.live(() => op?.ptr, indices ?? []);
+    _boneIndices = _boneIndicesF.live(() => op?.ptr, boneIndices ?? []);
+    _boneWeights = _boneWeightsF.live(() => op?.ptr, boneWeights ?? []);
+    _animVertices = _animVerticesF.live(() => op?.ptr, animVertices ?? []);
+    _animNormals = _animNormalsF.live(() => op?.ptr, animNormals ?? []);
+    _vboId = _vboIdF.live(() => op?.ptr, vboId ?? []);
   }
 
   factory MeshD.zero() => .new();
@@ -322,40 +322,18 @@ class MeshD extends RaylibStruct<MeshD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (_vertices.inner.isNotEmpty) {
-      _verticesF.allocate(temp, p, '${key}_vertices', _vertices.inner.length);
-    }
-    if (_texcoords.inner.isNotEmpty) {
-      _texcoordsF.allocate(temp, p, '${key}_texcoords', _texcoords.inner.length);
-    }
-    if (_texcoords2.inner.isNotEmpty) {
-      _texcoords2F.allocate(temp, p, '${key}_texcoords2', _texcoords2.inner.length);
-    }
-    if (_normals.inner.isNotEmpty) {
-      _normalsF.allocate(temp, p, '${key}_normals', _normals.inner.length);
-    }
-    if (_tangents.inner.isNotEmpty) {
-      _tangentsF.allocate(temp, p, '${key}_tangents', _tangents.inner.length);
-    }
-    if (_colors.inner.isNotEmpty) {
-      _colorsF.allocate(temp, p, '${key}_colors', _colors.inner.length);
-    }
-    if (_indices.inner.isNotEmpty) {
-      _indicesF.allocate(temp, p, '${key}_indices', _indices.inner.length);
-    }
-    if (_boneIndices.inner.isNotEmpty) {
-      _boneIndicesF.allocate(temp, p, '${key}_boneIndices', _boneIndices.inner.length);
-    }
-    if (_boneWeights.inner.isNotEmpty) {
-      _boneWeightsF.allocate(temp, p, '${key}_boneWeights', _boneWeights.inner.length);
-    }
+    if (_vertices.inner.isNotEmpty) _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length, raw: true);
+    if (_texcoords.inner.isNotEmpty) _texcoordsF.allocate(temp, p, '${key}_texcoords', count: _texcoords.inner.length, raw: true);
+    if (_texcoords2.inner.isNotEmpty) _texcoords2F.allocate(temp, p, '${key}_texcoords2', count: _texcoords2.inner.length, raw: true);
+    if (_normals.inner.isNotEmpty) _normalsF.allocate(temp, p, '${key}_normals', count: _normals.inner.length, raw: true);
+    if (_tangents.inner.isNotEmpty) _tangentsF.allocate(temp, p, '${key}_tangents', count: _tangents.inner.length, raw: true);
+    if (_colors.inner.isNotEmpty) _colorsF.allocate(temp, p, '${key}_colors', count: _colors.inner.length, raw: true);
+    if (_indices.inner.isNotEmpty) _indicesF.allocate(temp, p, '${key}_indices', count: _indices.inner.length, raw: true);
+    if (_boneIndices.inner.isNotEmpty) _boneIndicesF.allocate(temp, p, '${key}_boneIndices', count: _boneIndices.inner.length, raw: true);
+    if (_boneWeights.inner.isNotEmpty) _boneWeightsF.allocate(temp, p, '${key}_boneWeights', count: _boneWeights.inner.length, raw: true);
     if (RaylibConfig.IS_GPU_SKINNING_SUPPORTED) {
-      if (_animVertices.inner.isNotEmpty) {
-        _animVerticesF.allocate(temp, p, '${key}_animVertices', _animVertices.inner.length);
-      }
-      if (_animNormals.inner.isNotEmpty) {
-        _animNormalsF.allocate(temp, p, '${key}_animNormals', _animNormals.inner.length);
-      }
+      if (_animVertices.inner.isNotEmpty) _animVerticesF.allocate(temp, p, '${key}_animVertices', count: _animVertices.inner.length, raw: true);
+      if (_animNormals.inner.isNotEmpty) _animNormalsF.allocate(temp, p, '${key}_animNormals', count: _animNormals.inner.length, raw: true);
     }
   }
 
@@ -363,40 +341,40 @@ class MeshD extends RaylibStruct<MeshD> {
   void structWriteInto(MemoryPointer p) {
     _vertexCountF.write(p, _vertexCount);
     _triangleCountF.write(p, _triangleCount);
-    _vertices.writeInto(p);
-    _texcoords.writeInto(p);
-    _texcoords2.writeInto(p);
-    _normals.writeInto(p);
-    _tangents.writeInto(p);
-    _colors.writeInto(p);
-    _indices.writeInto(p);
+    _vertices.writeInto(p, _vertices.inner);
+    _texcoords.writeInto(p, _texcoords.inner);
+    _texcoords2.writeInto(p, _texcoords2.inner);
+    _normals.writeInto(p, _normals.inner);
+    _tangents.writeInto(p, _tangents.inner);
+    _colors.writeInto(p, _colors.inner);
+    _indices.writeInto(p, _indices.inner);
     _boneCountF.write(p, _boneCount);
-    _boneIndices.writeInto(p);
-    _boneWeights.writeInto(p);
-    _animVertices.writeInto(p);
-    _animNormals.writeInto(p);
+    _boneIndices.writeInto(p, _boneIndices.inner);
+    _boneWeights.writeInto(p, _boneWeights.inner);
+    _animVertices.writeInto(p, _animVertices.inner);
+    _animNormals.writeInto(p, _animNormals.inner);
     _vaoIdF.write(p, _vaoId);
-    _vboId.writeInto(p);
+    _vboId.writeInto(p, _vboId.inner);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _vertexCount =_vertexCountF.read(p);
-    _triangleCount =_triangleCountF.read(p);
-    _vertices.readFrom(p);
-    _texcoords.readFrom(p);
-    _texcoords2.readFrom(p);
-    _normals.readFrom(p);
-    _tangents.readFrom(p);
-    _colors.readFrom(p);
-    _indices.readFrom(p);
-    _boneCount =_boneCountF.read(p);
-    _boneIndices.readFrom(p);
-    _boneWeights.readFrom(p);
-    _animVertices.readFrom(p);
-    _animNormals.readFrom(p);
+    _vertexCount = _vertexCountF.read(p);
+    _triangleCount = _triangleCountF.read(p);
+    _vertices.readFrom(p, count: verticesCount);
+    _texcoords.readFrom(p, count: texcoordsCount);
+    _texcoords2.readFrom(p, count: texcoords2Count);
+    _normals.readFrom(p, count: normalsCount);
+    _tangents.readFrom(p, count: tangentsCount);
+    _colors.readFrom(p, count: colorsCount);
+    _indices.readFrom(p, count: indicesCount);
+    _boneCount = _boneCountF.read(p);
+    _boneIndices.readFrom(p, count: boneIndicesCount);
+    _boneWeights.readFrom(p, count: boneWeightsCount);
+    _animVertices.readFrom(p, count: animVerticesCount);
+    _animNormals.readFrom(p, count: animNormalsCount);
     _vaoId = _vaoIdF.read(p);
-    _vboId.readFrom(p);
+    _vboId.readFrom(p, count: vboIdCount);
   }
 
   @override

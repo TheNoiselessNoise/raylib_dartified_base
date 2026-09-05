@@ -7,8 +7,10 @@ enum ModelAnimationField with StructFields {
   keyframePoses,
 }
 
+typedef ModelAnimationKeyFramePoses = LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>>;
+
 /// ModelAnimation, contains a full animation sequence
-class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
+class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -61,83 +63,23 @@ class ModelAnimationD extends RaylibStruct<ModelAnimationD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  String _name;
   /// Animation name
-  String get name => _name = _nameF.readOr(op?.ptr, _name);
-  set name(String value) => _name = _nameF.writeIf(op?.ptr, value);
+  String get name => _nameF.readOr(op?.ptr, '');
 
-  int _boneCount;
   /// Number of bones (per pose)
-  int get boneCount => _boneCount = _boneCountF.readOr(op?.ptr, _boneCount);
-  set boneCount(int value) => _boneCount = _boneCountF.writeIf(op?.ptr, value);
+  int get boneCount => _boneCountF.readOr(op?.ptr, 0);
 
-  int _keyframeCount;
   /// Number of animation key frames
-  int get keyframeCount => _keyframeCount = _keyframeCountF.readOr(op?.ptr, _keyframeCount);
-  set keyframeCount(int value) => _keyframeCount = _keyframeCountF.writeIf(op?.ptr, value);
+  int get keyframeCount => _keyframeCountF.readOr(op?.ptr, 0);
 
-  late final LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>> _keyframePoses;
-  LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>> get keyframePoses => _keyframePoses;
-  set keyframePoses(List<List<TransformD>> value) => _keyframePoses.innerNested = value;
+  ModelAnimationKeyFramePoses get keyframePoses => _keyframePosesF.liveNested(() => op?.ptr, []);
 
-  ModelAnimationD({
-    super.op,
-    String name = '',
-    int? boneCount,
-    int? keyframeCount,
-    List<List<TransformD>>? keyframePoses,
-  }) :
-    _name = name,
-    _boneCount = boneCount ?? keyframePoses?.firstOrNull?.length ?? 0,
-    _keyframeCount = keyframeCount ?? keyframePoses?.length ?? 0
-  {
-    _keyframePoses = _keyframePosesF.liveNested(() => op?.ptr, keyframePoses ?? []);
-  }
+  ModelAnimationD({ super.op });
 
   factory ModelAnimationD.zero() => .new();
 
   @override
-  ModelAnimationD setDart(ModelAnimationD o) {
-    name = o.name;
-    boneCount = o.boneCount;
-    keyframeCount = o.keyframeCount;
-    keyframePoses = .from(o.keyframePoses); 
-    return this;
-  }
-
-  @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (keyframePoses.inner.isNotEmpty) {
-      _keyframePosesF.allocate(temp, p, '${key}_keyframePoses', _keyframePoses.inner.length);
-    }
-  }
-
-  @override
-  void structWriteInto(MemoryPointer p) {
-    _nameF.write(p, _name);
-    _boneCountF.write(p, _boneCount);
-    _keyframeCountF.write(p, _keyframeCount);
-    _keyframePoses.writeInto(p);
-  }
-
-  @override
-  void structReadFrom(MemoryPointer p) {
-    _name = _nameF.read(p);
-    _boneCount = _boneCountF.read(p);
-    _keyframeCount = _keyframeCountF.read(p);
-    _keyframePoses.readFrom(p);
-  }
-
-  @override
-  ModelAnimationD clone() => .new(
-    op: op,
-    name: name,
-    boneCount: boneCount,
-    keyframeCount: keyframeCount,
-    keyframePoses: keyframePoses.map((frame) => 
-      frame.map((transform) => transform.clone()).toList()
-    ).toList(),
-  );
+  ModelAnimationD clone() => .new(op: op);
 
   @override
   String signature() => '$structName(name: $name, boneCount: $boneCount, keyframeCount: $keyframeCount)';

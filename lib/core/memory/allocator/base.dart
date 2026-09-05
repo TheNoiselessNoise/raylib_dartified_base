@@ -13,9 +13,7 @@ class RaylibTempAllocator<R extends RType> {
 
   RaylibTempAllocator(this.temp, {
     required this.byteSize,
-  }) {
-    name = runtimeType.toString();
-  }
+  }) { name = '$R'; }
 
   String? _lastKey;
 

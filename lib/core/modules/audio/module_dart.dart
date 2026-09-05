@@ -288,12 +288,10 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int finalFrame,
   ) => run(
     () => _debugLabels.WaveCrop(wave, initFrame, finalFrame),
-    () => rl.Temp.Wave$.RefUpdate1(wave,
-      (p) => rl.AudioFlat.WaveCrop(
-        p,
-        initFrame,
-        finalFrame,
-      ),
+    () => rl.AudioFlat.WaveCrop(
+      rl.Temp.Wave$.Ref1(wave),
+      initFrame,
+      finalFrame,
     ),
   );
 
@@ -305,13 +303,11 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int channels,
   ) => run(
     () => _debugLabels.WaveFormat(wave, sampleRate, sampleSize, channels),
-    () => rl.Temp.Wave$.RefUpdate1(wave,
-      (p) => rl.AudioFlat.WaveFormat(
-        p,
-        sampleRate,
-        sampleSize,
-        channels,
-      ),
+    () => rl.AudioFlat.WaveFormat(
+      rl.Temp.Wave$.Ref1(wave),
+      sampleRate,
+      sampleSize,
+      channels,
     ),
   );
 

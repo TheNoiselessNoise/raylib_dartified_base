@@ -86,7 +86,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _locsF.allocate(temp, p, '${key}_locs', BASE_shaderLocsCount);
+    _locsF.allocate(temp, p, '${key}_locs', count: BASE_shaderLocsCount);
   }
 
   @override
@@ -98,7 +98,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   @override
   void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
-    _locs.readFrom(p);
+    _locs.readFrom(p, count: shaderLocsCount);
   }
 
   @override

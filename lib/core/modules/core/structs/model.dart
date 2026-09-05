@@ -149,19 +149,19 @@ class ModelD extends RaylibStruct<ModelD> {
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (meshes.inner.isNotEmpty) {
-      _meshesF.allocate(temp, p, '${key}_meshes', _meshes.inner.length);
+      _meshesF.allocate(temp, p, '${key}_meshes', count: _meshes.inner.length);
     }
     if (materials.inner.isNotEmpty) {
-      _materialsF.allocate(temp, p, '${key}_materials', _materials.inner.length);
+      _materialsF.allocate(temp, p, '${key}_materials', count: _materials.inner.length);
     }
     if (meshMaterial.inner.isNotEmpty) {
-      _meshMaterialF.allocate(temp, p, '${key}_meshMaterial', _meshMaterial.inner.length);
+      _meshMaterialF.allocate(temp, p, '${key}_meshMaterial', count: _meshMaterial.inner.length);
     }
     if (currentPose.inner.isNotEmpty) {
-      _currentPoseF.allocate(temp, p, '${key}_currentPose', _currentPose.inner.length);
+      _currentPoseF.allocate(temp, p, '${key}_currentPose', count: _currentPose.inner.length);
     }
     if (boneMatrices.inner.isNotEmpty) {
-      _boneMatricesF.allocate(temp, p, '${key}_boneMatrices', _boneMatrices.inner.length);
+      _boneMatricesF.allocate(temp, p, '${key}_boneMatrices', count: _boneMatrices.inner.length);
     }
   }
 
@@ -183,12 +183,12 @@ class ModelD extends RaylibStruct<ModelD> {
     _transform = _transformF.read(p);
     _meshCount = _meshCountF.read(p);
     _materialCount = _materialCountF.read(p);
-    _meshes.readFrom(p);
-    _materials.readFrom(p);
-    _meshMaterial.readFrom(p);
+    _meshes.readFrom(p, count: meshCount);
+    _materials.readFrom(p, count: materialCount);
+    _meshMaterial.readFrom(p, count: materialCount);
     _skeleton = _skeletonF.read(p);
-    _currentPose.readFrom(p);
-    _boneMatrices.readFrom(p);
+    _currentPose.readFrom(p, count: skeleton.boneCount);
+    _boneMatrices.readFrom(p, count: skeleton.boneCount);
   }
 
   @override

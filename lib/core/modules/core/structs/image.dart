@@ -36,7 +36,7 @@ class ImageD extends RaylibStruct<ImageD> {
   static StructPointer<ImageD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ImageD.new, ImageD.pointer);
 
-  static final _dataF = struct.pointerScalarArray<int, RUint8>(.data);
+  static final _dataF = struct.pointerUnknown<RVoid>(.data);
   static final _widthF = struct.scalar<int, RInt>(.width);
   static final _heightF = struct.scalar<int, RInt>(.height);
   static final _mipmapsF = struct.scalar<int, RInt>(.mipmaps);
@@ -113,14 +113,15 @@ class ImageD extends RaylibStruct<ImageD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  late final LiveStructList<int, RUint8> _data;
+  Uint8List? _initialData;
+  late final LivePointerSync<RVoid> _data = _dataF.live(() => op?.ptr);
   /// Image raw data
   ///
   /// For single-frame images this is exactly `frameSize` bytes.
   /// 
   /// For multi-frame images (e.g. animated GIFs) this is `frameSize * frameCount` bytes.
-  LiveStructList<int, RUint8> get data => _data;
-  set data(List<int> value) => _data.inner = value;
+  MemoryPointer<RVoid> get data => _data.derefPtr();
+  Uint8List get dataView => data.asView(dataLength);
 
   int _width;
   /// Image base width
@@ -147,14 +148,12 @@ class ImageD extends RaylibStruct<ImageD> {
   PixelFormat get format => _format = _formatF.readOr(op?.ptr, _format);
   set format(PixelFormat value) => _format = _formatF.writeIf(op?.ptr, value);
 
-  int _frameCount = 1;
   /// Number of frames in the image.
   ///
   /// Always 1 for static images. Greater than 1 for animated formats such as GIF.
   ///
   /// Setting this value also updates the `data` according to [dataLength].
-  int get frameCount => _frameCount;
-  set frameCount(int value) => _frameCount = frameCount;
+  int frameCount = 1;
 
   ImageD({
     super.op,
@@ -164,13 +163,11 @@ class ImageD extends RaylibStruct<ImageD> {
     int mipmaps = 0,
     PixelFormat format = .PIXELFORMAT_NONE,
   }) :
+    _initialData = data,
     _width = width,
     _height = height,
     _mipmaps = mipmaps,
-    _format = format 
-  {
-    _data = _dataF.live(() => op?.ptr, data ?? .filled(dataLength, 0));
-  }
+    _format = format;
 
   factory ImageD.zero() => .new();
 
@@ -180,13 +177,18 @@ class ImageD extends RaylibStruct<ImageD> {
     height = o.height;
     mipmaps = o.mipmaps;
     format = o.format;
-    data = .from(o.data);
+    data.copyBytesFrom(o.data, o.dataLength);
     return this;
   }
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _dataF.allocate(temp, p, '${key}_data', _data.inner.length);
+    _dataF.allocate(temp, p, '${key}_data', count: _initialData?.length ?? dataLength, raw: true);
+
+    if (_initialData != null) {
+      _data.derefPtr<RUint8>().writeArray(_initialData!);
+      _initialData = null;
+    }
   }
 
   @override
@@ -214,9 +216,9 @@ class ImageD extends RaylibStruct<ImageD> {
     height: height,
     mipmaps: mipmaps,
     format: format,
-    data: .fromList(data),
+    data: .fromList(dataView),
   );
 
   @override
-  String signature() => '$structName(data: ${data.length}, width: $width, height: $height, mipmaps: $mipmaps, format: ${format.name})';
+  String signature() => '$structName(data: $dataLength, width: $width, height: $height, mipmaps: $mipmaps, format: ${format.name})';
 }

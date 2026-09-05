@@ -1,7 +1,9 @@
 part of 'raylib_dartified_base.dart';
 
+// NOTE: this REALLY needs to be cleaned up somehow, too much shit in here
+
 /// A codec for a single value of type [E], stored at an [R]-typed region of
-/// memory (the field's own on-struct type — for a pointer field this is
+/// memory (the field's own on-struct type, for a pointer field this is
 /// `RPointer<Pointee>`, not `Pointee`).
 abstract class ElementCodec<E, R extends RType> {
   final R type;
@@ -18,7 +20,7 @@ abstract class ElementCodec<E, R extends RType> {
 
   RaylibTempAllocator? allocator(RaylibTemp temp);
 
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     // no-op by default, most codecs (Scalar, Enum, Struct) don't own
     // pointers, so there's nothing to allocate.
   }
@@ -26,7 +28,7 @@ abstract class ElementCodec<E, R extends RType> {
 
 /// Opt-in capability for codecs whose values sit at a fixed byte stride, so
 /// a contiguous run of them can be read/written in one call. Not every
-/// [ElementCodec] can do this (e.g. [StringCodec] has no fixed stride) —
+/// [ElementCodec] can do this (e.g. [StringCodec] has no fixed stride),
 /// this is deliberately separate from the base contract rather than forced
 /// on every codec.
 mixin ContiguousCodec<E, R extends RType> on ElementCodec<E, R> {
@@ -35,26 +37,26 @@ mixin ContiguousCodec<E, R extends RType> on ElementCodec<E, R> {
   void writeArray(MemoryPointer p, List<E> values);
 }
 
-class StringCodec<R extends RType> extends ElementCodec<String, R> {
+class StringCodec<R extends RTypeIntLike> extends ElementCodec<String, R> {
   const StringCodec(super.type);
 
   @override
   String read(MemoryPointer p) {
     _check(p, 'read string');
-    return switch (R) {
-      const (RInt8) => p.cast<RInt8>().toDartString(),
-      const (RInt16) => p.cast<RInt16>().toDartString(),
-      const (RInt32) => p.cast<RInt32>().toDartString(),
+    return switch (type) {
+      RInt8() => p.cast<RInt8>().toDartString(),
+      RInt16() => p.cast<RInt16>().toDartString(),
+      RInt32() => p.cast<RInt32>().toDartString(),
       _ => throw UnsupportedError("Invalid type $R for reading a string value."),
     };
   }
 
   String readString(MemoryPointer<R> p, int maxLength) {
     _check(p, 'readString');
-    return switch (R) {
-      const (RInt8) => p.cast<RInt8>().toDartString(maxLength),
-      const (RInt16) => p.cast<RInt16>().toDartString(maxLength),
-      const (RInt32) => p.cast<RInt32>().toDartString(maxLength),
+    return switch (type) {
+      RInt8() => p.cast<RInt8>().toDartString(maxLength),
+      RInt16() => p.cast<RInt16>().toDartString(maxLength),
+      RInt32() => p.cast<RInt32>().toDartString(maxLength),
       _ => throw UnsupportedError("Invalid type $R for reading a string value."),
     };
   }
@@ -62,20 +64,20 @@ class StringCodec<R extends RType> extends ElementCodec<String, R> {
   @override
   void write(MemoryPointer p, String value) {
     _check(p, 'write string');
-    return switch (R) {
-      const (RInt8) => p.cast<RInt8>().writeString(value),
-      const (RInt16) => p.cast<RInt16>().writeString(value),
-      const (RInt32) => p.cast<RInt32>().writeString(value),
+    return switch (type) {
+      RInt8() => p.cast<RInt8>().writeString(value),
+      RInt16() => p.cast<RInt16>().writeString(value),
+      RInt32() => p.cast<RInt32>().writeString(value),
       _ => throw UnsupportedError("Invalid type $R for writing a string value."),
     };
   }
 
   void writeString(MemoryPointer<R> p, String value, int maxLength) {
     _check(p, 'writeString');
-    return switch (R) {
-      const (RInt8) => p.cast<RInt8>().writeString(value, maxLength),
-      const (RInt16) => p.cast<RInt16>().writeString(value, maxLength),
-      const (RInt32) => p.cast<RInt32>().writeString(value, maxLength),
+    return switch (type) {
+      RInt8() => p.cast<RInt8>().writeString(value, maxLength),
+      RInt16() => p.cast<RInt16>().writeString(value, maxLength),
+      RInt32() => p.cast<RInt32>().writeString(value, maxLength),
       _ => throw UnsupportedError("Invalid type $R for writing a string value."),
     };
   }
@@ -286,13 +288,13 @@ class PointerCodec<E, R extends RType>
   RaylibTempAllocator? allocator(RaylibTemp temp) => temp._pointerAllocator;
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     if (!deref(p).isNull) return;
     final alloc = inner.allocator(temp);
     if (alloc == null) throw StateError('No allocator for ${inner.runtimeType}');
-    final block = alloc.At(key, count);
+    final block = raw ? alloc.Raw(count) : alloc.At(key, count);
     p.writePtr(block);
-    inner.allocate(temp, block, '${key}_inner', count);
+    inner.allocate(temp, block, '${key}_inner', count: count, raw: raw);
   }
 }
 
@@ -341,10 +343,15 @@ class ArrayCodec<E, R extends RType>
   RaylibTempAllocator? allocator(RaylibTemp temp) => inner.allocator(temp);
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     for (var i = 0; i < count; i++) {
       for (var j = 0; j < this.count; j++) {
-        inner.allocate(temp, p.offsetBy((i * this.count + j) * inner.type.byteSize), '${key}_${i}_$j', 1);
+        inner.allocate(temp,
+          p.offsetBy((i * this.count + j) * inner.type.byteSize),
+          '${key}_${i}_$j',
+          count: 1,
+          raw: raw,
+        );
       }
     }
   }
@@ -410,7 +417,7 @@ abstract class StructFieldBase<E> {
     return value;
   }
 
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]);
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false});
 }
 
 class StructValueField<E, R extends RType> extends StructFieldBase<E> {
@@ -428,12 +435,37 @@ class StructValueField<E, R extends RType> extends StructFieldBase<E> {
   }
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     // no-op
   }
 }
 
-/// A pointer-to-single-value field. Holds a [PointerCodec] concretely — no
+/// A pointer-or-array-to-string-value field. Holds a [StringCodec] concretely.
+class StructStringValueField<R extends RTypeIntLike> extends StructFieldBase<String> {
+  final StringCodec<R> codec;
+
+  const StructStringValueField(super.offset, this.codec);
+
+  @override
+  String read(MemoryPointer p)
+    => codec.read(p.offsetBy(offset));
+
+  String readBounded(MemoryPointer p, int maxLength)
+    => codec.readString(p.cast(), maxLength);
+
+  @override
+  String write(MemoryPointer p, String value) {
+    codec.write(p.offsetBy(offset), value);
+    return value;
+  }
+
+  @override
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
+    codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
+  }
+}
+
+/// A pointer-to-single-value field. Holds a [PointerCodec] concretely, no
 /// casting, since a pointer field's on-struct type genuinely differs from
 /// [StructValueField]'s `R` slot (it's `RPointer<R>`, not `R`).
 class StructPointerValueField<E, R extends RType> extends StructFieldBase<E> {
@@ -457,12 +489,12 @@ class StructPointerValueField<E, R extends RType> extends StructFieldBase<E> {
     => codec.writeSafe(p.offsetBy(offset), value);
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
-    codec.allocate(temp, p.offsetBy(offset), key, count);
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
+    codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
   }
 }
 
-/// A pointer to a variable-length run of [E] — length is runtime-only, so
+/// A pointer to a variable-length run of [E], length is runtime-only, so
 /// there's no plain `read`/`write`; callers must supply the count they know
 /// about externally via [readCount]/[writeCount].
 class StructPointerArrayField<E, R extends RType> extends StructFieldBase<List<E>> {
@@ -512,8 +544,8 @@ class StructPointerArrayField<E, R extends RType> extends StructFieldBase<List<E
   }
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointer p, String key, [int count = 1]) {
-    codec.allocate(temp, p.offsetBy(offset), key, count);
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
+    codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
   }
 }
 
@@ -526,7 +558,11 @@ class LivePointerSync<R extends RType> {
     this._offset
   );
 
-  MemoryPointer<R> fieldPtr() => _ptrOf()?.offsetBy(_offset) ?? MemoryPointer.nullptr.cast();
+  MemoryPointer<R> fieldPtr()
+    => _ptrOf()?.offsetBy(_offset) ?? MemoryPointer.nullptr.cast();
+
+  MemoryPointer<Y> derefPtr<Y extends RType>()
+    => _ptrOf()?.offsetBy(_offset).readPtr() ?? MemoryPointer.nullptr.cast();
 
   factory LivePointerSync.pointerSync(
     MemoryPointer? Function() ptrOf,
@@ -539,8 +575,9 @@ class LivePointerSync<R extends RType> {
     fieldPtr().writePtr(p.offsetBy(_offset).readPtr());
   }
 
+  // we don't care about nullptr
   void writeInto(MemoryPointer p)
-    => p.offsetBy(_offset).writePtr(fieldPtr());
+    => p.offsetBy(_offset).writePtr(derefPtr());
 }
 
 class LiveStructList<E, R extends RType> extends ListMixin<E> {
@@ -553,7 +590,7 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   final int _offset;
   final int? _fixedCount;
 
-  final E Function(MemoryPointer fieldPtr, int index) _readAt;
+  final E? Function(MemoryPointer fieldPtr, int index) _readAt;
   final void Function(MemoryPointer fieldPtr, int index, E value) _writeAt;
 
   List<E> _cache;
@@ -574,8 +611,8 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   /// is always zero.
   factory LiveStructList.live(
     MemoryPointer? Function() ptrOf, {
-    required int? fixedCount,
-    required E Function(MemoryPointer fieldPtr, int index) readAt,
+    int? fixedCount,
+    required E? Function(MemoryPointer fieldPtr, int index) readAt,
     required void Function(MemoryPointer fieldPtr, int index, E value) writeAt,
     List<E> initial = const [],
   }) => ._(ptrOf, 0, fixedCount, readAt, writeAt, initial);
@@ -591,7 +628,11 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     assert(initial.length <= codec.count);
 
     return ._(ptrOf, field.offset, codec.count,
-      (fp, i) => codec.readAt(fp, i),
+      (fp, i) {
+        final sub = codec.elementPtr(fp, i);
+        if (sub.isNull) return null;
+        return codec.readAt(fp, i);
+      },
       (fp, i, v) => codec.writeAt(fp, i, v),
       initial,
     );
@@ -606,7 +647,11 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     final codec = field.codec;
 
     return ._(ptrOf, field.offset, null,
-      (fp, i) => codec.readAt(fp, i),
+      (fp, i) {
+        final sub = codec.elementPtr(fp, i);
+        if (sub.isNull) return null;
+        return codec.readAt(fp, i);
+      },
       (fp, i, v) => codec.writeAt(fp, i, v),
       initial,
     );
@@ -624,7 +669,11 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     assert(initial.length <= arrayCodec.count);
 
     return ._(ptrOf, field.offset, arrayCodec.count,
-      (fp, i) => arrayCodec.readAt(pointerCodec.deref(fp), i),
+      (fp, i) {
+        final sub = pointerCodec.elementPtr(fp, i);
+        if (sub.isNull) return null;
+        return arrayCodec.readAt(pointerCodec.deref(fp), i);
+      },
       (fp, i, v) => arrayCodec.writeAt(pointerCodec.deref(fp), i, v),
       initial,
     );
@@ -648,46 +697,46 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     List<List<T>> initial,
   ) {
     final outerCodec = field.codec;
-    final innerPointerCodec = outerCodec.inner as PointerCodec<T, RInner>;
+    final innerCodec = outerCodec.inner as PointerCodec<T, RInner>;
     final nestedCache = <LiveStructList<T, RInner>>[];
 
     late final LiveStructList<LiveStructList<T, RInner>, RPointer<RInner>> result;
 
-    result = .live(ptrOf, fixedCount: null,
+    result = .live(ptrOf,
       readAt: (_, index) {
         while (nestedCache.length <= index) {
           final innerIndex = nestedCache.length;
-          final initialInner = innerIndex < initial.length ? initial[innerIndex] : const [];
-          final innerList =
-              LiveStructList<T, RInner>.live(
-                () {
-                  final p = ptrOf();
-                  if (p == null) return null;
-                  final outerFieldPtr = p.offsetBy(field.offset);
-                  return outerCodec.pointerElementPtr(outerFieldPtr, innerIndex);
-                },
-                fixedCount: null,
-                readAt: (fp, elementIndex) {
-                  final elementPtr = fp.offsetBy(elementIndex * innerPointerCodec.type.byteSize);
-                  return innerPointerCodec.read(elementPtr);
-                },
-                writeAt: (fp, elementIndex, value) {
-                  final elementPtr = fp.offsetBy(elementIndex * innerPointerCodec.type.byteSize);
-                  innerPointerCodec.write(elementPtr, value);
-                },
-                initial: .from(initialInner),
-              );
+          final initialInner = innerIndex < initial.length ? initial[innerIndex] : [];
+
+          final LiveStructList<T, RInner> innerList = .live(
+            () {
+              final base = ptrOf()?.offsetBy(field.offset).readPtr();
+              return base == null ? null : innerCodec.pointerElementPtr(base, innerIndex);
+            },
+
+            readAt: (fp, eIndex) {
+              final ePtr = fp.offsetBy(eIndex * innerCodec.type.target.byteSize);
+              return innerCodec.inner.read(ePtr);
+            },
+            writeAt: (fp, eIndex, value) {
+              final ePtr = fp.offsetBy(eIndex * innerCodec.type.target.byteSize);
+              innerCodec.inner.write(ePtr, value);
+            },
+
+            initial: .from(initialInner),
+          );
 
           nestedCache.add(innerList);
         }
 
         return nestedCache[index];
       },
-      writeAt: (_, _, _) {
-        throw UnsupportedError(
-          'Cannot assign a nested LiveStructList as a value. '
-          'Modify the inner list returned by operator [].',
-        );
+      writeAt: (_, i, value) {
+        nestedCache[i].inner = value.inner;
+        // throw UnsupportedError(
+        //   'Cannot assign a nested LiveStructList as a value. '
+        //   'Modify the inner list returned by operator [].',
+        // );
       },
       initial: nestedCache,
     );
@@ -695,8 +744,22 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
     return result;
   }
 
+  // we don't care about nullptr
+  void syncFrom(MemoryPointer p, {bool borrow = true}) {
+    if (!borrow) return;
+    _fieldPtr()?.writePtr(p.offsetBy(_offset).readPtr());
+  }
+
+  // we don't care about nullptr
+  void syncInto(MemoryPointer p)
+    => p.offsetBy(_offset).writePtr(_derefPtr());
+
   MemoryPointer? _fieldPtr([MemoryPointer? src]) {
     return (src ?? ptrOf())?.offsetBy(_offset);
+  }
+
+  MemoryPointer? _derefPtr([MemoryPointer? src]) {
+    return (src ?? ptrOf())?.offsetBy(_offset).readPtr();
   }
 
   @override
@@ -713,7 +776,7 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   @override
   E operator [](int index) {
     final fp = _fieldPtr();
-    if (fp != null) return _readAt(fp, index);
+    if (fp != null) return _readAt(fp, index)!;
     return _cache[index];
   }
 
@@ -745,12 +808,22 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   set raw(List<E> value) => _cache = .of(value);
 
   /// Force a live re-read of [count] elements, refreshing the cache.
-  List<E> materialize([int? count]) {
+  List<E> materialize({int? count, bool safe = true}) {
     final int? resolvedCount = count ?? _fixedCount;
     if (resolvedCount == null) throw StateError('Expected `count` for `materialize`.');
     final fp = _fieldPtr();
     if (fp == null) return _cache;
-    _cache = .generate(resolvedCount, (i) => _readAt(fp, i));
+    final resolved = <E>[];
+    for (int i = 0; i < resolvedCount; i++) {
+      final value = _readAt(fp, i);
+      if (value == null) {
+        if (!safe) throw StateError('Cannot materialize. Invalid memory at index $i.');
+        break;
+      } else {
+        resolved.add(value);
+      }
+    }
+    _cache = resolved;
     return _cache;
   }
 
@@ -764,16 +837,23 @@ class LiveStructList<E, R extends RType> extends ListMixin<E> {
   }
 
   /// Reads data from another struct/object pointer.
-  List<E> readFrom(
-    MemoryPointer p, [
-    int? count,
-  ]) {
+  List<E> readFrom(MemoryPointer p, {int? count, bool safe = true}) {
     final int? resolvedCount = count ?? _fixedCount;
     if (resolvedCount == null) throw StateError('Expected `count` for `readFrom`.');
     final fp = _fieldPtr(p);
     if (fp == null) return _cache;
     if (fp.isNull) throw StateError('You are trying to read into livelist from a nullptr.');
-    _cache = .generate(resolvedCount, (i) => _readAt(fp, i));
+    final resolved = <E>[];
+    for (int i = 0; i < resolvedCount; i++) {
+      final value = _readAt(fp, i);
+      if (value == null) {
+        if (!safe) throw StateError('Cannot readFrom. Invalid memory at index $i.');
+        break;
+      } else {
+        resolved.add(value);
+      }
+    }
+    _cache = resolved;
     return _cache;
   }
 }

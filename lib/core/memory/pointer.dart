@@ -55,6 +55,9 @@ final class RArray<E extends RType> extends RType {
   int get byteSize => element.byteSize * count;
 
   @override
+  int get alignment => element.alignment;
+
+  @override
   V? read<V>(MemoryPointer p, int offset)
     => throw UnsupportedError('$this is not directly readable. Use appropriate field, not `StructField`.');
 
@@ -378,6 +381,9 @@ class RStruct extends RType {
 
   @override
   int get byteSize => layout.byteSize;
+
+  @override
+  int get alignment => layout.alignment;
 
   @override
   V? read<V>(MemoryPointer p, int offset)

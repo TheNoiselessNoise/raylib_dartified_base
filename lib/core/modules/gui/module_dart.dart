@@ -306,16 +306,12 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
     [RectangleD? view]
   ) => run(
     () => _debugLabels.GuiScrollPanel(bounds, text, content, scroll, view),
-    () => rl.Temp.Vector2$.RefUpdate1(scroll,
-      (ps) => rl.Temp.Rectangle$.RefUpdate1(view,
-        (pv) => rl.GuiFlat.GuiScrollPanel(
-          bounds,
-          rl.Temp.String$.ValueOrNull(text),
-          content,
-          ps,
-          pv,
-        ),
-      ),
+    () => rl.GuiFlat.GuiScrollPanel(
+      bounds,
+      rl.Temp.String$.ValueOrNull(text),
+      content,
+      rl.Temp.Vector2$.RefUnique(scroll),
+      rl.Temp.Rectangle$.RefUnique(view),
     ),
   );
 
@@ -659,14 +655,12 @@ final class RaylibGuiModule<R extends RaylibBase<R>> extends RaylibModule<R> wit
     [Vector2D? mouseCell]
   ) => run(
     () => _debugLabels.GuiGrid(bounds, spacing, subdivs, mouseCell),
-    () => rl.Temp.Vector2$.RefUpdate1(mouseCell,
-      (pv) => rl.GuiFlat.GuiGrid(
-        bounds,
-        MemoryPointer.nullptr.cast(), // `text`, it's not used at all
-        spacing.toDouble(),
-        subdivs.toInt(),
-        pv,
-      ),
+    () => rl.GuiFlat.GuiGrid(
+      bounds,
+      MemoryPointer.nullptr.cast(), // `text`, it's not used at all
+      spacing.toDouble(),
+      subdivs.toInt(),
+      rl.Temp.Vector2$.RefUnique(mouseCell),
     ),
   );
 
