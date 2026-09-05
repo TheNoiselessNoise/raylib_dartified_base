@@ -101,8 +101,8 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _buffer.writeInto(p);
-    _processor.writeInto(p);
+    _buffer.syncInto(p);
+    _processor.syncInto(p);
     _sampleRateF.write(p, _sampleRate);
     _sampleSizeF.write(p, _sampleSize);
     _channelsF.write(p, _channels);
@@ -110,8 +110,8 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _buffer.readFrom(p, borrow: true);
-    _processor.readFrom(p, borrow: true);
+    _buffer.syncFrom(p);
+    _processor.syncFrom(p);
     _sampleRate = _sampleRateF.read(p);
     _sampleSize = _sampleSizeF.read(p);
     _channels = _channelsF.read(p);

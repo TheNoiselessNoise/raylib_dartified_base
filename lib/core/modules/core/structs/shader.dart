@@ -60,9 +60,9 @@ class ShaderD extends RaylibStruct<ShaderD> {
   int get id => _id = _idF.readOr(op?.ptr, _id);
   set id(int value) => _id = _idF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<int, RInt> _locs;
+  late final StructLiveList<int, RInt> _locs;
   /// Shader locations array (RL_MAX_SHADER_LOCATIONS)
-  LiveStructList<int, RInt> get locs => _locs;
+  StructLiveList<int, RInt> get locs => _locs;
   set locs(List<int> value) => _locs.inner = value;
 
   ShaderD({

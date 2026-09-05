@@ -71,14 +71,14 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   int get pointCount => _pointCount = _pointCountF.readOr(op?.ptr, _pointCount);
   set pointCount(int value) => _pointCount = _pointCountF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<int, RInt> _pointId;
+  late final StructLiveList<int, RInt> _pointId;
   /// Point Id
-  LiveStructList<int, RInt> get pointId => _pointId;
+  StructLiveList<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) => _pointId.inner = value;
 
-  late final LiveStructList<Vector2D, RStruct> _position;
+  late final StructLiveListStruct<Vector2D> _position;
   /// Position
-  LiveStructList<Vector2D, RStruct> get position => _position;
+  StructLiveListStruct<Vector2D> get position => _position;
   set position(List<Vector2D> value) => _position.inner = value;
 
   GestureEventD({

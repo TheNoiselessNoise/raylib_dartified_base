@@ -105,7 +105,7 @@ class MusicD extends RaylibStruct<MusicD> {
     _frameCountF.write(p, _frameCount);
     _loopingF.write(p, _looping);
     _ctxTypeF.write(p, _ctxType);
-    _ctxData.writeInto(p);
+    _ctxData.syncInto(p);
   }
 
   @override
@@ -114,7 +114,7 @@ class MusicD extends RaylibStruct<MusicD> {
     _frameCount = _frameCountF.read(p);
     _looping = _loopingF.read(p);
     _ctxType = _ctxTypeF.read(p);
-    _ctxData.readFrom(p, borrow: true);
+    _ctxData.syncFrom(p);
   }
 
   @override

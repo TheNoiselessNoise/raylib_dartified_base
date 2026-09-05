@@ -129,7 +129,7 @@ final class RaylibTempStructAllocator<
   /// Returns a [StructPointer] for the given [X] value, using the existing allocation at [key]
   /// when [x] is `null`, or allocating [x] into [key] via [Allocate].
   ///
-  /// Unlike [_RefOrNull], a `null` [x] does not produce a nullptr, it reuses
+  /// Unlike [_RefOrNull], a `null` [x] does not produce a `nullptr`, it reuses
   /// the slot's current allocation via [At]. Use [_RefOrNull] when a `null` input
   /// should produce a `nullptr` instead.
   StructPointer<X> _Ref(X? x, String key) => x == null
@@ -138,7 +138,9 @@ final class RaylibTempStructAllocator<
 
   StructPointer<X> RefUnique(X? x) {
     if (x == null) return pointerFactory(MemoryPointer.nullptr);
-    return Allocate(x);
+    x.op ??= AtUniqueStruct();
+    x.structSyncToMemory();
+    return x.getOp();
   }
 
   /// Allocates [o] into slot `'1'`, or reuses the existing slot `'1'` allocation

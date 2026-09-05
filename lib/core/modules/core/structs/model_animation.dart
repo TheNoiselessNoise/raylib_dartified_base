@@ -7,8 +7,6 @@ enum ModelAnimationField with StructFields {
   keyframePoses,
 }
 
-typedef ModelAnimationKeyFramePoses = LiveStructList<LiveStructList<TransformD, RStruct>, RPointer<RStruct>>;
-
 /// ModelAnimation, contains a full animation sequence
 class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
 
@@ -72,7 +70,7 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   /// Number of animation key frames
   int get keyframeCount => _keyframeCountF.readOr(op?.ptr, 0);
 
-  ModelAnimationKeyFramePoses get keyframePoses => _keyframePosesF.liveNested(() => op?.ptr, []);
+  StructLiveListStructNested<TransformD> get keyframePoses => _keyframePosesF.liveNested(() => op?.ptr, []);
 
   ModelAnimationD({ super.op });
 

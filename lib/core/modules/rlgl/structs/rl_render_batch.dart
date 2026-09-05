@@ -63,14 +63,14 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   int get currentBuffer => _currentBuffer = _currentBufferF.readOr(op?.ptr, _currentBuffer);
   set currentBuffer(int value) => _currentBuffer = _currentBufferF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<RlVertexBufferD, RStruct> _vertexBuffer;
+  late final StructLiveListStruct<RlVertexBufferD> _vertexBuffer;
   /// Dynamic buffer(s) for vertex data
-  LiveStructList<RlVertexBufferD, RStruct> get vertexBuffer => _vertexBuffer;
+  StructLiveListStruct<RlVertexBufferD> get vertexBuffer => _vertexBuffer;
   set vertexBuffer(List<RlVertexBufferD> value) => _vertexBuffer.inner = value;
 
-  late final LiveStructList<RlDrawCallD, RStruct> _draws;
+  late final StructLiveListStruct<RlDrawCallD> _draws;
   /// Draw calls array, depends on textureId
-  LiveStructList<RlDrawCallD, RStruct> get draws => _draws;
+  StructLiveListStruct<RlDrawCallD> get draws => _draws;
   set draws(List<RlDrawCallD> value) => _draws.inner = value;
 
   int _drawCounter;

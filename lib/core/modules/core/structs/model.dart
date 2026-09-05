@@ -81,19 +81,19 @@ class ModelD extends RaylibStruct<ModelD> {
   int get materialCount => _materialCount = _materialCountF.readOr(op?.ptr, _materialCount);
   set materialCount(int value) => _materialCount = _materialCountF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<MeshD, RStruct> _meshes;
+  late final StructLiveListStruct<MeshD> _meshes;
   /// Meshes array
-  LiveStructList<MeshD, RStruct> get meshes => _meshes;
+  StructLiveListStruct<MeshD> get meshes => _meshes;
   set meshes(List<MeshD> value) => _meshes.inner = value;
   
-  late final LiveStructList<MaterialD, RStruct> _materials;
+  late final StructLiveListStruct<MaterialD> _materials;
   /// Materials array
-  LiveStructList<MaterialD, RStruct> get materials => _materials;
+  StructLiveListStruct<MaterialD> get materials => _materials;
   set materials(List<MaterialD> value) => _materials.inner = value;
 
-  late final LiveStructList<int, RInt> _meshMaterial;
+  late final StructLiveList<int, RInt> _meshMaterial;
   /// Mesh material number
-  LiveStructList<int, RInt> get meshMaterial => _meshMaterial;
+  StructLiveList<int, RInt> get meshMaterial => _meshMaterial;
   set meshMaterial(List<int> value) => _meshMaterial.inner = value;
 
   ModelSkeletonD _skeleton;
@@ -101,14 +101,14 @@ class ModelD extends RaylibStruct<ModelD> {
   ModelSkeletonD get skeleton => _skeleton = _skeletonF.readOr(op?.ptr, _skeleton);
   set skeleton(ModelSkeletonD value) => _skeleton = _skeletonF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<TransformD, RStruct> _currentPose;
+  late final StructLiveListStruct<TransformD> _currentPose;
   /// Current animation pose (Transform[])
-  LiveStructList<TransformD, RStruct> get currentPose => _currentPose;
+  StructLiveListStruct<TransformD> get currentPose => _currentPose;
   set currentPose(List<TransformD> value) => _currentPose.inner = value;
   
-  late final LiveStructList<MatrixD, RStruct> _boneMatrices;
+  late final StructLiveListStruct<MatrixD> _boneMatrices;
   /// Bones animated transformation matrices
-  LiveStructList<MatrixD, RStruct> get boneMatrices => _boneMatrices;
+  StructLiveListStruct<MatrixD> get boneMatrices => _boneMatrices;
   set boneMatrices(List<MatrixD> value) => _boneMatrices.inner = value;
 
   ModelD({

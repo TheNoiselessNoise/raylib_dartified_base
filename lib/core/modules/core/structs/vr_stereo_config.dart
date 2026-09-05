@@ -73,44 +73,44 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  late final LiveStructList<MatrixD, RStruct> _projection;
+  late final StructLiveListStruct<MatrixD> _projection;
   /// VR projection matrices (per eye)
-  LiveStructList<MatrixD, RStruct> get projection => _projection;
+  StructLiveListStruct<MatrixD> get projection => _projection;
   set projection(List<MatrixD> value) => _projection.inner = value;
   
-  late final LiveStructList<MatrixD, RStruct> _viewOffset;
+  late final StructLiveListStruct<MatrixD> _viewOffset;
   /// VR view offset matrices (per eye)
-  LiveStructList<MatrixD, RStruct> get viewOffset => _viewOffset;
+  StructLiveListStruct<MatrixD> get viewOffset => _viewOffset;
   set viewOffset(List<MatrixD> value) => _viewOffset.inner = value;
   
-  late final LiveStructList<double, RFloat> _leftLensCenter;
+  late final StructLiveList<double, RFloat> _leftLensCenter;
   /// VR left lens center
-  LiveStructList<double, RFloat> get leftLensCenter => _leftLensCenter;
+  StructLiveList<double, RFloat> get leftLensCenter => _leftLensCenter;
   set leftLensCenter(List<double> value) => _leftLensCenter.inner = value;
   
-  late final LiveStructList<double, RFloat> _rightLensCenter;
+  late final StructLiveList<double, RFloat> _rightLensCenter;
   /// VR right lens center
-  LiveStructList<double, RFloat> get rightLensCenter => _rightLensCenter;
+  StructLiveList<double, RFloat> get rightLensCenter => _rightLensCenter;
   set rightLensCenter(List<double> value) => _rightLensCenter.inner = value;
   
-  late final LiveStructList<double, RFloat> _leftScreenCenter;
+  late final StructLiveList<double, RFloat> _leftScreenCenter;
   /// VR left screen center
-  LiveStructList<double, RFloat> get leftScreenCenter => _leftScreenCenter;
+  StructLiveList<double, RFloat> get leftScreenCenter => _leftScreenCenter;
   set leftScreenCenter(List<double> value) => _leftScreenCenter.inner = value;
   
-  late final LiveStructList<double, RFloat> _rightScreenCenter;
+  late final StructLiveList<double, RFloat> _rightScreenCenter;
   /// VR right screen center
-  LiveStructList<double, RFloat> get rightScreenCenter => _rightScreenCenter;
+  StructLiveList<double, RFloat> get rightScreenCenter => _rightScreenCenter;
   set rightScreenCenter(List<double> value) => _rightScreenCenter.inner = value;
   
-  late final LiveStructList<double, RFloat> _scale;
+  late final StructLiveList<double, RFloat> _scale;
   /// VR distortion scale
-  LiveStructList<double, RFloat> get scale => _scale;
+  StructLiveList<double, RFloat> get scale => _scale;
   set scale(List<double> value) => _scale.inner = value;
   
-  late final LiveStructList<double, RFloat> _scaleIn;
+  late final StructLiveList<double, RFloat> _scaleIn;
   /// VR distortion scale in
-  LiveStructList<double, RFloat> get scaleIn => _scaleIn;
+  StructLiveList<double, RFloat> get scaleIn => _scaleIn;
   set scaleIn(List<double> value) => _scaleIn.inner = value;
 
   VrStereoConfigD({

@@ -73,14 +73,14 @@ class FontD extends RaylibStruct<FontD> {
   TextureD get texture => _texture = _textureF.readOr(op?.ptr, _texture);
   set texture(TextureD value) => _texture = _textureF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<RectangleD, RStruct> _recs;
+  late final StructLiveListStruct<RectangleD> _recs;
   /// Rectangles in texture for the glyphs
-  LiveStructList<RectangleD, RStruct> get recs => _recs;
+  StructLiveListStruct<RectangleD> get recs => _recs;
   set recs(List<RectangleD> value) => _recs.inner = value;
 
-  late final LiveStructList<GlyphInfoD, RStruct> _glyphs;
+  late final StructLiveListStruct<GlyphInfoD> _glyphs;
   /// Glyphs info data
-  LiveStructList<GlyphInfoD, RStruct> get glyphs => _glyphs;
+  StructLiveListStruct<GlyphInfoD> get glyphs => _glyphs;
   set glyphs(List<GlyphInfoD> value) => _glyphs.inner = value;
 
   FontD({

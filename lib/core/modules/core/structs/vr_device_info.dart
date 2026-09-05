@@ -111,14 +111,14 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   double get interpupillaryDistance => _interpupillaryDistance = _interpupillaryDistanceF.readOr(op?.ptr, _interpupillaryDistance);
   set interpupillaryDistance(double value) => _interpupillaryDistance = _interpupillaryDistanceF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<double, RFloat> _lensDistortionValues;
+  late final StructLiveList<double, RFloat> _lensDistortionValues;
   /// Lens distortion constant parameters
-  LiveStructList<double, RFloat> get lensDistortionValues => _lensDistortionValues;
+  StructLiveList<double, RFloat> get lensDistortionValues => _lensDistortionValues;
   set lensDistortionValues(List<double> value) => _lensDistortionValues.inner = value;
 
-  late final LiveStructList<double, RFloat> _chromaAbCorrection;
+  late final StructLiveList<double, RFloat> _chromaAbCorrection;
   /// Chromatic aberration correction parameters
-  LiveStructList<double, RFloat> get chromaAbCorrection => _chromaAbCorrection;
+  StructLiveList<double, RFloat> get chromaAbCorrection => _chromaAbCorrection;
   set chromaAbCorrection(List<double> value) => _chromaAbCorrection.inner = value;
 
   VrDeviceInfoD({

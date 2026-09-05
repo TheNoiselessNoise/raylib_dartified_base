@@ -69,14 +69,14 @@ class MaterialD extends RaylibStruct<MaterialD> {
   ShaderD get shader => _shader = _shaderF.readOr(op?.ptr, _shader);
   set shader(ShaderD value) => _shader = _shaderF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<MaterialMapD, RStruct> _maps;
+  late final StructLiveListStruct<MaterialMapD> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
-  LiveStructList<MaterialMapD, RStruct> get maps => _maps;
+  StructLiveListStruct<MaterialMapD> get maps => _maps;
   set maps(List<MaterialMapD> value) => _maps.inner = value;
 
-  late final LiveStructList<double, RFloat> _params;
+  late final StructLiveList<double, RFloat> _params;
   /// Material generic parameters (if required)
-  LiveStructList<double, RFloat> get params => _params;
+  StructLiveList<double, RFloat> get params => _params;
   set params(List<double> value) => _params.inner = value;
 
   MaterialD({

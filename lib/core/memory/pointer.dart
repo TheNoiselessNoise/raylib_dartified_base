@@ -711,7 +711,7 @@ extension Float64Pointer on MemoryPointer<RFloat64> {
 
 extension MemoryPointerMatrixIO on MemoryPointer<RPointer<RStruct>> {
   void writeMatrix<D extends RaylibStruct<D>>(
-    List<LiveStructList<D, RStruct>> rows
+    List<StructLiveList<D, RStruct>> rows
   ) {
     final pSize = RType.nativeWordSize;
     for (var i = 0; i < rows.length; i++) {
@@ -1153,13 +1153,11 @@ final class StructPointer<D extends RaylibStruct<D>> {
     (i) => _getAtIndex(i, owned: owned),
   );
 
-  LiveStructList<D, RStruct> live([List<D>? initial]) => ._(
+  StructLiveList<D, RStruct> live([List<D>? initial]) => .live(
     () => ptr,
-    0,
-    null,
-    (_, i) => this[i],
-    (_, i, v) => this[i] = v,
-    initial ?? [],
+    readAt: (_, i) => this[i],
+    writeAt: (_, i, v) => this[i] = v,
+    initial: initial ?? [],
   );
 
   // MemoryPointer redirection

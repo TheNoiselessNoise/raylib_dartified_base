@@ -184,39 +184,39 @@ class MeshD extends RaylibStruct<MeshD> {
   
   // Vertex attributes data
   
-  late final LiveStructList<double, RFloat> _vertices;
+  late final StructLiveList<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-  LiveStructList<double, RFloat> get vertices => _vertices;
+  StructLiveList<double, RFloat> get vertices => _vertices;
   set vertices(List<double> value) => _vertices.inner = value;
   
-  late final LiveStructList<double, RFloat> _texcoords;
+  late final StructLiveList<double, RFloat> _texcoords;
   /// Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-  LiveStructList<double, RFloat> get texcoords => _texcoords;
+  StructLiveList<double, RFloat> get texcoords => _texcoords;
   set texcoords(List<double> value) => _texcoords.inner = value;
 
-  late final LiveStructList<double, RFloat> _texcoords2;
+  late final StructLiveList<double, RFloat> _texcoords2;
   /// Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
-  LiveStructList<double, RFloat> get texcoords2 => _texcoords2;
+  StructLiveList<double, RFloat> get texcoords2 => _texcoords2;
   set texcoords2(List<double> value) => _texcoords2.inner = value;
 
-  late final LiveStructList<double, RFloat> _normals;
+  late final StructLiveList<double, RFloat> _normals;
   /// Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
-  LiveStructList<double, RFloat> get normals => _normals;
+  StructLiveList<double, RFloat> get normals => _normals;
   set normals(List<double> value) => _normals.inner = value;
 
-  late final LiveStructList<double, RFloat> _tangents;
+  late final StructLiveList<double, RFloat> _tangents;
   /// Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
-  LiveStructList<double, RFloat> get tangents => _tangents;
+  StructLiveList<double, RFloat> get tangents => _tangents;
   set tangents(List<double> value) => _tangents.inner = value;
 
-  late final LiveStructList<int, RUnsignedChar> _colors;
+  late final StructLiveList<int, RUnsignedChar> _colors;
   /// Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-  LiveStructList<int, RUnsignedChar> get colors => _colors;
+  StructLiveList<int, RUnsignedChar> get colors => _colors;
   set colors(List<int> value) => _colors.inner = value;
 
-  late final LiveStructList<int, RUnsignedShort> _indices;
+  late final StructLiveList<int, RUnsignedShort> _indices;
   /// Vertex indices (in case vertex data comes indexed)
-  LiveStructList<int, RUnsignedShort> get indices => _indices;
+  StructLiveList<int, RUnsignedShort> get indices => _indices;
   set indices(List<int> value) => _indices.inner = value;
 
   // Skin data for animation
@@ -226,26 +226,26 @@ class MeshD extends RaylibStruct<MeshD> {
   int get boneCount => _boneCount = _boneCountF.readOr(op?.ptr, _boneCount);
   set boneCount(int value) => _boneCount = _boneCountF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<int, RUnsignedChar> _boneIndices;
+  late final StructLiveList<int, RUnsignedChar> _boneIndices;
   /// Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-  LiveStructList<int, RUnsignedChar> get boneIndices => _boneIndices;
+  StructLiveList<int, RUnsignedChar> get boneIndices => _boneIndices;
   set boneIndices(List<int> value) => _boneIndices.inner = value;
   
-  late final LiveStructList<double, RFloat> _boneWeights;
+  late final StructLiveList<double, RFloat> _boneWeights;
   /// Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
-  LiveStructList<double, RFloat> get boneWeights => _boneWeights;
+  StructLiveList<double, RFloat> get boneWeights => _boneWeights;
   set boneWeights(List<double> value) => _boneWeights.inner = value;
 
   // Animation vertex data
 
-  late final LiveStructList<double, RFloat> _animVertices;
+  late final StructLiveList<double, RFloat> _animVertices;
   /// Animated vertex positions (after bones transformations)
-  LiveStructList<double, RFloat> get animVertices => _animVertices;
+  StructLiveList<double, RFloat> get animVertices => _animVertices;
   set animVertices(List<double> value) => _animVertices.inner = value;
 
-  late final LiveStructList<double, RFloat> _animNormals;
+  late final StructLiveList<double, RFloat> _animNormals;
   /// Animated normals (after bones transformations)
-  LiveStructList<double, RFloat> get animNormals => _animNormals;
+  StructLiveList<double, RFloat> get animNormals => _animNormals;
   set animNormals(List<double> value) => _animNormals.inner = value;
 
   int _vaoId;
@@ -253,9 +253,9 @@ class MeshD extends RaylibStruct<MeshD> {
   int get vaoId => _vaoId = _vaoIdF.readOr(op?.ptr, _vaoId);
   set vaoId(int value) => _vaoId = _vaoIdF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<int, RUnsignedInt> _vboId;
+  late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (default vertex data)
-  LiveStructList<int, RUnsignedInt> get vboId => _vboId;
+  StructLiveList<int, RUnsignedInt> get vboId => _vboId;
   set vboId(List<int> value) => _vboId.inner = value;
 
   MeshD({

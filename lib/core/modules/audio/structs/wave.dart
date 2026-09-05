@@ -174,7 +174,7 @@ class WaveD extends RaylibStruct<WaveD> {
     _sampleRateF.write(p, _sampleRate);
     _sampleSizeF.write(p, _sampleSize);
     _channelsF.write(p, _channels);
-    _data.writeInto(p);
+    _data.syncInto(p);
 
     if (!data.isNull) {
       assert(waveLength <= BASE_bufferLength(dataBuffer, sampleSize));
@@ -188,7 +188,7 @@ class WaveD extends RaylibStruct<WaveD> {
     _sampleRate = _sampleRateF.read(p);
     _sampleSize = _sampleSizeF.read(p);
     _channels = _channelsF.read(p);
-    _data.readFrom(p, borrow: true);
+    _data.syncFrom(p);
 
     if (!data.isNull) dataBuffer = switch (sampleSize) {
       8  => data.to<Uint8List>(waveLength).buffer,

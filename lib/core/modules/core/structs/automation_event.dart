@@ -68,9 +68,9 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   AutomationEventType get type => _type = _typeF.readOr(op?.ptr, _type);
   set type(AutomationEventType value) => _type = _typeF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<int, RInt> _params;
+  late final StructLiveList<int, RInt> _params;
   /// Event parameters (if required)
-  LiveStructList<int, RInt> get params => _params;
+  StructLiveList<int, RInt> get params => _params;
   set params(List<int> value) => _params.inner = value;
 
   AutomationEventD({

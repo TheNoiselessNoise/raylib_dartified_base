@@ -114,29 +114,29 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   int get elementCount => _elementCount = _elementCountF.readOr(op?.ptr, _elementCount);
   set elementCount(int value) => _elementCount = _elementCountF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<double, RFloat> _vertices;
+  late final StructLiveList<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-  LiveStructList<double, RFloat> get vertices => _vertices;
+  StructLiveList<double, RFloat> get vertices => _vertices;
   set vertices(List<double> value) => _vertices.inner = value;
 
-  late final LiveStructList<double, RFloat> _texcoords;
+  late final StructLiveList<double, RFloat> _texcoords;
   /// Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-  LiveStructList<double, RFloat> get texcoords => _texcoords;
+  StructLiveList<double, RFloat> get texcoords => _texcoords;
   set texcoords(List<double> value) => _texcoords.inner = value;
 
-  late final LiveStructList<double, RFloat> _normals;
+  late final StructLiveList<double, RFloat> _normals;
   /// Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
-  LiveStructList<double, RFloat> get normals => _normals;
+  StructLiveList<double, RFloat> get normals => _normals;
   set normals(List<double> value) => _normals.inner = value;
 
-  late final LiveStructList<int, RUnsignedChar> _colors;
+  late final StructLiveList<int, RUnsignedChar> _colors;
   /// Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-  LiveStructList<int, RUnsignedChar> get colors => _colors;
+  StructLiveList<int, RUnsignedChar> get colors => _colors;
   set colors(List<int> value) => _colors.inner = value;
   
-  late final LiveStructList<int, RTypeIntLike> _indices;
+  late final StructLiveList<int, RTypeIntLike> _indices;
   /// Vertex indices (in case vertex data comes indexed) (6 indices per quad)
-  LiveStructList<int, RTypeIntLike> get indices => _indices;
+  StructLiveList<int, RTypeIntLike> get indices => _indices;
   set indices(List<int> value) => _indices.inner = value;
 
   int _vaoId;
@@ -144,9 +144,9 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   int get vaoId => _vaoId = _vaoIdF.readOr(op?.ptr, _vaoId);
   set vaoId(int value) => _vaoId = _vaoIdF.writeIf(op?.ptr, value);
   
-  late final LiveStructList<int, RUnsignedInt> _vboId;
+  late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (5 types of vertex data)
-  LiveStructList<int, RUnsignedInt> get vboId => _vboId;
+  StructLiveList<int, RUnsignedInt> get vboId => _vboId;
   set vboId(List<int> value) => _vboId.inner = value;
 
   RlVertexBufferD({

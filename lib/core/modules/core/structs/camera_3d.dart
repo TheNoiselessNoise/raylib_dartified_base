@@ -9,7 +9,7 @@ enum Camera3DField with StructFields {
 }
 
 /// Camera, defines position/orientation in 3d space
-class Camera3DD extends RaylibStructLiteral<Camera3DD> {
+class Camera3DD extends RaylibStruct<Camera3DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    

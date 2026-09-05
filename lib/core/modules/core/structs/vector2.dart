@@ -9,7 +9,7 @@ enum Vector2Field with StructFields {
 }
 
 /// Vector2, 2 components
-class Vector2D extends RaylibStructLiteral<Vector2D> {
+class Vector2D extends RaylibStruct<Vector2D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    

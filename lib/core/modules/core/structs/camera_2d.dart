@@ -8,7 +8,7 @@ enum Camera2DField with StructFields {
 }
 
 /// Camera2D, defines position/orientation in 2d space
-class Camera2DD extends RaylibStructLiteral<Camera2DD> {
+class Camera2DD extends RaylibStruct<Camera2DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    

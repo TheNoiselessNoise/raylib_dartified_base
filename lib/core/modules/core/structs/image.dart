@@ -193,7 +193,7 @@ class ImageD extends RaylibStruct<ImageD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _data.writeInto(p);
+    _data.syncInto(p);
     _widthF.write(p, _width);
     _heightF.write(p, _height);
     _mipmapsF.write(p, _mipmaps);
@@ -202,7 +202,7 @@ class ImageD extends RaylibStruct<ImageD> {
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _data.readFrom(p);
+    _data.syncFrom(p);
     _width = _widthF.read(p);
     _height = _heightF.read(p);
     _mipmaps = _mipmapsF.read(p);

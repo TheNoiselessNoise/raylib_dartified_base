@@ -49,14 +49,14 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   int get boneCount => _boneCount = _boneCountF.readOr(op?.ptr, _boneCount);
   set boneCount(int value) => _boneCount = _boneCountF.writeIf(op?.ptr, value);
 
-  late final LiveStructList<BoneInfoD, RStruct> _bones;
+  late final StructLiveListStruct<BoneInfoD> _bones;
   /// Bones information (skeleton)
-  LiveStructList<BoneInfoD, RStruct> get bones => _bones;
+  StructLiveListStruct<BoneInfoD> get bones => _bones;
   set bones(List<BoneInfoD> value) => _bones.inner = value;
 
-  late final LiveStructList<TransformD, RStruct> _bindPose;
+  late final StructLiveListStruct<TransformD> _bindPose;
   /// Bones base transformation (Transform[])
-  LiveStructList<TransformD, RStruct> get bindPose => _bindPose;
+  StructLiveListStruct<TransformD> get bindPose => _bindPose;
   set bindPose(List<TransformD> value) => _bindPose.inner = value;
   
   ModelSkeletonD({
