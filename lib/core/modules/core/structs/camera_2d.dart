@@ -8,7 +8,7 @@ enum Camera2DField with StructFields {
 }
 
 /// Camera2D, defines position/orientation in 2d space
-class Camera2DD extends RaylibStruct<Camera2DD> {
+class Camera2DD extends RaylibStructLiteral<Camera2DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -31,7 +31,7 @@ class Camera2DD extends RaylibStruct<Camera2DD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Camera2DD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera2DD.new, Camera2DD.pointer);
 
   static final _offsetF = struct.struct(.offset, Vector2D.pointer);
@@ -91,7 +91,7 @@ class Camera2DD extends RaylibStruct<Camera2DD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _offsetF.write(p, _offset);
     _targetF.write(p, _target);
     _rotationF.write(p, _rotation);
@@ -99,7 +99,7 @@ class Camera2DD extends RaylibStruct<Camera2DD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _offset = _offsetF.read(p);
     _target = _targetF.read(p);
     _rotation = _rotationF.read(p);

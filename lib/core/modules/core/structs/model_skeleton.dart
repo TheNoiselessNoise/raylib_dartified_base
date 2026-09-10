@@ -29,7 +29,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelSkeletonD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelSkeletonD.new, ModelSkeletonD.pointer);
 
   static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
@@ -80,7 +80,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (bones.inner.isNotEmpty) {
       _bonesF.allocate(temp, p, '${key}_bones', count: _bones.inner.length);
     }
@@ -90,14 +90,14 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _boneCountF.write(p, _boneCount);
     _bones.writeInto(p);
     _bindPose.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _boneCount = _boneCountF.read(p);
     _bones.readFrom(p, count: boneCount);
     _bindPose.readFrom(p, count: boneCount);

@@ -27,7 +27,7 @@ class SoundD extends RaylibStruct<SoundD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<SoundD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<SoundD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, SoundD.new, SoundD.pointer);
 
   static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
@@ -69,13 +69,13 @@ class SoundD extends RaylibStruct<SoundD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _streamF.write(p, _stream);
     _frameCountF.write(p, _frameCount);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _stream = _streamF.read(p);
     _frameCount = _frameCountF.read(p);
   }

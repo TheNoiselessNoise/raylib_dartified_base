@@ -31,7 +31,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RectangleD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RectangleD.new, RectangleD.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -99,7 +99,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _widthF.write(p, _width);
@@ -107,7 +107,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _width = _widthF.read(p);

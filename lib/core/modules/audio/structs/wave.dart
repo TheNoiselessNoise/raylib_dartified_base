@@ -33,7 +33,7 @@ class WaveD extends RaylibStruct<WaveD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<WaveD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<WaveD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, WaveD.new, WaveD.pointer);
 
   static final _frameCountF = struct.scalar<int, RUnsignedInt>(.frameCount);
@@ -92,7 +92,7 @@ class WaveD extends RaylibStruct<WaveD> {
     _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
   };
   
-  static void BASE_dataSetList(MemoryPointerHandle ptr, ByteBuffer src, int sampleSize, int dataLength) {
+  static void BASE_dataSetList(MemoryPointer ptr, ByteBuffer src, int sampleSize, int dataLength) {
     final byteCount = dataLength * (sampleSize ~/ 8);
     final srcBytes = src.asUint8List(0, byteCount);
     ptr.cast<RUint8>().writeArray(srcBytes);
@@ -132,14 +132,22 @@ class WaveD extends RaylibStruct<WaveD> {
   late final LivePointerSync<RVoid> _data = _dataF.live(() => op);
   MemoryPointer<RVoid> get data => _data.derefPtr();
 
+  late ByteBuffer _dataBuffer;
   /// Raw audio buffer data
-  late ByteBuffer dataBuffer;
+  ByteBuffer get dataBuffer => op == null ? _dataBuffer : switch (sampleSize) {
+    8  => data.to<Uint8List>(waveLength).buffer,
+    16 => data.to<Int16List>(waveLength).buffer,
+    32 => data.to<Float32List>(waveLength).buffer,
+    _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
+  };
+
+  bool _isNew = true;
 
   WaveD({
     super.op,
     int frameCount = 0,
     int sampleRate = 0,
-    int sampleSize = 0,
+    int sampleSize = 8, // NOTE: we can't have it as `0` due to `BASE_dummyData`
     int channels = 0,
     ByteBuffer? data,
   }) :
@@ -148,7 +156,8 @@ class WaveD extends RaylibStruct<WaveD> {
     _sampleSize = sampleSize,
     _channels = channels
   {
-    dataBuffer = data ?? BASE_dummyData(sampleSize, waveLength);
+    _isNew = false;
+    _dataBuffer = data ?? BASE_dummyData(sampleSize, waveLength);
   }
 
   factory WaveD.zero() => .new();
@@ -159,43 +168,38 @@ class WaveD extends RaylibStruct<WaveD> {
     sampleRate = o.sampleRate;
     sampleSize = o.sampleSize;
     channels = o.channels;
-    dataBuffer = BASE_bufferCopy(o.dataBuffer, sampleSize);
+    _dataBuffer = BASE_bufferCopy(o.dataBuffer, sampleSize);
     return this;
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
-    _dataF.allocate(temp, p, '${key}_data', count: dataBuffer.lengthInBytes);
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
+    _dataF.allocate(temp, p, '${key}_data', count: _dataBuffer.lengthInBytes);
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _frameCountF.write(p, _frameCount);
     _sampleRateF.write(p, _sampleRate);
     _sampleSizeF.write(p, _sampleSize);
     _channelsF.write(p, _channels);
     _data.syncInto(p);
 
-    if (!data.isNull) {
-      assert(waveLength <= BASE_bufferLength(dataBuffer, sampleSize));
-      BASE_dataSetList(data, dataBuffer, sampleSize, waveLength);
+    if (!data.isNull && _isNew) {
+      _isNew = false;
+      assert(waveLength <= BASE_bufferLength(_dataBuffer, sampleSize));
+      BASE_dataSetList(data, _dataBuffer, sampleSize, waveLength);
     }
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _frameCount = _frameCountF.read(p);
     _sampleRate = _sampleRateF.read(p);
     _sampleSize = _sampleSizeF.read(p);
     _channels = _channelsF.read(p);
     _data.syncFrom(p);
-
-    if (!data.isNull) dataBuffer = switch (sampleSize) {
-      8  => data.to<Uint8List>(waveLength).buffer,
-      16 => data.to<Int16List>(waveLength).buffer,
-      32 => data.to<Float32List>(waveLength).buffer,
-      _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
-    };
+    // NOTE: no need to sync `dataBuffer` here, it's already live
   }
 
   @override

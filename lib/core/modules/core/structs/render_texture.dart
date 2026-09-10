@@ -29,7 +29,7 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RenderTextureD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
@@ -80,14 +80,14 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _idF.write(p, _id);
     _textureF.write(p, _texture);
     _depthF.write(p, _depth);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
     _texture = _textureF.read(p);
     _depth = _depthF.read(p);

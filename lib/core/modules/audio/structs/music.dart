@@ -33,7 +33,7 @@ class MusicD extends RaylibStruct<MusicD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MusicD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MusicD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
 
   static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
@@ -95,12 +95,12 @@ class MusicD extends RaylibStruct<MusicD> {
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _ctxDataF.allocate(temp, p, '${key}_ctxData');
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _streamF.write(p, _stream);
     _frameCountF.write(p, _frameCount);
     _loopingF.write(p, _looping);
@@ -109,7 +109,7 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _stream = _streamF.read(p);
     _frameCount = _frameCountF.read(p);
     _looping = _loopingF.read(p);

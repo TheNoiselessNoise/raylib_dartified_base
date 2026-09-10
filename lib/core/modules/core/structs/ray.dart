@@ -27,7 +27,7 @@ class RayD extends RaylibStructLiteral<RayD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RayD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayD.new, RayD.pointer);
 
   static final _positionF = struct.struct(.position, Vector3D.pointer);
@@ -69,13 +69,13 @@ class RayD extends RaylibStructLiteral<RayD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _positionF.write(p, _position);
     _directionF.write(p, _direction);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _position = _positionF.read(p);
     _direction = _directionF.read(p);
   }

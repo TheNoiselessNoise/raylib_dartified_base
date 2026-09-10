@@ -31,7 +31,7 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelAnimationD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
 
   static final _nameF = struct.stringAsCharArray(.name);

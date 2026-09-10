@@ -33,7 +33,7 @@ class TextureD extends RaylibStruct<TextureD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<TextureD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<TextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, TextureD.new, TextureD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
@@ -102,7 +102,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _idF.write(p, _id);
     _widthF.write(p, _width);
     _heightF.write(p, _height);
@@ -111,7 +111,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
     _width = _widthF.read(p);
     _height = _heightF.read(p);

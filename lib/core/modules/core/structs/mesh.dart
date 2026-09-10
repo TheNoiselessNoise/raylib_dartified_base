@@ -64,7 +64,7 @@ class MeshD extends RaylibStruct<MeshD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MeshD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MeshD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MeshD.new, MeshD.pointer);
 
   static final _vertexCountF = struct.scalar<int, RInt>(.vertexCount);
@@ -321,7 +321,7 @@ class MeshD extends RaylibStruct<MeshD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_vertices.inner.isNotEmpty) _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length, raw: true);
     if (_texcoords.inner.isNotEmpty) _texcoordsF.allocate(temp, p, '${key}_texcoords', count: _texcoords.inner.length, raw: true);
     if (_texcoords2.inner.isNotEmpty) _texcoords2F.allocate(temp, p, '${key}_texcoords2', count: _texcoords2.inner.length, raw: true);
@@ -338,7 +338,7 @@ class MeshD extends RaylibStruct<MeshD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _vertexCountF.write(p, _vertexCount);
     _triangleCountF.write(p, _triangleCount);
     _vertices.writeInto(p, _vertices.inner);
@@ -358,7 +358,7 @@ class MeshD extends RaylibStruct<MeshD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _vertexCount = _vertexCountF.read(p);
     _triangleCount = _triangleCountF.read(p);
     _vertices.readFrom(p, count: verticesCount);

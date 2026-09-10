@@ -31,7 +31,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlDrawCallD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RlDrawCallD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlDrawCallD.new, RlDrawCallD.pointer);
 
   static final _modeF = struct.enumValue(.mode, RlDrawMode.fromValue);
@@ -91,7 +91,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _modeF.write(p, _mode);
     _vertexCountF.write(p, _vertexCount);
     _vertexAlignmentF.write(p, _vertexAlignment);
@@ -99,7 +99,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _mode = _modeF.read(p);
     _vertexCount = _vertexCountF.read(p);
     _vertexAlignment = _vertexAlignmentF.read(p);

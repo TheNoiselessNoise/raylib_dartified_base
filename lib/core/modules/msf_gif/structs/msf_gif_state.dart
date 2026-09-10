@@ -63,7 +63,7 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MsfGifStateD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MsfGifStateD.new, MsfGifStateD.pointer);
 
   static final _widthF = struct.scalar<int, RInt>(.width);

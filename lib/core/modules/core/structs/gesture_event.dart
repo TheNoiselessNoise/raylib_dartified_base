@@ -31,7 +31,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<GestureEventD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, GestureEventD.new, GestureEventD.pointer);
 
   static final _touchActionF = struct.scalar<int, RInt>(.touchAction);
@@ -114,7 +114,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _touchActionF.write(p, _touchAction.value);
     _pointCountF.write(p, _pointCount);
     _pointId.writeInto(p);
@@ -122,7 +122,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _touchAction = .fromValue(_touchActionF.read(p));
     _pointCount = _pointCountF.read(p);
     _pointId.readFrom(p);

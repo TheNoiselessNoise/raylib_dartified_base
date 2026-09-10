@@ -29,7 +29,7 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<TransformD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<TransformD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, TransformD.new, TransformD.pointer);
 
   static final _translationF = struct.struct(.translation, Vector3D.pointer);
@@ -80,14 +80,14 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _translationF.write(p, _translation);
     _rotationF.write(p, _rotation);
     _scaleF.write(p, _scale);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _translation = _translationF.read(p);
     _rotation = _rotationF.read(p);
     _scale = _scaleF.read(p);

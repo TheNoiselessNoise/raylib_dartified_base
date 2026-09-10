@@ -36,7 +36,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<QuaternionD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, QuaternionD.new, QuaternionD.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -102,7 +102,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   QuaternionD setDart(QuaternionD o) => set(o.x, o.y, o.z, o.w);
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _zF.write(p, _z);
@@ -110,7 +110,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _z = _zF.read(p);

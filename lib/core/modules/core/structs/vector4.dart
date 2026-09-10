@@ -34,7 +34,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Vector4D> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<Vector4D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector4D.new, Vector4D.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -100,7 +100,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   Vector4D setDart(Vector4D o) => set(o.x, o.y, o.z, o.w);
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
     _zF.write(p, _z);
@@ -108,7 +108,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
     _z = _zF.read(p);

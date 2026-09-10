@@ -9,7 +9,6 @@ import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
 part 'base.dart';
 part 'callback.dart';
 part 'ext.dart';
-part 'fields.dart';
 
 part 'extensions/ease.dart';
 part 'extensions/matrix.dart';
@@ -26,6 +25,7 @@ part 'memory/list.dart';
 part 'memory/pointer.dart';
 part 'memory/struct.dart';
 part 'memory/temp.dart';
+part 'memory/types.dart';
 
 // ===== AUDIO MODULE =====
 part 'modules/audio/callbacks.dart';

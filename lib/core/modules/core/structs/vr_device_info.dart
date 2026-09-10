@@ -41,7 +41,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<VrDeviceInfoD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<VrDeviceInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, VrDeviceInfoD.new, VrDeviceInfoD.pointer);
 
   static final _hResolutionF = struct.scalar<int, RInt>(.hResolution);
@@ -167,7 +167,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _hResolutionF.write(p, _hResolution);
     _vResolutionF.write(p, _vResolution);
     _hScreenSizeF.write(p, _hScreenSize);
@@ -180,7 +180,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _hResolution = _hResolutionF.read(p);
     _vResolution = _vResolutionF.read(p);
     _hScreenSize = _hScreenSizeF.read(p);

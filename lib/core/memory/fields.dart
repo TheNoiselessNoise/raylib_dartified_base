@@ -5,18 +5,18 @@ abstract class StructFieldBase<E> {
 
   const StructFieldBase(this.offset);
 
-  E read(MemoryPointerHandle p);
+  E read(MemoryPointer p);
 
-  E readOr(MemoryPointerHandle? p, E fallback) => p == null ? fallback : read(p);
+  E readOr(MemoryPointer? p, E fallback) => p == null ? fallback : read(p);
 
-  E write(MemoryPointerHandle p, E value);
+  E write(MemoryPointer p, E value);
 
-  E writeIf(MemoryPointerHandle? p, E value) {
+  E writeIf(MemoryPointer? p, E value) {
     if (p != null) write(p, value);
     return value;
   }
 
-  void allocate(RaylibTemp temp, MemoryPointerHandle p, String key, {int count = 1, bool raw = false});
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false});
 }
 
 class StructValueField<E, R extends RType> extends StructFieldBase<E> {
@@ -25,16 +25,16 @@ class StructValueField<E, R extends RType> extends StructFieldBase<E> {
   const StructValueField(super.offset, this.codec);
 
   @override
-  E read(MemoryPointerHandle p) => codec.read(p.offsetBy(offset));
+  E read(MemoryPointer p) => codec.read(p.offsetBy(offset));
 
   @override
-  E write(MemoryPointerHandle p, E value) {
+  E write(MemoryPointer p, E value) {
     codec.write(p.offsetBy(offset), value);
     return value;
   }
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointerHandle p, String key, {int count = 1, bool raw = false}) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     // no-op
   }
 }
@@ -46,20 +46,20 @@ class StructStringValueField<R extends RTypeIntLike> extends StructFieldBase<Str
   const StructStringValueField(super.offset, this.codec);
 
   @override
-  String read(MemoryPointerHandle p)
+  String read(MemoryPointer p)
     => codec.read(p.offsetBy(offset));
 
-  String readBounded(MemoryPointerHandle p, int maxLength)
+  String readBounded(MemoryPointer p, int maxLength)
     => codec.readString(p, maxLength);
 
   @override
-  String write(MemoryPointerHandle p, String value) {
+  String write(MemoryPointer p, String value) {
     codec.write(p.offsetBy(offset), value);
     return value;
   }
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointerHandle p, String key, {int count = 1, bool raw = false}) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
   }
 }
@@ -73,22 +73,22 @@ class StructPointerValueField<E, R extends RType> extends StructFieldBase<E> {
   const StructPointerValueField(super.offset, this.codec);
 
   @override
-  E read(MemoryPointerHandle p) => codec.read(p.offsetBy(offset));
+  E read(MemoryPointer p) => codec.read(p.offsetBy(offset));
 
   @override
-  E write(MemoryPointerHandle p, E value) {
+  E write(MemoryPointer p, E value) {
     codec.write(p.offsetBy(offset), value);
     return value;
   }
 
-  E readSafe(MemoryPointerHandle p, E fallback)
+  E readSafe(MemoryPointer p, E fallback)
     => codec.readSafe(p.offsetBy(offset), fallback);
 
-  void writeSafe(MemoryPointerHandle p, E value)
+  void writeSafe(MemoryPointer p, E value)
     => codec.writeSafe(p.offsetBy(offset), value);
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointerHandle p, String key, {int count = 1, bool raw = false}) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
   }
 }
@@ -102,31 +102,31 @@ class StructPointerArrayField<E, R extends RType> extends StructFieldBase<List<E
   const StructPointerArrayField(super.offset, this.codec);
 
   @override
-  List<E> read(MemoryPointerHandle p)
+  List<E> read(MemoryPointer p)
     => throw UnsupportedError('Length is runtime-determined, use `readCount`.');
 
   @override
-  List<E> write(MemoryPointerHandle p, List<E> value)
+  List<E> write(MemoryPointer p, List<E> value)
     => throw UnsupportedError('Length is runtime-determined, use `writeCount`.');
 
-  List<E> readCountOr(MemoryPointerHandle? p, int count, [List<E>? fallback]) {
+  List<E> readCountOr(MemoryPointer? p, int count, [List<E>? fallback]) {
     if (p == null) return fallback ?? [];
     return readCount(p, count, fallback);
   }
 
-  List<E> readCount(MemoryPointerHandle p, int count, [List<E>? fallback]) {
+  List<E> readCount(MemoryPointer p, int count, [List<E>? fallback]) {
     final ref = codec.deref(p.offsetBy(offset));
     if (ref.isNull) return fallback ?? [];
     return _innerArray().readArray(ref, count);
   }
 
-  List<E> writeCount(MemoryPointerHandle p, List<E> values) {
+  List<E> writeCount(MemoryPointer p, List<E> values) {
     final ref = codec.deref(p.offsetBy(offset));
     _innerArray().writeArray(ref, values);
     return values;
   }
 
-  List<E> writeCountIf(MemoryPointerHandle? p, List<E> fallback) {
+  List<E> writeCountIf(MemoryPointer? p, List<E> fallback) {
     if (p == null) return fallback;
     final ref = codec.deref(p.offsetBy(offset));
     _innerArray().writeArray(ref, fallback);
@@ -143,7 +143,43 @@ class StructPointerArrayField<E, R extends RType> extends StructFieldBase<List<E
   }
 
   @override
-  void allocate(RaylibTemp temp, MemoryPointerHandle p, String key, {int count = 1, bool raw = false}) {
+  void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     codec.allocate(temp, p.offsetBy(offset), key, count: count, raw: raw);
   }
+}
+
+class LivePointerSync<R extends RType> {
+  final MemoryPointer? Function() _ptrOf;
+  final int _offset;
+
+  LivePointerSync._(
+    this._ptrOf,
+    this._offset
+  );
+
+  MemoryPointer<R> fieldPtr()
+    => _ptrOf()?.offsetBy(_offset) ?? MemoryPointer.nullptr();
+
+  MemoryPointer<Y> derefPtr<Y extends RType>()
+    => _ptrOf()?.offsetBy(_offset).readPtr() ?? MemoryPointer.nullptr();
+
+  factory LivePointerSync.pointerSync(
+    MemoryPointer? Function() ptrOf,
+    StructPointerValueField<dynamic, R> field,
+  ) => ._(ptrOf, field.offset);
+
+  // we don't care about nullptr
+  void syncFrom(MemoryPointer p, {bool borrow = true}) {
+    if (!borrow) return;
+    fieldPtr().writePtr(p.offsetBy(_offset).readPtr());
+  }
+
+  // we don't care about nullptr
+  void syncInto(MemoryPointer p)
+    => p.offsetBy(_offset).writePtr(derefPtr());
+}
+
+extension LivePointerSyncFieldX<E, R extends RType> on StructPointerValueField<E, R> {
+  LivePointerSync<R> live(MemoryPointer? Function() ptrOf)
+    => .pointerSync(ptrOf, this);
 }

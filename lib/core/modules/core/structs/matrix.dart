@@ -34,7 +34,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MatrixD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
 
   static final _m0F = struct.scalar<double, RFloat>(.m0);
@@ -183,7 +183,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _m0F.write(p, _m0);
     _m4F.write(p, _m4);
     _m8F.write(p, _m8);
@@ -206,7 +206,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _m0 = _m0F.read(p);
     _m4 = _m4F.read(p);
     _m8 = _m8F.read(p);

@@ -35,7 +35,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlRenderBatchD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RlRenderBatchD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlRenderBatchD.new, RlRenderBatchD.pointer);
   
   static final _bufferCountF = struct.scalar<int, RInt>(.bufferCount);
@@ -115,7 +115,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_vertexBuffer.inner.isNotEmpty) {
       _vertexBufferF.allocate(temp, p, '${key}_vertexBuffer', count: _vertexBuffer.inner.length);
     }
@@ -125,7 +125,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _bufferCountF.write(p, _bufferCount);
     _currentBufferF.write(p, _currentBuffer);
     _vertexBuffer.writeInto(p);
@@ -135,7 +135,7 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _bufferCount = _bufferCountF.read(p);
     _currentBuffer = _currentBufferF.read(p);
     _vertexBuffer.readFrom(p, count: bufferCount);

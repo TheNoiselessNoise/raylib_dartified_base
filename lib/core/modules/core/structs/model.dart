@@ -45,7 +45,7 @@ class ModelD extends RaylibStruct<ModelD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ModelD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelD.new, ModelD.pointer);
 
   static final _transformF = struct.struct(.transform, MatrixD.pointer);
@@ -147,7 +147,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (meshes.inner.isNotEmpty) {
       _meshesF.allocate(temp, p, '${key}_meshes', count: _meshes.inner.length);
     }
@@ -166,7 +166,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _transformF.write(p, _transform);
     _meshCountF.write(p, _meshCount);
     _materialCountF.write(p, _materialCount);
@@ -179,7 +179,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _transform = _transformF.read(p);
     _meshCount = _meshCountF.read(p);
     _materialCount = _materialCountF.read(p);

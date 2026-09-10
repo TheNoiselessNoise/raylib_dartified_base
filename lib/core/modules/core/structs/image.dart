@@ -33,7 +33,7 @@ class ImageD extends RaylibStruct<ImageD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ImageD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ImageD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ImageD.new, ImageD.pointer);
 
   static final _dataF = struct.pointerUnknown<RVoid>(.data);
@@ -182,7 +182,7 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _dataF.allocate(temp, p, '${key}_data', count: _initialData?.length ?? dataLength, raw: true);
 
     if (_initialData != null) {
@@ -192,7 +192,7 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _data.syncInto(p);
     _widthF.write(p, _width);
     _heightF.write(p, _height);
@@ -201,7 +201,7 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _data.syncFrom(p);
     _width = _widthF.read(p);
     _height = _heightF.read(p);

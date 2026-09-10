@@ -33,7 +33,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<GlyphInfoD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, GlyphInfoD.new, GlyphInfoD.pointer);
 
   static final _valueF = struct.scalar<int, RInt>(.value);
@@ -102,7 +102,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _valueF.write(p, _value);
     _offsetXF.write(p, _offsetX);
     _offsetYF.write(p, _offsetY);
@@ -111,7 +111,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _value = _valueF.read(p);
     _offsetX = _offsetXF.read(p);
     _offsetY = _offsetYF.read(p);

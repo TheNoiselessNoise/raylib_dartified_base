@@ -2104,7 +2104,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.UpdateCamera(camera, mode),
     () => rl.CoreFlat.UpdateCamera(
-      rl.Temp.Camera3D$.Ref1(camera),
+      rl.Temp.Camera3D$.RefUnique(camera),
       mode.value,
     ),
   );
@@ -3911,7 +3911,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         image,
       );
       try {
-        return colors.readArray(image.width * image.height);
+        return colors.readArray(image.width * image.height, owned: false);
       } finally {
         rl.CoreFlat.UnloadImageColors(colors);
       }
@@ -3932,7 +3932,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         colorCount,
       );
       try {
-        return colors.readArray(colorCount.value);
+        return colors.readArray(colorCount.value, owned: false);
       } finally {
         rl.CoreFlat.UnloadImagePalette(colors);
       }

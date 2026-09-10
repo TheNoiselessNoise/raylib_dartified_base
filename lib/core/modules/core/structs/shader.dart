@@ -27,7 +27,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ShaderD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ShaderD.new, ShaderD.pointer);
 
   static final _idF = struct.scalar<int, RUnsignedInt>(.id);
@@ -85,18 +85,18 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _locsF.allocate(temp, p, '${key}_locs', count: BASE_shaderLocsCount);
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _idF.write(p, _id);
     _locs.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _id = _idF.read(p);
     _locs.readFrom(p, count: shaderLocsCount);
   }

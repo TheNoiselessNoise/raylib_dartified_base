@@ -1506,7 +1506,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
   ) => run(
     () => _debugLabels.rlSetUniform(locIndex, value, uniformType, count),
     () {
-      final MemoryPointerHandle ptr;
+      final MemoryPointer ptr;
       switch (uniformType) {
         case .RL_SHADER_UNIFORM_FLOAT:
         case .RL_SHADER_UNIFORM_VEC2:

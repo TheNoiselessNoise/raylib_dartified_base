@@ -33,7 +33,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AudioStreamD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
 
   static final _bufferF = struct.pointerUnknown<ROpaque>(.buffer);
@@ -94,13 +94,13 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _bufferF.allocate(temp, p, '${key}_buffer');
     _processorF.allocate(temp, p, '${key}_processor');
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _buffer.syncInto(p);
     _processor.syncInto(p);
     _sampleRateF.write(p, _sampleRate);
@@ -109,7 +109,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _buffer.syncFrom(p);
     _processor.syncFrom(p);
     _sampleRate = _sampleRateF.read(p);

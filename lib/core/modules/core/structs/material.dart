@@ -29,7 +29,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialD.new, MaterialD.pointer);
 
   static final _shaderF = struct.struct(.shader, ShaderD.pointer);
@@ -102,19 +102,19 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     _mapsF.allocate(temp, p, '${key}_maps', count: BASE_mapsCount);
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _shaderF.write(p, _shader);
     _maps.writeInto(p);
     _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _shader = _shaderF.read(p);
     _maps.readFrom(p, count: mapsCount);
     _params.readFrom(p);

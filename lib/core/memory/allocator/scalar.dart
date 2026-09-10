@@ -17,7 +17,7 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArra
   ///
   /// Allocates the slot on first use.
   MemoryPointer<R> Value([X? value, String? key]) {
-    final p = At(slotKey(key));
+    final p = At(_slotKey(key));
     if (value != null) scalarSetterFunc(p, value);
     return p;
   }
@@ -29,7 +29,7 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArra
   /// [key], ensuring the slot is never accidentally shared with an unrelated
   /// call that happens to use the same base key.
   MemoryPointer<R> ValueUnique(X? value, {String key = '__value_unique__'}) {
-    final p = At(uniqueSlotKey(key));
+    final p = At(_uniqueSlotKey(key));
     if (value != null) scalarSetterFunc(p, value);
     return p;
   }
@@ -140,7 +140,7 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   ///
   /// The list is a **view** into native memory, so mutations are reflected
   /// immediately in the native buffer.
-  final L Function(MemoryPointerHandle ptr, int length) asView;
+  final L Function(MemoryPointer ptr, int length) asView;
 
   /// Wraps a region of [buffer] as a Dart [L] list without copying.
   ///
@@ -169,11 +169,11 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   );
 
   /// Returns a Dart `List<X>` with [length] elements copied from [ptr].
-  List<X> asDartList(MemoryPointerHandle ptr, int length)
+  List<X> asDartList(MemoryPointer ptr, int length)
     => asView(ptr, length).cast();
 
   /// Returns a [L] with [length] elements copied from [ptr].
-  L asTypedList(MemoryPointerHandle ptr, int length)
+  L asTypedList(MemoryPointer ptr, int length)
     => fromList(asDartList(ptr, length));
 
   /// Allocates (or reuses) a slot of [length] elements and returns its pointer,
@@ -188,8 +188,8 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   ///
   /// Uses [asView] for the bulk copy, which avoids an element-by-element
   /// loop. [key] defaults to `'default'`.
-  MemoryPointer<R> Copy(MemoryPointerHandle src, int length, {String? key}) {
-    final p = At(slotKey(key), length);
+  MemoryPointer<R> Copy(MemoryPointer src, int length, {String? key}) {
+    final p = At(_slotKey(key), length);
     asView(p, length).setAll(0, asView(src, length));
     return p;
   }
@@ -232,7 +232,7 @@ final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RTyp
   /// Serialises [length] words starting at [ptr] to a flat big-endian byte list.
   ///
   /// Each word is split into `byteSize` bytes, most-significant byte first.
-  L ToBEBytes(MemoryPointerHandle ptr, int length) =>
+  L ToBEBytes(MemoryPointer ptr, int length) =>
     fromList(asDartList(ptr, length).expand((word) =>
       .generate(byteSize, (i) => (word.toInt() >> ((byteSize - 1 - i) * 8)) & 0xFF)
     ));
@@ -240,7 +240,7 @@ final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RTyp
   /// Serialises [length] words starting at [ptr] to a flat little-endian byte list.
   ///
   /// Each word is split into `byteSize` bytes, least-significant byte first.
-  L ToLEBytes(MemoryPointerHandle ptr, int length) =>
+  L ToLEBytes(MemoryPointer ptr, int length) =>
     fromList(asDartList(ptr, length).expand((word) =>
       .generate(byteSize, (i) => (word.toInt() >> (i * 8)) & 0xFF)
     ));

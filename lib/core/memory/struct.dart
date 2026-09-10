@@ -4,7 +4,7 @@ typedef StructFactory<D extends RaylibStruct<D>> = D Function({
   StructPointer<D>? op,
 });
 
-typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointerHandle?);
+typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointer?);
 
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
 /// tracking its current slot key, tag, disposal status, and stable identity
@@ -14,9 +14,6 @@ final class RaylibTempStructState with RaylibDisposable {
   ///
   /// Defaults to `'default'`. Change via [RaylibStruct.structSetTag].
   String tag = 'default';
-  
-  /// The [RaylibTemp] slot key used during the most recent [RaylibTempStructAllocator.Allocate] allocation.
-  String? allocKey;
   
   /// Whether [RaylibStruct.structMarkDisposed] has been called on this instance.
   bool isDisposed = false;
@@ -366,6 +363,7 @@ final class StructLayout<F extends StructFields> {
 /// native memory, adding [op] ownership tracking on top.
 abstract class RaylibStruct<D extends RaylibStruct<D>> {
   D get _self => this as D;
+  bool get _requiresOp => this is! RaylibStructLiteral;
 
   /// The C-owned or RaylibTemp-owned typed pointer for this struct, if any.
   StructPointer<D>? op;
@@ -385,11 +383,11 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   D setDart(D o) => _self;
 
   /// Allocates nested pointers into [temp] under [key] as needed.
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {}
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {}
 
-  void structWriteInto(MemoryPointerHandle p);
+  void structWriteInto(MemoryPointer p);
   
-  void structReadFrom(MemoryPointerHandle p);
+  void structReadFrom(MemoryPointer p);
 
   /// Returns a deep copy of this instance, preserving [op] if present.
   D clone();
@@ -408,11 +406,6 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
   /// Whether [structMarkDisposed] has been called on this instance.
   bool get structIsDisposed => $state.isDisposed;
-
-  /// Whether this struct requires an [op] to function correctly.
-  ///
-  /// `true` for resource structs; `false` for value-type structs (literals).
-  bool get structRequiresOp => true;
 
   /// Marks this instance as disposed and clears [op].
   ///
@@ -441,7 +434,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     }
 
     if (op == null) {
-      if (!structRequiresOp) {
+      if (!_requiresOp) {
         throw StateError('$structName.getOp() was called on a value-type struct that never owns a pointer.');
       } else {
         throw StateError(
@@ -484,7 +477,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// [StructLayout] of this object.
   StructLayout get structLayout;
 
-  void _canonicalizeFloats(MemoryPointerHandle p) {
+  void _canonicalizeFloats(MemoryPointer p) {
     for (final f in structLayout.floatFields) {
       switch (f.size) {
         case 4:
@@ -504,14 +497,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     if (identical(this, other)) return true;
     if (other is! D) return false;
 
-    MemoryPointerHandle? srcPtr = op;
+    MemoryPointer? srcPtr = op;
     if (srcPtr == null) {
       srcPtr = MemoryPointer.scratch(0);
       structWriteInto(srcPtr);
       _canonicalizeFloats(srcPtr);
     }
 
-    MemoryPointerHandle? dstPtr = other.op;
+    MemoryPointer? dstPtr = other.op;
     if (dstPtr == null) {
       dstPtr = MemoryPointer.scratch(1);
       other.structWriteInto(dstPtr);
@@ -568,10 +561,10 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {} // NOTE: do nothing
+  void structWriteInto(MemoryPointer p) {} // NOTE: do nothing
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {} // NOTE: do nothing
+  void structReadFrom(MemoryPointer p) {} // NOTE: do nothing
 
   @override
   D copy() => clone();
@@ -594,7 +587,4 @@ abstract class RaylibStructLiteral<D extends RaylibStruct<D>> extends RaylibStru
   RaylibStructLiteral({
     super.op,
   });
-
-  @override
-  bool get structRequiresOp => false;
 }

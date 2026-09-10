@@ -42,7 +42,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlVertexBufferD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlVertexBufferD.new, RlVertexBufferD.pointer);
 
   static final _elementCountF = struct.scalar<int, RInt>(.elementCount);
@@ -187,7 +187,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structAllocateInto(RaylibTemp temp, MemoryPointerHandle p, String key) {
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
     if (_vertices.inner.isNotEmpty) {
       _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length);
     }
@@ -206,7 +206,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _elementCountF.write(p, _elementCount);
     _vertices.writeInto(p);
     _texcoords.writeInto(p);
@@ -218,7 +218,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _elementCount = _elementCountF.read(p);
     _vertices.readFrom(p, count: verticesCount);
     _texcoords.readFrom(p, count: texcoordsCount);

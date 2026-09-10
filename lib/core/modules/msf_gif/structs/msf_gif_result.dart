@@ -31,7 +31,7 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MsfGifResultD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MsfGifResultD.new, MsfGifResultD.pointer);
 
   static final _dataF = struct.pointerUnknown<RVoid>(.data);

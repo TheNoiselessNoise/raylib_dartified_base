@@ -29,7 +29,7 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AutomationEventListD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventListD.new, AutomationEventListD.pointer);
 
   static final _capacityF = struct.scalar<int, RUnsignedInt>(.capacity);

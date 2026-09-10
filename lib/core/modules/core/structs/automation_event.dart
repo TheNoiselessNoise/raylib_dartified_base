@@ -29,7 +29,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AutomationEventD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventD.new, AutomationEventD.pointer);
 
   static final _frameF = struct.scalar<int, RUnsignedInt>(.frame);
@@ -99,14 +99,14 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _frameF.write(p, _frame);
     _typeF.write(p, _type);
     _params.writeInto(p);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _frame = _frameF.read(p);
     _type = _typeF.read(p);
     _params.readFrom(p);

@@ -15,8 +15,6 @@ class RaylibTempAllocator<R extends RType> {
     required this.byteSize,
   }) { name = '$R'; }
 
-  String? _lastKey;
-
   MemoryPointer<RPointer<X>> _allocatePointer<X extends RType>(int count)
     => MemoryPointer.calloc(count, RType.nativeWordSize);
 
@@ -26,11 +24,11 @@ class RaylibTempAllocator<R extends RType> {
 
   /// Returns the canonical slot key for [key], falling back to `'default'`
   /// when [key] is `null`.
-  String slotKey([String? key]) => _lastKey = (key ?? 'default');
+  String _slotKey([String? key]) => key ?? 'default';
 
   /// Returns a slot key guaranteed to be unique within this temp context,
   /// by prefixing [key] with the next available ID.
-  String uniqueSlotKey(String key) => _lastKey = '${temp.nextId()}_$key';
+  String _uniqueSlotKey(String key) => '${temp.nextId()}_$key';
 
   /// Allocates [count] raw elements and returns the wrapped pointer.
   /// 
@@ -67,17 +65,17 @@ class RaylibTempAllocator<R extends RType> {
   ///
   /// Useful when the same allocation site may be called multiple times within
   /// a single scope and each call must get its own independent buffer.
-  MemoryPointer<R> AtUnique({String key = '_unique_', int count = 1}) => At(uniqueSlotKey(key), count);
+  MemoryPointer<R> AtUnique({String key = '_unique_', int count = 1}) => At(_uniqueSlotKey(key), count);
 
   /// Returns the total byte size for [count] elements.
   int Size([int count = 1]) => byteSize * count;
 
   /// Returns the pointer stored under [key], or `null` if the slot does not
   /// exist. Does **not** allocate.
-  MemoryPointer<R>? Slot(String key) => slots[slotKey(key)]?.$1;
+  MemoryPointer<R>? Slot(String key) => slots[_slotKey(key)]?.$1;
 
   /// Returns `true` if a slot with the given [key] exists.
-  bool Has(String key) => slots.containsKey(slotKey(key));
+  bool Has(String key) => slots.containsKey(_slotKey(key));
 
   /// Frees the native memory owned by slot [key] and removes it from the
   /// table.
@@ -93,20 +91,20 @@ class RaylibTempAllocator<R extends RType> {
   /// underlying memory.
   ///
   /// Use when ownership of the pointer has been transferred elsewhere.
-  void Unslot(String key) => slots.remove(slotKey(key));
+  void Unslot(String key) => slots.remove(_slotKey(key));
 
   /// Frees all currently tracked slots and clears the slot table.
   ///
   /// Called automatically by the owning [RaylibTemp] during disposal.
   void dispose() {
-    if (slots.isNotEmpty) {
-      temp.debugFreeInfo('Freeing user-defined ${slots.length} $name slots');
-      slots.entries.forEach((x) {
-        temp.debugFreeInfo('[FREE] ${x.key}');
-        x.value.$1.free();
-      });
-      slots.clear();
-    }
+    if (slots.isEmpty) return;
+
+    temp.debugFreeInfo('Freeing user-defined ${slots.length} $name slots');
+    slots.entries.forEach((x) {
+      temp.debugFreeInfo('[FREE] ${x.key}');
+      x.value.$1.free();
+    });
+    slots.clear();
   }
 }
 
@@ -133,7 +131,7 @@ abstract class RaylibTempArrayAllocator<X, R extends RType> extends RaylibTempAl
   /// [key] defaults to `'default'`. The slot is grown automatically if the
   /// current capacity is smaller than `array.length`.
   MemoryPointer<R> Array(List<X> array, {String? key}) {
-    final p = At(slotKey(key), array.length);
+    final p = At(_slotKey(key), array.length);
     for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, array[i]);
     return p;
   }

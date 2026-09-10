@@ -154,45 +154,45 @@ double rand() => _rl.rand();
 double randC() => _rl.randC();
 
 /// See [RaylibTempUtils.realloc].
-MemoryPointer<RVoid> realloc(MemoryPointerHandle oldPtr, int oldSize, int newSize)
+MemoryPointer<RVoid> realloc(MemoryPointer oldPtr, int oldSize, int newSize)
   => Temp.Utils.realloc(oldPtr, oldSize, newSize);
 
 /// See [RaylibTempUtils.memset].
-void memset(MemoryPointerHandle ptr, int value, int size)
+void memset(MemoryPointer ptr, int value, int size)
   => Temp.Utils.memset(ptr, value, size);
 
 /// See [RaylibTempUtils.memcpy].
-void memcpy(MemoryPointerHandle dest, MemoryPointerHandle src, int n)
+void memcpy(MemoryPointer dest, MemoryPointer src, int n)
   => Temp.Utils.memcpy(dest, src, n);
 
 /// See [RaylibTempUtils.memcmp].
-int memcmp(MemoryPointerHandle a, MemoryPointerHandle b, int n)
+int memcmp(MemoryPointer a, MemoryPointer b, int n)
   => Temp.Utils.memcmp(a, b, n);
 
 /// See [RaylibTempUtils.strlen].
-int strlen(MemoryPointerHandle ptr)
+int strlen(MemoryPointer ptr)
   => Temp.Utils.strlen(ptr);
 
 /// See [RaylibTempUtils.strnlen].
-int strnlen(MemoryPointerHandle ptr, int maxLen)
+int strnlen(MemoryPointer ptr, int maxLen)
   => Temp.Utils.strnlen(ptr, maxLen);
 
 /// See [RaylibTempUtils.strcmp].
-int strcmp(MemoryPointerHandle a, MemoryPointerHandle b)
+int strcmp(MemoryPointer a, MemoryPointer b)
   => Temp.Utils.strcmp(a, b);
 
 /// See [RaylibTempUtils.strcpy].
-void strcpy(MemoryPointerHandle dest, MemoryPointerHandle src)
+void strcpy(MemoryPointer dest, MemoryPointer src)
   => Temp.Utils.strcpy(dest, src);
 
 /// See [RaylibTempUtils.strncpy].
-void strncpy(MemoryPointerHandle dest, MemoryPointerHandle src, int n)
+void strncpy(MemoryPointer dest, MemoryPointer src, int n)
   => Temp.Utils.strncpy(dest, src, n);
 
 /// See [RaylibTempUtils.strncat].
-void strncat(MemoryPointerHandle dest, MemoryPointerHandle src, int n)
+void strncat(MemoryPointer dest, MemoryPointer src, int n)
   => Temp.Utils.strncat(dest, src, n);
 
 /// See [RaylibTempUtils.strstr].
-MemoryPointer<RVoid> strstr(MemoryPointerHandle haystack, MemoryPointerHandle needle)
+MemoryPointer<RVoid> strstr(MemoryPointer haystack, MemoryPointer needle)
   => Temp.Utils.strstr(haystack, needle);

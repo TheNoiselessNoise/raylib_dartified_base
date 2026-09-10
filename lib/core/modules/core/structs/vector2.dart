@@ -9,7 +9,7 @@ enum Vector2Field with StructFields {
 }
 
 /// Vector2, 2 components
-class Vector2D extends RaylibStruct<Vector2D> {
+class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -30,7 +30,7 @@ class Vector2D extends RaylibStruct<Vector2D> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Vector2D> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<Vector2D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector2D.new, Vector2D.pointer);
 
   static final _xF = struct.scalar<double, RFloat>(.x);
@@ -76,13 +76,13 @@ class Vector2D extends RaylibStruct<Vector2D> {
   Vector2D setDart(Vector2D o) => set(o.x, o.y);
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _xF.write(p, _x);
     _yF.write(p, _y);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _x = _xF.read(p);
     _y = _yF.read(p);
   }

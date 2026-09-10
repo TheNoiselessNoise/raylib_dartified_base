@@ -39,7 +39,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<VrStereoConfigD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, VrStereoConfigD.new, VrStereoConfigD.pointer);
 
   static final _projectionF = struct.structArray(.projection, MatrixD.pointer);
@@ -150,7 +150,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _projection.writeInto(p);
     _viewOffset.writeInto(p);
     _leftLensCenter.writeInto(p);
@@ -162,7 +162,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _projection.readFrom(p);
     _viewOffset.readFrom(p);
     _leftLensCenter.readFrom(p);

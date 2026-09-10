@@ -19,6 +19,9 @@ final class RaylibTempStructAllocator<
     indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * byteSize)),
   );
 
+  @override
+  String get name => '$X';
+
   StructPointer<X> RawStruct([int count = 1])
     => pointerFactory(Raw(count));
 
@@ -48,26 +51,23 @@ final class RaylibTempStructAllocator<
 
   /// Allocates or syncs [value] to a tracked slot at [key].
   StructPointer<X> Allocate(X value, [String? key]) {
-    final requiresOp = value.structRequiresOp;
     final op = value.op;
+    if (op != null) return op;
 
-    if (requiresOp && value.$state.isAllocated) return value.getOp();
     value.$state.isAllocated = true;
 
-    if (op != null && requiresOp) {
-      String allocKey = value.$state.allocKey ??= '<CHILD-POINTER>';
-
+    if (op != null) {
       if (value.$state.isFirstSync) {
         if (value.$state.isDisposed) return op;
         if (!temp.doSync) return op;
 
         // full sync once to push pre-promotion Dart state to memory
-        temp.debugSyncInfo('[SYNC] ${value.structName} first sync into $allocKey');
+        temp.debugSyncInfo('[SYNC] ${value.structName} first sync');
         value.structWriteInto(op);
         value.$state.isFirstSync = false;
       } else {
         // already live, setters handle write-through, skip full sync
-        temp.debugSyncInfo('[SYNC] ${value.structName} skipping sync (live) $allocKey');
+        temp.debugSyncInfo('[SYNC] ${value.structName} skipping sync (live)');
       }
       
       return op;
@@ -77,11 +77,11 @@ final class RaylibTempStructAllocator<
       throw StateError('You are trying to allocate disposed $value object!');
     }
 
-    String baseKey = getBaseKey(value, slotKey(key));    
+    final requiresOp = value._requiresOp;
+    String baseKey = getBaseKey(value, _slotKey(key));    
     final p = pointerFactory(requiresOp ? AtUnique(key: baseKey) : At(baseKey));
-    value.$state.allocKey = _lastKey;
     if (requiresOp) {
-      temp.debugSyncInfo('[SYNC] ${value.structName} allocate into ${value.$state.allocKey}');
+      temp.debugSyncInfo('[SYNC] ${value.structName} allocate into');
       value.op = p;
     }
     value.structAllocateInto(temp, p, baseKey);
@@ -90,8 +90,8 @@ final class RaylibTempStructAllocator<
   }
 
   /// Copies [length] structs from [src] into a tracked slot.
-  StructPointer<X> Copy(MemoryPointerHandle src, int length, {String? key}) {
-    final p = At(slotKey(key), length);
+  StructPointer<X> Copy(MemoryPointer src, int length, {String? key}) {
+    final p = At(_slotKey(key), length);
     p.copyBytesFrom(src, length * byteSize);
     return pointerFactory(p);
   }
@@ -100,7 +100,7 @@ final class RaylibTempStructAllocator<
   ///
   /// Allocates the slot on first use.
   StructPointer<X> Value([X? value, String? key]) {
-    final p = At(slotKey(key));
+    final p = At(_slotKey(key));
     if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
@@ -121,7 +121,7 @@ final class RaylibTempStructAllocator<
   /// [key], ensuring the slot is never accidentally shared with an unrelated
   /// call that happens to use the same base key.
   StructPointer<X> ValueUnique(X? value, {String key = '__value_unique__'}) {
-    final p = At(uniqueSlotKey(key));
+    final p = At(_uniqueSlotKey(key));
     if (value != null) value.structWriteInto(p);
     return pointerFactory(p);
   }
@@ -137,9 +137,13 @@ final class RaylibTempStructAllocator<
     : Allocate(x, key);
 
   StructPointer<X> RefUnique(X? x) {
-    if (x == null) return pointerFactory(MemoryPointer.nullptr());
-    x.op ??= AtUniqueStruct();
-    x.structSyncToMemory();
+    if (x == null) {
+      return pointerFactory(MemoryPointer.nullptr());
+    }
+    if (x.op == null) {
+      x.op = AtUniqueStruct();
+      x.structSyncToMemory();
+    }
     return x.getOp();
   }
 
@@ -260,10 +264,9 @@ final class RaylibTempStructAllocator<
 
   X _getValue(StructPointer<X> ptr, dynamic result) {
     final value = result is X ? result : ptr.ref;
-    value.$state.allocKey = _lastKey;
     value.op ??= ptr;
     value.structSyncFromMemory();
-    if (!value.structRequiresOp) value.op = null;
+    if (!value._requiresOp) value.op = null;
     return value;
   }
 
@@ -456,7 +459,7 @@ final class RaylibTempStructPointerAllocator<
   final StructPointer<X> Function(List<X> array) rawArrayFunc;
 
   /// Overwrites the [i]-th element of the array at [ptr] with [value].
-  final void Function(MemoryPointerHandle ptr, int i, MemoryPointerHandle value) indexSetterFunc;
+  final void Function(MemoryPointer ptr, int i, MemoryPointer value) indexSetterFunc;
 
   RaylibTempStructPointerAllocator(super.temp, {
     required super.byteSize,
@@ -476,7 +479,7 @@ final class RaylibTempStructPointerAllocator<
 
   /// Writes [array] into a tracked slot of sufficient capacity.
   MemoryPointer<RPointer<RStruct>> Array(List<X> array, {String? key}) {
-    key ??= slotKey(key);
+    key ??= _slotKey(key);
     final p = At(key, array.length);
     for (int i = 0; i < array.length; i++) indexSetterFunc(p, i, valueFunc(array[i], '${key}_$i'));
     return p;

@@ -35,7 +35,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<NPatchInfoD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, NPatchInfoD.new, NPatchInfoD.pointer);
 
   static final _sourceF = struct.struct(.source, RectangleD.pointer);
@@ -113,7 +113,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _sourceF.write(p, _source);
     _leftF.write(p, _left);
     _topF.write(p, _top);
@@ -123,7 +123,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _source = _sourceF.read(p);
     _left = _leftF.read(p);
     _top = _topF.read(p);

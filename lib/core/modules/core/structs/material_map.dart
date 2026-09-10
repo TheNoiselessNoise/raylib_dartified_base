@@ -29,7 +29,7 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialMapD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
 
   static final _textureF = struct.struct(.texture, TextureD.pointer);
@@ -80,14 +80,14 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _textureF.write(p, _texture);
     _colorF.write(p, _color);
     _valueF.write(p, _value);
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _texture = _textureF.read(p);
     _color = _colorF.read(p);
     _value = _valueF.read(p);

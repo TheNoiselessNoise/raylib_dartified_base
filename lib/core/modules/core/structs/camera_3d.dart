@@ -9,7 +9,7 @@ enum Camera3DField with StructFields {
 }
 
 /// Camera, defines position/orientation in 3d space
-class Camera3DD extends RaylibStruct<Camera3DD> {
+class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -33,7 +33,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Camera3DD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera3DD.new, Camera3DD.pointer);
 
   static final _positionF = struct.struct(.position, Vector3D.pointer);
@@ -102,7 +102,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _positionF.write(p, _position);
     _targetF.write(p, _target);
     _upF.write(p, _up);
@@ -111,7 +111,7 @@ class Camera3DD extends RaylibStruct<Camera3DD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _position = _positionF.read(p);
     _target = _targetF.read(p);
     _up = _upF.read(p);

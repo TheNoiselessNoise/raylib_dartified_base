@@ -31,7 +31,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RayCollisionD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayCollisionD.new, RayCollisionD.pointer);
 
   static final _hitF = struct.scalar<bool, RBool>(.hit);
@@ -91,7 +91,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _hitF.write(p, _hit);
     _distanceF.write(p, _distance);
     _pointF.write(p, _point);
@@ -99,7 +99,7 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _hit = _hitF.read(p);
     _distance = _distanceF.read(p);
     _point = _pointF.read(p);

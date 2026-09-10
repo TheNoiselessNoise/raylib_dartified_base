@@ -49,7 +49,7 @@ class LightD extends RaylibStruct<LightD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<LightD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<LightD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, LightD.new, LightD.pointer);
 
   static final _typeF = struct.scalar<int, RInt>(.type);
@@ -182,7 +182,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _typeF.write(p, _type.value);
     _enabledF.write(p, _enabled);
     _positionF.write(p, _position);
@@ -198,7 +198,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _type = .fromValue(_typeF.read(p));
     _enabled = _enabledF.read(p);
     _position = _positionF.read(p);

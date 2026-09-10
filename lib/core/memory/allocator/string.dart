@@ -68,7 +68,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// Sub-slot keys follow the pattern `'<key>_<i>'`. [key] defaults to
   /// `'default'`.
   MemoryPointer<RPointer<RChar>> Array(List<String> array, {String? key}) {
-    final arrayKey = slotKey(key);
+    final arrayKey = _slotKey(key);
     final pp = AtPtr(arrayKey, array.length);
     for (int i = 0; i < array.length; i++) indexSetterFunc(pp, i, ValueAt('${arrayKey}_$i', array[i]));
     return pp;
@@ -135,7 +135,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// [key], ensuring the slot is never accidentally shared with an unrelated
   /// call that happens to use the same base key.
   MemoryPointer<RChar> ValueAtUnique(String text, {String key = '__value_unique__', int? bufferSize})
-    => ValueAt(uniqueSlotKey(key), text, bufferSize);
+    => ValueAt(_uniqueSlotKey(key), text, bufferSize);
 
   /// Ensures the slot list is large enough to hold index [slot], growing it
   /// with null-pointer sentinels if necessary.

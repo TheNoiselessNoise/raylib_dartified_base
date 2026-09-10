@@ -31,7 +31,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
 
   /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
   /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ColorD> pointer(MemoryPointerHandle? ptr)
+  static StructPointer<ColorD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ColorD.new, ColorD.pointer);
 
   static final _rF = struct.scalar<int, RUnsignedChar>(.r);
@@ -105,7 +105,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ColorD setDart(ColorD o) => set(o.r, o.g, o.b, o.a);
 
   @override
-  void structWriteInto(MemoryPointerHandle p) {
+  void structWriteInto(MemoryPointer p) {
     _rF.write(p, _r);
     _gF.write(p, _g);
     _bF.write(p, _b);
@@ -113,7 +113,7 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   }
 
   @override
-  void structReadFrom(MemoryPointerHandle p) {
+  void structReadFrom(MemoryPointer p) {
     _r = _rF.read(p);
     _g = _gF.read(p);
     _b = _bF.read(p);
