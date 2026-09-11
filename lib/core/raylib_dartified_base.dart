@@ -20,11 +20,14 @@ part 'memory/allocator/scalar.dart';
 part 'memory/allocator/string.dart';
 part 'memory/allocator/struct.dart';
 part 'memory/codecs.dart';
+part 'memory/debug.dart';
 part 'memory/fields.dart';
 part 'memory/list.dart';
 part 'memory/pointer.dart';
+part 'memory/scratch.dart';
 part 'memory/struct.dart';
 part 'memory/temp.dart';
+part 'memory/trace.dart';
 part 'memory/types.dart';
 
 // ===== AUDIO MODULE =====

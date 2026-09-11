@@ -255,7 +255,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   void boot() {
     if (_booted) return;
     _booted = true;
-    MemoryPointer._initializeScratchBuffers();
+    MemoryScratch._initialize();
     _registerBuiltins();
   }
 
@@ -366,7 +366,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   void dispose() {
     super.dispose();
     registeredModules.forEach(_disposeModule);
-    MemoryPointer._freeScratchBuffers();
+    MemoryScratch._dispose();
   }
 
   // Functions

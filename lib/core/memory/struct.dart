@@ -499,14 +499,14 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
     MemoryPointer? srcPtr = op;
     if (srcPtr == null) {
-      srcPtr = MemoryPointer.scratch(0);
+      srcPtr = MemoryScratch.get(0);
       structWriteInto(srcPtr);
       _canonicalizeFloats(srcPtr);
     }
 
     MemoryPointer? dstPtr = other.op;
     if (dstPtr == null) {
-      dstPtr = MemoryPointer.scratch(1);
+      dstPtr = MemoryScratch.get(1);
       other.structWriteInto(dstPtr);
       _canonicalizeFloats(dstPtr);
     }
@@ -527,7 +527,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     }
 
     // If unbacked, serialize and hash the bytes
-    final scratch = MemoryPointer.scratch(0);
+    final scratch = MemoryScratch.get(0);
     structWriteInto(scratch);
     _canonicalizeFloats(scratch);
     return scratch.computeByteHash(structLayout.byteSize);

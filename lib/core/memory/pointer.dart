@@ -3,52 +3,8 @@ part of '../raylib_dartified_base.dart';
 /// Backend-agnostic handle to a raw memory buffer returned by a C function.
 abstract class MemoryPointer<X extends RType> {
 
-  // ░███████   ░██████████ ░████████   ░██     ░██   ░██████  
-  // ░██   ░██  ░██         ░██    ░██  ░██     ░██  ░██   ░██ 
-  // ░██    ░██ ░██         ░██    ░██  ░██     ░██ ░██        
-  // ░██    ░██ ░█████████  ░████████   ░██     ░██ ░██  █████ 
-  // ░██    ░██ ░██         ░██     ░██ ░██     ░██ ░██     ██ 
-  // ░██   ░██  ░██         ░██     ░██  ░██   ░██   ░██  ░███ 
-  // ░███████   ░██████████ ░█████████    ░██████     ░█████░█ 
-
   /// Provides more information on double-frees or reads/writes on an invalid pointer.
   static bool debug = false;
-
-  static final Map<int, List<void Function(String source, dynamic value)>> _readWatch = {};
-  static final Map<int, List<void Function(String source, dynamic value)>> _writeWatch = {};
-
-  static void Function(MemoryPointer ptr, String source, dynamic value)? _readAnyWatch;
-  static void Function(MemoryPointer ptr, String source, dynamic value)? _writeAnyWatch;
-
-  static void watchRead(int address, void Function(String source, dynamic value) fn) {
-    _readWatch.putIfAbsent(address, () => []);
-    _readWatch[address]!.add(fn);
-  }
-
-  static void watchWrite(int address, void Function(String source, dynamic value) fn) {
-    _writeWatch.putIfAbsent(address, () => []);
-    _writeWatch[address]!.add(fn);
-  }
-
-  static void watchReadAny(void Function(MemoryPointer ptr, String source, dynamic value)? fn)
-    => _readAnyWatch = fn;
-
-  static void watchWriteAny(void Function(MemoryPointer ptr, String source, dynamic value)? fn)
-    => _writeAnyWatch = fn;
-
-  static void checkRead(int address, String source, [dynamic value]) {
-    _readAnyWatch?.call(MemoryPointer.fromAddress(address), source, value);
-    final watch = _readWatch[address];
-    if (watch == null) return;
-    watch.forEach((f) => f(source, value));
-  }
-
-  static void checkWrite(int address, String source, [dynamic value]) {
-    _writeAnyWatch?.call(MemoryPointer.fromAddress(address), source, value);
-    final watch = _writeWatch[address];
-    if (watch == null) return;
-    watch.forEach((f) => f(source, value));
-  }
 
   // ░████████      ░███      ░██████  ░██     ░██ 
   // ░██    ░██    ░██░██    ░██   ░██ ░██    ░██  
@@ -115,38 +71,6 @@ abstract class MemoryPointer<X extends RType> {
   /// Allocates a memory of given `nmemb * size` and zero initializes it.
   static MemoryPointer<Y> Function<Y extends RType>(int nmemb, int size) calloc = _defaultCalloc;
 
-  // ░████████   ░██     ░██ ░██████████░██████████
-  // ░██    ░██  ░██     ░██ ░██        ░██        
-  // ░██    ░██  ░██     ░██ ░██        ░██        
-  // ░████████   ░██     ░██ ░█████████ ░█████████ 
-  // ░██     ░██ ░██     ░██ ░██        ░██        
-  // ░██     ░██  ░██   ░██  ░██        ░██        
-  // ░█████████    ░██████   ░██        ░██        
-
-  static final List<MemoryPointer> _scratchBuffers = [];
-
-  /// Called automatically at [RaylibBase.boot] (backend has initialized).
-  static void _initializeScratchBuffers() {
-    if (_scratchBuffers.isNotEmpty) _freeScratchBuffers();
-    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
-    _scratchBuffers.add(calloc(1, RaylibConfig.MAX_STRUCT_BYTE_SIZE));
-  }
-
-  /// Called automatically at [RaylibBase.dispose].
-  static void _freeScratchBuffers() {
-    _scratchBuffers.forEach((s) => s.free());
-    _scratchBuffers.clear();
-  }
-
-  /// Returns a static thread-local scratch buffer for short-lived operations.
-  /// Standard slots: 0 and 1 (used for binary operations like equality).
-  static MemoryPointer<Y> scratch<Y extends RType>(int slot) {
-    if (slot < 0 || slot >= _scratchBuffers.length) {
-      throw StateError('MemoryPointer invalid scratch buffer index $slot.');
-    }
-    return _scratchBuffers[slot].cast();
-  }
-
   // ░██████░███     ░███ ░█████████  ░██         
   //   ░██  ░████   ░████ ░██     ░██ ░██         
   //   ░██  ░██░██ ░██░██ ░██     ░██ ░██         
@@ -176,6 +100,9 @@ abstract class MemoryPointer<X extends RType> {
   /// Frees the underlying allocation. Only call this if you
   /// actually own it.
   void free();
+
+  /// If the underlying allocation has been freed.
+  bool isFreed = false;
 
   /// Debug/logging only. Do NOT branch logic on this.
   int get address;
