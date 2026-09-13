@@ -135,9 +135,9 @@ class WaveD extends RaylibStruct<WaveD> {
   late ByteBuffer _dataBuffer;
   /// Raw audio buffer data
   ByteBuffer get dataBuffer => op == null ? _dataBuffer : switch (sampleSize) {
-    8  => data.to<Uint8List>(waveLength).buffer,
-    16 => data.to<Int16List>(waveLength).buffer,
-    32 => data.to<Float32List>(waveLength).buffer,
+    8  => data.asCopy<Uint8List>(waveLength).buffer,
+    16 => data.asCopy<Int16List>(waveLength).buffer,
+    32 => data.asCopy<Float32List>(waveLength).buffer,
     _  => throw UnsupportedError('Unexpected sampleSize: $sampleSize'),
   };
 

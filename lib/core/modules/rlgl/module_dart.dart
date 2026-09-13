@@ -1291,13 +1291,17 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
         height.toInt(),
         format,
       );
-      final pixels = rl.RlglFlat.rlReadTexturePixels(
+      final pixelsPtr = rl.RlglFlat.rlReadTexturePixels(
         id.toInt(),
         width.toInt(),
         height.toInt(),
         format.value,
       );
-      return pixels.to(size);
+      try {
+        return pixelsPtr.asCopy<Uint8List>(size);
+      } finally {
+        pixelsPtr.free();
+      }
     },
   );
 
@@ -1308,13 +1312,15 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
   ) => run(
     () => _debugLabels.rlReadScreenPixels(width, height),
     () {
-      final values = rl.RlglFlat.rlReadScreenPixels(
+      final pixelsPtr = rl.RlglFlat.rlReadScreenPixels(
         width.toInt(),
         height.toInt(),
       );
-      final pixels = values.to<Uint8List>(width.toInt()*height.toInt()*4);
-      values.free();
-      return .fromList(pixels);
+      try {
+        return pixelsPtr.asCopy<Uint8List>(width.toInt()*height.toInt()*4);
+      } finally {
+        pixelsPtr.free();
+      }
     },
   );
 
@@ -1391,7 +1397,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
         pixels.cast(),
       );
 
-      return pixels.to(size);
+      return pixels.asCopy(size);
     },
   );
   
@@ -1663,7 +1669,7 @@ final class RaylibRlglModule<R extends RaylibBase<R>> extends RaylibModule<R> wi
         count.toInt(),
         offset.toInt(),
       );
-      return values.to(count.toInt());
+      return values.asCopy(count.toInt());
     },
   );
 

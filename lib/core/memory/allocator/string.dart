@@ -7,12 +7,9 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// Number of anonymous (ring-buffer) string slots pre-reserved on construction.
   int slotCount;
 
-  final void Function(MemoryPointer<RPointer<RChar>> ptrptr, int i, MemoryPointer<RChar> ptr) indexSetterFunc;
-
   RaylibTempStringAllocator(super.temp, {
     required super.byteSize,
     required this.slotCount,
-    required this.indexSetterFunc,
   });
 
   @override
@@ -58,19 +55,23 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
       ptr.free();
     }
     final ptr = _allocatePointer<RChar>(count);
+    ptr._allocationKey = key;
     stringSlotsPtrsKeyed[key] = (ptr, count);
     return ptr;
   }
 
   /// Writes each string in [array] into keyed sub-slots and returns a tracked
-  /// `PP` of length `array.length`.
+  /// pointer of length `array.length`.
   ///
-  /// Sub-slot keys follow the pattern `'<key>_<i>'`. [key] defaults to
-  /// `'default'`.
+  /// Sub-slot keys follow the pattern `<key>_<i>`. [key] defaults to
+  /// `default`.
   MemoryPointer<RPointer<RChar>> Array(List<String> array, {String? key}) {
     final arrayKey = _slotKey(key);
     final pp = AtPtr(arrayKey, array.length);
-    for (int i = 0; i < array.length; i++) indexSetterFunc(pp, i, ValueAt('${arrayKey}_$i', array[i]));
+    for (int i = 0; i < array.length; i++) {
+      final innerPtr = ValueAt('${arrayKey}_$i', array[i]);
+      pp.writePtr(innerPtr, i * RType.nativeWordSize);
+    }
     return pp;
   }
 
@@ -90,7 +91,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// 
   /// If [key] is provided, delegates to [ValueAt] instead.
   MemoryPointer<RChar> Value(String text, [String? key, int? bufferSize]) {
-    if (key != null) return ValueAt(key, text);
+    if (key != null) return ValueAt(key, text, bufferSize);
     final slot = stringAnonIndex;
     stringAnonIndex = (stringAnonIndex + 1) % slotCount;
     _ensureSlotExists(slot);
@@ -110,8 +111,8 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// Allocates the slot on first use. If [text] is `null` the existing string
   /// is returned; asserts that the slot has been initialised at least once.
   MemoryPointer<RChar> ValueAt(String key, [String? text, int? bufferSize]) {
-    final slot = stringSlotsKeyed.putIfAbsent(
-      key, () => stringSlots.length
+    final int slot = stringSlotsKeyed.putIfAbsent(
+      key, () => slotCount + stringSlotsKeyed.length,
     );
 
     _ensureSlotExists(slot);
@@ -134,7 +135,7 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
   /// Behaves like [ValueAt], but prepends a monotonic ID from [RaylibTemp.nextId] to
   /// [key], ensuring the slot is never accidentally shared with an unrelated
   /// call that happens to use the same base key.
-  MemoryPointer<RChar> ValueAtUnique(String text, {String key = '__value_unique__', int? bufferSize})
+  MemoryPointer<RChar> ValueAtUnique(String text, {String key = '@valueUnique:', int? bufferSize})
     => ValueAt(_uniqueSlotKey(key), text, bufferSize);
 
   /// Ensures the slot list is large enough to hold index [slot], growing it
@@ -209,55 +210,43 @@ final class RaylibTempStringAllocator extends RaylibTempAllocator<RChar> {
     reset();
   }
 
-  /// Writes [o] into slot `'1'` and returns its pointer.
+  /// Writes [o] into slot `@slot:1` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '1')`. Use [RefOrNull1] if [o] may be `null`
-  /// and the callee expects `nullptr` in that case.
-  MemoryPointer<RChar> Ref1([String? o, int? bufferSize]) => ValueAt('1', o, bufferSize);
+  /// Use [RefOrNull1] if [o] may be `null` and the callee expects `nullptr` in that case.
+  MemoryPointer<RChar> Ref1([String? o, int? bufferSize]) => ValueAt('@slot:1', o, bufferSize);
 
-  /// Writes [o] into slot `'2'` and returns its pointer.
+  /// Writes [o] into slot `@slot:2` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '2')`. Use [RefOrNull2] if [o] may be `null`
-  /// and the callee expects `nullptr` in that case.
-  MemoryPointer<RChar> Ref2([String? o, int? bufferSize]) => ValueAt('2', o, bufferSize);
+  /// Use [RefOrNull2] if [o] may be `null` and the callee expects `nullptr` in that case.
+  MemoryPointer<RChar> Ref2([String? o, int? bufferSize]) => ValueAt('@slot:2', o, bufferSize);
 
-  /// Writes [o] into slot `'3'` and returns its pointer.
+  /// Writes [o] into slot `@slot:3` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '3')`. Use [RefOrNull3] if [o] may be `null`
-  /// and the callee expects `nullptr` in that case.
-  MemoryPointer<RChar> Ref3([String? o, int? bufferSize]) => ValueAt('3', o, bufferSize);
+  /// Use [RefOrNull3] if [o] may be `null` and the callee expects `nullptr` in that case.
+  MemoryPointer<RChar> Ref3([String? o, int? bufferSize]) => ValueAt('@slot:3', o, bufferSize);
 
-  /// Writes [o] into slot `'4'` and returns its pointer.
+  /// Writes [o] into slot `@slot:4` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '4')`. Use [RefOrNull4] if [o] may be `null`
-  /// and the callee expects `nullptr` in that case.
-  MemoryPointer<RChar> Ref4([String? o, int? bufferSize]) => ValueAt('4', o, bufferSize);
+  /// Use [RefOrNull4] if [o] may be `null` and the callee expects `nullptr` in that case.
+  MemoryPointer<RChar> Ref4([String? o, int? bufferSize]) => ValueAt('@slot:4', o, bufferSize);
 
-  /// Returns a `P` for the given [o] value, using `nullptr` when [o] is `null`.
-  MemoryPointer<RChar> _RefOrNull(String? o, MemoryPointer<RChar> Function([String]) alloc)
-    => o == null ? MemoryPointer.nullptr() : alloc(o);
-
-  /// Writes [o] into slot `'1'` and returns its pointer, or returns `nullptr`
-  /// if [o] is `null`.
+  /// Writes [o] into slot `@slot:1` and returns its pointer, or returns `nullptr` if [o] is `null`.
   ///
   /// Use this instead of [Ref1] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<RChar> RefOrNull1(String? o) => _RefOrNull(o, Ref1);
+  MemoryPointer<RChar> RefOrNull1(String? o, [int? bufferSize]) => o == null ? MemoryPointer.nullptr() : Ref1(o, bufferSize);
 
-  /// Writes [o] into slot `'2'` and returns its pointer, or returns `nullptr`
-  /// if [o] is `null`.
+  /// Writes [o] into slot `@slot:2` and returns its pointer, or returns `nullptr` if [o] is `null`.
   ///
   /// Use this instead of [Ref2] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<RChar> RefOrNull2(String? o) => _RefOrNull(o, Ref2);
+  MemoryPointer<RChar> RefOrNull2(String? o, [int? bufferSize]) => o == null ? MemoryPointer.nullptr() : Ref2(o, bufferSize);
 
-  /// Writes [o] into slot `'3'` and returns its pointer, or returns `nullptr`
-  /// if [o] is `null`.
+  /// Writes [o] into slot `@slot:3` and returns its pointer, or returns `nullptr` if [o] is `null`.
   ///
   /// Use this instead of [Ref3] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<RChar> RefOrNull3(String? o) => _RefOrNull(o, Ref3);
+  MemoryPointer<RChar> RefOrNull3(String? o, [int? bufferSize]) => o == null ? MemoryPointer.nullptr() : Ref3(o, bufferSize);
 
-  /// Writes [o] into slot `'4'` and returns its pointer, or returns `nullptr`
-  /// if [o] is `null`.
+  /// Writes [o] into slot `@slot:4` and returns its pointer, or returns `nullptr` if [o] is `null`.
   ///
   /// Use this instead of [Ref4] when the C API uses a null pointer to signal "no value".
-  MemoryPointer<RChar> RefOrNull4(String? o) => _RefOrNull(o, Ref4);
+  MemoryPointer<RChar> RefOrNull4(String? o, [int? bufferSize]) => o == null ? MemoryPointer.nullptr() : Ref4(o, bufferSize);
 }

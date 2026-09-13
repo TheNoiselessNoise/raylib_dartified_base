@@ -1,6 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Raylib `ConfigFlags` enum.
+/// `ConfigFlags`
 enum ConfigFlags with RaylibEnum {
   /// `FLAG_VSYNC_HINT`
   FLAG_VSYNC_HINT(64),
@@ -64,7 +64,7 @@ enum ConfigFlags with RaylibEnum {
   };
 }
 
-/// Raylib `TraceLogLevel` enum.
+/// `TraceLogLevel`
 enum TraceLogLevel with RaylibEnum {
   /// `LOG_ALL`
   LOG_ALL(0),
@@ -105,7 +105,7 @@ enum TraceLogLevel with RaylibEnum {
   };
 }
 
-/// Raylib `KeyboardKey` enum.
+/// `KeyboardKey`
 enum KeyboardKey with RaylibEnum {
   /// `KEY_NULL`
   KEY_NULL(0),
@@ -452,7 +452,7 @@ enum KeyboardKey with RaylibEnum {
   };
 }
 
-/// Raylib `MouseButton` enum.
+/// `MouseButton`
 enum MouseButton with RaylibEnum {
   /// `MOUSE_BUTTON_LEFT`
   MOUSE_BUTTON_LEFT(0),
@@ -490,7 +490,7 @@ enum MouseButton with RaylibEnum {
   };
 }
 
-/// Raylib `MouseCursor` enum.
+/// `MouseCursor`
 enum MouseCursor with RaylibEnum {
   /// `MOUSE_CURSOR_DEFAULT`
   MOUSE_CURSOR_DEFAULT(0),
@@ -540,7 +540,7 @@ enum MouseCursor with RaylibEnum {
   };
 }
 
-/// Raylib `GamepadButton` enum.
+/// `GamepadButton`
 enum GamepadButton with RaylibEnum {
   /// `GAMEPAD_BUTTON_UNKNOWN`
   GAMEPAD_BUTTON_UNKNOWN(0),
@@ -611,7 +611,7 @@ enum GamepadButton with RaylibEnum {
   };
 }
 
-/// Raylib `GamepadAxis` enum.
+/// `GamepadAxis`
 enum GamepadAxis with RaylibEnum {
   /// `GAMEPAD_AXIS_LEFT_X`
   GAMEPAD_AXIS_LEFT_X(0),
@@ -646,7 +646,7 @@ enum GamepadAxis with RaylibEnum {
   };
 }
 
-/// Raylib `MaterialMapIndex` enum.
+/// `MaterialMapIndex`
 enum MaterialMapIndex with RaylibEnum {
   /// `MATERIAL_MAP_ALBEDO`
   MATERIAL_MAP_ALBEDO(0),
@@ -696,7 +696,7 @@ enum MaterialMapIndex with RaylibEnum {
   };
 }
 
-/// Raylib `ShaderLocationIndex` enum.
+/// `ShaderLocationIndex`
 enum ShaderLocationIndex with RaylibEnum {
   /// `SHADER_LOC_VERTEX_POSITION`
   SHADER_LOC_VERTEX_POSITION(0),
@@ -803,7 +803,7 @@ enum ShaderLocationIndex with RaylibEnum {
   };
 }
 
-/// Raylib `ShaderUniformDataType` enum.
+/// `ShaderUniformDataType`
 enum ShaderUniformDataType with RaylibEnum {
   /// `SHADER_UNIFORM_FLOAT`
   SHADER_UNIFORM_FLOAT(0),
@@ -859,7 +859,7 @@ enum ShaderUniformDataType with RaylibEnum {
   };
 }
 
-/// Raylib `PixelFormat` enum.
+/// `PixelFormat`
 enum PixelFormat with RaylibEnum {
   /// `PIXELFORMAT_NONE` (for uninitialized [TextureD] and [ImageD] slots only)
   PIXELFORMAT_NONE(0),
@@ -950,7 +950,7 @@ enum PixelFormat with RaylibEnum {
   };
 }
 
-/// Raylib `TextureFilter` enum.
+/// `TextureFilter`
 enum TextureFilter with RaylibEnum {
   /// `TEXTURE_FILTER_POINT`
   TEXTURE_FILTER_POINT(0),
@@ -985,7 +985,7 @@ enum TextureFilter with RaylibEnum {
   };
 }
 
-/// Raylib `TextureWrap` enum.
+/// `TextureWrap`
 enum TextureWrap with RaylibEnum {
   /// `TEXTURE_WRAP_REPEAT`
   TEXTURE_WRAP_REPEAT(0),
@@ -1014,7 +1014,7 @@ enum TextureWrap with RaylibEnum {
   };
 }
 
-/// Raylib `CubemapLayout` enum.
+/// `CubemapLayout`
 enum CubemapLayout with RaylibEnum {
   /// `CUBEMAP_LAYOUT_AUTO_DETECT`
   CUBEMAP_LAYOUT_AUTO_DETECT(0),
@@ -1046,7 +1046,7 @@ enum CubemapLayout with RaylibEnum {
   };
 }
 
-/// Raylib `FontType` enum.
+/// `FontType`
 enum FontType with RaylibEnum {
   /// `FONT_DEFAULT`
   FONT_DEFAULT(0),
@@ -1072,7 +1072,7 @@ enum FontType with RaylibEnum {
   };
 }
 
-/// Raylib `BlendMode` enum.
+/// `BlendMode`
 enum BlendMode with RaylibEnum {
   /// `BLEND_ALPHA`
   BLEND_ALPHA(0),
@@ -1113,7 +1113,7 @@ enum BlendMode with RaylibEnum {
   };
 }
 
-/// Raylib `Gesture` enum.
+/// `Gesture`
 enum Gesture with RaylibEnum {
   /// `GESTURE_NONE`
   GESTURE_NONE(0),
@@ -1162,7 +1162,7 @@ enum Gesture with RaylibEnum {
   };
 }
 
-/// Raylib `CameraMode` enum.
+/// `CameraMode`
 enum CameraMode with RaylibEnum {
   /// `CAMERA_CUSTOM`
   CAMERA_CUSTOM(0),
@@ -1194,7 +1194,7 @@ enum CameraMode with RaylibEnum {
   };
 }
 
-/// Raylib `CameraProjection` enum.
+/// `CameraProjection`
 enum CameraProjection with RaylibEnum {
   /// `CAMERA_PERSPECTIVE`
   CAMERA_PERSPECTIVE(0),
@@ -1217,7 +1217,7 @@ enum CameraProjection with RaylibEnum {
   };
 }
 
-/// Raylib `NPatchLayout` enum.
+/// `NPatchLayout`
 enum NPatchLayout with RaylibEnum {
   /// `NPATCH_NINE_PATCH`
   NPATCH_NINE_PATCH(0),
@@ -1243,7 +1243,7 @@ enum NPatchLayout with RaylibEnum {
   };
 }
 
-/// Raylib `AutomationEventType` enum.
+/// `AutomationEventType`
 enum AutomationEventType with RaylibEnum {
   /// `EVENT_NONE`
   EVENT_NONE(0),
@@ -1341,7 +1341,7 @@ enum AutomationEventType with RaylibEnum {
   };
 }
 
-/// Raylib `TouchAction` enum.
+/// `TouchAction`
 enum TouchAction with RaylibEnum {
   /// `TOUCH_ACTION_UP`
   TOUCH_ACTION_UP(0),

@@ -10,12 +10,15 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
   
   RaylibMsfGifModule(super.rl);
 
+  /// `msf_gif_alpha_threshold`
   int get msf_gif_alpha_threshold => rl.MsfGifFlat.msf_gif_alpha_threshold;
   set msf_gif_alpha_threshold(int v) => rl.MsfGifFlat.msf_gif_alpha_threshold = v;
 
+  /// `msf_gif_bgra_flag`
   int get msf_gif_bgra_flag => rl.MsfGifFlat.msf_gif_bgra_flag;
   set msf_gif_bgra_flag(int v) => rl.MsfGifFlat.msf_gif_bgra_flag = v;
 
+  /// `msf_gif_begin`
   int msf_gif_begin(
     MsfGifStateD handle,
     num width,
@@ -29,6 +32,7 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
     ),
   );
 
+  /// `msf_gif_frame`
   int msf_gif_frame(
     MsfGifStateD handle,
     Uint8List pixelData,
@@ -46,6 +50,7 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
     ),
   );
 
+  /// `msf_gif_end`
   MsfGifResultD msf_gif_end(
     MsfGifStateD handle,
   ) => run(
@@ -55,6 +60,7 @@ final class RaylibMsfGifModule<R extends RaylibBase<R>> extends RaylibModule<R> 
     ),
   );
 
+  /// `msf_gif_free`
   void msf_gif_free(
     MsfGifResultD result,
   ) => run(

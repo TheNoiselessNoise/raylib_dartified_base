@@ -4,7 +4,63 @@ part of '../../raylib_dartified_base.dart';
 /// with the GUI styling API.
 mixin GuiProperty on RaylibEnum {}
 
-/// raygui `GuiState` enum.
+/// `GuiResult`
+/// 
+/// Gui control result
+sealed class GuiResult {
+  /// The underlying name.
+  final String name;
+
+  /// The underlying native integer value.
+  final int value;
+
+  const GuiResult(this.value, this.name);
+
+  /// `RESULT_NONE`
+  static const RESULT_NONE = _GuiResultConst(0, 'RESULT_NONE');
+  
+  /// `RESULT_PRESSED`
+  static const RESULT_PRESSED = _GuiResultConst(1, 'RESULT_PRESSED');
+  
+  /// `RESULT_CHANGED`
+  static const RESULT_CHANGED = _GuiResultConst(2, 'RESULT_CHANGED');
+  
+  /// `RESULT_TAB_CLOSE`
+  ///
+  /// GuiTabBar(), tab close request
+  static const RESULT_TAB_CLOSE = _GuiResultConst(4, 'RESULT_TAB_CLOSE');
+
+  /// Returns the custom [GuiResult] for the given native [value].
+  factory GuiResult.custom(int value) = GuiResultCustom;
+
+  /// Returns the [GuiResult] for the given native [value].
+  ///
+  /// Throws [ArgumentError] if [value] does not correspond to a known entry.
+  factory GuiResult.fromValue(int value) => switch (value) {
+    0 => RESULT_NONE,
+    1 => RESULT_PRESSED,
+    2 => RESULT_CHANGED,
+    4 => RESULT_TAB_CLOSE,
+    _ => GuiResultCustom(value),
+  };
+
+  bool operator <(GuiResult other) => value < other.value;
+  bool operator >(GuiResult other) => value > other.value;
+  bool operator <=(GuiResult other) => value <= other.value;
+  bool operator >=(GuiResult other) => value >= other.value;
+}
+
+final class _GuiResultConst extends GuiResult {
+  const _GuiResultConst(super.value, super.name);
+}
+
+class GuiResultCustom extends GuiResult {
+  const GuiResultCustom(int value) : super(value, 'RESULT_CUSTOM');
+}
+
+/// `GuiState`
+/// 
+/// Gui control state
 enum GuiState with RaylibEnum {
   /// `STATE_NORMAL`
   STATE_NORMAL(0),
@@ -33,7 +89,9 @@ enum GuiState with RaylibEnum {
   };
 }
 
-/// raygui `GuiTextAlignment` enum.
+/// `GuiTextAlignment`
+/// 
+/// Gui control text alignment
 enum GuiTextAlignment with RaylibEnum {
   /// `TEXT_ALIGN_LEFT`
   TEXT_ALIGN_LEFT(0),
@@ -59,7 +117,9 @@ enum GuiTextAlignment with RaylibEnum {
   };
 }
 
-/// raygui `GuiTextAlignmentVertical` enum.
+/// `GuiTextAlignmentVertical`
+/// 
+/// Gui control text alignment vertical
 enum GuiTextAlignmentVertical with RaylibEnum {
   /// `TEXT_ALIGN_TOP`
   TEXT_ALIGN_TOP(0),
@@ -85,7 +145,9 @@ enum GuiTextAlignmentVertical with RaylibEnum {
   };
 }
 
-/// raygui `GuiTextWrapMode` enum.
+/// `GuiTextWrapMode`
+/// 
+/// Gui control text wrap mode
 enum GuiTextWrapMode with RaylibEnum {
   /// `TEXT_WRAP_NONE`
   TEXT_WRAP_NONE(0),
@@ -111,17 +173,27 @@ enum GuiTextWrapMode with RaylibEnum {
   };
 }
 
-/// raygui `GuiControl` enum.
+/// `GuiControl`
+/// 
+/// Gui controls
 enum GuiControl with RaylibEnum {
   /// `DEFAULT`
+  /// 
+  /// Populates to all controls when set
   DEFAULT(0),
   /// `LABEL`
+  /// 
+  /// Used also for: LABELBUTTON
   LABEL(1),
   /// `BUTTON`
   BUTTON(2),
   /// `TOGGLE`
+  /// 
+  /// Used also for: TOGGLEGROUP
   TOGGLE(3),
   /// `SLIDER`
+  /// 
+  /// Used also for: SLIDERBAR, TOGGLESLIDER
   SLIDER(4),
   /// `PROGRESSBAR`
   PROGRESSBAR(5),
@@ -132,11 +204,13 @@ enum GuiControl with RaylibEnum {
   /// `DROPDOWNBOX`
   DROPDOWNBOX(8),
   /// `TEXTBOX`
+  /// 
+  /// Used also for: TEXTBOXMULTI
   TEXTBOX(9),
   /// `VALUEBOX`
   VALUEBOX(10),
-  /// `CONTROL11`
-  CONTROL11(11),
+  /// `TABBAR`
+  TABBAR(11),
   /// `LISTVIEW`
   LISTVIEW(12),
   /// `COLORPICKER`
@@ -167,7 +241,7 @@ enum GuiControl with RaylibEnum {
     8 => DROPDOWNBOX,
     9 => TEXTBOX,
     10 => VALUEBOX,
-    11 => CONTROL11,
+    11 => TABBAR,
     12 => LISTVIEW,
     13 => COLORPICKER,
     14 => SCROLLBAR,
@@ -176,38 +250,74 @@ enum GuiControl with RaylibEnum {
   };
 }
 
-/// raygui `GuiControlProperty` enum.
+/// `GuiControlProperty`
+/// 
+/// Controls BASE properties for every control
 enum GuiControlProperty with RaylibEnum, GuiProperty {
   /// `BORDER_COLOR_NORMAL`
+  /// 
+  /// Control border color in STATE_NORMAL
   BORDER_COLOR_NORMAL(0),
   /// `BASE_COLOR_NORMAL`
+  /// 
+  /// Control base color in STATE_NORMAL
   BASE_COLOR_NORMAL(1),
   /// `TEXT_COLOR_NORMAL`
+  /// 
+  /// Control text color in STATE_NORMAL
   TEXT_COLOR_NORMAL(2),
   /// `BORDER_COLOR_FOCUSED`
+  /// 
+  /// Control border color in STATE_FOCUSED
   BORDER_COLOR_FOCUSED(3),
   /// `BASE_COLOR_FOCUSED`
+  /// 
+  /// Control base color in STATE_FOCUSED
   BASE_COLOR_FOCUSED(4),
   /// `TEXT_COLOR_FOCUSED`
+  /// 
+  /// Control text color in STATE_FOCUSED
   TEXT_COLOR_FOCUSED(5),
   /// `BORDER_COLOR_PRESSED`
+  /// 
+  /// Control border color in STATE_PRESSED
   BORDER_COLOR_PRESSED(6),
   /// `BASE_COLOR_PRESSED`
+  /// 
+  /// Control base color in STATE_PRESSED
   BASE_COLOR_PRESSED(7),
   /// `TEXT_COLOR_PRESSED`
+  /// 
+  /// Control text color in STATE_PRESSED
   TEXT_COLOR_PRESSED(8),
   /// `BORDER_COLOR_DISABLED`
+  /// 
+  /// Control border color in STATE_DISABLED
   BORDER_COLOR_DISABLED(9),
   /// `BASE_COLOR_DISABLED`
+  /// 
+  /// Control base color in STATE_DISABLED
   BASE_COLOR_DISABLED(10),
   /// `TEXT_COLOR_DISABLED`
+  /// 
+  /// Control text color in STATE_DISABLED
   TEXT_COLOR_DISABLED(11),
   /// `BORDER_WIDTH`
+  /// 
+  /// Control border size, 0 for no border
   BORDER_WIDTH(12),
   /// `TEXT_PADDING`
+  /// 
+  /// Control text padding, not considering border
   TEXT_PADDING(13),
   /// `TEXT_ALIGNMENT`
-  TEXT_ALIGNMENT(14);
+  /// 
+  /// Control text horizontal alignment inside control text bound (after border and padding): 0-Left, 1-Center, 2-Right
+  TEXT_ALIGNMENT(14),
+  /// `BASEPROP16`
+  /// 
+  /// Not used yet...
+  BASEPROP16(15);
 
   const GuiControlProperty(this.value);
 
@@ -234,26 +344,47 @@ enum GuiControlProperty with RaylibEnum, GuiProperty {
     12 => BORDER_WIDTH,
     13 => TEXT_PADDING,
     14 => TEXT_ALIGNMENT,
+    15 => BASEPROP16,
     _ => throw ArgumentError('Unknown value for $GuiControlProperty: $value'),
   };
 }
 
-/// raygui `GuiDefaultProperty` enum.
+/// `GuiDefaultProperty`
+/// 
+/// Controls EXTENDED properties
 enum GuiDefaultProperty with RaylibEnum, GuiProperty {
   /// `TEXT_SIZE`
+  /// 
+  /// Text size (glyphs max height)
   TEXT_SIZE(16),
   /// `TEXT_SPACING`
+  /// 
+  /// Text spacing between glyphs
   TEXT_SPACING(17),
   /// `LINE_COLOR`
+  /// 
+  /// Line control color
   LINE_COLOR(18),
   /// `BACKGROUND_COLOR`
+  /// 
+  /// Background color
   BACKGROUND_COLOR(19),
   /// `TEXT_LINE_SPACING`
+  /// 
+  /// Text spacing between lines
   TEXT_LINE_SPACING(20),
   /// `TEXT_ALIGNMENT_VERTICAL`
+  /// 
+  /// Text vertical alignment inside text bounds (after border and padding): 0-Top, 1-Middle, 2-Bottom
   TEXT_ALIGNMENT_VERTICAL(21),
   /// `TEXT_WRAP_MODE`
-  TEXT_WRAP_MODE(22);
+  /// 
+  /// Text wrap-mode inside text bounds
+  TEXT_WRAP_MODE(22),
+  /// `EXTPROP08`
+  /// 
+  /// Not used yet...
+  EXTPROP08(23);
 
   const GuiDefaultProperty(this.value);
 
@@ -272,14 +403,23 @@ enum GuiDefaultProperty with RaylibEnum, GuiProperty {
     20 => TEXT_LINE_SPACING,
     21 => TEXT_ALIGNMENT_VERTICAL,
     22 => TEXT_WRAP_MODE,
+    23 => EXTPROP08,
     _ => throw ArgumentError('Unknown value for $GuiDefaultProperty: $value'),
   };
 }
 
-/// raygui `GuiToggleProperty` enum.
+/// `GuiToggleProperty`
+/// 
+/// Toggle/ToggleGroup
 enum GuiToggleProperty with RaylibEnum, GuiProperty {
   /// `GROUP_PADDING`
-  GROUP_PADDING(16);
+  /// 
+  /// ToggleGroup separation between toggles
+  GROUP_PADDING(16),
+  /// `GROUP_WIDTH_FULL`
+  /// 
+  /// ToggleGroup bounds width considers all items: 0-Width per item, 1-Full width
+  GROUP_WIDTH_FULL(17);
 
   const GuiToggleProperty(this.value);
 
@@ -292,15 +432,22 @@ enum GuiToggleProperty with RaylibEnum, GuiProperty {
   /// Throws [ArgumentError] if [value] does not correspond to a known entry.
   static GuiToggleProperty fromValue(int value) => switch (value) {
     16 => GROUP_PADDING,
+    17 => GROUP_WIDTH_FULL,
     _ => throw ArgumentError('Unknown value for $GuiToggleProperty: $value'),
   };
 }
 
-/// raygui `GuiSliderProperty` enum.
+/// `GuiSliderProperty`
+/// 
+/// Slider/SliderBar
 enum GuiSliderProperty with RaylibEnum, GuiProperty {
   /// `SLIDER_WIDTH`
+  /// 
+  /// Slider size of internal bar
   SLIDER_WIDTH(16),
   /// `SLIDER_PADDING`
+  /// 
+  /// Slider/SliderBar internal bar padding
   SLIDER_PADDING(17);
 
   const GuiSliderProperty(this.value);
@@ -319,11 +466,17 @@ enum GuiSliderProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiProgressBarProperty` enum.
+/// `GuiProgressBarProperty`
+/// 
+/// ProgressBar
 enum GuiProgressBarProperty with RaylibEnum, GuiProperty {
   /// `PROGRESS_PADDING`
+  /// 
+  /// ProgressBar internal padding
   PROGRESS_PADDING(16),
   /// `PROGRESS_PADDING`
+  /// 
+  /// ProgressBar increment side: 0-Left->Right, 1-Right->Left
   PROGRESS_SIDE(17);
 
   const GuiProgressBarProperty(this.value);
@@ -341,19 +494,33 @@ enum GuiProgressBarProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiScrollBarProperty` enum.
+/// `GuiScrollBarProperty`
+/// 
+/// ScrollBar
 enum GuiScrollBarProperty with RaylibEnum, GuiProperty {
   /// `ARROWS_SIZE`
+  /// 
+  /// ScrollBar arrows size
   ARROWS_SIZE(16),
   /// `ARROWS_VISIBLE`
+  /// 
+  /// ScrollBar arrows visible
   ARROWS_VISIBLE(17),
   /// `SCROLL_SLIDER_PADDING`
+  /// 
+  /// ScrollBar slider internal padding
   SCROLL_SLIDER_PADDING(18),
   /// `SCROLL_SLIDER_SIZE`
+  /// 
+  /// ScrollBar slider size
   SCROLL_SLIDER_SIZE(19),
   /// `SCROLL_PADDING`
+  /// 
+  /// ScrollBar scroll padding from arrows
   SCROLL_PADDING(20),
   /// `SCROLL_SPEED`
+  /// 
+  /// ScrollBar scrolling speed
   SCROLL_SPEED(21);
 
   const GuiScrollBarProperty(this.value);
@@ -376,9 +543,13 @@ enum GuiScrollBarProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiCheckBoxProperty` enum.
+/// `GuiCheckBoxProperty`
+/// 
+/// CheckBox
 enum GuiCheckBoxProperty with RaylibEnum, GuiProperty {
   /// `CHECK_PADDING`
+  /// 
+  /// CheckBox internal check padding
   CHECK_PADDING(16);
 
   const GuiCheckBoxProperty(this.value);
@@ -396,11 +567,17 @@ enum GuiCheckBoxProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiComboBoxProperty` enum.
+/// `GuiComboBoxProperty`
+/// 
+/// ComboBox
 enum GuiComboBoxProperty with RaylibEnum, GuiProperty {
   /// `COMBO_BUTTON_WIDTH`
+  /// 
+  /// ComboBox right button width
   COMBO_BUTTON_WIDTH(16),
   /// `COMBO_BUTTON_SPACING`
+  /// 
+  /// ComboBox button separation
   COMBO_BUTTON_SPACING(17);
 
   const GuiComboBoxProperty(this.value);
@@ -419,15 +596,25 @@ enum GuiComboBoxProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiDropdownBoxProperty` enum.
+/// `GuiDropdownBoxProperty`
+/// 
+/// DropdownBox
 enum GuiDropdownBoxProperty with RaylibEnum, GuiProperty {
   /// `ARROW_PADDING`
+  /// 
+  /// DropdownBox arrow separation from border and items
   ARROW_PADDING(16),
   /// `DROPDOWN_ITEMS_SPACING`
+  /// 
+  /// DropdownBox items separation
   DROPDOWN_ITEMS_SPACING(17),
   /// `DROPDOWN_ARROW_HIDDEN`
+  /// 
+  /// DropdownBox arrow hidden
   DROPDOWN_ARROW_HIDDEN(18),
   /// `DROPDOWN_ROLL_UP`
+  /// 
+  /// DropdownBox roll up flag: 0-Roll down, 1-Roll up
   DROPDOWN_ROLL_UP(19);
 
   const GuiDropdownBoxProperty(this.value);
@@ -448,9 +635,13 @@ enum GuiDropdownBoxProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiTextBoxProperty` enum.
+/// `GuiTextBoxProperty`
+/// 
+/// TextBox/TextBoxMulti/ValueBox/Spinner
 enum GuiTextBoxProperty with RaylibEnum, GuiProperty {
   /// `TEXT_READONLY`
+  /// 
+  /// TextBox in read-only mode: 0-Text editable, 1-Text read-only
   TEXT_READONLY(16);
 
   const GuiTextBoxProperty(this.value);
@@ -468,11 +659,17 @@ enum GuiTextBoxProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiValueBoxProperty` enum.
+/// `GuiValueBoxProperty`
+/// 
+/// ValueBox/Spinner
 enum GuiValueBoxProperty with RaylibEnum, GuiProperty {
   /// `SPINNER_BUTTON_WIDTH`
+  /// 
+  /// Spinner left/right buttons width
   SPINNER_BUTTON_WIDTH(16),
   /// `SPINNER_BUTTON_SPACING`
+  /// 
+  /// Spinner buttons separation
   SPINNER_BUTTON_SPACING(17);
 
   const GuiValueBoxProperty(this.value);
@@ -491,19 +688,67 @@ enum GuiValueBoxProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiListViewProperty` enum.
+/// `GuiTabBarProperty`
+/// 
+/// TabBar
+enum GuiTabBarProperty with RaylibEnum, GuiProperty {
+  /// `TAB_ITEMS_WIDTH`
+  /// 
+  /// TabBar tab items width
+  TAB_ITEMS_WIDTH(16),
+  /// `TAB_CLOSE_BUTTON`
+  /// 
+  /// TabBar tab close button: 0-Not shown, 1-Shown
+  TAB_CLOSE_BUTTON(17),
+  /// `TAB_LINE_SIDE`
+  /// 
+  /// TabBar tabs side: 0-Bottom, 1-Top
+  TAB_LINE_SIDE(18);
+
+  const GuiTabBarProperty(this.value);
+
+  /// The underlying native integer value.
+  @override
+  final int value;
+
+  /// Returns the [GuiTabBarProperty] for the given native [value].
+  ///
+  /// Throws [ArgumentError] if [value] does not correspond to a known entry.
+  static GuiTabBarProperty fromValue(int value) => switch (value) {
+    16 => TAB_ITEMS_WIDTH,
+    17 => TAB_CLOSE_BUTTON,
+    18 => TAB_LINE_SIDE,
+    _ => throw ArgumentError('Unknown value for $GuiTabBarProperty: $value'),
+  };
+}
+
+/// `GuiListViewProperty`
+/// 
+/// ListView
 enum GuiListViewProperty with RaylibEnum, GuiProperty {
   /// `LIST_ITEMS_HEIGHT`
+  /// 
+  /// ListView items height
   LIST_ITEMS_HEIGHT(16),
   /// `LIST_ITEMS_SPACING`
+  /// 
+  /// ListView items separation
   LIST_ITEMS_SPACING(17),
   /// `SCROLLBAR_WIDTH`
+  /// 
+  /// ListView scrollbar size (usually width)
   SCROLLBAR_WIDTH(18),
   /// `SCROLLBAR_SIDE`
+  /// 
+  /// ListView scrollbar side: 0-Left side, 1-Right Side
   SCROLLBAR_SIDE(19),
   /// `LIST_ITEMS_BORDER_NORMAL`
+  /// 
+  /// ListView items border enabled in normal state
   LIST_ITEMS_BORDER_NORMAL(20),
   /// `LIST_ITEMS_BORDER_WIDTH`
+  /// 
+  /// ListView items border width
   LIST_ITEMS_BORDER_WIDTH(21);
 
   const GuiListViewProperty(this.value);
@@ -526,17 +771,29 @@ enum GuiListViewProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiColorPickerProperty` enum.
+/// `GuiColorPickerProperty`
+/// 
+/// ColorPicker
 enum GuiColorPickerProperty with RaylibEnum, GuiProperty {
   /// `COLOR_SELECTOR_SIZE`
+  /// 
+  /// ColorPicker selector square size
   COLOR_SELECTOR_SIZE(16),
   /// `HUEBAR_WIDTH`
+  /// 
+  /// ColorPicker right hue bar width
   HUEBAR_WIDTH(17),
   /// `HUEBAR_PADDING`
+  /// 
+  /// ColorPicker right hue bar separation from panel
   HUEBAR_PADDING(18),
   /// `HUEBAR_SELECTOR_HEIGHT`
+  /// 
+  /// ColorPicker right hue bar selector height
   HUEBAR_SELECTOR_HEIGHT(19),
   /// `HUEBAR_SELECTOR_OVERFLOW`
+  /// 
+  /// ColorPicker right hue bar selector overflow
   HUEBAR_SELECTOR_OVERFLOW(20);
 
   const GuiColorPickerProperty(this.value);
@@ -558,7 +815,7 @@ enum GuiColorPickerProperty with RaylibEnum, GuiProperty {
   };
 }
 
-/// raygui `GuiIconName` enum.
+/// `GuiIconName`
 enum GuiIconName with RaylibEnum {
   /// `ICON_NONE`
   ICON_NONE(0),
@@ -1060,18 +1317,20 @@ enum GuiIconName with RaylibEnum {
   ICON_ELLIPSOID(248),
   /// `ICON_CAPSULE`
   ICON_CAPSULE(249),
-  /// `ICON_250`
-  ICON_250(250),
-  /// `ICON_251`
-  ICON_251(251),
-  /// `ICON_252`
-  ICON_252(252),
-  /// `ICON_253`
-  ICON_253(253),
-  /// `ICON_254`
-  ICON_254(254),
-  /// `ICON_255`
-  ICON_255(255);
+  /// `ICON_FILETYPE_FONT`
+  ICON_FILETYPE_FONT(250),
+  /// `ICON_FILETYPE_3D`
+  ICON_FILETYPE_3D(251),
+  /// `ICON_FILETYPE_CODE_XML`
+  ICON_FILETYPE_CODE_XML(252),
+  /// `ICON_FILETYPE_CODE_C`
+  ICON_FILETYPE_CODE_C(253),
+  /// `ICON_FILETYPE_CODE_PYTHON`
+  ICON_FILETYPE_CODE_PYTHON(254),
+  /// `ICON_FILETYPE_CODE_JS`
+  ICON_FILETYPE_CODE_JS(255),
+  /// `ICON_FILETYPE_ICON`
+  ICON_FILETYPE_ICON(256);
   
   const GuiIconName(this.value);
 
@@ -1333,12 +1592,13 @@ enum GuiIconName with RaylibEnum {
     247 => ICON_CONE,
     248 => ICON_ELLIPSOID,
     249 => ICON_CAPSULE,
-    250 => ICON_250,
-    251 => ICON_251,
-    252 => ICON_252,
-    253 => ICON_253,
-    254 => ICON_254,
-    255 => ICON_255,
+    250 => ICON_FILETYPE_FONT,
+    251 => ICON_FILETYPE_3D,
+    252 => ICON_FILETYPE_CODE_XML,
+    253 => ICON_FILETYPE_CODE_C,
+    254 => ICON_FILETYPE_CODE_PYTHON,
+    255 => ICON_FILETYPE_CODE_JS,
+    256 => ICON_FILETYPE_ICON,
     _ => throw ArgumentError('Unknown value for $GuiIconName: $value'),
   };
 }

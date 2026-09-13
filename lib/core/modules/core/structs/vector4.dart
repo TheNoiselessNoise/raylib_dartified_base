@@ -168,8 +168,6 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  /// 
-  /// Returns this instance for fluent chaining.
   Vector4D set(num x, num y, num z, num w) {
     this.x = x.toDouble();
     this.y = y.toDouble();

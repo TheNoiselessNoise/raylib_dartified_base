@@ -159,7 +159,7 @@ class MeshD extends RaylibStruct<MeshD> {
   int get animNormalsCount => BASE_animNormalsCount(vertexCount);
 
   /// Number of components in the [vboId] buffer.
-  static int get BASE_vboIdCount => RaylibConfig.MAX_MESH_VERTEX_BUFFERS;
+  static int get BASE_vboIdCount => RaylibConfig.maxMeshVertexBuffers;
 
   /// Number of components in the [vboId] buffer.
   int get vboIdCount => BASE_vboIdCount;
@@ -322,18 +322,18 @@ class MeshD extends RaylibStruct<MeshD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (_vertices.inner.isNotEmpty) _verticesF.allocate(temp, p, '${key}_vertices', count: _vertices.inner.length, raw: true);
-    if (_texcoords.inner.isNotEmpty) _texcoordsF.allocate(temp, p, '${key}_texcoords', count: _texcoords.inner.length, raw: true);
-    if (_texcoords2.inner.isNotEmpty) _texcoords2F.allocate(temp, p, '${key}_texcoords2', count: _texcoords2.inner.length, raw: true);
-    if (_normals.inner.isNotEmpty) _normalsF.allocate(temp, p, '${key}_normals', count: _normals.inner.length, raw: true);
-    if (_tangents.inner.isNotEmpty) _tangentsF.allocate(temp, p, '${key}_tangents', count: _tangents.inner.length, raw: true);
-    if (_colors.inner.isNotEmpty) _colorsF.allocate(temp, p, '${key}_colors', count: _colors.inner.length, raw: true);
-    if (_indices.inner.isNotEmpty) _indicesF.allocate(temp, p, '${key}_indices', count: _indices.inner.length, raw: true);
-    if (_boneIndices.inner.isNotEmpty) _boneIndicesF.allocate(temp, p, '${key}_boneIndices', count: _boneIndices.inner.length, raw: true);
-    if (_boneWeights.inner.isNotEmpty) _boneWeightsF.allocate(temp, p, '${key}_boneWeights', count: _boneWeights.inner.length, raw: true);
-    if (RaylibConfig.IS_GPU_SKINNING_SUPPORTED) {
-      if (_animVertices.inner.isNotEmpty) _animVerticesF.allocate(temp, p, '${key}_animVertices', count: _animVertices.inner.length, raw: true);
-      if (_animNormals.inner.isNotEmpty) _animNormalsF.allocate(temp, p, '${key}_animNormals', count: _animNormals.inner.length, raw: true);
+    _verticesF.allocate(temp, p, '${key}_vertices', count: verticesCount, raw: true);
+    _texcoordsF.allocate(temp, p, '${key}_texcoords', count: texcoordsCount, raw: true);
+    _texcoords2F.allocate(temp, p, '${key}_texcoords2', count: texcoords2Count, raw: true);
+    _normalsF.allocate(temp, p, '${key}_normals', count: normalsCount, raw: true);
+    _tangentsF.allocate(temp, p, '${key}_tangents', count: tangentsCount, raw: true);
+    _colorsF.allocate(temp, p, '${key}_colors', count: colorsCount, raw: true);
+    _indicesF.allocate(temp, p, '${key}_indices', count: indicesCount, raw: true);
+    _boneIndicesF.allocate(temp, p, '${key}_boneIndices', count: boneIndicesCount, raw: true);
+    _boneWeightsF.allocate(temp, p, '${key}_boneWeights', count: boneWeightsCount, raw: true);
+    if (!RaylibConfig.isGPUSkinningSupported) {
+      _animVerticesF.allocate(temp, p, '${key}_animVertices', count: animVerticesCount, raw: true);
+      _animNormalsF.allocate(temp, p, '${key}_animNormals', count: animNormalsCount, raw: true);
     }
   }
 

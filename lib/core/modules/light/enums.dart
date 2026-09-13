@@ -1,6 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Raylib `LightType` enum.
+/// `LightType`
 enum LightType with RaylibEnum {
   /// `LIGHT_DIRECTIONAL`
   LIGHT_DIRECTIONAL(0),

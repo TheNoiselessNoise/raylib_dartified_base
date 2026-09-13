@@ -249,8 +249,6 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  /// 
-  /// Returns this instance for fluent chaining.
   QuaternionD set(num x, num y, num z, num w) {
     this.x = x.toDouble();
     this.y = y.toDouble();

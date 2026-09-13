@@ -140,7 +140,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   final int? _fixedCount;
   final _Access<E> _access;
 
-  List<E> _cache;
+  List<E?> _cache;
 
   StructLiveList._(
     this.ptrOf,
@@ -241,15 +241,15 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   // we don't care about nullptr
   void syncFrom(MemoryPointer p, {bool borrow = true}) {
     if (!borrow) return;
-    _fieldPtr()?.writePtr(p.offsetBy(_offset).readPtr());
+    _fieldPtr()?.writePtr(p.readPtr(_offset));
   }
 
   // we don't care about nullptr
-  void syncInto(MemoryPointer p) => p.offsetBy(_offset).writePtr(_derefPtr());
+  void syncInto(MemoryPointer p) => p.writePtr(_derefPtr(), _offset);
 
   MemoryPointer? _fieldPtr([MemoryPointer? src]) => (src ?? ptrOf())?.offsetBy(_offset);
 
-  MemoryPointer? _derefPtr([MemoryPointer? src]) => (src ?? ptrOf())?.offsetBy(_offset).readPtr();
+  MemoryPointer? _derefPtr([MemoryPointer? src]) => (src ?? ptrOf())?.readPtr(_offset);
 
   @override
   int get length => _fixedCount ?? _cache.length;
@@ -264,7 +264,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   E operator [](int index) {
     final fp = _fieldPtr();
     if (fp != null) return _access.readAt(fp, index)!;
-    return _cache[index];
+    return _cache[index]!;
   }
 
   @override
@@ -276,7 +276,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   }
 
   /// The current non-live cached representation. Does not force a read.
-  List<E> get inner => _cache;
+  List<E> get inner => _cache.cast();
 
   /// Replaces the cached representation and writes it into native memory.
   set inner(List<E> value) {
@@ -294,7 +294,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
     final resolvedCount = count ?? _fixedCount;
     if (resolvedCount == null) throw StateError('Expected `count`.');
     final fp = _fieldPtr(source);
-    if (fp == null) return _cache;
+    if (fp == null) return _cache.cast();
     if (fp.isNull) throw StateError('You are trying to read livelist data from a nullptr.');
     final resolved = <E>[];
     for (var i = 0; i < resolvedCount; i++) {
@@ -306,7 +306,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
       resolved.add(value);
     }
     _cache = resolved;
-    return _cache;
+    return _cache.cast();
   }
 
   /// Force a live re-read of [count] elements, refreshing the cache.
@@ -333,7 +333,7 @@ typedef StructLiveListStructNested<E extends RaylibStruct<E>> = StructLiveList<S
 
 // NOTE: need to test this, feels wrong
 extension StructLiveListNested<E, R extends RType> on StructLiveList<List<E>, RPointer<R>> {
-  List<List<E>> get innerNested => _cache;
+  List<List<E>> get innerNested => _cache.cast();
 
   set innerNested(List<List<E>> value) {
     if (_fixedCount != null) assert(value.length <= _fixedCount);

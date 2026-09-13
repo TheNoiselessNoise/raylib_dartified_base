@@ -1,6 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Raylib `MusicContextType` enum.
+/// `MusicContextType`
 enum MusicContextType with RaylibEnum {
   /// `MUSIC_AUDIO_NONE`, no audio context loaded
   MUSIC_AUDIO_NONE(0),

@@ -260,7 +260,7 @@ class PointerCodec<E, R extends RType>
   /// Address stored in pointer slot [index]. For `T** p`, this is `p[index]`,
   /// itself a `T*`. Intentionally different from [elementPtr]/[elementPtrFrom].
   MemoryPointer<R> pointerElementPtr(MemoryPointer fieldPtr, int index)
-    => fieldPtr.offsetBy(index * RType.nativeWordSize).readPtr();
+    => fieldPtr.readPtr(index * RType.nativeWordSize);
 
   E readAt(MemoryPointer fieldPtr, int index)
     => inner.read(elementPtr(fieldPtr, index));

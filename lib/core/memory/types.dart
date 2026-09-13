@@ -422,6 +422,12 @@ extension BoolPointer on MemoryPointer<RBool> {
   }
 }
 
+extension PointerArrayOnPointer on MemoryPointer<RPointer> {
+  /// Reads [count] pointers from this pointer array.
+  List<MemoryPointer<X>> readPtrArray<X extends RType>(int count)
+    => .generate(count, (i) => readPtr(i * RType.nativeWordSize));
+}
+
 extension MemoryPointerStringIO on MemoryPointer<RPointer<RChar>> {
   /// Reads [count] C strings from a `char**`-style pointer (this pointer
   /// points at an array of char* pointers, each read and decoded).
@@ -437,8 +443,9 @@ extension MemoryPointerStringIO on MemoryPointer<RPointer<RChar>> {
   /// Both the outer array (strings.length pointer slots) and each inner
   /// char* target buffer must already exist. [slotSizes[i]] is the real
   /// allocated byte capacity of slot i's buffer (bytes available,
-  /// terminator included).
-  void writeStringArray(List<String> strings, List<int> slotSizes) {
+  /// terminator included), if not provided, string's length is used instead.
+  void writeStringArray(List<String> strings, [List<int>? slotSizes]) {
+    slotSizes ??= strings.map((s) => s.length).toList();
     assert(strings.length == slotSizes.length);
 
     for (final (i, s) in strings.indexed) {

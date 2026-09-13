@@ -126,8 +126,6 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   /// Sets all components at once.
   ///
   /// Values are converted using [num.toDouble].
-  ///
-  /// Returns this instance for fluent chaining.
   RectangleD set(num x, num y, num width, num height) {
     this.x = x.toDouble();
     this.y = y.toDouble();

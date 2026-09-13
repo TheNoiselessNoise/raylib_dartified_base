@@ -161,7 +161,7 @@ class LivePointerSync<R extends RType> {
     => _ptrOf()?.offsetBy(_offset) ?? MemoryPointer.nullptr();
 
   MemoryPointer<Y> derefPtr<Y extends RType>()
-    => _ptrOf()?.offsetBy(_offset).readPtr() ?? MemoryPointer.nullptr();
+    => _ptrOf()?.readPtr(_offset) ?? MemoryPointer.nullptr();
 
   factory LivePointerSync.pointerSync(
     MemoryPointer? Function() ptrOf,
@@ -171,12 +171,12 @@ class LivePointerSync<R extends RType> {
   // we don't care about nullptr
   void syncFrom(MemoryPointer p, {bool borrow = true}) {
     if (!borrow) return;
-    fieldPtr().writePtr(p.offsetBy(_offset).readPtr());
+    fieldPtr().writePtr(p.readPtr(_offset));
   }
 
   // we don't care about nullptr
   void syncInto(MemoryPointer p)
-    => p.offsetBy(_offset).writePtr(derefPtr());
+    => p.writePtr(derefPtr(), _offset);
 }
 
 extension LivePointerSyncFieldX<E, R extends RType> on StructPointerValueField<E, R> {

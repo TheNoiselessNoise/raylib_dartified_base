@@ -56,6 +56,12 @@ void GuiLoadStyle(
   MemoryPointer<RChar> fileName,
 ) => _module.GuiLoadStyle(fileName);
 
+/// See [RaylibGuiFlatModule.GuiLoadStyle].
+void GuiLoadStyleFromMemory(
+  MemoryPointer<RUnsignedChar> fileData,
+  int dataSize,
+) => _module.GuiLoadStyleFromMemory(fileData, dataSize);
+
 /// See [RaylibGuiFlatModule.GuiLoadStyleDefault].
 void GuiLoadStyleDefault() => _module.GuiLoadStyleDefault();
 
@@ -89,6 +95,13 @@ MemoryPointer<RPointer<RChar>> GuiLoadIcons(
   MemoryPointer<RChar> fileName,
   bool loadIconsName,
 ) => _module.GuiLoadIcons(fileName, loadIconsName);
+
+/// See [RaylibGuiFlatModule.GuiLoadIconsFromMemory].
+MemoryPointer<RPointer<RChar>> GuiLoadIconsFromMemory(
+  MemoryPointer<RUnsignedChar> fileData,
+  int dataSize,
+  bool loadIconsName,
+) => _module.GuiLoadIconsFromMemory(fileData, dataSize, loadIconsName);
 
 /// See [RaylibGuiFlatModule.GuiDrawIcon].
 void GuiDrawIcon(
@@ -127,14 +140,6 @@ int GuiPanel(
   RectangleD bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiPanel(bounds, text);
-
-/// See [RaylibGuiFlatModule.GuiTabBar].
-int GuiTabBar(
-  RectangleD bounds,
-  MemoryPointer<RPointer<RChar>> text,
-  int count,
-  MemoryPointer<RInt> active,
-) => _module.GuiTabBar(bounds, text, count, active);
 
 /// See [RaylibGuiFlatModule.GuiScrollPanel].
 int GuiScrollPanel(
@@ -312,24 +317,44 @@ int GuiListViewEx(
   MemoryPointer<RInt> focus,
 ) => _module.GuiListViewEx(bounds, text, count, scrollIndex, active, focus);
 
+/// See [RaylibGuiFlatModule.GuiTabBar].
+int GuiTabBar(
+  RectangleD bounds,
+  MemoryPointer<RChar> text,
+  MemoryPointer<RInt> hscroll,
+  MemoryPointer<RInt> active,
+) => _module.GuiTabBar(bounds, text, hscroll, active);
+
+/// See [RaylibGuiFlatModule.GuiTabBarEx].
+int GuiTabBarEx(
+  RectangleD bounds,
+  MemoryPointer<RPointer<RChar>> text,
+  int count,
+  MemoryPointer<RInt> hscroll,
+  MemoryPointer<RInt> active,
+  MemoryPointer<RInt> focus,
+) => _module.GuiTabBarEx(bounds, text, count, hscroll, active, focus);
+
 /// See [RaylibGuiFlatModule.GuiMessageBox].
 int GuiMessageBox(
   RectangleD bounds,
   MemoryPointer<RChar> title,
   MemoryPointer<RChar> message,
-  MemoryPointer<RChar> buttons,
-) => _module.GuiMessageBox(bounds, title, message, buttons);
+  MemoryPointer<RChar> btnText,
+  MemoryPointer<RInt> btnActive,
+) => _module.GuiMessageBox(bounds, title, message, btnText, btnActive);
 
 /// See [RaylibGuiFlatModule.GuiTextInputBox].
 int GuiTextInputBox(
   RectangleD bounds,
   MemoryPointer<RChar> title,
   MemoryPointer<RChar> message,
-  MemoryPointer<RChar> buttons,
   MemoryPointer<RChar> text,
-  int textMaxSize,
+  int textSize,
+  MemoryPointer<RChar> btnText,
+  MemoryPointer<RInt> btnActive,
   MemoryPointer<RBool> secretViewActive,
-) => _module.GuiTextInputBox(bounds, title, message, buttons, text, textMaxSize, secretViewActive);
+) => _module.GuiTextInputBox(bounds, title, message, text, textSize, btnText, btnActive, secretViewActive);
 
 /// See [RaylibGuiFlatModule.GuiColorPicker].
 int GuiColorPicker(

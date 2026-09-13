@@ -139,8 +139,6 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  /// 
-  /// Returns this instance for fluent chaining.
   Vector2D set(num x, num y) {
     this.x = x.toDouble();
     this.y = y.toDouble();

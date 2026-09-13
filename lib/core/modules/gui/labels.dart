@@ -56,6 +56,11 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     String fileName,
   ) => 'GuiLoadStyle($fileName)';
 
+  /// Label for [RaylibGuiModule.GuiLoadStyleFromMemory].
+  String GuiLoadStyleFromMemory(
+    Uint8List fileData,
+  ) => 'GuiLoadStyleFromMemory(data: ${fileData.length})';
+
   /// Label for [RaylibGuiModule.GuiLoadStyleDefault].
   String GuiLoadStyleDefault() => 'GuiLoadStyleDefault()';
 
@@ -89,6 +94,12 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     String fileName,
     bool loadIconsName,
   ) => 'GuiLoadIcons($fileName, $loadIconsName)';
+
+  /// Label for [RaylibGuiModule.GuiLoadIconsFromMemory].
+  String GuiLoadIconsFromMemory(
+    Uint8List fileData,
+    bool loadIconsName,
+  ) => 'GuiLoadIconsFromMemory(fileData: ${fileData.length}, $loadIconsName)';
 
   /// Label for [RaylibGuiModule.GuiDrawIcon].
   String GuiDrawIcon(
@@ -128,20 +139,14 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     String? text,
   ) => 'GuiPanel($bounds, $text)';
 
-  /// Label for [RaylibGuiModule.GuiTabBar].
-  String GuiTabBar(
-    RectangleD bounds,
-    List<String> text,
-  ) => 'GuiTabBar($bounds, text: ${text.length})';
-
   /// Label for [RaylibGuiModule.GuiScrollPanel].
   String GuiScrollPanel(
     RectangleD bounds,
     String? text,
-    RectangleD content,
-    Vector2D scroll,
-    [RectangleD? view]
-  ) => 'GuiScrollPanel($bounds, $text, $content, $scroll, $view)';
+    RectangleD content, {
+    Vector2D? scroll,
+    RectangleD? view,
+  }) => 'GuiScrollPanel($bounds, $text, $content, scroll: $scroll, view: $view)';
 
   /// Label for [RaylibGuiModule.GuiLabel].
   String GuiLabel(
@@ -287,9 +292,9 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
   String GuiGrid(
     RectangleD bounds,
     num spacing,
-    num subdivs,
-    [Vector2D? mouseCell]
-  ) => 'GuiGrid($bounds, $spacing, $subdivs, $mouseCell)';
+    num subdivs, {
+    Vector2D? mouseCell
+  }) => 'GuiGrid($bounds, $spacing, $subdivs, mouseCell: $mouseCell)';
 
   /// Label for [RaylibGuiModule.GuiListView].
   String GuiListView(
@@ -310,6 +315,20 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     }
   ) => 'GuiListViewEx($bounds, $text, $scrollIndex, $active, $focus)';
 
+  /// Label for [RaylibGuiModule.GuiTabBar].
+  String GuiTabBar(
+    RectangleD bounds,
+    String? text, {
+    int? active,
+  }) => 'GuiTabBar($bounds, text: $text, active: $active)';
+
+  /// Label for [RaylibGuiModule.GuiTabBarEx].
+  String GuiTabBarEx(
+    RectangleD bounds,
+    List<String>? text, {
+    int? active,
+  }) => 'GuiTabBarEx($bounds, text: ${text?.length}, active: $active)';
+
   /// Label for [RaylibGuiModule.GuiMessageBox].
   String GuiMessageBox(
     RectangleD bounds,
@@ -323,11 +342,11 @@ class _RaylibGuiModuleDebugLabels extends RaylibDebugLabelsBase {
     RectangleD bounds,
     String? title,
     String? message,
-    String buttons,
     String? text,
-    num textMaxSize,
-    bool? secretViewActive,
-  ) => 'GuiTextInputBox($bounds, $title, $message, $buttons, $text, $textMaxSize, $secretViewActive)';
+    num textSize,
+    String btnText,
+    [bool? secretViewActive]
+  ) => 'GuiTextInputBox($bounds, $title, $message, $text, $textSize, $btnText, $secretViewActive)';
 
   /// Label for [RaylibGuiModule.GuiColorPicker].
   String GuiColorPicker(

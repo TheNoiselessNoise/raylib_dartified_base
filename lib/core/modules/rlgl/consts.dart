@@ -1,265 +1,237 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Dart-side mirror of Rlgl's compile-time constants (`RLGL_VERSION`, `RL_DEFAULT_BATCH_BUFFER_ELEMENTS`, etc.),
-/// kept in the base package so all backends share a single source of truth.
+/// Dart-side mirror of compile-time constants.
 class RaylibRlglConstants {
   
-  /// Predefined constant `RLGL_VERSION`.
-  static final String RLGL_VERSION = '5.0';
+  /// `RLGL_VERSION`
+  static String RLGL_VERSION = '6.0';
 
-  /// Predefined constant `RL_DEFAULT_BATCH_BUFFER_ELEMENTS`.
-  static final int RL_DEFAULT_BATCH_BUFFER_ELEMENTS = 8192;
+  /// `RL_DEFAULT_BATCH_BUFFER_ELEMENTS`
+  static int RL_DEFAULT_BATCH_BUFFER_ELEMENTS = 8192;
 
-  /// Predefined constant `RL_DEFAULT_BATCH_BUFFERS`.
-  static final int RL_DEFAULT_BATCH_BUFFERS = 1;
+  /// `RL_DEFAULT_BATCH_BUFFERS`
+  static int RL_DEFAULT_BATCH_BUFFERS = 1;
 
-  /// Predefined constant `RL_DEFAULT_BATCH_DRAWCALLS`.
-  static final int RL_DEFAULT_BATCH_DRAWCALLS = 256;
+  /// `RL_DEFAULT_BATCH_DRAWCALLS`
+  static int RL_DEFAULT_BATCH_DRAWCALLS = 256;
 
-  /// Predefined constant `RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS`.
-  static final int RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS = 4;
+  /// `RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS`
+  static int RL_DEFAULT_BATCH_MAX_TEXTURE_UNITS = 4;
 
-  /// Predefined constant `RL_MAX_MATRIX_STACK_SIZE`.
-  static final int RL_MAX_MATRIX_STACK_SIZE = 32;
+  /// `RL_MAX_MATRIX_STACK_SIZE`
+  static int RL_MAX_MATRIX_STACK_SIZE = 32;
 
-  /// Predefined constant `RL_MAX_SHADER_LOCATIONS`.
-  static final int RL_MAX_SHADER_LOCATIONS = 32;
+  /// `RL_MAX_SHADER_LOCATIONS`
+  static int RL_MAX_SHADER_LOCATIONS = 32;
 
-  /// Predefined constant `RL_CULL_DISTANCE_NEAR`.
-  static final double RL_CULL_DISTANCE_NEAR = 0.01;
+  /// `RL_CULL_DISTANCE_NEAR`
+  static double RL_CULL_DISTANCE_NEAR = 0.05;
 
-  /// Predefined constant `RL_CULL_DISTANCE_FAR`.
-  static final double RL_CULL_DISTANCE_FAR = 1000.0;
+  /// `RL_CULL_DISTANCE_FAR`
+  static double RL_CULL_DISTANCE_FAR = 4000.0;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_S`.
-  static final int RL_TEXTURE_WRAP_S = 10242;
+  /// `RL_TEXTURE_WRAP_S`
+  static int RL_TEXTURE_WRAP_S = 0x2802;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_T`.
-  static final int RL_TEXTURE_WRAP_T = 10243;
+  /// `RL_TEXTURE_WRAP_T`
+  static int RL_TEXTURE_WRAP_T = 0x2803;
 
-  /// Predefined constant `RL_TEXTURE_MAG_FILTER`.
-  static final int RL_TEXTURE_MAG_FILTER = 10240;
+  /// `RL_TEXTURE_MAG_FILTER`
+  static int RL_TEXTURE_MAG_FILTER = 0x2800;
 
-  /// Predefined constant `RL_TEXTURE_MIN_FILTER`.
-  static final int RL_TEXTURE_MIN_FILTER = 10241;
+  /// `RL_TEXTURE_MIN_FILTER`
+  static int RL_TEXTURE_MIN_FILTER = 0x2801;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_NEAREST`.
-  static final int RL_TEXTURE_FILTER_NEAREST = 9728;
+  /// `RL_TEXTURE_FILTER_NEAREST`
+  static int RL_TEXTURE_FILTER_NEAREST = 0x2600;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_LINEAR`.
-  static final int RL_TEXTURE_FILTER_LINEAR = 9729;
+  /// `RL_TEXTURE_FILTER_LINEAR`
+  static int RL_TEXTURE_FILTER_LINEAR = 0x2601;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_MIP_NEAREST`.
-  static final int RL_TEXTURE_FILTER_MIP_NEAREST = 9984;
+  /// `RL_TEXTURE_FILTER_MIP_NEAREST`
+  static int RL_TEXTURE_FILTER_MIP_NEAREST = 0x2700;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR`.
-  static final int RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR = 9986;
+  /// `RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR`
+  static int RL_TEXTURE_FILTER_NEAREST_MIP_LINEAR = 0x2702;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST`.
-  static final int RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST = 9985;
+  /// `RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST`
+  static int RL_TEXTURE_FILTER_LINEAR_MIP_NEAREST = 0x2701;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_MIP_LINEAR`.
-  static final int RL_TEXTURE_FILTER_MIP_LINEAR = 9987;
+  /// `RL_TEXTURE_FILTER_MIP_LINEAR`
+  static int RL_TEXTURE_FILTER_MIP_LINEAR = 0x2703;
 
-  /// Predefined constant `RL_TEXTURE_FILTER_ANISOTROPIC`.
-  static final int RL_TEXTURE_FILTER_ANISOTROPIC = 12288;
+  /// `RL_TEXTURE_FILTER_ANISOTROPIC`
+  static int RL_TEXTURE_FILTER_ANISOTROPIC = 0x3000;
 
-  /// Predefined constant `RL_TEXTURE_MIPMAP_BIAS_RATIO`.
-  static final int RL_TEXTURE_MIPMAP_BIAS_RATIO = 16384;
+  /// `RL_TEXTURE_MIPMAP_BIAS_RATIO`
+  static int RL_TEXTURE_MIPMAP_BIAS_RATIO = 0x4000;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_REPEAT`.
-  static final int RL_TEXTURE_WRAP_REPEAT = 10497;
+  /// `RL_TEXTURE_WRAP_REPEAT`
+  static int RL_TEXTURE_WRAP_REPEAT = 0x2901;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_CLAMP`.
-  static final int RL_TEXTURE_WRAP_CLAMP = 33071;
+  /// `RL_TEXTURE_WRAP_CLAMP`
+  static int RL_TEXTURE_WRAP_CLAMP = 0x812F;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_MIRROR_REPEAT`.
-  static final int RL_TEXTURE_WRAP_MIRROR_REPEAT = 33648;
+  /// `RL_TEXTURE_WRAP_MIRROR_REPEAT`
+  static int RL_TEXTURE_WRAP_MIRROR_REPEAT = 0x8370;
 
-  /// Predefined constant `RL_TEXTURE_WRAP_MIRROR_CLAMP`.
-  static final int RL_TEXTURE_WRAP_MIRROR_CLAMP = 34626;
+  /// `RL_TEXTURE_WRAP_MIRROR_CLAMP`
+  static int RL_TEXTURE_WRAP_MIRROR_CLAMP = 0x8742;
 
-  /// Predefined constant `RL_MODELVIEW`.
-  static final int RL_MODELVIEW = 5888;
+  /// `RL_MODELVIEW`
+  static int RL_MODELVIEW = 0x1700;
 
-  /// Predefined constant `RL_PROJECTION`.
-  static final int RL_PROJECTION = 5889;
+  /// `RL_PROJECTION`
+  static int RL_PROJECTION = 0x1701;
 
-  /// Predefined constant `RL_TEXTURE`.
-  static final int RL_TEXTURE = 5890;
+  /// `RL_TEXTURE`
+  static int RL_TEXTURE = 0x1702;
 
-  /// Predefined constant `RL_LINES`.
-  static final int RL_LINES = 1;
+  /// `RL_LINES`
+  static int RL_LINES = 0x0001;
 
-  /// Predefined constant `RL_TRIANGLES`.
-  static final int RL_TRIANGLES = 4;
+  /// `RL_TRIANGLES`
+  static int RL_TRIANGLES = 0x0004;
 
-  /// Predefined constant `RL_QUADS`.
-  static final int RL_QUADS = 7;
+  /// `RL_QUADS`
+  static int RL_QUADS = 0x0007;
 
-  /// Predefined constant `RL_UNSIGNED_BYTE`.
-  static final int RL_UNSIGNED_BYTE = 5121;
+  /// `RL_UNSIGNED_BYTE`
+  static int RL_UNSIGNED_BYTE = 0x1401;
 
-  /// Predefined constant `RL_FLOAT`.
-  static final int RL_FLOAT = 5126;
+  /// `RL_FLOAT`
+  static int RL_FLOAT = 0x1406;
 
-  /// Predefined constant `RL_STREAM_DRAW`.
-  static final int RL_STREAM_DRAW = 35040;
+  /// `RL_STREAM_DRAW`
+  static int RL_STREAM_DRAW = 0x88E0;
 
-  /// Predefined constant `RL_STREAM_READ`.
-  static final int RL_STREAM_READ = 35041;
+  /// `RL_STREAM_READ`
+  static int RL_STREAM_READ = 0x88E1;
 
-  /// Predefined constant `RL_STREAM_COPY`.
-  static final int RL_STREAM_COPY = 35042;
+  /// `RL_STREAM_COPY`
+  static int RL_STREAM_COPY = 0x88E2;
 
-  /// Predefined constant `RL_STATIC_DRAW`.
-  static final int RL_STATIC_DRAW = 35044;
+  /// `RL_STATIC_DRAW`
+  static int RL_STATIC_DRAW = 0x88E4;
 
-  /// Predefined constant `RL_STATIC_READ`.
-  static final int RL_STATIC_READ = 35045;
+  /// `RL_STATIC_READ`
+  static int RL_STATIC_READ = 0x88E5;
 
-  /// Predefined constant `RL_STATIC_COPY`.
-  static final int RL_STATIC_COPY = 35046;
+  /// `RL_STATIC_COPY`
+  static int RL_STATIC_COPY = 0x88E6;
 
-  /// Predefined constant `RL_DYNAMIC_DRAW`.
-  static final int RL_DYNAMIC_DRAW = 35048;
+  /// `RL_DYNAMIC_DRAW`
+  static int RL_DYNAMIC_DRAW = 0x88E8;
 
-  /// Predefined constant `RL_DYNAMIC_READ`.
-  static final int RL_DYNAMIC_READ = 35049;
+  /// `RL_DYNAMIC_READ`
+  static int RL_DYNAMIC_READ = 0x88E9;
 
-  /// Predefined constant `RL_DYNAMIC_COPY`.
-  static final int RL_DYNAMIC_COPY = 35050;
+  /// `RL_DYNAMIC_COPY`
+  static int RL_DYNAMIC_COPY = 0x88EA;
 
-  /// Predefined constant `RL_FRAGMENT_SHADER`.
-  static final int RL_FRAGMENT_SHADER = 35632;
+  /// `RL_FRAGMENT_SHADER`
+  static int RL_FRAGMENT_SHADER = 0x8B30;
 
-  /// Predefined constant `RL_VERTEX_SHADER`.
-  static final int RL_VERTEX_SHADER = 35633;
+  /// `RL_VERTEX_SHADER`
+  static int RL_VERTEX_SHADER = 0x8B31;
 
-  /// Predefined constant `RL_COMPUTE_SHADER`.
-  static final int RL_COMPUTE_SHADER = 37305;
+  /// `RL_COMPUTE_SHADER`
+  static int RL_COMPUTE_SHADER = 0x91B9;
 
-  /// Predefined constant `RL_ZERO`.
-  static final int RL_ZERO = 0;
+  /// `RL_ZERO`
+  static int RL_ZERO = 0;
 
-  /// Predefined constant `RL_ONE`.
-  static final int RL_ONE = 1;
+  /// `RL_ONE`
+  static int RL_ONE = 1;
 
-  /// Predefined constant `RL_SRC_COLOR`.
-  static final int RL_SRC_COLOR = 768;
+  /// `RL_SRC_COLOR`
+  static int RL_SRC_COLOR = 0x0300;
 
-  /// Predefined constant `RL_ONE_MINUS_SRC_COLOR`.
-  static final int RL_ONE_MINUS_SRC_COLOR = 769;
+  /// `RL_ONE_MINUS_SRC_COLOR`
+  static int RL_ONE_MINUS_SRC_COLOR = 0x0301;
 
-  /// Predefined constant `RL_SRC_ALPHA`.
-  static final int RL_SRC_ALPHA = 770;
+  /// `RL_SRC_ALPHA`
+  static int RL_SRC_ALPHA = 0x0302;
 
-  /// Predefined constant `RL_ONE_MINUS_SRC_ALPHA`.
-  static final int RL_ONE_MINUS_SRC_ALPHA = 771;
+  /// `RL_ONE_MINUS_SRC_ALPHA`
+  static int RL_ONE_MINUS_SRC_ALPHA = 0x0303;
 
-  /// Predefined constant `RL_DST_ALPHA`.
-  static final int RL_DST_ALPHA = 772;
+  /// `RL_DST_ALPHA`
+  static int RL_DST_ALPHA = 0x0304;
 
-  /// Predefined constant `RL_ONE_MINUS_DST_ALPHA`.
-  static final int RL_ONE_MINUS_DST_ALPHA = 773;
+  /// `RL_ONE_MINUS_DST_ALPHA`
+  static int RL_ONE_MINUS_DST_ALPHA = 0x0305;
 
-  /// Predefined constant `RL_DST_COLOR`.
-  static final int RL_DST_COLOR = 774;
+  /// `RL_DST_COLOR`
+  static int RL_DST_COLOR = 0x0306;
 
-  /// Predefined constant `RL_ONE_MINUS_DST_COLOR`.
-  static final int RL_ONE_MINUS_DST_COLOR = 775;
+  /// `RL_ONE_MINUS_DST_COLOR`
+  static int RL_ONE_MINUS_DST_COLOR = 0x0307;
 
-  /// Predefined constant `RL_SRC_ALPHA_SATURATE`.
-  static final int RL_SRC_ALPHA_SATURATE = 776;
+  /// `RL_SRC_ALPHA_SATURATE`
+  static int RL_SRC_ALPHA_SATURATE = 0x0308;
 
-  /// Predefined constant `RL_CONSTANT_COLOR`.
-  static final int RL_CONSTANT_COLOR = 32769;
+  /// `RL_CONSTANT_COLOR`
+  static int RL_CONSTANT_COLOR = 0x8001;
 
-  /// Predefined constant `RL_ONE_MINUS_CONSTANT_COLOR`.
-  static final int RL_ONE_MINUS_CONSTANT_COLOR = 32770;
+  /// `RL_ONE_MINUS_CONSTANT_COLOR`
+  static int RL_ONE_MINUS_CONSTANT_COLOR = 0x8002;
 
-  /// Predefined constant `RL_CONSTANT_ALPHA`.
-  static final int RL_CONSTANT_ALPHA = 32771;
+  /// `RL_CONSTANT_ALPHA`
+  static int RL_CONSTANT_ALPHA = 0x8003;
 
-  /// Predefined constant `RL_ONE_MINUS_CONSTANT_ALPHA`.
-  static final int RL_ONE_MINUS_CONSTANT_ALPHA = 32772;
+  /// `RL_ONE_MINUS_CONSTANT_ALPHA`
+  static int RL_ONE_MINUS_CONSTANT_ALPHA = 0x8004;
 
-  /// Predefined constant `RL_FUNC_ADD`.
-  static final int RL_FUNC_ADD = 32774;
+  /// `RL_FUNC_ADD`
+  static int RL_FUNC_ADD = 0x8006;
 
-  /// Predefined constant `RL_MIN`.
-  static final int RL_MIN = 32775;
+  /// `RL_MIN`
+  static int RL_MIN = 0x8007;
 
-  /// Predefined constant `RL_MAX`.
-  static final int RL_MAX = 32776;
+  /// `RL_MAX`
+  static int RL_MAX = 0x8008;
 
-  /// Predefined constant `RL_FUNC_SUBTRACT`.
-  static final int RL_FUNC_SUBTRACT = 32778;
+  /// `RL_FUNC_SUBTRACT`
+  static int RL_FUNC_SUBTRACT = 0x800A;
 
-  /// Predefined constant `RL_FUNC_REVERSE_SUBTRACT`.
-  static final int RL_FUNC_REVERSE_SUBTRACT = 32779;
+  /// `RL_FUNC_REVERSE_SUBTRACT`
+  static int RL_FUNC_REVERSE_SUBTRACT = 0x800B;
 
-  /// Predefined constant `RL_BLEND_EQUATION`.
-  static final int RL_BLEND_EQUATION = 32777;
+  /// `RL_BLEND_EQUATION`
+  static int RL_BLEND_EQUATION = 0x8009;
 
-  /// Predefined constant `RL_BLEND_EQUATION_RGB`.
-  static final int RL_BLEND_EQUATION_RGB = 32777;
+  /// `RL_BLEND_EQUATION_RGB`
+  static int RL_BLEND_EQUATION_RGB = 0x8009;
 
-  /// Predefined constant `RL_BLEND_EQUATION_ALPHA`.
-  static final int RL_BLEND_EQUATION_ALPHA = 34877;
+  /// `RL_BLEND_EQUATION_ALPHA`
+  static int RL_BLEND_EQUATION_ALPHA = 0x883D;
 
-  /// Predefined constant `RL_BLEND_DST_RGB`.
-  static final int RL_BLEND_DST_RGB = 32968;
+  /// `RL_BLEND_DST_RGB`
+  static int RL_BLEND_DST_RGB = 0x80C8;
 
-  /// Predefined constant `RL_BLEND_SRC_RGB`.
-  static final int RL_BLEND_SRC_RGB = 32969;
+  /// `RL_BLEND_SRC_RGB`
+  static int RL_BLEND_SRC_RGB = 0x80C9;
 
-  /// Predefined constant `RL_BLEND_DST_ALPHA`.
-  static final int RL_BLEND_DST_ALPHA = 32970;
+  /// `RL_BLEND_DST_ALPHA`
+  static int RL_BLEND_DST_ALPHA = 0x80CA;
 
-  /// Predefined constant `RL_BLEND_SRC_ALPHA`.
-  static final int RL_BLEND_SRC_ALPHA = 32971;
+  /// `RL_BLEND_SRC_ALPHA`
+  static int RL_BLEND_SRC_ALPHA = 0x80CB;
 
-  /// Predefined constant `RL_BLEND_COLOR`.
-  static final int RL_BLEND_COLOR = 32773;
+  /// `RL_BLEND_COLOR`
+  static int RL_BLEND_COLOR = 0x8005;
 
-  /// Predefined constant `RL_READ_FRAMEBUFFER`.
-  static final int RL_READ_FRAMEBUFFER = 36008;
+  /// `RL_READ_FRAMEBUFFER`
+  static int RL_READ_FRAMEBUFFER = 0x8CA8;
 
-  /// Predefined constant `RL_DRAW_FRAMEBUFFER`.
-  static final int RL_DRAW_FRAMEBUFFER = 36009;
+  /// `RL_DRAW_FRAMEBUFFER`
+  static int RL_DRAW_FRAMEBUFFER = 0x8CA9;
 
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION = 0;
+  /// `RL_SHADER_LOC_MAP_DIFFUSE`
+  static int RL_SHADER_LOC_MAP_DIFFUSE = 15;
 
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD = 1;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_NORMAL`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_NORMAL = 2;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_COLOR`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_COLOR = 3;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_TANGENT = 4;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_TEXCOORD2 = 5;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_INDICES`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_INDICES = 6;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEIDS`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEIDS = 7;
-
-  /// Predefined constant `RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEWEIGHTS`.
-  static final int RL_DEFAULT_SHADER_ATTRIB_LOCATION_BONEWEIGHTS = 8;
-
-  /// Predefined constant `RL_SHADER_LOC_MAP_DIFFUSE`.
-  static final int RL_SHADER_LOC_MAP_DIFFUSE = 15;
-
-  /// Predefined constant `RL_SHADER_LOC_MAP_SPECULAR`.
-  static final int RL_SHADER_LOC_MAP_SPECULAR = 16;
+  /// `RL_SHADER_LOC_MAP_SPECULAR`
+  static int RL_SHADER_LOC_MAP_SPECULAR = 16;
 
 }

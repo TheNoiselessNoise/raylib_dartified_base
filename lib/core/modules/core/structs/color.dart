@@ -262,8 +262,6 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   /// Sets all components at once.
   ///
   /// Values are converted using [num.toInt], truncating any fractional part.
-  ///
-  /// Returns this instance for fluent chaining.
   ColorD set(num r, num g, num b, num a) {
     this.r = r.toInt();
     this.g = g.toInt();

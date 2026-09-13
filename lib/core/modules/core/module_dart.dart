@@ -1091,10 +1091,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.String$.ValueOrNull(fileName),
         fileSize,
       );
-      final bytes = rl.Temp.UnsignedChar$.asView(data, fileSize.value);
-      final listData = Uint8List.fromList(bytes);
-      rl.CoreFlat.UnloadFileData(data);
-      return listData;
+      try {
+        return rl.Temp.UnsignedChar$.asTypedList(data, fileSize.value);
+      } finally {
+        rl.CoreFlat.UnloadFileData(data);
+      }
     },
   );
 
@@ -1473,9 +1474,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         data.length,
         compDataSize,
       );
-      final newData = rl.Temp.UnsignedChar$.asTypedList(compData, compDataSize.value);
-      compData.free();
-      return newData;
+      try {
+        return rl.Temp.UnsignedChar$.asTypedList(compData, compDataSize.value);
+      } finally {
+        compData.free();
+      }
     },
   );
 
@@ -1491,9 +1494,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         compData.length,
         dataSize,
       );
-      final newData = rl.Temp.UnsignedChar$.asTypedList(data, dataSize.value);
-      data.free();
-      return newData;
+      try {
+        return rl.Temp.UnsignedChar$.asTypedList(data, dataSize.value);
+      } finally {
+        data.free();
+      }
     },
   );
 
@@ -1509,9 +1514,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         data.length,
         outputSize,
       );
-      final newData = rl.Temp.Char$.asTypedList(outputData, outputSize.value);
-      outputData.free();
-      return .fromList(newData);
+      try {
+        return rl.Temp.UnsignedChar$.asTypedList(outputData, outputSize.value);
+      } finally {
+        outputData.free();
+      }
     },
   );
 
@@ -1526,9 +1533,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         rl.Temp.Int8$.Array(data),
         outputSize,
       );
-      final newData = rl.Temp.UnsignedChar$.asTypedList(outputData, outputSize.value);
-      outputData.free();
-      return newData;
+      try {
+        return rl.Temp.UnsignedChar$.asTypedList(outputData, outputSize.value);
+      } finally {
+        outputData.free();
+      }
     },
   );
 
@@ -5172,7 +5181,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         count,
       );
       try {
-        return .fromList(result.readArray(count.value));
+        return result.asCopy(count.value);
       } finally {
         rl.CoreFlat.UnloadCodepoints(result);
       }

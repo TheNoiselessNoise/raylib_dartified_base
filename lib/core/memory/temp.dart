@@ -81,11 +81,7 @@ class RaylibTempUtils {
 /// 
 /// All allocated slots are freed on [dispose].
 final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
-  final RaylibTempOptions options;
-
-  RaylibTemp(super.rl, {
-    RaylibTempOptions? options
-  }) : options = options ?? .new();
+  RaylibTemp(super.rl);
 
   /// Whether sync-back is currently enabled.
   bool _enableSyncing = true;
@@ -123,8 +119,8 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
   @override
   @mustCallSuper
   void load() {
-    if (options.stringCount > 0) {
-      logInfo('[TEMP] Allocating ${options.stringCount} String slots');
+    if (RaylibConfig.tempStringSlots > 0) {
+      logInfo('[TEMP] Allocating ${RaylibConfig.tempStringSlots} String slots');
     }
 
     Utils = .new(this);
@@ -149,8 +145,7 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
 
     String$ = .new(this,
       byteSize: RChar.scalarByteSize,
-      slotCount: options.stringCount,
-      indexSetterFunc: (ptrptr, i, ptr) => ptrptr.writePtr(ptr, i),
+      slotCount: RaylibConfig.tempStringSlots,
     );
   }
 
@@ -184,13 +179,11 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Bool$ = _bScalar(.new(this,
       byteSize: RBool.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value,
-      scalarSetterFunc: (ptr, value) => ptr.value = value,
     ));
 
     Int8$ = _bScalar(.new(this,
       byteSize: RInt8.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt8List(offset, len),
@@ -199,7 +192,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8$ = _bScalar(.new(this,
       byteSize: RUint8.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint8List(offset, len),
@@ -208,7 +200,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Int16$ = _bScalar(.new(this,
       byteSize: RInt16.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt16List(offset, len),
@@ -217,7 +208,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint16$ = _bScalar(.new(this,
       byteSize: RUint16.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint16List(offset, len),
@@ -226,7 +216,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Int32$ = _bScalar(.new(this,
       byteSize: RInt32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt32List(offset, len),
@@ -235,7 +224,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint32$ = _bScalar(.new(this,
       byteSize: RUint32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint32List(offset, len),
@@ -244,7 +232,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Int64$ = _bScalar(.new(this,
       byteSize: RInt64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asInt64List(offset, len),
@@ -253,7 +240,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint64$ = _bScalar(.new(this,
       byteSize: RUint64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toInt(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toInt(),
       fromList: (list) => .fromList(list.cast<int>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asUint64List(offset, len),
@@ -262,7 +248,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Float32$ = _bScalar(.new(this,
       byteSize: RFloat32.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toDouble(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toDouble(),
       fromList: (list) => .fromList(list.cast<double>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asFloat32List(offset, len),
@@ -271,7 +256,6 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     Float64$ = _bScalar(.new(this,
       byteSize: RFloat64.scalarByteSize,
       indexSetterFunc: (ptr, i, value) => ptr[i] = value.toDouble(),
-      scalarSetterFunc: (ptr, value) => ptr.value = value.toDouble(),
       fromList: (list) => .fromList(list.cast<double>().toList()),
       asView: (ptr, length) => ptr.asView(length),
       fromBuffer: (buf, offset, len) => buf.asFloat64List(offset, len),

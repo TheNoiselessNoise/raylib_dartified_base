@@ -79,6 +79,14 @@ abstract class MemoryPointer<X extends RType> {
   //   ░██  ░██       ░██ ░██         ░██         
   // ░██████░██       ░██ ░██         ░██████████ 
 
+  String? _allocationKey;
+  
+  /// The key of the temporary allocation backing this pointer.
+  ///
+  /// `null` when this pointer is not associated with a tracked temporary
+  /// allocation.
+  String? get allocationKey => _allocationKey;
+
   /// Check if the pointer is a `nullptr`.
   bool get isNull;
 
@@ -90,11 +98,17 @@ abstract class MemoryPointer<X extends RType> {
   MemoryPointer<Y> cast<Y extends RType>();
 
   /// Copies [length] bytes, viewed as [T].
+  /// 
   /// [T] must be a concrete TypedDataList type: Uint8List, Int32List,
   /// Float32List, etc. Throws if [T] isn't one of those.
-  T to<T extends TypedDataList>(int length);
+  T asCopy<T extends TypedDataList>(int length);
 
-  /// Zero-copy view as [T]. Invalid after free()/heap growth.
+  /// Zero-copy view as [T].
+  /// 
+  /// [T] must be a concrete TypedDataList type: Uint8List, Int32List,
+  /// Float32List, etc. Throws if [T] isn't one of those.
+  /// 
+  /// Invalid after [free]/heap growth.
   T asView<T extends TypedDataList>(int length);
 
   /// Frees the underlying allocation. Only call this if you
@@ -345,14 +359,45 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
     pointerFactory,
   );
 
-  /// Live view, mutations write through immediately.
-  D get ref {
-    final value = create(op: this)..structSyncFromMemory();
-    if (!value._requiresOp) value.op = null;
+  /// Returns a live view of the struct backed by this memory.
+  ///
+  /// The returned struct always retains its memory reference. Field mutations
+  /// are therefore written through to the underlying memory immediately.
+  D get ref => create(op: this);
+
+  /// Returns the current value of the struct.
+  ///
+  /// If the struct is a literal, the returned value is detached from the
+  /// underlying memory and can be mutated independently. Otherwise, its memory
+  /// reference is preserved.
+  D get value {
+    final value = ref;
+    if (!value._requiresOp) {
+      value.structSyncFromMemory();
+      value.op = null;
+    }
     return value;
   }
 
-  /// Bulk-copies [v]'s current field values into memory. Does not change identity of [ref].
+  /// Returns a copy of the struct's current value, detached from its
+  /// underlying memory.
+  ///
+  /// The returned struct has no memory reference; further mutations to it
+  /// are not written through, and further mutations to the backing memory
+  /// are not reflected in it.
+  ///
+  /// Throws a [StateError] if this struct requires it's live memory reference.
+  D get detached {
+    final value = this.value;
+    if (value._requiresOp) {
+      throw StateError('$runtimeType is a view and cannot be detached from its backing memory.');
+    }
+    return value;
+  }
+
+  /// Copies [v]'s current field values into this memory.
+  ///
+  /// The identity and memory reference of [ref] are not changed.
   set ref(D v) => _copyOrWrite(ptr, v);
 
   void _copyOrWrite(MemoryPointer dst, D v) {
@@ -367,8 +412,11 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
 
   D _getAtIndex(int i, {bool owned = true}) {
     final inner = ptr.offsetBy(i * struct.byteSize);
-    final value = create(op: pointerFactory(inner))..structSyncFromMemory();
-    if (!owned) value.op = null;
+    final value = create(op: pointerFactory(inner));
+    if (!owned) {
+      value.structSyncFromMemory();
+      value.op = null;
+    }
     return value;
   }
 
@@ -387,7 +435,6 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   ///
   /// This copies the value into memory and does not attach [v] to the
   /// destination memory location.
-  // void operator []=(int i, D v) => v.structWriteInto(ptr.offsetBy(i * struct.byteSize));
   void operator []=(int i, D v) => _copyOrWrite(ptr.offsetBy(i * struct.byteSize), v);
 
   /// Writes [items] sequentially into the memory referenced by this pointer.
@@ -422,6 +469,9 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   // MemoryPointer redirection
 
   @override
+  String? get allocationKey => ptr.allocationKey;
+
+  @override
   bool get isNull => ptr.isNull;
 
   @override
@@ -437,10 +487,10 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   MemoryPointer<Y> cast<Y extends RType>() => ptr.cast();
 
   @override
-  T to<T extends TypedDataList>(int length) => ptr.to(length);
+  T asCopy<T extends TypedDataList>(int length) => ptr.asCopy<T>(length);
 
   @override
-  T asView<T extends TypedDataList>(int length) => ptr.asView(length);
+  T asView<T extends TypedDataList>(int length) => ptr.asView<T>(length);
 
   @override
   MemoryPointer<Y> offsetBy<Y extends RType>(int byteOffset) => ptr.offsetBy(byteOffset);
@@ -449,8 +499,7 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   Uint8List readBytes(int byteOffset, int length) => ptr.readBytes(byteOffset, length);
 
   @override
-  void fillBytes(int value, int length, [int byteOffset = 0])
-    => ptr.fillBytes(value, length, byteOffset);
+  void fillBytes(int value, int length, [int byteOffset = 0]) => ptr.fillBytes(value, length, byteOffset);
 
   @override
   void copyBytesFrom(MemoryPointer src, int length, {int destOffset = 0, int srcOffset = 0})
@@ -461,8 +510,7 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
     => ptr.compareBytes(other, length, offset: offset, otherOffset: otherOffset);
 
   @override
-  int computeByteHash(int byteSize)
-    => ptr.computeByteHash(byteSize);
+  int computeByteHash(int byteSize) => ptr.computeByteHash(byteSize);
 
   @override
   MemoryPointer<Y> readPtr<Y extends RType>([int byteOffset = 0]) => ptr.readPtr(byteOffset);
@@ -531,16 +579,13 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
 
   @override
-  String readStringUTF8([int? maxLength, int byteOffset = 0])
-    => ptr.readStringUTF8(maxLength, byteOffset);
+  String readStringUTF8([int? maxLength, int byteOffset = 0]) => ptr.readStringUTF8(maxLength, byteOffset);
 
   @override
-  String readStringUTF16([int? maxLength, int byteOffset = 0])
-    => ptr.readStringUTF16(maxLength, byteOffset);
+  String readStringUTF16([int? maxLength, int byteOffset = 0]) => ptr.readStringUTF16(maxLength, byteOffset);
 
   @override
-  String readStringUTF32([int? maxLength, int byteOffset = 0])
-    => ptr.readStringUTF32(maxLength, byteOffset);
+  String readStringUTF32([int? maxLength, int byteOffset = 0]) => ptr.readStringUTF32(maxLength, byteOffset);
 
   @override
   void writeSize(int value, [int byteOffset = 0]) => ptr.writeSize(value, byteOffset);
@@ -603,14 +648,11 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
 
   @override
-  void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0])
-    => ptr.writeStringUTF8(text, maxLength, byteOffset);
+  void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0]) => ptr.writeStringUTF8(text, maxLength, byteOffset);
 
   @override
-  void writeStringUTF16(String text, [int? maxLength, int byteOffset = 0])
-    => ptr.writeStringUTF16(text, maxLength, byteOffset);
+  void writeStringUTF16(String text, [int? maxLength, int byteOffset = 0]) => ptr.writeStringUTF16(text, maxLength, byteOffset);
 
   @override
-  void writeStringUTF32(String text, [int? maxLength, int byteOffset = 0])
-    => ptr.writeStringUTF32(text, maxLength, byteOffset);
+  void writeStringUTF32(String text, [int? maxLength, int byteOffset = 0]) => ptr.writeStringUTF32(text, maxLength, byteOffset);
 }

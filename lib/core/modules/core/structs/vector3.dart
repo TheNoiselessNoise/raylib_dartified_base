@@ -153,8 +153,6 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  /// 
-  /// Returns this instance for fluent chaining.
   Vector3D set(num x, num y, num z) {
     this.x = x.toDouble();
     this.y = y.toDouble();

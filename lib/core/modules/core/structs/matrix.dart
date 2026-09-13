@@ -525,8 +525,6 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   /// Sets all components in column-major order at once.
   /// 
   /// Values are converted using [num.toDouble].
-  /// 
-  /// Returns this instance for fluent chaining.
   MatrixD set(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,

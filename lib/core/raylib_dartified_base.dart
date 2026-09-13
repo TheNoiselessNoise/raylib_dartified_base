@@ -99,6 +99,7 @@ part 'modules/gui/module_dart.dart';
 part 'modules/gui/module_flat.dart';
 
 // ===== LIGHT MODULE =====
+part 'modules/light/capture_ids.dart';
 part 'modules/light/enums.dart';
 part 'modules/light/consts.dart';
 part 'modules/light/labels.dart';

@@ -3,22 +3,18 @@ part of '../../raylib_dartified_base.dart';
 /// Extends [RaylibTempAllocator] with the ability to write individual
 /// Dart values directly into allocated memory.
 final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArrayAllocator<X, R> {
-  /// Writes a single Dart value [value] into the memory pointed to by [ptr].
-  final void Function(MemoryPointer<R> ptr, X value) scalarSetterFunc;
-
   RaylibTempScalarAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
-    required this.scalarSetterFunc,
   });
 
-  /// Returns the pointer for the slot identified by [key] (default: `'default'`),
+  /// Returns the pointer for the slot identified by [key] (default: `default`),
   /// writing [value] into it when provided.
   ///
   /// Allocates the slot on first use.
   MemoryPointer<R> Value([X? value, String? key]) {
     final p = At(_slotKey(key));
-    if (value != null) scalarSetterFunc(p, value);
+    if (value != null) indexSetterFunc(p, 0, value);
     return p;
   }
 
@@ -28,61 +24,55 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArra
   /// Behaves like [Value], but prepends a monotonic ID from [RaylibTemp.nextId] to
   /// [key], ensuring the slot is never accidentally shared with an unrelated
   /// call that happens to use the same base key.
-  MemoryPointer<R> ValueUnique(X? value, {String key = '__value_unique__'}) {
+  MemoryPointer<R> ValueUnique(X? value, {String key = '@valueUnique:'}) {
     final p = At(_uniqueSlotKey(key));
-    if (value != null) scalarSetterFunc(p, value);
+    if (value != null) indexSetterFunc(p, 0, value);
     return p;
   }
 
-  /// Writes [o] into slot `'1'` and returns its pointer.
+  /// Writes [o] into slot `@slot:1` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '1')`. Use [RefOrNull1] if [o] may be `null`
   /// and the callee expects `nullptr` in that case.
-  MemoryPointer<R> Ref1([X? o]) => Value(o, '1');
+  MemoryPointer<R> Ref1([X? o]) => Value(o, '@slot:1');
 
-  /// Writes [o] into slot `'2'` and returns its pointer.
+  /// Writes [o] into slot `@slot:2` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '2')`. Use [RefOrNull2] if [o] may be `null`
   /// and the callee expects `nullptr` in that case.
-  MemoryPointer<R> Ref2([X? o]) => Value(o, '2');
+  MemoryPointer<R> Ref2([X? o]) => Value(o, '@slot:2');
 
-  /// Writes [o] into slot `'3'` and returns its pointer.
+  /// Writes [o] into slot `@slot:3` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '3')`. Use [RefOrNull3] if [o] may be `null`
   /// and the callee expects `nullptr` in that case.
-  MemoryPointer<R> Ref3([X? o]) => Value(o, '3');
+  MemoryPointer<R> Ref3([X? o]) => Value(o, '@slot:3');
 
-  /// Writes [o] into slot `'4'` and returns its pointer.
+  /// Writes [o] into slot `@slot:4` and returns its pointer.
   ///
-  /// Shorthand for `Value(o, '4')`. Use [RefOrNull4] if [o] may be `null`
   /// and the callee expects `nullptr` in that case.
-  MemoryPointer<R> Ref4([X? o]) => Value(o, '4');
+  MemoryPointer<R> Ref4([X? o]) => Value(o, '@slot:4');
 
-  /// Writes [o] into slot `'1'` and returns its pointer, or returns `nullptr`
+  /// Writes [o] into slot `@slot:1` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref1] when the C API uses a null pointer to signal "no value".
   MemoryPointer<R> RefOrNull1(X? o) => o == null ? MemoryPointer.nullptr() : Ref1(o);
 
-  /// Writes [o] into slot `'2'` and returns its pointer, or returns `nullptr`
+  /// Writes [o] into slot `@slot:2` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref2] when the C API uses a null pointer to signal "no value".
   MemoryPointer<R> RefOrNull2(X? o) => o == null ? MemoryPointer.nullptr() : Ref2(o);
 
-  /// Writes [o] into slot `'3'` and returns its pointer, or returns `nullptr`
+  /// Writes [o] into slot `@slot:3` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref3] when the C API uses a null pointer to signal "no value".
   MemoryPointer<R> RefOrNull3(X? o) => o == null ? MemoryPointer.nullptr() : Ref3(o);
 
-  /// Writes [o] into slot `'4'` and returns its pointer, or returns `nullptr`
+  /// Writes [o] into slot `@slot:4` and returns its pointer, or returns `nullptr`
   /// if [o] is `null`.
   ///
   /// Use this instead of [Ref4] when the C API uses a null pointer to signal "no value".
   MemoryPointer<R> RefOrNull4(X? o) => o == null ? MemoryPointer.nullptr() : Ref4(o);
-
-  // -----
 
   /// Fixed scratch slot holding a zero-initialized value.
   ///
@@ -98,35 +88,35 @@ final class RaylibTempScalarAllocator<X, R extends RType> extends RaylibTempArra
   /// or pass it where the callee treats it as `const`. If you need a
   /// mutable zero-initialized buffer, use [$newPtr] (or write zero into
   /// [$1Ptr]..[$4Ptr] yourself) instead.
-  MemoryPointer<R> get $zeroPtr => At('__reusable__zero');
+  MemoryPointer<R> get $zeroPtr => At('@reusableZero');
 
   /// Reusable single-element scratch slot, mutable (unlike [$zeroPtr]).
-  MemoryPointer<R> get $1Ptr => At('__reusable__1');
+  MemoryPointer<R> get $1Ptr => At('@reusable1');
   
   /// Reusable single-element scratch slot, mutable (unlike [$zeroPtr]).
   ///
   /// Use when a call needs a second independent scratch pointer alongside
   /// [$1Ptr] (e.g. writing two out-parameters in the same FFI call).
-  MemoryPointer<R> get $2Ptr => At('__reusable__2');
+  MemoryPointer<R> get $2Ptr => At('@reusable2');
   
   /// Reusable single-element scratch slot, mutable (unlike [$zeroPtr]).
   ///
   /// Use when a call needs a third independent scratch pointer alongside
   /// [$2Ptr] (e.g. writing two out-parameters in the same FFI call).
-  MemoryPointer<R> get $3Ptr => At('__reusable__3');
+  MemoryPointer<R> get $3Ptr => At('@reusable3');
   
   /// Reusable single-element scratch slot, mutable (unlike [$zeroPtr]).
   ///
   /// Use when a call needs a fourth independent scratch pointer alongside
   /// [$3Ptr] (e.g. writing two out-parameters in the same FFI call).
-  MemoryPointer<R> get $4Ptr => At('__reusable__4');
+  MemoryPointer<R> get $4Ptr => At('@reusable4');
   
   /// Fresh, independently-owned scratch pointer, unlike [$zeroPtr]..[$4Ptr].
   ///
   /// Each access gets its own slot via [RaylibTempAllocator.AtUnique], keyed with a monotonic id,
   /// so it is safe even when the same call site may be active multiple times
   /// at once (recursion, re-entrant calls).
-  MemoryPointer<R> get $newPtr => AtUnique(key: '__reusable__newptr');
+  MemoryPointer<R> get $newPtr => AtUnique(key: '@newPtr:');
 }
 
 /// Extends [RaylibTempScalarAllocator] with typed list interop,
@@ -156,16 +146,15 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   RaylibTempScalarTypedListAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
-    required super.scalarSetterFunc,
     required this.fromList,
     required this.asView,
     required this.fromBuffer,
   });
 
   late final RaylibTempScalarPointerAllocator<X, R> $ = .new(temp,
-    byteSize: byteSize,
+    byteSize: RType.nativeWordSize,
+    arrayFunc: Array,
     rawArrayFunc: RawArray,
-    indexSetterFunc: (ptrptr, i, ptr) => ptrptr.writePtr(ptr, i),
   );
 
   /// Returns a Dart `List<X>` with [length] elements copied from [ptr].
@@ -181,13 +170,13 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
   ///
   /// Unlike [Array], the contents are left uninitialized, useful when
   /// the buffer will be populated by a C call rather than from Dart.
-  /// [key] defaults to `'Sized<C>'`.
-  MemoryPointer<R> Sized(int length, {String? key}) => At(key ?? 'sized_$R', length);
+  /// [key] defaults to `@sized`.
+  MemoryPointer<R> Sized(int length, {String? key}) => At(key ?? '@sized', length);
 
   /// Copies [length] elements from [src] into a slot and returns the pointer.
   ///
   /// Uses [asView] for the bulk copy, which avoids an element-by-element
-  /// loop. [key] defaults to `'default'`.
+  /// loop. [key] defaults to `default`.
   MemoryPointer<R> Copy(MemoryPointer src, int length, {String? key}) {
     final p = At(_slotKey(key), length);
     asView(p, length).setAll(0, asView(src, length));
@@ -215,6 +204,12 @@ final class RaylibTempScalarTypedListAllocator<X, L extends TypedDataList, R ext
     asView(p, length).setAll(0, src);
     return p;
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    $.dispose();
+  }
 }
 
 /// Specializes [RaylibTempScalarTypedListAllocator] for integer element types,
@@ -223,7 +218,6 @@ final class RaylibTempScalarIntAllocator<L extends TypedDataList, R extends RTyp
   RaylibTempScalarIntAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
-    required super.scalarSetterFunc,
     required super.fromList,
     required super.asView,
     required super.fromBuffer,
@@ -251,7 +245,6 @@ final class RaylibTempScalarFloatAllocator<L extends TypedDataList, R extends RT
   RaylibTempScalarFloatAllocator(super.temp, {
     required super.byteSize,
     required super.indexSetterFunc,
-    required super.scalarSetterFunc,
     required super.fromList,
     required super.asView,
     required super.fromBuffer,
@@ -261,19 +254,33 @@ final class RaylibTempScalarFloatAllocator<L extends TypedDataList, R extends RT
 /// Extends [RaylibTempAllocator] with the ability to allocate pointer-to-pointer
 /// slots, where [X] is the pointee's Dart-side value.
 final class RaylibTempScalarPointerAllocator<X, R extends RType> extends RaylibTempAllocator<R> {
-  /// Converts a flat `List<X>` into an allocated `P` array.
+  /// Converts a flat `List<X>` into a tracked pointer array.
+  final MemoryPointer<R> Function(List<X> array, {String? key}) arrayFunc;
+
+  /// Converts a flat `List<X>` into an allocated pointer array.
   ///
   /// The caller is responsible for the lifetime of the inner pointers.
   final MemoryPointer<R> Function(List<X> array) rawArrayFunc;
 
-  /// Overwrites the [i]-th element of the array at [ptr] with [value].
-  final void Function(MemoryPointer<RPointer> ptrptr, int i, MemoryPointer<R> ptr) indexSetterFunc;
-
   RaylibTempScalarPointerAllocator(super.temp, {
     required super.byteSize,
+    required this.arrayFunc,
     required this.rawArrayFunc,
-    required this.indexSetterFunc,
   });
+
+  @override
+  String get name => 'RPointer<$X>';
+
+  /// Writes [array] into a tracked slot of sufficient capacity.
+  MemoryPointer<RPointer> Array(List<List<X>> array, {String? key}) {
+    key ??= _slotKey(key);
+    final pp = At(key, array.length).cast<RPointer>();
+    for (int i = 0; i < array.length; i++) {
+      final innerPtr = arrayFunc(array[i], key: '${key}_$i');
+      pp.writePtr(innerPtr, i * RType.nativeWordSize);
+    }
+    return pp;
+  }
 
   /// Allocates an unslotted pointer-of-pointers from a list of value arrays.
   ///
@@ -282,7 +289,10 @@ final class RaylibTempScalarPointerAllocator<X, R extends RType> extends RaylibT
   /// The caller is responsible for freeing the returned pointer.
   MemoryPointer<RPointer> RawArray(List<List<X>> arrays) {
     final pp = Raw(arrays.length).cast<RPointer>();
-    for (int i = 0; i < arrays.length; i++) indexSetterFunc(pp, i, rawArrayFunc(arrays[i]));
+    for (int i = 0; i < arrays.length; i++) {
+      final innerPtr = rawArrayFunc(arrays[i]);
+      pp.writePtr(innerPtr, i * RType.nativeWordSize);
+    }
     return pp;
   }
 }

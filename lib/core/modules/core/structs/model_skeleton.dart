@@ -81,12 +81,8 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    if (bones.inner.isNotEmpty) {
-      _bonesF.allocate(temp, p, '${key}_bones', count: _bones.inner.length);
-    }
-    if (bindPose.inner.isNotEmpty) {
-      _bindPoseF.allocate(temp, p, '${key}_bindPose', count: _bindPose.inner.length);
-    }
+    _bonesF.allocate(temp, p, '${key}_bones', count: boneCount);
+    _bindPoseF.allocate(temp, p, '${key}_bindPose', count: boneCount);
   }
 
   @override

@@ -1,10 +1,13 @@
 part of 'raylib_dartified_base.dart';
 
-abstract class RaylibCallback<B, D extends Function> {
+abstract class RaylibCallback<
+  R extends RaylibCallback<R, D>,
+  D extends Function
+> {
 
   bool _isDisposed = false;
   bool _initialized = false;
-  late final MemoryPointer<RFunction<B>> _funcPtr;
+  late final MemoryPointer<RFunction<R>> _funcPtr;
 
   /// The Dart function exposed to the native side.
   ///
@@ -23,9 +26,9 @@ abstract class RaylibCallback<B, D extends Function> {
   /// Backend-specific: produces the callable native pointer for [function].
   /// Native: wraps a `NativeCallable<C>`, returns its nativeFunction cast to RVoid.
   /// Wasm: registers via addFunction(jsFunction, signature), wraps the int as a pointer.
-  MemoryPointer<RFunction<B>> initializer();
+  MemoryPointer<RFunction<R>> initializer();
 
-  MemoryPointer<RFunction<B>> get nativeFunction {
+  MemoryPointer<RFunction<R>> get nativeFunction {
     assert(!_isDisposed, '$runtimeType: has been disposed');
     if (!_initialized) {
       _initialized = true;
@@ -39,15 +42,16 @@ abstract class RaylibCallback<B, D extends Function> {
   /// Each concrete subclass owns a static `List<RaylibCallback>` and returns it
   /// here. The registry is used to track active callbacks and support bulk
   /// disposal via [disposeRegistry].
-  Map<int, RaylibCallback> get registry;
+  Map<int, R> get registry;
 
   /// Registers this callback and returns its function pointer.
   ///
   /// Adds `this` to [registry] if not already present, then returns
   /// [nativeFunction].
-  MemoryPointer<RFunction<B>> attach() {
-    registry.putIfAbsent(_funcPtr.address, () => this);
-    return nativeFunction;
+  MemoryPointer<RFunction<R>> attach() {
+    final ptr = nativeFunction;
+    registry.putIfAbsent(ptr.address, () => this as R);
+    return ptr;
   }
 
   /// Removes this callback from [registry], optionally disposes it, and
@@ -56,9 +60,10 @@ abstract class RaylibCallback<B, D extends Function> {
   /// If [keepAlive] is `true`, the callback is neither removed from [registry]
   /// nor disposed, only the pointer is returned. Useful when temporarily
   /// detaching without releasing resources.
-  MemoryPointer<RFunction<B>> detach([bool keepAlive = false]) {
-    if (keepAlive) return nativeFunction;
-    registry.remove(_funcPtr.address);
+  MemoryPointer<RFunction<R>> detach([bool keepAlive = false]) {
+    final ptr = nativeFunction;
+    if (keepAlive) return ptr;
+    registry.remove(ptr.address);
     dispose();
     return nativeFunction;
   }

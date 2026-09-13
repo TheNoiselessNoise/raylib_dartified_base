@@ -19,16 +19,20 @@ abstract class RaylibMsfGifFlatModule<R extends RaylibBase<R>> extends RaylibMod
     MsfGifFileWriteCallbackBase.disposeRegistry();
   }
 
+  /// `msf_gif_alpha_threshold`
   abstract int msf_gif_alpha_threshold;
 
+  /// `msf_gif_bgra_flag`
   abstract int msf_gif_bgra_flag;
 
+  /// `msf_gif_begin`
   int msf_gif_begin(
     StructPointer<MsfGifStateD> handle,
     int width,
     int height,
   );
 
+  /// `msf_gif_frame`
   int msf_gif_frame(
     StructPointer<MsfGifStateD> handle,
     MemoryPointer<RUint8> pixelData,
@@ -37,14 +41,17 @@ abstract class RaylibMsfGifFlatModule<R extends RaylibBase<R>> extends RaylibMod
     int pitchInBytes,
   );
 
+  /// `msf_gif_end`
   MsfGifResultD msf_gif_end(
     StructPointer<MsfGifStateD> handle,
   );
 
+  /// `msf_gif_free`
   void msf_gif_free(
     MsfGifResultD result,
   );
 
+  /// `msf_gif_begin_to_file`
   int msf_gif_begin_to_file(
     StructPointer<MsfGifStateD> handle,
     int width,
@@ -53,6 +60,7 @@ abstract class RaylibMsfGifFlatModule<R extends RaylibBase<R>> extends RaylibMod
     MemoryPointer<RVoid> filePointer,
   );
 
+  /// `msf_gif_frame_to_file`
   int msf_gif_frame_to_file(
     StructPointer<MsfGifStateD> handle,
     MemoryPointer<RUint8> pixelData,
@@ -61,6 +69,7 @@ abstract class RaylibMsfGifFlatModule<R extends RaylibBase<R>> extends RaylibMod
     int pitchInBytes,
   );
 
+  /// `msf_gif_end_to_file`
   int msf_gif_end_to_file(
     StructPointer<MsfGifStateD> handle,
   );

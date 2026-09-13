@@ -6,22 +6,52 @@ const RaylibPlatform currentRaylibPlatform = bool.fromEnvironment('dart.library.
   ? .native
   : .web;
 
+/// Global configuration for `raylib_dartified` package family.
+///
+/// Provides configurable limits and defaults used by the library's temporary
+/// memory allocators, struct handling, and Raylib integration.
+///
+/// Unless otherwise documented, values should be configured before initializing
+/// `Raylib`.
 class RaylibConfig {
-  /// Maximum vertex buffers (VBO) per mesh
-  /// 
-  /// MUST match `MAX_MESH_VERTEX_BUFFERS` in the compiled raylib.
-  /// 
-  /// Defaults to `7` meaning no support for GPU skinning.
-  static int MAX_MESH_VERTEX_BUFFERS = 7;
+  /// The number of string slots to pre-allocate.
+  ///
+  /// Defaults to `4`. Increase this if your frame logic needs to pass
+  /// more than 4 temporary strings to Raylib in a single tick.
+  static int tempStringSlots = 4;
 
-  static bool get IS_GPU_SKINNING_SUPPORTED => MAX_MESH_VERTEX_BUFFERS != 7;
+  /// Maximum vertex buffers (VBO) per mesh.
+  ///
+  /// **MUST MATCH** `MAX_MESH_VERTEX_BUFFERS` in the compiled raylib.
+  ///
+  /// Defaults to `7`, which means GPU skinning is not supported.
+  static int maxMeshVertexBuffers = 7;
 
-  static int MAX_STRUCT_BYTE_SIZE = 1024;
+  /// Whether GPU skinning is supported by the configured mesh vertex buffer
+  /// limit.
+  static bool get isGPUSkinningSupported => maxMeshVertexBuffers > 7;
+
+  /// Maximum size, in bytes, of a struct supported by internal scratch buffers.
+  ///
+  /// These buffers are used for fast byte-level equality checks of structs.
+  /// Increase this if a struct larger than the default limit needs to be
+  /// compared using `==`.
+  static int maxStructByteSize = 1024;
+
+  /// Maximum number of simultaneously tracked temporary allocations per
+  /// temporary allocator.
+  ///
+  /// Defaults to `1024`. This acts as a safety limit against accidentally
+  /// creating an unbounded number of temporary allocation slots.
+  ///
+  /// Increase this before initializing `Raylib` if a legitimate use case
+  /// requires more tracked allocations.
+  static int maxTrackedAllocations = 1024;
 }
 
 enum RaylibSupportedLibs {
   raylib('raylib'),
-  gui('raygui'),
+  raygui('raygui'),
   msf_gif('msf_gif');
 
   const RaylibSupportedLibs(this.id);
@@ -118,6 +148,51 @@ abstract class RaylibModule<R extends RaylibBase<R>> with RaylibDisposable {
     return f();
   }
 
+  /// Disposes [struct], invokes [fn] with its underlying pointer, and then frees
+  /// the temporary allocation backing the pointer, if any.
+  ///
+  /// The allocation is freed after [fn] completes, including when [fn] throws.
+  /// This is intended for APIs where the external call does not take ownership
+  /// of the underlying memory.
+  void disposeStructWithOpFreed<D extends RaylibStruct<D>>(
+    D struct,
+    void Function(StructPointer<D> ptr) fn,
+  ) {
+    final ptr = struct.getOpAndDispose();
+
+    try {
+      fn(ptr);
+    } finally {
+      if (ptr.allocationKey case final key?) {
+        rl.Temp.structAlloc<D>()!.Free(key);
+      }
+    }
+  }
+
+  /// Disposes [struct], invokes [fn] with its underlying pointer, and then
+  /// unslots the temporary allocation backing the pointer, if any.
+  ///
+  /// The allocation is removed from the temporary allocator without freeing its
+  /// underlying memory. This is intended for APIs where the external call takes
+  /// responsibility for freeing the memory.
+  ///
+  /// The allocation is unslotted after [fn] completes, including when [fn]
+  /// throws.
+  void disposeStructWithOpUnslotted<D extends RaylibStruct<D>>(
+    D struct,
+    void Function(StructPointer<D> ptr) fn,
+  ) {
+    final ptr = struct.getOpAndDispose();
+
+    try {
+      fn(ptr);
+    } finally {
+      if (ptr.allocationKey case final key?) {
+        rl.Temp.structAlloc<D>()!.Unslot(key);
+      }
+    }
+  }
+
   /// Executes [f] with [RaylibTemp] syncing temporarily disabled,
   /// restoring the previous sync state afterward.
   T disableSync<T>(T Function() f) {
@@ -127,22 +202,6 @@ abstract class RaylibModule<R extends RaylibBase<R>> with RaylibDisposable {
     rl.Temp.enableSyncing(oldSyncing);
     return result;
   }
-}
-
-/// Configuration options for [RaylibTemp].
-///
-/// Controls the pre-allocated capacities of the various typed slot pools
-/// within the temporary allocator.
-class RaylibTempOptions {
-  /// The number of string slots to pre-allocate.
-  ///
-  /// Defaults to `4`. Increase this if your frame logic needs to pass
-  /// more than 4 temporary strings to Raylib in a single tick.
-  final int stringCount;
-
-  const RaylibTempOptions({
-    this.stringCount = 4,
-  });
 }
 
 /// Root class for a fully initialized Raylib context, exposing all modules,
@@ -162,8 +221,6 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   static R getInstance<R extends RaylibBase<R>>() {
     return instance as R;
   }
-
-  final RaylibTempOptions tempOptions;
 
   /// See [RaylibTemp].
   late final RaylibTemp<R> Temp;
@@ -231,20 +288,18 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   final bool _silent;
 
   RaylibBase({
-    RaylibTempOptions? tempOptions,
     math.Random? random,
     bool silent = false,
   }) :
-    tempOptions = tempOptions ?? .new(),
     random = random ?? .new(),
     _silent = silent
   {
     if (_instance != null) throw StateError("There can only be one instance of $runtimeType!");
     _instance = this;
 
-    if (this.tempOptions.stringCount < 4) {
+    if (RaylibConfig.tempStringSlots < 4) {
       throw StateError(
-        "Raylib expects at least 4 preallocated String slots, got ${this.tempOptions.stringCount}",
+        "Raylib expects at least 4 preallocated String slots, got ${RaylibConfig.tempStringSlots}",
       );
     }
   }
@@ -366,7 +421,7 @@ abstract class RaylibBase<R extends RaylibBase<R>> with RaylibDisposable {
   void dispose() {
     super.dispose();
     registeredModules.forEach(_disposeModule);
-    MemoryScratch._dispose();
+    MemoryScratch.dispose();
   }
 
   // Functions

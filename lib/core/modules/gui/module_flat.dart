@@ -28,8 +28,14 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
   /// See [RaylibGuiConstants.RAYGUI_ICON_MAX_ICONS].
   int get RAYGUI_ICON_MAX_ICONS => RaylibGuiConstants.RAYGUI_ICON_MAX_ICONS;
 
+  /// See [RaylibGuiConstants.RAYGUI_ICON_MAX_FONT_BACKED].
+  int get RAYGUI_ICON_MAX_FONT_BACKED => RaylibGuiConstants.RAYGUI_ICON_MAX_FONT_BACKED;
+
   /// See [RaylibGuiConstants.RAYGUI_ICON_MAX_NAME_LENGTH].
   int get RAYGUI_ICON_MAX_NAME_LENGTH => RaylibGuiConstants.RAYGUI_ICON_MAX_NAME_LENGTH;
+
+  /// See [RaylibGuiConstants.RAYGUI_ICON_FONT_ATLAS_PADDING].
+  int get RAYGUI_ICON_FONT_ATLAS_PADDING => RaylibGuiConstants.RAYGUI_ICON_FONT_ATLAS_PADDING;
 
   /// See [RaylibGuiConstants.RAYGUI_ICON_DATA_ELEMENTS].
   int get RAYGUI_ICON_DATA_ELEMENTS => RaylibGuiConstants.RAYGUI_ICON_DATA_ELEMENTS;
@@ -46,6 +52,9 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
   /// See [RaylibGuiConstants.RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT].
   int get RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT => RaylibGuiConstants.RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT;
 
+  /// See [RaylibGuiConstants.RAYGUI_WINDOWBOX_CLOSEBUTTON_HEIGHT].
+  int get RAYGUI_WINDOWBOX_CLOSEBUTTON_HEIGHT => RaylibGuiConstants.RAYGUI_WINDOWBOX_CLOSEBUTTON_HEIGHT;
+
   /// See [RaylibGuiConstants.RAYGUI_GROUPBOX_LINE_THICK].
   int get RAYGUI_GROUPBOX_LINE_THICK => RaylibGuiConstants.RAYGUI_GROUPBOX_LINE_THICK;
 
@@ -58,9 +67,6 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
   /// See [RaylibGuiConstants.RAYGUI_PANEL_BORDER_WIDTH].
   int get RAYGUI_PANEL_BORDER_WIDTH => RaylibGuiConstants.RAYGUI_PANEL_BORDER_WIDTH;
 
-  /// See [RaylibGuiConstants.RAYGUI_TABBAR_ITEM_WIDTH].
-  int get RAYGUI_TABBAR_ITEM_WIDTH => RaylibGuiConstants.RAYGUI_TABBAR_ITEM_WIDTH;
-
   /// See [RaylibGuiConstants.RAYGUI_MIN_SCROLLBAR_WIDTH].
   int get RAYGUI_MIN_SCROLLBAR_WIDTH => RaylibGuiConstants.RAYGUI_MIN_SCROLLBAR_WIDTH;
 
@@ -70,8 +76,8 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
   /// See [RaylibGuiConstants.RAYGUI_MIN_MOUSE_WHEEL_SPEED].
   int get RAYGUI_MIN_MOUSE_WHEEL_SPEED => RaylibGuiConstants.RAYGUI_MIN_MOUSE_WHEEL_SPEED;
 
-  /// See [RaylibGuiConstants.RAYGUI_TOGGLEGROUP_MAX_ITEMS].
-  int get RAYGUI_TOGGLEGROUP_MAX_ITEMS => RaylibGuiConstants.RAYGUI_TOGGLEGROUP_MAX_ITEMS;
+  /// See [RaylibGuiConstants.RAYGUI_TOGGLEGROUP_MAX_ITEM_TEXT_SIZE].
+  int get RAYGUI_TOGGLEGROUP_MAX_ITEM_TEXT_SIZE => RaylibGuiConstants.RAYGUI_TOGGLEGROUP_MAX_ITEM_TEXT_SIZE;
 
   /// See [RaylibGuiConstants.RAYGUI_TEXTBOX_AUTO_CURSOR_COOLDOWN].
   int get RAYGUI_TEXTBOX_AUTO_CURSOR_COOLDOWN => RaylibGuiConstants.RAYGUI_TEXTBOX_AUTO_CURSOR_COOLDOWN;
@@ -103,23 +109,11 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
   /// See [RaylibGuiConstants.RAYGUI_GRID_ALPHA].
   double get RAYGUI_GRID_ALPHA => RaylibGuiConstants.RAYGUI_GRID_ALPHA;
 
-  /// See [RaylibGuiConstants.RAYGUI_MAX_LINE_BUFFER_SIZE].
-  int get RAYGUI_MAX_LINE_BUFFER_SIZE => RaylibGuiConstants.RAYGUI_MAX_LINE_BUFFER_SIZE;
-
   /// See [RaylibGuiConstants.RAYGUI_ICON_TEXT_PADDING].
   int get RAYGUI_ICON_TEXT_PADDING => RaylibGuiConstants.RAYGUI_ICON_TEXT_PADDING;
 
   /// See [RaylibGuiConstants.RAYGUI_MAX_TEXT_LINES].
   int get RAYGUI_MAX_TEXT_LINES => RaylibGuiConstants.RAYGUI_MAX_TEXT_LINES;
-
-  /// See [RaylibGuiConstants.RAYGUI_TEXTSPLIT_MAX_ITEMS].
-  int get RAYGUI_TEXTSPLIT_MAX_ITEMS => RaylibGuiConstants.RAYGUI_TEXTSPLIT_MAX_ITEMS;
-
-  /// See [RaylibGuiConstants.RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE].
-  int get RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE => RaylibGuiConstants.RAYGUI_TEXTSPLIT_MAX_TEXT_SIZE;
-
-  /// See [RaylibGuiConstants.RAYGUI_TEXTFORMAT_MAX_SIZE].
-  int get RAYGUI_TEXTFORMAT_MAX_SIZE => RaylibGuiConstants.RAYGUI_TEXTFORMAT_MAX_SIZE;
 
   /// See [RaylibGuiConstants.RAYGUI_ICONS].
   List<int> get RAYGUI_ICONS => RaylibGuiConstants.RAYGUI_ICONS;
@@ -191,6 +185,12 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
     MemoryPointer<RChar> fileName,
   );
 
+  /// Load style from memory (binary only)
+  void GuiLoadStyleFromMemory(
+    MemoryPointer<RUnsignedChar> fileData,
+    int dataSize,
+  );
+
   /// Load style default over global style
   void GuiLoadStyleDefault();
 
@@ -222,6 +222,13 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
   /// Load raygui icons file (.rgi) into internal icons data
   MemoryPointer<RPointer<RChar>> GuiLoadIcons(
     MemoryPointer<RChar> fileName,
+    bool loadIconsName,
+  );
+
+  /// Load raygui icons file (.rgi) from memory into internal icons data
+  MemoryPointer<RPointer<RChar>> GuiLoadIconsFromMemory(
+    MemoryPointer<RUnsignedChar> fileData,
+    int dataSize,
     bool loadIconsName,
   );
 
@@ -261,14 +268,6 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
   int GuiPanel(
     RectangleD bounds,
     MemoryPointer<RChar> text,
-  );
-
-  /// Tab Bar control, returns TAB to be closed or -1
-  int GuiTabBar(
-    RectangleD bounds,
-    MemoryPointer<RPointer<RChar>> text,
-    int count,
-    MemoryPointer<RInt> active,
   );
 
   /// Scroll Panel control
@@ -437,7 +436,7 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
     MemoryPointer<RInt> active,
   );
 
-  /// List View with extended parameters
+  /// List View control, using text entries list and returning focus entry
   int GuiListViewEx(
     RectangleD bounds,
     MemoryPointer<RPointer<RChar>> text,
@@ -447,12 +446,31 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
     MemoryPointer<RInt> focus,
   );
 
+  /// Tab Bar control
+  int GuiTabBar(
+    RectangleD bounds,
+    MemoryPointer<RChar> text,
+    MemoryPointer<RInt> hscroll,
+    MemoryPointer<RInt> active,
+  );
+
+  /// Tab Bar control, using text entries list and returning focus entry
+  int GuiTabBarEx(
+    RectangleD bounds,
+    MemoryPointer<RPointer<RChar>> text,
+    int count,
+    MemoryPointer<RInt> hscroll,
+    MemoryPointer<RInt> active,
+    MemoryPointer<RInt> focus,
+  );
+
   /// Message Box control, displays a message
   int GuiMessageBox(
     RectangleD bounds,
     MemoryPointer<RChar> title,
     MemoryPointer<RChar> message,
-    MemoryPointer<RChar> buttons,
+    MemoryPointer<RChar> btnText,
+    MemoryPointer<RInt> btnActive,
   );
 
   /// Text Input Box control, ask for text, supports secret
@@ -460,13 +478,14 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
     RectangleD bounds,
     MemoryPointer<RChar> title,
     MemoryPointer<RChar> message,
-    MemoryPointer<RChar> buttons,
     MemoryPointer<RChar> text,
-    int textMaxSize,
+    int textSize,
+    MemoryPointer<RChar> btnText,
+    MemoryPointer<RInt> btnActive,
     MemoryPointer<RBool> secretViewActive,
   );
 
-  /// Color Picker control (multiple color controls)
+  /// Color Picker control, includes Color bar controls
   int GuiColorPicker(
     RectangleD bounds,
     MemoryPointer<RChar> text,
@@ -494,14 +513,14 @@ abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule
     MemoryPointer<RFloat> value,
   );
 
-  /// Color Picker control that avoids conversion to RGB on each call (multiple color controls)
+  /// Color Picker control, using Hue-Saturation-Value color data, includes Color bar controls
   int GuiColorPickerHSV(
     RectangleD bounds,
     MemoryPointer<RChar> text,
     StructPointer<Vector3D> colorHsv,
   );
 
-  /// Color Panel control that updates Hue-Saturation-Value color value, used by GuiColorPickerHSV()
+  /// Color Panel control, using Hue-Saturation-Value color data
   int GuiColorPanelHSV(
     RectangleD bounds,
     MemoryPointer<RChar> text,

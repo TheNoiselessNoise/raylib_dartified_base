@@ -12,8 +12,8 @@ between native (`dart:ffi`) and WebAssembly (linear memory + imports).
 
 A platform implementation must provide:
 
-- `MemoryPointer<X extends RType>` => pointer abstraction with
-  `readX`/`writeX` at explicit byte offsets, backed by whatever memory
+- `RaylibBase` => platform specific `Raylib` class implementation
+- `MemoryPointer<X extends RType>` => pointer abstraction backed by whatever memory
   model the platform uses (FFI pointer vs. WASM linear memory offset).
 - A concrete flat module for each of the following, extending the
   matching abstract type defined here and exposed via `RaylibBase`:
@@ -31,12 +31,18 @@ A platform implementation must provide:
   Each module implements its methods by dispatching to the platform's
   native call surface.
 
-Everything else (struct definitions, higher-level bindings, ...) is shared
-and works unmodified once `MemoryPointer` and the six flat modules exist
-for a platform.
-
 See [raylib_dartified](https://github.com/TheNoiselessNoise/raylib_dartified) (FFI) and [raylib_dartified_web](https://github.com/TheNoiselessNoise/raylib_dartified_web) (WASM) for
 reference implementations.
+
+## External module revisions
+
+Some modules are sourced from external projects rather than the official
+raylib repository. The following table records the exact upstream revision
+used for each package version.
+
+| Package | Module | Upstream | Revision |
+|---|---|---|---|
+| 6.0 | Gui | [raygui](https://github.com/raysan5/raygui) | `30e303400781d3ef6e81f01e1b95cdf3b19386df` |
 
 ## License
 

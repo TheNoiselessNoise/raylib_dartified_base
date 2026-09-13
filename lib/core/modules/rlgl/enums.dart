@@ -1,6 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Rlgl `DrawMode` enum.
+/// `DrawMode`
 enum RlDrawMode with RaylibEnum {
   /// `RL_NONE` (for uninitialized [RlDrawCallD] slots only)
   RL_NONE(0),
@@ -28,7 +28,7 @@ enum RlDrawMode with RaylibEnum {
   };
 }
 
-/// Rlgl `ShaderType` enum.
+/// `ShaderType`
 enum RlShaderType with RaylibEnum {
   /// `RL_FRAGMENT_SHADER`
   RL_FRAGMENT_SHADER(0x8B30),
@@ -54,7 +54,7 @@ enum RlShaderType with RaylibEnum {
   };
 }
 
-/// Rlgl `UsageHint` enum.
+/// `UsageHint`
 enum RlUsageHint with RaylibEnum {
   /// `RL_STREAM_DRAW`
   RL_STREAM_DRAW(0x88E0),
@@ -98,7 +98,7 @@ enum RlUsageHint with RaylibEnum {
   };
 }
 
-/// Rlgl `MatrixMode` enum.
+/// `MatrixMode`
 enum RlMatrixMode with RaylibEnum {
   /// `RL_MODELVIEW`
   RL_MODELVIEW(0x1700),
@@ -124,7 +124,7 @@ enum RlMatrixMode with RaylibEnum {
   };
 }
 
-/// Rlgl `GlVersion` enum.
+/// `GlVersion`
 enum RlGlVersion with RaylibEnum {
   /// `RL_OPENGL_11`
   RL_OPENGL_11(1),
@@ -159,7 +159,7 @@ enum RlGlVersion with RaylibEnum {
   };
 }
 
-/// Rlgl `ShaderUniformDataType` enum.
+/// `ShaderUniformDataType`
 enum RlShaderUniformDataType with RaylibEnum {
   /// `RL_SHADER_UNIFORM_FLOAT`
   RL_SHADER_UNIFORM_FLOAT(0),
@@ -215,7 +215,7 @@ enum RlShaderUniformDataType with RaylibEnum {
   };
 }
 
-/// Rlgl `ShaderAttributeDataType` enum.
+/// `ShaderAttributeDataType`
 enum RlShaderAttributeDataType with RaylibEnum {
   /// `RL_SHADER_ATTRIB_FLOAT`
   RL_SHADER_ATTRIB_FLOAT(0),
@@ -244,7 +244,7 @@ enum RlShaderAttributeDataType with RaylibEnum {
   };
 }
 
-/// Rlgl `FramebufferAttachType` enum.
+/// `FramebufferAttachType`
 enum RlFramebufferAttachType with RaylibEnum {
   /// `RL_ATTACHMENT_COLOR_CHANNEL0`
   RL_ATTACHMENT_COLOR_CHANNEL0(0),
@@ -291,7 +291,7 @@ enum RlFramebufferAttachType with RaylibEnum {
   };
 }
 
-/// Rlgl `FramebufferAttachTextureType` enum.
+/// `FramebufferAttachTextureType`
 enum RlFramebufferAttachTextureType with RaylibEnum {
   /// `RL_ATTACHMENT_CUBEMAP_POSITIVE_X`
   RL_ATTACHMENT_CUBEMAP_POSITIVE_X(0),
@@ -332,7 +332,7 @@ enum RlFramebufferAttachTextureType with RaylibEnum {
   };
 }
 
-/// Rlgl `CullMode` enum.
+/// `CullMode`
 enum RlCullMode with RaylibEnum {
   /// `RL_CULL_FACE_FRONT`
   RL_CULL_FACE_FRONT(0),

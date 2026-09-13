@@ -12,7 +12,7 @@ typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Funct
 final class RaylibTempStructState with RaylibDisposable {
   /// The slot tag used to disambiguate [RaylibTemp] keys for this instance.
   ///
-  /// Defaults to `'default'`. Change via [RaylibStruct.structSetTag].
+  /// Defaults to `default`. Change via [RaylibStruct.structSetTag].
   String tag = 'default';
   
   /// Whether [RaylibStruct.structMarkDisposed] has been called on this instance.
@@ -37,39 +37,6 @@ final class RaylibTempStructState with RaylibDisposable {
   int get nextId => internalId ??= ++_internalIdCounter;
 }
 
-// NTOE: customizable alignment?
-// -----------------------------
-// class FieldSpec {
-//   final RType type;
-//   final int? alignOverride; // null = natural alignment
-//   const FieldSpec(this.type, {this.alignOverride});
-// }
-
-// factory StructLayout.aligned(Map<E, FieldSpec> fields) {
-//   final offsets = <E, int>{};
-//   var offset = 0;
-//   var maxAlign = 1;
-//   for (final entry in fields.entries) {
-//     final spec = entry.value;
-//     final type = spec.type;
-//     var align = type is RStruct ? type.layout.alignment : type.byteSize;
-//     if (spec.alignOverride != null) align = spec.alignOverride!;
-//     offset = (offset + align - 1) ~/ align * align;
-//     offsets[entry.key] = offset;
-//     offset += type.byteSize;
-//     if (align > maxAlign) maxAlign = align;
-//   }
-//   final total = (offset + maxAlign - 1) ~/ maxAlign * maxAlign;
-//   return StructLayout._(offsets, total, maxAlign);
-// }
-
-// StructLayout.aligned({
-//   .a: FieldSpec(RInt32()),                   // natural: align 4
-//   .b: FieldSpec(RInt64(), alignOverride: 1), // packed: align 1
-//   .c: FieldSpec(RInt32()),                   // back to natural
-// });
-// -----------------------------
-
 mixin StructFields on Enum {}
 
 class StructLayoutFloatSlot {
@@ -78,42 +45,41 @@ class StructLayoutFloatSlot {
   const StructLayoutFloatSlot(this.offset, this.size);
 }
 
-/// Backend-agnostic struct layout: field -> byte offset, plus total size.
-/// Computes C-style natural-alignment offsets: each field's alignment
-/// equals its own size, offset is rounded up to that alignment, and the
-/// total struct size is rounded up to the largest field alignment.
-/// This reproduces real C struct layout for flat structs of primitives
-/// and pointers.
+/// Describes the memory layout of a backend-agnostic struct.
+///
+/// Stores each field's [RType], byte offset, floating-point slots, total
+/// [byteSize], and required [alignment].
+///
+/// Computes C-style natural alignment: each field is aligned according to
+/// its own alignment requirement, and the total struct size is rounded up
+/// to the largest field alignment.
 final class StructLayout<F extends StructFields> {
-  /// Maps each field to the [RType] describing it.
+  /// Maps each field to the [RType] describing its memory representation.
   final Map<F, RType> fields;
+
+  /// Maps each field to its byte offset from the beginning of the struct.
   final Map<F, int> offsets;
+
+  /// Float fields whose values require IEEE-754 canonicalization.
+  ///
+  /// Used to normalize negative zero (`-0.0`) to positive zero (`0.0`) after
+  /// writing or modifying struct memory.
   final List<StructLayoutFloatSlot> floatFields;
+
+  /// The total size of the struct in bytes, including trailing alignment.
   final int byteSize;
+
+  /// The alignment requirement of the struct in bytes.
   final int alignment;
 
-  const StructLayout._(this.fields, this.offsets, this.floatFields, this.byteSize, this.alignment);
+  const StructLayout._(
+    this.fields,
+    this.offsets,
+    this.floatFields,
+    this.byteSize,
+    this.alignment,
+  );
 
-  factory StructLayout.aligned(Map<F, RType> fields) {
-    final offsets = <F, int>{};
-    var offset = 0;
-    var maxAlign = 1;
-    for (final entry in fields.entries) {
-      final type = entry.value;
-      final align = type.alignment;
-      offset = (offset + align - 1) ~/ align * align;
-      offsets[entry.key] = offset;
-      offset += type.byteSize;
-      if (align > maxAlign) maxAlign = align;
-    }
-    final total = (offset + maxAlign - 1) ~/ maxAlign * maxAlign;
-    final floatFields = _collectFloatSlots(fields, offsets);
-    assert(total <= RaylibConfig.MAX_STRUCT_BYTE_SIZE, '$F StructLayout byteSize ($total) exceeds MAX_STRUCT_BYTE_SIZE');
-    return StructLayout._(fields, offsets, floatFields, total, maxAlign);
-  }
-
-  int offset(F field) => offsets[field]!;
-  
   static List<StructLayoutFloatSlot> _collectFloatSlots<F extends StructFields>(
     Map<F, RType> fields, Map<F, int> offsets
   ) {
@@ -176,12 +142,54 @@ final class StructLayout<F extends StructFields> {
     return type;
   }
 
+  /// Creates a naturally aligned struct layout from [fields].
+  ///
+  /// Each field is placed at the next offset satisfying its alignment
+  /// requirement. The final struct size is rounded up to the largest
+  /// alignment used by any field.
+  ///
+  /// This matches the layout rules used by C for flat structs containing
+  /// primitives and pointers.
+  factory StructLayout.aligned(Map<F, RType> fields) {
+    final offsets = <F, int>{};
+    var offset = 0;
+    var maxAlign = 1;
+    for (final entry in fields.entries) {
+      final type = entry.value;
+      final align = type.alignment;
+      offset = (offset + align - 1) ~/ align * align;
+      offsets[entry.key] = offset;
+      offset += type.byteSize;
+      if (align > maxAlign) maxAlign = align;
+    }
+    final total = (offset + maxAlign - 1) ~/ maxAlign * maxAlign;
+    final floatFields = _collectFloatSlots(fields, offsets);
+    assert(
+      total <= RaylibConfig.maxStructByteSize,
+      '$F StructLayout byteSize ($total) exceeds MAX_STRUCT_BYTE_SIZE',
+    );
+    return StructLayout._(fields, offsets, floatFields, total, maxAlign);
+  }
+
+  /// Returns the byte offset of [field] within the struct.
+  int offset(F field) {
+    _checkField(field);
+    return offsets[field]!;
+  }
+
+  /// Creates a scalar value field for [f].
+  ///
+  /// [f] must describe a scalar-compatible [RType].
   StructValueField<E, R> scalar<E, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<R>(f);
     return .new(offset(f), ScalarCodec(type));
   }
 
+  /// Creates a nested struct value field for [f].
+  ///
+  /// [pointerFactory] creates the Dart wrapper used to access the nested
+  /// struct stored at the field's address.
   StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
     F f,
     StructPointerFactory<T> pointerFactory,
@@ -191,6 +199,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), StructCodec<T>(type, pointerFactory));
   }
 
+  /// Creates an enum value field for [f].
+  ///
+  /// [enumFactory] converts the integer representation stored in memory
+  /// into the corresponding [RaylibEnum] value.
   StructValueField<X, R> enumValue<
     X extends RaylibEnum,
     R extends RType
@@ -202,6 +214,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), enumCodec);
   }
 
+  /// Creates a fixed-size character array field for [f].
+  ///
+  /// The array is interpreted as a null-terminated string using the
+  /// character type represented by the field's element type.
   StructStringValueField<R> stringAsCharArray<R extends RTypeIntLike>(F f) {
     _checkField(f);
     final type = _getFieldAs<RArray<R>>(f);
@@ -210,6 +226,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), StringCodec(element));
   }
 
+  /// Creates a pointer-to-character string field for [f].
+  ///
+  /// The field represents a C-style `T*` string pointer, where `T` is an
+  /// integer-like character type.
   StructPointerValueField<String, R> stringAsPointerChar<R extends RTypeIntLike>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
@@ -220,6 +240,7 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a fixed-size scalar array field for [f].
   StructValueField<List<T>, RArray<R>> scalarArray<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RArray<R>>(f);
@@ -228,6 +249,9 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), arrayCodec);
   }
 
+  /// Creates a fixed-size nested struct array field for [f].
+  ///
+  /// [pointerFactory] creates the Dart wrapper for each nested struct.
   StructValueField<List<T>, RArray<RStruct>> structArray<T extends RaylibStruct<T>>(
     F f,
     StructPointerFactory<T> pointerFactory,
@@ -239,6 +263,9 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), arrayCodec);
   }
 
+  /// Creates a pointer-to-scalar field for [f].
+  ///
+  /// The field represents a C-style `T*` pointer to a scalar value.
   StructPointerValueField<T, R> pointerScalar<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
@@ -247,16 +274,26 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a pointer-to-struct field for [f].
+  ///
+  /// The field represents a C-style `T*` pointer to a nested struct.
+  ///
+  /// [pointerFactory] creates the Dart wrapper used to access the target
+  /// struct.
   StructPointerValueField<T, RStruct> pointerStruct<
     T extends RaylibStruct<T>
-  >(F f, StructPointerFactory<T> pointer) {
+  >(F f, StructPointerFactory<T> pointerFactory) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RStruct>>(f);
-    final structCodec = StructCodec(type.target, pointer);
+    final structCodec = StructCodec(type.target, pointerFactory);
     final pointerCodec = PointerCodec(type, structCodec);
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a pointer-to-enum field for [f].
+  ///
+  /// The field represents a C-style `T*` pointer whose target value is
+  /// interpreted as a [RaylibEnum].
   StructPointerValueField<X, R> pointerEnumValue<
     X extends RaylibEnum,
     R extends RType
@@ -269,6 +306,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a pointer-to-unknown-value field for [f].
+  ///
+  /// The pointed-to value is exposed without applying a specialized
+  /// scalar, struct, or enum conversion.
   StructPointerValueField<dynamic, R> pointerUnknown<R extends RTypeUnknownLike>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
@@ -277,6 +318,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a synchronized pointer field for [f].
+  ///
+  /// Uses [UnknownCodec] to keep the pointed-to value synchronized without
+  /// imposing a specialized value representation.
   StructPointerValueField<X, R> pointerSync<X, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
@@ -285,6 +330,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a pointer to a fixed-size scalar array field for [f].
+  ///
+  /// The field represents a C-style `T*` pointing to exactly [RArray.count]
+  /// scalar elements.
   StructPointerValueField<List<T>, RArray<R>> pointerScalarFixedArray<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RArray<R>>>(f);
@@ -295,6 +344,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
+  /// Creates a pointer to a fixed-size struct array field for [f].
+  ///
+  /// The field represents a C-style `T*` pointing to exactly
+  /// [RArray.count] nested structs.
   StructPointerValueField<List<T>, RArray<RStruct>> pointerStructFixedArray<
     T extends RaylibStruct<T>
   >(F f, StructPointerFactory<T> pointer) {
@@ -307,7 +360,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  // T*
+  /// Creates a variable-length scalar pointer array field for [f].
+  ///
+  /// The field represents a C-style `T*` where the number of elements is
+  /// determined externally rather than encoded in the struct type.
   StructPointerArrayField<T, R> pointerScalarArray<T, R extends RType>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<R>>(f);
@@ -316,10 +372,11 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  // T* where T is a struct
-  StructPointerArrayField<T, RStruct> pointerStructArray<
-    T extends RaylibStruct<T>
-  >(
+  /// Creates a variable-length struct pointer array field for [f].
+  ///
+  /// The field represents a C-style `T*` pointing to a sequence of nested
+  /// structs whose element count is determined externally.
+  StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
     F f,
     StructPointerFactory<T> pointerFactory,
   ) {
@@ -330,7 +387,10 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  // T**
+  /// Creates a pointer-to-pointer scalar array field for [f].
+  ///
+  /// The field represents a C-style `T**`: an outer pointer points to
+  /// pointers, and each inner pointer points to a scalar value.
   StructPointerArrayField<T, RPointer<R>> pointerPointerScalarArray<
     T,
     R extends RType
@@ -343,7 +403,13 @@ final class StructLayout<F extends StructFields> {
     return .new(offset(f), pointerCodec);
   }
 
-  // T** where T is a struct
+  /// Creates a pointer-to-pointer struct array field for [f].
+  ///
+  /// The field represents a C-style `T**`: an outer pointer points to
+  /// pointers, and each inner pointer points to a nested struct.
+  ///
+  /// [pointerFactory] creates the Dart wrapper used to access each target
+  /// struct.
   StructPointerArrayField<T, RPointer<RStruct>> pointerPointerStructArray<
     T extends RaylibStruct<T>
   >(
@@ -379,7 +445,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
   // === MUST IMPLEMENT PER-TYPE ===
 
-  /// Copies the fields of [o] into this instance and returns `this`.
+  /// Copies the fields of [o] into this instance.
   D setDart(D o) => _self;
 
   /// Allocates nested pointers into [temp] under [key] as needed.
@@ -397,7 +463,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// The Dart-side type name of this struct
   String get structName => runtimeType.toString();
 
-  /// Sets [RaylibTempStructState.tag] to [newTag] and returns `this` for chaining.
+  /// Sets [RaylibTempStructState.tag] to [newTag].
   @nonVirtual
   D structSetTag(String newTag) {
     $state.tag = newTag;
@@ -446,16 +512,16 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     return op!;
   }
 
-  /// Returns [op] and immediately calls [structMarkDisposed].
+  /// Returns [op] and immediately disposes this struct.
   ///
-  /// The canonical way to hand the pointer back to C and `unload`.
-  /// Gets the pointer, then ensures this instance can no longer be used.
+  /// This is the canonical way to hand a resource-backed struct over to a C API
+  /// that takes ownership of the underlying memory.
   @nonVirtual
   StructPointer<D> getOpAndDispose() {
-    final pointer = getOp();
+    final ptr = getOp();
     structMarkDisposed();
     $state.dispose();
-    return pointer;
+    return ptr;
   }
 
   /// Returns a deep copy of this instance without [op].
@@ -497,23 +563,32 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     if (identical(this, other)) return true;
     if (other is! D) return false;
 
-    MemoryPointer? srcPtr = op;
-    if (srcPtr == null) {
-      srcPtr = MemoryScratch.get(0);
-      structWriteInto(srcPtr);
-      _canonicalizeFloats(srcPtr);
+    ScratchHandle? srcBuffer;
+    ScratchHandle? dstBuffer;
+    try {
+      MemoryPointer? srcPtr = op;
+      if (srcPtr == null) {
+        srcBuffer = MemoryScratch.acquire();
+        srcPtr = srcBuffer.pointer;
+        structWriteInto(srcPtr);
+        _canonicalizeFloats(srcPtr);
+      }
+
+      MemoryPointer? dstPtr = other.op;
+      if (dstPtr == null) {
+        dstBuffer = MemoryScratch.acquire();
+        dstPtr = dstBuffer.pointer;
+        other.structWriteInto(dstPtr);
+        _canonicalizeFloats(dstPtr);
+      }
+
+      if (srcPtr.address == dstPtr.address) return true;
+
+      return srcPtr.compareBytes(dstPtr, structLayout.byteSize) == 0;
+    } finally {
+      dstBuffer?.release();
+      srcBuffer?.release();
     }
-
-    MemoryPointer? dstPtr = other.op;
-    if (dstPtr == null) {
-      dstPtr = MemoryScratch.get(1);
-      other.structWriteInto(dstPtr);
-      _canonicalizeFloats(dstPtr);
-    }
-
-    if (srcPtr.address == dstPtr.address) return true;
-
-    return srcPtr.compareBytes(dstPtr, structLayout.byteSize) == 0;
   }
 
   @override
@@ -527,10 +602,15 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     }
 
     // If unbacked, serialize and hash the bytes
-    final scratch = MemoryScratch.get(0);
-    structWriteInto(scratch);
-    _canonicalizeFloats(scratch);
-    return scratch.computeByteHash(structLayout.byteSize);
+    final scratch = MemoryScratch.acquire();
+    try {
+      final ptr = scratch.pointer;
+      structWriteInto(ptr);
+      _canonicalizeFloats(ptr);
+      return ptr.computeByteHash(structLayout.byteSize);
+    } finally {
+      scratch.release();
+    }
   }
 
   /// Returns a human-readable representation of this struct.
@@ -561,12 +641,15 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
 
   @override
+  @nonVirtual
   void structWriteInto(MemoryPointer p) {} // NOTE: do nothing
 
   @override
+  @nonVirtual
   void structReadFrom(MemoryPointer p) {} // NOTE: do nothing
 
   @override
+  @nonVirtual
   D copy() => clone();
 
   @override
@@ -576,15 +659,12 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
 /// A [RaylibStruct] that is a plain value type: field data lives entirely
 /// in Dart-side storage and [op] is optional rather than required.
 ///
-/// Unlike a regular [RaylibStruct], a literal can exist with `op == null` =>
-/// [structRequiresOp] is `false`, so [getOp] is never called to make the
-/// struct usable, only to interop with an API that wants a pointer. Reads
-/// and writes go through Dart fields as normal; there is no backing memory
-/// this instance must stay in sync with. Use [RaylibStructLiteral] for
-/// structs you construct and pass by value (e.g. `Vector2`, `Color`)
-/// rather than ones raylib hands you ownership of.
+/// Unlike a regular [RaylibStruct], a literal can exist with `op == null`,
+/// so [getOp] is never called to make the struct usable, only to interop
+/// with an API that wants a pointer. Reads and writes go through Dart
+/// fields as normal; there is no backing memory this instance must stay in
+/// sync with. Use [RaylibStructLiteral] for structs you construct and pass
+/// by value (e.g. `Vector2`, `Color`) rather than ones C hands you ownership of.
 abstract class RaylibStructLiteral<D extends RaylibStruct<D>> extends RaylibStruct<D> {
-  RaylibStructLiteral({
-    super.op,
-  });
+  RaylibStructLiteral({ super.op });
 }
