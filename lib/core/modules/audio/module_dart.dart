@@ -4,28 +4,30 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
+final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
-  final _debugLabels = _RaylibAudioModuleDebugLabels();
+  final _debugLabels = _RaylibAudioDartDebugLabels();
 
-  RaylibAudioModule(super.rl);
+  RaylibAudioDart(super.rl);
+
+  RaylibAudioFlatModule get _flat => rl.module();
 
   /// Initialize audio device and context
   void InitAudioDevice() => run(
     () => _debugLabels.InitAudioDevice(),
-    () => rl.AudioFlat.InitAudioDevice(),
+    () => _flat.InitAudioDevice(),
   );
 
   /// Close the audio device and context
   void CloseAudioDevice() => run(
     () => _debugLabels.CloseAudioDevice(),
-    () => rl.AudioFlat.CloseAudioDevice(),
+    () => _flat.CloseAudioDevice(),
   );
   
   /// Check if audio device has been initialized successfully
   bool IsAudioDeviceReady() => run(
     () => _debugLabels.IsAudioDeviceReady(),
-    () => rl.AudioFlat.IsAudioDeviceReady(),
+    () => _flat.IsAudioDeviceReady(),
   );
 
   /// Set master volume (listener)
@@ -33,7 +35,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double volume,
   ) => run(
     () => _debugLabels.SetMasterVolume(volume),
-    () => rl.AudioFlat.SetMasterVolume(
+    () => _flat.SetMasterVolume(
       volume,
     ),
   );
@@ -41,7 +43,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get master volume (listener)
   double GetMasterVolume() => run(
     () => _debugLabels.GetMasterVolume(),
-    () => rl.AudioFlat.GetMasterVolume(),
+    () => _flat.GetMasterVolume(),
   );
 
   /// Load wave data from file
@@ -49,7 +51,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadWave(fileName),
-    () => rl.AudioFlat.LoadWave(
+    () => _flat.LoadWave(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -60,7 +62,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List fileData,
   ) => run(
     () => _debugLabels.LoadWaveFromMemory(fileType, fileData),
-    () => rl.AudioFlat.LoadWaveFromMemory(
+    () => _flat.LoadWaveFromMemory(
       rl.Temp.String$.ValueOrNull(fileType),
       rl.Temp.UnsignedChar$.Array(fileData),
       fileData.length,
@@ -72,7 +74,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     WaveD wave,
   ) => run(
     () => _debugLabels.IsWaveValid(wave),
-    () => rl.AudioFlat.IsWaveValid(
+    () => _flat.IsWaveValid(
       wave,
     ),
   );
@@ -82,7 +84,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadSound(fileName),
-    () => rl.AudioFlat.LoadSound(
+    () => _flat.LoadSound(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -92,7 +94,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     WaveD wave,
   ) => run(
     () => _debugLabels.LoadSoundFromWave(wave),
-    () => rl.AudioFlat.LoadSoundFromWave(
+    () => _flat.LoadSoundFromWave(
       wave,
     ),
   );
@@ -102,7 +104,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD source,
   ) => run(
     () => _debugLabels.LoadSoundAlias(source),
-    () => rl.AudioFlat.LoadSoundAlias(
+    () => _flat.LoadSoundAlias(
       source,
     ),
   );
@@ -112,7 +114,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.IsSoundValid(sound),
-    () => rl.AudioFlat.IsSoundValid(
+    () => _flat.IsSoundValid(
       sound,
     ),
   );
@@ -124,7 +126,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int sampleCount,
   ) => run(
     () => _debugLabels.UpdateSound(sound, data, sampleCount),
-    () => rl.AudioFlat.UpdateSound(
+    () => _flat.UpdateSound(
       sound,
       rl.Temp.TypedDataList$.Array(data),
       sampleCount,
@@ -136,7 +138,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     WaveD wave,
   ) => run(
     () => _debugLabels.UnloadWave(wave),
-    () => rl.AudioFlat.UnloadWave(
+    () => _flat.UnloadWave(
       wave,
     ),
   );
@@ -146,7 +148,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.UnloadSound(sound),
-    () => rl.AudioFlat.UnloadSound(
+    () => _flat.UnloadSound(
       sound,
     ),
   );
@@ -156,7 +158,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD alias,
   ) => run(
     () => _debugLabels.UnloadSoundAlias(alias),
-    () => rl.AudioFlat.UnloadSoundAlias(
+    () => _flat.UnloadSoundAlias(
       alias,
     ),
   );
@@ -167,7 +169,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportWave(wave, fileName),
-    () => rl.AudioFlat.ExportWave(
+    () => _flat.ExportWave(
       wave,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -179,7 +181,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportWaveAsCode(wave, fileName),
-    () => rl.AudioFlat.ExportWaveAsCode(
+    () => _flat.ExportWaveAsCode(
       wave,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -190,7 +192,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.PlaySound(sound),
-    () => rl.AudioFlat.PlaySound(
+    () => _flat.PlaySound(
       sound,
     ),
   );
@@ -200,7 +202,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.StopSound(sound),
-    () => rl.AudioFlat.StopSound(
+    () => _flat.StopSound(
       sound,
     ),
   );
@@ -210,7 +212,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.PauseSound(sound),
-    () => rl.AudioFlat.PauseSound(
+    () => _flat.PauseSound(
       sound,
     ),
   );
@@ -220,7 +222,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.ResumeSound(sound),
-    () => rl.AudioFlat.ResumeSound(
+    () => _flat.ResumeSound(
       sound,
     ),
   );
@@ -230,7 +232,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     SoundD sound,
   ) => run(
     () => _debugLabels.IsSoundPlaying(sound),
-    () => rl.AudioFlat.IsSoundPlaying(
+    () => _flat.IsSoundPlaying(
       sound,
     ),
   );
@@ -241,7 +243,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double volume,
   ) => run(
     () => _debugLabels.SetSoundVolume(sound, volume),
-    () => rl.AudioFlat.SetSoundVolume(
+    () => _flat.SetSoundVolume(
       sound,
       volume,
     ),
@@ -253,7 +255,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pitch,
   ) => run(
     () => _debugLabels.SetSoundPitch(sound, pitch),
-    () => rl.AudioFlat.SetSoundPitch(
+    () => _flat.SetSoundPitch(
       sound,
       pitch,
     ),
@@ -265,7 +267,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pan,
   ) => run(
     () => _debugLabels.SetSoundPan(sound, pan),
-    () => rl.AudioFlat.SetSoundPan(
+    () => _flat.SetSoundPan(
       sound,
       pan,
     ),
@@ -276,7 +278,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     WaveD wave,
   ) => run(
     () => _debugLabels.WaveCopy(wave),
-    () => rl.AudioFlat.WaveCopy(
+    () => _flat.WaveCopy(
       wave,
     ),
   );
@@ -288,7 +290,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int finalFrame,
   ) => run(
     () => _debugLabels.WaveCrop(wave, initFrame, finalFrame),
-    () => rl.AudioFlat.WaveCrop(
+    () => _flat.WaveCrop(
       rl.Temp.Wave$.Ref1(wave),
       initFrame,
       finalFrame,
@@ -303,7 +305,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int channels,
   ) => run(
     () => _debugLabels.WaveFormat(wave, sampleRate, sampleSize, channels),
-    () => rl.AudioFlat.WaveFormat(
+    () => _flat.WaveFormat(
       rl.Temp.Wave$.Ref1(wave),
       sampleRate,
       sampleSize,
@@ -317,13 +319,13 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadWaveSamples(wave),
     () {
-      final samples = rl.AudioFlat.LoadWaveSamples(
+      final samples = _flat.LoadWaveSamples(
         wave,
       );
       try {
         return .generate(wave.waveLength, (i) => samples[i]);
       } finally {
-        rl.AudioFlat.UnloadWaveSamples(samples);
+        _flat.UnloadWaveSamples(samples);
       }
     },
   );
@@ -333,7 +335,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadMusicStream(fileName),
-    () => rl.AudioFlat.LoadMusicStream(
+    () => _flat.LoadMusicStream(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -344,7 +346,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List data,
   ) => run(
     () => _debugLabels.LoadMusicStreamFromMemory(fileType, data),
-    () => rl.AudioFlat.LoadMusicStreamFromMemory(
+    () => _flat.LoadMusicStreamFromMemory(
       rl.Temp.String$.ValueOrNull(fileType),
       rl.Temp.UnsignedChar$.Array(data),
       data.length,
@@ -356,7 +358,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.IsMusicValid(music),
-    () => rl.AudioFlat.IsMusicValid(
+    () => _flat.IsMusicValid(
       music,
     ),
   );
@@ -366,7 +368,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.UnloadMusicStream(music),
-    () => rl.AudioFlat.UnloadMusicStream(
+    () => _flat.UnloadMusicStream(
       music,
     ),
   );
@@ -376,7 +378,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.PlayMusicStream(music),
-    () => rl.AudioFlat.PlayMusicStream(
+    () => _flat.PlayMusicStream(
       music,
     ),
   );
@@ -386,7 +388,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.IsMusicStreamPlaying(music),
-    () => rl.AudioFlat.IsMusicStreamPlaying(
+    () => _flat.IsMusicStreamPlaying(
       music,
     ),
   );
@@ -396,7 +398,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.UpdateMusicStream(music),
-    () => rl.AudioFlat.UpdateMusicStream(
+    () => _flat.UpdateMusicStream(
       music,
     ),
   );
@@ -406,7 +408,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.StopMusicStream(music),
-    () => rl.AudioFlat.StopMusicStream(
+    () => _flat.StopMusicStream(
       music,
     ),
   );
@@ -416,7 +418,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.PauseMusicStream(music),
-    () => rl.AudioFlat.PauseMusicStream(
+    () => _flat.PauseMusicStream(
       music,
     ),
   );
@@ -426,7 +428,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.ResumeMusicStream(music),
-    () => rl.AudioFlat.ResumeMusicStream(
+    () => _flat.ResumeMusicStream(
       music,
     ),
   );
@@ -437,7 +439,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double position,
   ) => run(
     () => _debugLabels.SeekMusicStream(music, position),
-    () => rl.AudioFlat.SeekMusicStream(
+    () => _flat.SeekMusicStream(
       music,
       position,
     ),
@@ -449,7 +451,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double volume,
   ) => run(
     () => _debugLabels.SetMusicVolume(music, volume),
-    () => rl.AudioFlat.SetMusicVolume(
+    () => _flat.SetMusicVolume(
       music,
       volume,
     ),
@@ -461,7 +463,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pitch,
   ) => run(
     () => _debugLabels.SetMusicPitch(music, pitch),
-    () => rl.AudioFlat.SetMusicPitch(
+    () => _flat.SetMusicPitch(
       music,
       pitch,
     ),
@@ -473,7 +475,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pan,
   ) => run(
     () => _debugLabels.SetMusicPan(music, pan),
-    () => rl.AudioFlat.SetMusicPan(
+    () => _flat.SetMusicPan(
       music,
       pan,
     ),
@@ -484,7 +486,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.GetMusicTimeLength(music),
-    () => rl.AudioFlat.GetMusicTimeLength(
+    () => _flat.GetMusicTimeLength(
       music,
     ),
   );
@@ -494,7 +496,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MusicD music,
   ) => run(
     () => _debugLabels.GetMusicTimePlayed(music),
-    () => rl.AudioFlat.GetMusicTimePlayed(
+    () => _flat.GetMusicTimePlayed(
       music,
     ),
   );
@@ -506,7 +508,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int channels,
   ) => run(
     () => _debugLabels.LoadAudioStream(sampleRate, sampleSize, channels),
-    () => rl.AudioFlat.LoadAudioStream(
+    () => _flat.LoadAudioStream(
       sampleRate,
       sampleSize,
       channels,
@@ -518,7 +520,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.IsAudioStreamValid(stream),
-    () => rl.AudioFlat.IsAudioStreamValid(
+    () => _flat.IsAudioStreamValid(
       stream,
     ),
   );
@@ -528,7 +530,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.UnloadAudioStream(stream),
-    () => rl.AudioFlat.UnloadAudioStream(
+    () => _flat.UnloadAudioStream(
       stream,
     ),
   );
@@ -539,7 +541,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TypedDataList data,
   ) => run(
     () => _debugLabels.UpdateAudioStream(stream, data),
-    () => rl.AudioFlat.UpdateAudioStream(
+    () => _flat.UpdateAudioStream(
       stream,
       rl.Temp.TypedDataList$.Array(data),
       data.length,
@@ -551,7 +553,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.IsAudioStreamProcessed(stream),
-    () => rl.AudioFlat.IsAudioStreamProcessed(
+    () => _flat.IsAudioStreamProcessed(
       stream,
     ),
   );
@@ -561,7 +563,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.PlayAudioStream(stream),
-    () => rl.AudioFlat.PlayAudioStream(
+    () => _flat.PlayAudioStream(
       stream,
     ),
   );
@@ -571,7 +573,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.PauseAudioStream(stream),
-    () => rl.AudioFlat.PauseAudioStream(
+    () => _flat.PauseAudioStream(
       stream,
     ),
   );
@@ -581,7 +583,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.ResumeAudioStream(stream),
-    () => rl.AudioFlat.ResumeAudioStream(
+    () => _flat.ResumeAudioStream(
       stream,
     ),
   );
@@ -591,7 +593,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.IsAudioStreamPlaying(stream),
-    () => rl.AudioFlat.IsAudioStreamPlaying(
+    () => _flat.IsAudioStreamPlaying(
       stream,
     ),
   );
@@ -601,7 +603,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AudioStreamD stream,
   ) => run(
     () => _debugLabels.StopAudioStream(stream),
-    () => rl.AudioFlat.StopAudioStream(
+    () => _flat.StopAudioStream(
       stream,
     ),
   );
@@ -612,7 +614,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double volume,
   ) => run(
     () => _debugLabels.SetAudioStreamVolume(stream, volume),
-    () => rl.AudioFlat.SetAudioStreamVolume(
+    () => _flat.SetAudioStreamVolume(
       stream,
       volume,
     ),
@@ -624,7 +626,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pitch,
   ) => run(
     () => _debugLabels.SetAudioStreamPitch(stream, pitch),
-    () => rl.AudioFlat.SetAudioStreamPitch(
+    () => _flat.SetAudioStreamPitch(
       stream,
       pitch,
     ),
@@ -636,7 +638,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     double pan,
   ) => run(
     () => _debugLabels.SetAudioStreamPan(stream, pan),
-    () => rl.AudioFlat.SetAudioStreamPan(
+    () => _flat.SetAudioStreamPan(
       stream,
       pan,
     ),
@@ -647,7 +649,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int size,
   ) => run(
     () => _debugLabels.SetAudioStreamBufferSizeDefault(size),
-    () => rl.AudioFlat.SetAudioStreamBufferSizeDefault(
+    () => _flat.SetAudioStreamBufferSizeDefault(
       size,
     ),
   );
@@ -658,7 +660,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant AudioCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetAudioStreamCallback(stream, callback),
-    () => rl.AudioFlat.SetAudioStreamCallback(
+    () => _flat.SetAudioStreamCallback(
       stream,
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
@@ -670,7 +672,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant AudioCallbackBase processor,
   ) => run(
     () => _debugLabels.AttachAudioStreamProcessor(stream, processor),
-    () => rl.AudioFlat.AttachAudioStreamProcessor(
+    () => _flat.AttachAudioStreamProcessor(
       stream,
       processor.attach(),
     ),
@@ -683,7 +685,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     {bool keepAlive = false}
   ) => run(
     () => _debugLabels.DetachAudioStreamProcessor(stream, processor, keepAlive: keepAlive),
-    () => rl.AudioFlat.DetachAudioStreamProcessor(
+    () => _flat.DetachAudioStreamProcessor(
       stream,
       processor.detach(keepAlive),
     ),
@@ -694,7 +696,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant AudioCallbackBase processor,
   ) => run(
     () => _debugLabels.AttachAudioMixedProcessor(processor),
-    () => rl.AudioFlat.AttachAudioMixedProcessor(
+    () => _flat.AttachAudioMixedProcessor(
       processor.attach(),
     ),
   );
@@ -705,7 +707,7 @@ final class RaylibAudioModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     {bool keepAlive = false}
   ) => run(
     () => _debugLabels.DetachAudioMixedProcessor(processor, keepAlive: keepAlive),
-    () => rl.AudioFlat.DetachAudioMixedProcessor(
+    () => _flat.DetachAudioMixedProcessor(
       processor.detach(keepAlive),
     ),
   );

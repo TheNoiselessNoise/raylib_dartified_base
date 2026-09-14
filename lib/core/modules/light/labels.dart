@@ -1,8 +1,8 @@
 part of '../../raylib_dartified_base.dart';
 
-class _RaylibLightModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibLightDartDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibLightModule.CreateLight].
+  /// Label for [RaylibLightDart.CreateLight].
   String CreateLight(
     LightType type,
     Vector3D position,
@@ -11,7 +11,7 @@ class _RaylibLightModuleDebugLabels extends RaylibDebugLabelsBase {
     ShaderD shader,
   ) => 'CreateLight(${type.name}, $position, $target, $color, $shader)';
 
-  /// Label for [RaylibLightModule.UpdateLightValues].
+  /// Label for [RaylibLightDart.UpdateLightValues].
   String UpdateLightValues(
     ShaderD shader,
     LightD light,

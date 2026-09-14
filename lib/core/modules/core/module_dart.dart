@@ -4,11 +4,13 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
+final class RaylibCoreDart<R extends RaylibBase> extends RaylibModule<R> {
 
-  final _debugLabels = _RaylibCoreModuleDebugLabels();
+  final _debugLabels = _RaylibCoreDartDebugLabels();
 
-  RaylibCoreModule(super.rl);
+  RaylibCoreDart(super.rl);
+
+  RaylibCoreFlatModule get _flat => rl.module();
 
   // //////////// //
   // CUSTOM STUFF //
@@ -45,7 +47,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String title,
   ) => run(
     () => _debugLabels.InitWindow(width, height, title),
-    () => rl.CoreFlat.InitWindow(
+    () => _flat.InitWindow(
       width.toInt(),
       height.toInt(),
       rl.Temp.String$.ValueOrNull(title),
@@ -55,55 +57,55 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Close window and unload OpenGL context
   void CloseWindow() => run(
     () => _debugLabels.CloseWindow(),
-    () => rl.CoreFlat.CloseWindow(),
+    () => _flat.CloseWindow(),
   );
 
   /// Check if application should close ([KeyboardKey.KEY_ESCAPE] pressed or windows close icon clicked)
   bool WindowShouldClose() => run(
     () => _debugLabels.WindowShouldClose(),
-    () => rl.CoreFlat.WindowShouldClose(),
+    () => _flat.WindowShouldClose(),
   );
 
   /// Check if window has been initialized successfully
   bool IsWindowReady() => run(
     () => _debugLabels.IsWindowReady(),
-    () => rl.CoreFlat.IsWindowReady(),
+    () => _flat.IsWindowReady(),
   );
 
   /// Check if window is currently fullscreen
   bool IsWindowFullscreen() => run(
     () => _debugLabels.IsWindowFullscreen(),
-    () => rl.CoreFlat.IsWindowFullscreen(),
+    () => _flat.IsWindowFullscreen(),
   );
 
   /// Check if window is currently hidden
   bool IsWindowHidden() => run(
     () => _debugLabels.IsWindowHidden(),
-    () => rl.CoreFlat.IsWindowHidden(),
+    () => _flat.IsWindowHidden(),
   );
     
   /// Check if window is currently minimized
   bool IsWindowMinimized() => run(
     () => _debugLabels.IsWindowMinimized(),
-    () => rl.CoreFlat.IsWindowMinimized(),
+    () => _flat.IsWindowMinimized(),
   );
     
   /// Check if window is currently maximized
   bool IsWindowMaximized() => run(
     () => _debugLabels.IsWindowMaximized(),
-    () => rl.CoreFlat.IsWindowMaximized(),
+    () => _flat.IsWindowMaximized(),
   );
     
   /// Check if window is currently focused
   bool IsWindowFocused() => run(
     () => _debugLabels.IsWindowFocused(),
-    () => rl.CoreFlat.IsWindowFocused(),
+    () => _flat.IsWindowFocused(),
   );
     
   /// Check if window has been resized last frame
   bool IsWindowResized() => run(
     () => _debugLabels.IsWindowResized(),
-    () => rl.CoreFlat.IsWindowResized(),
+    () => _flat.IsWindowResized(),
   );
     
   /// Check if one specific window flag is enabled
@@ -111,7 +113,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ConfigFlags flag,
   ) => run(
     () => _debugLabels.IsWindowState(flag),
-    () => rl.CoreFlat.IsWindowState(
+    () => _flat.IsWindowState(
       flag.value,
     ),
   );
@@ -121,7 +123,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Iterable<ConfigFlags> flags,
   ) => run(
     () => _debugLabels.SetWindowState(flags),
-    () => rl.CoreFlat.SetWindowState(
+    () => _flat.SetWindowState(
       rl.Utils.EnumsAsFlagsOr(flags),
     ),
   );
@@ -131,7 +133,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Iterable<ConfigFlags> flags,
   ) => run(
     () => _debugLabels.ClearWindowState(flags),
-    () => rl.CoreFlat.ClearWindowState(
+    () => _flat.ClearWindowState(
       rl.Utils.EnumsAsFlagsOr(flags),
     ),
   );
@@ -139,31 +141,31 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Toggle window state: fullscreen/windowed, resizes monitor to match window resolution
   void ToggleFullscreen() => run(
     () => _debugLabels.ToggleFullscreen(),
-    () => rl.CoreFlat.ToggleFullscreen(),
+    () => _flat.ToggleFullscreen(),
   );
     
   /// Toggle window state: borderless windowed, resizes window to match monitor resolution
   void ToggleBorderlessWindowed() => run(
     () => _debugLabels.ToggleBorderlessWindowed(),
-    () => rl.CoreFlat.ToggleBorderlessWindowed(),
+    () => _flat.ToggleBorderlessWindowed(),
   );
     
   /// Set window state: maximized, if [ConfigFlags.FLAG_WINDOW_RESIZABLE]
   void MaximizeWindow() => run(
     () => _debugLabels.MaximizeWindow(),
-    () => rl.CoreFlat.MaximizeWindow(),
+    () => _flat.MaximizeWindow(),
   );
     
   /// Set window state: minimized, if [ConfigFlags.FLAG_WINDOW_RESIZABLE]
   void MinimizeWindow() => run(
     () => _debugLabels.MinimizeWindow(),
-    () => rl.CoreFlat.MinimizeWindow(),
+    () => _flat.MinimizeWindow(),
   );
     
   /// Set window state: not minimized/maximized
   void RestoreWindow() => run(
     () => _debugLabels.RestoreWindow(),
-    () => rl.CoreFlat.RestoreWindow(),
+    () => _flat.RestoreWindow(),
   );
     
   /// Set icon for window (single image, RGBA 32bit)
@@ -171,7 +173,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.SetWindowIcon(image),
-    () => rl.CoreFlat.SetWindowIcon(
+    () => _flat.SetWindowIcon(
       image,
     ),
   );
@@ -181,7 +183,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<ImageD> images,
   ) => run(
     () => _debugLabels.SetWindowIcons(images),
-    () => rl.CoreFlat.SetWindowIcons(
+    () => _flat.SetWindowIcons(
       rl.Temp.Image$.ArrayStruct(images),
       images.length,
     ),
@@ -192,7 +194,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String title,
   ) => run(
     () => _debugLabels.SetWindowTitle(title),
-    () => rl.CoreFlat.SetWindowTitle(
+    () => _flat.SetWindowTitle(
       rl.Temp.String$.ValueOrNull(title),
     ),
   );
@@ -203,7 +205,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num y,
   ) => run(
     () => _debugLabels.SetWindowPosition(x, y),
-    () => rl.CoreFlat.SetWindowPosition(
+    () => _flat.SetWindowPosition(
       x.toInt(),
       y.toInt(),
     ),
@@ -214,7 +216,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.SetWindowMonitor(monitor),
-    () => rl.CoreFlat.SetWindowMonitor(
+    () => _flat.SetWindowMonitor(
       monitor.toInt(),
     ),
   );
@@ -225,7 +227,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.SetWindowMinSize(width, height),
-    () => rl.CoreFlat.SetWindowMinSize(
+    () => _flat.SetWindowMinSize(
       width.toInt(),
       height.toInt(),
     ),
@@ -237,7 +239,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.SetWindowMaxSize(width, height),
-    () => rl.CoreFlat.SetWindowMaxSize(
+    () => _flat.SetWindowMaxSize(
       width.toInt(),
       height.toInt(),
     ),
@@ -249,7 +251,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.SetWindowSize(width, height),
-    () => rl.CoreFlat.SetWindowSize(
+    () => _flat.SetWindowSize(
       width.toInt(),
       height.toInt(),
     ),
@@ -260,7 +262,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num opacity,
   ) => run(
     () => _debugLabels.SetWindowOpacity(opacity),
-    () => rl.CoreFlat.SetWindowOpacity(
+    () => _flat.SetWindowOpacity(
       opacity.toDouble(),
     ),
   );
@@ -268,31 +270,31 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Set window focused
   void SetWindowFocused() => run(
     () => _debugLabels.SetWindowFocused(),
-    () => rl.CoreFlat.SetWindowFocused(),
+    () => _flat.SetWindowFocused(),
   );
 
   /// Get current screen width
   int GetScreenWidth() => run(
     () => _debugLabels.GetScreenWidth(),
-    () => rl.CoreFlat.GetScreenWidth(),
+    () => _flat.GetScreenWidth(),
   );
     
   /// Get current screen height
   int GetScreenHeight() => run(
     () => _debugLabels.GetScreenHeight(),
-    () => rl.CoreFlat.GetScreenHeight(),
+    () => _flat.GetScreenHeight(),
   );
     
   /// Get current render width (it considers HiDPI)
   int GetRenderWidth() => run(
     () => _debugLabels.GetRenderWidth(),
-    () => rl.CoreFlat.GetRenderWidth(),
+    () => _flat.GetRenderWidth(),
   );
     
   /// Get current render height (it considers HiDPI)
   int GetRenderHeight() => run(
     () => _debugLabels.GetRenderHeight(),
-    () => rl.CoreFlat.GetRenderHeight(),
+    () => _flat.GetRenderHeight(),
   );
     
   /// Get number of connected monitors
@@ -300,7 +302,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// **[!] Not implemented on WASM**
   int GetMonitorCount() => run(
     () => _debugLabels.GetMonitorCount(),
-    () => rl.CoreFlat.GetMonitorCount(),
+    () => _flat.GetMonitorCount(),
   );
     
   /// Get current monitor where window is placed
@@ -308,7 +310,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// **[!] Not implemented on WASM**
   int GetCurrentMonitor() => run(
     () => _debugLabels.GetCurrentMonitor(),
-    () => rl.CoreFlat.GetCurrentMonitor(),
+    () => _flat.GetCurrentMonitor(),
   );
     
   /// Get specified monitor position
@@ -318,7 +320,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorPosition(monitor),
-    () => rl.CoreFlat.GetMonitorPosition(
+    () => _flat.GetMonitorPosition(
       monitor.toInt(),
     ),
   );
@@ -328,7 +330,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorWidth(monitor),
-    () => rl.CoreFlat.GetMonitorWidth(
+    () => _flat.GetMonitorWidth(
       monitor.toInt(),
     ),
   );
@@ -338,7 +340,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorHeight(monitor),
-    () => rl.CoreFlat.GetMonitorHeight(
+    () => _flat.GetMonitorHeight(
       monitor.toInt(),
     ),
   );
@@ -350,7 +352,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorPhysicalWidth(monitor),
-    () => rl.CoreFlat.GetMonitorPhysicalWidth(
+    () => _flat.GetMonitorPhysicalWidth(
       monitor.toInt(),
     ),
   );
@@ -362,7 +364,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorPhysicalHeight(monitor),
-    () => rl.CoreFlat.GetMonitorPhysicalHeight(
+    () => _flat.GetMonitorPhysicalHeight(
       monitor.toInt(),
     ),
   );
@@ -374,7 +376,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorRefreshRate(monitor),
-    () => rl.CoreFlat.GetMonitorRefreshRate(
+    () => _flat.GetMonitorRefreshRate(
       monitor.toInt(),
     ),
   );
@@ -382,13 +384,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get window position XY on monitor
   Vector2D GetWindowPosition() => run(
     () => _debugLabels.GetWindowPosition(),
-    () => rl.CoreFlat.GetWindowPosition(),
+    () => _flat.GetWindowPosition(),
   );
     
   /// Get window scale DPI factor
   Vector2D GetWindowScaleDPI() => run(
     () => _debugLabels.GetWindowScaleDPI(),
-    () => rl.CoreFlat.GetWindowScaleDPI(),
+    () => _flat.GetWindowScaleDPI(),
   );
     
   /// Get the human-readable, UTF-8 encoded name of the specified monitor
@@ -398,7 +400,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num monitor,
   ) => run(
     () => _debugLabels.GetMonitorName(monitor),
-    () => rl.CoreFlat.GetMonitorName(
+    () => _flat.GetMonitorName(
       monitor.toInt(),
     ).toDartString(),
   );
@@ -408,7 +410,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String text,
   ) => run(
     () => _debugLabels.SetClipboardText(text),
-    () => rl.CoreFlat.SetClipboardText(
+    () => _flat.SetClipboardText(
       rl.Temp.String$.ValueOrNull(text),
     ),
   );
@@ -416,61 +418,61 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get clipboard text content
   String GetClipboardText() => run(
     () => _debugLabels.GetClipboardText(),
-    () => rl.CoreFlat.GetClipboardText().toDartString(),
+    () => _flat.GetClipboardText().toDartString(),
   );
     
   /// Get clipboard image content
   ImageD GetClipboardImage() => run(
     () => _debugLabels.GetClipboardImage(),
-    () => rl.CoreFlat.GetClipboardImage(),
+    () => _flat.GetClipboardImage(),
   );
     
   /// Enable waiting for events on EndDrawing(), no automatic event polling
   void EnableEventWaiting() => run(
     () => _debugLabels.EnableEventWaiting(),
-    () => rl.CoreFlat.EnableEventWaiting(),
+    () => _flat.EnableEventWaiting(),
   );
     
   /// Disable waiting for events on EndDrawing(), automatic events polling
   void DisableEventWaiting() => run(
     () => _debugLabels.DisableEventWaiting(),
-    () => rl.CoreFlat.DisableEventWaiting(),
+    () => _flat.DisableEventWaiting(),
   );
     
   /// Shows cursor
   void ShowCursor() => run(
     () => _debugLabels.ShowCursor(),
-    () => rl.CoreFlat.ShowCursor(),
+    () => _flat.ShowCursor(),
   );
     
   /// Hides cursor
   void HideCursor() => run(
     () => _debugLabels.HideCursor(),
-    () => rl.CoreFlat.HideCursor(),
+    () => _flat.HideCursor(),
   );
     
   /// Check if cursor is not visible
   bool IsCursorHidden() => run(
     () => _debugLabels.IsCursorHidden(),
-    () => rl.CoreFlat.IsCursorHidden(),
+    () => _flat.IsCursorHidden(),
   );
     
   /// Enables cursor (unlock cursor)
   void EnableCursor() => run(
     () => _debugLabels.EnableCursor(),
-    () => rl.CoreFlat.EnableCursor(),
+    () => _flat.EnableCursor(),
   );
     
   /// Disables cursor (lock cursor)
   void DisableCursor() => run(
     () => _debugLabels.DisableCursor(),
-    () => rl.CoreFlat.DisableCursor(),
+    () => _flat.DisableCursor(),
   );
     
   /// Check if cursor is on the screen
   bool IsCursorOnScreen() => run(
     () => _debugLabels.IsCursorOnScreen(),
-    () => rl.CoreFlat.IsCursorOnScreen(),
+    () => _flat.IsCursorOnScreen(),
   );
     
   /// Set background color (framebuffer clear color)
@@ -478,7 +480,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ClearBackground(color),
-    () => rl.CoreFlat.ClearBackground(
+    () => _flat.ClearBackground(
       color,
     ),
   );
@@ -486,13 +488,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Setup canvas (framebuffer) to start drawing
   void BeginDrawing() => run(
     () => _debugLabels.BeginDrawing(),
-    () => rl.CoreFlat.BeginDrawing(),
+    () => _flat.BeginDrawing(),
   );
     
   /// End canvas drawing and swap buffers (double buffering)
   void EndDrawing() => run(
     () => _debugLabels.EndDrawing(),
-    () => rl.CoreFlat.EndDrawing(),
+    () => _flat.EndDrawing(),
   );
     
   /// Begin 2D mode with custom camera (2D)
@@ -500,7 +502,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera2DD camera,
   ) => run(
     () => _debugLabels.BeginMode2D(camera),
-    () => rl.CoreFlat.BeginMode2D(
+    () => _flat.BeginMode2D(
       camera,
     ),
   );
@@ -508,7 +510,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Ends 2D mode with custom camera
   void EndMode2D() => run(
     () => _debugLabels.EndMode2D(),
-    () => rl.CoreFlat.EndMode2D(),
+    () => _flat.EndMode2D(),
   );
     
   /// Begin 3D mode with custom camera (3D)
@@ -516,7 +518,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera3DD camera,
   ) => run(
     () => _debugLabels.BeginMode3D(camera),
-    () => rl.CoreFlat.BeginMode3D(
+    () => _flat.BeginMode3D(
       camera,
     ),
   );
@@ -524,7 +526,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Ends 3D mode and returns to default 2D orthographic mode
   void EndMode3D() => run(
     () => _debugLabels.EndMode3D(),
-    () => rl.CoreFlat.EndMode3D(),
+    () => _flat.EndMode3D(),
   );
     
   /// Begin drawing to render texture
@@ -532,7 +534,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RenderTextureD target,
   ) => run(
     () => _debugLabels.BeginTextureMode(target),
-    () => rl.CoreFlat.BeginTextureMode(
+    () => _flat.BeginTextureMode(
       target,
     ),
   );
@@ -540,7 +542,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Ends drawing to render texture
   void EndTextureMode() => run(
     () => _debugLabels.EndTextureMode(),
-    () => rl.CoreFlat.EndTextureMode(),
+    () => _flat.EndTextureMode(),
   );
     
   /// Begin custom shader drawing
@@ -548,7 +550,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ShaderD shader,
   ) => run(
     () => _debugLabels.BeginShaderMode(shader),
-    () => rl.CoreFlat.BeginShaderMode(
+    () => _flat.BeginShaderMode(
       shader,
     ),
   );
@@ -556,7 +558,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// End custom shader drawing (use default shader)
   void EndShaderMode() => run(
     () => _debugLabels.EndShaderMode(),
-    () => rl.CoreFlat.EndShaderMode(),
+    () => _flat.EndShaderMode(),
   );
     
   /// Begin blending mode (alpha, additive, multiplied, subtract, custom)
@@ -564,7 +566,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     BlendMode mode,
   ) => run(
     () => _debugLabels.BeginBlendMode(mode),
-    () => rl.CoreFlat.BeginBlendMode(
+    () => _flat.BeginBlendMode(
       mode.value,
     ),
   );
@@ -572,7 +574,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// End blending mode (reset to default: alpha blending)
   void EndBlendMode() => run(
     () => _debugLabels.EndBlendMode(),
-    () => rl.CoreFlat.EndBlendMode(),
+    () => _flat.EndBlendMode(),
   );
     
   /// Begin scissor mode (define screen area for following drawing)
@@ -583,7 +585,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.BeginScissorMode(x, y, width, height),
-    () => rl.CoreFlat.BeginScissorMode(
+    () => _flat.BeginScissorMode(
       x.toInt(),
       y.toInt(),
       width.toInt(),
@@ -594,7 +596,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// End scissor mode
   void EndScissorMode() => run(
     () => _debugLabels.EndScissorMode(),
-    () => rl.CoreFlat.EndScissorMode(),
+    () => _flat.EndScissorMode(),
   );
     
   /// Begin stereo rendering (requires VR simulator)
@@ -602,7 +604,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     VrStereoConfigD config,
   ) => run(
     () => _debugLabels.BeginVrStereoMode(config),
-    () => rl.CoreFlat.BeginVrStereoMode(
+    () => _flat.BeginVrStereoMode(
       config,
     ),
   );
@@ -610,7 +612,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// End stereo rendering (requires VR simulator)
   void EndVrStereoMode() => run(
     () => _debugLabels.EndVrStereoMode(),
-    () => rl.CoreFlat.EndVrStereoMode(),
+    () => _flat.EndVrStereoMode(),
   );
     
   /// Load VR stereo config for VR simulator device parameters
@@ -618,7 +620,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     VrDeviceInfoD device,
   ) => run(
     () => _debugLabels.LoadVrStereoConfig(device),
-    () => rl.CoreFlat.LoadVrStereoConfig(
+    () => _flat.LoadVrStereoConfig(
       device,
     ),
   );
@@ -628,7 +630,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     VrStereoConfigD config,
   ) => run(
     () => _debugLabels.UnloadVrStereoConfig(config),
-    () => rl.CoreFlat.UnloadVrStereoConfig(
+    () => _flat.UnloadVrStereoConfig(
       config,
     ),
   );
@@ -639,7 +641,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String? fsFileName,
   ) => run(
     () => _debugLabels.LoadShader(vsFileName, fsFileName),
-    () => rl.CoreFlat.LoadShader(
+    () => _flat.LoadShader(
       rl.Temp.String$.ValueOrNull(vsFileName),
       rl.Temp.String$.ValueOrNull(fsFileName),
     ),
@@ -651,7 +653,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String? fsCode,
   ) => run(
     () => _debugLabels.LoadShaderFromMemory(vsCode, fsCode),
-    () => rl.CoreFlat.LoadShaderFromMemory(
+    () => _flat.LoadShaderFromMemory(
       rl.Temp.String$.ValueOrNull(vsCode),
       rl.Temp.String$.ValueOrNull(fsCode),
     ),
@@ -662,7 +664,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ShaderD shader,
   ) => run(
     () => _debugLabels.IsShaderValid(shader),
-    () => rl.CoreFlat.IsShaderValid(
+    () => _flat.IsShaderValid(
       shader,
     ),
   );
@@ -673,7 +675,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String uniformName,
   ) => run(
     () => _debugLabels.GetShaderLocation(shader, uniformName),
-    () => rl.CoreFlat.GetShaderLocation(
+    () => _flat.GetShaderLocation(
       shader,
       rl.Temp.String$.ValueOrNull(uniformName),
     ),
@@ -685,7 +687,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String attribName,
   ) => run(
     () => _debugLabels.GetShaderLocationAttrib(shader, attribName),
-    () => rl.CoreFlat.GetShaderLocationAttrib(
+    () => _flat.GetShaderLocationAttrib(
       shader,
       rl.Temp.String$.ValueOrNull(attribName),
     ),
@@ -735,7 +737,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
         .SHADER_UNIFORM_SAMPLER2D => rl.Temp.Int$.Array(value),
       };
 
-      rl.CoreFlat.SetShaderValueV(
+      _flat.SetShaderValueV(
         shader,
         locIndex.toInt(),
         ptr.cast(),
@@ -752,7 +754,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MatrixD mat,
   ) => run(
     () => _debugLabels.SetShaderValueMatrix(shader, locIndex, mat),
-    () => rl.CoreFlat.SetShaderValueMatrix(
+    () => _flat.SetShaderValueMatrix(
       shader,
       locIndex.toInt(),
       mat,
@@ -766,7 +768,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureD texture,
   ) => run(
     () => _debugLabels.SetShaderValueTexture(shader, locIndex, texture),
-    () => rl.CoreFlat.SetShaderValueTexture(
+    () => _flat.SetShaderValueTexture(
       shader,
       locIndex.toInt(),
       texture,
@@ -778,7 +780,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ShaderD shader,
   ) => run(
     () => _debugLabels.UnloadShader(shader),
-    () => rl.CoreFlat.UnloadShader(
+    () => _flat.UnloadShader(
       shader,
     ),
   );
@@ -789,7 +791,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera3DD camera,
   ) => run(
     () => _debugLabels.GetScreenToWorldRay(position, camera),
-    () => rl.CoreFlat.GetScreenToWorldRay(
+    () => _flat.GetScreenToWorldRay(
       position,
       camera,
     ),
@@ -803,7 +805,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.GetScreenToWorldRayEx(position, camera, width, height),
-    () => rl.CoreFlat.GetScreenToWorldRayEx(
+    () => _flat.GetScreenToWorldRayEx(
       position,
       camera,
       width.toInt(),
@@ -817,7 +819,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera3DD camera,
   ) => run(
     () => _debugLabels.GetWorldToScreen(position, camera),
-    () => rl.CoreFlat.GetWorldToScreen(
+    () => _flat.GetWorldToScreen(
       position,
       camera,
     ),
@@ -831,7 +833,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.GetWorldToScreenEx(position, camera, width, height),
-    () => rl.CoreFlat.GetWorldToScreenEx(
+    () => _flat.GetWorldToScreenEx(
       position,
       camera,
       width.toInt(),
@@ -845,7 +847,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera2DD camera,
   ) => run(
     () => _debugLabels.GetWorldToScreen2D(position, camera),
-    () => rl.CoreFlat.GetWorldToScreen2D(
+    () => _flat.GetWorldToScreen2D(
       position,
       camera,
     ),
@@ -857,7 +859,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera2DD camera,
   ) => run(
     () => _debugLabels.GetScreenToWorld2D(position, camera),
-    () => rl.CoreFlat.GetScreenToWorld2D(
+    () => _flat.GetScreenToWorld2D(
       position,
       camera,
     ),
@@ -868,7 +870,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera3DD camera,
   ) => run(
     () => _debugLabels.GetCameraMatrix(camera),
-    () => rl.CoreFlat.GetCameraMatrix(
+    () => _flat.GetCameraMatrix(
       camera,
     ),
   );
@@ -878,7 +880,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Camera2DD camera,
   ) => run(
     () => _debugLabels.GetCameraMatrix2D(camera),
-    () => rl.CoreFlat.GetCameraMatrix2D(
+    () => _flat.GetCameraMatrix2D(
       camera,
     ),
   );
@@ -888,7 +890,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num fps,
   ) => run(
     () => _debugLabels.SetTargetFPS(fps),
-    () => rl.CoreFlat.SetTargetFPS(
+    () => _flat.SetTargetFPS(
       fps.toInt(),
     ),
   );
@@ -896,31 +898,31 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get time in seconds for last frame drawn (delta time)
   double GetFrameTime() => run(
     () => _debugLabels.GetFrameTime(),
-    () => rl.CoreFlat.GetFrameTime(),
+    () => _flat.GetFrameTime(),
   );
 
   /// Get elapsed time in seconds since InitWindow()
   double GetTime() => run(
     () => _debugLabels.GetTime(),
-    () => rl.CoreFlat.GetTime(),
+    () => _flat.GetTime(),
   );
 
   /// Get current FPS
   int GetFPS() => run(
     () => _debugLabels.GetFPS(),
-    () => rl.CoreFlat.GetFPS(),
+    () => _flat.GetFPS(),
   );
 
   /// Swap back buffer with front buffer (screen drawing)
   void SwapScreenBuffer() => run(
     () => _debugLabels.SwapScreenBuffer(),
-    () => rl.CoreFlat.SwapScreenBuffer(),
+    () => _flat.SwapScreenBuffer(),
   );
 
   /// Register all input events
   void PollInputEvents() => run(
     () => _debugLabels.PollInputEvents(),
-    () => rl.CoreFlat.PollInputEvents(),
+    () => _flat.PollInputEvents(),
   );
 
   /// Wait for some time (halt program execution)
@@ -928,7 +930,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num seconds,
   ) => run(
     () => _debugLabels.WaitTime(seconds),
-    () => rl.CoreFlat.WaitTime(
+    () => _flat.WaitTime(
       seconds.toDouble(),
     ),
   );
@@ -938,7 +940,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num seed,
   ) => run(
     () => _debugLabels.SetRandomSeed(seed),
-    () => rl.CoreFlat.SetRandomSeed(
+    () => _flat.SetRandomSeed(
       seed.toInt(),
     ),
   );
@@ -949,7 +951,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num max,
   ) => run(
     () => _debugLabels.GetRandomValue(min, max),
-    () => rl.CoreFlat.GetRandomValue(
+    () => _flat.GetRandomValue(
       min.toInt(),
       max.toInt(),
     ),
@@ -963,13 +965,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadRandomSequence(count, min, max),
     () {
-      final seq = rl.CoreFlat.LoadRandomSequence(
+      final seq = _flat.LoadRandomSequence(
         count.toInt(),
         min.toInt(),
         max.toInt(),
       );
       final List<int> values = .generate(count.toInt(), (i) => seq[i]);
-      rl.CoreFlat.UnloadRandomSequence(seq);
+      _flat.UnloadRandomSequence(seq);
       return values;
     },
   );
@@ -979,7 +981,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.TakeScreenshot(fileName),
-    () => rl.CoreFlat.TakeScreenshot(
+    () => _flat.TakeScreenshot(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -989,7 +991,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Iterable<ConfigFlags> flags,
   ) => run(
     () => _debugLabels.SetConfigFlags(flags),
-    () => rl.CoreFlat.SetConfigFlags(
+    () => _flat.SetConfigFlags(
       rl.Utils.EnumsAsFlagsOr(flags),
     ),
   );
@@ -999,7 +1001,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String url,
   ) => run(
     () => _debugLabels.OpenURL(url),
-    () => rl.CoreFlat.OpenURL(
+    () => _flat.OpenURL(
       rl.Temp.String$.ValueOrNull(url),
     ),
   );
@@ -1012,7 +1014,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ]
   ) => run(
     () => _debugLabels.TraceLog(logLevel, text),
-    () => rl.CoreFlat.TraceLog(
+    () => _flat.TraceLog(
       logLevel.value,
       rl.Temp.String$.ValueOrNull(
         rl.Utils.Format(text, args)
@@ -1025,7 +1027,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TraceLogLevel logLevel,
   ) => run(
     () => _debugLabels.SetTraceLogLevel(logLevel),
-    () => rl.CoreFlat.SetTraceLogLevel(
+    () => _flat.SetTraceLogLevel(
       logLevel.value,
     ),
   );
@@ -1035,7 +1037,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant TraceLogCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetTraceLogCallback(callback),
-    () => rl.CoreFlat.SetTraceLogCallback(
+    () => _flat.SetTraceLogCallback(
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
@@ -1045,7 +1047,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant LoadFileDataCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetLoadFileDataCallback(callback),
-    () => rl.CoreFlat.SetLoadFileDataCallback(
+    () => _flat.SetLoadFileDataCallback(
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
@@ -1055,7 +1057,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant SaveFileDataCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetSaveFileDataCallback(callback),
-    () => rl.CoreFlat.SetSaveFileDataCallback(
+    () => _flat.SetSaveFileDataCallback(
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
@@ -1065,7 +1067,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant LoadFileTextCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetLoadFileTextCallback(callback),
-    () => rl.CoreFlat.SetLoadFileTextCallback(
+    () => _flat.SetLoadFileTextCallback(
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
@@ -1075,7 +1077,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     covariant SaveFileTextCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetSaveFileTextCallback(callback),
-    () => rl.CoreFlat.SetSaveFileTextCallback(
+    () => _flat.SetSaveFileTextCallback(
       callback?.attach() ?? MemoryPointer.nullptr(),
     ),
   );
@@ -1087,14 +1089,14 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadFileData(fileName),
     () {
       final fileSize = rl.Temp.Int$.Ref1();
-      final data = rl.CoreFlat.LoadFileData(
+      final data = _flat.LoadFileData(
         rl.Temp.String$.ValueOrNull(fileName),
         fileSize,
       );
       try {
         return rl.Temp.UnsignedChar$.asTypedList(data, fileSize.value);
       } finally {
-        rl.CoreFlat.UnloadFileData(data);
+        _flat.UnloadFileData(data);
       }
     },
   );
@@ -1105,7 +1107,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List data,
   ) => run(
     () => _debugLabels.SaveFileData(fileName, data),
-    () => rl.CoreFlat.SaveFileData(
+    () => _flat.SaveFileData(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.Uint8$.Array(data).cast(),
       data.length,
@@ -1118,7 +1120,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportDataAsCode(data, fileName),
-    () => rl.CoreFlat.ExportDataAsCode(
+    () => _flat.ExportDataAsCode(
       rl.Temp.Uint8$.Array(data),
       data.length,
       rl.Temp.String$.ValueOrNull(fileName),
@@ -1131,11 +1133,11 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadFileText(fileName),
     () {
-      final text = rl.CoreFlat.LoadFileText(
+      final text = _flat.LoadFileText(
         rl.Temp.String$.ValueOrNull(fileName),
       );
       final fileText = text.toDartString();
-      rl.CoreFlat.UnloadFileText(text);
+      _flat.UnloadFileText(text);
       return fileText;
     },
   );
@@ -1146,7 +1148,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String text,
   ) => run(
     () => _debugLabels.SaveFileText(fileName, text),
-    () => rl.CoreFlat.SaveFileText(
+    () => _flat.SaveFileText(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.String$.ValueOrNull(text),
     ),
@@ -1158,7 +1160,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileRename,
   ) => run(
     () => _debugLabels.FileRename(fileName, fileRename),
-    () => rl.CoreFlat.FileRename(
+    () => _flat.FileRename(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.String$.ValueOrNull(fileRename),
     ),
@@ -1169,7 +1171,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.FileRemove(fileName),
-    () => rl.CoreFlat.FileRemove(
+    () => _flat.FileRemove(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1180,7 +1182,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dstPath,
   ) => run(
     () => _debugLabels.FileCopy(srcPath, dstPath),
-    () => rl.CoreFlat.FileCopy(
+    () => _flat.FileCopy(
       rl.Temp.String$.ValueOrNull(srcPath),
       rl.Temp.String$.ValueOrNull(dstPath),
     ),
@@ -1192,7 +1194,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dstPath,
   ) => run(
     () => _debugLabels.FileMove(srcPath, dstPath),
-    () => rl.CoreFlat.FileMove(
+    () => _flat.FileMove(
       rl.Temp.String$.ValueOrNull(srcPath),
       rl.Temp.String$.ValueOrNull(dstPath),
     ),
@@ -1205,7 +1207,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String replacement,
   ) => run(
     () => _debugLabels.FileTextReplace(fileName, search, replacement),
-    () => rl.CoreFlat.FileTextReplace(
+    () => _flat.FileTextReplace(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.String$.ValueOrNull(search),
       rl.Temp.String$.ValueOrNull(replacement),
@@ -1218,7 +1220,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String search,
   ) => run(
     () => _debugLabels.FileTextFindIndex(fileName, search),
-    () => rl.CoreFlat.FileTextFindIndex(
+    () => _flat.FileTextFindIndex(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.String$.ValueOrNull(search),
     ),
@@ -1229,7 +1231,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.FileExists(fileName),
-    () => rl.CoreFlat.FileExists(
+    () => _flat.FileExists(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1239,7 +1241,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dirPath,
   ) => run(
     () => _debugLabels.DirectoryExists(dirPath),
-    () => rl.CoreFlat.DirectoryExists(
+    () => _flat.DirectoryExists(
       rl.Temp.String$.ValueOrNull(dirPath),
     ),
   );
@@ -1250,7 +1252,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String ext,
   ) => run(
     () => _debugLabels.IsFileExtension(fileName, ext),
-    () => rl.CoreFlat.IsFileExtension(
+    () => _flat.IsFileExtension(
       rl.Temp.String$.ValueOrNull(fileName),
       rl.Temp.String$.ValueOrNull(ext),
     ),
@@ -1261,7 +1263,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.GetFileLength(fileName),
-    () => rl.CoreFlat.GetFileLength(
+    () => _flat.GetFileLength(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1271,7 +1273,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.GetFileExtension(fileName),
-    () => rl.CoreFlat.GetFileExtension(
+    () => _flat.GetFileExtension(
       rl.Temp.String$.ValueOrNull(fileName),
     ).toDartString(),
   );
@@ -1281,7 +1283,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String filePath,
   ) => run(
     () => _debugLabels.GetFileName(filePath),
-    () => rl.CoreFlat.GetFileName(
+    () => _flat.GetFileName(
       rl.Temp.String$.ValueOrNull(filePath),
     ).toDartString(),
   );
@@ -1291,7 +1293,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String filePath,
   ) => run(
     () => _debugLabels.GetFileNameWithoutExt(filePath),
-    () => rl.CoreFlat.GetFileNameWithoutExt(
+    () => _flat.GetFileNameWithoutExt(
       rl.Temp.String$.ValueOrNull(filePath),
     ).toDartString(),
   );
@@ -1301,7 +1303,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dirPath, 
   ) => run(
     () => _debugLabels.GetDirectoryFileCount(dirPath),
-    () => rl.CoreFlat.GetDirectoryFileCount(
+    () => _flat.GetDirectoryFileCount(
       rl.Temp.String$.ValueOrNull(dirPath),
     ),
   );
@@ -1315,7 +1317,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     bool scanSubdirs,
   ) => run(
     () => _debugLabels.GetDirectoryFileCountEx(basePath, filter, scanSubdirs),
-    () => rl.CoreFlat.GetDirectoryFileCountEx(
+    () => _flat.GetDirectoryFileCountEx(
       rl.Temp.String$.ValueOrNull(basePath),
       rl.Temp.String$.ValueOrNull(filter),
       scanSubdirs,
@@ -1327,7 +1329,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String filePath,
   ) => run(
     () => _debugLabels.GetDirectoryPath(filePath),
-    () => rl.CoreFlat.GetDirectoryPath(
+    () => _flat.GetDirectoryPath(
       rl.Temp.String$.ValueOrNull(filePath),
     ).toDartString(),
   );
@@ -1337,7 +1339,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dirPath,
   ) => run(
     () => _debugLabels.GetPrevDirectoryPath(dirPath),
-    () => rl.CoreFlat.GetPrevDirectoryPath(
+    () => _flat.GetPrevDirectoryPath(
       rl.Temp.String$.ValueOrNull(dirPath),
     ).toDartString(),
   );
@@ -1345,13 +1347,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get current working directory
   String GetWorkingDirectory() => run(
     () => _debugLabels.GetWorkingDirectory(),
-    () => rl.CoreFlat.GetWorkingDirectory().toDartString(),
+    () => _flat.GetWorkingDirectory().toDartString(),
   );
 
   /// Get the directory of the running application
   String GetApplicationDirectory() => run(
     () => _debugLabels.GetApplicationDirectory(),
-    () => rl.CoreFlat.GetApplicationDirectory().toDartString(),
+    () => _flat.GetApplicationDirectory().toDartString(),
   );
 
   /// Create directories (including full path requested), returns 0 on success
@@ -1359,7 +1361,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dirPath,
   ) => run(
     () => _debugLabels.MakeDirectory(dirPath),
-    () => rl.CoreFlat.MakeDirectory(
+    () => _flat.MakeDirectory(
       rl.Temp.String$.ValueOrNull(dirPath),
     ),
   );
@@ -1369,7 +1371,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dir,
   ) => run(
     () => _debugLabels.ChangeDirectory(dir),
-    () => rl.CoreFlat.ChangeDirectory(
+    () => _flat.ChangeDirectory(
       rl.Temp.String$.ValueOrNull(dir),
     ),
   );
@@ -1379,7 +1381,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String path,
   ) => run(
     () => _debugLabels.IsPathFile(path),
-    () => rl.CoreFlat.IsPathFile(
+    () => _flat.IsPathFile(
       rl.Temp.String$.ValueOrNull(path),
     ),
   );
@@ -1389,7 +1391,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.IsFileNameValid(fileName),
-    () => rl.CoreFlat.IsFileNameValid(
+    () => _flat.IsFileNameValid(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1399,7 +1401,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String dirPath,
   ) => run(
     () => _debugLabels.LoadDirectoryFiles(dirPath),
-    () => rl.CoreFlat.LoadDirectoryFiles(
+    () => _flat.LoadDirectoryFiles(
       rl.Temp.String$.ValueOrNull(dirPath),
     ),
   );
@@ -1413,7 +1415,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     bool scanSubdirs,
   ) => run(
     () => _debugLabels.LoadDirectoryFilesEx(basePath, filter, scanSubdirs),
-    () => rl.CoreFlat.LoadDirectoryFilesEx(
+    () => _flat.LoadDirectoryFilesEx(
       rl.Temp.String$.ValueOrNull(basePath),
       rl.Temp.String$.ValueOrNull(filter),
       scanSubdirs,
@@ -1425,7 +1427,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     FilePathListD files,
   ) => run(
     () => _debugLabels.UnloadDirectoryFiles(files),
-    () => rl.CoreFlat.UnloadDirectoryFiles(
+    () => _flat.UnloadDirectoryFiles(
       files,
     ),
   );
@@ -1433,13 +1435,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Check if a file has been dropped into window
   bool IsFileDropped() => run(
     () => _debugLabels.IsFileDropped(),
-    () => rl.CoreFlat.IsFileDropped(),
+    () => _flat.IsFileDropped(),
   );
     
   /// Load dropped filepaths
   FilePathListD LoadDroppedFiles() => run(
     () => _debugLabels.LoadDroppedFiles(),
-    () => rl.CoreFlat.LoadDroppedFiles(),
+    () => _flat.LoadDroppedFiles(),
   );
 
   /// Unload dropped filepaths
@@ -1447,7 +1449,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     FilePathListD files,
   ) => run(
     () => _debugLabels.UnloadDroppedFiles(files),
-    () => rl.CoreFlat.UnloadDroppedFiles(
+    () => _flat.UnloadDroppedFiles(
       files,
     ),
   );
@@ -1457,7 +1459,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.GetFileModTime(fileName),
-    () => rl.CoreFlat.GetFileModTime(
+    () => _flat.GetFileModTime(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1469,7 +1471,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.CompressData(data),
     () {
       final compDataSize = rl.Temp.Int$.Ref1();
-      final compData = rl.CoreFlat.CompressData(
+      final compData = _flat.CompressData(
         rl.Temp.Uint8$.Array(data),
         data.length,
         compDataSize,
@@ -1489,7 +1491,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.DecompressData(compData),
     () {
       final dataSize = rl.Temp.Int$.Ref1();
-      final data = rl.CoreFlat.DecompressData(
+      final data = _flat.DecompressData(
         rl.Temp.Uint8$.Array(compData),
         compData.length,
         dataSize,
@@ -1509,7 +1511,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.EncodeDataBase64(data),
     () {
       final outputSize = rl.Temp.Int$.Ref1();
-      final outputData = rl.CoreFlat.EncodeDataBase64(
+      final outputData = _flat.EncodeDataBase64(
         rl.Temp.Uint8$.Array(data),
         data.length,
         outputSize,
@@ -1529,7 +1531,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.DecodeDataBase64(data),
     () {
       final outputSize = rl.Temp.Int$.Ref1();
-      final outputData = rl.CoreFlat.DecodeDataBase64(
+      final outputData = _flat.DecodeDataBase64(
         rl.Temp.Int8$.Array(data),
         outputSize,
       );
@@ -1546,7 +1548,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List data,
   ) => run(
     () => _debugLabels.ComputeCRC32(data),
-    () => rl.CoreFlat.ComputeCRC32(
+    () => _flat.ComputeCRC32(
       rl.Temp.Uint8$.Array(data),
       data.length,
     ),
@@ -1558,7 +1560,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.ComputeMD5(data),
     () => .fromList(rl.Temp.UnsignedInt$.ToLEBytes(
-      rl.CoreFlat.ComputeMD5(
+      _flat.ComputeMD5(
         rl.Temp.Uint8$.Array(data),
         data.length,
       ),
@@ -1572,7 +1574,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.ComputeSHA1(data),
     () => .fromList(rl.Temp.UnsignedInt$.ToBEBytes(
-      rl.CoreFlat.ComputeSHA1(
+      _flat.ComputeSHA1(
         rl.Temp.Uint8$.Array(data),
         data.length,
       ),
@@ -1586,7 +1588,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.ComputeSHA256(data),
     () => .fromList(rl.Temp.UnsignedInt$.ToBEBytes(
-      rl.CoreFlat.ComputeSHA256(
+      _flat.ComputeSHA256(
         rl.Temp.Uint8$.Array(data),
         data.length,
       ),
@@ -1599,7 +1601,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String? fileName,
   ) => run(
     () => _debugLabels.LoadAutomationEventList(fileName),
-    () => rl.CoreFlat.LoadAutomationEventList(
+    () => _flat.LoadAutomationEventList(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -1609,7 +1611,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AutomationEventListD list,
   ) => run(
     () => _debugLabels.UnloadAutomationEventList(list),
-    () => rl.CoreFlat.UnloadAutomationEventList(
+    () => _flat.UnloadAutomationEventList(
       list,
     ),
   );
@@ -1620,7 +1622,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportAutomationEventList(list, fileName),
-    () => rl.CoreFlat.ExportAutomationEventList(
+    () => _flat.ExportAutomationEventList(
       list,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -1631,7 +1633,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AutomationEventListD list,
   ) => run(
     () => _debugLabels.SetAutomationEventList(list),
-    () => rl.CoreFlat.SetAutomationEventList(
+    () => _flat.SetAutomationEventList(
       rl.Temp.AutomationEventList$.Ref1(list),
     ),
   );
@@ -1641,7 +1643,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     int frame,
   ) => run(
     () => _debugLabels.SetAutomationEventBaseFrame(frame),
-    () => rl.CoreFlat.SetAutomationEventBaseFrame(
+    () => _flat.SetAutomationEventBaseFrame(
       frame,
     ),
   );
@@ -1649,13 +1651,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Start recording automation events (AutomationEventList must be set)
   void StartAutomationEventRecording() => run(
     () => _debugLabels.StartAutomationEventRecording(),
-    () => rl.CoreFlat.StartAutomationEventRecording(),
+    () => _flat.StartAutomationEventRecording(),
   );
 
   /// Stop recording automation events
   void StopAutomationEventRecording() => run(
     () => _debugLabels.StopAutomationEventRecording(),
-    () => rl.CoreFlat.StopAutomationEventRecording(),
+    () => _flat.StopAutomationEventRecording(),
   );
     
   /// Play a recorded automation event
@@ -1663,7 +1665,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     AutomationEventD event,
   ) => run(
     () => _debugLabels.PlayAutomationEvent(event),
-    () => rl.CoreFlat.PlayAutomationEvent(
+    () => _flat.PlayAutomationEvent(
       event,
     ),
   );
@@ -1673,7 +1675,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.IsKeyPressed(key),
-    () => rl.CoreFlat.IsKeyPressed(
+    () => _flat.IsKeyPressed(
       key.value,
     ),
   );
@@ -1683,7 +1685,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.IsKeyPressedRepeat(key),
-    () => rl.CoreFlat.IsKeyPressedRepeat(
+    () => _flat.IsKeyPressedRepeat(
       key.value,
     ),
   );
@@ -1693,7 +1695,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.IsKeyDown(key),
-    () => rl.CoreFlat.IsKeyDown(
+    () => _flat.IsKeyDown(
       key.value,
     ),
   );
@@ -1703,7 +1705,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.IsKeyReleased(key),
-    () => rl.CoreFlat.IsKeyReleased(
+    () => _flat.IsKeyReleased(
       key.value,
     ),
   );
@@ -1713,7 +1715,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.IsKeyUp(key),
-    () => rl.CoreFlat.IsKeyUp(
+    () => _flat.IsKeyUp(
       key.value,
     ),
   );
@@ -1725,7 +1727,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.GetKeyName(key),
-    () => rl.CoreFlat.GetKeyName(
+    () => _flat.GetKeyName(
       key.value,
     ).toDartString(),
   );
@@ -1733,13 +1735,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
   int GetKeyPressed() => run(
     () => _debugLabels.GetKeyPressed(),
-    () => rl.CoreFlat.GetKeyPressed(),
+    () => _flat.GetKeyPressed(),
   );
 
   /// Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
   int GetCharPressed() => run(
     () => _debugLabels.GetCharPressed(),
-    () => rl.CoreFlat.GetCharPressed(),
+    () => _flat.GetCharPressed(),
   );
 
   /// Set a custom key to exit program (default is ESC)
@@ -1747,7 +1749,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     KeyboardKey key,
   ) => run(
     () => _debugLabels.SetExitKey(key),
-    () => rl.CoreFlat.SetExitKey(
+    () => _flat.SetExitKey(
       key.value,
     ),
   );
@@ -1757,7 +1759,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num gamepad,
   ) => run(
     () => _debugLabels.IsGamepadAvailable(gamepad),
-    () => rl.CoreFlat.IsGamepadAvailable(
+    () => _flat.IsGamepadAvailable(
       gamepad.toInt(),
     ),
   );
@@ -1767,7 +1769,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num gamepad,
   ) => run(
     () => _debugLabels.GetGamepadName(gamepad),
-    () => rl.CoreFlat.GetGamepadName(
+    () => _flat.GetGamepadName(
       gamepad.toInt(),
     ).toDartString(),
   );
@@ -1778,7 +1780,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GamepadButton button,
   ) => run(
     () => _debugLabels.IsGamepadButtonPressed(gamepad, button),
-    () => rl.CoreFlat.IsGamepadButtonPressed(
+    () => _flat.IsGamepadButtonPressed(
       gamepad.toInt(),
       button.value,
     ),
@@ -1790,7 +1792,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GamepadButton button,
   ) => run(
     () => _debugLabels.IsGamepadButtonDown(gamepad, button),
-    () => rl.CoreFlat.IsGamepadButtonDown(
+    () => _flat.IsGamepadButtonDown(
       gamepad.toInt(),
       button.value,
     ),
@@ -1802,7 +1804,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GamepadButton button,
   ) => run(
     () => _debugLabels.IsGamepadButtonReleased(gamepad, button),
-    () => rl.CoreFlat.IsGamepadButtonReleased(
+    () => _flat.IsGamepadButtonReleased(
       gamepad.toInt(),
       button.value,
     ),
@@ -1814,7 +1816,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GamepadButton button,
   ) => run(
     () => _debugLabels.IsGamepadButtonUp(gamepad, button),
-    () => rl.CoreFlat.IsGamepadButtonUp(
+    () => _flat.IsGamepadButtonUp(
       gamepad.toInt(),
       button.value,
     ),
@@ -1823,7 +1825,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get the last gamepad button pressed
   GamepadButton GetGamepadButtonPressed() => run(
     () => _debugLabels.GetGamepadButtonPressed(),
-    () => .fromValue(rl.CoreFlat.GetGamepadButtonPressed()),
+    () => .fromValue(_flat.GetGamepadButtonPressed()),
   );
 
   /// Get gamepad axis count for a gamepad
@@ -1831,7 +1833,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num gamepad,
   ) => run(
     () => _debugLabels.GetGamepadAxisCount(gamepad),
-    () => rl.CoreFlat.GetGamepadAxisCount(
+    () => _flat.GetGamepadAxisCount(
       gamepad.toInt(),
     ),
   );
@@ -1842,7 +1844,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GamepadAxis axis,
   ) => run(
     () => _debugLabels.GetGamepadAxisMovement(gamepad, axis),
-    () => rl.CoreFlat.GetGamepadAxisMovement(
+    () => _flat.GetGamepadAxisMovement(
       gamepad.toInt(),
       axis.value,
     ),
@@ -1853,7 +1855,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String mappings,
   ) => run(
     () => _debugLabels.SetGamepadMappings(mappings),
-    () => rl.CoreFlat.SetGamepadMappings(
+    () => _flat.SetGamepadMappings(
       rl.Temp.String$.ValueOrNull(mappings),
     ),
   );
@@ -1866,7 +1868,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num duration,
   ) => run(
     () => _debugLabels.SetGamepadVibration(gamepad, leftMotor, rightMotor, duration),
-    () => rl.CoreFlat.SetGamepadVibration(
+    () => _flat.SetGamepadVibration(
       gamepad.toInt(),
       leftMotor.toDouble(),
       rightMotor.toDouble(),
@@ -1879,7 +1881,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MouseButton button,
   ) => run(
     () => _debugLabels.IsMouseButtonPressed(button),
-    () => rl.CoreFlat.IsMouseButtonPressed(
+    () => _flat.IsMouseButtonPressed(
       button.value,
     ),
   );
@@ -1889,7 +1891,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MouseButton button,
   ) => run(
     () => _debugLabels.IsMouseButtonDown(button),
-    () => rl.CoreFlat.IsMouseButtonDown(
+    () => _flat.IsMouseButtonDown(
       button.value,
     ),
   );
@@ -1899,7 +1901,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MouseButton button,
   ) => run(
     () => _debugLabels.IsMouseButtonReleased(button),
-    () => rl.CoreFlat.IsMouseButtonReleased(
+    () => _flat.IsMouseButtonReleased(
       button.value,
     ),
   );
@@ -1909,7 +1911,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MouseButton button,
   ) => run(
     () => _debugLabels.IsMouseButtonUp(button),
-    () => rl.CoreFlat.IsMouseButtonUp(
+    () => _flat.IsMouseButtonUp(
       button.value,
     ),
   );
@@ -1917,25 +1919,25 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get mouse position X
   int GetMouseX() => run(
     () => _debugLabels.GetMouseX(),
-    () => rl.CoreFlat.GetMouseX(),
+    () => _flat.GetMouseX(),
   );
 
   /// Get mouse position Y
   int GetMouseY() => run(
     () => _debugLabels.GetMouseY(),
-    () => rl.CoreFlat.GetMouseY(),
+    () => _flat.GetMouseY(),
   );
 
   /// Get mouse position XY
   Vector2D GetMousePosition() => run(
     () => _debugLabels.GetMousePosition(),
-    () => rl.CoreFlat.GetMousePosition(),
+    () => _flat.GetMousePosition(),
   );
 
   /// Get mouse delta between frames
   Vector2D GetMouseDelta() => run(
     () => _debugLabels.GetMouseDelta(),
-    () => rl.CoreFlat.GetMouseDelta(),
+    () => _flat.GetMouseDelta(),
   );
 
   /// Set mouse position XY
@@ -1944,7 +1946,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num y,
   ) => run(
     () => _debugLabels.SetMousePosition(x, y),
-    () => rl.CoreFlat.SetMousePosition(
+    () => _flat.SetMousePosition(
       x.toInt(),
       y.toInt(),
     ),
@@ -1956,7 +1958,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num offsetY,
   ) => run(
     () => _debugLabels.SetMouseOffset(offsetX, offsetY),
-    () => rl.CoreFlat.SetMouseOffset(
+    () => _flat.SetMouseOffset(
       offsetX.toInt(),
       offsetY.toInt(),
     ),
@@ -1968,7 +1970,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num scaleY,
   ) => run(
     () => _debugLabels.SetMouseScale(scaleX, scaleY),
-    () => rl.CoreFlat.SetMouseScale(
+    () => _flat.SetMouseScale(
       scaleX.toDouble(),
       scaleY.toDouble(),
     ),
@@ -1977,13 +1979,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get mouse wheel movement for X or Y, whichever is larger
   double GetMouseWheelMove() => run(
     () => _debugLabels.GetMouseWheelMove(),
-    () => rl.CoreFlat.GetMouseWheelMove(),
+    () => _flat.GetMouseWheelMove(),
   );
 
   /// Get mouse wheel movement for both X and Y
   Vector2D GetMouseWheelMoveV() => run(
     () => _debugLabels.GetMouseWheelMoveV(),
-    () => rl.CoreFlat.GetMouseWheelMoveV(),
+    () => _flat.GetMouseWheelMoveV(),
   );
 
   /// Set mouse cursor
@@ -1991,7 +1993,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MouseCursor cursor,
   ) => run(
     () => _debugLabels.SetMouseCursor(cursor),
-    () => rl.CoreFlat.SetMouseCursor(
+    () => _flat.SetMouseCursor(
       cursor.value,
     ),
   );
@@ -1999,13 +2001,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get touch position X for touch point 0 (relative to screen size)
   int GetTouchX() => run(
     () => _debugLabels.GetTouchX(),
-    () => rl.CoreFlat.GetTouchX(),
+    () => _flat.GetTouchX(),
   );
 
   /// Get touch position Y for touch point 0 (relative to screen size)
   int GetTouchY() => run(
     () => _debugLabels.GetTouchY(),
-    () => rl.CoreFlat.GetTouchY(),
+    () => _flat.GetTouchY(),
   );
 
   /// Get touch position XY for a touch point index (relative to screen size)
@@ -2013,7 +2015,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num index,
   ) => run(
     () => _debugLabels.GetTouchPosition(index),
-    () => rl.CoreFlat.GetTouchPosition(
+    () => _flat.GetTouchPosition(
       index.toInt(),
     ),
   );
@@ -2023,7 +2025,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num index,
   ) => run(
     () => _debugLabels.GetTouchPointId(index),
-    () => rl.CoreFlat.GetTouchPointId(
+    () => _flat.GetTouchPointId(
       index.toInt(),
     ),
   );
@@ -2031,7 +2033,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get number of touch points
   int GetTouchPointCount() => run(
     () => _debugLabels.GetTouchPointCount(),
-    () => rl.CoreFlat.GetTouchPointCount(),
+    () => _flat.GetTouchPointCount(),
   );
 
   /// Enable a set of gestures using flags [Gesture]
@@ -2039,7 +2041,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Iterable<Gesture> flags,
   ) => run(
     () => _debugLabels.SetGesturesEnabled(flags),
-    () => rl.CoreFlat.SetGesturesEnabled(
+    () => _flat.SetGesturesEnabled(
       rl.Utils.EnumsAsFlagsOr(flags),
     ),
   );
@@ -2049,7 +2051,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Gesture key,
   ) => run(
     () => _debugLabels.IsGestureDetected(key),
-    () => rl.CoreFlat.IsGestureDetected(
+    () => _flat.IsGestureDetected(
       key.value,
     ),
   );
@@ -2057,37 +2059,37 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get latest detected gesture
   Gesture GetGestureDetected() => run(
     () => _debugLabels.GetGestureDetected(),
-    () => .fromValue(rl.CoreFlat.GetGestureDetected()),
+    () => .fromValue(_flat.GetGestureDetected()),
   );
 
   /// Get gesture hold time in seconds
   double GetGestureHoldDuration() => run(
     () => _debugLabels.GetGestureHoldDuration(),
-    () => rl.CoreFlat.GetGestureHoldDuration(),
+    () => _flat.GetGestureHoldDuration(),
   );
 
   /// Get gesture drag vector
   Vector2D GetGestureDragVector() => run(
     () => _debugLabels.GetGestureDragVector(),
-    () => rl.CoreFlat.GetGestureDragVector(),
+    () => _flat.GetGestureDragVector(),
   );
 
   /// Get gesture drag angle
   double GetGestureDragAngle() => run(
     () => _debugLabels.GetGestureDragAngle(),
-    () => rl.CoreFlat.GetGestureDragAngle(),
+    () => _flat.GetGestureDragAngle(),
   );
 
   /// Get gesture pinch delta
   Vector2D GetGesturePinchVector() => run(
     () => _debugLabels.GetGesturePinchVector(),
-    () => rl.CoreFlat.GetGesturePinchVector(),
+    () => _flat.GetGesturePinchVector(),
   );
 
   /// Get gesture pinch angle
   double GetGesturePinchAngle() => run(
     () => _debugLabels.GetGesturePinchAngle(),
-    () => rl.CoreFlat.GetGesturePinchAngle(),
+    () => _flat.GetGesturePinchAngle(),
   );
 
   /// Process gesture event and translate it into gestures
@@ -2095,7 +2097,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     GestureEventD event,
   ) => run(
     () => _debugLabels.ProcessGestureEvent(event),
-    () => rl.CoreFlat.ProcessGestureEvent(
+    () => _flat.ProcessGestureEvent(
       event,
     ),
   );
@@ -2103,7 +2105,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Update gestures detected (must be called every frame)
   void UpdateGestures() => run(
     () => _debugLabels.UpdateGestures(),
-    () => rl.CoreFlat.UpdateGestures(),
+    () => _flat.UpdateGestures(),
   );
     
   /// Update camera position for selected mode
@@ -2112,7 +2114,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     CameraMode mode,
   ) => run(
     () => _debugLabels.UpdateCamera(camera, mode),
-    () => rl.CoreFlat.UpdateCamera(
+    () => _flat.UpdateCamera(
       rl.Temp.Camera3D$.RefUnique(camera),
       mode.value,
     ),
@@ -2126,7 +2128,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num zoom,
   ) => run(
     () => _debugLabels.UpdateCameraPro(camera, movement, rotation, zoom),
-    () => rl.CoreFlat.UpdateCameraPro(
+    () => _flat.UpdateCameraPro(
       rl.Temp.Camera3D$.Ref1(camera),
       movement,
       rotation,
@@ -2140,7 +2142,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD source,
   ) => run(
     () => _debugLabels.SetShapesTexture(texture, source),
-    () => rl.CoreFlat.SetShapesTexture(
+    () => _flat.SetShapesTexture(
       texture,
       source,
     ),
@@ -2149,13 +2151,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get texture that is used for shapes drawing
   TextureD GetShapesTexture() => run(
     () => _debugLabels.GetShapesTexture(),
-    () => rl.CoreFlat.GetShapesTexture(),
+    () => _flat.GetShapesTexture(),
   );
 
   /// Get texture source rectangle that is used for shapes drawing
   RectangleD GetShapesTextureRectangle() => run(
     () => _debugLabels.GetShapesTextureRectangle(),
-    () => rl.CoreFlat.GetShapesTextureRectangle(),
+    () => _flat.GetShapesTextureRectangle(),
   );
 
   /// Draw a pixel using geometry [Can be slow, use with care]
@@ -2165,7 +2167,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPixel(posX, posY, color),
-    () => rl.CoreFlat.DrawPixel(
+    () => _flat.DrawPixel(
       posX.toInt(),
       posY.toInt(),
       color,
@@ -2178,7 +2180,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPixelV(position, color),
-    () => rl.CoreFlat.DrawPixelV(
+    () => _flat.DrawPixelV(
       position,
       color,
     ),
@@ -2193,7 +2195,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLine(startPosX, startPosY, endPosX, endPosY, color),
-    () => rl.CoreFlat.DrawLine(
+    () => _flat.DrawLine(
       startPosX.toInt(),
       startPosY.toInt(),
       endPosX.toInt(),
@@ -2209,7 +2211,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLineV(startPos, endPos, color),
-    () => rl.CoreFlat.DrawLineV(
+    () => _flat.DrawLineV(
       startPos,
       endPos,
       color,
@@ -2224,7 +2226,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLineEx(startPos, endPos, thick, color),
-    () => rl.CoreFlat.DrawLineEx(
+    () => _flat.DrawLineEx(
       startPos,
       endPos,
       thick.toDouble(),
@@ -2238,7 +2240,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLineStrip(points, color),
-    () => rl.CoreFlat.DrawLineStrip(
+    () => _flat.DrawLineStrip(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
@@ -2253,7 +2255,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLineBezier(startPos, endPos, thick, color),
-    () => rl.CoreFlat.DrawLineBezier(
+    () => _flat.DrawLineBezier(
       startPos,
       endPos,
       thick.toDouble(),
@@ -2270,7 +2272,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLineDashed(startPos, endPos, dashSize, spaceSize, color),
-    () => rl.CoreFlat.DrawLineDashed(
+    () => _flat.DrawLineDashed(
       startPos,
       endPos,
       dashSize.toInt(),
@@ -2287,7 +2289,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircle(centerX, centerY, radius, color),
-    () => rl.CoreFlat.DrawCircle(
+    () => _flat.DrawCircle(
       centerX.toInt(),
       centerY.toInt(),
       radius.toDouble(),
@@ -2305,7 +2307,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircleSector(center, radius, startAngle, endAngle, segments, color),
-    () => rl.CoreFlat.DrawCircleSector(
+    () => _flat.DrawCircleSector(
       center,
       radius.toDouble(),
       startAngle.toDouble(),
@@ -2325,7 +2327,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircleSectorLines(center, radius, startAngle, endAngle, segments, color),
-    () => rl.CoreFlat.DrawCircleSectorLines(
+    () => _flat.DrawCircleSectorLines(
       center,
       radius.toDouble(),
       startAngle.toDouble(),
@@ -2343,7 +2345,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD outer,
   ) => run(
     () => _debugLabels.DrawCircleGradient(center, radius, inner, outer),
-    () => rl.CoreFlat.DrawCircleGradient(
+    () => _flat.DrawCircleGradient(
       center,
       radius.toDouble(),
       inner,
@@ -2358,7 +2360,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircleV(center, radius, color),
-    () => rl.CoreFlat.DrawCircleV(
+    () => _flat.DrawCircleV(
       center,
       radius.toDouble(),
       color,
@@ -2373,7 +2375,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircleLines(centerX, centerY, radius, color),
-    () => rl.CoreFlat.DrawCircleLines(
+    () => _flat.DrawCircleLines(
       centerX.toInt(),
       centerY.toInt(),
       radius.toDouble(),
@@ -2388,7 +2390,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircleLinesV(center, radius, color),
-    () => rl.CoreFlat.DrawCircleLinesV(
+    () => _flat.DrawCircleLinesV(
       center,
       radius.toDouble(),
       color,
@@ -2404,7 +2406,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawEllipse(centerX, centerY, radiusH, radiusV, color),
-    () => rl.CoreFlat.DrawEllipse(
+    () => _flat.DrawEllipse(
       centerX.toInt(),
       centerY.toInt(),
       radiusH.toDouble(),
@@ -2421,7 +2423,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawEllipseV(center, radiusH, radiusV, color),
-    () => rl.CoreFlat.DrawEllipseV(
+    () => _flat.DrawEllipseV(
       center,
       radiusH.toDouble(),
       radiusV.toDouble(),
@@ -2438,7 +2440,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawEllipseLines(centerX, centerY, radiusH, radiusV, color),
-    () => rl.CoreFlat.DrawEllipseLines(
+    () => _flat.DrawEllipseLines(
       centerX.toInt(),
       centerY.toInt(),
       radiusH.toDouble(),
@@ -2455,7 +2457,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawEllipseLinesV(center, radiusH, radiusV, color),
-    () => rl.CoreFlat.DrawEllipseLinesV(
+    () => _flat.DrawEllipseLinesV(
       center,
       radiusH.toDouble(),
       radiusV.toDouble(),
@@ -2474,7 +2476,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRing(center, innerRadius, outerRadius, startAngle, endAngle, segments, color),
-    () => rl.CoreFlat.DrawRing(
+    () => _flat.DrawRing(
       center,
       innerRadius.toDouble(),
       outerRadius.toDouble(),
@@ -2496,7 +2498,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRingLines(center, innerRadius, outerRadius, startAngle, endAngle, segments, color),
-    () => rl.CoreFlat.DrawRingLines(
+    () => _flat.DrawRingLines(
       center,
       innerRadius.toDouble(),
       outerRadius.toDouble(),
@@ -2516,7 +2518,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangle(posX, posY, width, height, color),
-    () => rl.CoreFlat.DrawRectangle(
+    () => _flat.DrawRectangle(
       posX.toInt(),
       posY.toInt(),
       width.toInt(),
@@ -2532,7 +2534,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleV(position, size, color),
-    () => rl.CoreFlat.DrawRectangleV(
+    () => _flat.DrawRectangleV(
       position,
       size,
       color,
@@ -2545,7 +2547,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleRec(rec, color),
-    () => rl.CoreFlat.DrawRectangleRec(
+    () => _flat.DrawRectangleRec(
       rec,
       color,
     ),
@@ -2559,7 +2561,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectanglePro(rec, origin, rotation, color),
-    () => rl.CoreFlat.DrawRectanglePro(
+    () => _flat.DrawRectanglePro(
       rec,
       origin,
       rotation.toDouble(),
@@ -2577,7 +2579,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD bottom,
   ) => run(
     () => _debugLabels.DrawRectangleGradientV(posX, posY, width, height, top, bottom),
-    () => rl.CoreFlat.DrawRectangleGradientV(
+    () => _flat.DrawRectangleGradientV(
       posX.toInt(),
       posY.toInt(),
       width.toInt(),
@@ -2597,7 +2599,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD right,
   ) => run(
     () => _debugLabels.DrawRectangleGradientH(posX, posY, width, height, left, right),
-    () => rl.CoreFlat.DrawRectangleGradientH(
+    () => _flat.DrawRectangleGradientH(
       posX.toInt(),
       posY.toInt(),
       width.toInt(),
@@ -2616,7 +2618,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD bottomRight,
   ) => run(
     () => _debugLabels.DrawRectangleGradientEx(rec, topLeft, bottomLeft, topRight, bottomRight),
-    () => rl.CoreFlat.DrawRectangleGradientEx(
+    () => _flat.DrawRectangleGradientEx(
       rec,
       topLeft,
       bottomLeft,
@@ -2634,7 +2636,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleLines(posX, posY, width, height, color),
-    () => rl.CoreFlat.DrawRectangleLines(
+    () => _flat.DrawRectangleLines(
       posX.toInt(),
       posY.toInt(),
       width.toInt(),
@@ -2650,7 +2652,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleLinesEx(rec, lineThick, color),
-    () => rl.CoreFlat.DrawRectangleLinesEx(
+    () => _flat.DrawRectangleLinesEx(
       rec,
       lineThick.toDouble(),
       color,
@@ -2665,7 +2667,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleRounded(rec, roundness, segments, color),
-    () => rl.CoreFlat.DrawRectangleRounded(
+    () => _flat.DrawRectangleRounded(
       rec,
       roundness.toDouble(),
       segments.toInt(),
@@ -2681,7 +2683,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleRoundedLines(rec, roundness, segments, color),
-    () => rl.CoreFlat.DrawRectangleRoundedLines(
+    () => _flat.DrawRectangleRoundedLines(
       rec,
       roundness.toDouble(),
       segments.toInt(),
@@ -2698,7 +2700,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRectangleRoundedLinesEx(rec, roundness, segments, lineThick, color),
-    () => rl.CoreFlat.DrawRectangleRoundedLinesEx(
+    () => _flat.DrawRectangleRoundedLinesEx(
       rec,
       roundness.toDouble(),
       segments.toInt(),
@@ -2715,7 +2717,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangle(v1, v2, v3, color),
-    () => rl.CoreFlat.DrawTriangle(
+    () => _flat.DrawTriangle(
       v1,
       v2,
       v3,
@@ -2731,7 +2733,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangleLines(v1, v2, v3, color),
-    () => rl.CoreFlat.DrawTriangleLines(
+    () => _flat.DrawTriangleLines(
       v1,
       v2,
       v3,
@@ -2745,7 +2747,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangleFan(points, color),
-    () => rl.CoreFlat.DrawTriangleFan(
+    () => _flat.DrawTriangleFan(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
@@ -2758,7 +2760,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangleStrip(points, color),
-    () => rl.CoreFlat.DrawTriangleStrip(
+    () => _flat.DrawTriangleStrip(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       color,
@@ -2774,7 +2776,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPoly(center, sides, radius, rotation, color),
-    () => rl.CoreFlat.DrawPoly(
+    () => _flat.DrawPoly(
       center,
       sides.toInt(),
       radius.toDouble(),
@@ -2792,7 +2794,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPolyLines(center, sides, radius, rotation, color),
-    () => rl.CoreFlat.DrawPolyLines(
+    () => _flat.DrawPolyLines(
       center,
       sides.toInt(),
       radius.toDouble(),
@@ -2811,7 +2813,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPolyLinesEx(center, sides, radius, rotation, lineThick, color),
-    () => rl.CoreFlat.DrawPolyLinesEx(
+    () => _flat.DrawPolyLinesEx(
       center,
       sides.toInt(),
       radius.toDouble(),
@@ -2828,7 +2830,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineLinear(points, thick, color),
-    () => rl.CoreFlat.DrawSplineLinear(
+    () => _flat.DrawSplineLinear(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
@@ -2843,7 +2845,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineBasis(points, thick, color),
-    () => rl.CoreFlat.DrawSplineBasis(
+    () => _flat.DrawSplineBasis(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
@@ -2858,7 +2860,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineCatmullRom(points, thick, color),
-    () => rl.CoreFlat.DrawSplineCatmullRom(
+    () => _flat.DrawSplineCatmullRom(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length, 
       thick.toDouble(), 
@@ -2873,7 +2875,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineBezierQuadratic(points, thick, color),
-    () => rl.CoreFlat.DrawSplineBezierQuadratic(
+    () => _flat.DrawSplineBezierQuadratic(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
@@ -2888,7 +2890,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineBezierCubic(points, thick, color),
-    () => rl.CoreFlat.DrawSplineBezierCubic(
+    () => _flat.DrawSplineBezierCubic(
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
       thick.toDouble(),
@@ -2904,7 +2906,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineSegmentLinear(p1, p2, thick, color),
-    () => rl.CoreFlat.DrawSplineSegmentLinear(
+    () => _flat.DrawSplineSegmentLinear(
       p1,
       p2,
       thick.toDouble(),
@@ -2922,7 +2924,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineSegmentBasis(p1, p2, p3, p4, thick, color),
-    () => rl.CoreFlat.DrawSplineSegmentBasis(
+    () => _flat.DrawSplineSegmentBasis(
       p1,
       p2,
       p3,
@@ -2942,7 +2944,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineSegmentCatmullRom(p1, p2, p3, p4, thick, color),
-    () => rl.CoreFlat.DrawSplineSegmentCatmullRom(
+    () => _flat.DrawSplineSegmentCatmullRom(
       p1,
       p2,
       p3,
@@ -2961,7 +2963,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineSegmentBezierQuadratic(p1, c2, p3, thick, color),
-    () => rl.CoreFlat.DrawSplineSegmentBezierQuadratic(
+    () => _flat.DrawSplineSegmentBezierQuadratic(
       p1,
       c2,
       p3,
@@ -2980,7 +2982,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSplineSegmentBezierCubic(p1, c2, c3, p4, thick, color),
-    () => rl.CoreFlat.DrawSplineSegmentBezierCubic(
+    () => _flat.DrawSplineSegmentBezierCubic(
       p1,
       c2,
       c3,
@@ -2997,7 +2999,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num t,
   ) => run(
     () => _debugLabels.GetSplinePointLinear(startPos, endPos, t),
-    () => rl.CoreFlat.GetSplinePointLinear(
+    () => _flat.GetSplinePointLinear(
       startPos,
       endPos,
       t.toDouble(),
@@ -3013,7 +3015,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num t,
   ) => run(
     () => _debugLabels.GetSplinePointBasis(p1, p2, p3, p4, t),
-    () => rl.CoreFlat.GetSplinePointBasis(
+    () => _flat.GetSplinePointBasis(
       p1,
       p2,
       p3,
@@ -3031,7 +3033,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num t,
   ) => run(
     () => _debugLabels.GetSplinePointCatmullRom(p1, p2, p3, p4, t),
-    () => rl.CoreFlat.GetSplinePointCatmullRom(
+    () => _flat.GetSplinePointCatmullRom(
       p1,
       p2,
       p3,
@@ -3048,7 +3050,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num t,
   ) => run(
     () => _debugLabels.GetSplinePointBezierQuad(p1, c2, p3, t),
-    () => rl.CoreFlat.GetSplinePointBezierQuad(
+    () => _flat.GetSplinePointBezierQuad(
       p1,
       c2,
       p3,
@@ -3065,7 +3067,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num t,
   ) => run(
     () => _debugLabels.GetSplinePointBezierCubic(p1, c2, c3, p4, t),
-    () => rl.CoreFlat.GetSplinePointBezierCubic(
+    () => _flat.GetSplinePointBezierCubic(
       p1,
       c2,
       c3,
@@ -3080,7 +3082,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD rec2,
   ) => run(
     () => _debugLabels.CheckCollisionRecs(rec1, rec2),
-    () => rl.CoreFlat.CheckCollisionRecs(
+    () => _flat.CheckCollisionRecs(
       rec1,
       rec2,
     ),
@@ -3094,7 +3096,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius2,
   ) => run(
     () => _debugLabels.CheckCollisionCircles(center1, radius1, center2, radius2),
-    () => rl.CoreFlat.CheckCollisionCircles(
+    () => _flat.CheckCollisionCircles(
       center1,
       radius1.toDouble(),
       center2,
@@ -3109,7 +3111,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD rec,
   ) => run(
     () => _debugLabels.CheckCollisionCircleRec(center, radius, rec),
-    () => rl.CoreFlat.CheckCollisionCircleRec(
+    () => _flat.CheckCollisionCircleRec(
       center,
       radius.toDouble(),
       rec,
@@ -3124,7 +3126,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector2D p2,
   ) => run(
     () => _debugLabels.CheckCollisionCircleLine(center, radius, p1, p2),
-    () => rl.CoreFlat.CheckCollisionCircleLine(
+    () => _flat.CheckCollisionCircleLine(
       center,
       radius.toDouble(),
       p1,
@@ -3138,7 +3140,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD rec,
   ) => run(
     () => _debugLabels.CheckCollisionPointRec(point, rec),
-    () => rl.CoreFlat.CheckCollisionPointRec(
+    () => _flat.CheckCollisionPointRec(
       point,
       rec,
     ),
@@ -3151,7 +3153,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius,
   ) => run(
     () => _debugLabels.CheckCollisionPointCircle(point, center, radius),
-    () => rl.CoreFlat.CheckCollisionPointCircle(
+    () => _flat.CheckCollisionPointCircle(
       point,
       center,
       radius.toDouble(),
@@ -3166,7 +3168,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector2D p3,
   ) => run(
     () => _debugLabels.CheckCollisionPointTriangle(point, p1, p2, p3),
-    () => rl.CoreFlat.CheckCollisionPointTriangle(
+    () => _flat.CheckCollisionPointTriangle(
       point,
       p1,
       p2,
@@ -3182,7 +3184,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.CheckCollisionPointLine(point, p1, p2, threshold),
-    () => rl.CoreFlat.CheckCollisionPointLine(
+    () => _flat.CheckCollisionPointLine(
       point,
       p1,
       p2,
@@ -3196,7 +3198,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<Vector2D> points,
   ) => run(
     () => _debugLabels.CheckCollisionPointPoly(point, points),
-    () => rl.CoreFlat.CheckCollisionPointPoly(
+    () => _flat.CheckCollisionPointPoly(
       point,
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
@@ -3213,7 +3215,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.CheckCollisionLines(startPos1, endPos1, startPos2, endPos2),
     () {
       final collisionPoint = rl.Temp.Vector2$.Ref5();
-      final result = rl.CoreFlat.CheckCollisionLines(
+      final result = _flat.CheckCollisionLines(
         startPos1,
         endPos1,
         startPos2,
@@ -3230,7 +3232,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD rec2,
   ) => run(
     () => _debugLabels.GetCollisionRec(rec1, rec2),
-    () => rl.CoreFlat.GetCollisionRec(
+    () => _flat.GetCollisionRec(
       rec1,
       rec2,
     ),
@@ -3241,7 +3243,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadImage(fileName),
-    () => rl.CoreFlat.LoadImage(
+    () => _flat.LoadImage(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -3255,7 +3257,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num headerSize,
   ) => run(
     () => _debugLabels.LoadImageRaw(fileName, width, height, format, headerSize),
-    () => rl.CoreFlat.LoadImageRaw(
+    () => _flat.LoadImageRaw(
       rl.Temp.String$.ValueOrNull(fileName),
       width.toInt(),
       height.toInt(),
@@ -3271,7 +3273,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadImageAnim(fileName),
     () {
       final frames = rl.Temp.Int$.Ref1();
-      final image = rl.CoreFlat.LoadImageAnim(
+      final image = _flat.LoadImageAnim(
         rl.Temp.String$.ValueOrNull(fileName),
         frames,
       );
@@ -3288,7 +3290,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadImageAnimFromMemory(fileType, fileData),
     () {
       final frames = rl.Temp.Int$.Ref1();
-      final image = rl.CoreFlat.LoadImageAnimFromMemory(
+      final image = _flat.LoadImageAnimFromMemory(
         rl.Temp.String$.ValueOrNull(fileType),
         rl.Temp.UnsignedChar$.Array(fileData),
         fileData.length,
@@ -3305,7 +3307,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List fileData,
   ) => run(
     () => _debugLabels.LoadImageFromMemory(fileType, fileData),
-    () => rl.CoreFlat.LoadImageFromMemory(
+    () => _flat.LoadImageFromMemory(
       rl.Temp.String$.ValueOrNull(fileType),
       rl.Temp.UnsignedChar$.Array(fileData),
       fileData.length,
@@ -3317,7 +3319,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureD texture,
   ) => run(
     () => _debugLabels.LoadImageFromTexture(texture),
-    () => rl.CoreFlat.LoadImageFromTexture(
+    () => _flat.LoadImageFromTexture(
       texture,
     ),
   );
@@ -3325,7 +3327,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Load image from screen buffer and (screenshot)
   ImageD LoadImageFromScreen() => run(
     () => _debugLabels.LoadImageFromScreen(),
-    () => rl.CoreFlat.LoadImageFromScreen(),
+    () => _flat.LoadImageFromScreen(),
   );
 
   /// Check if an image is valid (data and parameters)
@@ -3333,7 +3335,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.IsImageValid(image),
-    () => rl.CoreFlat.IsImageValid(
+    () => _flat.IsImageValid(
       image,
     ),
   );
@@ -3343,7 +3345,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.UnloadImage(image),
-    () => rl.CoreFlat.UnloadImage(
+    () => _flat.UnloadImage(
       image,
     ),
   );
@@ -3354,7 +3356,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportImage(image, fileName),
-    () => rl.CoreFlat.ExportImage(
+    () => _flat.ExportImage(
       image,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -3368,7 +3370,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.ExportImageToMemory(image, fileType),
     () {
       final dataSize = rl.Temp.Int$.Ref1();
-      final dataPtr = rl.CoreFlat.ExportImageToMemory(
+      final dataPtr = _flat.ExportImageToMemory(
         image,
         rl.Temp.String$.ValueOrNull(fileType),
         dataSize,
@@ -3383,7 +3385,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportImageAsCode(image, fileName),
-    () => rl.CoreFlat.ExportImageAsCode(
+    () => _flat.ExportImageAsCode(
       image,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -3396,7 +3398,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.GenImageColor(width, height, color),
-    () => rl.CoreFlat.GenImageColor(
+    () => _flat.GenImageColor(
       width.toInt(),
       height.toInt(),
       color,
@@ -3412,7 +3414,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD end,
   ) => run(
     () => _debugLabels.GenImageGradientLinear(width, height, direction, start, end),
-    () => rl.CoreFlat.GenImageGradientLinear(
+    () => _flat.GenImageGradientLinear(
       width.toInt(),
       height.toInt(),
       direction.toInt(),
@@ -3430,7 +3432,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD outer,
   ) => run(
     () => _debugLabels.GenImageGradientRadial(width, height, density, inner, outer),
-    () => rl.CoreFlat.GenImageGradientRadial(
+    () => _flat.GenImageGradientRadial(
       width.toInt(),
       height.toInt(),
       density.toDouble(),
@@ -3448,7 +3450,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD outer,
   ) => run(
     () => _debugLabels.GenImageGradientSquare(width, height, density, inner, outer),
-    () => rl.CoreFlat.GenImageGradientSquare(
+    () => _flat.GenImageGradientSquare(
       width.toInt(),
       height.toInt(),
       density.toDouble(),
@@ -3467,7 +3469,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD col2,
   ) => run(
     () => _debugLabels.GenImageChecked(width, height, checksX, checksY, col1, col2),
-    () => rl.CoreFlat.GenImageChecked(
+    () => _flat.GenImageChecked(
       width.toInt(),
       height.toInt(),
       checksX.toInt(),
@@ -3484,7 +3486,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num factor,
   ) => run(
     () => _debugLabels.GenImageWhiteNoise(width, height, factor),
-    () => rl.CoreFlat.GenImageWhiteNoise(
+    () => _flat.GenImageWhiteNoise(
       width.toInt(),
       height.toInt(),
       factor.toDouble(),
@@ -3500,7 +3502,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num scale,
   ) => run(
     () => _debugLabels.GenImagePerlinNoise(width, height, offsetX, offsetY, scale),
-    () => rl.CoreFlat.GenImagePerlinNoise(
+    () => _flat.GenImagePerlinNoise(
       width.toInt(),
       height.toInt(),
       offsetX.toInt(),
@@ -3516,7 +3518,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num tileSize,
   ) => run(
     () => _debugLabels.GenImageCellular(width, height, tileSize),
-    () => rl.CoreFlat.GenImageCellular(
+    () => _flat.GenImageCellular(
       width.toInt(),
       height.toInt(),
       tileSize.toInt(),
@@ -3530,7 +3532,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String text,
   ) => run(
     () => _debugLabels.GenImageText(width, height, text),
-    () => rl.CoreFlat.GenImageText(
+    () => _flat.GenImageText(
       width.toInt(),
       height.toInt(),
       rl.Temp.String$.ValueOrNull(text),
@@ -3542,7 +3544,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageCopy(image),
-    () => rl.CoreFlat.ImageCopy(
+    () => _flat.ImageCopy(
       image,
     ),
   );
@@ -3553,7 +3555,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD rec,
   ) => run(
     () => _debugLabels.ImageFromImage(image, rec),
-    () => rl.CoreFlat.ImageFromImage(
+    () => _flat.ImageFromImage(
       image,
       rec,
     ),
@@ -3565,7 +3567,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num selectedChannel,
   ) => run(
     () => _debugLabels.ImageFromChannel(image, selectedChannel),
-    () => rl.CoreFlat.ImageFromChannel(
+    () => _flat.ImageFromChannel(
       image,
       selectedChannel.toInt(),
     ),
@@ -3578,7 +3580,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageText(text, fontSize, color),
-    () => rl.CoreFlat.ImageText(
+    () => _flat.ImageText(
       rl.Temp.String$.ValueOrNull(text),
       fontSize.toInt(),
       color,
@@ -3594,7 +3596,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ImageTextEx(font, text, fontSize, spacing, tint),
-    () => rl.CoreFlat.ImageTextEx(
+    () => _flat.ImageTextEx(
       font,
       rl.Temp.String$.ValueOrNull(text),
       fontSize.toDouble(),
@@ -3609,7 +3611,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     PixelFormat newFormat,
   ) => run(
     () => _debugLabels.ImageFormat(image, newFormat),
-    () => rl.CoreFlat.ImageFormat(
+    () => _flat.ImageFormat(
       rl.Temp.Image$.Ref1(image),
       newFormat.value,
     ),
@@ -3621,7 +3623,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD fill,
   ) => run(
     () => _debugLabels.ImageToPOT(image, fill),
-    () => rl.CoreFlat.ImageToPOT(
+    () => _flat.ImageToPOT(
       rl.Temp.Image$.Ref1(image),
       fill,
     ),
@@ -3633,7 +3635,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RectangleD crop,
   ) => run(
     () => _debugLabels.ImageCrop(image, crop),
-    () => rl.CoreFlat.ImageCrop(
+    () => _flat.ImageCrop(
       rl.Temp.Image$.Ref1(image),
       crop,
     ),
@@ -3645,7 +3647,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.ImageAlphaCrop(image, threshold),
-    () => rl.CoreFlat.ImageAlphaCrop(
+    () => _flat.ImageAlphaCrop(
       rl.Temp.Image$.Ref1(image),
       threshold.toDouble(),
     ),
@@ -3658,7 +3660,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.ImageAlphaClear(image, color, threshold),
-    () => rl.CoreFlat.ImageAlphaClear(
+    () => _flat.ImageAlphaClear(
       rl.Temp.Image$.Ref1(image),
       color,
       threshold.toDouble(),
@@ -3671,7 +3673,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD alphaMask,
   ) => run(
     () => _debugLabels.ImageAlphaMask(image, alphaMask),
-    () => rl.CoreFlat.ImageAlphaMask(
+    () => _flat.ImageAlphaMask(
       rl.Temp.Image$.Ref1(image),
       alphaMask,
     ),
@@ -3682,7 +3684,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageAlphaPremultiply(image),
-    () => rl.CoreFlat.ImageAlphaPremultiply(
+    () => _flat.ImageAlphaPremultiply(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3693,7 +3695,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num blurSize,
   ) => run(
     () => _debugLabels.ImageBlurGaussian(image, blurSize),
-    () => rl.CoreFlat.ImageBlurGaussian(
+    () => _flat.ImageBlurGaussian(
       rl.Temp.Image$.Ref1(image),
       blurSize.toInt(),
     ),
@@ -3705,7 +3707,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<double> kernel,
   ) => run(
     () => _debugLabels.ImageKernelConvolution(image, kernel),
-    () => rl.CoreFlat.ImageKernelConvolution(
+    () => _flat.ImageKernelConvolution(
       rl.Temp.Image$.Ref1(image),
       rl.Temp.Float32$.Array(kernel),
       kernel.length,
@@ -3719,7 +3721,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num newHeight,
   ) => run(
     () => _debugLabels.ImageResize(image, newWidth, newHeight),
-    () => rl.CoreFlat.ImageResize(
+    () => _flat.ImageResize(
       rl.Temp.Image$.Ref1(image),
       newWidth.toInt(),
       newHeight.toInt(),
@@ -3733,7 +3735,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num newHeight,
   ) => run(
     () => _debugLabels.ImageResizeNN(image, newWidth, newHeight),
-    () => rl.CoreFlat.ImageResizeNN(
+    () => _flat.ImageResizeNN(
       rl.Temp.Image$.Ref1(image),
       newWidth.toInt(),
       newHeight.toInt(),
@@ -3750,7 +3752,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD fill,
   ) => run(
     () => _debugLabels.ImageResizeCanvas(image, newWidth, newHeight, offsetX, offsetY, fill),
-    () => rl.CoreFlat.ImageResizeCanvas(
+    () => _flat.ImageResizeCanvas(
       rl.Temp.Image$.Ref1(image),
       newWidth.toInt(),
       newHeight.toInt(),
@@ -3765,7 +3767,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageMipmaps(image),
-    () => rl.CoreFlat.ImageMipmaps(
+    () => _flat.ImageMipmaps(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3779,7 +3781,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num aBpp,
   ) => run(
     () => _debugLabels.ImageDither(image, rBpp, gBpp, bBpp, aBpp),
-    () => rl.CoreFlat.ImageDither(
+    () => _flat.ImageDither(
       rl.Temp.Image$.Ref1(image),
       rBpp.toInt(),
       gBpp.toInt(),
@@ -3793,7 +3795,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageFlipVertical(image),
-    () => rl.CoreFlat.ImageFlipVertical(
+    () => _flat.ImageFlipVertical(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3803,7 +3805,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageFlipHorizontal(image),
-    () => rl.CoreFlat.ImageFlipHorizontal(
+    () => _flat.ImageFlipHorizontal(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3814,7 +3816,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num degrees,
   ) => run(
     () => _debugLabels.ImageRotate(image, degrees),
-    () => rl.CoreFlat.ImageRotate(
+    () => _flat.ImageRotate(
       rl.Temp.Image$.Ref1(image),
       degrees.toInt(),
     ),
@@ -3825,7 +3827,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageRotateCW(image),
-    () => rl.CoreFlat.ImageRotateCW(
+    () => _flat.ImageRotateCW(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3835,7 +3837,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageRotateCCW(image),
-    () => rl.CoreFlat.ImageRotateCCW(
+    () => _flat.ImageRotateCCW(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3846,7 +3848,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageColorTint(image, color),
-    () => rl.CoreFlat.ImageColorTint(
+    () => _flat.ImageColorTint(
       rl.Temp.Image$.Ref1(image),
       color,
     ),
@@ -3857,7 +3859,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageColorInvert(image),
-    () => rl.CoreFlat.ImageColorInvert(
+    () => _flat.ImageColorInvert(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3867,7 +3869,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.ImageColorGrayscale(image),
-    () => rl.CoreFlat.ImageColorGrayscale(
+    () => _flat.ImageColorGrayscale(
       rl.Temp.Image$.Ref1(image),
     ),
   );
@@ -3878,7 +3880,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num contrast,
   ) => run(
     () => _debugLabels.ImageColorContrast(image, contrast),
-    () => rl.CoreFlat.ImageColorContrast(
+    () => _flat.ImageColorContrast(
       rl.Temp.Image$.Ref1(image),
       contrast.toDouble(),
     ),
@@ -3890,7 +3892,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num brightness,
   ) => run(
     () => _debugLabels.ImageColorBrightness(image, brightness),
-    () => rl.CoreFlat.ImageColorBrightness(
+    () => _flat.ImageColorBrightness(
       rl.Temp.Image$.Ref1(image),
       brightness.toInt(),
     ),
@@ -3903,7 +3905,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD replace,
   ) => run(
     () => _debugLabels.ImageColorReplace(image, color, replace),
-    () => rl.CoreFlat.ImageColorReplace(
+    () => _flat.ImageColorReplace(
       rl.Temp.Image$.Ref1(image),
       color,
       replace,
@@ -3916,13 +3918,13 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadImageColors(image),
     () {
-      final colors = rl.CoreFlat.LoadImageColors(
+      final colors = _flat.LoadImageColors(
         image,
       );
       try {
         return colors.readArray(image.width * image.height, owned: false);
       } finally {
-        rl.CoreFlat.UnloadImageColors(colors);
+        _flat.UnloadImageColors(colors);
       }
     },
   );
@@ -3935,7 +3937,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadImagePalette(image, maxPaletteSize),
     () {
       final colorCount = rl.Temp.Int$.Ref1();
-      final colors = rl.CoreFlat.LoadImagePalette(
+      final colors = _flat.LoadImagePalette(
         image,
         maxPaletteSize.toInt(),
         colorCount,
@@ -3943,7 +3945,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
       try {
         return colors.readArray(colorCount.value, owned: false);
       } finally {
-        rl.CoreFlat.UnloadImagePalette(colors);
+        _flat.UnloadImagePalette(colors);
       }
     },
   );
@@ -3954,7 +3956,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num threshold,
   ) => run(
     () => _debugLabels.GetImageAlphaBorder(image, threshold),
-    () => rl.CoreFlat.GetImageAlphaBorder(
+    () => _flat.GetImageAlphaBorder(
       image,
       threshold.toDouble(),
     ),
@@ -3967,7 +3969,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num y,
   ) => run(
     () => _debugLabels.GetImageColor(image, x, y),
-    () => rl.CoreFlat.GetImageColor(
+    () => _flat.GetImageColor(
       image,
       x.toInt(),
       y.toInt(),
@@ -3980,7 +3982,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageClearBackground(dst, color),
-    () => rl.CoreFlat.ImageClearBackground(
+    () => _flat.ImageClearBackground(
       rl.Temp.Image$.Ref1(dst),
       color,
     ),
@@ -3994,7 +3996,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawPixel(dst, posX, posY, color),
-    () => rl.CoreFlat.ImageDrawPixel(
+    () => _flat.ImageDrawPixel(
       rl.Temp.Image$.Ref1(dst),
       posX.toInt(),
       posY.toInt(),
@@ -4009,7 +4011,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawPixelV(dst, position, color),
-    () => rl.CoreFlat.ImageDrawPixelV(
+    () => _flat.ImageDrawPixelV(
       rl.Temp.Image$.Ref1(dst),
       position,
       color,
@@ -4026,7 +4028,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLine(dst, startPosX, startPosY, endPosX, endPosY, color),
-    () => rl.CoreFlat.ImageDrawLine(
+    () => _flat.ImageDrawLine(
       rl.Temp.Image$.Ref1(dst),
       startPosX.toInt(),
       startPosY.toInt(),
@@ -4044,7 +4046,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLineV(dst, start, end, color),
-    () => rl.CoreFlat.ImageDrawLineV(
+    () => _flat.ImageDrawLineV(
       rl.Temp.Image$.Ref1(dst),
       start,
       end,
@@ -4061,7 +4063,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawLineEx(dst, start, end, thick, color),
-    () => rl.CoreFlat.ImageDrawLineEx(
+    () => _flat.ImageDrawLineEx(
       rl.Temp.Image$.Ref1(dst),
       start,
       end,
@@ -4079,7 +4081,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircle(dst, centerX, centerY, radius, color),
-    () => rl.CoreFlat.ImageDrawCircle(
+    () => _flat.ImageDrawCircle(
       rl.Temp.Image$.Ref1(dst),
       centerX.toInt(),
       centerY.toInt(),
@@ -4096,7 +4098,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleV(dst, center, radius, color),
-    () => rl.CoreFlat.ImageDrawCircleV(
+    () => _flat.ImageDrawCircleV(
       rl.Temp.Image$.Ref1(dst),
       center,
       radius.toInt(),
@@ -4113,7 +4115,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleLines(dst, centerX, centerY, radius, color),
-    () => rl.CoreFlat.ImageDrawCircleLines(
+    () => _flat.ImageDrawCircleLines(
       rl.Temp.Image$.Ref1(dst),
       centerX.toInt(),
       centerY.toInt(),
@@ -4130,7 +4132,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawCircleLinesV(dst, center, radius, color),
-    () => rl.CoreFlat.ImageDrawCircleLinesV(
+    () => _flat.ImageDrawCircleLinesV(
       rl.Temp.Image$.Ref1(dst),
       center,
       radius.toInt(),
@@ -4148,7 +4150,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangle(dst, posX, posY, width, height, color),
-    () => rl.CoreFlat.ImageDrawRectangle(
+    () => _flat.ImageDrawRectangle(
       rl.Temp.Image$.Ref1(dst),
       posX.toInt(),
       posY.toInt(),
@@ -4166,7 +4168,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleV(dst, position, size, color),
-    () => rl.CoreFlat.ImageDrawRectangleV(
+    () => _flat.ImageDrawRectangleV(
       rl.Temp.Image$.Ref1(dst),
       position,
       size,
@@ -4181,7 +4183,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleRec(dst, rec, color),
-    () => rl.CoreFlat.ImageDrawRectangleRec(
+    () => _flat.ImageDrawRectangleRec(
       rl.Temp.Image$.Ref1(dst),
       rec,
       color,
@@ -4196,7 +4198,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawRectangleLines(dst, rec, thick, color),
-    () => rl.CoreFlat.ImageDrawRectangleLines(
+    () => _flat.ImageDrawRectangleLines(
       rl.Temp.Image$.Ref1(dst),
       rec,
       thick.toInt(),
@@ -4213,7 +4215,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangle(dst, v1, v2, v3, color),
-    () => rl.CoreFlat.ImageDrawTriangle(
+    () => _flat.ImageDrawTriangle(
       rl.Temp.Image$.Ref1(dst),
       v1,
       v2,
@@ -4233,7 +4235,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD c3,
   ) => run(
     () => _debugLabels.ImageDrawTriangleEx(dst, v1, v2, v3, c1, c2, c3),
-    () => rl.CoreFlat.ImageDrawTriangleEx(
+    () => _flat.ImageDrawTriangleEx(
       rl.Temp.Image$.Ref1(dst),
       v1,
       v2,
@@ -4253,7 +4255,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleLines(dst, v1, v2, v3, color),
-    () => rl.CoreFlat.ImageDrawTriangleLines(
+    () => _flat.ImageDrawTriangleLines(
       rl.Temp.Image$.Ref1(dst),
       v1,
       v2,
@@ -4269,7 +4271,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleFan(dst, points, color),
-    () => rl.CoreFlat.ImageDrawTriangleFan(
+    () => _flat.ImageDrawTriangleFan(
       rl.Temp.Image$.Ref1(dst),
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
@@ -4284,7 +4286,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawTriangleStrip(dst, points, color),
-    () => rl.CoreFlat.ImageDrawTriangleStrip(
+    () => _flat.ImageDrawTriangleStrip(
       rl.Temp.Image$.Ref1(dst),
       rl.Temp.Vector2$.ArrayStruct(points),
       points.length,
@@ -4301,7 +4303,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ImageDraw(dst, src, srcRec, dstRec, tint),
-    () => rl.CoreFlat.ImageDraw(
+    () => _flat.ImageDraw(
       rl.Temp.Image$.Ref1(dst),
       src,
       srcRec,
@@ -4320,7 +4322,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ImageDrawText(dst, text, posX, posY, fontSize, color),
-    () => rl.CoreFlat.ImageDrawText(
+    () => _flat.ImageDrawText(
       rl.Temp.Image$.Ref1(dst),
       rl.Temp.String$.ValueOrNull(text),
       posX.toInt(),
@@ -4341,7 +4343,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ImageDrawTextEx(dst, font, text, position, fontSize, spacing, tint),
-    () => rl.CoreFlat.ImageDrawTextEx(
+    () => _flat.ImageDrawTextEx(
       rl.Temp.Image$.Ref1(dst),
       font,
       rl.Temp.String$.ValueOrNull(text),
@@ -4357,7 +4359,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadTexture(fileName),
-    () => rl.CoreFlat.LoadTexture(
+    () => _flat.LoadTexture(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -4367,7 +4369,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ImageD image,
   ) => run(
     () => _debugLabels.LoadTextureFromImage(image),
-    () => rl.CoreFlat.LoadTextureFromImage(
+    () => _flat.LoadTextureFromImage(
       image,
     ),
   );
@@ -4378,7 +4380,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     CubemapLayout layout,
   ) => run(
     () => _debugLabels.LoadTextureCubemap(image, layout),
-    () => rl.CoreFlat.LoadTextureCubemap(
+    () => _flat.LoadTextureCubemap(
       image,
       layout.value,
     ),
@@ -4390,7 +4392,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num height,
   ) => run(
     () => _debugLabels.LoadRenderTexture(width, height),
-    () => rl.CoreFlat.LoadRenderTexture(
+    () => _flat.LoadRenderTexture(
       width.toInt(),
       height.toInt(),
     ),
@@ -4401,7 +4403,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureD texture,
   ) => run(
     () => _debugLabels.IsTextureValid(texture),
-    () => rl.CoreFlat.IsTextureValid(
+    () => _flat.IsTextureValid(
       texture,
     ),
   );
@@ -4412,7 +4414,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.UnloadTexture(texture),
     () {
-      rl.CoreFlat.UnloadTexture(
+      _flat.UnloadTexture(
         texture,
       );
       texture.structMarkDisposed();
@@ -4424,7 +4426,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RenderTextureD target,
   ) => run(
     () => _debugLabels.IsRenderTextureValid(target),
-    () => rl.CoreFlat.IsRenderTextureValid(
+    () => _flat.IsRenderTextureValid(
       target,
     ),
   );
@@ -4434,7 +4436,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     RenderTextureD target,
   ) => run(
     () => _debugLabels.UnloadRenderTexture(target),
-    () => rl.CoreFlat.UnloadRenderTexture(
+    () => _flat.UnloadRenderTexture(
       target,
     ),
   );
@@ -4445,7 +4447,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List pixels,
   ) => run(
     () => _debugLabels.UpdateTexture(texture, pixels),
-    () => rl.CoreFlat.UpdateTexture(
+    () => _flat.UpdateTexture(
       texture,
       rl.Temp.Uint8$.Array(pixels).cast(),
     ),
@@ -4458,7 +4460,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Uint8List pixels,
   ) => run(
     () => _debugLabels.UpdateTextureRec(texture, rec, pixels),
-    () => rl.CoreFlat.UpdateTextureRec(
+    () => _flat.UpdateTextureRec(
       texture,
       rec,
       rl.Temp.Uint8$.Array(pixels).cast(),
@@ -4470,7 +4472,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureD texture,
   ) => run(
     () => _debugLabels.GenTextureMipmaps(texture),
-    () => rl.CoreFlat.GenTextureMipmaps(
+    () => _flat.GenTextureMipmaps(
       rl.Temp.Texture$.Ref1(texture),
     ),
   );
@@ -4481,7 +4483,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureFilter filter,
   ) => run(
     () => _debugLabels.SetTextureFilter(texture, filter),
-    () => rl.CoreFlat.SetTextureFilter(
+    () => _flat.SetTextureFilter(
       texture,
       filter.value,
     ),
@@ -4493,7 +4495,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     TextureWrap wrap,
   ) => run(
     () => _debugLabels.SetTextureWrap(texture, wrap),
-    () => rl.CoreFlat.SetTextureWrap(
+    () => _flat.SetTextureWrap(
       texture,
       wrap.value,
     ),
@@ -4507,7 +4509,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTexture(texture, posX, posY, tint),
-    () => rl.CoreFlat.DrawTexture(
+    () => _flat.DrawTexture(
       texture,
       posX.toInt(),
       posY.toInt(),
@@ -4522,7 +4524,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextureV(texture, position, tint),
-    () => rl.CoreFlat.DrawTextureV(
+    () => _flat.DrawTextureV(
       texture,
       position,
       tint,
@@ -4538,7 +4540,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextureEx(texture, position, rotation, scale, tint),
-    () => rl.CoreFlat.DrawTextureEx(
+    () => _flat.DrawTextureEx(
       texture,
       position,
       rotation.toDouble(),
@@ -4555,7 +4557,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextureRec(texture, source, position, tint),
-    () => rl.CoreFlat.DrawTextureRec(
+    () => _flat.DrawTextureRec(
       texture,
       source,
       position,
@@ -4573,7 +4575,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTexturePro(texture, source, dest, origin, rotation, tint),
-    () => rl.CoreFlat.DrawTexturePro(
+    () => _flat.DrawTexturePro(
       texture,
       source,
       dest,
@@ -4593,7 +4595,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextureNPatch(texture, nPatchInfo, dest, origin, rotation, tint),
-    () => rl.CoreFlat.DrawTextureNPatch(
+    () => _flat.DrawTextureNPatch(
       texture,
       nPatchInfo,
       dest,
@@ -4609,7 +4611,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD col2,
   ) => run(
     () => _debugLabels.ColorIsEqual(col1, col2),
-    () => rl.CoreFlat.ColorIsEqual(
+    () => _flat.ColorIsEqual(
       col1,
       col2,
     ),
@@ -4621,7 +4623,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num alpha,
   ) => run(
     () => _debugLabels.Fade(color, alpha),
-    () => rl.CoreFlat.Fade(
+    () => _flat.Fade(
       color,
       alpha.toDouble(),
     ),
@@ -4632,7 +4634,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ColorToInt(color),
-    () => rl.CoreFlat.ColorToInt(
+    () => _flat.ColorToInt(
       color,
     ),
   );
@@ -4642,7 +4644,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ColorNormalize(color),
-    () => rl.CoreFlat.ColorNormalize(
+    () => _flat.ColorNormalize(
       color,
     ),
   );
@@ -4652,7 +4654,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector4D normalized,
   ) => run(
     () => _debugLabels.ColorFromNormalized(normalized),
-    () => rl.CoreFlat.ColorFromNormalized(
+    () => _flat.ColorFromNormalized(
       normalized,
     ),
   );
@@ -4662,7 +4664,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.ColorToHSV(color),
-    () => rl.CoreFlat.ColorToHSV(
+    () => _flat.ColorToHSV(
       color,
     ),
   );
@@ -4674,7 +4676,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num value,
   ) => run(
     () => _debugLabels.ColorFromHSV(hue, saturation, value),
-    () => rl.CoreFlat.ColorFromHSV(
+    () => _flat.ColorFromHSV(
       hue.toDouble(),
       saturation.toDouble(),
       value.toDouble(),
@@ -4687,7 +4689,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ColorTint(color, tint),
-    () => rl.CoreFlat.ColorTint(
+    () => _flat.ColorTint(
       color,
       tint,
     ),
@@ -4699,7 +4701,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num factor,
   ) => run(
     () => _debugLabels.ColorBrightness(color, factor),
-    () => rl.CoreFlat.ColorBrightness(
+    () => _flat.ColorBrightness(
       color,
       factor.toDouble(),
     ),
@@ -4711,7 +4713,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num contrast,
   ) => run(
     () => _debugLabels.ColorContrast(color, contrast),
-    () => rl.CoreFlat.ColorContrast(
+    () => _flat.ColorContrast(
       color,
       contrast.toDouble(),
     ),
@@ -4723,7 +4725,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num alpha,
   ) => run(
     () => _debugLabels.ColorAlpha(color, alpha),
-    () => rl.CoreFlat.ColorAlpha(
+    () => _flat.ColorAlpha(
       color,
       alpha.toDouble(),
     ),
@@ -4736,7 +4738,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.ColorAlphaBlend(dst, src, tint),
-    () => rl.CoreFlat.ColorAlphaBlend(
+    () => _flat.ColorAlphaBlend(
       dst,
       src,
       tint,
@@ -4750,7 +4752,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num factor,
   ) => run(
     () => _debugLabels.ColorLerp(color1, color2, factor),
-    () => rl.CoreFlat.ColorLerp(
+    () => _flat.ColorLerp(
       color1,
       color2,
       factor.toDouble(),
@@ -4762,7 +4764,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num hexValue,
   ) => run(
     () => _debugLabels.GetColor(hexValue),
-    () => rl.CoreFlat.GetColor(
+    () => _flat.GetColor(
       hexValue.toInt(),
     ),
   );
@@ -4774,7 +4776,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     PixelFormat format,
   ) => run(
     () => _debugLabels.GetPixelDataSize(width, height, format),
-    () => rl.CoreFlat.GetPixelDataSize(
+    () => _flat.GetPixelDataSize(
       width.toInt(),
       height.toInt(),
       format.value,
@@ -4784,7 +4786,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Get the default Font
   FontD GetFontDefault() => run(
     () => _debugLabels.GetFontDefault(),
-    () => rl.CoreFlat.GetFontDefault(),
+    () => _flat.GetFontDefault(),
   );
 
   /// Load font from file into GPU memory (VRAM)
@@ -4792,7 +4794,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadFont(fileName),
-    () => rl.CoreFlat.LoadFont(
+    () => _flat.LoadFont(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -4806,7 +4808,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ]
   ) => run(
     () => _debugLabels.LoadFontEx(fileName, fontSize, codepoints),
-    () => rl.CoreFlat.LoadFontEx(
+    () => _flat.LoadFontEx(
       rl.Temp.String$.ValueOrNull(fileName),
       fontSize.toInt(),
       codepoints == null ? MemoryPointer.nullptr() : rl.Temp.Int$.Array(codepoints).cast(),
@@ -4821,7 +4823,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num firstChar,
   ) => run(
     () => _debugLabels.LoadFontFromImage(image, key, firstChar),
-    () => rl.CoreFlat.LoadFontFromImage(
+    () => _flat.LoadFontFromImage(
       image,
       key,
       firstChar.toInt(),
@@ -4836,7 +4838,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Int32List codepoints,
   ) => run(
     () => _debugLabels.LoadFontFromMemory(fileType, fileData, fontSize, codepoints),
-    () => rl.CoreFlat.LoadFontFromMemory(
+    () => _flat.LoadFontFromMemory(
       rl.Temp.String$.ValueOrNull(fileType),
       rl.Temp.Uint8$.Array(fileData),
       fileData.length,
@@ -4851,7 +4853,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     FontD font,
   ) => run(
     () => _debugLabels.IsFontValid(font),
-    () => rl.CoreFlat.IsFontValid(
+    () => _flat.IsFontValid(
       font,
     ),
   );
@@ -4867,7 +4869,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadFontData(fileData, fontSize, codepoints, codepointCount, type),
     () {
       final glyphCount = rl.Temp.Int$.Ref1();
-      final glyphs = rl.CoreFlat.LoadFontData(
+      final glyphs = _flat.LoadFontData(
         rl.Temp.UnsignedChar$.Array(fileData),
         fileData.length,
         fontSize.toInt(),
@@ -4895,7 +4897,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
       final recsPtr = rl.Temp.Rectangle$.$.Raw();
 
       try {
-        final image = rl.CoreFlat.GenImageFontAtlas(
+        final image = _flat.GenImageFontAtlas(
           glyphs.first.getOp(),
           recsPtr,
           glyphs.length,
@@ -4919,7 +4921,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<GlyphInfoD> glyphs,
   ) => run(
     () => _debugLabels.UnloadFontData(glyphs),
-    () => rl.CoreFlat.UnloadFontData(
+    () => _flat.UnloadFontData(
       glyphs.first.getOp(),
       glyphs.length,
     ),
@@ -4930,7 +4932,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     FontD font,
   ) => run(
     () => _debugLabels.UnloadFont(font),
-    () => rl.CoreFlat.UnloadFont(
+    () => _flat.UnloadFont(
       font,
     ),
   );
@@ -4941,7 +4943,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportFontAsCode(font, fileName),
-    () => rl.CoreFlat.ExportFontAsCode(
+    () => _flat.ExportFontAsCode(
       font,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -4953,7 +4955,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num posY,
   ) => run(
     () => _debugLabels.DrawFPS(posX, posY),
-    () => rl.CoreFlat.DrawFPS(
+    () => _flat.DrawFPS(
       posX.toInt(),
       posY.toInt(),
     ),
@@ -4968,7 +4970,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawText(text, posX, posY, fontSize, color),
-    () => rl.CoreFlat.DrawText(
+    () => _flat.DrawText(
       rl.Temp.String$.ValueOrNull(text),
       posX.toInt(),
       posY.toInt(),
@@ -4987,7 +4989,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextEx(font, text, position, fontSize, spacing, tint),
-    () => rl.CoreFlat.DrawTextEx(
+    () => _flat.DrawTextEx(
       font,
       rl.Temp.String$.ValueOrNull(text),
       position,
@@ -5009,7 +5011,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextPro(font, text, position, origin, rotation, fontSize, spacing, tint),
-    () => rl.CoreFlat.DrawTextPro(
+    () => _flat.DrawTextPro(
       font,
       rl.Temp.String$.ValueOrNull(text),
       position,
@@ -5030,7 +5032,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextCodepoint(font, codepoint, position, fontSize, tint),
-    () => rl.CoreFlat.DrawTextCodepoint(
+    () => _flat.DrawTextCodepoint(
       font,
       codepoint.toInt(),
       position,
@@ -5049,7 +5051,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawTextCodepoints(font, codepoints, position, fontSize, spacing, tint),
-    () => rl.CoreFlat.DrawTextCodepoints(
+    () => _flat.DrawTextCodepoints(
       font,
       rl.Temp.Int$.Array(codepoints),
       codepoints.length,
@@ -5065,7 +5067,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num spacing,
   ) => run(
     () => _debugLabels.SetTextLineSpacing(spacing),
-    () => rl.CoreFlat.SetTextLineSpacing(
+    () => _flat.SetTextLineSpacing(
       spacing.toInt(),
     ),
   );
@@ -5076,7 +5078,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num fontSize,
   ) => run(
     () => _debugLabels.MeasureText(text, fontSize),
-    () => rl.CoreFlat.MeasureText(
+    () => _flat.MeasureText(
       rl.Temp.String$.ValueOrNull(text),
       fontSize.toInt(),
     ),
@@ -5090,7 +5092,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num spacing,
   ) => run(
     () => _debugLabels.MeasureTextEx(font, text, fontSize, spacing),
-    () => rl.CoreFlat.MeasureTextEx(
+    () => _flat.MeasureTextEx(
       font,
       rl.Temp.String$.ValueOrNull(text),
       fontSize.toDouble(),
@@ -5106,7 +5108,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num spacing,
   ) => run(
     () => _debugLabels.MeasureTextCodepoints(font, codepoints, fontSize, spacing),
-    () => rl.CoreFlat.MeasureTextCodepoints(
+    () => _flat.MeasureTextCodepoints(
       font,
       rl.Temp.Int$.Array(codepoints),
       codepoints.length,
@@ -5121,7 +5123,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num codepoint,
   ) => run(
     () => _debugLabels.GetGlyphIndex(font, codepoint),
-    () => rl.CoreFlat.GetGlyphIndex(
+    () => _flat.GetGlyphIndex(
       font,
       codepoint.toInt(),
     ),
@@ -5133,7 +5135,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num codepoint,
   ) => run(
     () => _debugLabels.GetGlyphInfo(font, codepoint),
-    () => rl.CoreFlat.GetGlyphInfo(
+    () => _flat.GetGlyphInfo(
       font,
       codepoint.toInt(),
     ),
@@ -5145,7 +5147,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num codepoint,
   ) => run(
     () => _debugLabels.GetGlyphAtlasRec(font, codepoint),
-    () => rl.CoreFlat.GetGlyphAtlasRec(
+    () => _flat.GetGlyphAtlasRec(
       font,
       codepoint.toInt(),
     ),
@@ -5157,14 +5159,14 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadUTF8(codepoints),
     () {
-      final utf8 = rl.CoreFlat.LoadUTF8(
+      final utf8 = _flat.LoadUTF8(
         rl.Temp.Int$.Array(codepoints),
         codepoints.length,
       );
       try {
         return utf8.toDartString();
       } finally {
-        rl.CoreFlat.UnloadUTF8(utf8);
+        _flat.UnloadUTF8(utf8);
       }
     },
   );
@@ -5176,14 +5178,14 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadCodepoints(text),
     () {
       final count = rl.Temp.Int$.Ref1();
-      final result = rl.CoreFlat.LoadCodepoints(
+      final result = _flat.LoadCodepoints(
         rl.Temp.String$.ValueOrNull(text),
         count,
       );
       try {
         return result.asCopy(count.value);
       } finally {
-        rl.CoreFlat.UnloadCodepoints(result);
+        _flat.UnloadCodepoints(result);
       }
     },
   );
@@ -5193,7 +5195,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String text,
   ) => run(
     () => _debugLabels.GetCodepointCount(text),
-    () => rl.CoreFlat.GetCodepointCount(
+    () => _flat.GetCodepointCount(
       rl.Temp.String$.ValueOrNull(text),
     ),
   );
@@ -5205,7 +5207,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.GetCodepoint(text),
     () {
       final size = rl.Temp.Int$.Ref1();
-      final codepoint = rl.CoreFlat.GetCodepoint(
+      final codepoint = _flat.GetCodepoint(
         rl.Temp.String$.ValueOrNull(text),
         size,
       );
@@ -5220,7 +5222,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.GetCodepointNext(text),
     () {
       final size = rl.Temp.Int$.Ref1();
-      final codepoint = rl.CoreFlat.GetCodepointNext(
+      final codepoint = _flat.GetCodepointNext(
         rl.Temp.String$.ValueOrNull(text),
         size,
       );
@@ -5235,7 +5237,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.GetCodepointPrevious(text),
     () {
       final size = rl.Temp.Int$.Ref1();
-      final codepoint = rl.CoreFlat.GetCodepointPrevious(
+      final codepoint = _flat.GetCodepointPrevious(
         rl.Temp.String$.ValueOrNull(text),
         size,
       );
@@ -5250,7 +5252,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.CodepointToUTF8(codepoint),
     () {
       final size = rl.Temp.Int$.Ref1();
-      final text = rl.CoreFlat.CodepointToUTF8(
+      final text = _flat.CodepointToUTF8(
         codepoint.toInt(),
         size,
       );
@@ -5267,12 +5269,12 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
       final textPtr = rl.Temp.String$.RawValue(text);
       final lineCountPtr = rl.Temp.Int$.Ref1();
       try {
-        final linesPtr = rl.CoreFlat.LoadTextLines(
+        final linesPtr = _flat.LoadTextLines(
           textPtr,
           lineCountPtr,
         );
         final lines = linesPtr.readStringArray(lineCountPtr.value);
-        rl.CoreFlat.UnloadTextLines(linesPtr, lineCountPtr.value);
+        _flat.UnloadTextLines(linesPtr, lineCountPtr.value);
         return lines;
       } finally {
         textPtr.free();
@@ -5513,7 +5515,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawLine3D(startPos, endPos, color),
-    () => rl.CoreFlat.DrawLine3D(
+    () => _flat.DrawLine3D(
       startPos,
       endPos,
       color,
@@ -5526,7 +5528,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPoint3D(position, color),
-    () => rl.CoreFlat.DrawPoint3D(
+    () => _flat.DrawPoint3D(
       position,
       color,
     ),
@@ -5541,7 +5543,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCircle3D(center, radius, rotationAxis, rotationAngle, color),
-    () => rl.CoreFlat.DrawCircle3D(
+    () => _flat.DrawCircle3D(
       center,
       radius.toDouble(),
       rotationAxis,
@@ -5558,7 +5560,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangle3D(v1, v2, v3, color),
-    () => rl.CoreFlat.DrawTriangle3D(
+    () => _flat.DrawTriangle3D(
       v1,
       v2,
       v3,
@@ -5572,7 +5574,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawTriangleStrip3D(points, color),
-    () => rl.CoreFlat.DrawTriangleStrip3D(
+    () => _flat.DrawTriangleStrip3D(
       rl.Temp.Vector3$.ArrayStruct(points),
       points.length,
       color,
@@ -5588,7 +5590,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCube(position, width, height, length, color),
-    () => rl.CoreFlat.DrawCube(
+    () => _flat.DrawCube(
       position,
       width.toDouble(),
       height.toDouble(),
@@ -5604,7 +5606,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCubeV(position, size, color),
-    () => rl.CoreFlat.DrawCubeV(
+    () => _flat.DrawCubeV(
       position,
       size,
       color,
@@ -5620,7 +5622,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCubeWires(position, width, height, length, color),
-    () => rl.CoreFlat.DrawCubeWires(
+    () => _flat.DrawCubeWires(
       position,
       width.toDouble(),
       height.toDouble(),
@@ -5636,7 +5638,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCubeWiresV(position, size, color),
-    () => rl.CoreFlat.DrawCubeWiresV(
+    () => _flat.DrawCubeWiresV(
       position,
       size,
       color,
@@ -5650,7 +5652,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSphere(centerPos, radius, color),
-    () => rl.CoreFlat.DrawSphere(
+    () => _flat.DrawSphere(
       centerPos,
       radius.toDouble(),
       color,
@@ -5666,7 +5668,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSphereEx(centerPos, radius, rings, slices, color),
-    () => rl.CoreFlat.DrawSphereEx(
+    () => _flat.DrawSphereEx(
       centerPos,
       radius.toDouble(),
       rings.toInt(),
@@ -5684,7 +5686,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawSphereWires(centerPos, radius, rings, slices, color),
-    () => rl.CoreFlat.DrawSphereWires(
+    () => _flat.DrawSphereWires(
       centerPos,
       radius.toDouble(),
       rings.toInt(),
@@ -5703,7 +5705,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCylinder(position, radiusTop, radiusBottom, height, slices, color),
-    () => rl.CoreFlat.DrawCylinder(
+    () => _flat.DrawCylinder(
       position,
       radiusTop.toDouble(),
       radiusBottom.toDouble(),
@@ -5723,7 +5725,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCylinderEx(startPos, endPos, startRadius, endRadius, sides, color),
-    () => rl.CoreFlat.DrawCylinderEx(
+    () => _flat.DrawCylinderEx(
       startPos,
       endPos,
       startRadius.toDouble(),
@@ -5743,7 +5745,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCylinderWires(position, radiusTop, radiusBottom, height, slices, color),
-    () => rl.CoreFlat.DrawCylinderWires(
+    () => _flat.DrawCylinderWires(
       position,
       radiusTop.toDouble(),
       radiusBottom.toDouble(),
@@ -5763,7 +5765,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCylinderWiresEx(startPos, endPos, startRadius, endRadius, sides, color),
-    () => rl.CoreFlat.DrawCylinderWiresEx(
+    () => _flat.DrawCylinderWiresEx(
       startPos,
       endPos,
       startRadius.toDouble(),
@@ -5783,7 +5785,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCapsule(startPos, endPos, radius, slices, rings, color),
-    () => rl.CoreFlat.DrawCapsule(
+    () => _flat.DrawCapsule(
       startPos,
       endPos,
       radius.toDouble(),
@@ -5803,7 +5805,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawCapsuleWires(startPos, endPos, radius, slices, rings, color),
-    () => rl.CoreFlat.DrawCapsuleWires(
+    () => _flat.DrawCapsuleWires(
       startPos,
       endPos,
       radius.toDouble(),
@@ -5820,7 +5822,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawPlane(centerPos, size, color),
-    () => rl.CoreFlat.DrawPlane(
+    () => _flat.DrawPlane(
       centerPos,
       size,
       color,
@@ -5833,7 +5835,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawRay(ray, color),
-    () => rl.CoreFlat.DrawRay(
+    () => _flat.DrawRay(
       ray,
       color,
     ),
@@ -5845,7 +5847,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num spacing,
   ) => run(
     () => _debugLabels.DrawGrid(slices, spacing),
-    () => rl.CoreFlat.DrawGrid(
+    () => _flat.DrawGrid(
       slices.toInt(),
       spacing.toDouble(),
     ),
@@ -5856,7 +5858,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.LoadModel(fileName),
-    () => rl.CoreFlat.LoadModel(
+    () => _flat.LoadModel(
       rl.Temp.String$.ValueOrNull(fileName),
     ),
   );
@@ -5866,7 +5868,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MeshD mesh,
   ) => run(
     () => _debugLabels.LoadModelFromMesh(mesh),
-    () => rl.CoreFlat.LoadModelFromMesh(
+    () => _flat.LoadModelFromMesh(
       mesh,
     ),
   );
@@ -5876,7 +5878,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ModelD model,
   ) => run(
     () => _debugLabels.IsModelValid(model),
-    () => rl.CoreFlat.IsModelValid(
+    () => _flat.IsModelValid(
       model,
     ),
   );
@@ -5886,7 +5888,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ModelD model,
   ) => run(
     () => _debugLabels.UnloadModel(model),
-    () => rl.CoreFlat.UnloadModel(
+    () => _flat.UnloadModel(
       model,
     ),
   );
@@ -5896,7 +5898,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ModelD model,
   ) => run(
     () => _debugLabels.GetModelBoundingBox(model),
-    () => rl.CoreFlat.GetModelBoundingBox(
+    () => _flat.GetModelBoundingBox(
       model,
     ),
   );
@@ -5909,7 +5911,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint
   ) => run(
     () => _debugLabels.DrawModel(model, position, scale, tint),
-    () => rl.CoreFlat.DrawModel(
+    () => _flat.DrawModel(
       model,
       position,
       scale.toDouble(),
@@ -5927,7 +5929,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawModelEx(model, position, rotationAxis, rotationAngle, scale, tint),
-    () => rl.CoreFlat.DrawModelEx(
+    () => _flat.DrawModelEx(
       model,
       position,
       rotationAxis,
@@ -5945,7 +5947,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawModelWires(model, position, scale, tint),
-    () => rl.CoreFlat.DrawModelWires(
+    () => _flat.DrawModelWires(
       model,
       position,
       scale.toDouble(),
@@ -5963,7 +5965,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawModelWiresEx(model, position, rotationAxis, rotationAngle, scale, tint),
-    () => rl.CoreFlat.DrawModelWiresEx(
+    () => _flat.DrawModelWiresEx(
       model,
       position,
       rotationAxis,
@@ -5979,7 +5981,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD color,
   ) => run(
     () => _debugLabels.DrawBoundingBox(box, color),
-    () => rl.CoreFlat.DrawBoundingBox(
+    () => _flat.DrawBoundingBox(
       box,
       color,
     ),
@@ -5994,7 +5996,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawBillboard(camera, texture, position, scale, tint),
-    () => rl.CoreFlat.DrawBillboard(
+    () => _flat.DrawBillboard(
       camera,
       texture,
       position,
@@ -6013,7 +6015,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawBillboardRec(camera, texture, source, position, size, tint),
-    () => rl.CoreFlat.DrawBillboardRec(
+    () => _flat.DrawBillboardRec(
       camera,
       texture,
       source,
@@ -6042,7 +6044,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ColorD tint,
   ) => run(
     () => _debugLabels.DrawBillboardPro(camera, texture, source, position, up, size, origin, rotation, tint),
-    () => rl.CoreFlat.DrawBillboardPro(
+    () => _flat.DrawBillboardPro(
       camera,
       texture,
       source,
@@ -6061,7 +6063,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     bool dynamic,
   ) => run(
     () => _debugLabels.UploadMesh(mesh, dynamic),
-    () => rl.CoreFlat.UploadMesh(
+    () => _flat.UploadMesh(
       rl.Temp.Mesh$.Ref1(mesh),
       dynamic,
     ),
@@ -6075,7 +6077,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num offset,
   ) => run(
     () => _debugLabels.UpdateMeshBuffer(mesh, index, data, offset),
-    () => rl.CoreFlat.UpdateMeshBuffer(
+    () => _flat.UpdateMeshBuffer(
       mesh,
       index.toInt(),
       rl.Temp.TypedDataList$.Array(data),
@@ -6089,7 +6091,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MeshD mesh,
   ) => run(
     () => _debugLabels.UnloadMesh(mesh),
-    () => rl.CoreFlat.UnloadMesh(
+    () => _flat.UnloadMesh(
       mesh,
     ),
   );
@@ -6101,7 +6103,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MatrixD transform,
   ) => run(
     () => _debugLabels.DrawMesh(mesh, material, transform),
-    () => rl.CoreFlat.DrawMesh(
+    () => _flat.DrawMesh(
       mesh,
       material,
       transform,
@@ -6115,7 +6117,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<MatrixD> transforms,
   ) => run(
     () => _debugLabels.DrawMeshInstanced(mesh, material, transforms),
-    () => rl.CoreFlat.DrawMeshInstanced(
+    () => _flat.DrawMeshInstanced(
       mesh,
       material,
       rl.Temp.Matrix$.ArrayStruct(transforms),
@@ -6128,7 +6130,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MeshD mesh,
   ) => run(
     () => _debugLabels.GetMeshBoundingBox(mesh),
-    () => rl.CoreFlat.GetMeshBoundingBox(
+    () => _flat.GetMeshBoundingBox(
       mesh,
     ),
   );
@@ -6138,7 +6140,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MeshD mesh,
   ) => run(
     () => _debugLabels.GenMeshTangents(mesh),
-    () => rl.CoreFlat.GenMeshTangents(
+    () => _flat.GenMeshTangents(
       rl.Temp.Mesh$.Ref1(mesh),
     ),
   );
@@ -6149,7 +6151,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportMesh(mesh, fileName),
-    () => rl.CoreFlat.ExportMesh(
+    () => _flat.ExportMesh(
       mesh,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -6161,7 +6163,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     String fileName,
   ) => run(
     () => _debugLabels.ExportMeshAsCode(mesh, fileName),
-    () => rl.CoreFlat.ExportMeshAsCode(
+    () => _flat.ExportMeshAsCode(
       mesh,
       rl.Temp.String$.ValueOrNull(fileName),
     ),
@@ -6173,7 +6175,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius,
   ) => run(
     () => _debugLabels.GenMeshPoly(sides, radius),
-    () => rl.CoreFlat.GenMeshPoly(
+    () => _flat.GenMeshPoly(
       sides.toInt(),
       radius.toDouble(),
     ),
@@ -6187,7 +6189,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num resZ,
   ) => run(
     () => _debugLabels.GenMeshPlane(width, length, resX, resZ),
-    () => rl.CoreFlat.GenMeshPlane(
+    () => _flat.GenMeshPlane(
       width.toDouble(),
       length.toDouble(),
       resX.toInt(),
@@ -6202,7 +6204,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num length,
   ) => run(
     () => _debugLabels.GenMeshCube(width, height, length),
-    () => rl.CoreFlat.GenMeshCube(
+    () => _flat.GenMeshCube(
       width.toDouble(),
       height.toDouble(),
       length.toDouble(),
@@ -6216,7 +6218,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num slices,
   ) => run(
     () => _debugLabels.GenMeshSphere(radius, rings, slices),
-    () => rl.CoreFlat.GenMeshSphere(
+    () => _flat.GenMeshSphere(
       radius.toDouble(),
       rings.toInt(),
       slices.toInt(),
@@ -6230,7 +6232,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num slices,
   ) => run(
     () => _debugLabels.GenMeshHemiSphere(radius, rings, slices),
-    () => rl.CoreFlat.GenMeshHemiSphere(
+    () => _flat.GenMeshHemiSphere(
       radius.toDouble(),
       rings.toInt(),
       slices.toInt(),
@@ -6244,7 +6246,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num slices,
   ) => run(
     () => _debugLabels.GenMeshCylinder(radius, height, slices),
-    () => rl.CoreFlat.GenMeshCylinder(
+    () => _flat.GenMeshCylinder(
       radius.toDouble(),
       height.toDouble(),
       slices.toInt(),
@@ -6258,7 +6260,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num slices,
   ) => run(
     () => _debugLabels.GenMeshCone(radius, height, slices),
-    () => rl.CoreFlat.GenMeshCone(
+    () => _flat.GenMeshCone(
       radius.toDouble(),
       height.toDouble(),
       slices.toInt(),
@@ -6273,7 +6275,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num sides,
   ) => run(
     () => _debugLabels.GenMeshTorus(radius, size, radSeg, sides),
-    () => rl.CoreFlat.GenMeshTorus(
+    () => _flat.GenMeshTorus(
       radius.toDouble(),
       size.toDouble(),
       radSeg.toInt(),
@@ -6289,7 +6291,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num sides,
   ) => run(
     () => _debugLabels.GenMeshKnot(radius, size, radSeg, sides),
-    () => rl.CoreFlat.GenMeshKnot(
+    () => _flat.GenMeshKnot(
       radius.toDouble(),
       size.toDouble(),
       radSeg.toInt(),
@@ -6303,7 +6305,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector3D size,
   ) => run(
     () => _debugLabels.GenMeshHeightmap(heightmap, size),
-    () => rl.CoreFlat.GenMeshHeightmap(
+    () => _flat.GenMeshHeightmap(
       heightmap,
       size,
     ),
@@ -6315,7 +6317,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector3D cubeSize,
   ) => run(
     () => _debugLabels.GenMeshCubicmap(cubicmap, cubeSize),
-    () => rl.CoreFlat.GenMeshCubicmap(
+    () => _flat.GenMeshCubicmap(
       cubicmap,
       cubeSize,
     ),
@@ -6328,7 +6330,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadMaterials(fileName),
     () {
       final materialCount = rl.Temp.Int$.Ref1();
-      final materials = rl.CoreFlat.LoadMaterials(
+      final materials = _flat.LoadMaterials(
         rl.Temp.String$.ValueOrNull(fileName),
         materialCount,
       );
@@ -6339,7 +6341,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
   /// Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
   MaterialD LoadMaterialDefault() => run(
     () => _debugLabels.LoadMaterialDefault(),
-    () => rl.CoreFlat.LoadMaterialDefault(),
+    () => _flat.LoadMaterialDefault(),
   );
     
   /// Check if a material is valid (shader assigned, map textures loaded in GPU)
@@ -6347,7 +6349,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MaterialD material,
   ) => run(
     () => _debugLabels.IsMaterialValid(material),
-    () => rl.CoreFlat.IsMaterialValid(
+    () => _flat.IsMaterialValid(
       material,
     ),
   );
@@ -6357,7 +6359,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MaterialD material,
   ) => run(
     () => _debugLabels.UnloadMaterial(material),
-    () => rl.CoreFlat.UnloadMaterial(
+    () => _flat.UnloadMaterial(
       material,
     ),
   );
@@ -6399,7 +6401,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     () => _debugLabels.LoadModelAnimations(fileName),
     () {
       final animCount = rl.Temp.Int$.Ref1();
-      final anims = rl.CoreFlat.LoadModelAnimations(
+      final anims = _flat.LoadModelAnimations(
         rl.Temp.String$.ValueOrNull(fileName),
         animCount,
       );
@@ -6414,7 +6416,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num frame,
   ) => run(
     () => _debugLabels.UpdateModelAnimation(model, anim, frame),
-    () => rl.CoreFlat.UpdateModelAnimation(
+    () => _flat.UpdateModelAnimation(
       model,
       anim,
       frame.toDouble(),
@@ -6432,7 +6434,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num blend,
   ) => run(
     () => _debugLabels.UpdateModelAnimationEx(model, animA, frameA, animB, frameB, blend),
-    () => rl.CoreFlat.UpdateModelAnimationEx(
+    () => _flat.UpdateModelAnimationEx(
       model,
       animA,
       frameA.toDouble(),
@@ -6447,7 +6449,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     List<ModelAnimationD> animations,
   ) => run(
     () => _debugLabels.UnloadModelAnimations(animations),
-    () => rl.CoreFlat.UnloadModelAnimations(
+    () => _flat.UnloadModelAnimations(
       animations.first.getOp(),
       animations.length,
     ),
@@ -6459,7 +6461,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     ModelAnimationD anim,
   ) => run(
     () => _debugLabels.IsModelAnimationValid(model, anim),
-    () => rl.CoreFlat.IsModelAnimationValid(
+    () => _flat.IsModelAnimationValid(
       model,
       anim,
     ),
@@ -6473,7 +6475,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius2,
   ) => run(
     () => _debugLabels.CheckCollisionSpheres(center1, radius1, center2, radius2),
-    () => rl.CoreFlat.CheckCollisionSpheres(
+    () => _flat.CheckCollisionSpheres(
       center1,
       radius1.toDouble(),
       center2,
@@ -6487,7 +6489,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     BoundingBoxD box2,
   ) => run(
     () => _debugLabels.CheckCollisionBoxes(box1, box2),
-    () => rl.CoreFlat.CheckCollisionBoxes(
+    () => _flat.CheckCollisionBoxes(
       box1,
       box2,
     ),
@@ -6500,7 +6502,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius,
   ) => run(
     () => _debugLabels.CheckCollisionBoxSphere(box, center, radius),
-    () => rl.CoreFlat.CheckCollisionBoxSphere(
+    () => _flat.CheckCollisionBoxSphere(
       box,
       center,
       radius.toDouble(),
@@ -6514,7 +6516,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     num radius,
   ) => run(
     () => _debugLabels.GetRayCollisionSphere(ray, center, radius),
-    () => rl.CoreFlat.GetRayCollisionSphere(
+    () => _flat.GetRayCollisionSphere(
       ray,
       center,
       radius.toDouble(),
@@ -6527,7 +6529,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     BoundingBoxD box,
   ) => run(
     () => _debugLabels.GetRayCollisionBox(ray, box),
-    () => rl.CoreFlat.GetRayCollisionBox(
+    () => _flat.GetRayCollisionBox(
       ray,
       box,
     ),
@@ -6540,7 +6542,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     MatrixD transform,
   ) => run(
     () => _debugLabels.GetRayCollisionMesh(ray, mesh, transform),
-    () => rl.CoreFlat.GetRayCollisionMesh(
+    () => _flat.GetRayCollisionMesh(
       ray,
       mesh,
       transform,
@@ -6555,7 +6557,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector3D p3,
   ) => run(
     () => _debugLabels.GetRayCollisionTriangle(ray, p1, p2, p3),
-    () => rl.CoreFlat.GetRayCollisionTriangle(
+    () => _flat.GetRayCollisionTriangle(
       ray,
       p1,
       p2,
@@ -6572,7 +6574,7 @@ final class RaylibCoreModule<R extends RaylibBase<R>> extends RaylibModule<R> {
     Vector3D p4,
   ) => run(
     () => _debugLabels.GetRayCollisionQuad(ray, p1, p2, p3, p4),
-    () => rl.CoreFlat.GetRayCollisionQuad(
+    () => _flat.GetRayCollisionQuad(
       ray,
       p1,
       p2,

@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Re-exports [RaylibRlglConstants] values as instance members,
 /// so constants are accessible directly on the module without a class qualifier.
-mixin RaylibRlglModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
+mixin RaylibRlglModuleExtras<R extends RaylibBase> on RaylibModule<R> {
 
   /// See [RaylibRlglConstants.RLGL_VERSION].
   String get RLGL_VERSION => RaylibRlglConstants.RLGL_VERSION;
@@ -241,10 +241,10 @@ mixin RaylibRlglModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibRlglFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> with RaylibRlglModuleExtras<R> {
+abstract class RaylibRlglFlatModule<R extends RaylibBase> extends RaylibModule<R> with RaylibRlglModuleExtras<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = _RaylibRlglModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibRlglDartCaptureIds();
 
   RaylibRlglFlatModule(super.rl);
 

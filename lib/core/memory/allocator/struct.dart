@@ -282,12 +282,11 @@ final class RaylibTempStructAllocator<
   X _getValue(StructPointer<X> ptr, dynamic result) {
     final value = result is X ? result : ptr.ref;
     value.op ??= ptr;
-    if (ptr.allocationKey case final key?) {
-      value.structAllocateInto(temp, ptr, key);
-    }
     if (!value._requiresOp) {
       value.structSyncFromMemory();
       value.op = null;
+    } else if (ptr.allocationKey case final key?) {
+      value.structAllocateInto(temp, ptr, key);
     }
     return value;
   }

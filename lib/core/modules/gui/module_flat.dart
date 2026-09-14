@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// Re-exports [RaylibGuiConstants] values as instance members,
 /// so constants are accessible directly on the module without a class qualifier.
-mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
+mixin RaylibGuiModuleExtras<R extends RaylibBase> on RaylibModule<R> {
 
   /// See [RaylibGuiConstants.RAYGUI_VERSION_MAJOR].
   int get RAYGUI_VERSION_MAJOR => RaylibGuiConstants.RAYGUI_VERSION_MAJOR;
@@ -120,14 +120,14 @@ mixin RaylibGuiModuleExtras<R extends RaylibBase<R>> on RaylibModule<R> {
 
 }
 
-/// Backend-agnostic contract for the Raylib Gui module.
+/// Backend-agnostic contract for the Raygui module.
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibGuiFlatModule<R extends RaylibBase<R>> extends RaylibModule<R> with RaylibGuiModuleExtras<R> {
+abstract class RaylibGuiFlatModule<R extends RaylibBase> extends RaylibModule<R> with RaylibGuiModuleExtras<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
-  final RaylibCaptureIds = _RaylibGuiModuleCaptureIds();
+  final RaylibCaptureIds = _RaylibGuiDartCaptureIds();
 
   RaylibGuiFlatModule(super.rl);
 

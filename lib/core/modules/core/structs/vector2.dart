@@ -62,7 +62,9 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
     _x = x,
     _y = y;
 
-  factory Vector2D.zero() => .new();
+  factory Vector2D.zero() => .vec2(0, 0);
+
+  factory Vector2D.one() => .vec2(1, 1);
 
   factory Vector2D.vec2(
     num x,
@@ -104,6 +106,9 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   
   /// Dot product of this vector and [o].
   double dotProduct(Vector2D o) => x * o.x + y * o.y;
+
+  /// Cross product of this vector and [o].
+  double crossProduct(Vector2D o) => x*o.y - y*o.x;
   
   /// Euclidean length (magnitude) of this vector.
   double get length => math.sqrt(lengthSqr);

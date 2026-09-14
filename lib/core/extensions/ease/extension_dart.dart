@@ -1,7 +1,11 @@
 // Portions of this file are derived from raylib.
 // Original work © Ramon Santamaria and contributors.
 // Used under the zlib/libpng license. See LICENSE for details.
-part of '../raylib_dartified_base.dart';
+part of '../../raylib_dartified_base.dart';
+
+// TODO: debug labels and `run`
+
+// Easing does not need to have bindings.
 
 /// Exposes Raylib's easing functions as module-level calls.
 ///
@@ -12,8 +16,8 @@ part of '../raylib_dartified_base.dart';
 /// - [d] total duration
 ///
 /// Returns the interpolated value at time [t].
-class RaylibEaseExtension<R extends RaylibBase<R>> extends RaylibModule<R> {
-  RaylibEaseExtension(super.rl);
+class RaylibEaseExtDart<R extends RaylibBase> extends RaylibModule<R> {
+  RaylibEaseExtDart(super.rl);
 
   // Linear Easing functions
 

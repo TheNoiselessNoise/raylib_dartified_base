@@ -163,14 +163,24 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     num m4, num m5, num m6, num m7,
     num m8, num m9, num m10, num m11,
     num m12, num m13, num m14, num m15,
-  ) {
-    return .new(
-      m0:  _d(m0),   m1: _d(m1),   m2: _d(m2),   m3: _d(m3),
-      m4:  _d(m4),   m5: _d(m5),   m6: _d(m6),   m7: _d(m7),
-      m8:  _d(m8),   m9: _d(m9),  m10: _d(m10), m11: _d(m11),
-      m12: _d(m12), m13: _d(m13), m14: _d(m14), m15: _d(m15),
-    );
-  }
+  ) => .new(
+    m0:  _d(m0),   m1: _d(m1),   m2: _d(m2),   m3: _d(m3),
+    m4:  _d(m4),   m5: _d(m5),   m6: _d(m6),   m7: _d(m7),
+    m8:  _d(m8),   m9: _d(m9),  m10: _d(m10), m11: _d(m11),
+    m12: _d(m12), m13: _d(m13), m14: _d(m14), m15: _d(m15),
+  );
+
+  factory MatrixD.mat4RowMajor(
+    num m0, num m4, num m8, num m12,
+    num m1, num m5, num m9, num m13,
+    num m2, num m6, num m10, num m14,
+    num m3, num m7, num m11, num m15,
+  ) => .new(
+    m0:  _d(m0),   m1: _d(m1),   m2: _d(m2),   m3: _d(m3),
+    m4:  _d(m4),   m5: _d(m5),   m6: _d(m6),   m7: _d(m7),
+    m8:  _d(m8),   m9: _d(m9),  m10: _d(m10), m11: _d(m11),
+    m12: _d(m12), m13: _d(m13), m14: _d(m14), m15: _d(m15),
+  );
 
   @override
   MatrixD setDart(MatrixD o) {
@@ -493,6 +503,32 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     return result;
   }
 
+  /// Returns a transformation matrix composed of a rotational, translational and scaling components.
+  factory MatrixD.compose(
+    Vector3D translation,
+    QuaternionD rotation,
+    Vector3D scale,
+  ) {
+    Vector3D right = .vec3(1.0, 0.0, 0.0);
+    Vector3D up = .vec3(0.0, 1.0, 0.0);
+    Vector3D forward = .vec3(0.0, 0.0, 1.0);
+
+    right = right.scale(scale.x);
+    up = up.scale(scale.y);
+    forward = forward.scale(scale.z);
+
+    right = right.rotateByQuaternion(rotation);
+    up = up.rotateByQuaternion(rotation);
+    forward = forward.rotateByQuaternion(rotation);
+
+    return .mat4RowMajor(
+      right.x, up.x, forward.x, translation.x,
+      right.y, up.y, forward.y, translation.y,
+      right.z, up.z, forward.z, translation.z,
+      0.0, 0.0, 0.0, 1.0,
+    );
+  }
+
   /// Returns the rotation matrix equivalent of quaternion [q].
   factory MatrixD.fromQuaternion(QuaternionD q) {
     final MatrixD result = .identity();
@@ -642,6 +678,14 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     m12*o.m3 + m13*o.m7 + m14*o.m11 + m15*o.m15,
   );
 
+  /// Returns a new matrix with components multiplied by [value].
+  MatrixD mulValue(double value) => .mat4(
+    m0*value, m1*value, m2*value, m3*value,
+    m4*value, m5*value, m6*value, m7*value,
+    m8*value, m9*value, m10*value, m11*value,
+    m12*value, m13*value, m14*value, m15*value,
+  );
+
   /// Returns the determinant of this matrix.
   double determinant() =>
      m12*m9*m6*m3 -  m8*m13*m6*m3 - m12*m5*m10*m3 + m4*m13*m10*m3 +
@@ -714,8 +758,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns all 16 components as a flat list in column-major order by default.
-  List<double> toArray({bool rowMajorOrder = false}) => rowMajorOrder
-    ? [
+  List<double> toArray({bool rowMajorOrder = false})
+    => rowMajorOrder ? [
       m0, m4, m8, m12,
       m1, m5, m9, m13,
       m2, m6, m10, m14,
@@ -726,6 +770,10 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
       m8, m9, m10, m11,
       m12, m13, m14, m15
     ];
+
+  /// Returns all 16 components as a [float16D] in column-major order by default.
+  float16D toFloatV({bool rowMajorOrder = false})
+    => .new(v: toArray(rowMajorOrder: rowMajorOrder));
 
   @override
   String signature() => '$structName(${toArray().map((x) => x.f1).join(', ')})';

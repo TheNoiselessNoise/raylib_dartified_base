@@ -72,7 +72,9 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
     _y = y,
     _z = z;
 
-  factory Vector3D.zero() => .new();
+  factory Vector3D.zero() => .vec3(0, 0, 0);
+
+  factory Vector3D.one() => .vec3(1, 1, 1);
 
   factory Vector3D.vec3(
     num x,
@@ -479,6 +481,12 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// Order: `[x, y, z]`
   List<double> toArray() => [x, y, z];
+
+  /// Returns the components as a [float3D].
+  ///
+  /// Order: `[x, y, z]`
+  float3D toFloatV()
+    => .new(v: toArray());
 
   @override
   String signature() => '$structName(x: ${x.f1}, y: ${y.f1}, z: ${z.f1})';

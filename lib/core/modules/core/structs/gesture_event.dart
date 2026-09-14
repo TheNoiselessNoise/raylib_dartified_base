@@ -91,15 +91,8 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
     _touchAction = touchAction,
     _pointCount = pointCount
   {
-    _pointId = _pointIdF.live(
-      () => op,
-      .filled(_pointIdF.codec.type.count, 0),
-    );
-
-    _position = _positionF.live(
-      () => op,
-      .generate(_positionF.codec.type.count, (_) => .zero()),
-    );
+    _pointId = _pointIdF.live(() => op, .filled(_pointIdF.codec.type.count, 0));
+    _position = _positionF.live(() => op, .generate(_positionF.codec.type.count, (_) => .zero()));
   }
 
   factory GestureEventD.zero() => .new();

@@ -1,108 +1,108 @@
 import 'dart:typed_data';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibGuiModule get _module => RaylibBase.instance.GuiDart;
+RaylibGuiDart get _module => RaylibBase.instance.module();
 
-/// See [RaylibGuiModule.GuiEnable].
+/// See [RaylibGuiDart.GuiEnable].
 void GuiEnable() => _module.GuiEnable();
 
-/// See [RaylibGuiModule.GuiDisable].
+/// See [RaylibGuiDart.GuiDisable].
 void GuiDisable() => _module.GuiDisable();
 
-/// See [RaylibGuiModule.GuiLock].
+/// See [RaylibGuiDart.GuiLock].
 void GuiLock() => _module.GuiLock();
 
-/// See [RaylibGuiModule.GuiUnlock].
+/// See [RaylibGuiDart.GuiUnlock].
 void GuiUnlock() => _module.GuiUnlock();
 
-/// See [RaylibGuiModule.GuiIsLocked].
+/// See [RaylibGuiDart.GuiIsLocked].
 bool GuiIsLocked() => _module.GuiIsLocked();
 
-/// See [RaylibGuiModule.GuiSetAlpha].
+/// See [RaylibGuiDart.GuiSetAlpha].
 void GuiSetAlpha(
   num alpha,
 ) => _module.GuiSetAlpha(alpha);
 
-/// See [RaylibGuiModule.GuiSetState].
+/// See [RaylibGuiDart.GuiSetState].
 void GuiSetState(
   GuiState state,
 ) => _module.GuiSetState(state);
 
-/// See [RaylibGuiModule.GuiGetState].
+/// See [RaylibGuiDart.GuiGetState].
 int GuiGetState() => _module.GuiGetState();
 
-/// See [RaylibGuiModule.GuiSetFont].
+/// See [RaylibGuiDart.GuiSetFont].
 void GuiSetFont(
   FontD font,
 ) => _module.GuiSetFont(font);
 
-/// See [RaylibGuiModule.GuiGetFont].
+/// See [RaylibGuiDart.GuiGetFont].
 FontD GuiGetFont() => _module.GuiGetFont();
 
-/// See [RaylibGuiModule.GuiSetStyle].
+/// See [RaylibGuiDart.GuiSetStyle].
 void GuiSetStyle(
   GuiControl control,
   GuiProperty property,
   num value,
 ) => _module.GuiSetStyle(control, property, value);
 
-/// See [RaylibGuiModule.GuiGetStyle].
+/// See [RaylibGuiDart.GuiGetStyle].
 int GuiGetStyle(
   GuiControl control,
   GuiProperty property,
 ) => _module.GuiGetStyle(control, property);
 
-/// See [RaylibGuiModule.GuiLoadStyle].
+/// See [RaylibGuiDart.GuiLoadStyle].
 void GuiLoadStyle(
   String fileName,
 ) => _module.GuiLoadStyle(fileName);
 
-/// See [RaylibGuiModule.GuiLoadStyleFromMemory].
+/// See [RaylibGuiDart.GuiLoadStyleFromMemory].
 void GuiLoadStyleFromMemory(
   Uint8List fileData,
 ) => _module.GuiLoadStyleFromMemory(fileData);
 
-/// See [RaylibGuiModule.GuiLoadStyleDefault].
+/// See [RaylibGuiDart.GuiLoadStyleDefault].
 void GuiLoadStyleDefault() => _module.GuiLoadStyleDefault();
 
-/// See [RaylibGuiModule.GuiEnableTooltip].
+/// See [RaylibGuiDart.GuiEnableTooltip].
 void GuiEnableTooltip() => _module.GuiEnableTooltip();
 
-/// See [RaylibGuiModule.GuiDisableTooltip].
+/// See [RaylibGuiDart.GuiDisableTooltip].
 void GuiDisableTooltip() => _module.GuiDisableTooltip();
 
-/// See [RaylibGuiModule.GuiSetTooltip].
+/// See [RaylibGuiDart.GuiSetTooltip].
 void GuiSetTooltip(
   String? tooltip,
 ) => _module.GuiSetTooltip(tooltip);
 
-/// See [RaylibGuiModule.GuiIconText].
+/// See [RaylibGuiDart.GuiIconText].
 String GuiIconText(
   GuiIconName iconId,
   String? text,
 ) => _module.GuiIconText(iconId, text);
 
-/// See [RaylibGuiModule.GuiSetIconScale].
+/// See [RaylibGuiDart.GuiSetIconScale].
 void GuiSetIconScale(
   num scale,
 ) => _module.GuiSetIconScale(scale);
 
-/// See [RaylibGuiModule.GuiGetIcons].
+/// See [RaylibGuiDart.GuiGetIcons].
 List<int> GuiGetIcons() => _module.GuiGetIcons();
 
-/// See [RaylibGuiModule.GuiLoadIcons].
+/// See [RaylibGuiDart.GuiLoadIcons].
 List<String> GuiLoadIcons(
   String fileName,
   bool loadIconsName,
 ) => _module.GuiLoadIcons(fileName, loadIconsName);
 
-/// See [RaylibGuiModule.GuiLoadIconsFromMemory].
+/// See [RaylibGuiDart.GuiLoadIconsFromMemory].
 List<String> GuiLoadIconsFromMemory(
   Uint8List fileData,
   bool loadIconsName,
 ) => _module.GuiLoadIconsFromMemory(fileData, loadIconsName);
 
-/// See [RaylibGuiModule.GuiDrawIcon].
+/// See [RaylibGuiDart.GuiDrawIcon].
 void GuiDrawIcon(
   GuiIconName iconId,
   num posX,
@@ -111,36 +111,36 @@ void GuiDrawIcon(
   ColorD color,
 ) => _module.GuiDrawIcon(iconId, posX, posY, pixelSize, color);
 
-/// See [RaylibGuiModule.GuiGetTextWidth].
+/// See [RaylibGuiDart.GuiGetTextWidth].
 int GuiGetTextWidth(
   String? text,
 ) => _module.GuiGetTextWidth(text);
 
-/// See [RaylibGuiModule.GuiWindowBox].
+/// See [RaylibGuiDart.GuiWindowBox].
 GuiResult GuiWindowBox(
   RectangleD bounds,
   String? title,
 ) => _module.GuiWindowBox(bounds, title);
 
-/// See [RaylibGuiModule.GuiGroupBox].
+/// See [RaylibGuiDart.GuiGroupBox].
 GuiResult GuiGroupBox(
   RectangleD bounds,
   String? text,
 ) => _module.GuiGroupBox(bounds, text);
 
-/// See [RaylibGuiModule.GuiLine].
+/// See [RaylibGuiDart.GuiLine].
 GuiResult GuiLine(
   RectangleD bounds,
   String? text,
 ) => _module.GuiLine(bounds, text);
 
-/// See [RaylibGuiModule.GuiPanel].
+/// See [RaylibGuiDart.GuiPanel].
 GuiResult GuiPanel(
   RectangleD bounds,
   String? text,
 ) => _module.GuiPanel(bounds, text);
 
-/// See [RaylibGuiModule.GuiScrollPanel].
+/// See [RaylibGuiDart.GuiScrollPanel].
 GuiResult GuiScrollPanel(
   RectangleD bounds,
   String? text,
@@ -149,60 +149,60 @@ GuiResult GuiScrollPanel(
   RectangleD? view,
 }) => _module.GuiScrollPanel(bounds, text, content, scroll: scroll, view: view);
 
-/// See [RaylibGuiModule.GuiLabel].
+/// See [RaylibGuiDart.GuiLabel].
 GuiResult GuiLabel(
   RectangleD bounds,
   String? text,
 ) => _module.GuiLabel(bounds, text);
 
-/// See [RaylibGuiModule.GuiButton].
+/// See [RaylibGuiDart.GuiButton].
 GuiResult GuiButton(
   RectangleD bounds,
   String? text,
 ) => _module.GuiButton(bounds, text);
 
-/// See [RaylibGuiModule.GuiLabelButton].
+/// See [RaylibGuiDart.GuiLabelButton].
 GuiResult GuiLabelButton(
   RectangleD bounds,
   String? text,
 ) => _module.GuiLabelButton(bounds, text);
 
-/// See [RaylibGuiModule.GuiToggle].
+/// See [RaylibGuiDart.GuiToggle].
 (GuiResult result, bool active) GuiToggle(
   RectangleD bounds,
   String? text,
   bool active,
 ) => _module.GuiToggle(bounds, text, active);
 
-/// See [RaylibGuiModule.GuiToggleGroup].
+/// See [RaylibGuiDart.GuiToggleGroup].
 (GuiResult result, int active) GuiToggleGroup(
   RectangleD bounds,
   String? text,
   num active,
 ) => _module.GuiToggleGroup(bounds, text, active);
 
-/// See [RaylibGuiModule.GuiToggleSlider].
+/// See [RaylibGuiDart.GuiToggleSlider].
 (GuiResult result, int active) GuiToggleSlider(
   RectangleD bounds,
   String? text,
   num active,
 ) => _module.GuiToggleSlider(bounds, text, active);
 
-/// See [RaylibGuiModule.GuiCheckBox].
+/// See [RaylibGuiDart.GuiCheckBox].
 (GuiResult result, bool checked) GuiCheckBox(
   RectangleD bounds,
   String? text,
   bool checked,
 ) => _module.GuiCheckBox(bounds, text, checked);
 
-/// See [RaylibGuiModule.GuiComboBox].
+/// See [RaylibGuiDart.GuiComboBox].
 (GuiResult result, int active) GuiComboBox(
   RectangleD bounds,
   String? text,
   num active,
 ) => _module.GuiComboBox(bounds, text, active);
 
-/// See [RaylibGuiModule.GuiDropdownBox].
+/// See [RaylibGuiDart.GuiDropdownBox].
 (GuiResult result, int active) GuiDropdownBox(
   RectangleD bounds,
   String? text,
@@ -210,7 +210,7 @@ GuiResult GuiLabelButton(
   bool editMode,
 ) => _module.GuiDropdownBox(bounds, text, active, editMode);
 
-/// See [RaylibGuiModule.GuiSpinner].
+/// See [RaylibGuiDart.GuiSpinner].
 (GuiResult result, int value) GuiSpinner(
   RectangleD bounds,
   String? text,
@@ -220,7 +220,7 @@ GuiResult GuiLabelButton(
   bool editMode,
 ) => _module.GuiSpinner(bounds, text, value, minValue, maxValue, editMode);
 
-/// See [RaylibGuiModule.GuiValueBox].
+/// See [RaylibGuiDart.GuiValueBox].
 (GuiResult result, int value) GuiValueBox(
   RectangleD bounds,
   String? text,
@@ -230,7 +230,7 @@ GuiResult GuiLabelButton(
   bool editMode,
 ) => _module.GuiValueBox(bounds, text, value, minValue, maxValue, editMode);
 
-/// See [RaylibGuiModule.GuiValueBoxFloat].
+/// See [RaylibGuiDart.GuiValueBoxFloat].
 (GuiResult result, double value) GuiValueBoxFloat(
   RectangleD bounds,
   String? text,
@@ -239,7 +239,7 @@ GuiResult GuiLabelButton(
   bool editMode,
 ) => _module.GuiValueBoxFloat(bounds, text, textValue, value, editMode);
 
-/// See [RaylibGuiModule.GuiTextBox].
+/// See [RaylibGuiDart.GuiTextBox].
 (GuiResult result, String value) GuiTextBox(
   RectangleD bounds,
   String? text,
@@ -247,7 +247,7 @@ GuiResult GuiLabelButton(
   bool editMode,
 ) => _module.GuiTextBox(bounds, text, textSize, editMode);
 
-/// See [RaylibGuiModule.GuiSlider].
+/// See [RaylibGuiDart.GuiSlider].
 (GuiResult result, double value) GuiSlider(
   RectangleD bounds,
   String? textLeft,
@@ -257,7 +257,7 @@ GuiResult GuiLabelButton(
   num maxValue,
 ) => _module.GuiSlider(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiModule.GuiSliderBar].
+/// See [RaylibGuiDart.GuiSliderBar].
 (GuiResult result, double value) GuiSliderBar(
   RectangleD bounds,
   String? textLeft,
@@ -267,7 +267,7 @@ GuiResult GuiLabelButton(
   num maxValue,
 ) => _module.GuiSliderBar(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiModule.GuiProgressBar].
+/// See [RaylibGuiDart.GuiProgressBar].
 (GuiResult result, double value) GuiProgressBar(
   RectangleD bounds,
   String? textLeft,
@@ -277,19 +277,19 @@ GuiResult GuiLabelButton(
   num maxValue,
 ) => _module.GuiProgressBar(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiModule.GuiStatusBar].
+/// See [RaylibGuiDart.GuiStatusBar].
 GuiResult GuiStatusBar(
   RectangleD bounds,
   String? text,
 ) => _module.GuiStatusBar(bounds, text);
 
-/// See [RaylibGuiModule.GuiDummyRec].
+/// See [RaylibGuiDart.GuiDummyRec].
 GuiResult GuiDummyRec(
   RectangleD bounds,
   String? text,
 ) => _module.GuiDummyRec(bounds, text);
 
-/// See [RaylibGuiModule.GuiGrid].
+/// See [RaylibGuiDart.GuiGrid].
 GuiResult GuiGrid(
   RectangleD bounds,
   num spacing,
@@ -297,7 +297,7 @@ GuiResult GuiGrid(
   Vector2D? mouseCell,
 }) => _module.GuiGrid(bounds, spacing, subdivs, mouseCell: mouseCell);
 
-/// See [RaylibGuiModule.GuiListView].
+/// See [RaylibGuiDart.GuiListView].
 (GuiResult result, int? scrollIndex, int? active) GuiListView(
   RectangleD bounds,
   String? text, {
@@ -305,7 +305,7 @@ GuiResult GuiGrid(
   int? active,
 }) => _module.GuiListView(bounds, text, scrollIndex: scrollIndex, active: active);
 
-/// See [RaylibGuiModule.GuiListViewEx].
+/// See [RaylibGuiDart.GuiListViewEx].
 (GuiResult result, int? scrollIndex, int? active, int? focus) GuiListViewEx(
   RectangleD bounds,
   List<String>? text, {
@@ -314,21 +314,21 @@ GuiResult GuiGrid(
   int? focus,
 }) => _module.GuiListViewEx(bounds, text, scrollIndex: scrollIndex, active: active, focus: focus);
 
-/// See [RaylibGuiModule.GuiTabBar].
+/// See [RaylibGuiDart.GuiTabBar].
 (GuiResult result, int active) GuiTabBar(
   RectangleD bounds,
   String? text,
   int active,
 ) => _module.GuiTabBar(bounds, text, active);
 
-/// See [RaylibGuiModule.GuiTabBarEx].
+/// See [RaylibGuiDart.GuiTabBarEx].
 (GuiResult result, int active) GuiTabBarEx(
   RectangleD bounds,
   List<String>? text, {
   int? active,
 }) => _module.GuiTabBarEx(bounds, text, active: active);
 
-/// See [RaylibGuiModule.GuiMessageBox].
+/// See [RaylibGuiDart.GuiMessageBox].
 (GuiResult result, int btnActive) GuiMessageBox(
   RectangleD bounds,
   String? title,
@@ -336,7 +336,7 @@ GuiResult GuiGrid(
   String btnText,
 ) => _module.GuiMessageBox(bounds, title, message, btnText);
 
-/// See [RaylibGuiModule.GuiTextInputBox].
+/// See [RaylibGuiDart.GuiTextInputBox].
 (GuiResult result, String value, int btnActive, bool? secretViewActive) GuiTextInputBox(
   RectangleD bounds,
   String? title,
@@ -347,37 +347,37 @@ GuiResult GuiGrid(
   [bool? secretViewActive]
 ) => _module.GuiTextInputBox(bounds, title, message, text, textSize, btnText, secretViewActive);
 
-/// See [RaylibGuiModule.GuiColorPicker].
+/// See [RaylibGuiDart.GuiColorPicker].
 (GuiResult result, ColorD color) GuiColorPicker(
   RectangleD bounds,
   ColorD? color,
 ) => _module.GuiColorPicker(bounds, color);
 
-/// See [RaylibGuiModule.GuiColorPanel].
+/// See [RaylibGuiDart.GuiColorPanel].
 (GuiResult result, ColorD color) GuiColorPanel(
   RectangleD bounds,
   ColorD color,
 ) => _module.GuiColorPanel(bounds, color);
 
-/// See [RaylibGuiModule.GuiColorBarAlpha].
+/// See [RaylibGuiDart.GuiColorBarAlpha].
 (GuiResult result, double alpha) GuiColorBarAlpha(
   RectangleD bounds,
   num alpha,
 ) => _module.GuiColorBarAlpha(bounds, alpha);
 
-/// See [RaylibGuiModule.GuiColorBarHue].
+/// See [RaylibGuiDart.GuiColorBarHue].
 (GuiResult result, double value) GuiColorBarHue(
   RectangleD bounds,
   num value,
 ) => _module.GuiColorBarHue(bounds, value);
 
-/// See [RaylibGuiModule.GuiColorPickerHSV].
+/// See [RaylibGuiDart.GuiColorPickerHSV].
 (GuiResult result, Vector3D hsv) GuiColorPickerHSV(
   RectangleD bounds,
   [Vector3D? colorHsv]
 ) => _module.GuiColorPickerHSV(bounds, colorHsv);
 
-/// See [RaylibGuiModule.GuiColorPanelHSV].
+/// See [RaylibGuiDart.GuiColorPanelHSV].
 (GuiResult result, Vector3D hsv) GuiColorPanelHSV(
   RectangleD bounds,
   [Vector3D? colorHsv]

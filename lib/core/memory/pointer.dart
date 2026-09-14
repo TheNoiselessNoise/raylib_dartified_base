@@ -337,8 +337,8 @@ abstract class MemoryPointer<X extends RType> {
   int get hashCode => address.hashCode;
 }
 
-/// A `MemoryPointer<RStruct>` that also knows its element type D, so it can
-/// offer .ref/[]/[]= the similar way scalar RType extensions do.
+/// A `MemoryPointer<RStruct>` that also knows its element type [D], so it can
+/// offer .value/[]/[]= the similar way scalar RType extensions do.
 final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStruct> {
   final MemoryPointer ptr;
   final StructLayout struct;
@@ -389,7 +389,7 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   /// Throws a [StateError] if this struct requires it's live memory reference.
   D get detached {
     final value = this.value;
-    if (value._requiresOp) {
+    if (value is RaylibStructView) {
       throw StateError('$runtimeType is a view and cannot be detached from its backing memory.');
     }
     return value;

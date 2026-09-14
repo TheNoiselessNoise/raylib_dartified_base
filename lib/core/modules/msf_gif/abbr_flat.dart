@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibMsfGifFlatModule get _module => RaylibBase.instance.MsfGifFlat;
+RaylibMsfGifFlatModule get _module => RaylibBase.instance.module();
 
 /// See [RaylibMsfGifFlatModule.msf_gif_alpha_threshold].
 int get msf_gif_alpha_threshold => _module.msf_gif_alpha_threshold;

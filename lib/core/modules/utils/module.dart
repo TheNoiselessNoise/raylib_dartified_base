@@ -1,7 +1,7 @@
 part of '../../raylib_dartified_base.dart';
 
 /// Dart-side utility helpers with no direct Raylib counterpart.
-final class RaylibUtilsModule<R extends RaylibBase<R>> extends RaylibModule<R> {
+final class RaylibUtilsModule<R extends RaylibBase> extends RaylibModule<R> {
 
   RaylibUtilsModule(super.rl);
 

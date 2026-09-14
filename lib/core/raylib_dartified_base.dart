@@ -1,19 +1,35 @@
 library;
 
+export 'platform/platform.dart';
+
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
+import 'platform/platform.dart';
 
 part 'base.dart';
 part 'callback.dart';
 part 'ext.dart';
 
-part 'extensions/ease.dart';
-part 'extensions/matrix.dart';
-part 'extensions/quaternion.dart';
-part 'extensions/vector.dart';
+// ===== EXTENSIONS =====
+part 'extensions/ease/extension_dart.dart';
+
+part 'extensions/raymath/matrix/extension_dart.dart';
+part 'extensions/raymath/matrix/extension_flat.dart';
+
+part 'extensions/raymath/quaternion/extension_dart.dart';
+part 'extensions/raymath/quaternion/extension_flat.dart';
+
+part 'extensions/raymath/vector2/extension_dart.dart';
+part 'extensions/raymath/vector2/extension_flat.dart';
+
+part 'extensions/raymath/vector3/extension_dart.dart';
+part 'extensions/raymath/vector3/extension_flat.dart';
+
+part 'extensions/raymath/vector4/extension_dart.dart';
+part 'extensions/raymath/vector4/extension_flat.dart';
 
 part 'memory/allocator/base.dart';
 part 'memory/allocator/scalar.dart';
@@ -64,6 +80,8 @@ part 'modules/core/structs/camera_2d.dart';
 part 'modules/core/structs/camera_3d.dart';
 part 'modules/core/structs/color.dart';
 part 'modules/core/structs/file_path_list.dart';
+part 'modules/core/structs/float3.dart';
+part 'modules/core/structs/float16.dart';
 part 'modules/core/structs/font.dart';
 part 'modules/core/structs/gesture_event.dart';
 part 'modules/core/structs/glyph_info.dart';

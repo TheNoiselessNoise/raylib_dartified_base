@@ -1,150 +1,150 @@
 part of '../../raylib_dartified_base.dart';
 
-class _RaylibAudioModuleDebugLabels extends RaylibDebugLabelsBase {
+class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
   
-  /// Label for [RaylibAudioModule.InitAudioDevice].
+  /// Label for [RaylibAudioDart.InitAudioDevice].
   String InitAudioDevice() => 'InitAudioDevice()';
 
-  /// Label for [RaylibAudioModule.CloseAudioDevice].
+  /// Label for [RaylibAudioDart.CloseAudioDevice].
   String CloseAudioDevice() => 'CloseAudioDevice()';
 
-  /// Label for [RaylibAudioModule.IsAudioDeviceReady].
+  /// Label for [RaylibAudioDart.IsAudioDeviceReady].
   String IsAudioDeviceReady() => 'IsAudioDeviceReady()';
 
-  /// Label for [RaylibAudioModule.SetMasterVolume].
+  /// Label for [RaylibAudioDart.SetMasterVolume].
   String SetMasterVolume(
     num volume,
   ) => 'SetMasterVolume($volume)';
 
-  /// Label for [RaylibAudioModule.GetMasterVolume].
+  /// Label for [RaylibAudioDart.GetMasterVolume].
   String GetMasterVolume() => 'GetMasterVolume()';
 
-  /// Label for [RaylibAudioModule.LoadWave].
+  /// Label for [RaylibAudioDart.LoadWave].
   String LoadWave(
     String fileName,
   ) => 'LoadWave($fileName)';
 
-  /// Label for [RaylibAudioModule.LoadWaveFromMemory].
+  /// Label for [RaylibAudioDart.LoadWaveFromMemory].
   String LoadWaveFromMemory(
     String fileType,
     Uint8List fileData,
   ) => 'LoadWaveFromMemory($fileType, fileData: ${fileData.length})';
 
-  /// Label for [RaylibAudioModule.IsWaveValid].
+  /// Label for [RaylibAudioDart.IsWaveValid].
   String IsWaveValid(
     WaveD wave,
   ) => 'IsWaveValid($wave)';
 
-  /// Label for [RaylibAudioModule.LoadSound].
+  /// Label for [RaylibAudioDart.LoadSound].
   String LoadSound(
     String fileName,
   ) => 'LoadSound($fileName)';
 
-  /// Label for [RaylibAudioModule.LoadSoundFromWave].
+  /// Label for [RaylibAudioDart.LoadSoundFromWave].
   String LoadSoundFromWave(
     WaveD wave,
   ) => 'LoadSoundFromWave($wave)';
 
-  /// Label for [RaylibAudioModule.LoadSoundAlias].
+  /// Label for [RaylibAudioDart.LoadSoundAlias].
   String LoadSoundAlias(
     SoundD source,
   ) => 'LoadSoundAlias($source)';
 
-  /// Label for [RaylibAudioModule.IsSoundValid].
+  /// Label for [RaylibAudioDart.IsSoundValid].
   String IsSoundValid(
     SoundD sound,
   ) => 'IsSoundValid($sound)';
 
-  /// Label for [RaylibAudioModule.UpdateSound].
+  /// Label for [RaylibAudioDart.UpdateSound].
   String UpdateSound(
     SoundD sound,
     TypedDataList data,
     num sampleCount,
   ) => 'UpdateSound($sound, data: ${data.length}, sampleCount: $sampleCount)';
 
-  /// Label for [RaylibAudioModule.UnloadWave].
+  /// Label for [RaylibAudioDart.UnloadWave].
   String UnloadWave(
     WaveD wave,
   ) => 'UnloadWave($wave)';
 
-  /// Label for [RaylibAudioModule.UnloadSound].
+  /// Label for [RaylibAudioDart.UnloadSound].
   String UnloadSound(
     SoundD sound,
   ) => 'UnloadSound($sound)';
 
-  /// Label for [RaylibAudioModule.UnloadSoundAlias].
+  /// Label for [RaylibAudioDart.UnloadSoundAlias].
   String UnloadSoundAlias(
     SoundD alias,
   ) => 'UnloadSoundAlias($alias)';
 
-  /// Label for [RaylibAudioModule.ExportWave].
+  /// Label for [RaylibAudioDart.ExportWave].
   String ExportWave(
     WaveD wave,
     String fileName,
   ) => 'ExportWave($wave, $fileName)';
 
-  /// Label for [RaylibAudioModule.ExportWaveAsCode].
+  /// Label for [RaylibAudioDart.ExportWaveAsCode].
   String ExportWaveAsCode(
     WaveD wave,
     String fileName,
   ) => 'ExportWaveAsCode($wave, $fileName)';
 
-  /// Label for [RaylibAudioModule.PlaySound].
+  /// Label for [RaylibAudioDart.PlaySound].
   String PlaySound(
     SoundD sound,
   ) => 'PlaySound($sound)';
 
-  /// Label for [RaylibAudioModule.StopSound].
+  /// Label for [RaylibAudioDart.StopSound].
   String StopSound(
     SoundD sound,
   ) => 'StopSound($sound)';
 
-  /// Label for [RaylibAudioModule.PauseSound].
+  /// Label for [RaylibAudioDart.PauseSound].
   String PauseSound(
     SoundD sound,
   ) => 'PauseSound($sound)';
 
-  /// Label for [RaylibAudioModule.ResumeSound].
+  /// Label for [RaylibAudioDart.ResumeSound].
   String ResumeSound(
     SoundD sound,
   ) => 'ResumeSound($sound)';
 
-  /// Label for [RaylibAudioModule.IsSoundPlaying].
+  /// Label for [RaylibAudioDart.IsSoundPlaying].
   String IsSoundPlaying(
     SoundD sound,
   ) => 'IsSoundPlaying($sound)';
 
-  /// Label for [RaylibAudioModule.SetSoundVolume].
+  /// Label for [RaylibAudioDart.SetSoundVolume].
   String SetSoundVolume(
     SoundD sound,
     num volume,
   ) => 'SetSoundVolume($sound, $volume)';
 
-  /// Label for [RaylibAudioModule.SetSoundPitch].
+  /// Label for [RaylibAudioDart.SetSoundPitch].
   String SetSoundPitch(
     SoundD sound,
     num pitch,
   ) => 'SetSoundPitch($sound, $pitch)';
 
-  /// Label for [RaylibAudioModule.SetSoundPan].
+  /// Label for [RaylibAudioDart.SetSoundPan].
   String SetSoundPan(
     SoundD sound,
     num pan,
   ) => 'SetSoundPan($sound, $pan)';
 
-  /// Label for [RaylibAudioModule.WaveCopy].
+  /// Label for [RaylibAudioDart.WaveCopy].
   String WaveCopy(
     WaveD wave,
   ) => 'WaveCopy($wave)';
 
-  /// Label for [RaylibAudioModule.WaveCrop].
+  /// Label for [RaylibAudioDart.WaveCrop].
   String WaveCrop(
     WaveD wave,
     num initFrame,
     num finalFrame,
   ) => 'WaveCrop($wave, $initFrame, $finalFrame)';
 
-  /// Label for [RaylibAudioModule.WaveFormat].
+  /// Label for [RaylibAudioDart.WaveFormat].
   String WaveFormat(
     WaveD wave,
     num sampleRate,
@@ -152,197 +152,197 @@ class _RaylibAudioModuleDebugLabels extends RaylibDebugLabelsBase {
     num channels,
   ) => 'WaveFormat($wave, $sampleRate, $sampleSize, $channels)';
 
-  /// Label for [RaylibAudioModule.LoadWaveSamples].
+  /// Label for [RaylibAudioDart.LoadWaveSamples].
   String LoadWaveSamples(
     WaveD wave
   ) => 'LoadWaveSamples($wave)';
 
-  /// Label for [RaylibAudioModule.LoadMusicStream].
+  /// Label for [RaylibAudioDart.LoadMusicStream].
   String LoadMusicStream(
     String fileName,
   ) => 'LoadMusicStream($fileName)';
 
-  /// Label for [RaylibAudioModule.LoadMusicStreamFromMemory].
+  /// Label for [RaylibAudioDart.LoadMusicStreamFromMemory].
   String LoadMusicStreamFromMemory(
     String fileType,
     Uint8List data,
   ) => 'LoadMusicStreamFromMemory($fileType, data: ${data.length})';
 
-  /// Label for [RaylibAudioModule.IsMusicValid].
+  /// Label for [RaylibAudioDart.IsMusicValid].
   String IsMusicValid(
     MusicD music,
   ) => 'IsMusicValid($music)';
 
-  /// Label for [RaylibAudioModule.UnloadMusicStream].
+  /// Label for [RaylibAudioDart.UnloadMusicStream].
   String UnloadMusicStream(
     MusicD music,
   ) => 'UnloadMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.PlayMusicStream].
+  /// Label for [RaylibAudioDart.PlayMusicStream].
   String PlayMusicStream(
     MusicD music,
   ) => 'PlayMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.IsMusicStreamPlaying].
+  /// Label for [RaylibAudioDart.IsMusicStreamPlaying].
   String IsMusicStreamPlaying(
     MusicD music,
   ) => 'IsMusicStreamPlaying($music)';
 
-  /// Label for [RaylibAudioModule.UpdateMusicStream].
+  /// Label for [RaylibAudioDart.UpdateMusicStream].
   String UpdateMusicStream(
     MusicD music,
   ) => 'UpdateMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.StopMusicStream].
+  /// Label for [RaylibAudioDart.StopMusicStream].
   String StopMusicStream(
     MusicD music,
   ) => 'StopMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.PauseMusicStream].
+  /// Label for [RaylibAudioDart.PauseMusicStream].
   String PauseMusicStream(
     MusicD music,
   ) => 'PauseMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.ResumeMusicStream].
+  /// Label for [RaylibAudioDart.ResumeMusicStream].
   String ResumeMusicStream(
     MusicD music,
   ) => 'ResumeMusicStream($music)';
 
-  /// Label for [RaylibAudioModule.SeekMusicStream].
+  /// Label for [RaylibAudioDart.SeekMusicStream].
   String SeekMusicStream(
     MusicD music,
     num position,
   ) => 'SeekMusicStream($music, $position)';
 
-  /// Label for [RaylibAudioModule.SetMusicVolume].
+  /// Label for [RaylibAudioDart.SetMusicVolume].
   String SetMusicVolume(
     MusicD music,
     num volume,
   ) => 'SetMusicVolume($music, $volume)';
 
-  /// Label for [RaylibAudioModule.SetMusicPitch].
+  /// Label for [RaylibAudioDart.SetMusicPitch].
   String SetMusicPitch(
     MusicD music,
     num pitch,
   ) => 'SetMusicPitch($music, $pitch)';
 
-  /// Label for [RaylibAudioModule.SetMusicPan].
+  /// Label for [RaylibAudioDart.SetMusicPan].
   String SetMusicPan(
     MusicD music,
     num pan,
   ) => 'SetMusicPan($music, $pan)';
 
-  /// Label for [RaylibAudioModule.GetMusicTimeLength].
+  /// Label for [RaylibAudioDart.GetMusicTimeLength].
   String GetMusicTimeLength(
     MusicD music,
   ) => 'GetMusicTimeLength($music)';
 
-  /// Label for [RaylibAudioModule.GetMusicTimePlayed].
+  /// Label for [RaylibAudioDart.GetMusicTimePlayed].
   String GetMusicTimePlayed(
     MusicD music,
   ) => 'GetMusicTimePlayed($music)';
 
-  /// Label for [RaylibAudioModule.LoadAudioStream].
+  /// Label for [RaylibAudioDart.LoadAudioStream].
   String LoadAudioStream(
     num sampleRate,
     num sampleSize,
     num channels,
   ) => 'LoadAudioStream($sampleRate, $sampleSize, $channels)';
 
-  /// Label for [RaylibAudioModule.IsAudioStreamValid].
+  /// Label for [RaylibAudioDart.IsAudioStreamValid].
   String IsAudioStreamValid(
     AudioStreamD stream,
   ) => 'IsAudioStreamValid($stream)';
 
-  /// Label for [RaylibAudioModule.UnloadAudioStream].
+  /// Label for [RaylibAudioDart.UnloadAudioStream].
   String UnloadAudioStream(
     AudioStreamD stream,
   ) => 'UnloadAudioStream($stream)';
 
-  /// Label for [RaylibAudioModule.UpdateAudioStream].
+  /// Label for [RaylibAudioDart.UpdateAudioStream].
   String UpdateAudioStream(
     AudioStreamD stream,
     TypedDataList data,
   ) => 'UpdateAudioStream($stream, data: ${data.length})';
 
-  /// Label for [RaylibAudioModule.IsAudioStreamProcessed].
+  /// Label for [RaylibAudioDart.IsAudioStreamProcessed].
   String IsAudioStreamProcessed(
     AudioStreamD stream,
   ) => 'IsAudioStreamProcessed($stream)';
 
-  /// Label for [RaylibAudioModule.PlayAudioStream].
+  /// Label for [RaylibAudioDart.PlayAudioStream].
   String PlayAudioStream(
     AudioStreamD stream,
   ) => 'PlayAudioStream($stream)';
 
-  /// Label for [RaylibAudioModule.PauseAudioStream].
+  /// Label for [RaylibAudioDart.PauseAudioStream].
   String PauseAudioStream(
     AudioStreamD stream,
   ) => 'PauseAudioStream($stream)';
 
-  /// Label for [RaylibAudioModule.ResumeAudioStream].
+  /// Label for [RaylibAudioDart.ResumeAudioStream].
   String ResumeAudioStream(
     AudioStreamD stream,
   ) => 'ResumeAudioStream($stream)';
 
-  /// Label for [RaylibAudioModule.IsAudioStreamPlaying].
+  /// Label for [RaylibAudioDart.IsAudioStreamPlaying].
   String IsAudioStreamPlaying(
     AudioStreamD stream,
   ) => 'IsAudioStreamPlaying($stream)';
 
-  /// Label for [RaylibAudioModule.StopAudioStream].
+  /// Label for [RaylibAudioDart.StopAudioStream].
   String StopAudioStream(
     AudioStreamD stream,
   ) => 'StopAudioStream($stream)';
 
-  /// Label for [RaylibAudioModule.SetAudioStreamVolume].
+  /// Label for [RaylibAudioDart.SetAudioStreamVolume].
   String SetAudioStreamVolume(
     AudioStreamD stream,
     num volume,
   ) => 'SetAudioStreamVolume($stream, $volume)';
 
-  /// Label for [RaylibAudioModule.SetAudioStreamPitch].
+  /// Label for [RaylibAudioDart.SetAudioStreamPitch].
   String SetAudioStreamPitch(
     AudioStreamD stream,
     num pitch,
   ) => 'SetAudioStreamPitch($stream, $pitch)';
 
-  /// Label for [RaylibAudioModule.SetAudioStreamPan].
+  /// Label for [RaylibAudioDart.SetAudioStreamPan].
   String SetAudioStreamPan(
     AudioStreamD stream,
     num pan,
   ) => 'SetAudioStreamPan($stream, $pan)';
 
-  /// Label for [RaylibAudioModule.SetAudioStreamBufferSizeDefault].
+  /// Label for [RaylibAudioDart.SetAudioStreamBufferSizeDefault].
   String SetAudioStreamBufferSizeDefault(
     num size,
   ) => 'SetAudioStreamBufferSizeDefault($size)';
 
-  /// Label for [RaylibAudioModule.SetAudioStreamCallback].
+  /// Label for [RaylibAudioDart.SetAudioStreamCallback].
   String SetAudioStreamCallback(
     AudioStreamD stream,
     AudioCallbackBase? callback,
   ) => 'SetAudioStreamCallback($stream, callback: $callback)';
 
-  /// Label for [RaylibAudioModule.AttachAudioStreamProcessor].
+  /// Label for [RaylibAudioDart.AttachAudioStreamProcessor].
   String AttachAudioStreamProcessor(
     AudioStreamD stream,
     AudioCallbackBase processor,
   ) => 'AttachAudioStreamProcessor($stream, processor: $processor)';
 
-  /// Label for [RaylibAudioModule.DetachAudioStreamProcessor].
+  /// Label for [RaylibAudioDart.DetachAudioStreamProcessor].
   String DetachAudioStreamProcessor(
     AudioStreamD stream,
     AudioCallbackBase processor,
     {bool keepAlive = false}
   ) => 'DetachAudioStreamProcessor($stream, processor: $processor, keepAlive: $keepAlive)';
 
-  /// Label for [RaylibAudioModule.AttachAudioMixedProcessor].
+  /// Label for [RaylibAudioDart.AttachAudioMixedProcessor].
   String AttachAudioMixedProcessor(
     AudioCallbackBase processor,
   ) => 'AttachAudioMixedProcessor(processor: $processor)';
 
-  /// Label for [RaylibAudioModule.DetachAudioMixedProcessor].
+  /// Label for [RaylibAudioDart.DetachAudioMixedProcessor].
   String DetachAudioMixedProcessor(
     AudioCallbackBase processor,
     {bool keepAlive = false}

@@ -1,30 +1,30 @@
 import 'dart:typed_data';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibRlglModule get _module => RaylibBase.instance.RlglDart;
+RaylibRlglDart get _module => RaylibBase.instance.module();
 
-/// See [RaylibRlglModule.rlMatrixMode].
+/// See [RaylibRlglDart.rlMatrixMode].
 void rlMatrixMode(
   RlMatrixMode mode,
 ) => _module.rlMatrixMode(mode);
 
-/// See [RaylibRlglModule.rlPushMatrix].
+/// See [RaylibRlglDart.rlPushMatrix].
 void rlPushMatrix() => _module.rlPushMatrix();
 
-/// See [RaylibRlglModule.rlPopMatrix].
+/// See [RaylibRlglDart.rlPopMatrix].
 void rlPopMatrix() => _module.rlPopMatrix();
 
-/// See [RaylibRlglModule.rlLoadIdentity].
+/// See [RaylibRlglDart.rlLoadIdentity].
 void rlLoadIdentity() => _module.rlLoadIdentity();
 
-/// See [RaylibRlglModule.rlTranslatef].
+/// See [RaylibRlglDart.rlTranslatef].
 void rlTranslatef(
   num x,
   num y,
   num z,
 ) => _module.rlTranslatef(x, y, z);
 
-/// See [RaylibRlglModule.rlRotatef].
+/// See [RaylibRlglDart.rlRotatef].
 void rlRotatef(
   num angle,
   num x,
@@ -32,19 +32,19 @@ void rlRotatef(
   num z,
 ) => _module.rlRotatef(angle, x, y, z);
 
-/// See [RaylibRlglModule.rlScalef].
+/// See [RaylibRlglDart.rlScalef].
 void rlScalef(
   num x,
   num y,
   num z,
 ) => _module.rlScalef(x, y, z);
 
-/// See [RaylibRlglModule.rlMultMatrixf].
+/// See [RaylibRlglDart.rlMultMatrixf].
 void rlMultMatrixf(
   List<double> matf,
 ) => _module.rlMultMatrixf(matf);
 
-/// See [RaylibRlglModule.rlFrustum].
+/// See [RaylibRlglDart.rlFrustum].
 void rlFrustum(
   num left,
   num right,
@@ -54,7 +54,7 @@ void rlFrustum(
   num zfar,
 ) => _module.rlFrustum(left, right, bottom, top, znear, zfar);
 
-/// See [RaylibRlglModule.rlOrtho].
+/// See [RaylibRlglDart.rlOrtho].
 void rlOrtho(
   num left,
   num right,
@@ -64,7 +64,7 @@ void rlOrtho(
   num zfar,
 ) => _module.rlOrtho(left, right, bottom, top, znear, zfar);
 
-/// See [RaylibRlglModule.rlViewport].
+/// See [RaylibRlglDart.rlViewport].
 void rlViewport(
   num x,
   num y,
@@ -72,59 +72,59 @@ void rlViewport(
   num height,
 ) => _module.rlViewport(x, y, width, height);
 
-/// See [RaylibRlglModule.rlSetClipPlanes].
+/// See [RaylibRlglDart.rlSetClipPlanes].
 void rlSetClipPlanes(
   num nearPlane,
   num farPlane,
 ) => _module.rlSetClipPlanes(nearPlane, farPlane);
 
-/// See [RaylibRlglModule.rlGetCullDistanceNear].
+/// See [RaylibRlglDart.rlGetCullDistanceNear].
 double rlGetCullDistanceNear() => _module.rlGetCullDistanceNear();
 
-/// See [RaylibRlglModule.rlGetCullDistanceFar].
+/// See [RaylibRlglDart.rlGetCullDistanceFar].
 double rlGetCullDistanceFar() => _module.rlGetCullDistanceFar();
 
-/// See [RaylibRlglModule.rlBegin].
+/// See [RaylibRlglDart.rlBegin].
 void rlBegin(
   RlDrawMode mode,
 ) => _module.rlBegin(mode);
 
-/// See [RaylibRlglModule.rlEnd].
+/// See [RaylibRlglDart.rlEnd].
 void rlEnd() => _module.rlEnd();
 
-/// See [RaylibRlglModule.rlVertex2i].
+/// See [RaylibRlglDart.rlVertex2i].
 void rlVertex2i(
   num x,
   num y,
 ) => _module.rlVertex2i(x, y);
 
-/// See [RaylibRlglModule.rlVertex2f].
+/// See [RaylibRlglDart.rlVertex2f].
 void rlVertex2f(
   num x,
   num y,
 ) => _module.rlVertex2f(x, y);
 
-/// See [RaylibRlglModule.rlVertex3f].
+/// See [RaylibRlglDart.rlVertex3f].
 void rlVertex3f(
   num x,
   num y,
   num z,
 ) => _module.rlVertex3f(x, y, z);
 
-/// See [RaylibRlglModule.rlTexCoord2f].
+/// See [RaylibRlglDart.rlTexCoord2f].
 void rlTexCoord2f(
   num x,
   num y,
 ) => _module.rlTexCoord2f(x, y);
 
-/// See [RaylibRlglModule.rlNormal3f].
+/// See [RaylibRlglDart.rlNormal3f].
 void rlNormal3f(
   num x,
   num y,
   num z,
 ) => _module.rlNormal3f(x, y, z);
 
-/// See [RaylibRlglModule.rlColor4ub].
+/// See [RaylibRlglDart.rlColor4ub].
 void rlColor4ub(
   num r,
   num g,
@@ -132,14 +132,14 @@ void rlColor4ub(
   num a,
 ) => _module.rlColor4ub(r, g, b, a);
 
-/// See [RaylibRlglModule.rlColor3f].
+/// See [RaylibRlglDart.rlColor3f].
 void rlColor3f(
   num x,
   num y,
   num z,
 ) => _module.rlColor3f(x, y, z);
 
-/// See [RaylibRlglModule.rlColor4f].
+/// See [RaylibRlglDart.rlColor4f].
 void rlColor4f(
   num x,
   num y,
@@ -147,111 +147,111 @@ void rlColor4f(
   num w,
 ) => _module.rlColor4f(x, y, z, w);
 
-/// See [RaylibRlglModule.rlEnableVertexArray].
+/// See [RaylibRlglDart.rlEnableVertexArray].
 bool rlEnableVertexArray(
   num vaoId,
 ) => _module.rlEnableVertexArray(vaoId);
 
-/// See [RaylibRlglModule.rlDisableVertexArray].
+/// See [RaylibRlglDart.rlDisableVertexArray].
 void rlDisableVertexArray() => _module.rlDisableVertexArray();
 
-/// See [RaylibRlglModule.rlEnableVertexBuffer].
+/// See [RaylibRlglDart.rlEnableVertexBuffer].
 void rlEnableVertexBuffer(
   num id,
 ) => _module.rlEnableVertexBuffer(id);
 
-/// See [RaylibRlglModule.rlDisableVertexBuffer].
+/// See [RaylibRlglDart.rlDisableVertexBuffer].
 void rlDisableVertexBuffer() => _module.rlDisableVertexBuffer();
 
-/// See [RaylibRlglModule.rlEnableVertexBufferElement].
+/// See [RaylibRlglDart.rlEnableVertexBufferElement].
 void rlEnableVertexBufferElement(
   num id,
 ) => _module.rlEnableVertexBufferElement(id);
 
-/// See [RaylibRlglModule.rlDisableVertexBufferElement].
+/// See [RaylibRlglDart.rlDisableVertexBufferElement].
 void rlDisableVertexBufferElement() => _module.rlDisableVertexBufferElement();
 
-/// See [RaylibRlglModule.rlEnableVertexAttribute].
+/// See [RaylibRlglDart.rlEnableVertexAttribute].
 void rlEnableVertexAttribute(
   num index,
 ) => _module.rlEnableVertexAttribute(index);
 
-/// See [RaylibRlglModule.rlDisableVertexAttribute].
+/// See [RaylibRlglDart.rlDisableVertexAttribute].
 void rlDisableVertexAttribute(
   num index,
 ) => _module.rlDisableVertexAttribute(index);
 
-/// See [RaylibRlglModule.rlEnableStatePointer].
+/// See [RaylibRlglDart.rlEnableStatePointer].
 void rlEnableStatePointer(
   int vertexAttribType,
   TypedDataList data,
 ) => _module.rlEnableStatePointer(vertexAttribType, data);
 
-/// See [RaylibRlglModule.rlDisableStatePointer].
+/// See [RaylibRlglDart.rlDisableStatePointer].
 void rlDisableStatePointer(
   int vertexAttribType,
 ) => _module.rlDisableStatePointer(vertexAttribType);
 
-/// See [RaylibRlglModule.rlActiveTextureSlot].
+/// See [RaylibRlglDart.rlActiveTextureSlot].
 void rlActiveTextureSlot(
   num slot,
 ) => _module.rlActiveTextureSlot(slot);
 
-/// See [RaylibRlglModule.rlEnableTexture].
+/// See [RaylibRlglDart.rlEnableTexture].
 void rlEnableTexture(
   num id,
 ) => _module.rlEnableTexture(id);
 
-/// See [RaylibRlglModule.rlDisableTexture].
+/// See [RaylibRlglDart.rlDisableTexture].
 void rlDisableTexture() => _module.rlDisableTexture();
 
-/// See [RaylibRlglModule.rlEnableTextureCubemap].
+/// See [RaylibRlglDart.rlEnableTextureCubemap].
 void rlEnableTextureCubemap(
   num id,
 ) => _module.rlEnableTextureCubemap(id);
 
-/// See [RaylibRlglModule.rlDisableTextureCubemap].
+/// See [RaylibRlglDart.rlDisableTextureCubemap].
 void rlDisableTextureCubemap() => _module.rlDisableTextureCubemap();
 
-/// See [RaylibRlglModule.rlTextureParameters].
+/// See [RaylibRlglDart.rlTextureParameters].
 void rlTextureParameters(
   num id,
   num param,
   num value,
 ) => _module.rlTextureParameters(id, param, value);
 
-/// See [RaylibRlglModule.rlCubemapParameters].
+/// See [RaylibRlglDart.rlCubemapParameters].
 void rlCubemapParameters(
   num id,
   num param,
   num value,
 ) => _module.rlCubemapParameters(id, param, value);
 
-/// See [RaylibRlglModule.rlEnableShader].
+/// See [RaylibRlglDart.rlEnableShader].
 void rlEnableShader(
   num id,
 ) => _module.rlEnableShader(id);
 
-/// See [RaylibRlglModule.rlDisableShader].
+/// See [RaylibRlglDart.rlDisableShader].
 void rlDisableShader() => _module.rlDisableShader();
 
-/// See [RaylibRlglModule.rlEnableFramebuffer].
+/// See [RaylibRlglDart.rlEnableFramebuffer].
 void rlEnableFramebuffer(
   num id,
 ) => _module.rlEnableFramebuffer(id);
 
-/// See [RaylibRlglModule.rlDisableFramebuffer].
+/// See [RaylibRlglDart.rlDisableFramebuffer].
 void rlDisableFramebuffer() => _module.rlDisableFramebuffer();
 
-/// See [RaylibRlglModule.rlGetActiveFramebuffer].
+/// See [RaylibRlglDart.rlGetActiveFramebuffer].
 int rlGetActiveFramebuffer() => _module.rlGetActiveFramebuffer();
 
-/// See [RaylibRlglModule.rlActiveDrawBuffers].
+/// See [RaylibRlglDart.rlActiveDrawBuffers].
 void rlActiveDrawBuffers(
   num count,
 ) => _module.rlActiveDrawBuffers(count);
 
-/// See [RaylibRlglModule.rlBlitFramebuffer].
+/// See [RaylibRlglDart.rlBlitFramebuffer].
 void rlBlitFramebuffer(
   num srcX,
   num srcY,
@@ -264,37 +264,37 @@ void rlBlitFramebuffer(
   num bufferMask,
 ) => _module.rlBlitFramebuffer(srcX, srcY, srcWidth, srcHeight, dstX, dstY, dstWidth, dstHeight, bufferMask);
 
-/// See [RaylibRlglModule.rlBindFramebuffer].
+/// See [RaylibRlglDart.rlBindFramebuffer].
 void rlBindFramebuffer(
   num target,
   num framebuffer,
 ) => _module.rlBindFramebuffer(target, framebuffer);
 
-/// See [RaylibRlglModule.rlEnableColorBlend].
+/// See [RaylibRlglDart.rlEnableColorBlend].
 void rlEnableColorBlend() => _module.rlEnableColorBlend();
 
-/// See [RaylibRlglModule.rlDisableColorBlend].
+/// See [RaylibRlglDart.rlDisableColorBlend].
 void rlDisableColorBlend() => _module.rlDisableColorBlend();
 
-/// See [RaylibRlglModule.rlEnableDepthTest].
+/// See [RaylibRlglDart.rlEnableDepthTest].
 void rlEnableDepthTest() => _module.rlEnableDepthTest();
 
-/// See [RaylibRlglModule.rlDisableDepthTest].
+/// See [RaylibRlglDart.rlDisableDepthTest].
 void rlDisableDepthTest() => _module.rlDisableDepthTest();
 
-/// See [RaylibRlglModule.rlEnableDepthMask].
+/// See [RaylibRlglDart.rlEnableDepthMask].
 void rlEnableDepthMask() => _module.rlEnableDepthMask();
 
-/// See [RaylibRlglModule.rlDisableDepthMask].
+/// See [RaylibRlglDart.rlDisableDepthMask].
 void rlDisableDepthMask() => _module.rlDisableDepthMask();
 
-/// See [RaylibRlglModule.rlEnableBackfaceCulling].
+/// See [RaylibRlglDart.rlEnableBackfaceCulling].
 void rlEnableBackfaceCulling() => _module.rlEnableBackfaceCulling();
 
-/// See [RaylibRlglModule.rlDisableBackfaceCulling].
+/// See [RaylibRlglDart.rlDisableBackfaceCulling].
 void rlDisableBackfaceCulling() => _module.rlDisableBackfaceCulling();
 
-/// See [RaylibRlglModule.rlColorMask].
+/// See [RaylibRlglDart.rlColorMask].
 void rlColorMask(
   bool r,
   bool g,
@@ -302,18 +302,18 @@ void rlColorMask(
   bool a,
 ) => _module.rlColorMask(r, g, b, a);
 
-/// See [RaylibRlglModule.rlSetCullFace].
+/// See [RaylibRlglDart.rlSetCullFace].
 void rlSetCullFace(
   RlCullMode mode,
 ) => _module.rlSetCullFace(mode);
 
-/// See [RaylibRlglModule.rlEnableScissorTest].
+/// See [RaylibRlglDart.rlEnableScissorTest].
 void rlEnableScissorTest() => _module.rlEnableScissorTest();
 
-/// See [RaylibRlglModule.rlDisableScissorTest].
+/// See [RaylibRlglDart.rlDisableScissorTest].
 void rlDisableScissorTest() => _module.rlDisableScissorTest();
 
-/// See [RaylibRlglModule.rlScissor].
+/// See [RaylibRlglDart.rlScissor].
 void rlScissor(
   num x,
   num y,
@@ -321,50 +321,50 @@ void rlScissor(
   num height,
 ) => _module.rlScissor(x, y, width, height);
 
-/// See [RaylibRlglModule.rlEnablePointMode].
+/// See [RaylibRlglDart.rlEnablePointMode].
 void rlEnablePointMode() => _module.rlEnablePointMode();
 
-/// See [RaylibRlglModule.rlDisablePointMode].
+/// See [RaylibRlglDart.rlDisablePointMode].
 void rlDisablePointMode() => _module.rlDisablePointMode();
 
-/// See [RaylibRlglModule.rlSetPointSize].
+/// See [RaylibRlglDart.rlSetPointSize].
 void rlSetPointSize(
   num size,
 ) => _module.rlSetPointSize(size);
 
-/// See [RaylibRlglModule.rlGetPointSize].
+/// See [RaylibRlglDart.rlGetPointSize].
 double rlGetPointSize() => _module.rlGetPointSize();
 
-/// See [RaylibRlglModule.rlEnableWireMode].
+/// See [RaylibRlglDart.rlEnableWireMode].
 void rlEnableWireMode() => _module.rlEnableWireMode();
 
-/// See [RaylibRlglModule.rlDisableWireMode].
+/// See [RaylibRlglDart.rlDisableWireMode].
 void rlDisableWireMode() => _module.rlDisableWireMode();
 
-/// See [RaylibRlglModule.rlSetLineWidth].
+/// See [RaylibRlglDart.rlSetLineWidth].
 void rlSetLineWidth(
   num width,
 ) => _module.rlSetLineWidth(width);
 
-/// See [RaylibRlglModule.rlGetLineWidth].
+/// See [RaylibRlglDart.rlGetLineWidth].
 double rlGetLineWidth() => _module.rlGetLineWidth();
 
-/// See [RaylibRlglModule.rlEnableSmoothLines].
+/// See [RaylibRlglDart.rlEnableSmoothLines].
 void rlEnableSmoothLines() => _module.rlEnableSmoothLines();
 
-/// See [RaylibRlglModule.rlDisableSmoothLines].
+/// See [RaylibRlglDart.rlDisableSmoothLines].
 void rlDisableSmoothLines() => _module.rlDisableSmoothLines();
 
-/// See [RaylibRlglModule.rlEnableStereoRender].
+/// See [RaylibRlglDart.rlEnableStereoRender].
 void rlEnableStereoRender() => _module.rlEnableStereoRender();
 
-/// See [RaylibRlglModule.rlDisableStereoRender].
+/// See [RaylibRlglDart.rlDisableStereoRender].
 void rlDisableStereoRender() => _module.rlDisableStereoRender();
 
-/// See [RaylibRlglModule.rlIsStereoRenderEnabled].
+/// See [RaylibRlglDart.rlIsStereoRenderEnabled].
 bool rlIsStereoRenderEnabled() => _module.rlIsStereoRenderEnabled();
 
-/// See [RaylibRlglModule.rlClearColor].
+/// See [RaylibRlglDart.rlClearColor].
 void rlClearColor(
   num r,
   num g,
@@ -372,25 +372,25 @@ void rlClearColor(
   num a,
 ) => _module.rlClearColor(r, g, b, a);
 
-/// See [RaylibRlglModule.rlClearScreenBuffers].
+/// See [RaylibRlglDart.rlClearScreenBuffers].
 void rlClearScreenBuffers() => _module.rlClearScreenBuffers();
 
-/// See [RaylibRlglModule.rlCheckErrors].
+/// See [RaylibRlglDart.rlCheckErrors].
 void rlCheckErrors() => _module.rlCheckErrors();
 
-/// See [RaylibRlglModule.rlSetBlendMode].
+/// See [RaylibRlglDart.rlSetBlendMode].
 void rlSetBlendMode(
   BlendMode mode,
 ) => _module.rlSetBlendMode(mode);
 
-/// See [RaylibRlglModule.rlSetBlendFactors].
+/// See [RaylibRlglDart.rlSetBlendFactors].
 void rlSetBlendFactors(
   num glSrcFactor,
   num glDstFactor,
   num glEquation,
 ) => _module.rlSetBlendFactors(glSrcFactor, glDstFactor, glEquation);
 
-/// See [RaylibRlglModule.rlSetBlendFactorsSeparate].
+/// See [RaylibRlglDart.rlSetBlendFactorsSeparate].
 void rlSetBlendFactorsSeparate(
   num glSrcRGB,
   num glDstRGB,
@@ -400,93 +400,93 @@ void rlSetBlendFactorsSeparate(
   num glEqAlpha,
 ) => _module.rlSetBlendFactorsSeparate(glSrcRGB, glDstRGB, glSrcAlpha, glDstAlpha, glEqRGB, glEqAlpha);
 
-/// See [RaylibRlglModule.rlglInit].
+/// See [RaylibRlglDart.rlglInit].
 void rlglInit(
   num width,
   num height,
 ) => _module.rlglInit(width, height);
 
-/// See [RaylibRlglModule.rlglClose].
+/// See [RaylibRlglDart.rlglClose].
 void rlglClose() => _module.rlglClose();
 
-/// See [RaylibRlglModule.rlGetVersion].
+/// See [RaylibRlglDart.rlGetVersion].
 int rlGetVersion() => _module.rlGetVersion();
 
-/// See [RaylibRlglModule.rlSetFramebufferWidth].
+/// See [RaylibRlglDart.rlSetFramebufferWidth].
 void rlSetFramebufferWidth(
   num width,
 ) => _module.rlSetFramebufferWidth(width);
 
-/// See [RaylibRlglModule.rlGetFramebufferWidth].
+/// See [RaylibRlglDart.rlGetFramebufferWidth].
 int rlGetFramebufferWidth() => _module.rlGetFramebufferWidth();
 
-/// See [RaylibRlglModule.rlSetFramebufferHeight].
+/// See [RaylibRlglDart.rlSetFramebufferHeight].
 void rlSetFramebufferHeight(
   num height,
 ) => _module.rlSetFramebufferHeight(height);
 
-/// See [RaylibRlglModule.rlGetFramebufferHeight].
+/// See [RaylibRlglDart.rlGetFramebufferHeight].
 int rlGetFramebufferHeight() => _module.rlGetFramebufferHeight();
 
-/// See [RaylibRlglModule.rlGetTextureIdDefault].
+/// See [RaylibRlglDart.rlGetTextureIdDefault].
 int rlGetTextureIdDefault() => _module.rlGetTextureIdDefault();
 
-/// See [RaylibRlglModule.rlGetShaderIdDefault].
+/// See [RaylibRlglDart.rlGetShaderIdDefault].
 int rlGetShaderIdDefault() => _module.rlGetShaderIdDefault();
 
-/// See [RaylibRlglModule.rlGetShaderLocsDefault].
+/// See [RaylibRlglDart.rlGetShaderLocsDefault].
 List<int> rlGetShaderLocsDefault() => _module.rlGetShaderLocsDefault();
 
-/// See [RaylibRlglModule.rlLoadRenderBatch].
+/// See [RaylibRlglDart.rlLoadRenderBatch].
 RlRenderBatchD rlLoadRenderBatch(
   num numBuffers,
   num bufferElements,
 ) => _module.rlLoadRenderBatch(numBuffers, bufferElements);
 
-/// See [RaylibRlglModule.rlUnloadRenderBatch].
+/// See [RaylibRlglDart.rlUnloadRenderBatch].
 void rlUnloadRenderBatch(
   RlRenderBatchD batch,
 ) => _module.rlUnloadRenderBatch(batch);
 
-/// See [RaylibRlglModule.rlDrawRenderBatch].
+/// See [RaylibRlglDart.rlDrawRenderBatch].
 void rlDrawRenderBatch(
   RlRenderBatchD batch,
 ) => _module.rlDrawRenderBatch(batch);
 
-/// See [RaylibRlglModule.rlSetRenderBatchActive].
+/// See [RaylibRlglDart.rlSetRenderBatchActive].
 void rlSetRenderBatchActive(
   RlRenderBatchD batch,
 ) => _module.rlSetRenderBatchActive(batch);
 
-/// See [RaylibRlglModule.rlDrawRenderBatchActive].
+/// See [RaylibRlglDart.rlDrawRenderBatchActive].
 void rlDrawRenderBatchActive() => _module.rlDrawRenderBatchActive();
 
-/// See [RaylibRlglModule.rlCheckRenderBatchLimit].
+/// See [RaylibRlglDart.rlCheckRenderBatchLimit].
 bool rlCheckRenderBatchLimit(
   num vCount,
 ) => _module.rlCheckRenderBatchLimit(vCount);
 
-/// See [RaylibRlglModule.rlSetTexture].
+/// See [RaylibRlglDart.rlSetTexture].
 void rlSetTexture(
   num id,
 ) => _module.rlSetTexture(id);
 
-/// See [RaylibRlglModule.rlLoadVertexArray].
+/// See [RaylibRlglDart.rlLoadVertexArray].
 int rlLoadVertexArray() => _module.rlLoadVertexArray();
 
-/// See [RaylibRlglModule.rlLoadVertexBuffer].
+/// See [RaylibRlglDart.rlLoadVertexBuffer].
 int rlLoadVertexBuffer(
   TypedDataList buffer,
   bool dynamic,
 ) => _module.rlLoadVertexBuffer(buffer, dynamic);
 
-/// See [RaylibRlglModule.rlLoadVertexBufferElement].
+/// See [RaylibRlglDart.rlLoadVertexBufferElement].
 int rlLoadVertexBufferElement(
   TypedDataList buffer,
   bool dynamic,
 ) => _module.rlLoadVertexBufferElement(buffer, dynamic);
 
-/// See [RaylibRlglModule.rlUpdateVertexBuffer].
+/// See [RaylibRlglDart.rlUpdateVertexBuffer].
 void rlUpdateVertexBuffer(
   num bufferId,
   TypedDataList data,
@@ -494,7 +494,7 @@ void rlUpdateVertexBuffer(
   num offset,
 ) => _module.rlUpdateVertexBuffer(bufferId, data, dataSize, offset);
 
-/// See [RaylibRlglModule.rlUpdateVertexBufferElements].
+/// See [RaylibRlglDart.rlUpdateVertexBufferElements].
 void rlUpdateVertexBufferElements(
   num id,
   TypedDataList data,
@@ -502,17 +502,17 @@ void rlUpdateVertexBufferElements(
   num offset,
 ) => _module.rlUpdateVertexBufferElements(id, data, dataSize, offset);
 
-/// See [RaylibRlglModule.rlUnloadVertexArray].
+/// See [RaylibRlglDart.rlUnloadVertexArray].
 void rlUnloadVertexArray(
   num vaoId,
 ) => _module.rlUnloadVertexArray(vaoId);
 
-/// See [RaylibRlglModule.rlUnloadVertexBuffer].
+/// See [RaylibRlglDart.rlUnloadVertexBuffer].
 void rlUnloadVertexBuffer(
   num vboId,
 ) => _module.rlUnloadVertexBuffer(vboId);
 
-/// See [RaylibRlglModule.rlSetVertexAttribute].
+/// See [RaylibRlglDart.rlSetVertexAttribute].
 void rlSetVertexAttribute(
   num index,
   num compSize,
@@ -522,40 +522,40 @@ void rlSetVertexAttribute(
   num offset,
 ) => _module.rlSetVertexAttribute(index, compSize, type, normalized, stride, offset);
 
-/// See [RaylibRlglModule.rlSetVertexAttributeDivisor].
+/// See [RaylibRlglDart.rlSetVertexAttributeDivisor].
 void rlSetVertexAttributeDivisor(
   num index,
   num divisor,
 ) => _module.rlSetVertexAttributeDivisor(index, divisor);
 
-/// See [RaylibRlglModule.rlSetVertexAttributeDefault].
+/// See [RaylibRlglDart.rlSetVertexAttributeDefault].
 void rlSetVertexAttributeDefault(
   num locIndex,
   Float32List value,
   RlShaderAttributeDataType attribType,
 ) => _module.rlSetVertexAttributeDefault(locIndex, value, attribType);
 
-/// See [RaylibRlglModule.rlDrawVertexArray].
+/// See [RaylibRlglDart.rlDrawVertexArray].
 void rlDrawVertexArray(
   num offset,
   num count,
 ) => _module.rlDrawVertexArray(offset, count);
 
-/// See [RaylibRlglModule.rlDrawVertexArrayElements].
+/// See [RaylibRlglDart.rlDrawVertexArrayElements].
 void rlDrawVertexArrayElements(
   num offset,
   num count,
   Uint16List buffer,
 ) => _module.rlDrawVertexArrayElements(offset, count, buffer);
 
-/// See [RaylibRlglModule.rlDrawVertexArrayInstanced].
+/// See [RaylibRlglDart.rlDrawVertexArrayInstanced].
 void rlDrawVertexArrayInstanced(
   num offset,
   num count,
   num instances,
 ) => _module.rlDrawVertexArrayInstanced(offset, count, instances);
 
-/// See [RaylibRlglModule.rlDrawVertexArrayElementsInstanced].
+/// See [RaylibRlglDart.rlDrawVertexArrayElementsInstanced].
 void rlDrawVertexArrayElementsInstanced(
   num offset,
   num count,
@@ -563,7 +563,7 @@ void rlDrawVertexArrayElementsInstanced(
   num instances,
 ) => _module.rlDrawVertexArrayElementsInstanced(offset, count, buffer, instances);
 
-/// See [RaylibRlglModule.rlLoadTexture].
+/// See [RaylibRlglDart.rlLoadTexture].
 int rlLoadTexture(
   Uint8List? data,
   num width,
@@ -572,14 +572,14 @@ int rlLoadTexture(
   num mipmapCount,
 ) => _module.rlLoadTexture(data, width, height, format, mipmapCount);
 
-/// See [RaylibRlglModule.rlLoadTextureDepth].
+/// See [RaylibRlglDart.rlLoadTextureDepth].
 int rlLoadTextureDepth(
   num width,
   num height,
   bool useRenderBuffer,
 ) => _module.rlLoadTextureDepth(width, height, useRenderBuffer);
 
-/// See [RaylibRlglModule.rlLoadTextureCubemap].
+/// See [RaylibRlglDart.rlLoadTextureCubemap].
 int rlLoadTextureCubemap(
   Uint8List? data,
   num size,
@@ -587,7 +587,7 @@ int rlLoadTextureCubemap(
   num mipmapCount,
 ) => _module.rlLoadTextureCubemap(data, size, format, mipmapCount);
 
-/// See [RaylibRlglModule.rlUpdateTexture].
+/// See [RaylibRlglDart.rlUpdateTexture].
 void rlUpdateTexture(
   num id,
   num offsetX,
@@ -598,22 +598,22 @@ void rlUpdateTexture(
   Uint8List data,
 ) => _module.rlUpdateTexture(id, offsetX, offsetY, width, height, format, data);
 
-/// See [RaylibRlglModule.rlGetGlTextureFormats].
+/// See [RaylibRlglDart.rlGetGlTextureFormats].
 (int glInternalFormat, int glFormat, int glType) rlGetGlTextureFormats(
   PixelFormat format,
 ) => _module.rlGetGlTextureFormats(format);
 
-/// See [RaylibRlglModule.rlGetPixelFormatName].
+/// See [RaylibRlglDart.rlGetPixelFormatName].
 String rlGetPixelFormatName(
   PixelFormat format,
 ) => _module.rlGetPixelFormatName(format);
 
-/// See [RaylibRlglModule.rlUnloadTexture].
+/// See [RaylibRlglDart.rlUnloadTexture].
 void rlUnloadTexture(
   num id,
 ) => _module.rlUnloadTexture(id);
 
-/// See [RaylibRlglModule.rlGenTextureMipmaps].
+/// See [RaylibRlglDart.rlGenTextureMipmaps].
 int rlGenTextureMipmaps(
   num id,
   num width,
@@ -621,7 +621,7 @@ int rlGenTextureMipmaps(
   PixelFormat format,
 ) => _module.rlGenTextureMipmaps(id, width, height, format);
 
-/// See [RaylibRlglModule.rlReadTexturePixels].
+/// See [RaylibRlglDart.rlReadTexturePixels].
 Uint8List rlReadTexturePixels(
   num id,
   num width,
@@ -629,16 +629,16 @@ Uint8List rlReadTexturePixels(
   PixelFormat format,
 ) => _module.rlReadTexturePixels(id, width, height, format);
 
-/// See [RaylibRlglModule.rlReadScreenPixels].
+/// See [RaylibRlglDart.rlReadScreenPixels].
 Uint8List rlReadScreenPixels(
   num width,
   num height,
 ) => _module.rlReadScreenPixels(width, height);
 
-/// See [RaylibRlglModule.rlLoadFramebuffer].
+/// See [RaylibRlglDart.rlLoadFramebuffer].
 int rlLoadFramebuffer() => _module.rlLoadFramebuffer();
 
-/// See [RaylibRlglModule.rlFramebufferAttach].
+/// See [RaylibRlglDart.rlFramebufferAttach].
 void rlFramebufferAttach(
   num fboId,
   num texId,
@@ -647,17 +647,17 @@ void rlFramebufferAttach(
   num mipLevel,
 ) => _module.rlFramebufferAttach(fboId, texId, attachType, texType, mipLevel);
 
-/// See [RaylibRlglModule.rlFramebufferComplete].
+/// See [RaylibRlglDart.rlFramebufferComplete].
 bool rlFramebufferComplete(
   num id,
 ) => _module.rlFramebufferComplete(id);
 
-/// See [RaylibRlglModule.rlUnloadFramebuffer].
+/// See [RaylibRlglDart.rlUnloadFramebuffer].
 void rlUnloadFramebuffer(
   num id,
 ) => _module.rlUnloadFramebuffer(id);
 
-/// See [RaylibRlglModule.rlCopyFramebuffer].
+/// See [RaylibRlglDart.rlCopyFramebuffer].
 Uint8List rlCopyFramebuffer(
   num x,
   num y,
@@ -666,58 +666,58 @@ Uint8List rlCopyFramebuffer(
   PixelFormat format,
 ) => _module.rlCopyFramebuffer(x, y, width, height, format);
 
-/// See [RaylibRlglModule.rlResizeFramebuffer].
+/// See [RaylibRlglDart.rlResizeFramebuffer].
 void rlResizeFramebuffer(
   num width,
   num height,
 ) => _module.rlResizeFramebuffer(width, height);
 
-/// See [RaylibRlglModule.rlLoadShader].
+/// See [RaylibRlglDart.rlLoadShader].
 int rlLoadShader(
   String code,
   RlShaderType type,
 ) => _module.rlLoadShader(code, type);
 
-/// See [RaylibRlglModule.rlLoadShaderProgram].
+/// See [RaylibRlglDart.rlLoadShaderProgram].
 int rlLoadShaderProgram(
   String vsCode,
   String fsCode,
 ) => _module.rlLoadShaderProgram(vsCode, fsCode);
 
-/// See [RaylibRlglModule.rlLoadShaderProgramEx].
+/// See [RaylibRlglDart.rlLoadShaderProgramEx].
 int rlLoadShaderProgramEx(
   num vsId,
   num fsId,
 ) => _module.rlLoadShaderProgramEx(vsId, fsId);
 
-/// See [RaylibRlglModule.rlLoadShaderProgramCompute].
+/// See [RaylibRlglDart.rlLoadShaderProgramCompute].
 int rlLoadShaderProgramCompute(
   num csId,
 ) => _module.rlLoadShaderProgramCompute(csId);
 
-/// See [RaylibRlglModule.rlUnloadShader].
+/// See [RaylibRlglDart.rlUnloadShader].
 void rlUnloadShader(
   num id,
 ) => _module.rlUnloadShader(id);
 
-/// See [RaylibRlglModule.rlUnloadShaderProgram].
+/// See [RaylibRlglDart.rlUnloadShaderProgram].
 void rlUnloadShaderProgram(
   num id,
 ) => _module.rlUnloadShaderProgram(id);
 
-/// See [RaylibRlglModule.rlGetLocationUniform].
+/// See [RaylibRlglDart.rlGetLocationUniform].
 int rlGetLocationUniform(
   num shaderId,
   String uniformName,
 ) => _module.rlGetLocationUniform(shaderId, uniformName);
 
-/// See [RaylibRlglModule.rlGetLocationAttrib].
+/// See [RaylibRlglDart.rlGetLocationAttrib].
 int rlGetLocationAttrib(
   num shaderId,
   String attribName,
 ) => _module.rlGetLocationAttrib(shaderId, attribName);
 
-/// See [RaylibRlglModule.rlSetUniform].
+/// See [RaylibRlglDart.rlSetUniform].
 void rlSetUniform(
   num locIndex,
   TypedDataList value,
@@ -725,70 +725,70 @@ void rlSetUniform(
   num count,
 ) => _module.rlSetUniform(locIndex, value, uniformType, count);
 
-/// See [RaylibRlglModule.rlSetUniformMatrix].
+/// See [RaylibRlglDart.rlSetUniformMatrix].
 void rlSetUniformMatrix(
   num locIndex,
   MatrixD mat,
 ) => _module.rlSetUniformMatrix(locIndex, mat);
 
-/// See [RaylibRlglModule.rlSetUniformMatrices].
+/// See [RaylibRlglDart.rlSetUniformMatrices].
 void rlSetUniformMatrices(
   num locIndex,
   List<MatrixD> mat,
 ) => _module.rlSetUniformMatrices(locIndex, mat);
 
-/// See [RaylibRlglModule.rlSetUniformSampler].
+/// See [RaylibRlglDart.rlSetUniformSampler].
 void rlSetUniformSampler(
   num locIndex,
   num textureId,
 ) => _module.rlSetUniformSampler(locIndex, textureId);
 
-/// See [RaylibRlglModule.rlSetShader].
+/// See [RaylibRlglDart.rlSetShader].
 void rlSetShader(
   num id,
   List<int> locs,
 ) => _module.rlSetShader(id, locs);
 
-/// See [RaylibRlglModule.rlComputeShaderDispatch].
+/// See [RaylibRlglDart.rlComputeShaderDispatch].
 void rlComputeShaderDispatch(
   num groupX,
   num groupY,
   num groupZ,
 ) => _module.rlComputeShaderDispatch(groupX, groupY, groupZ);
 
-/// See [RaylibRlglModule.rlLoadShaderBuffer].
+/// See [RaylibRlglDart.rlLoadShaderBuffer].
 int rlLoadShaderBuffer(
   num size,
   TypedDataList? data,
   RlUsageHint? usageHint,
 ) => _module.rlLoadShaderBuffer(size, data, usageHint);
 
-/// See [RaylibRlglModule.rlUnloadShaderBuffer].
+/// See [RaylibRlglDart.rlUnloadShaderBuffer].
 void rlUnloadShaderBuffer(
   num ssboId,
 ) => _module.rlUnloadShaderBuffer(ssboId);
 
-/// See [RaylibRlglModule.rlUpdateShaderBuffer].
+/// See [RaylibRlglDart.rlUpdateShaderBuffer].
 void rlUpdateShaderBuffer(
   num id,
   TypedDataList data,
   num offset,
 ) => _module.rlUpdateShaderBuffer(id, data, offset);
 
-/// See [RaylibRlglModule.rlBindShaderBuffer].
+/// See [RaylibRlglDart.rlBindShaderBuffer].
 void rlBindShaderBuffer(
   num id,
   num index,
 ) => _module.rlBindShaderBuffer(id, index);
 
-/// See [RaylibRlglModule.rlReadShaderBuffer].
+/// See [RaylibRlglDart.rlReadShaderBuffer].
 Uint8List rlReadShaderBuffer(
   num id,
   num count,
   num offset,
 ) => _module.rlReadShaderBuffer(id, count, offset);
 
-/// See [RaylibRlglModule.rlCopyShaderBuffer].
+/// See [RaylibRlglDart.rlCopyShaderBuffer].
 void rlCopyShaderBuffer(
   num destId,
   num srcId,
@@ -797,12 +797,12 @@ void rlCopyShaderBuffer(
   num count,
 ) => _module.rlCopyShaderBuffer(destId, srcId, destOffset, srcOffset, count);
 
-/// See [RaylibRlglModule.rlGetShaderBufferSize].
+/// See [RaylibRlglDart.rlGetShaderBufferSize].
 int rlGetShaderBufferSize(
   num id,
 ) => _module.rlGetShaderBufferSize(id);
 
-/// See [RaylibRlglModule.rlBindImageTexture].
+/// See [RaylibRlglDart.rlBindImageTexture].
 void rlBindImageTexture(
   num id,
   num index,
@@ -810,49 +810,49 @@ void rlBindImageTexture(
   bool readonly,
 ) => _module.rlBindImageTexture(id, index, format, readonly);
 
-/// See [RaylibRlglModule.rlGetMatrixModelview].
+/// See [RaylibRlglDart.rlGetMatrixModelview].
 MatrixD rlGetMatrixModelview() => _module.rlGetMatrixModelview();
 
-/// See [RaylibRlglModule.rlGetMatrixProjection].
+/// See [RaylibRlglDart.rlGetMatrixProjection].
 MatrixD rlGetMatrixProjection() => _module.rlGetMatrixProjection();
 
-/// See [RaylibRlglModule.rlGetMatrixTransform].
+/// See [RaylibRlglDart.rlGetMatrixTransform].
 MatrixD rlGetMatrixTransform() => _module.rlGetMatrixTransform();
 
-/// See [RaylibRlglModule.rlGetMatrixProjectionStereo].
+/// See [RaylibRlglDart.rlGetMatrixProjectionStereo].
 MatrixD rlGetMatrixProjectionStereo(
   num eye,
 ) => _module.rlGetMatrixProjectionStereo(eye);
 
-/// See [RaylibRlglModule.rlGetMatrixViewOffsetStereo].
+/// See [RaylibRlglDart.rlGetMatrixViewOffsetStereo].
 MatrixD rlGetMatrixViewOffsetStereo(
   num eye,
 ) => _module.rlGetMatrixViewOffsetStereo(eye);
 
-/// See [RaylibRlglModule.rlSetMatrixProjection].
+/// See [RaylibRlglDart.rlSetMatrixProjection].
 void rlSetMatrixProjection(
   MatrixD proj,
 ) => _module.rlSetMatrixProjection(proj);
 
-/// See [RaylibRlglModule.rlSetMatrixModelview].
+/// See [RaylibRlglDart.rlSetMatrixModelview].
 void rlSetMatrixModelview(
   MatrixD view,
 ) => _module.rlSetMatrixModelview(view);
 
-/// See [RaylibRlglModule.rlSetMatrixProjectionStereo].
+/// See [RaylibRlglDart.rlSetMatrixProjectionStereo].
 void rlSetMatrixProjectionStereo(
   MatrixD right,
   MatrixD left,
 ) => _module.rlSetMatrixProjectionStereo(right, left);
 
-/// See [RaylibRlglModule.rlSetMatrixViewOffsetStereo].
+/// See [RaylibRlglDart.rlSetMatrixViewOffsetStereo].
 void rlSetMatrixViewOffsetStereo(
   MatrixD right,
   MatrixD left,
 ) => _module.rlSetMatrixViewOffsetStereo(right, left);
 
-/// See [RaylibRlglModule.rlLoadDrawCube].
+/// See [RaylibRlglDart.rlLoadDrawCube].
 void rlLoadDrawCube() => _module.rlLoadDrawCube();
 
-/// See [RaylibRlglModule.rlLoadDrawQuad].
+/// See [RaylibRlglDart.rlLoadDrawQuad].
 void rlLoadDrawQuad() => _module.rlLoadDrawQuad();

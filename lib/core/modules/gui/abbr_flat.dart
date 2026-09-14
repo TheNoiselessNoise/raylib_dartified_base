@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibGuiFlatModule get _module => RaylibBase.instance.GuiFlat;
+RaylibGuiFlatModule get _module => RaylibBase.instance.module();
 
 /// See [RaylibGuiFlatModule.GuiEnable].
 void GuiEnable() => _module.GuiEnable();

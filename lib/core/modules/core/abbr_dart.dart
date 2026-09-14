@@ -1,270 +1,270 @@
 import 'dart:typed_data';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibCoreModule get _module => RaylibBase.instance.CoreDart;
+RaylibCoreDart get _module => RaylibBase.instance.module();
 
-/// See [RaylibCoreModule.InitWindow].
+/// See [RaylibCoreDart.InitWindow].
 void InitWindow(
   num width,
   num height,
   String title,
 ) => _module.InitWindow(width, height, title);
 
-/// See [RaylibCoreModule.CloseWindow].
+/// See [RaylibCoreDart.CloseWindow].
 void CloseWindow() => _module.CloseWindow();
 
-/// See [RaylibCoreModule.WindowShouldClose].
+/// See [RaylibCoreDart.WindowShouldClose].
 bool WindowShouldClose() => _module.WindowShouldClose();
 
-/// See [RaylibCoreModule.IsWindowReady].
+/// See [RaylibCoreDart.IsWindowReady].
 bool IsWindowReady() => _module.IsWindowReady();
 
-/// See [RaylibCoreModule.IsWindowFullscreen].
+/// See [RaylibCoreDart.IsWindowFullscreen].
 bool IsWindowFullscreen() => _module.IsWindowFullscreen();
 
-/// See [RaylibCoreModule.IsWindowHidden].
+/// See [RaylibCoreDart.IsWindowHidden].
 bool IsWindowHidden() => _module.IsWindowHidden();
 
-/// See [RaylibCoreModule.IsWindowMinimized].
+/// See [RaylibCoreDart.IsWindowMinimized].
 bool IsWindowMinimized() => _module.IsWindowMinimized();
 
-/// See [RaylibCoreModule.IsWindowMaximized].
+/// See [RaylibCoreDart.IsWindowMaximized].
 bool IsWindowMaximized() => _module.IsWindowMaximized();
 
-/// See [RaylibCoreModule.IsWindowFocused].
+/// See [RaylibCoreDart.IsWindowFocused].
 bool IsWindowFocused() => _module.IsWindowFocused();
 
-/// See [RaylibCoreModule.IsWindowResized].
+/// See [RaylibCoreDart.IsWindowResized].
 bool IsWindowResized() => _module.IsWindowResized();
 
-/// See [RaylibCoreModule.IsWindowState].
+/// See [RaylibCoreDart.IsWindowState].
 bool IsWindowState(
   ConfigFlags flag,
 ) => _module.IsWindowState(flag);
 
-/// See [RaylibCoreModule.SetWindowState].
+/// See [RaylibCoreDart.SetWindowState].
 void SetWindowState(
   Iterable<ConfigFlags> flags,
 ) => _module.SetWindowState(flags);
 
-/// See [RaylibCoreModule.ClearWindowState].
+/// See [RaylibCoreDart.ClearWindowState].
 void ClearWindowState(
   Iterable<ConfigFlags> flags,
 ) => _module.ClearWindowState(flags);
 
-/// See [RaylibCoreModule.ToggleFullscreen].
+/// See [RaylibCoreDart.ToggleFullscreen].
 void ToggleFullscreen() => _module.ToggleFullscreen();
 
-/// See [RaylibCoreModule.ToggleBorderlessWindowed].
+/// See [RaylibCoreDart.ToggleBorderlessWindowed].
 void ToggleBorderlessWindowed() => _module.ToggleBorderlessWindowed();
 
-/// See [RaylibCoreModule.MaximizeWindow].
+/// See [RaylibCoreDart.MaximizeWindow].
 void MaximizeWindow() => _module.MaximizeWindow();
 
-/// See [RaylibCoreModule.MinimizeWindow].
+/// See [RaylibCoreDart.MinimizeWindow].
 void MinimizeWindow() => _module.MinimizeWindow();
 
-/// See [RaylibCoreModule.RestoreWindow].
+/// See [RaylibCoreDart.RestoreWindow].
 void RestoreWindow() => _module.RestoreWindow();
 
-/// See [RaylibCoreModule.SetWindowIcon].
+/// See [RaylibCoreDart.SetWindowIcon].
 void SetWindowIcon(
   ImageD image,
 ) => _module.SetWindowIcon(image);
 
-/// See [RaylibCoreModule.SetWindowIcons].
+/// See [RaylibCoreDart.SetWindowIcons].
 void SetWindowIcons(
   List<ImageD> images,
 ) => _module.SetWindowIcons(images);
 
-/// See [RaylibCoreModule.SetWindowTitle].
+/// See [RaylibCoreDart.SetWindowTitle].
 void SetWindowTitle(
   String title,
 ) => _module.SetWindowTitle(title);
 
-/// See [RaylibCoreModule.SetWindowPosition].
+/// See [RaylibCoreDart.SetWindowPosition].
 void SetWindowPosition(
   num x,
   num y,
 ) => _module.SetWindowPosition(x, y);
 
-/// See [RaylibCoreModule.SetWindowMonitor].
+/// See [RaylibCoreDart.SetWindowMonitor].
 void SetWindowMonitor(
   num monitor,
 ) => _module.SetWindowMonitor(monitor);
 
-/// See [RaylibCoreModule.SetWindowMinSize].
+/// See [RaylibCoreDart.SetWindowMinSize].
 void SetWindowMinSize(
   num width,
   num height,
 ) => _module.SetWindowMinSize(width, height);
 
-/// See [RaylibCoreModule.SetWindowMaxSize].
+/// See [RaylibCoreDart.SetWindowMaxSize].
 void SetWindowMaxSize(
   num width,
   num height,
 ) => _module.SetWindowMaxSize(width, height);
 
-/// See [RaylibCoreModule.SetWindowSize].
+/// See [RaylibCoreDart.SetWindowSize].
 void SetWindowSize(
   num width,
   num height,
 ) => _module.SetWindowSize(width, height);
 
-/// See [RaylibCoreModule.SetWindowOpacity].
+/// See [RaylibCoreDart.SetWindowOpacity].
 void SetWindowOpacity(
   num opacity,
 ) => _module.SetWindowOpacity(opacity);
 
-/// See [RaylibCoreModule.SetWindowFocused].
+/// See [RaylibCoreDart.SetWindowFocused].
 void SetWindowFocused() => _module.SetWindowFocused();
 
-/// See [RaylibCoreModule.GetScreenWidth].
+/// See [RaylibCoreDart.GetScreenWidth].
 int GetScreenWidth() => _module.GetScreenWidth();
 
-/// See [RaylibCoreModule.GetScreenHeight].
+/// See [RaylibCoreDart.GetScreenHeight].
 int GetScreenHeight() => _module.GetScreenHeight();
 
-/// See [RaylibCoreModule.GetRenderWidth].
+/// See [RaylibCoreDart.GetRenderWidth].
 int GetRenderWidth() => _module.GetRenderWidth();
 
-/// See [RaylibCoreModule.GetRenderHeight].
+/// See [RaylibCoreDart.GetRenderHeight].
 int GetRenderHeight() => _module.GetRenderHeight();
 
-/// See [RaylibCoreModule.GetMonitorCount].
+/// See [RaylibCoreDart.GetMonitorCount].
 int GetMonitorCount() => _module.GetMonitorCount();
 
-/// See [RaylibCoreModule.GetCurrentMonitor].
+/// See [RaylibCoreDart.GetCurrentMonitor].
 int GetCurrentMonitor() => _module.GetCurrentMonitor();
 
-/// See [RaylibCoreModule.GetMonitorPosition].
+/// See [RaylibCoreDart.GetMonitorPosition].
 Vector2D GetMonitorPosition(
   num monitor,
 ) => _module.GetMonitorPosition(monitor);
 
-/// See [RaylibCoreModule.GetMonitorWidth].
+/// See [RaylibCoreDart.GetMonitorWidth].
 int GetMonitorWidth(
   num monitor,
 ) => _module.GetMonitorWidth(monitor);
 
-/// See [RaylibCoreModule.GetMonitorHeight].
+/// See [RaylibCoreDart.GetMonitorHeight].
 int GetMonitorHeight(
   num monitor,
 ) => _module.GetMonitorHeight(monitor);
 
-/// See [RaylibCoreModule.GetMonitorPhysicalWidth].
+/// See [RaylibCoreDart.GetMonitorPhysicalWidth].
 int GetMonitorPhysicalWidth(
   num monitor,
 ) => _module.GetMonitorPhysicalWidth(monitor);
 
-/// See [RaylibCoreModule.GetMonitorPhysicalHeight].
+/// See [RaylibCoreDart.GetMonitorPhysicalHeight].
 int GetMonitorPhysicalHeight(
   num monitor,
 ) => _module.GetMonitorPhysicalHeight(monitor);
 
-/// See [RaylibCoreModule.GetMonitorRefreshRate].
+/// See [RaylibCoreDart.GetMonitorRefreshRate].
 int GetMonitorRefreshRate(
   num monitor,
 ) => _module.GetMonitorRefreshRate(monitor);
 
-/// See [RaylibCoreModule.GetWindowPosition].
+/// See [RaylibCoreDart.GetWindowPosition].
 Vector2D GetWindowPosition() => _module.GetWindowPosition();
 
-/// See [RaylibCoreModule.GetWindowScaleDPI].
+/// See [RaylibCoreDart.GetWindowScaleDPI].
 Vector2D GetWindowScaleDPI() => _module.GetWindowScaleDPI();
 
-/// See [RaylibCoreModule.GetMonitorName].
+/// See [RaylibCoreDart.GetMonitorName].
 String GetMonitorName(
   num monitor,
 ) => _module.GetMonitorName(monitor);
 
-/// See [RaylibCoreModule.SetClipboardText].
+/// See [RaylibCoreDart.SetClipboardText].
 void SetClipboardText(
   String text,
 ) => _module.SetClipboardText(text);
 
-/// See [RaylibCoreModule.GetClipboardText].
+/// See [RaylibCoreDart.GetClipboardText].
 String GetClipboardText() => _module.GetClipboardText();
 
-/// See [RaylibCoreModule.GetClipboardImage].
+/// See [RaylibCoreDart.GetClipboardImage].
 ImageD GetClipboardImage() => _module.GetClipboardImage();
 
-/// See [RaylibCoreModule.EnableEventWaiting].
+/// See [RaylibCoreDart.EnableEventWaiting].
 void EnableEventWaiting() => _module.EnableEventWaiting();
 
-/// See [RaylibCoreModule.DisableEventWaiting].
+/// See [RaylibCoreDart.DisableEventWaiting].
 void DisableEventWaiting() => _module.DisableEventWaiting();
 
-/// See [RaylibCoreModule.ShowCursor].
+/// See [RaylibCoreDart.ShowCursor].
 void ShowCursor() => _module.ShowCursor();
 
-/// See [RaylibCoreModule.HideCursor].
+/// See [RaylibCoreDart.HideCursor].
 void HideCursor() => _module.HideCursor();
 
-/// See [RaylibCoreModule.IsCursorHidden].
+/// See [RaylibCoreDart.IsCursorHidden].
 bool IsCursorHidden() => _module.IsCursorHidden();
 
-/// See [RaylibCoreModule.EnableCursor].
+/// See [RaylibCoreDart.EnableCursor].
 void EnableCursor() => _module.EnableCursor();
 
-/// See [RaylibCoreModule.DisableCursor].
+/// See [RaylibCoreDart.DisableCursor].
 void DisableCursor() => _module.DisableCursor();
 
-/// See [RaylibCoreModule.IsCursorOnScreen].
+/// See [RaylibCoreDart.IsCursorOnScreen].
 bool IsCursorOnScreen() => _module.IsCursorOnScreen();
 
-/// See [RaylibCoreModule.ClearBackground].
+/// See [RaylibCoreDart.ClearBackground].
 void ClearBackground(
   ColorD color,
 ) => _module.ClearBackground(color);
 
-/// See [RaylibCoreModule.BeginDrawing].
+/// See [RaylibCoreDart.BeginDrawing].
 void BeginDrawing() => _module.BeginDrawing();
 
-/// See [RaylibCoreModule.EndDrawing].
+/// See [RaylibCoreDart.EndDrawing].
 void EndDrawing() => _module.EndDrawing();
 
-/// See [RaylibCoreModule.BeginMode2D].
+/// See [RaylibCoreDart.BeginMode2D].
 void BeginMode2D(
   Camera2DD camera,
 ) => _module.BeginMode2D(camera);
 
-/// See [RaylibCoreModule.EndMode2D].
+/// See [RaylibCoreDart.EndMode2D].
 void EndMode2D() => _module.EndMode2D();
 
-/// See [RaylibCoreModule.BeginMode3D].
+/// See [RaylibCoreDart.BeginMode3D].
 void BeginMode3D(
   Camera3DD camera,
 ) => _module.BeginMode3D(camera);
 
-/// See [RaylibCoreModule.EndMode3D].
+/// See [RaylibCoreDart.EndMode3D].
 void EndMode3D() => _module.EndMode3D();
 
-/// See [RaylibCoreModule.BeginTextureMode].
+/// See [RaylibCoreDart.BeginTextureMode].
 void BeginTextureMode(
   RenderTextureD target,
 ) => _module.BeginTextureMode(target);
 
-/// See [RaylibCoreModule.EndTextureMode].
+/// See [RaylibCoreDart.EndTextureMode].
 void EndTextureMode() => _module.EndTextureMode();
 
-/// See [RaylibCoreModule.BeginShaderMode].
+/// See [RaylibCoreDart.BeginShaderMode].
 void BeginShaderMode(
   ShaderD shader,
 ) => _module.BeginShaderMode(shader);
 
-/// See [RaylibCoreModule.EndShaderMode].
+/// See [RaylibCoreDart.EndShaderMode].
 void EndShaderMode() => _module.EndShaderMode();
 
-/// See [RaylibCoreModule.BeginBlendMode].
+/// See [RaylibCoreDart.BeginBlendMode].
 void BeginBlendMode(
   BlendMode mode,
 ) => _module.BeginBlendMode(mode);
 
-/// See [RaylibCoreModule.EndBlendMode].
+/// See [RaylibCoreDart.EndBlendMode].
 void EndBlendMode() => _module.EndBlendMode();
 
-/// See [RaylibCoreModule.BeginScissorMode].
+/// See [RaylibCoreDart.BeginScissorMode].
 void BeginScissorMode(
   num x,
   num y,
@@ -272,57 +272,57 @@ void BeginScissorMode(
   num height,
 ) => _module.BeginScissorMode(x, y, width, height);
 
-/// See [RaylibCoreModule.EndScissorMode].
+/// See [RaylibCoreDart.EndScissorMode].
 void EndScissorMode() => _module.EndScissorMode();
 
-/// See [RaylibCoreModule.BeginVrStereoMode].
+/// See [RaylibCoreDart.BeginVrStereoMode].
 void BeginVrStereoMode(
   VrStereoConfigD config,
 ) => _module.BeginVrStereoMode(config);
 
-/// See [RaylibCoreModule.EndVrStereoMode].
+/// See [RaylibCoreDart.EndVrStereoMode].
 void EndVrStereoMode() => _module.EndVrStereoMode();
 
-/// See [RaylibCoreModule.LoadVrStereoConfig].
+/// See [RaylibCoreDart.LoadVrStereoConfig].
 VrStereoConfigD LoadVrStereoConfig(
   VrDeviceInfoD device,
 ) => _module.LoadVrStereoConfig(device);
 
-/// See [RaylibCoreModule.UnloadVrStereoConfig].
+/// See [RaylibCoreDart.UnloadVrStereoConfig].
 void UnloadVrStereoConfig(
   VrStereoConfigD config,
 ) => _module.UnloadVrStereoConfig(config);
 
-/// See [RaylibCoreModule.LoadShader].
+/// See [RaylibCoreDart.LoadShader].
 ShaderD LoadShader(
   String? vsFileName,
   String? fsFileName,
 ) => _module.LoadShader(vsFileName, fsFileName);
 
-/// See [RaylibCoreModule.LoadShaderFromMemory].
+/// See [RaylibCoreDart.LoadShaderFromMemory].
 ShaderD LoadShaderFromMemory(
   String? vsCode,
   String? fsCode,
 ) => _module.LoadShaderFromMemory(vsCode, fsCode);
 
-/// See [RaylibCoreModule.IsShaderValid].
+/// See [RaylibCoreDart.IsShaderValid].
 bool IsShaderValid(
   ShaderD shader,
 ) => _module.IsShaderValid(shader);
 
-/// See [RaylibCoreModule.GetShaderLocation].
+/// See [RaylibCoreDart.GetShaderLocation].
 int GetShaderLocation(
   ShaderD shader,
   String uniformName,
 ) => _module.GetShaderLocation(shader, uniformName);
 
-/// See [RaylibCoreModule.GetShaderLocationAttrib].
+/// See [RaylibCoreDart.GetShaderLocationAttrib].
 int GetShaderLocationAttrib(
   ShaderD shader,
   String attribName,
 ) => _module.GetShaderLocationAttrib(shader, attribName);
 
-/// See [RaylibCoreModule.SetShaderValue].
+/// See [RaylibCoreDart.SetShaderValue].
 void SetShaderValue(
   ShaderD shader,
   num locIndex,
@@ -330,7 +330,7 @@ void SetShaderValue(
   ShaderUniformDataType uniformType,
 ) => _module.SetShaderValue(shader, locIndex, value, uniformType);
 
-/// See [RaylibCoreModule.SetShaderValueV].
+/// See [RaylibCoreDart.SetShaderValueV].
 void SetShaderValueV(
   ShaderD shader,
   num locIndex,
@@ -339,32 +339,32 @@ void SetShaderValueV(
   num count,
 ) => _module.SetShaderValueV(shader, locIndex, value, uniformType, count);
 
-/// See [RaylibCoreModule.SetShaderValueMatrix].
+/// See [RaylibCoreDart.SetShaderValueMatrix].
 void SetShaderValueMatrix(
   ShaderD shader,
   num locIndex,
   MatrixD mat,
 ) => _module.SetShaderValueMatrix(shader, locIndex, mat);
 
-/// See [RaylibCoreModule.SetShaderValueTexture].
+/// See [RaylibCoreDart.SetShaderValueTexture].
 void SetShaderValueTexture(
   ShaderD shader,
   num locIndex,
   TextureD texture,
 ) => _module.SetShaderValueTexture(shader, locIndex, texture);
 
-/// See [RaylibCoreModule.UnloadShader].
+/// See [RaylibCoreDart.UnloadShader].
 void UnloadShader(
   ShaderD shader,
 ) => _module.UnloadShader(shader);
 
-/// See [RaylibCoreModule.GetScreenToWorldRay].
+/// See [RaylibCoreDart.GetScreenToWorldRay].
 RayD GetScreenToWorldRay(
   Vector2D position,
   Camera3DD camera,
 ) => _module.GetScreenToWorldRay(position, camera);
 
-/// See [RaylibCoreModule.GetScreenToWorldRayEx].
+/// See [RaylibCoreDart.GetScreenToWorldRayEx].
 RayD GetScreenToWorldRayEx(
   Vector2D position,
   Camera3DD camera,
@@ -372,13 +372,13 @@ RayD GetScreenToWorldRayEx(
   num height,
 ) => _module.GetScreenToWorldRayEx(position, camera, width, height);
 
-/// See [RaylibCoreModule.GetWorldToScreen].
+/// See [RaylibCoreDart.GetWorldToScreen].
 Vector2D GetWorldToScreen(
   Vector3D position,
   Camera3DD camera,
 ) => _module.GetWorldToScreen(position, camera);
 
-/// See [RaylibCoreModule.GetWorldToScreenEx].
+/// See [RaylibCoreDart.GetWorldToScreenEx].
 Vector2D GetWorldToScreenEx(
   Vector3D position,
   Camera3DD camera,
@@ -386,475 +386,475 @@ Vector2D GetWorldToScreenEx(
   num height,
 ) => _module.GetWorldToScreenEx(position, camera, width, height);
 
-/// See [RaylibCoreModule.GetWorldToScreen2D].
+/// See [RaylibCoreDart.GetWorldToScreen2D].
 Vector2D GetWorldToScreen2D(
   Vector2D position,
   Camera2DD camera,
 ) => _module.GetWorldToScreen2D(position, camera);
 
-/// See [RaylibCoreModule.GetScreenToWorld2D].
+/// See [RaylibCoreDart.GetScreenToWorld2D].
 Vector2D GetScreenToWorld2D(
   Vector2D position,
   Camera2DD camera,
 ) => _module.GetScreenToWorld2D(position, camera);
 
-/// See [RaylibCoreModule.GetCameraMatrix].
+/// See [RaylibCoreDart.GetCameraMatrix].
 MatrixD GetCameraMatrix(
   Camera3DD camera,
 ) => _module.GetCameraMatrix(camera);
 
-/// See [RaylibCoreModule.GetCameraMatrix2D].
+/// See [RaylibCoreDart.GetCameraMatrix2D].
 MatrixD GetCameraMatrix2D(
   Camera2DD camera,
 ) => _module.GetCameraMatrix2D(camera);
 
-/// See [RaylibCoreModule.SetTargetFPS].
+/// See [RaylibCoreDart.SetTargetFPS].
 void SetTargetFPS(
   num fps,
 ) => _module.SetTargetFPS(fps);
 
-/// See [RaylibCoreModule.GetFrameTime].
+/// See [RaylibCoreDart.GetFrameTime].
 double GetFrameTime() => _module.GetFrameTime();
 
-/// See [RaylibCoreModule.GetTime].
+/// See [RaylibCoreDart.GetTime].
 double GetTime() => _module.GetTime();
 
-/// See [RaylibCoreModule.GetFPS].
+/// See [RaylibCoreDart.GetFPS].
 int GetFPS() => _module.GetFPS();
 
-/// See [RaylibCoreModule.SwapScreenBuffer].
+/// See [RaylibCoreDart.SwapScreenBuffer].
 void SwapScreenBuffer() => _module.SwapScreenBuffer();
 
-/// See [RaylibCoreModule.PollInputEvents].
+/// See [RaylibCoreDart.PollInputEvents].
 void PollInputEvents() => _module.PollInputEvents();
 
-/// See [RaylibCoreModule.WaitTime].
+/// See [RaylibCoreDart.WaitTime].
 void WaitTime(
   num seconds,
 ) => _module.WaitTime(seconds);
 
-/// See [RaylibCoreModule.SetRandomSeed].
+/// See [RaylibCoreDart.SetRandomSeed].
 void SetRandomSeed(
   num seed,
 ) => _module.SetRandomSeed(seed);
 
-/// See [RaylibCoreModule.GetRandomValue].
+/// See [RaylibCoreDart.GetRandomValue].
 int GetRandomValue(
   num min,
   num max,
 ) => _module.GetRandomValue(min, max);
 
-/// See [RaylibCoreModule.LoadRandomSequence].
+/// See [RaylibCoreDart.LoadRandomSequence].
 List<int> LoadRandomSequence(
   num count,
   num min,
   num max,
 ) => _module.LoadRandomSequence(count, min, max);
 
-/// See [RaylibCoreModule.TakeScreenshot].
+/// See [RaylibCoreDart.TakeScreenshot].
 void TakeScreenshot(
   String fileName,
 ) => _module.TakeScreenshot(fileName);
 
-/// See [RaylibCoreModule.SetConfigFlags].
+/// See [RaylibCoreDart.SetConfigFlags].
 void SetConfigFlags(
   Iterable<ConfigFlags> flags,
 ) => _module.SetConfigFlags(flags);
 
-/// See [RaylibCoreModule.OpenURL].
+/// See [RaylibCoreDart.OpenURL].
 void OpenURL(
   String url,
 ) => _module.OpenURL(url);
 
-/// See [RaylibCoreModule.TraceLog].
+/// See [RaylibCoreDart.TraceLog].
 void TraceLog(
   TraceLogLevel logLevel,
   String text,
 ) => _module.TraceLog(logLevel, text);
 
-/// See [RaylibCoreModule.SetTraceLogLevel].
+/// See [RaylibCoreDart.SetTraceLogLevel].
 void SetTraceLogLevel(
   TraceLogLevel logLevel,
 ) => _module.SetTraceLogLevel(logLevel);
 
-/// See [RaylibCoreModule.SetTraceLogCallback].
+/// See [RaylibCoreDart.SetTraceLogCallback].
 void SetTraceLogCallback(
   TraceLogCallbackBase callback,
 ) => _module.SetTraceLogCallback(callback);
 
-/// See [RaylibCoreModule.SetLoadFileDataCallback].
+/// See [RaylibCoreDart.SetLoadFileDataCallback].
 void SetLoadFileDataCallback(
   LoadFileDataCallbackBase? callback
 ) => _module.SetLoadFileDataCallback(callback);
 
-/// See [RaylibCoreModule.SetSaveFileDataCallback].
+/// See [RaylibCoreDart.SetSaveFileDataCallback].
 void SetSaveFileDataCallback(
   SaveFileDataCallbackBase? callback
 ) => _module.SetSaveFileDataCallback(callback);
 
-/// See [RaylibCoreModule.SetLoadFileTextCallback].
+/// See [RaylibCoreDart.SetLoadFileTextCallback].
 void SetLoadFileTextCallback(
   LoadFileTextCallbackBase? callback
 ) => _module.SetLoadFileTextCallback(callback);
 
-/// See [RaylibCoreModule.SetSaveFileTextCallback].
+/// See [RaylibCoreDart.SetSaveFileTextCallback].
 void SetSaveFileTextCallback(
   SaveFileTextCallbackBase? callback
 ) => _module.SetSaveFileTextCallback(callback);
 
-/// See [RaylibCoreModule.LoadFileData].
+/// See [RaylibCoreDart.LoadFileData].
 Uint8List LoadFileData(
   String fileName,
 ) => _module.LoadFileData(fileName);
 
-/// See [RaylibCoreModule.SaveFileData].
+/// See [RaylibCoreDart.SaveFileData].
 bool SaveFileData(
   String fileName,
   Uint8List data,
 ) => _module.SaveFileData(fileName, data);
 
-/// See [RaylibCoreModule.ExportDataAsCode].
+/// See [RaylibCoreDart.ExportDataAsCode].
 bool ExportDataAsCode(
   Uint8List data,
   String fileName,
 ) => _module.ExportDataAsCode(data, fileName);
 
-/// See [RaylibCoreModule.LoadFileText].
+/// See [RaylibCoreDart.LoadFileText].
 String LoadFileText(
   String fileName,
 ) => _module.LoadFileText(fileName);
 
-/// See [RaylibCoreModule.SaveFileText].
+/// See [RaylibCoreDart.SaveFileText].
 bool SaveFileText(
   String fileName,
   String text,
 ) => _module.SaveFileText(fileName, text);
 
-/// See [RaylibCoreModule.FileRename].
+/// See [RaylibCoreDart.FileRename].
 int FileRename(
   String fileName,
   String fileRename,
 ) => _module.FileRename(fileName, fileRename);
 
-/// See [RaylibCoreModule.FileRemove].
+/// See [RaylibCoreDart.FileRemove].
 int FileRemove(
   String fileName,
 ) => _module.FileRemove(fileName);
 
-/// See [RaylibCoreModule.FileCopy].
+/// See [RaylibCoreDart.FileCopy].
 int FileCopy(
   String srcPath,
   String dstPath,
 ) => _module.FileCopy(srcPath, dstPath);
 
-/// See [RaylibCoreModule.FileMove].
+/// See [RaylibCoreDart.FileMove].
 int FileMove(
   String srcPath,
   String dstPath,
 ) => _module.FileMove(srcPath, dstPath);
 
-/// See [RaylibCoreModule.FileTextReplace].
+/// See [RaylibCoreDart.FileTextReplace].
 int FileTextReplace(
   String fileName,
   String search,
   String replacement,
 ) => _module.FileTextReplace(fileName, search, replacement);
 
-/// See [RaylibCoreModule.FileTextFindIndex].
+/// See [RaylibCoreDart.FileTextFindIndex].
 int FileTextFindIndex(
   String fileName,
   String search,
 ) => _module.FileTextFindIndex(fileName, search);
 
-/// See [RaylibCoreModule.FileExists].
+/// See [RaylibCoreDart.FileExists].
 bool FileExists(
   String fileName,
 ) => _module.FileExists(fileName);
 
-/// See [RaylibCoreModule.DirectoryExists].
+/// See [RaylibCoreDart.DirectoryExists].
 bool DirectoryExists(
   String dirPath,
 ) => _module.DirectoryExists(dirPath);
 
-/// See [RaylibCoreModule.IsFileExtension].
+/// See [RaylibCoreDart.IsFileExtension].
 bool IsFileExtension(
   String fileName,
   String ext,
 ) => _module.IsFileExtension(fileName, ext);
 
-/// See [RaylibCoreModule.GetFileLength].
+/// See [RaylibCoreDart.GetFileLength].
 int GetFileLength(
   String fileName,
 ) => _module.GetFileLength(fileName);
 
-/// See [RaylibCoreModule.GetFileExtension].
+/// See [RaylibCoreDart.GetFileExtension].
 String GetFileExtension(
   String fileName,
 ) => _module.GetFileExtension(fileName);
 
-/// See [RaylibCoreModule.GetFileName].
+/// See [RaylibCoreDart.GetFileName].
 String GetFileName(
   String filePath,
 ) => _module.GetFileName(filePath);
 
-/// See [RaylibCoreModule.GetFileNameWithoutExt].
+/// See [RaylibCoreDart.GetFileNameWithoutExt].
 String GetFileNameWithoutExt(
   String filePath,
 ) => _module.GetFileNameWithoutExt(filePath);
 
-/// See [RaylibCoreModule.GetDirectoryFileCount].
+/// See [RaylibCoreDart.GetDirectoryFileCount].
 int GetDirectoryFileCount(
   String dirPath, 
 ) => _module.GetDirectoryFileCount(dirPath);
 
-/// See [RaylibCoreModule.GetDirectoryFileCountEx].
+/// See [RaylibCoreDart.GetDirectoryFileCountEx].
 int GetDirectoryFileCountEx(
   String basePath,
   String filter,
   bool scanSubdirs,
 ) => _module.GetDirectoryFileCountEx(basePath, filter, scanSubdirs);
 
-/// See [RaylibCoreModule.GetDirectoryPath].
+/// See [RaylibCoreDart.GetDirectoryPath].
 String GetDirectoryPath(
   String filePath,
 ) => _module.GetDirectoryPath(filePath);
 
-/// See [RaylibCoreModule.GetPrevDirectoryPath].
+/// See [RaylibCoreDart.GetPrevDirectoryPath].
 String GetPrevDirectoryPath(
   String dirPath,
 ) => _module.GetPrevDirectoryPath(dirPath);
 
-/// See [RaylibCoreModule.GetWorkingDirectory].
+/// See [RaylibCoreDart.GetWorkingDirectory].
 String GetWorkingDirectory() => _module.GetWorkingDirectory();
 
-/// See [RaylibCoreModule.GetApplicationDirectory].
+/// See [RaylibCoreDart.GetApplicationDirectory].
 String GetApplicationDirectory() => _module.GetApplicationDirectory();
 
-/// See [RaylibCoreModule.MakeDirectory].
+/// See [RaylibCoreDart.MakeDirectory].
 int MakeDirectory(
   String dirPath,
 ) => _module.MakeDirectory(dirPath);
 
-/// See [RaylibCoreModule.ChangeDirectory].
+/// See [RaylibCoreDart.ChangeDirectory].
 bool ChangeDirectory(
   String dir,
 ) => _module.ChangeDirectory(dir);
 
-/// See [RaylibCoreModule.IsPathFile].
+/// See [RaylibCoreDart.IsPathFile].
 bool IsPathFile(
   String path,
 ) => _module.IsPathFile(path);
 
-/// See [RaylibCoreModule.IsFileNameValid].
+/// See [RaylibCoreDart.IsFileNameValid].
 bool IsFileNameValid(
   String fileName,
 ) => _module.IsFileNameValid(fileName);
 
-/// See [RaylibCoreModule.LoadDirectoryFiles].
+/// See [RaylibCoreDart.LoadDirectoryFiles].
 FilePathListD LoadDirectoryFiles(
   String dirPath,
 ) => _module.LoadDirectoryFiles(dirPath);
 
-/// See [RaylibCoreModule.LoadDirectoryFilesEx].
+/// See [RaylibCoreDart.LoadDirectoryFilesEx].
 FilePathListD LoadDirectoryFilesEx(
   String basePath,
   String filter,
   bool scanSubdirs,
 ) => _module.LoadDirectoryFilesEx(basePath, filter, scanSubdirs);
 
-/// See [RaylibCoreModule.UnloadDirectoryFiles].
+/// See [RaylibCoreDart.UnloadDirectoryFiles].
 void UnloadDirectoryFiles(
   FilePathListD files,
 ) => _module.UnloadDirectoryFiles(files);
 
-/// See [RaylibCoreModule.IsFileDropped].
+/// See [RaylibCoreDart.IsFileDropped].
 bool IsFileDropped() => _module.IsFileDropped();
 
-/// See [RaylibCoreModule.LoadDroppedFiles].
+/// See [RaylibCoreDart.LoadDroppedFiles].
 FilePathListD LoadDroppedFiles() => _module.LoadDroppedFiles();
 
-/// See [RaylibCoreModule.UnloadDroppedFiles].
+/// See [RaylibCoreDart.UnloadDroppedFiles].
 void UnloadDroppedFiles(
   FilePathListD files,
 ) => _module.UnloadDroppedFiles(files);
 
-/// See [RaylibCoreModule.GetFileModTime].
+/// See [RaylibCoreDart.GetFileModTime].
 int GetFileModTime(
   String fileName,
 ) => _module.GetFileModTime(fileName);
 
-/// See [RaylibCoreModule.CompressData].
+/// See [RaylibCoreDart.CompressData].
 Uint8List CompressData(
   Uint8List data,
 ) => _module.CompressData(data);
 
-/// See [RaylibCoreModule.DecompressData].
+/// See [RaylibCoreDart.DecompressData].
 Uint8List DecompressData(
   Uint8List compData,
 ) => _module.DecompressData(compData);
 
-/// See [RaylibCoreModule.EncodeDataBase64].
+/// See [RaylibCoreDart.EncodeDataBase64].
 Uint8List EncodeDataBase64(
   Uint8List data,
 ) => _module.EncodeDataBase64(data);
 
-/// See [RaylibCoreModule.DecodeDataBase64].
+/// See [RaylibCoreDart.DecodeDataBase64].
 Uint8List DecodeDataBase64(
   Uint8List data,
 ) => _module.DecodeDataBase64(data);
 
-/// See [RaylibCoreModule.ComputeCRC32].
+/// See [RaylibCoreDart.ComputeCRC32].
 int ComputeCRC32(
   Uint8List data,
 ) => _module.ComputeCRC32(data);
 
-/// See [RaylibCoreModule.ComputeMD5].
+/// See [RaylibCoreDart.ComputeMD5].
 Uint8List ComputeMD5(
   Uint8List data,
 ) => _module.ComputeMD5(data);
 
-/// See [RaylibCoreModule.ComputeSHA1].
+/// See [RaylibCoreDart.ComputeSHA1].
 Uint8List ComputeSHA1(
   Uint8List data,
 ) => _module.ComputeSHA1(data);
 
-/// See [RaylibCoreModule.ComputeSHA256].
+/// See [RaylibCoreDart.ComputeSHA256].
 Uint8List ComputeSHA256(
   Uint8List data,
 ) => _module.ComputeSHA256(data);
 
-/// See [RaylibCoreModule.LoadAutomationEventList].
+/// See [RaylibCoreDart.LoadAutomationEventList].
 AutomationEventListD LoadAutomationEventList(
   String? fileName,
 ) => _module.LoadAutomationEventList(fileName);
 
-/// See [RaylibCoreModule.UnloadAutomationEventList].
+/// See [RaylibCoreDart.UnloadAutomationEventList].
 void UnloadAutomationEventList(
   AutomationEventListD list,
 ) => _module.UnloadAutomationEventList(list);
 
-/// See [RaylibCoreModule.ExportAutomationEventList].
+/// See [RaylibCoreDart.ExportAutomationEventList].
 bool ExportAutomationEventList(
   AutomationEventListD list,
   String fileName,
 ) => _module.ExportAutomationEventList(list, fileName);
 
-/// See [RaylibCoreModule.SetAutomationEventList].
+/// See [RaylibCoreDart.SetAutomationEventList].
 void SetAutomationEventList(
   AutomationEventListD list,
 ) => _module.SetAutomationEventList(list);
 
-/// See [RaylibCoreModule.SetAutomationEventBaseFrame].
+/// See [RaylibCoreDart.SetAutomationEventBaseFrame].
 void SetAutomationEventBaseFrame(
   int frame,
 ) => _module.SetAutomationEventBaseFrame(frame);
 
-/// See [RaylibCoreModule.StartAutomationEventRecording].
+/// See [RaylibCoreDart.StartAutomationEventRecording].
 void StartAutomationEventRecording() => _module.StartAutomationEventRecording();
 
-/// See [RaylibCoreModule.StopAutomationEventRecording].
+/// See [RaylibCoreDart.StopAutomationEventRecording].
 void StopAutomationEventRecording() => _module.StopAutomationEventRecording();
 
-/// See [RaylibCoreModule.PlayAutomationEvent].
+/// See [RaylibCoreDart.PlayAutomationEvent].
 void PlayAutomationEvent(
   AutomationEventD event,
 ) => _module.PlayAutomationEvent(event);
 
-/// See [RaylibCoreModule.IsKeyPressed].
+/// See [RaylibCoreDart.IsKeyPressed].
 bool IsKeyPressed(
   KeyboardKey key,
 ) => _module.IsKeyPressed(key);
 
-/// See [RaylibCoreModule.IsKeyPressedRepeat].
+/// See [RaylibCoreDart.IsKeyPressedRepeat].
 bool IsKeyPressedRepeat(
   KeyboardKey key,
 ) => _module.IsKeyPressedRepeat(key);
 
-/// See [RaylibCoreModule.IsKeyDown].
+/// See [RaylibCoreDart.IsKeyDown].
 bool IsKeyDown(
   KeyboardKey key,
 ) => _module.IsKeyDown(key);
 
-/// See [RaylibCoreModule.IsKeyReleased].
+/// See [RaylibCoreDart.IsKeyReleased].
 bool IsKeyReleased(
   KeyboardKey key,
 ) => _module.IsKeyReleased(key);
 
-/// See [RaylibCoreModule.IsKeyUp].
+/// See [RaylibCoreDart.IsKeyUp].
 bool IsKeyUp(
   KeyboardKey key,
 ) => _module.IsKeyUp(key);
 
-/// See [RaylibCoreModule.GetKeyName].
+/// See [RaylibCoreDart.GetKeyName].
 String GetKeyName(
   KeyboardKey key,
 ) => _module.GetKeyName(key);
 
-/// See [RaylibCoreModule.GetKeyPressed].
+/// See [RaylibCoreDart.GetKeyPressed].
 int GetKeyPressed() => _module.GetKeyPressed();
 
-/// See [RaylibCoreModule.GetCharPressed].
+/// See [RaylibCoreDart.GetCharPressed].
 int GetCharPressed() => _module.GetCharPressed();
 
-/// See [RaylibCoreModule.SetExitKey].
+/// See [RaylibCoreDart.SetExitKey].
 void SetExitKey(
   KeyboardKey key,
 ) => _module.SetExitKey(key);
 
-/// See [RaylibCoreModule.IsGamepadAvailable].
+/// See [RaylibCoreDart.IsGamepadAvailable].
 bool IsGamepadAvailable(
   num gamepad,
 ) => _module.IsGamepadAvailable(gamepad);
 
-/// See [RaylibCoreModule.GetGamepadName].
+/// See [RaylibCoreDart.GetGamepadName].
 String GetGamepadName(
   num gamepad,
 ) => _module.GetGamepadName(gamepad);
 
-/// See [RaylibCoreModule.IsGamepadButtonPressed].
+/// See [RaylibCoreDart.IsGamepadButtonPressed].
 bool IsGamepadButtonPressed(
   num gamepad,
   GamepadButton button,
 ) => _module.IsGamepadButtonPressed(gamepad, button);
 
-/// See [RaylibCoreModule.IsGamepadButtonDown].
+/// See [RaylibCoreDart.IsGamepadButtonDown].
 bool IsGamepadButtonDown(
   num gamepad,
   GamepadButton button,
 ) => _module.IsGamepadButtonDown(gamepad, button);
 
-/// See [RaylibCoreModule.IsGamepadButtonReleased].
+/// See [RaylibCoreDart.IsGamepadButtonReleased].
 bool IsGamepadButtonReleased(
   num gamepad,
   GamepadButton button,
 ) => _module.IsGamepadButtonReleased(gamepad, button);
 
-/// See [RaylibCoreModule.IsGamepadButtonUp].
+/// See [RaylibCoreDart.IsGamepadButtonUp].
 bool IsGamepadButtonUp(
   num gamepad,
   GamepadButton button,
 ) => _module.IsGamepadButtonUp(gamepad, button);
 
-/// See [RaylibCoreModule.GetGamepadButtonPressed].
+/// See [RaylibCoreDart.GetGamepadButtonPressed].
 GamepadButton GetGamepadButtonPressed() => _module.GetGamepadButtonPressed();
 
-/// See [RaylibCoreModule.GetGamepadAxisCount].
+/// See [RaylibCoreDart.GetGamepadAxisCount].
 int GetGamepadAxisCount(
   num gamepad,
 ) => _module.GetGamepadAxisCount(gamepad);
 
-/// See [RaylibCoreModule.GetGamepadAxisMovement].
+/// See [RaylibCoreDart.GetGamepadAxisMovement].
 double GetGamepadAxisMovement(
   num gamepad,
   GamepadAxis axis,
 ) => _module.GetGamepadAxisMovement(gamepad, axis);
 
-/// See [RaylibCoreModule.SetGamepadMappings].
+/// See [RaylibCoreDart.SetGamepadMappings].
 int SetGamepadMappings(
   String mappings,
 ) => _module.SetGamepadMappings(mappings);
 
-/// See [RaylibCoreModule.SetGamepadVibration].
+/// See [RaylibCoreDart.SetGamepadVibration].
 void SetGamepadVibration(
   num gamepad,
   num leftMotor,
@@ -862,129 +862,129 @@ void SetGamepadVibration(
   num duration,
 ) => _module.SetGamepadVibration(gamepad, leftMotor, rightMotor, duration);
 
-/// See [RaylibCoreModule.IsMouseButtonPressed].
+/// See [RaylibCoreDart.IsMouseButtonPressed].
 bool IsMouseButtonPressed(
   MouseButton button,
 ) => _module.IsMouseButtonPressed(button);
 
-/// See [RaylibCoreModule.IsMouseButtonDown].
+/// See [RaylibCoreDart.IsMouseButtonDown].
 bool IsMouseButtonDown(
   MouseButton button,
 ) => _module.IsMouseButtonDown(button);
 
-/// See [RaylibCoreModule.IsMouseButtonReleased].
+/// See [RaylibCoreDart.IsMouseButtonReleased].
 bool IsMouseButtonReleased(
   MouseButton button,
 ) => _module.IsMouseButtonReleased(button);
 
-/// See [RaylibCoreModule.IsMouseButtonUp].
+/// See [RaylibCoreDart.IsMouseButtonUp].
 bool IsMouseButtonUp(
   MouseButton button,
 ) => _module.IsMouseButtonUp(button);
 
-/// See [RaylibCoreModule.GetMouseX].
+/// See [RaylibCoreDart.GetMouseX].
 int GetMouseX() => _module.GetMouseX();
 
-/// See [RaylibCoreModule.GetMouseY].
+/// See [RaylibCoreDart.GetMouseY].
 int GetMouseY() => _module.GetMouseY();
 
-/// See [RaylibCoreModule.GetMousePosition].
+/// See [RaylibCoreDart.GetMousePosition].
 Vector2D GetMousePosition() => _module.GetMousePosition();
 
-/// See [RaylibCoreModule.GetMouseDelta].
+/// See [RaylibCoreDart.GetMouseDelta].
 Vector2D GetMouseDelta() => _module.GetMouseDelta();
 
-/// See [RaylibCoreModule.SetMousePosition].
+/// See [RaylibCoreDart.SetMousePosition].
 void SetMousePosition(
   num x,
   num y,
 ) => _module.SetMousePosition(x, y);
 
-/// See [RaylibCoreModule.SetMouseOffset].
+/// See [RaylibCoreDart.SetMouseOffset].
 void SetMouseOffset(
   num offsetX,
   num offsetY,
 ) => _module.SetMouseOffset(offsetX, offsetY);
 
-/// See [RaylibCoreModule.SetMouseScale].
+/// See [RaylibCoreDart.SetMouseScale].
 void SetMouseScale(
   num scaleX,
   num scaleY,
 ) => _module.SetMouseScale(scaleX, scaleY);
 
-/// See [RaylibCoreModule.GetMouseWheelMove].
+/// See [RaylibCoreDart.GetMouseWheelMove].
 double GetMouseWheelMove() => _module.GetMouseWheelMove();
 
-/// See [RaylibCoreModule.GetMouseWheelMoveV].
+/// See [RaylibCoreDart.GetMouseWheelMoveV].
 Vector2D GetMouseWheelMoveV() => _module.GetMouseWheelMoveV();
 
-/// See [RaylibCoreModule.SetMouseCursor].
+/// See [RaylibCoreDart.SetMouseCursor].
 void SetMouseCursor(
   MouseCursor cursor,
 ) => _module.SetMouseCursor(cursor);
 
-/// See [RaylibCoreModule.GetTouchX].
+/// See [RaylibCoreDart.GetTouchX].
 int GetTouchX() => _module.GetTouchX();
 
-/// See [RaylibCoreModule.GetTouchY].
+/// See [RaylibCoreDart.GetTouchY].
 int GetTouchY() => _module.GetTouchY();
 
-/// See [RaylibCoreModule.GetTouchPosition].
+/// See [RaylibCoreDart.GetTouchPosition].
 Vector2D GetTouchPosition(
   num index,
 ) => _module.GetTouchPosition(index);
 
-/// See [RaylibCoreModule.GetTouchPointId].
+/// See [RaylibCoreDart.GetTouchPointId].
 int GetTouchPointId(
   num index,
 ) => _module.GetTouchPointId(index);
 
-/// See [RaylibCoreModule.GetTouchPointCount].
+/// See [RaylibCoreDart.GetTouchPointCount].
 int GetTouchPointCount() => _module.GetTouchPointCount();
 
-/// See [RaylibCoreModule.SetGesturesEnabled].
+/// See [RaylibCoreDart.SetGesturesEnabled].
 void SetGesturesEnabled(
   Iterable<Gesture> flags,
 ) => _module.SetGesturesEnabled(flags);
 
-/// See [RaylibCoreModule.IsGestureDetected].
+/// See [RaylibCoreDart.IsGestureDetected].
 bool IsGestureDetected(
   Gesture key,
 ) => _module.IsGestureDetected(key);
 
-/// See [RaylibCoreModule.GetGestureDetected].
+/// See [RaylibCoreDart.GetGestureDetected].
 Gesture GetGestureDetected() => _module.GetGestureDetected();
 
-/// See [RaylibCoreModule.GetGestureHoldDuration].
+/// See [RaylibCoreDart.GetGestureHoldDuration].
 double GetGestureHoldDuration() => _module.GetGestureHoldDuration();
 
-/// See [RaylibCoreModule.GetGestureDragVector].
+/// See [RaylibCoreDart.GetGestureDragVector].
 Vector2D GetGestureDragVector() => _module.GetGestureDragVector();
 
-/// See [RaylibCoreModule.GetGestureDragAngle].
+/// See [RaylibCoreDart.GetGestureDragAngle].
 double GetGestureDragAngle() => _module.GetGestureDragAngle();
 
-/// See [RaylibCoreModule.GetGesturePinchVector].
+/// See [RaylibCoreDart.GetGesturePinchVector].
 Vector2D GetGesturePinchVector() => _module.GetGesturePinchVector();
 
-/// See [RaylibCoreModule.GetGesturePinchAngle].
+/// See [RaylibCoreDart.GetGesturePinchAngle].
 double GetGesturePinchAngle() => _module.GetGesturePinchAngle();
 
-/// See [RaylibCoreModule.ProcessGestureEvent].
+/// See [RaylibCoreDart.ProcessGestureEvent].
 void ProcessGestureEvent(
   GestureEventD event,
 ) => _module.ProcessGestureEvent(event);
 
-/// See [RaylibCoreModule.UpdateGestures].
+/// See [RaylibCoreDart.UpdateGestures].
 void UpdateGestures() => _module.UpdateGestures();
 
-/// See [RaylibCoreModule.UpdateCamera].
+/// See [RaylibCoreDart.UpdateCamera].
 void UpdateCamera(
   Camera3DD camera,
   CameraMode mode,
 ) => _module.UpdateCamera(camera, mode);
 
-/// See [RaylibCoreModule.UpdateCameraPro].
+/// See [RaylibCoreDart.UpdateCameraPro].
 void UpdateCameraPro(
   Camera3DD camera,
   Vector3D movement,
@@ -992,32 +992,32 @@ void UpdateCameraPro(
   num zoom,
 ) => _module.UpdateCameraPro(camera, movement, rotation, zoom);
 
-/// See [RaylibCoreModule.SetShapesTexture].
+/// See [RaylibCoreDart.SetShapesTexture].
 void SetShapesTexture(
   TextureD texture,
   RectangleD source,
 ) => _module.SetShapesTexture(texture, source);
 
-/// See [RaylibCoreModule.GetShapesTexture].
+/// See [RaylibCoreDart.GetShapesTexture].
 TextureD GetShapesTexture() => _module.GetShapesTexture();
 
-/// See [RaylibCoreModule.GetShapesTextureRectangle].
+/// See [RaylibCoreDart.GetShapesTextureRectangle].
 RectangleD GetShapesTextureRectangle() => _module.GetShapesTextureRectangle();
 
-/// See [RaylibCoreModule.DrawPixel].
+/// See [RaylibCoreDart.DrawPixel].
 void DrawPixel(
   num posX,
   num posY,
   ColorD color,
 ) => _module.DrawPixel(posX, posY, color);
 
-/// See [RaylibCoreModule.DrawPixelV].
+/// See [RaylibCoreDart.DrawPixelV].
 void DrawPixelV(
   Vector2D position,
   ColorD color,
 ) => _module.DrawPixelV(position, color);
 
-/// See [RaylibCoreModule.DrawLine].
+/// See [RaylibCoreDart.DrawLine].
 void DrawLine(
   num startPosX,
   num startPosY,
@@ -1026,14 +1026,14 @@ void DrawLine(
   ColorD color,
 ) => _module.DrawLine(startPosX, startPosY, endPosX, endPosY, color);
 
-/// See [RaylibCoreModule.DrawLineV].
+/// See [RaylibCoreDart.DrawLineV].
 void DrawLineV(
   Vector2D startPos,
   Vector2D endPos,
   ColorD color,
 ) => _module.DrawLineV(startPos, endPos, color);
 
-/// See [RaylibCoreModule.DrawLineEx].
+/// See [RaylibCoreDart.DrawLineEx].
 void DrawLineEx(
   Vector2D startPos,
   Vector2D endPos,
@@ -1041,13 +1041,13 @@ void DrawLineEx(
   ColorD color,
 ) => _module.DrawLineEx(startPos, endPos, thick, color);
 
-/// See [RaylibCoreModule.DrawLineStrip].
+/// See [RaylibCoreDart.DrawLineStrip].
 void DrawLineStrip(
   List<Vector2D> points,
   ColorD color,
 ) => _module.DrawLineStrip(points, color);
 
-/// See [RaylibCoreModule.DrawLineBezier].
+/// See [RaylibCoreDart.DrawLineBezier].
 void DrawLineBezier(
   Vector2D startPos,
   Vector2D endPos,
@@ -1055,7 +1055,7 @@ void DrawLineBezier(
   ColorD color,
 ) => _module.DrawLineBezier(startPos, endPos, thick, color);
 
-/// See [RaylibCoreModule.DrawLineDashed].
+/// See [RaylibCoreDart.DrawLineDashed].
 void DrawLineDashed(
   Vector2D startPos,
   Vector2D endPos,
@@ -1064,7 +1064,7 @@ void DrawLineDashed(
   ColorD color,
 ) => _module.DrawLineDashed(startPos, endPos, dashSize, spaceSize, color);
 
-/// See [RaylibCoreModule.DrawCircle].
+/// See [RaylibCoreDart.DrawCircle].
 void DrawCircle(
   num centerX,
   num centerY,
@@ -1072,7 +1072,7 @@ void DrawCircle(
   ColorD color,
 ) => _module.DrawCircle(centerX, centerY, radius, color);
 
-/// See [RaylibCoreModule.DrawCircleSector].
+/// See [RaylibCoreDart.DrawCircleSector].
 void DrawCircleSector(
   Vector2D center,
   num radius,
@@ -1082,7 +1082,7 @@ void DrawCircleSector(
   ColorD color,
 ) => _module.DrawCircleSector(center, radius, startAngle, endAngle, segments, color);
 
-/// See [RaylibCoreModule.DrawCircleSectorLines].
+/// See [RaylibCoreDart.DrawCircleSectorLines].
 void DrawCircleSectorLines(
   Vector2D center,
   num radius,
@@ -1092,7 +1092,7 @@ void DrawCircleSectorLines(
   ColorD color,
 ) => _module.DrawCircleSectorLines(center, radius, startAngle, endAngle, segments, color);
 
-/// See [RaylibCoreModule.DrawCircleGradient].
+/// See [RaylibCoreDart.DrawCircleGradient].
 void DrawCircleGradient(
   Vector2D center,
   num radius,
@@ -1100,14 +1100,14 @@ void DrawCircleGradient(
   ColorD outer,
 ) => _module.DrawCircleGradient(center, radius, inner, outer);
 
-/// See [RaylibCoreModule.DrawCircleV].
+/// See [RaylibCoreDart.DrawCircleV].
 void DrawCircleV(
   Vector2D center,
   num radius,
   ColorD color,
 ) => _module.DrawCircleV(center, radius, color);
 
-/// See [RaylibCoreModule.DrawCircleLines].
+/// See [RaylibCoreDart.DrawCircleLines].
 void DrawCircleLines(
   num centerX,
   num centerY,
@@ -1115,14 +1115,14 @@ void DrawCircleLines(
   ColorD color,
 ) => _module.DrawCircleLines(centerX, centerY, radius, color);
 
-/// See [RaylibCoreModule.DrawCircleLinesV].
+/// See [RaylibCoreDart.DrawCircleLinesV].
 void DrawCircleLinesV(
   Vector2D center,
   num radius,
   ColorD color,
 ) => _module.DrawCircleLinesV(center, radius, color);
 
-/// See [RaylibCoreModule.DrawEllipse].
+/// See [RaylibCoreDart.DrawEllipse].
 void DrawEllipse(
   num centerX,
   num centerY,
@@ -1131,7 +1131,7 @@ void DrawEllipse(
   ColorD color,
 ) => _module.DrawEllipse(centerX, centerY, radiusH, radiusV, color);
 
-/// See [RaylibCoreModule.DrawEllipseV].
+/// See [RaylibCoreDart.DrawEllipseV].
 void DrawEllipseV(
   Vector2D center,
   num radiusH,
@@ -1139,7 +1139,7 @@ void DrawEllipseV(
   ColorD color,
 ) => _module.DrawEllipseV(center, radiusH, radiusV, color);
 
-/// See [RaylibCoreModule.DrawEllipseLines].
+/// See [RaylibCoreDart.DrawEllipseLines].
 void DrawEllipseLines(
   num centerX,
   num centerY,
@@ -1148,7 +1148,7 @@ void DrawEllipseLines(
   ColorD color,
 ) => _module.DrawEllipseLines(centerX, centerY, radiusH, radiusV, color);
 
-/// See [RaylibCoreModule.DrawEllipseLinesV].
+/// See [RaylibCoreDart.DrawEllipseLinesV].
 void DrawEllipseLinesV(
   Vector2D center,
   num radiusH,
@@ -1156,7 +1156,7 @@ void DrawEllipseLinesV(
   ColorD color,
 ) => _module.DrawEllipseLinesV(center, radiusH, radiusV, color);
 
-/// See [RaylibCoreModule.DrawRing].
+/// See [RaylibCoreDart.DrawRing].
 void DrawRing(
   Vector2D center,
   num innerRadius,
@@ -1167,7 +1167,7 @@ void DrawRing(
   ColorD color,
 ) => _module.DrawRing(center, innerRadius, outerRadius, startAngle, endAngle, segments, color);
 
-/// See [RaylibCoreModule.DrawRingLines].
+/// See [RaylibCoreDart.DrawRingLines].
 void DrawRingLines(
   Vector2D center,
   num innerRadius,
@@ -1178,7 +1178,7 @@ void DrawRingLines(
   ColorD color,
 ) => _module.DrawRingLines(center, innerRadius, outerRadius, startAngle, endAngle, segments, color);
 
-/// See [RaylibCoreModule.DrawRectangle].
+/// See [RaylibCoreDart.DrawRectangle].
 void DrawRectangle(
   num posX,
   num posY,
@@ -1187,20 +1187,20 @@ void DrawRectangle(
   ColorD color,
 ) => _module.DrawRectangle(posX, posY, width, height, color);
 
-/// See [RaylibCoreModule.DrawRectangleV].
+/// See [RaylibCoreDart.DrawRectangleV].
 void DrawRectangleV(
   Vector2D position,
   Vector2D size,
   ColorD color,
 ) => _module.DrawRectangleV(position, size, color);
 
-/// See [RaylibCoreModule.DrawRectangleRec].
+/// See [RaylibCoreDart.DrawRectangleRec].
 void DrawRectangleRec(
   RectangleD rec,
   ColorD color,
 ) => _module.DrawRectangleRec(rec, color);
 
-/// See [RaylibCoreModule.DrawRectanglePro].
+/// See [RaylibCoreDart.DrawRectanglePro].
 void DrawRectanglePro(
   RectangleD rec,
   Vector2D origin,
@@ -1208,7 +1208,7 @@ void DrawRectanglePro(
   ColorD color,
 ) => _module.DrawRectanglePro(rec, origin, rotation, color);
 
-/// See [RaylibCoreModule.DrawRectangleGradientV].
+/// See [RaylibCoreDart.DrawRectangleGradientV].
 void DrawRectangleGradientV(
   num posX,
   num posY,
@@ -1218,7 +1218,7 @@ void DrawRectangleGradientV(
   ColorD bottom,
 ) => _module.DrawRectangleGradientV(posX, posY, width, height, top, bottom);
 
-/// See [RaylibCoreModule.DrawRectangleGradientH].
+/// See [RaylibCoreDart.DrawRectangleGradientH].
 void DrawRectangleGradientH(
   num posX,
   num posY,
@@ -1228,7 +1228,7 @@ void DrawRectangleGradientH(
   ColorD right,
 ) => _module.DrawRectangleGradientH(posX, posY, width, height, left, right);
 
-/// See [RaylibCoreModule.DrawRectangleGradientEx].
+/// See [RaylibCoreDart.DrawRectangleGradientEx].
 void DrawRectangleGradientEx(
   RectangleD rec,
   ColorD topLeft,
@@ -1237,7 +1237,7 @@ void DrawRectangleGradientEx(
   ColorD bottomRight,
 ) => _module.DrawRectangleGradientEx(rec, topLeft, bottomLeft, topRight, bottomRight);
 
-/// See [RaylibCoreModule.DrawRectangleLines].
+/// See [RaylibCoreDart.DrawRectangleLines].
 void DrawRectangleLines(
   num posX,
   num posY,
@@ -1246,14 +1246,14 @@ void DrawRectangleLines(
   ColorD color,
 ) => _module.DrawRectangleLines(posX, posY, width, height, color);
 
-/// See [RaylibCoreModule.DrawRectangleLinesEx].
+/// See [RaylibCoreDart.DrawRectangleLinesEx].
 void DrawRectangleLinesEx(
   RectangleD rec,
   num lineThick,
   ColorD color,
 ) => _module.DrawRectangleLinesEx(rec, lineThick, color);
 
-/// See [RaylibCoreModule.DrawRectangleRounded].
+/// See [RaylibCoreDart.DrawRectangleRounded].
 void DrawRectangleRounded(
   RectangleD rec,
   num roundness,
@@ -1261,7 +1261,7 @@ void DrawRectangleRounded(
   ColorD color,
 ) => _module.DrawRectangleRounded(rec, roundness, segments, color);
 
-/// See [RaylibCoreModule.DrawRectangleRoundedLines].
+/// See [RaylibCoreDart.DrawRectangleRoundedLines].
 void DrawRectangleRoundedLines(
   RectangleD rec,
   num roundness,
@@ -1269,7 +1269,7 @@ void DrawRectangleRoundedLines(
   ColorD color,
 ) => _module.DrawRectangleRoundedLines(rec, roundness, segments, color);
 
-/// See [RaylibCoreModule.DrawRectangleRoundedLinesEx].
+/// See [RaylibCoreDart.DrawRectangleRoundedLinesEx].
 void DrawRectangleRoundedLinesEx(
   RectangleD rec,
   num roundness,
@@ -1278,7 +1278,7 @@ void DrawRectangleRoundedLinesEx(
   ColorD color,
 ) => _module.DrawRectangleRoundedLinesEx(rec, roundness, segments, lineThick, color);
 
-/// See [RaylibCoreModule.DrawTriangle].
+/// See [RaylibCoreDart.DrawTriangle].
 void DrawTriangle(
   Vector2D v1,
   Vector2D v2,
@@ -1286,7 +1286,7 @@ void DrawTriangle(
   ColorD color,
 ) => _module.DrawTriangle(v1, v2, v3, color);
 
-/// See [RaylibCoreModule.DrawTriangleLines].
+/// See [RaylibCoreDart.DrawTriangleLines].
 void DrawTriangleLines(
   Vector2D v1,
   Vector2D v2,
@@ -1294,19 +1294,19 @@ void DrawTriangleLines(
   ColorD color,
 ) => _module.DrawTriangleLines(v1, v2, v3, color);
 
-/// See [RaylibCoreModule.DrawTriangleFan].
+/// See [RaylibCoreDart.DrawTriangleFan].
 void DrawTriangleFan(
   List<Vector2D> points,
   ColorD color,
 ) => _module.DrawTriangleFan(points, color);
 
-/// See [RaylibCoreModule.DrawTriangleStrip].
+/// See [RaylibCoreDart.DrawTriangleStrip].
 void DrawTriangleStrip(
   List<Vector2D> points,
   ColorD color,
 ) => _module.DrawTriangleStrip(points, color);
 
-/// See [RaylibCoreModule.DrawPoly].
+/// See [RaylibCoreDart.DrawPoly].
 void DrawPoly(
   Vector2D center,
   num sides,
@@ -1315,7 +1315,7 @@ void DrawPoly(
   ColorD color,
 ) => _module.DrawPoly(center, sides, radius, rotation, color);
 
-/// See [RaylibCoreModule.DrawPolyLines].
+/// See [RaylibCoreDart.DrawPolyLines].
 void DrawPolyLines(
   Vector2D center,
   num sides,
@@ -1324,7 +1324,7 @@ void DrawPolyLines(
   ColorD color,
 ) => _module.DrawPolyLines(center, sides, radius, rotation, color);
 
-/// See [RaylibCoreModule.DrawPolyLinesEx].
+/// See [RaylibCoreDart.DrawPolyLinesEx].
 void DrawPolyLinesEx(
   Vector2D center,
   num sides,
@@ -1334,42 +1334,42 @@ void DrawPolyLinesEx(
   ColorD color,
 ) => _module.DrawPolyLinesEx(center, sides, radius, rotation, lineThick, color);
 
-/// See [RaylibCoreModule.DrawSplineLinear].
+/// See [RaylibCoreDart.DrawSplineLinear].
 void DrawSplineLinear(
   List<Vector2D> points,
   num thick,
   ColorD color,
 ) => _module.DrawSplineLinear(points, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineBasis].
+/// See [RaylibCoreDart.DrawSplineBasis].
 void DrawSplineBasis(
   List<Vector2D> points,
   num thick,
   ColorD color,
 ) => _module.DrawSplineBasis(points, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineCatmullRom].
+/// See [RaylibCoreDart.DrawSplineCatmullRom].
 void DrawSplineCatmullRom(
   List<Vector2D> points,
   num thick,
   ColorD color,
 ) => _module.DrawSplineCatmullRom(points, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineBezierQuadratic].
+/// See [RaylibCoreDart.DrawSplineBezierQuadratic].
 void DrawSplineBezierQuadratic(
   List<Vector2D> points,
   num thick,
   ColorD color,
 ) => _module.DrawSplineBezierQuadratic(points, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineBezierCubic].
+/// See [RaylibCoreDart.DrawSplineBezierCubic].
 void DrawSplineBezierCubic(
   List<Vector2D> points,
   num thick,
   ColorD color,
 ) => _module.DrawSplineBezierCubic(points, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineSegmentLinear].
+/// See [RaylibCoreDart.DrawSplineSegmentLinear].
 void DrawSplineSegmentLinear(
   Vector2D p1,
   Vector2D p2,
@@ -1377,7 +1377,7 @@ void DrawSplineSegmentLinear(
   ColorD color,
 ) => _module.DrawSplineSegmentLinear(p1, p2, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineSegmentBasis].
+/// See [RaylibCoreDart.DrawSplineSegmentBasis].
 void DrawSplineSegmentBasis(
   Vector2D p1,
   Vector2D p2,
@@ -1387,7 +1387,7 @@ void DrawSplineSegmentBasis(
   ColorD color,
 ) => _module.DrawSplineSegmentBasis(p1, p2, p3, p4, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineSegmentCatmullRom].
+/// See [RaylibCoreDart.DrawSplineSegmentCatmullRom].
 void DrawSplineSegmentCatmullRom(
   Vector2D p1,
   Vector2D p2,
@@ -1397,7 +1397,7 @@ void DrawSplineSegmentCatmullRom(
   ColorD color,
 ) => _module.DrawSplineSegmentCatmullRom(p1, p2, p3, p4, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineSegmentBezierQuadratic].
+/// See [RaylibCoreDart.DrawSplineSegmentBezierQuadratic].
 void DrawSplineSegmentBezierQuadratic(
   Vector2D p1,
   Vector2D c2,
@@ -1406,7 +1406,7 @@ void DrawSplineSegmentBezierQuadratic(
   ColorD color,
 ) => _module.DrawSplineSegmentBezierQuadratic(p1, c2, p3, thick, color);
 
-/// See [RaylibCoreModule.DrawSplineSegmentBezierCubic].
+/// See [RaylibCoreDart.DrawSplineSegmentBezierCubic].
 void DrawSplineSegmentBezierCubic(
   Vector2D p1,
   Vector2D c2,
@@ -1416,14 +1416,14 @@ void DrawSplineSegmentBezierCubic(
   ColorD color,
 ) => _module.DrawSplineSegmentBezierCubic(p1, c2, c3, p4, thick, color);
 
-/// See [RaylibCoreModule.GetSplinePointLinear].
+/// See [RaylibCoreDart.GetSplinePointLinear].
 Vector2D GetSplinePointLinear(
   Vector2D startPos,
   Vector2D endPos,
   num t,
 ) => _module.GetSplinePointLinear(startPos, endPos, t);
 
-/// See [RaylibCoreModule.GetSplinePointBasis].
+/// See [RaylibCoreDart.GetSplinePointBasis].
 Vector2D GetSplinePointBasis(
   Vector2D p1,
   Vector2D p2,
@@ -1432,7 +1432,7 @@ Vector2D GetSplinePointBasis(
   num t,
 ) => _module.GetSplinePointBasis(p1, p2, p3, p4, t);
 
-/// See [RaylibCoreModule.GetSplinePointCatmullRom].
+/// See [RaylibCoreDart.GetSplinePointCatmullRom].
 Vector2D GetSplinePointCatmullRom(
   Vector2D p1,
   Vector2D p2,
@@ -1441,7 +1441,7 @@ Vector2D GetSplinePointCatmullRom(
   num t,
 ) => _module.GetSplinePointCatmullRom(p1, p2, p3, p4, t);
 
-/// See [RaylibCoreModule.GetSplinePointBezierQuad].
+/// See [RaylibCoreDart.GetSplinePointBezierQuad].
 Vector2D GetSplinePointBezierQuad(
   Vector2D p1,
   Vector2D c2,
@@ -1449,7 +1449,7 @@ Vector2D GetSplinePointBezierQuad(
   num t,
 ) => _module.GetSplinePointBezierQuad(p1, c2, p3, t);
 
-/// See [RaylibCoreModule.GetSplinePointBezierCubic].
+/// See [RaylibCoreDart.GetSplinePointBezierCubic].
 Vector2D GetSplinePointBezierCubic(
   Vector2D p1,
   Vector2D c2,
@@ -1458,13 +1458,13 @@ Vector2D GetSplinePointBezierCubic(
   num t,
 ) => _module.GetSplinePointBezierCubic(p1, c2, c3, p4, t);
 
-/// See [RaylibCoreModule.CheckCollisionRecs].
+/// See [RaylibCoreDart.CheckCollisionRecs].
 bool CheckCollisionRecs(
   RectangleD rec1,
   RectangleD rec2,
 ) => _module.CheckCollisionRecs(rec1, rec2);
 
-/// See [RaylibCoreModule.CheckCollisionCircles].
+/// See [RaylibCoreDart.CheckCollisionCircles].
 bool CheckCollisionCircles(
   Vector2D center1,
   num radius1,
@@ -1472,14 +1472,14 @@ bool CheckCollisionCircles(
   num radius2,
 ) => _module.CheckCollisionCircles(center1, radius1, center2, radius2);
 
-/// See [RaylibCoreModule.CheckCollisionCircleRec].
+/// See [RaylibCoreDart.CheckCollisionCircleRec].
 bool CheckCollisionCircleRec(
   Vector2D center,
   num radius,
   RectangleD rec,
 ) => _module.CheckCollisionCircleRec(center, radius, rec);
 
-/// See [RaylibCoreModule.CheckCollisionCircleLine].
+/// See [RaylibCoreDart.CheckCollisionCircleLine].
 bool CheckCollisionCircleLine(
   Vector2D center,
   num radius,
@@ -1487,20 +1487,20 @@ bool CheckCollisionCircleLine(
   Vector2D p2,
 ) => _module.CheckCollisionCircleLine(center, radius, p1, p2);
 
-/// See [RaylibCoreModule.CheckCollisionPointRec].
+/// See [RaylibCoreDart.CheckCollisionPointRec].
 bool CheckCollisionPointRec(
   Vector2D point,
   RectangleD rec,
 ) => _module.CheckCollisionPointRec(point, rec);
 
-/// See [RaylibCoreModule.CheckCollisionPointCircle].
+/// See [RaylibCoreDart.CheckCollisionPointCircle].
 bool CheckCollisionPointCircle(
   Vector2D point,
   Vector2D center,
   num radius,
 ) => _module.CheckCollisionPointCircle(point, center, radius);
 
-/// See [RaylibCoreModule.CheckCollisionPointTriangle].
+/// See [RaylibCoreDart.CheckCollisionPointTriangle].
 bool CheckCollisionPointTriangle(
   Vector2D point,
   Vector2D p1,
@@ -1508,7 +1508,7 @@ bool CheckCollisionPointTriangle(
   Vector2D p3,
 ) => _module.CheckCollisionPointTriangle(point, p1, p2, p3);
 
-/// See [RaylibCoreModule.CheckCollisionPointLine].
+/// See [RaylibCoreDart.CheckCollisionPointLine].
 bool CheckCollisionPointLine(
   Vector2D point,
   Vector2D p1,
@@ -1516,13 +1516,13 @@ bool CheckCollisionPointLine(
   num threshold,
 ) => _module.CheckCollisionPointLine(point, p1, p2, threshold);
 
-/// See [RaylibCoreModule.CheckCollisionPointPoly].
+/// See [RaylibCoreDart.CheckCollisionPointPoly].
 bool CheckCollisionPointPoly(
   Vector2D point,
   List<Vector2D> points,
 ) => _module.CheckCollisionPointPoly(point, points);
 
-/// See [RaylibCoreModule.CheckCollisionLines].
+/// See [RaylibCoreDart.CheckCollisionLines].
 (bool result, Vector2D collisionPoint) CheckCollisionLines(
   Vector2D startPos1,
   Vector2D endPos1,
@@ -1530,18 +1530,18 @@ bool CheckCollisionPointPoly(
   Vector2D endPos2,
 ) => _module.CheckCollisionLines(startPos1, endPos1, startPos2, endPos2);
 
-/// See [RaylibCoreModule.GetCollisionRec].
+/// See [RaylibCoreDart.GetCollisionRec].
 RectangleD GetCollisionRec(
   RectangleD rec1,
   RectangleD rec2,
 ) => _module.GetCollisionRec(rec1, rec2);
 
-/// See [RaylibCoreModule.LoadImage].
+/// See [RaylibCoreDart.LoadImage].
 ImageD LoadImage(
   String fileName,
 ) => _module.LoadImage(fileName);
 
-/// See [RaylibCoreModule.LoadImageRaw].
+/// See [RaylibCoreDart.LoadImageRaw].
 ImageD LoadImageRaw(
   String fileName,
   num width,
@@ -1550,67 +1550,67 @@ ImageD LoadImageRaw(
   num headerSize,
 ) => _module.LoadImageRaw(fileName, width, height, format, headerSize);
 
-/// See [RaylibCoreModule.LoadImageAnim].
+/// See [RaylibCoreDart.LoadImageAnim].
 ImageD LoadImageAnim(
   String fileName,
 ) => _module.LoadImageAnim(fileName);
 
-/// See [RaylibCoreModule.LoadImageAnimFromMemory].
+/// See [RaylibCoreDart.LoadImageAnimFromMemory].
 ImageD LoadImageAnimFromMemory(
   String fileType,
   Uint8List fileData,
 ) => _module.LoadImageAnimFromMemory(fileType, fileData);
 
-/// See [RaylibCoreModule.LoadImageFromMemory].
+/// See [RaylibCoreDart.LoadImageFromMemory].
 ImageD LoadImageFromMemory(
   String fileType,
   Uint8List fileData,
 ) => _module.LoadImageFromMemory(fileType, fileData);
 
-/// See [RaylibCoreModule.LoadImageFromTexture].
+/// See [RaylibCoreDart.LoadImageFromTexture].
 ImageD LoadImageFromTexture(
   TextureD texture,
 ) => _module.LoadImageFromTexture(texture);
 
-/// See [RaylibCoreModule.LoadImageFromScreen].
+/// See [RaylibCoreDart.LoadImageFromScreen].
 ImageD LoadImageFromScreen() => _module.LoadImageFromScreen();
 
-/// See [RaylibCoreModule.IsImageValid].
+/// See [RaylibCoreDart.IsImageValid].
 bool IsImageValid(
   ImageD image,
 ) => _module.IsImageValid(image);
 
-/// See [RaylibCoreModule.UnloadImage].
+/// See [RaylibCoreDart.UnloadImage].
 void UnloadImage(
   ImageD image,
 ) => _module.UnloadImage(image);
 
-/// See [RaylibCoreModule.ExportImage].
+/// See [RaylibCoreDart.ExportImage].
 bool ExportImage(
   ImageD image,
   String fileName,
 ) => _module.ExportImage(image, fileName);
 
-/// See [RaylibCoreModule.ExportImageToMemory].
+/// See [RaylibCoreDart.ExportImageToMemory].
 (MemoryPointer<RUint8> dataPtr, int dataSize) ExportImageToMemory(
   ImageD image,
   String fileType,
 ) => _module.ExportImageToMemory(image, fileType);
 
-/// See [RaylibCoreModule.ExportImageAsCode].
+/// See [RaylibCoreDart.ExportImageAsCode].
 bool ExportImageAsCode(
   ImageD image,
   String fileName,
 ) => _module.ExportImageAsCode(image, fileName);
 
-/// See [RaylibCoreModule.GenImageColor].
+/// See [RaylibCoreDart.GenImageColor].
 ImageD GenImageColor(
   num width,
   num height,
   ColorD color,
 ) => _module.GenImageColor(width, height, color);
 
-/// See [RaylibCoreModule.GenImageGradientLinear].
+/// See [RaylibCoreDart.GenImageGradientLinear].
 ImageD GenImageGradientLinear(
   num width,
   num height,
@@ -1619,7 +1619,7 @@ ImageD GenImageGradientLinear(
   ColorD end,
 ) => _module.GenImageGradientLinear(width, height, direction, start, end);
 
-/// See [RaylibCoreModule.GenImageGradientRadial].
+/// See [RaylibCoreDart.GenImageGradientRadial].
 ImageD GenImageGradientRadial(
   num width,
   num height,
@@ -1628,7 +1628,7 @@ ImageD GenImageGradientRadial(
   ColorD outer,
 ) => _module.GenImageGradientRadial(width, height, density, inner, outer);
 
-/// See [RaylibCoreModule.GenImageGradientSquare].
+/// See [RaylibCoreDart.GenImageGradientSquare].
 ImageD GenImageGradientSquare(
   num width,
   num height,
@@ -1637,7 +1637,7 @@ ImageD GenImageGradientSquare(
   ColorD outer,
 ) => _module.GenImageGradientSquare(width, height, density, inner, outer);
 
-/// See [RaylibCoreModule.GenImageChecked].
+/// See [RaylibCoreDart.GenImageChecked].
 ImageD GenImageChecked(
   num width,
   num height,
@@ -1647,14 +1647,14 @@ ImageD GenImageChecked(
   ColorD col2,
 ) => _module.GenImageChecked(width, height, checksX, checksY, col1, col2);
 
-/// See [RaylibCoreModule.GenImageWhiteNoise].
+/// See [RaylibCoreDart.GenImageWhiteNoise].
 ImageD GenImageWhiteNoise(
   num width,
   num height,
   num factor,
 ) => _module.GenImageWhiteNoise(width, height, factor);
 
-/// See [RaylibCoreModule.GenImagePerlinNoise].
+/// See [RaylibCoreDart.GenImagePerlinNoise].
 ImageD GenImagePerlinNoise(
   num width,
   num height,
@@ -1663,45 +1663,45 @@ ImageD GenImagePerlinNoise(
   num scale,
 ) => _module.GenImagePerlinNoise(width, height, offsetX, offsetY, scale);
 
-/// See [RaylibCoreModule.GenImageCellular].
+/// See [RaylibCoreDart.GenImageCellular].
 ImageD GenImageCellular(
   num width,
   num height,
   num tileSize,
 ) => _module.GenImageCellular(width, height, tileSize);
 
-/// See [RaylibCoreModule.GenImageText].
+/// See [RaylibCoreDart.GenImageText].
 ImageD GenImageText(
   num width,
   num height,
   String text,
 ) => _module.GenImageText(width, height, text);
 
-/// See [RaylibCoreModule.ImageCopy].
+/// See [RaylibCoreDart.ImageCopy].
 ImageD ImageCopy(
   ImageD image,
 ) => _module.ImageCopy(image);
 
-/// See [RaylibCoreModule.ImageFromImage].
+/// See [RaylibCoreDart.ImageFromImage].
 ImageD ImageFromImage(
   ImageD image,
   RectangleD rec,
 ) => _module.ImageFromImage(image, rec);
 
-/// See [RaylibCoreModule.ImageFromChannel].
+/// See [RaylibCoreDart.ImageFromChannel].
 ImageD ImageFromChannel(
   ImageD image,
   num selectedChannel,
 ) => _module.ImageFromChannel(image, selectedChannel);
 
-/// See [RaylibCoreModule.ImageText].
+/// See [RaylibCoreDart.ImageText].
 ImageD ImageText(
   String text,
   num fontSize,
   ColorD color,
 ) => _module.ImageText(text, fontSize, color);
 
-/// See [RaylibCoreModule.ImageTextEx].
+/// See [RaylibCoreDart.ImageTextEx].
 ImageD ImageTextEx(
   FontD font,
   String text,
@@ -1710,75 +1710,75 @@ ImageD ImageTextEx(
   ColorD tint,
 ) => _module.ImageTextEx(font, text, fontSize, spacing, tint);
 
-/// See [RaylibCoreModule.ImageFormat].
+/// See [RaylibCoreDart.ImageFormat].
 void ImageFormat(
   ImageD image,
   PixelFormat newFormat,
 ) => _module.ImageFormat(image, newFormat);
 
-/// See [RaylibCoreModule.ImageToPOT].
+/// See [RaylibCoreDart.ImageToPOT].
 void ImageToPOT(
   ImageD image,
   ColorD fill,
 ) => _module.ImageToPOT(image, fill);
 
-/// See [RaylibCoreModule.ImageCrop].
+/// See [RaylibCoreDart.ImageCrop].
 void ImageCrop(
   ImageD image,
   RectangleD crop,
 ) => _module.ImageCrop(image, crop);
 
-/// See [RaylibCoreModule.ImageAlphaCrop].
+/// See [RaylibCoreDart.ImageAlphaCrop].
 void ImageAlphaCrop(
   ImageD image,
   num threshold,
 ) => _module.ImageAlphaCrop(image, threshold);
 
-/// See [RaylibCoreModule.ImageAlphaClear].
+/// See [RaylibCoreDart.ImageAlphaClear].
 void ImageAlphaClear(
   ImageD image,
   ColorD color,
   num threshold,
 ) => _module.ImageAlphaClear(image, color, threshold);
 
-/// See [RaylibCoreModule.ImageAlphaMask].
+/// See [RaylibCoreDart.ImageAlphaMask].
 void ImageAlphaMask(
   ImageD image,
   ImageD alphaMask,
 ) => _module.ImageAlphaMask(image, alphaMask);
 
-/// See [RaylibCoreModule.ImageAlphaPremultiply].
+/// See [RaylibCoreDart.ImageAlphaPremultiply].
 void ImageAlphaPremultiply(
   ImageD image,
 ) => _module.ImageAlphaPremultiply(image);
 
-/// See [RaylibCoreModule.ImageBlurGaussian].
+/// See [RaylibCoreDart.ImageBlurGaussian].
 void ImageBlurGaussian(
   ImageD image,
   num blurSize,
 ) => _module.ImageBlurGaussian(image, blurSize);
 
-/// See [RaylibCoreModule.ImageKernelConvolution].
+/// See [RaylibCoreDart.ImageKernelConvolution].
 void ImageKernelConvolution(
   ImageD image,
   List<double> kernel,
 ) => _module.ImageKernelConvolution(image, kernel);
 
-/// See [RaylibCoreModule.ImageResize].
+/// See [RaylibCoreDart.ImageResize].
 void ImageResize(
   ImageD image,
   num newWidth,
   num newHeight,
 ) => _module.ImageResize(image, newWidth, newHeight);
 
-/// See [RaylibCoreModule.ImageResizeNN].
+/// See [RaylibCoreDart.ImageResizeNN].
 void ImageResizeNN(
   ImageD image,
   num newWidth,
   num newHeight,
 ) => _module.ImageResizeNN(image, newWidth, newHeight);
 
-/// See [RaylibCoreModule.ImageResizeCanvas].
+/// See [RaylibCoreDart.ImageResizeCanvas].
 void ImageResizeCanvas(
   ImageD image,
   num newWidth,
@@ -1788,12 +1788,12 @@ void ImageResizeCanvas(
   ColorD fill,
 ) => _module.ImageResizeCanvas(image, newWidth, newHeight, offsetX, offsetY, fill);
 
-/// See [RaylibCoreModule.ImageMipmaps].
+/// See [RaylibCoreDart.ImageMipmaps].
 void ImageMipmaps(
   ImageD image,
 ) => _module.ImageMipmaps(image);
 
-/// See [RaylibCoreModule.ImageDither].
+/// See [RaylibCoreDart.ImageDither].
 void ImageDither(
   ImageD image,
   num rBpp,
@@ -1802,98 +1802,98 @@ void ImageDither(
   num aBpp,
 ) => _module.ImageDither(image, rBpp, gBpp, bBpp, aBpp);
 
-/// See [RaylibCoreModule.ImageFlipVertical].
+/// See [RaylibCoreDart.ImageFlipVertical].
 void ImageFlipVertical(
   ImageD image,
 ) => _module.ImageFlipVertical(image);
 
-/// See [RaylibCoreModule.ImageFlipHorizontal].
+/// See [RaylibCoreDart.ImageFlipHorizontal].
 void ImageFlipHorizontal(
   ImageD image,
 ) => _module.ImageFlipHorizontal(image);
 
-/// See [RaylibCoreModule.ImageRotate].
+/// See [RaylibCoreDart.ImageRotate].
 void ImageRotate(
   ImageD image,
   num degrees,
 ) => _module.ImageRotate(image, degrees);
 
-/// See [RaylibCoreModule.ImageRotateCW].
+/// See [RaylibCoreDart.ImageRotateCW].
 void ImageRotateCW(
   ImageD image,
 ) => _module.ImageRotateCW(image);
 
-/// See [RaylibCoreModule.ImageRotateCCW].
+/// See [RaylibCoreDart.ImageRotateCCW].
 void ImageRotateCCW(
   ImageD image,
 ) => _module.ImageRotateCCW(image);
 
-/// See [RaylibCoreModule.ImageColorTint].
+/// See [RaylibCoreDart.ImageColorTint].
 void ImageColorTint(
   ImageD image,
   ColorD color,
 ) => _module.ImageColorTint(image, color);
 
-/// See [RaylibCoreModule.ImageColorInvert].
+/// See [RaylibCoreDart.ImageColorInvert].
 void ImageColorInvert(
   ImageD image,
 ) => _module.ImageColorInvert(image);
 
-/// See [RaylibCoreModule.ImageColorGrayscale].
+/// See [RaylibCoreDart.ImageColorGrayscale].
 void ImageColorGrayscale(
   ImageD image,
 ) => _module.ImageColorGrayscale(image);
 
-/// See [RaylibCoreModule.ImageColorContrast].
+/// See [RaylibCoreDart.ImageColorContrast].
 void ImageColorContrast(
   ImageD image,
   num contrast,
 ) => _module.ImageColorContrast(image, contrast);
 
-/// See [RaylibCoreModule.ImageColorBrightness].
+/// See [RaylibCoreDart.ImageColorBrightness].
 void ImageColorBrightness(
   ImageD image,
   num brightness,
 ) => _module.ImageColorBrightness(image, brightness);
 
-/// See [RaylibCoreModule.ImageColorReplace].
+/// See [RaylibCoreDart.ImageColorReplace].
 void ImageColorReplace(
   ImageD image,
   ColorD color,
   ColorD replace,
 ) => _module.ImageColorReplace(image, color, replace);
 
-/// See [RaylibCoreModule.LoadImageColors].
+/// See [RaylibCoreDart.LoadImageColors].
 List<ColorD> LoadImageColors(
   ImageD image,
 ) => _module.LoadImageColors(image);
 
-/// See [RaylibCoreModule.LoadImagePalette].
+/// See [RaylibCoreDart.LoadImagePalette].
 List<ColorD> LoadImagePalette(
   ImageD image,
   num maxPaletteSize,
 ) => _module.LoadImagePalette(image, maxPaletteSize);
 
-/// See [RaylibCoreModule.GetImageAlphaBorder].
+/// See [RaylibCoreDart.GetImageAlphaBorder].
 RectangleD GetImageAlphaBorder(
   ImageD image,
   num threshold,
 ) => _module.GetImageAlphaBorder(image, threshold);
 
-/// See [RaylibCoreModule.GetImageColor].
+/// See [RaylibCoreDart.GetImageColor].
 ColorD GetImageColor(
   ImageD image,
   num x,
   num y,
 ) => _module.GetImageColor(image, x, y);
 
-/// See [RaylibCoreModule.ImageClearBackground].
+/// See [RaylibCoreDart.ImageClearBackground].
 void ImageClearBackground(
   ImageD dst,
   ColorD color,
 ) => _module.ImageClearBackground(dst, color);
 
-/// See [RaylibCoreModule.ImageDrawPixel].
+/// See [RaylibCoreDart.ImageDrawPixel].
 void ImageDrawPixel(
   ImageD dst,
   num posX,
@@ -1901,14 +1901,14 @@ void ImageDrawPixel(
   ColorD color,
 ) => _module.ImageDrawPixel(dst, posX, posY, color);
 
-/// See [RaylibCoreModule.ImageDrawPixelV].
+/// See [RaylibCoreDart.ImageDrawPixelV].
 void ImageDrawPixelV(
   ImageD dst,
   Vector2D position,
   ColorD color,
 ) => _module.ImageDrawPixelV(dst, position, color);
 
-/// See [RaylibCoreModule.ImageDrawLine].
+/// See [RaylibCoreDart.ImageDrawLine].
 void ImageDrawLine(
   ImageD dst,
   num startPosX,
@@ -1918,7 +1918,7 @@ void ImageDrawLine(
   ColorD color,
 ) => _module.ImageDrawLine(dst, startPosX, startPosY, endPosX, endPosY, color);
 
-/// See [RaylibCoreModule.ImageDrawLineV].
+/// See [RaylibCoreDart.ImageDrawLineV].
 void ImageDrawLineV(
   ImageD dst,
   Vector2D start,
@@ -1926,7 +1926,7 @@ void ImageDrawLineV(
   ColorD color,
 ) => _module.ImageDrawLineV(dst, start, end, color);
 
-/// See [RaylibCoreModule.ImageDrawLineEx].
+/// See [RaylibCoreDart.ImageDrawLineEx].
 void ImageDrawLineEx(
   ImageD dst,
   Vector2D start,
@@ -1935,7 +1935,7 @@ void ImageDrawLineEx(
   ColorD color,
 ) => _module.ImageDrawLineEx(dst, start, end, thick, color);
 
-/// See [RaylibCoreModule.ImageDrawCircle].
+/// See [RaylibCoreDart.ImageDrawCircle].
 void ImageDrawCircle(
   ImageD dst,
   num centerX,
@@ -1944,7 +1944,7 @@ void ImageDrawCircle(
   ColorD color,
 ) => _module.ImageDrawCircle(dst, centerX, centerY, radius, color);
 
-/// See [RaylibCoreModule.ImageDrawCircleV].
+/// See [RaylibCoreDart.ImageDrawCircleV].
 void ImageDrawCircleV(
   ImageD dst,
   Vector2D center,
@@ -1952,7 +1952,7 @@ void ImageDrawCircleV(
   ColorD color,
 ) => _module.ImageDrawCircleV(dst, center, radius, color);
 
-/// See [RaylibCoreModule.ImageDrawCircleLines].
+/// See [RaylibCoreDart.ImageDrawCircleLines].
 void ImageDrawCircleLines(
   ImageD dst,
   num centerX,
@@ -1961,7 +1961,7 @@ void ImageDrawCircleLines(
   ColorD color,
 ) => _module.ImageDrawCircleLines(dst, centerX, centerY, radius, color);
 
-/// See [RaylibCoreModule.ImageDrawCircleLinesV].
+/// See [RaylibCoreDart.ImageDrawCircleLinesV].
 void ImageDrawCircleLinesV(
   ImageD dst,
   Vector2D center,
@@ -1969,7 +1969,7 @@ void ImageDrawCircleLinesV(
   ColorD color,
 ) => _module.ImageDrawCircleLinesV(dst, center, radius, color);
 
-/// See [RaylibCoreModule.ImageDrawRectangle].
+/// See [RaylibCoreDart.ImageDrawRectangle].
 void ImageDrawRectangle(
   ImageD dst,
   num posX,
@@ -1979,7 +1979,7 @@ void ImageDrawRectangle(
   ColorD color,
 ) => _module.ImageDrawRectangle(dst, posX, posY, width, height, color);
 
-/// See [RaylibCoreModule.ImageDrawRectangleV].
+/// See [RaylibCoreDart.ImageDrawRectangleV].
 void ImageDrawRectangleV(
   ImageD dst,
   Vector2D position,
@@ -1987,14 +1987,14 @@ void ImageDrawRectangleV(
   ColorD color,
 ) => _module.ImageDrawRectangleV(dst, position, size, color);
 
-/// See [RaylibCoreModule.ImageDrawRectangleRec].
+/// See [RaylibCoreDart.ImageDrawRectangleRec].
 void ImageDrawRectangleRec(
   ImageD dst,
   RectangleD rec,
   ColorD color,
 ) => _module.ImageDrawRectangleRec(dst, rec, color);
 
-/// See [RaylibCoreModule.ImageDrawRectangleLines].
+/// See [RaylibCoreDart.ImageDrawRectangleLines].
 void ImageDrawRectangleLines(
   ImageD dst,
   RectangleD rec,
@@ -2002,7 +2002,7 @@ void ImageDrawRectangleLines(
   ColorD color,
 ) => _module.ImageDrawRectangleLines(dst, rec, thick, color);
 
-/// See [RaylibCoreModule.ImageDrawTriangle].
+/// See [RaylibCoreDart.ImageDrawTriangle].
 void ImageDrawTriangle(
   ImageD dst,
   Vector2D v1,
@@ -2011,7 +2011,7 @@ void ImageDrawTriangle(
   ColorD color,
 ) => _module.ImageDrawTriangle(dst, v1, v2, v3, color);
 
-/// See [RaylibCoreModule.ImageDrawTriangleEx].
+/// See [RaylibCoreDart.ImageDrawTriangleEx].
 void ImageDrawTriangleEx(
   ImageD dst,
   Vector2D v1,
@@ -2022,7 +2022,7 @@ void ImageDrawTriangleEx(
   ColorD c3,
 ) => _module.ImageDrawTriangleEx(dst, v1, v2, v3, c1, c2, c3);
 
-/// See [RaylibCoreModule.ImageDrawTriangleLines].
+/// See [RaylibCoreDart.ImageDrawTriangleLines].
 void ImageDrawTriangleLines(
   ImageD dst,
   Vector2D v1,
@@ -2031,21 +2031,21 @@ void ImageDrawTriangleLines(
   ColorD color,
 ) => _module.ImageDrawTriangleLines(dst, v1, v2, v3, color);
 
-/// See [RaylibCoreModule.ImageDrawTriangleFan].
+/// See [RaylibCoreDart.ImageDrawTriangleFan].
 void ImageDrawTriangleFan(
   ImageD dst,
   List<Vector2D> points,
   ColorD color,
 ) => _module.ImageDrawTriangleFan(dst, points, color);
 
-/// See [RaylibCoreModule.ImageDrawTriangleStrip].
+/// See [RaylibCoreDart.ImageDrawTriangleStrip].
 void ImageDrawTriangleStrip(
   ImageD dst,
   List<Vector2D> points,
   ColorD color,
 ) => _module.ImageDrawTriangleStrip(dst, points, color);
 
-/// See [RaylibCoreModule.ImageDraw].
+/// See [RaylibCoreDart.ImageDraw].
 void ImageDraw(
   ImageD dst,
   ImageD src,
@@ -2054,7 +2054,7 @@ void ImageDraw(
   ColorD tint,
 ) => _module.ImageDraw(dst, src, srcRec, dstRec, tint);
 
-/// See [RaylibCoreModule.ImageDrawText].
+/// See [RaylibCoreDart.ImageDrawText].
 void ImageDrawText(
   ImageD dst,
   String text,
@@ -2064,7 +2064,7 @@ void ImageDrawText(
   ColorD color,
 ) => _module.ImageDrawText(dst, text, posX, posY, fontSize, color);
 
-/// See [RaylibCoreModule.ImageDrawTextEx].
+/// See [RaylibCoreDart.ImageDrawTextEx].
 void ImageDrawTextEx(
   ImageD dst,
   FontD font,
@@ -2075,79 +2075,79 @@ void ImageDrawTextEx(
   ColorD tint,
 ) => _module.ImageDrawTextEx(dst, font, text, position, fontSize, spacing, tint);
 
-/// See [RaylibCoreModule.LoadTexture].
+/// See [RaylibCoreDart.LoadTexture].
 TextureD LoadTexture(
   String fileName,
 ) => _module.LoadTexture(fileName);
 
-/// See [RaylibCoreModule.LoadTextureFromImage].
+/// See [RaylibCoreDart.LoadTextureFromImage].
 TextureD LoadTextureFromImage(
   ImageD image,
 ) => _module.LoadTextureFromImage(image);
 
-/// See [RaylibCoreModule.LoadTextureCubemap].
+/// See [RaylibCoreDart.LoadTextureCubemap].
 TextureD LoadTextureCubemap(
   ImageD image,
   CubemapLayout layout,
 ) => _module.LoadTextureCubemap(image, layout);
 
-/// See [RaylibCoreModule.LoadRenderTexture].
+/// See [RaylibCoreDart.LoadRenderTexture].
 RenderTextureD LoadRenderTexture(
   num width,
   num height,
 ) => _module.LoadRenderTexture(width, height);
 
-/// See [RaylibCoreModule.IsTextureValid].
+/// See [RaylibCoreDart.IsTextureValid].
 bool IsTextureValid(
   TextureD texture,
 ) => _module.IsTextureValid(texture);
 
-/// See [RaylibCoreModule.UnloadTexture].
+/// See [RaylibCoreDart.UnloadTexture].
 void UnloadTexture(
   TextureD texture,
 ) => _module.UnloadTexture(texture);
 
-/// See [RaylibCoreModule.IsRenderTextureValid].
+/// See [RaylibCoreDart.IsRenderTextureValid].
 bool IsRenderTextureValid(
   RenderTextureD target,
 ) => _module.IsRenderTextureValid(target);
 
-/// See [RaylibCoreModule.UnloadRenderTexture].
+/// See [RaylibCoreDart.UnloadRenderTexture].
 void UnloadRenderTexture(
   RenderTextureD target,
 ) => _module.UnloadRenderTexture(target);
 
-/// See [RaylibCoreModule.UpdateTexture].
+/// See [RaylibCoreDart.UpdateTexture].
 void UpdateTexture(
   TextureD texture,
   Uint8List pixels,
 ) => _module.UpdateTexture(texture, pixels);
 
-/// See [RaylibCoreModule.UpdateTextureRec].
+/// See [RaylibCoreDart.UpdateTextureRec].
 void UpdateTextureRec(
   TextureD texture,
   RectangleD rec,
   Uint8List pixels,
 ) => _module.UpdateTextureRec(texture, rec, pixels);
 
-/// See [RaylibCoreModule.GenTextureMipmaps].
+/// See [RaylibCoreDart.GenTextureMipmaps].
 void GenTextureMipmaps(
   TextureD texture,
 ) => _module.GenTextureMipmaps(texture);
 
-/// See [RaylibCoreModule.SetTextureFilter].
+/// See [RaylibCoreDart.SetTextureFilter].
 void SetTextureFilter(
   TextureD texture,
   TextureFilter filter,
 ) => _module.SetTextureFilter(texture, filter);
 
-/// See [RaylibCoreModule.SetTextureWrap].
+/// See [RaylibCoreDart.SetTextureWrap].
 void SetTextureWrap(
   TextureD texture,
   TextureWrap wrap,
 ) => _module.SetTextureWrap(texture, wrap);
 
-/// See [RaylibCoreModule.DrawTexture].
+/// See [RaylibCoreDart.DrawTexture].
 void DrawTexture(
   TextureD texture,
   num posX,
@@ -2155,14 +2155,14 @@ void DrawTexture(
   ColorD tint,
 ) => _module.DrawTexture(texture, posX, posY, tint);
 
-/// See [RaylibCoreModule.DrawTextureV].
+/// See [RaylibCoreDart.DrawTextureV].
 void DrawTextureV(
   TextureD texture,
   Vector2D position,
   ColorD tint,
 ) => _module.DrawTextureV(texture, position, tint);
 
-/// See [RaylibCoreModule.DrawTextureEx].
+/// See [RaylibCoreDart.DrawTextureEx].
 void DrawTextureEx(
   TextureD texture,
   Vector2D position,
@@ -2171,7 +2171,7 @@ void DrawTextureEx(
   ColorD tint,
 ) => _module.DrawTextureEx(texture, position, rotation, scale, tint);
 
-/// See [RaylibCoreModule.DrawTextureRec].
+/// See [RaylibCoreDart.DrawTextureRec].
 void DrawTextureRec(
   TextureD texture,
   RectangleD source,
@@ -2179,7 +2179,7 @@ void DrawTextureRec(
   ColorD tint,
 ) => _module.DrawTextureRec(texture, source, position, tint);
 
-/// See [RaylibCoreModule.DrawTexturePro].
+/// See [RaylibCoreDart.DrawTexturePro].
 void DrawTexturePro(
   TextureD texture,
   RectangleD source,
@@ -2189,7 +2189,7 @@ void DrawTexturePro(
   ColorD tint,
 ) => _module.DrawTexturePro(texture, source, dest, origin, rotation, tint);
 
-/// See [RaylibCoreModule.DrawTextureNPatch].
+/// See [RaylibCoreDart.DrawTextureNPatch].
 void DrawTextureNPatch(
   TextureD texture,
   NPatchInfoD nPatchInfo,
@@ -2199,104 +2199,104 @@ void DrawTextureNPatch(
   ColorD tint,
 ) => _module.DrawTextureNPatch(texture, nPatchInfo, dest, origin, rotation, tint);
 
-/// See [RaylibCoreModule.ColorIsEqual].
+/// See [RaylibCoreDart.ColorIsEqual].
 bool ColorIsEqual(
   ColorD col1,
   ColorD col2,
 ) => _module.ColorIsEqual(col1, col2);
 
-/// See [RaylibCoreModule.Fade].
+/// See [RaylibCoreDart.Fade].
 ColorD Fade(
   ColorD color,
   num alpha,
 ) => _module.Fade(color, alpha);
 
-/// See [RaylibCoreModule.ColorToInt].
+/// See [RaylibCoreDart.ColorToInt].
 int ColorToInt(
   ColorD color,
 ) => _module.ColorToInt(color);
 
-/// See [RaylibCoreModule.ColorNormalize].
+/// See [RaylibCoreDart.ColorNormalize].
 Vector4D ColorNormalize(
   ColorD color,
 ) => _module.ColorNormalize(color);
 
-/// See [RaylibCoreModule.ColorFromNormalized].
+/// See [RaylibCoreDart.ColorFromNormalized].
 ColorD ColorFromNormalized(
   Vector4D normalized,
 ) => _module.ColorFromNormalized(normalized);
 
-/// See [RaylibCoreModule.ColorToHSV].
+/// See [RaylibCoreDart.ColorToHSV].
 Vector3D ColorToHSV(
   ColorD color,
 ) => _module.ColorToHSV(color);
 
-/// See [RaylibCoreModule.ColorFromHSV].
+/// See [RaylibCoreDart.ColorFromHSV].
 ColorD ColorFromHSV(
   num hue,
   num saturation,
   num value,
 ) => _module.ColorFromHSV(hue, saturation, value);
 
-/// See [RaylibCoreModule.ColorTint].
+/// See [RaylibCoreDart.ColorTint].
 ColorD ColorTint(
   ColorD color,
   ColorD tint,
 ) => _module.ColorTint(color, tint);
 
-/// See [RaylibCoreModule.ColorBrightness].
+/// See [RaylibCoreDart.ColorBrightness].
 ColorD ColorBrightness(
   ColorD color,
   num factor,
 ) => _module.ColorBrightness(color, factor);
 
-/// See [RaylibCoreModule.ColorContrast].
+/// See [RaylibCoreDart.ColorContrast].
 ColorD ColorContrast(
   ColorD color,
   num contrast,
 ) => _module.ColorContrast(color, contrast);
 
-/// See [RaylibCoreModule.ColorAlpha].
+/// See [RaylibCoreDart.ColorAlpha].
 ColorD ColorAlpha(
   ColorD color,
   num alpha,
 ) => _module.ColorAlpha(color, alpha);
 
-/// See [RaylibCoreModule.ColorAlphaBlend].
+/// See [RaylibCoreDart.ColorAlphaBlend].
 ColorD ColorAlphaBlend(
   ColorD dst,
   ColorD src,
   ColorD tint,
 ) => _module.ColorAlphaBlend(dst, src, tint);
 
-/// See [RaylibCoreModule.ColorLerp].
+/// See [RaylibCoreDart.ColorLerp].
 ColorD ColorLerp(
   ColorD color1,
   ColorD color2,
   num factor,
 ) => _module.ColorLerp(color1, color2, factor);
 
-/// See [RaylibCoreModule.GetColor].
+/// See [RaylibCoreDart.GetColor].
 ColorD GetColor(
   num hexValue,
 ) => _module.GetColor(hexValue);
 
-/// See [RaylibCoreModule.GetPixelDataSize].
+/// See [RaylibCoreDart.GetPixelDataSize].
 int GetPixelDataSize(
   num width,
   num height,
   PixelFormat format,
 ) => _module.GetPixelDataSize(width, height, format);
 
-/// See [RaylibCoreModule.GetFontDefault].
+/// See [RaylibCoreDart.GetFontDefault].
 FontD GetFontDefault() => _module.GetFontDefault();
 
-/// See [RaylibCoreModule.LoadFont].
+/// See [RaylibCoreDart.LoadFont].
 FontD LoadFont(
   String fileName,
 ) => _module.LoadFont(fileName);
 
-/// See [RaylibCoreModule.LoadFontEx].
+/// See [RaylibCoreDart.LoadFontEx].
 FontD LoadFontEx(
   String fileName,
   num fontSize, [
@@ -2305,14 +2305,14 @@ FontD LoadFontEx(
   ]
 ) => _module.LoadFontEx(fileName, fontSize, codepoints, codepointCount);
 
-/// See [RaylibCoreModule.LoadFontFromImage].
+/// See [RaylibCoreDart.LoadFontFromImage].
 FontD LoadFontFromImage(
   ImageD image,
   ColorD key,
   num firstChar,
 ) => _module.LoadFontFromImage(image, key, firstChar);
 
-/// See [RaylibCoreModule.LoadFontFromMemory].
+/// See [RaylibCoreDart.LoadFontFromMemory].
 FontD LoadFontFromMemory(
   String fileType,
   Uint8List fileData,
@@ -2320,12 +2320,12 @@ FontD LoadFontFromMemory(
   Int32List codepoints,
 ) => _module.LoadFontFromMemory(fileType, fileData, fontSize, codepoints);
 
-/// See [RaylibCoreModule.IsFontValid].
+/// See [RaylibCoreDart.IsFontValid].
 bool IsFontValid(
   FontD font,
 ) => _module.IsFontValid(font);
 
-/// See [RaylibCoreModule.LoadFontData].
+/// See [RaylibCoreDart.LoadFontData].
 List<GlyphInfoD> LoadFontData(
   Uint8List fileData,
   num fontSize,
@@ -2334,7 +2334,7 @@ List<GlyphInfoD> LoadFontData(
   FontType type,
 ) => _module.LoadFontData(fileData, fontSize, codepoints, codepointCount, type);
 
-/// See [RaylibCoreModule.GenImageFontAtlas].
+/// See [RaylibCoreDart.GenImageFontAtlas].
 (ImageD image, List<RectangleD> glyphRecs) GenImageFontAtlas(
   List<GlyphInfoD> glyphs,
   num fontSize,
@@ -2342,29 +2342,29 @@ List<GlyphInfoD> LoadFontData(
   num packMethod,
 ) => _module.GenImageFontAtlas(glyphs, fontSize, padding, packMethod);
 
-/// See [RaylibCoreModule.UnloadFontData].
+/// See [RaylibCoreDart.UnloadFontData].
 void UnloadFontData(
   List<GlyphInfoD> glyphs,
 ) => _module.UnloadFontData(glyphs);
 
-/// See [RaylibCoreModule.UnloadFont].
+/// See [RaylibCoreDart.UnloadFont].
 void UnloadFont(
   FontD font,
 ) => _module.UnloadFont(font);
 
-/// See [RaylibCoreModule.ExportFontAsCode].
+/// See [RaylibCoreDart.ExportFontAsCode].
 bool ExportFontAsCode(
   FontD font,
   String fileName,
 ) => _module.ExportFontAsCode(font, fileName);
 
-/// See [RaylibCoreModule.DrawFPS].
+/// See [RaylibCoreDart.DrawFPS].
 void DrawFPS(
   num posX,
   num posY,
 ) => _module.DrawFPS(posX, posY);
 
-/// See [RaylibCoreModule.DrawText].
+/// See [RaylibCoreDart.DrawText].
 void DrawText(
   String text,
   num posX,
@@ -2373,7 +2373,7 @@ void DrawText(
   ColorD color,
 ) => _module.DrawText(text, posX, posY, fontSize, color);
 
-/// See [RaylibCoreModule.DrawTextEx].
+/// See [RaylibCoreDart.DrawTextEx].
 void DrawTextEx(
   FontD font,
   String text,
@@ -2383,7 +2383,7 @@ void DrawTextEx(
   ColorD tint,
 ) => _module.DrawTextEx(font, text, position, fontSize, spacing, tint);
 
-/// See [RaylibCoreModule.DrawTextPro].
+/// See [RaylibCoreDart.DrawTextPro].
 void DrawTextPro(
   FontD font,
   String text,
@@ -2395,7 +2395,7 @@ void DrawTextPro(
   ColorD tint,
 ) => _module.DrawTextPro(font, text, position, origin, rotation, fontSize, spacing, tint);
 
-/// See [RaylibCoreModule.DrawTextCodepoint].
+/// See [RaylibCoreDart.DrawTextCodepoint].
 void DrawTextCodepoint(
   FontD font,
   num codepoint,
@@ -2404,7 +2404,7 @@ void DrawTextCodepoint(
   ColorD tint,
 ) => _module.DrawTextCodepoint(font, codepoint, position, fontSize, tint);
 
-/// See [RaylibCoreModule.DrawTextCodepoints].
+/// See [RaylibCoreDart.DrawTextCodepoints].
 void DrawTextCodepoints(
   FontD font,
   Int32List codepoints,
@@ -2414,18 +2414,18 @@ void DrawTextCodepoints(
   ColorD tint,
 ) => _module.DrawTextCodepoints(font, codepoints, position, fontSize, spacing, tint);
 
-/// See [RaylibCoreModule.SetTextLineSpacing].
+/// See [RaylibCoreDart.SetTextLineSpacing].
 void SetTextLineSpacing(
   num spacing,
 ) => _module.SetTextLineSpacing(spacing);
 
-/// See [RaylibCoreModule.MeasureText].
+/// See [RaylibCoreDart.MeasureText].
 int MeasureText(
   String text,
   num fontSize,
 ) => _module.MeasureText(text, fontSize);
 
-/// See [RaylibCoreModule.MeasureTextEx].
+/// See [RaylibCoreDart.MeasureTextEx].
 Vector2D MeasureTextEx(
   FontD font,
   String text,
@@ -2433,7 +2433,7 @@ Vector2D MeasureTextEx(
   num spacing,
 ) => _module.MeasureTextEx(font, text, fontSize, spacing);
 
-/// See [RaylibCoreModule.MeasureTextCodepoints].
+/// See [RaylibCoreDart.MeasureTextCodepoints].
 Vector2D MeasureTextCodepoints(
   FontD font,
   Int32List codepoints,
@@ -2441,109 +2441,109 @@ Vector2D MeasureTextCodepoints(
   num spacing,
 ) => _module.MeasureTextCodepoints(font, codepoints, fontSize, spacing);
 
-/// See [RaylibCoreModule.GetGlyphIndex].
+/// See [RaylibCoreDart.GetGlyphIndex].
 int GetGlyphIndex(
   FontD font,
   num codepoint,
 ) => _module.GetGlyphIndex(font, codepoint);
 
-/// See [RaylibCoreModule.GetGlyphInfo].
+/// See [RaylibCoreDart.GetGlyphInfo].
 GlyphInfoD GetGlyphInfo(
   FontD font,
   num codepoint,
 ) => _module.GetGlyphInfo(font, codepoint);
 
-/// See [RaylibCoreModule.GetGlyphAtlasRec].
+/// See [RaylibCoreDart.GetGlyphAtlasRec].
 RectangleD GetGlyphAtlasRec(
   FontD font,
   num codepoint,
 ) => _module.GetGlyphAtlasRec(font, codepoint);
 
-/// See [RaylibCoreModule.LoadUTF8].
+/// See [RaylibCoreDart.LoadUTF8].
 String LoadUTF8(
   Int32List codepoints,
 ) => _module.LoadUTF8(codepoints);
 
-/// See [RaylibCoreModule.LoadCodepoints].
+/// See [RaylibCoreDart.LoadCodepoints].
 Int32List LoadCodepoints(
   String text,
 ) => _module.LoadCodepoints(text);
 
-/// See [RaylibCoreModule.GetCodepointCount].
+/// See [RaylibCoreDart.GetCodepointCount].
 int GetCodepointCount(
   String text,
 ) => _module.GetCodepointCount(text);
 
-/// See [RaylibCoreModule.GetCodepoint].
+/// See [RaylibCoreDart.GetCodepoint].
 (int codepoint, int codepointSize) GetCodepoint(
   String text,
 ) => _module.GetCodepoint(text);
 
-/// See [RaylibCoreModule.GetCodepointNext].
+/// See [RaylibCoreDart.GetCodepointNext].
 (int codepoint, int codepointSize) GetCodepointNext(
   String text,
 ) => _module.GetCodepointNext(text);
 
-/// See [RaylibCoreModule.GetCodepointPrevious].
+/// See [RaylibCoreDart.GetCodepointPrevious].
 (int codepoint, int codepointSize) GetCodepointPrevious(
   String text,
 ) => _module.GetCodepointPrevious(text);
 
-/// See [RaylibCoreModule.CodepointToUTF8].
+/// See [RaylibCoreDart.CodepointToUTF8].
 (String text, int size) CodepointToUTF8(
   num codepoint,
 ) => _module.CodepointToUTF8(codepoint);
 
-/// See [RaylibCoreModule.LoadTextLines].
+/// See [RaylibCoreDart.LoadTextLines].
 List<String> LoadTextLines(
   String text,
 ) => _module.LoadTextLines(text);
 
-/// See [RaylibCoreModule.TextIsEqual].
+/// See [RaylibCoreDart.TextIsEqual].
 bool TextIsEqual(
   String text1,
   String text2,
 ) => _module.TextIsEqual(text1, text2);
 
-/// See [RaylibCoreModule.TextLength].
+/// See [RaylibCoreDart.TextLength].
 int TextLength(
   String text,
 ) => _module.TextLength(text);
 
-/// See [RaylibCoreModule.TextFormat].
+/// See [RaylibCoreDart.TextFormat].
 String TextFormat(
   String text, [
     List<Object?> args = const [],
   ]
 ) => _module.TextFormat(text, args);
 
-/// See [RaylibCoreModule.TextSubtext].
+/// See [RaylibCoreDart.TextSubtext].
 String TextSubtext(
   String text,
   int position,
   int length,
 ) => _module.TextSubtext(text, position, length);
 
-/// See [RaylibCoreModule.TextRemoveSpaces].
+/// See [RaylibCoreDart.TextRemoveSpaces].
 String TextRemoveSpaces(
   String text,
 ) => _module.TextRemoveSpaces(text);
 
-/// See [RaylibCoreModule.GetTextBetween].
+/// See [RaylibCoreDart.GetTextBetween].
 String GetTextBetween(
   String text,
   String begin,
   String end,
 ) => _module.GetTextBetween(text, begin, end);
 
-/// See [RaylibCoreModule.TextReplace].
+/// See [RaylibCoreDart.TextReplace].
 String TextReplace(
   String text,
   String search,
   String replacement,
 ) => _module.TextReplace(text, search, replacement);
 
-/// See [RaylibCoreModule.TextReplaceBetween].
+/// See [RaylibCoreDart.TextReplaceBetween].
 String TextReplaceBetween(
   String text,
   String begin,
@@ -2551,86 +2551,86 @@ String TextReplaceBetween(
   String replacement,
 ) => _module.TextReplaceBetween(text, begin, end, replacement);
 
-/// See [RaylibCoreModule.TextInsert].
+/// See [RaylibCoreDart.TextInsert].
 String TextInsert(
   String text,
   String insert,
   int position,
 ) => _module.TextInsert(text, insert, position);
 
-/// See [RaylibCoreModule.TextJoin].
+/// See [RaylibCoreDart.TextJoin].
 String TextJoin(
   List<String> textList,
   String delimiter,
 ) => _module.TextJoin(textList, delimiter);
 
-/// See [RaylibCoreModule.TextSplit].
+/// See [RaylibCoreDart.TextSplit].
 List<String> TextSplit(
   String text,
   String delimiter,
 ) => _module.TextSplit(text, delimiter);
 
-/// See [RaylibCoreModule.TextAppend].
+/// See [RaylibCoreDart.TextAppend].
 String TextAppend(
   String text,
   String append,
 ) => _module.TextAppend(text, append);
 
-/// See [RaylibCoreModule.TextFindIndex].
+/// See [RaylibCoreDart.TextFindIndex].
 int TextFindIndex(
   String text,
   String search,
 ) => _module.TextFindIndex(text, search);
 
-/// See [RaylibCoreModule.TextToUpper].
+/// See [RaylibCoreDart.TextToUpper].
 String TextToUpper(
   String text,
 ) => _module.TextToUpper(text);
 
-/// See [RaylibCoreModule.TextToLower].
+/// See [RaylibCoreDart.TextToLower].
 String TextToLower(
   String text,
 ) => _module.TextToLower(text);
 
-/// See [RaylibCoreModule.TextToPascal].
+/// See [RaylibCoreDart.TextToPascal].
 String TextToPascal(
   String text,
 ) => _module.TextToPascal(text);
 
-/// See [RaylibCoreModule.TextToSnake].
+/// See [RaylibCoreDart.TextToSnake].
 String TextToSnake(
   String text,
 ) => _module.TextToSnake(text);
 
-/// See [RaylibCoreModule.TextToCamel].
+/// See [RaylibCoreDart.TextToCamel].
 String TextToCamel(
   String text,
 ) => _module.TextToCamel(text);
 
-/// See [RaylibCoreModule.TextToInteger].
+/// See [RaylibCoreDart.TextToInteger].
 int TextToInteger(
   String text,
 ) => _module.TextToInteger(text);
 
-/// See [RaylibCoreModule.TextToFloat].
+/// See [RaylibCoreDart.TextToFloat].
 double TextToFloat(
   String text,
 ) => _module.TextToFloat(text);
 
-/// See [RaylibCoreModule.DrawLine3D].
+/// See [RaylibCoreDart.DrawLine3D].
 void DrawLine3D(
   Vector3D startPos,
   Vector3D endPos,
   ColorD color,
 ) => _module.DrawLine3D(startPos, endPos, color);
 
-/// See [RaylibCoreModule.DrawPoint3D].
+/// See [RaylibCoreDart.DrawPoint3D].
 void DrawPoint3D(
   Vector3D position,
   ColorD color,
 ) => _module.DrawPoint3D(position, color);
 
-/// See [RaylibCoreModule.DrawCircle3D].
+/// See [RaylibCoreDart.DrawCircle3D].
 void DrawCircle3D(
   Vector3D center,
   num radius,
@@ -2639,7 +2639,7 @@ void DrawCircle3D(
   ColorD color,
 ) => _module.DrawCircle3D(center, radius, rotationAxis, rotationAngle, color);
 
-/// See [RaylibCoreModule.DrawTriangle3D].
+/// See [RaylibCoreDart.DrawTriangle3D].
 void DrawTriangle3D(
   Vector3D v1,
   Vector3D v2,
@@ -2647,13 +2647,13 @@ void DrawTriangle3D(
   ColorD color,
 ) => _module.DrawTriangle3D(v1, v2, v3, color);
 
-/// See [RaylibCoreModule.DrawTriangleStrip3D].
+/// See [RaylibCoreDart.DrawTriangleStrip3D].
 void DrawTriangleStrip3D(
   List<Vector3D> points,
   ColorD color,
 ) => _module.DrawTriangleStrip3D(points, color);
 
-/// See [RaylibCoreModule.DrawCube].
+/// See [RaylibCoreDart.DrawCube].
 void DrawCube(
   Vector3D position,
   num width,
@@ -2662,14 +2662,14 @@ void DrawCube(
   ColorD color,
 ) => _module.DrawCube(position, width, height, length, color);
 
-/// See [RaylibCoreModule.DrawCubeV].
+/// See [RaylibCoreDart.DrawCubeV].
 void DrawCubeV(
   Vector3D position,
   Vector3D size,
   ColorD color,
 ) => _module.DrawCubeV(position, size, color);
 
-/// See [RaylibCoreModule.DrawCubeWires].
+/// See [RaylibCoreDart.DrawCubeWires].
 void DrawCubeWires(
   Vector3D position,
   num width,
@@ -2678,21 +2678,21 @@ void DrawCubeWires(
   ColorD color,
 ) => _module.DrawCubeWires(position, width, height, length, color);
 
-/// See [RaylibCoreModule.DrawCubeWiresV].
+/// See [RaylibCoreDart.DrawCubeWiresV].
 void DrawCubeWiresV(
   Vector3D position,
   Vector3D size,
   ColorD color,
 ) => _module.DrawCubeWiresV(position, size, color);
 
-/// See [RaylibCoreModule.DrawSphere].
+/// See [RaylibCoreDart.DrawSphere].
 void DrawSphere(
   Vector3D centerPos,
   num radius,
   ColorD color,
 ) => _module.DrawSphere(centerPos, radius, color);
 
-/// See [RaylibCoreModule.DrawSphereEx].
+/// See [RaylibCoreDart.DrawSphereEx].
 void DrawSphereEx(
   Vector3D centerPos,
   num radius,
@@ -2701,7 +2701,7 @@ void DrawSphereEx(
   ColorD color,
 ) => _module.DrawSphereEx(centerPos, radius, rings, slices, color);
 
-/// See [RaylibCoreModule.DrawSphereWires].
+/// See [RaylibCoreDart.DrawSphereWires].
 void DrawSphereWires(
   Vector3D centerPos,
   num radius,
@@ -2710,7 +2710,7 @@ void DrawSphereWires(
   ColorD color,
 ) => _module.DrawSphereWires(centerPos, radius, rings, slices, color);
 
-/// See [RaylibCoreModule.DrawCylinder].
+/// See [RaylibCoreDart.DrawCylinder].
 void DrawCylinder(
   Vector3D position,
   num radiusTop,
@@ -2720,7 +2720,7 @@ void DrawCylinder(
   ColorD color,
 ) => _module.DrawCylinder(position, radiusTop, radiusBottom, height, slices, color);
 
-/// See [RaylibCoreModule.DrawCylinderEx].
+/// See [RaylibCoreDart.DrawCylinderEx].
 void DrawCylinderEx(
   Vector3D startPos,
   Vector3D endPos,
@@ -2730,7 +2730,7 @@ void DrawCylinderEx(
   ColorD color,
 ) => _module.DrawCylinderEx(startPos, endPos, startRadius, endRadius, sides, color);
 
-/// See [RaylibCoreModule.DrawCylinderWires].
+/// See [RaylibCoreDart.DrawCylinderWires].
 void DrawCylinderWires(
   Vector3D position,
   num radiusTop,
@@ -2740,7 +2740,7 @@ void DrawCylinderWires(
   ColorD color,
 ) => _module.DrawCylinderWires(position, radiusTop, radiusBottom, height, slices, color);
 
-/// See [RaylibCoreModule.DrawCylinderWiresEx].
+/// See [RaylibCoreDart.DrawCylinderWiresEx].
 void DrawCylinderWiresEx(
   Vector3D startPos,
   Vector3D endPos,
@@ -2750,7 +2750,7 @@ void DrawCylinderWiresEx(
   ColorD color,
 ) => _module.DrawCylinderWiresEx(startPos, endPos, startRadius, endRadius, sides, color);
 
-/// See [RaylibCoreModule.DrawCapsule].
+/// See [RaylibCoreDart.DrawCapsule].
 void DrawCapsule(
   Vector3D startPos,
   Vector3D endPos,
@@ -2760,7 +2760,7 @@ void DrawCapsule(
   ColorD color,
 ) => _module.DrawCapsule(startPos, endPos, radius, slices, rings, color);
 
-/// See [RaylibCoreModule.DrawCapsuleWires].
+/// See [RaylibCoreDart.DrawCapsuleWires].
 void DrawCapsuleWires(
   Vector3D startPos,
   Vector3D endPos,
@@ -2770,51 +2770,51 @@ void DrawCapsuleWires(
   ColorD color,
 ) => _module.DrawCapsuleWires(startPos, endPos, radius, slices, rings, color);
 
-/// See [RaylibCoreModule.DrawPlane].
+/// See [RaylibCoreDart.DrawPlane].
 void DrawPlane(
   Vector3D centerPos,
   Vector2D size,
   ColorD color,
 ) => _module.DrawPlane(centerPos, size, color);
 
-/// See [RaylibCoreModule.DrawRay].
+/// See [RaylibCoreDart.DrawRay].
 void DrawRay(
   RayD ray,
   ColorD color,
 ) => _module.DrawRay(ray, color);
 
-/// See [RaylibCoreModule.DrawGrid].
+/// See [RaylibCoreDart.DrawGrid].
 void DrawGrid(
   num slices,
   num spacing,
 ) => _module.DrawGrid(slices, spacing);
 
-/// See [RaylibCoreModule.LoadModel].
+/// See [RaylibCoreDart.LoadModel].
 ModelD LoadModel(
   String fileName,
 ) => _module.LoadModel(fileName);
 
-/// See [RaylibCoreModule.LoadModelFromMesh].
+/// See [RaylibCoreDart.LoadModelFromMesh].
 ModelD LoadModelFromMesh(
   MeshD mesh,
 ) => _module.LoadModelFromMesh(mesh);
 
-/// See [RaylibCoreModule.IsModelValid].
+/// See [RaylibCoreDart.IsModelValid].
 bool IsModelValid(
   ModelD model,
 ) => _module.IsModelValid(model);
 
-/// See [RaylibCoreModule.UnloadModel].
+/// See [RaylibCoreDart.UnloadModel].
 void UnloadModel(
   ModelD model,
 ) => _module.UnloadModel(model);
 
-/// See [RaylibCoreModule.GetModelBoundingBox].
+/// See [RaylibCoreDart.GetModelBoundingBox].
 BoundingBoxD GetModelBoundingBox(
   ModelD model,
 ) => _module.GetModelBoundingBox(model);
 
-/// See [RaylibCoreModule.DrawModel].
+/// See [RaylibCoreDart.DrawModel].
 void DrawModel(
   ModelD model,
   Vector3D position,
@@ -2822,7 +2822,7 @@ void DrawModel(
   ColorD tint
 ) => _module.DrawModel(model, position, scale, tint);
 
-/// See [RaylibCoreModule.DrawModelEx].
+/// See [RaylibCoreDart.DrawModelEx].
 void DrawModelEx(
   ModelD model,
   Vector3D position,
@@ -2832,7 +2832,7 @@ void DrawModelEx(
   ColorD tint,
 ) => _module.DrawModelEx(model, position, rotationAxis, rotationAngle, scale, tint);
 
-/// See [RaylibCoreModule.DrawModelWires].
+/// See [RaylibCoreDart.DrawModelWires].
 void DrawModelWires(
   ModelD model,
   Vector3D position,
@@ -2840,7 +2840,7 @@ void DrawModelWires(
   ColorD tint,
 ) => _module.DrawModelWires(model, position, scale, tint);
 
-/// See [RaylibCoreModule.DrawModelWiresEx].
+/// See [RaylibCoreDart.DrawModelWiresEx].
 void DrawModelWiresEx(
   ModelD model,
   Vector3D position,
@@ -2850,13 +2850,13 @@ void DrawModelWiresEx(
   ColorD tint,
 ) => _module.DrawModelWiresEx(model, position, rotationAxis, rotationAngle, scale, tint);
 
-/// See [RaylibCoreModule.DrawBoundingBox].
+/// See [RaylibCoreDart.DrawBoundingBox].
 void DrawBoundingBox(
   BoundingBoxD box,
   ColorD color,
 ) => _module.DrawBoundingBox(box, color);
 
-/// See [RaylibCoreModule.DrawBillboard].
+/// See [RaylibCoreDart.DrawBillboard].
 void DrawBillboard(
   Camera3DD camera,
   TextureD texture,
@@ -2865,7 +2865,7 @@ void DrawBillboard(
   ColorD tint,
 ) => _module.DrawBillboard(camera, texture, position, scale, tint);
 
-/// See [RaylibCoreModule.DrawBillboardRec].
+/// See [RaylibCoreDart.DrawBillboardRec].
 void DrawBillboardRec(
   Camera3DD camera,
   TextureD texture,
@@ -2875,7 +2875,7 @@ void DrawBillboardRec(
   ColorD tint,
 ) => _module.DrawBillboardRec(camera, texture, source, position, size, tint);
 
-/// See [RaylibCoreModule.DrawBillboardPro].
+/// See [RaylibCoreDart.DrawBillboardPro].
 @Deprecated(
   "Broken by a dart:ffi bug: the trailing Color argument gets corrupted "
   "(or crashes) once the preceding float-only args exceed the CPU's 8 "
@@ -2894,13 +2894,13 @@ void DrawBillboardPro(
   ColorD tint,
 ) => _module.DrawBillboardPro(camera, texture, source, position, up, size, origin, rotation, tint);
 
-/// See [RaylibCoreModule.UploadMesh].
+/// See [RaylibCoreDart.UploadMesh].
 void UploadMesh(
   MeshD mesh,
   bool dynamic,
 ) => _module.UploadMesh(mesh, dynamic);
 
-/// See [RaylibCoreModule.UpdateMeshBuffer].
+/// See [RaylibCoreDart.UpdateMeshBuffer].
 void UpdateMeshBuffer(
   MeshD mesh,
   num index,
@@ -2908,54 +2908,54 @@ void UpdateMeshBuffer(
   num offset,
 ) => _module.UpdateMeshBuffer(mesh, index, data, offset);
 
-/// See [RaylibCoreModule.UnloadMesh].
+/// See [RaylibCoreDart.UnloadMesh].
 void UnloadMesh(
   MeshD mesh,
 ) => _module.UnloadMesh(mesh);
 
-/// See [RaylibCoreModule.DrawMesh].
+/// See [RaylibCoreDart.DrawMesh].
 void DrawMesh(
   MeshD mesh,
   MaterialD material,
   MatrixD transform,
 ) => _module.DrawMesh(mesh, material, transform);
 
-/// See [RaylibCoreModule.DrawMeshInstanced].
+/// See [RaylibCoreDart.DrawMeshInstanced].
 void DrawMeshInstanced(
   MeshD mesh,
   MaterialD material,
   List<MatrixD> transforms,
 ) => _module.DrawMeshInstanced(mesh, material, transforms);
 
-/// See [RaylibCoreModule.GetMeshBoundingBox].
+/// See [RaylibCoreDart.GetMeshBoundingBox].
 BoundingBoxD GetMeshBoundingBox(
   MeshD mesh,
 ) => _module.GetMeshBoundingBox(mesh);
 
-/// See [RaylibCoreModule.GenMeshTangents].
+/// See [RaylibCoreDart.GenMeshTangents].
 void GenMeshTangents(
   MeshD mesh,
 ) => _module.GenMeshTangents(mesh);
 
-/// See [RaylibCoreModule.ExportMesh].
+/// See [RaylibCoreDart.ExportMesh].
 bool ExportMesh(
   MeshD mesh,
   String fileName,
 ) => _module.ExportMesh(mesh, fileName);
 
-/// See [RaylibCoreModule.ExportMeshAsCode].
+/// See [RaylibCoreDart.ExportMeshAsCode].
 bool ExportMeshAsCode(
   MeshD mesh,
   String fileName,
 ) => _module.ExportMeshAsCode(mesh, fileName);
 
-/// See [RaylibCoreModule.GenMeshPoly].
+/// See [RaylibCoreDart.GenMeshPoly].
 MeshD GenMeshPoly(
   num sides,
   num radius,
 ) => _module.GenMeshPoly(sides, radius);
 
-/// See [RaylibCoreModule.GenMeshPlane].
+/// See [RaylibCoreDart.GenMeshPlane].
 MeshD GenMeshPlane(
   num width,
   num length,
@@ -2963,42 +2963,42 @@ MeshD GenMeshPlane(
   num resZ,
 ) => _module.GenMeshPlane(width, length, resX, resZ);
 
-/// See [RaylibCoreModule.GenMeshCube].
+/// See [RaylibCoreDart.GenMeshCube].
 MeshD GenMeshCube(
   num width,
   num height,
   num length,
 ) => _module.GenMeshCube(width, height, length);
 
-/// See [RaylibCoreModule.GenMeshSphere].
+/// See [RaylibCoreDart.GenMeshSphere].
 MeshD GenMeshSphere(
   num radius,
   num rings,
   num slices,
 ) => _module.GenMeshSphere(radius, rings, slices);
 
-/// See [RaylibCoreModule.GenMeshHemiSphere].
+/// See [RaylibCoreDart.GenMeshHemiSphere].
 MeshD GenMeshHemiSphere(
   num radius,
   num rings,
   num slices,
 ) => _module.GenMeshHemiSphere(radius, rings, slices);
 
-/// See [RaylibCoreModule.GenMeshCylinder].
+/// See [RaylibCoreDart.GenMeshCylinder].
 MeshD GenMeshCylinder(
   num radius,
   num height,
   num slices,
 ) => _module.GenMeshCylinder(radius, height, slices);
 
-/// See [RaylibCoreModule.GenMeshCone].
+/// See [RaylibCoreDart.GenMeshCone].
 MeshD GenMeshCone(
   num radius,
   num height,
   num slices,
 ) => _module.GenMeshCone(radius, height, slices);
 
-/// See [RaylibCoreModule.GenMeshTorus].
+/// See [RaylibCoreDart.GenMeshTorus].
 MeshD GenMeshTorus(
   num radius,
   num size,
@@ -3006,7 +3006,7 @@ MeshD GenMeshTorus(
   num sides,
 ) => _module.GenMeshTorus(radius, size, radSeg, sides);
 
-/// See [RaylibCoreModule.GenMeshKnot].
+/// See [RaylibCoreDart.GenMeshKnot].
 MeshD GenMeshKnot(
   num radius,
   num size,
@@ -3014,63 +3014,63 @@ MeshD GenMeshKnot(
   num sides,
 ) => _module.GenMeshKnot(radius, size, radSeg, sides);
 
-/// See [RaylibCoreModule.GenMeshHeightmap].
+/// See [RaylibCoreDart.GenMeshHeightmap].
 MeshD GenMeshHeightmap(
   ImageD heightmap,
   Vector3D size,
 ) => _module.GenMeshHeightmap(heightmap, size);
 
-/// See [RaylibCoreModule.GenMeshCubicmap].
+/// See [RaylibCoreDart.GenMeshCubicmap].
 MeshD GenMeshCubicmap(
   ImageD cubicmap,
   Vector3D cubeSize,
 ) => _module.GenMeshCubicmap(cubicmap, cubeSize);
 
-/// See [RaylibCoreModule.LoadMaterials].
+/// See [RaylibCoreDart.LoadMaterials].
 List<MaterialD> LoadMaterials(
   String fileName,
 ) => _module.LoadMaterials(fileName);
 
-/// See [RaylibCoreModule.LoadMaterialDefault].
+/// See [RaylibCoreDart.LoadMaterialDefault].
 MaterialD LoadMaterialDefault() => _module.LoadMaterialDefault();
 
-/// See [RaylibCoreModule.IsMaterialValid].
+/// See [RaylibCoreDart.IsMaterialValid].
 bool IsMaterialValid(
   MaterialD material,
 ) => _module.IsMaterialValid(material);
 
-/// See [RaylibCoreModule.UnloadMaterial].
+/// See [RaylibCoreDart.UnloadMaterial].
 void UnloadMaterial(
   MaterialD material,
 ) => _module.UnloadMaterial(material);
 
-/// See [RaylibCoreModule.SetMaterialTexture].
+/// See [RaylibCoreDart.SetMaterialTexture].
 void SetMaterialTexture(
   MaterialD material,
   MaterialMapIndex mapType,
   TextureD texture,
 ) => _module.SetMaterialTexture(material, mapType, texture);
 
-/// See [RaylibCoreModule.SetModelMeshMaterial].
+/// See [RaylibCoreDart.SetModelMeshMaterial].
 void SetModelMeshMaterial(
   ModelD model,
   num meshId,
   num materialId,
 ) => _module.SetModelMeshMaterial(model, meshId, materialId);
 
-/// See [RaylibCoreModule.LoadModelAnimations].
+/// See [RaylibCoreDart.LoadModelAnimations].
 List<ModelAnimationD> LoadModelAnimations(
   String fileName,
 ) => _module.LoadModelAnimations(fileName);
 
-/// See [RaylibCoreModule.UpdateModelAnimation].
+/// See [RaylibCoreDart.UpdateModelAnimation].
 void UpdateModelAnimation(
   ModelD model,
   ModelAnimationD anim,
   num frame,
 ) => _module.UpdateModelAnimation(model, anim, frame);
 
-/// See [RaylibCoreModule.UpdateModelAnimationEx].
+/// See [RaylibCoreDart.UpdateModelAnimationEx].
 void UpdateModelAnimationEx(
   ModelD model,
   ModelAnimationD animA,
@@ -3080,18 +3080,18 @@ void UpdateModelAnimationEx(
   num blend,
 ) => _module.UpdateModelAnimationEx(model, animA, frameA, animB, frameB, blend);
 
-/// See [RaylibCoreModule.UnloadModelAnimations].
+/// See [RaylibCoreDart.UnloadModelAnimations].
 void UnloadModelAnimations(
   List<ModelAnimationD> animations,
 ) => _module.UnloadModelAnimations(animations);
 
-/// See [RaylibCoreModule.IsModelAnimationValid].
+/// See [RaylibCoreDart.IsModelAnimationValid].
 bool IsModelAnimationValid(
   ModelD model,
   ModelAnimationD anim,
 ) => _module.IsModelAnimationValid(model, anim);
 
-/// See [RaylibCoreModule.CheckCollisionSpheres].
+/// See [RaylibCoreDart.CheckCollisionSpheres].
 bool CheckCollisionSpheres(
   Vector3D center1,
   num radius1,
@@ -3099,40 +3099,40 @@ bool CheckCollisionSpheres(
   num radius2,
 ) => _module.CheckCollisionSpheres(center1, radius1, center2, radius2);
 
-/// See [RaylibCoreModule.CheckCollisionBoxes].
+/// See [RaylibCoreDart.CheckCollisionBoxes].
 bool CheckCollisionBoxes(
   BoundingBoxD box1,
   BoundingBoxD box2,
 ) => _module.CheckCollisionBoxes(box1, box2);
 
-/// See [RaylibCoreModule.CheckCollisionBoxSphere].
+/// See [RaylibCoreDart.CheckCollisionBoxSphere].
 bool CheckCollisionBoxSphere(
   BoundingBoxD box,
   Vector3D center,
   num radius,
 ) => _module.CheckCollisionBoxSphere(box, center, radius);
 
-/// See [RaylibCoreModule.GetRayCollisionSphere].
+/// See [RaylibCoreDart.GetRayCollisionSphere].
 RayCollisionD GetRayCollisionSphere(
   RayD ray,
   Vector3D center,
   num radius,
 ) => _module.GetRayCollisionSphere(ray, center, radius);
 
-/// See [RaylibCoreModule.GetRayCollisionBox].
+/// See [RaylibCoreDart.GetRayCollisionBox].
 RayCollisionD GetRayCollisionBox(
   RayD ray,
   BoundingBoxD box,
 ) => _module.GetRayCollisionBox(ray, box);
 
-/// See [RaylibCoreModule.GetRayCollisionMesh].
+/// See [RaylibCoreDart.GetRayCollisionMesh].
 RayCollisionD GetRayCollisionMesh(
   RayD ray,
   MeshD mesh,
   MatrixD transform,
 ) => _module.GetRayCollisionMesh(ray, mesh, transform);
 
-/// See [RaylibCoreModule.GetRayCollisionTriangle].
+/// See [RaylibCoreDart.GetRayCollisionTriangle].
 RayCollisionD GetRayCollisionTriangle(
   RayD ray,
   Vector3D p1,
@@ -3140,7 +3140,7 @@ RayCollisionD GetRayCollisionTriangle(
   Vector3D p3,
 ) => _module.GetRayCollisionTriangle(ray, p1, p2, p3);
 
-/// See [RaylibCoreModule.GetRayCollisionQuad].
+/// See [RaylibCoreDart.GetRayCollisionQuad].
 RayCollisionD GetRayCollisionQuad(
   RayD ray,
   Vector3D p1,

@@ -1,8 +1,8 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibLightModule get _module => RaylibBase.instance.LightDart;
+RaylibLightDart get _module => RaylibBase.instance.module();
 
-/// See [RaylibLightModule.CreateLight].
+/// See [RaylibLightDart.CreateLight].
 LightD CreateLight(
   LightType type,
   Vector3D position,
@@ -11,7 +11,7 @@ LightD CreateLight(
   ShaderD shader,
 ) => _module.CreateLight(type, position, target, color, shader);
 
-/// See [RaylibLightModule.UpdateLightValues].
+/// See [RaylibLightDart.UpdateLightValues].
 void UpdateLightValues(
   ShaderD shader,
   LightD light,

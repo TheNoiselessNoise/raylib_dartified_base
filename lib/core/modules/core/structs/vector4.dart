@@ -82,7 +82,9 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
     _z = z,
     _w = w;
 
-  factory Vector4D.zero() => .new();
+  factory Vector4D.zero() => .vec4(0, 0, 0, 0);
+
+  factory Vector4D.one() => .vec4(1, 1, 1, 1);
 
   factory Vector4D.vec4(
     num x,

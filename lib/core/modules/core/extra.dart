@@ -3,7 +3,7 @@ part of '../../raylib_dartified_base.dart';
 /// Snapshot of a single mouse button's state for the current frame.
 ///
 /// All fields default to `false`; only the relevant flags are set to `true`
-/// when constructing via [RaylibCoreModule.GetMouseInfo].
+/// when constructing via [RaylibCoreDart.GetMouseInfo].
 final class MouseButtonInfo {
   /// `true` if the button is not held down this frame.
   final bool up;

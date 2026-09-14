@@ -80,7 +80,7 @@ class RaylibTempUtils {
 /// and governs the lifetime of all slots allocated.
 /// 
 /// All allocated slots are freed on [dispose].
-final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
+final class RaylibTemp<R extends RaylibBase> extends RaylibModule {
   RaylibTemp(super.rl);
 
   /// Whether sync-back is currently enabled.
@@ -275,6 +275,9 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
 
   // structs
 
+  late final RaylibTempStructAllocator<float3D> float3$;
+  late final RaylibTempStructAllocator<float16D> float16$;
+
   late final RaylibTempStructAllocator<AutomationEventListD> AutomationEventList$;
   late final RaylibTempStructAllocator<AutomationEventD> AutomationEvent$;
   late final RaylibTempStructAllocator<AudioStreamD> AudioStream$;
@@ -322,6 +325,9 @@ final class RaylibTemp<R extends RaylibBase<R>> extends RaylibModule<R> {
     => _builtInStructAllocators[X] = allocator;
 
   void _initStructAllocators() {
+    float3$ = _bStruct(.new(this, byteSize: float3D.struct.byteSize, factory: float3D.new, pointerFactory: float3D.pointer));
+    float16$ = _bStruct(.new(this, byteSize: float16D.struct.byteSize, factory: float16D.new, pointerFactory: float16D.pointer));
+
     AutomationEventList$ = _bStruct(.new(this, byteSize: AutomationEventListD.struct.byteSize, factory: AutomationEventListD.new, pointerFactory: AutomationEventListD.pointer));
     AutomationEvent$ = _bStruct(.new(this, byteSize: AutomationEventD.struct.byteSize, factory: AutomationEventD.new, pointerFactory: AutomationEventD.pointer));
     AudioStream$ = _bStruct(.new(this, byteSize: AudioStreamD.struct.byteSize, factory: AudioStreamD.new, pointerFactory: AudioStreamD.pointer));
