@@ -125,7 +125,7 @@ abstract class RaylibVector4FlatExt<R extends RaylibBase> extends RaylibModule<R
   );
 
   /// Check whether two given vectors are almost equal
-  int Vector4Equals(
+  bool Vector4Equals(
     Vector4D p,
     Vector4D q,
   );

@@ -44,15 +44,15 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   static StructPointer<VrDeviceInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, VrDeviceInfoD.new, VrDeviceInfoD.pointer);
 
-  static final _hResolutionF = struct.scalar<int, RInt>(.hResolution);
-  static final _vResolutionF = struct.scalar<int, RInt>(.vResolution);
-  static final _hScreenSizeF = struct.scalar<double, RFloat>(.hScreenSize);
-  static final _vScreenSizeF = struct.scalar<double, RFloat>(.vScreenSize);
-  static final _eyeToScreenDistanceF = struct.scalar<double, RFloat>(.eyeToScreenDistance);
-  static final _lensSeparationDistanceF = struct.scalar<double, RFloat>(.lensSeparationDistance);
-  static final _interpupillaryDistanceF = struct.scalar<double, RFloat>(.interpupillaryDistance);
-  static final _lensDistortionValuesF = struct.scalarArray<double, RFloat>(.lensDistortionValues);
-  static final _chromaAbCorrectionF = struct.scalarArray<double, RFloat>(.chromaAbCorrection);
+  static final field_hResolution = struct.scalar<int, RInt>(.hResolution);
+  static final field_vResolution = struct.scalar<int, RInt>(.vResolution);
+  static final field_hScreenSize = struct.scalar<double, RFloat>(.hScreenSize);
+  static final field_vScreenSize = struct.scalar<double, RFloat>(.vScreenSize);
+  static final field_eyeToScreenDistance = struct.scalar<double, RFloat>(.eyeToScreenDistance);
+  static final field_lensSeparationDistance = struct.scalar<double, RFloat>(.lensSeparationDistance);
+  static final field_interpupillaryDistance = struct.scalar<double, RFloat>(.interpupillaryDistance);
+  static final field_lensDistortionValues = struct.scalarArray<double, RFloat>(.lensDistortionValues);
+  static final field_chromaAbCorrection = struct.scalarArray<double, RFloat>(.chromaAbCorrection);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -78,38 +78,38 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
   int _hResolution;
   /// Horizontal resolution in pixels
-  int get hResolution => _hResolution = _hResolutionF.readOr(op, _hResolution);
-  set hResolution(int value) => _hResolution = _hResolutionF.writeIf(op, value);
+  int get hResolution => _hResolution = field_hResolution.readOr(op, _hResolution);
+  set hResolution(int value) => _hResolution = field_hResolution.writeIf(op, value);
 
   int _vResolution;
   /// Vertical resolution in pixels
-  int get vResolution => _vResolution = _vResolutionF.readOr(op, _vResolution);
-  set vResolution(int value) => _vResolution = _vResolutionF.writeIf(op, value);
+  int get vResolution => _vResolution = field_vResolution.readOr(op, _vResolution);
+  set vResolution(int value) => _vResolution = field_vResolution.writeIf(op, value);
 
   double _hScreenSize;
   /// Horizontal size in meters
-  double get hScreenSize => _hScreenSize = _hScreenSizeF.readOr(op, _hScreenSize);
-  set hScreenSize(double value) => _hScreenSize = _hScreenSizeF.writeIf(op, value);
+  double get hScreenSize => _hScreenSize = field_hScreenSize.readOr(op, _hScreenSize);
+  set hScreenSize(double value) => _hScreenSize = field_hScreenSize.writeIf(op, value);
 
   double _vScreenSize;
   /// Vertical size in meters
-  double get vScreenSize => _vScreenSize = _vScreenSizeF.readOr(op, _vScreenSize);
-  set vScreenSize(double value) => _vScreenSize = _vScreenSizeF.writeIf(op, value);
+  double get vScreenSize => _vScreenSize = field_vScreenSize.readOr(op, _vScreenSize);
+  set vScreenSize(double value) => _vScreenSize = field_vScreenSize.writeIf(op, value);
 
   double _eyeToScreenDistance;
   /// Distance between eye and display in meters
-  double get eyeToScreenDistance => _eyeToScreenDistance = _eyeToScreenDistanceF.readOr(op, _eyeToScreenDistance);
-  set eyeToScreenDistance(double value) => _eyeToScreenDistance = _eyeToScreenDistanceF.writeIf(op, value);
+  double get eyeToScreenDistance => _eyeToScreenDistance = field_eyeToScreenDistance.readOr(op, _eyeToScreenDistance);
+  set eyeToScreenDistance(double value) => _eyeToScreenDistance = field_eyeToScreenDistance.writeIf(op, value);
 
   double _lensSeparationDistance;
   /// Lens separation distance in meters
-  double get lensSeparationDistance => _lensSeparationDistance = _lensSeparationDistanceF.readOr(op, _lensSeparationDistance);
-  set lensSeparationDistance(double value) => _lensSeparationDistance = _lensSeparationDistanceF.writeIf(op, value);
+  double get lensSeparationDistance => _lensSeparationDistance = field_lensSeparationDistance.readOr(op, _lensSeparationDistance);
+  set lensSeparationDistance(double value) => _lensSeparationDistance = field_lensSeparationDistance.writeIf(op, value);
 
   double _interpupillaryDistance;
   /// IPD (distance between pupils) in meters
-  double get interpupillaryDistance => _interpupillaryDistance = _interpupillaryDistanceF.readOr(op, _interpupillaryDistance);
-  set interpupillaryDistance(double value) => _interpupillaryDistance = _interpupillaryDistanceF.writeIf(op, value);
+  double get interpupillaryDistance => _interpupillaryDistance = field_interpupillaryDistance.readOr(op, _interpupillaryDistance);
+  set interpupillaryDistance(double value) => _interpupillaryDistance = field_interpupillaryDistance.writeIf(op, value);
 
   late final StructLiveList<double, RFloat> _lensDistortionValues;
   /// Lens distortion constant parameters
@@ -141,12 +141,12 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
     _lensSeparationDistance = lensSeparationDistance,
     _interpupillaryDistance = interpupillaryDistance
   {
-    _lensDistortionValues = _lensDistortionValuesF.live(() => op,
-      lensDistortionValues ?? .filled(_lensDistortionValuesF.codec.type.count, 0)
+    _lensDistortionValues = field_lensDistortionValues.live(() => op,
+      lensDistortionValues ?? .filled(field_lensDistortionValues.codec.type.count, 0)
     );
 
-    _chromaAbCorrection = _chromaAbCorrectionF.live(() => op,
-      chromaAbCorrection ?? .filled(_chromaAbCorrectionF.codec.type.count, 0)
+    _chromaAbCorrection = field_chromaAbCorrection.live(() => op,
+      chromaAbCorrection ?? .filled(field_chromaAbCorrection.codec.type.count, 0)
     );
   }
 
@@ -168,26 +168,26 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _hResolutionF.write(p, _hResolution);
-    _vResolutionF.write(p, _vResolution);
-    _hScreenSizeF.write(p, _hScreenSize);
-    _vScreenSizeF.write(p, _vScreenSize);
-    _eyeToScreenDistanceF.write(p, _eyeToScreenDistance);
-    _lensSeparationDistanceF.write(p, _lensSeparationDistance);
-    _interpupillaryDistanceF.write(p, _interpupillaryDistance);
+    field_hResolution.write(p, _hResolution);
+    field_vResolution.write(p, _vResolution);
+    field_hScreenSize.write(p, _hScreenSize);
+    field_vScreenSize.write(p, _vScreenSize);
+    field_eyeToScreenDistance.write(p, _eyeToScreenDistance);
+    field_lensSeparationDistance.write(p, _lensSeparationDistance);
+    field_interpupillaryDistance.write(p, _interpupillaryDistance);
     _lensDistortionValues.writeInto(p);
     _chromaAbCorrection.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _hResolution = _hResolutionF.read(p);
-    _vResolution = _vResolutionF.read(p);
-    _hScreenSize = _hScreenSizeF.read(p);
-    _vScreenSize = _vScreenSizeF.read(p);
-    _eyeToScreenDistance = _eyeToScreenDistanceF.read(p);
-    _lensSeparationDistance = _lensSeparationDistanceF.read(p);
-    _interpupillaryDistance = _interpupillaryDistanceF.read(p);
+    _hResolution = field_hResolution.read(p);
+    _vResolution = field_vResolution.read(p);
+    _hScreenSize = field_hScreenSize.read(p);
+    _vScreenSize = field_vScreenSize.read(p);
+    _eyeToScreenDistance = field_eyeToScreenDistance.read(p);
+    _lensSeparationDistance = field_lensSeparationDistance.read(p);
+    _interpupillaryDistance = field_interpupillaryDistance.read(p);
     _lensDistortionValues.readFrom(p);
     _chromaAbCorrection.readFrom(p);
   }

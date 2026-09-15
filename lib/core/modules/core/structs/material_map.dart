@@ -32,9 +32,9 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
 
-  static final _textureF = struct.struct(.texture, TextureD.pointer);
-  static final _colorF = struct.struct(.color, ColorD.pointer);
-  static final _valueF = struct.scalar<double, RFloat>(.value);
+  static final field_texture = struct.struct(.texture, TextureD.pointer);
+  static final field_color = struct.struct(.color, ColorD.pointer);
+  static final field_value = struct.scalar<double, RFloat>(.value);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,18 +46,18 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
 
   TextureD _texture;
   /// Material map texture
-  TextureD get texture => _texture = _textureF.readOr(op, _texture);
-  set texture(TextureD value) => _texture = _textureF.writeIf(op, value);
+  TextureD get texture => _texture = field_texture.readOr(op, _texture);
+  set texture(TextureD value) => _texture = field_texture.writeIf(op, value);
 
   ColorD _color;
   /// Material map color
-  ColorD get color => _color = _colorF.readOr(op, _color);
-  set color(ColorD value) => _color = _colorF.writeIf(op, value);
+  ColorD get color => _color = field_color.readOr(op, _color);
+  set color(ColorD value) => _color = field_color.writeIf(op, value);
 
   double _value;
   /// Material map value
-  double get value => _value = _valueF.readOr(op, _value);
-  set value(double value) => _value = _valueF.writeIf(op, value);
+  double get value => _value = field_value.readOr(op, _value);
+  set value(double value) => _value = field_value.writeIf(op, value);
   
   MaterialMapD({
     super.op,
@@ -81,16 +81,16 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _textureF.write(p, _texture);
-    _colorF.write(p, _color);
-    _valueF.write(p, _value);
+    field_texture.write(p, _texture);
+    field_color.write(p, _color);
+    field_value.write(p, _value);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _texture = _textureF.read(p);
-    _color = _colorF.read(p);
-    _value = _valueF.read(p);
+    _texture = field_texture.read(p);
+    _color = field_color.read(p);
+    _value = field_value.read(p);
   }
 
   @override

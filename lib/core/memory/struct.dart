@@ -310,13 +310,15 @@ final class StructLayout<F extends StructFields> {
   ///
   /// The pointed-to value is exposed without applying a specialized
   /// scalar, struct, or enum conversion.
-  StructPointerValueField<dynamic, R> pointerUnknown<R extends RTypeUnknownLike>(F f) {
-    _checkField(f);
-    final type = _getFieldAs<RPointer<R>>(f);
-    final unknownCodec = UnknownCodec(type.target);
-    final pointerCodec = PointerCodec(type, unknownCodec);
-    return .new(offset(f), pointerCodec);
-  }
+  StructPointerValueField<dynamic, R> pointerUnknown<R extends RTypeUnknownLike>(F f)
+    => pointerSync<dynamic, R>(f);
+
+  /// Create a pointer-to-any-value field for [f].
+  ///
+  /// The pointed-to value is exposed without applying a specialized
+  /// scalar, struct, or enum conversion.
+  StructPointerValueField<dynamic, R> pointerAny<R extends RType>(F f)
+    => pointerSync<dynamic, R>(f);
 
   /// Creates a synchronized pointer field for [f].
   ///

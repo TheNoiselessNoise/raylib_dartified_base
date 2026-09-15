@@ -120,7 +120,7 @@ Vector4D Vector4Invert(
 ) => _module.Vector4Invert(v);
 
 /// See [RaylibVector4FlatExt.Vector4Equals].
-int Vector4Equals(
+bool Vector4Equals(
   Vector4D p,
   Vector4D q,
 ) => _module.Vector4Equals(p, q);

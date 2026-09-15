@@ -36,11 +36,11 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   static StructPointer<Camera3DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera3DD.new, Camera3DD.pointer);
 
-  static final _positionF = struct.struct(.position, Vector3D.pointer);
-  static final _targetF = struct.struct(.target, Vector3D.pointer);
-  static final _upF = struct.struct(.up, Vector3D.pointer);
-  static final _fovyF = struct.scalar<double, RFloat>(.fovy);
-  static final _projectionF = struct.scalar<int, RInt>(.projection);
+  static final field_position = struct.struct(.position, Vector3D.pointer);
+  static final field_target = struct.struct(.target, Vector3D.pointer);
+  static final field_up = struct.struct(.up, Vector3D.pointer);
+  static final field_fovy = struct.scalar<double, RFloat>(.fovy);
+  static final field_projection = struct.scalar<int, RInt>(.projection);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -52,28 +52,28 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   Vector3D _position;
   /// Camera position
-  Vector3D get position => _position = _positionF.readOr(op, _position);
-  set position(Vector3D value) => _position = _positionF.writeIf(op, value);
+  Vector3D get position => _position = field_position.readOr(op, _position);
+  set position(Vector3D value) => _position = field_position.writeIf(op, value);
 
   Vector3D _target;
   /// Camera target it looks-at
-  Vector3D get target => _target = _targetF.readOr(op, _target);
-  set target(Vector3D value) => _target = _targetF.writeIf(op, value);
+  Vector3D get target => _target = field_target.readOr(op, _target);
+  set target(Vector3D value) => _target = field_target.writeIf(op, value);
 
   Vector3D _up;
   /// Camera up vector (rotation over its axis)
-  Vector3D get up => _up = _upF.readOr(op, _up);
-  set up(Vector3D value) => _up = _upF.writeIf(op, value);
+  Vector3D get up => _up = field_up.readOr(op, _up);
+  set up(Vector3D value) => _up = field_up.writeIf(op, value);
 
   double _fovy;
   /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
-  double get fovy => _fovy = _fovyF.readOr(op, _fovy);
-  set fovy(double value) => _fovy = _fovyF.writeIf(op, value);
+  double get fovy => _fovy = field_fovy.readOr(op, _fovy);
+  set fovy(double value) => _fovy = field_fovy.writeIf(op, value);
 
   CameraProjection _projection;
   /// Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
-  CameraProjection get projection => _projection = .fromValue(_projectionF.readOr(op, _projection.value));
-  set projection(CameraProjection value) => _projection = .fromValue(_projectionF.writeIf(op, value.value));
+  CameraProjection get projection => _projection = .fromValue(field_projection.readOr(op, _projection.value));
+  set projection(CameraProjection value) => _projection = .fromValue(field_projection.writeIf(op, value.value));
 
   Camera3DD({
     super.op,
@@ -103,20 +103,20 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _positionF.write(p, _position);
-    _targetF.write(p, _target);
-    _upF.write(p, _up);
-    _fovyF.write(p, _fovy);
-    _projectionF.write(p, _projection.value);
+    field_position.write(p, _position);
+    field_target.write(p, _target);
+    field_up.write(p, _up);
+    field_fovy.write(p, _fovy);
+    field_projection.write(p, _projection.value);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _position = _positionF.read(p);
-    _target = _targetF.read(p);
-    _up = _upF.read(p);
-    _fovy = _fovyF.read(p);
-    _projection = .fromValue(_projectionF.read(p));
+    _position = field_position.read(p);
+    _target = field_target.read(p);
+    _up = field_up.read(p);
+    _fovy = field_fovy.read(p);
+    _projection = .fromValue(field_projection.read(p));
   }
 
   @override

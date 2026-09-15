@@ -33,7 +33,7 @@ class float16D extends RaylibStructLiteral<float16D> {
   static StructPointer<float16D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, float16D.new, float16D.pointer);
 
-  static final _vF = struct.scalarArray<double, RFloat>(.v);
+  static final field_v = struct.scalarArray<double, RFloat>(.v);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -51,7 +51,7 @@ class float16D extends RaylibStructLiteral<float16D> {
     super.op,
     List<double>? v,
   }) {
-    _v = _vF.live(() => op, .filled(_vF.codec.type.count, 0));
+    _v = field_v.live(() => op, .filled(field_v.codec.type.count, 0));
   }
 
   factory float16D.zero() => .new();

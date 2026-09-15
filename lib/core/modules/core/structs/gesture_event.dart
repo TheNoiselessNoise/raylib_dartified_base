@@ -34,10 +34,10 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, GestureEventD.new, GestureEventD.pointer);
 
-  static final _touchActionF = struct.scalar<int, RInt>(.touchAction);
-  static final _pointCountF = struct.scalar<int, RInt>(.pointCount);
-  static final _pointIdF = struct.scalarArray<int, RInt>(.pointId);
-  static final _positionF = struct.structArray(.position, Vector2D.pointer);
+  static final field_touchAction = struct.scalar<int, RInt>(.touchAction);
+  static final field_pointCount = struct.scalar<int, RInt>(.pointCount);
+  static final field_pointId = struct.scalarArray<int, RInt>(.pointId);
+  static final field_position = struct.structArray(.position, Vector2D.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -63,13 +63,13 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   
   TouchAction _touchAction;
   /// Touch action
-  TouchAction get touchAction => _touchAction = .fromValue(_touchActionF.readOr(op, _touchAction.value));
-  set touchAction(TouchAction value) => _touchAction = .fromValue(_touchActionF.writeIf(op, value.value));
+  TouchAction get touchAction => _touchAction = .fromValue(field_touchAction.readOr(op, _touchAction.value));
+  set touchAction(TouchAction value) => _touchAction = .fromValue(field_touchAction.writeIf(op, value.value));
 
   int _pointCount;
   /// Point count
-  int get pointCount => _pointCount = _pointCountF.readOr(op, _pointCount);
-  set pointCount(int value) => _pointCount = _pointCountF.writeIf(op, value);
+  int get pointCount => _pointCount = field_pointCount.readOr(op, _pointCount);
+  set pointCount(int value) => _pointCount = field_pointCount.writeIf(op, value);
 
   late final StructLiveList<int, RInt> _pointId;
   /// Point Id
@@ -91,8 +91,8 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
     _touchAction = touchAction,
     _pointCount = pointCount
   {
-    _pointId = _pointIdF.live(() => op, .filled(_pointIdF.codec.type.count, 0));
-    _position = _positionF.live(() => op, .generate(_positionF.codec.type.count, (_) => .zero()));
+    _pointId = field_pointId.live(() => op, .filled(field_pointId.codec.type.count, 0));
+    _position = field_position.live(() => op, .generate(field_position.codec.type.count, (_) => .zero()));
   }
 
   factory GestureEventD.zero() => .new();
@@ -108,16 +108,16 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _touchActionF.write(p, _touchAction.value);
-    _pointCountF.write(p, _pointCount);
+    field_touchAction.write(p, _touchAction.value);
+    field_pointCount.write(p, _pointCount);
     _pointId.writeInto(p);
     _position.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _touchAction = .fromValue(_touchActionF.read(p));
-    _pointCount = _pointCountF.read(p);
+    _touchAction = .fromValue(field_touchAction.read(p));
+    _pointCount = field_pointCount.read(p);
     _pointId.readFrom(p);
     _position.readFrom(p);
   }

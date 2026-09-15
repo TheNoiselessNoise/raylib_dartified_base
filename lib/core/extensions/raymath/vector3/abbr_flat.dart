@@ -223,7 +223,7 @@ Vector3D Vector3ClampValue(
 ) => _module.Vector3ClampValue(v, min, max);
 
 /// See [RaylibVector3ExtDart.Vector3Equals].
-int Vector3Equals(
+bool Vector3Equals(
   Vector3D p,
   Vector3D q,
 ) => _module.Vector3Equals(p, q);

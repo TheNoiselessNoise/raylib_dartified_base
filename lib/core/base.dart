@@ -1,5 +1,7 @@
 part of 'raylib_dartified_base.dart';
 
+// TODO: think about if it's possible to detach `rl.Temp` from `rl`
+
 /// Supported Raylib runtime platforms.
 enum RaylibPlatform {
   /// Native Dart VM / FFI backend.

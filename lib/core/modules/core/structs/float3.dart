@@ -33,8 +33,7 @@ class float3D extends RaylibStructLiteral<float3D> {
   static StructPointer<float3D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, float3D.new, float3D.pointer);
 
-  // TODO: make all the fields public
-  static final _vF = struct.scalarArray<double, RFloat>(.v);
+  static final field_v = struct.scalarArray<double, RFloat>(.v);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -52,7 +51,7 @@ class float3D extends RaylibStructLiteral<float3D> {
     super.op,
     List<double>? v,
   }) {
-    _v = _vF.live(() => op, .filled(_vF.codec.type.count, 0));
+    _v = field_v.live(() => op, .filled(field_v.codec.type.count, 0));
   }
 
   factory float3D.zero() => .new();

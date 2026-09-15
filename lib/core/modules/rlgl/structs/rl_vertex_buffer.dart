@@ -45,17 +45,17 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlVertexBufferD.new, RlVertexBufferD.pointer);
 
-  static final _elementCountF = struct.scalar<int, RInt>(.elementCount);
-  static final _verticesF = struct.pointerScalarArray<double, RFloat>(.vertices);
-  static final _texcoordsF = struct.pointerScalarArray<double, RFloat>(.texcoords);
-  static final _normalsF = struct.pointerScalarArray<double, RFloat>(.normals);
-  static final _colorsF = struct.pointerScalarArray<int, RUnsignedChar>(.colors);
-  static final _indicesF = switch (currentRaylibPlatform) {
+  static final field_elementCount = struct.scalar<int, RInt>(.elementCount);
+  static final field_vertices = struct.pointerScalarArray<double, RFloat>(.vertices);
+  static final field_texcoords = struct.pointerScalarArray<double, RFloat>(.texcoords);
+  static final field_normals = struct.pointerScalarArray<double, RFloat>(.normals);
+  static final field_colors = struct.pointerScalarArray<int, RUnsignedChar>(.colors);
+  static final field_indices = switch (currentRaylibPlatform) {
     .native => struct.pointerScalarArray<int, RUnsignedInt>(.indices),
     .web    => struct.pointerScalarArray<int, RUnsignedShort>(.indices),
   };
-  static final _vaoIdF = struct.scalar<int, RUnsignedInt>(.vaoId);
-  static final _vboIdF = struct.scalarArray<int, RUnsignedInt>(.vboId);
+  static final field_vaoId = struct.scalar<int, RUnsignedInt>(.vaoId);
+  static final field_vboId = struct.scalarArray<int, RUnsignedInt>(.vboId);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -111,8 +111,8 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   int _elementCount;
   /// Number of elements in the buffer (QUADS)
-  int get elementCount => _elementCount = _elementCountF.readOr(op, _elementCount);
-  set elementCount(int value) => _elementCount = _elementCountF.writeIf(op, value);
+  int get elementCount => _elementCount = field_elementCount.readOr(op, _elementCount);
+  set elementCount(int value) => _elementCount = field_elementCount.writeIf(op, value);
 
   late final StructLiveList<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
@@ -141,8 +141,8 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   int _vaoId;
   /// OpenGL Vertex Array Object id
-  int get vaoId => _vaoId = _vaoIdF.readOr(op, _vaoId);
-  set vaoId(int value) => _vaoId = _vaoIdF.writeIf(op, value);
+  int get vaoId => _vaoId = field_vaoId.readOr(op, _vaoId);
+  set vaoId(int value) => _vaoId = field_vaoId.writeIf(op, value);
   
   late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (5 types of vertex data)
@@ -163,12 +163,12 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _elementCount = elementCount,
     _vaoId = vaoId
   {
-    _vertices = _verticesF.live(() => op, vertices ?? .filled(verticesCount, 0));
-    _texcoords = _texcoordsF.live(() => op, texcoords ?? .filled(texcoordsCount, 0));
-    _normals = _normalsF.live(() => op, normals ?? .filled(normalsCount, 0));
-    _colors = _colorsF.live(() => op, colors ?? .filled(colorsCount, 0));
-    _indices = _indicesF.live(() => op, indices ?? .filled(indicesCount, 0));
-    _vboId = _vboIdF.live(() => op, vboId ?? .filled(vboIdCount, 0));
+    _vertices = field_vertices.live(() => op, vertices ?? .filled(verticesCount, 0));
+    _texcoords = field_texcoords.live(() => op, texcoords ?? .filled(texcoordsCount, 0));
+    _normals = field_normals.live(() => op, normals ?? .filled(normalsCount, 0));
+    _colors = field_colors.live(() => op, colors ?? .filled(colorsCount, 0));
+    _indices = field_indices.live(() => op, indices ?? .filled(indicesCount, 0));
+    _vboId = field_vboId.live(() => op, vboId ?? .filled(vboIdCount, 0));
   }
 
   factory RlVertexBufferD.zero() => .new();
@@ -188,34 +188,34 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _verticesF.allocate(temp, p, '${key}_vertices', count: verticesCount, raw: true);
-    _texcoordsF.allocate(temp, p, '${key}_texcoords', count: texcoordsCount, raw: true);
-    _normalsF.allocate(temp, p, '${key}_normals', count: normalsCount, raw: true);
-    _colorsF.allocate(temp, p, '${key}_colors', count: colorsCount, raw: true);
-    _indicesF.allocate(temp, p, '${key}_indices', count: indicesCount, raw: true);
+    field_vertices.allocate(temp, p, '${key}_vertices', count: verticesCount, raw: true);
+    field_texcoords.allocate(temp, p, '${key}_texcoords', count: texcoordsCount, raw: true);
+    field_normals.allocate(temp, p, '${key}_normals', count: normalsCount, raw: true);
+    field_colors.allocate(temp, p, '${key}_colors', count: colorsCount, raw: true);
+    field_indices.allocate(temp, p, '${key}_indices', count: indicesCount, raw: true);
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _elementCountF.write(p, _elementCount);
+    field_elementCount.write(p, _elementCount);
     _vertices.writeInto(p);
     _texcoords.writeInto(p);
     _normals.writeInto(p);
     _colors.writeInto(p);
     _indices.writeInto(p);
-    _vaoIdF.write(p, _vaoId);
+    field_vaoId.write(p, _vaoId);
     _vboId.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _elementCount = _elementCountF.read(p);
+    _elementCount = field_elementCount.read(p);
     _vertices.readFrom(p, count: verticesCount);
     _texcoords.readFrom(p, count: texcoordsCount);
     _normals.readFrom(p, count: normalsCount);
     _colors.readFrom(p, count: colorsCount);
     _indices.readFrom(p, count: indicesCount);
-    _vaoId = _vaoIdF.read(p);
+    _vaoId = field_vaoId.read(p);
     _vboId.readFrom(p, count: vboIdCount);
   }
 

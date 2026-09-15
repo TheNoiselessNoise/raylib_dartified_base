@@ -32,9 +32,9 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
 
-  static final _idF = struct.scalar<int, RUnsignedInt>(.id);
-  static final _textureF = struct.struct(.texture, TextureD.pointer);
-  static final _depthF = struct.struct(.depth, TextureD.pointer);
+  static final field_id = struct.scalar<int, RUnsignedInt>(.id);
+  static final field_texture = struct.struct(.texture, TextureD.pointer);
+  static final field_depth = struct.struct(.depth, TextureD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,18 +46,18 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   int _id;
   /// OpenGL framebuffer object id
-  int get id => _id = _idF.readOr(op, _id);
-  set id(int value) => _id = _idF.writeIf(op, value);
+  int get id => _id = field_id.readOr(op, _id);
+  set id(int value) => _id = field_id.writeIf(op, value);
 
   TextureD _texture;
   /// Color buffer attachment texture
-  TextureD get texture => _texture = _textureF.readOr(op, _texture);
-  set texture(TextureD value) => _texture = _textureF.writeIf(op, value);
+  TextureD get texture => _texture = field_texture.readOr(op, _texture);
+  set texture(TextureD value) => _texture = field_texture.writeIf(op, value);
 
   TextureD _depth;
   /// Depth buffer attachment texture
-  TextureD get depth => _depth = _depthF.readOr(op, _depth);
-  set depth(TextureD value) => _depth = _depthF.writeIf(op, value);
+  TextureD get depth => _depth = field_depth.readOr(op, _depth);
+  set depth(TextureD value) => _depth = field_depth.writeIf(op, value);
 
   RenderTextureD({
     super.op,
@@ -81,16 +81,16 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _idF.write(p, _id);
-    _textureF.write(p, _texture);
-    _depthF.write(p, _depth);
+    field_id.write(p, _id);
+    field_texture.write(p, _texture);
+    field_depth.write(p, _depth);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _id = _idF.read(p);
-    _texture = _textureF.read(p);
-    _depth = _depthF.read(p);
+    _id = field_id.read(p);
+    _texture = field_texture.read(p);
+    _depth = field_depth.read(p);
   }
 
   @override

@@ -1,9 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Backend-agnostic contract for the Raylib Light module.
-///
-/// Concrete platform implementations mix in or extend this to provide
-/// the full API surface across different backends.
+/// Backend-agnostic Raylib Light module.
 final class RaylibLightDart<R extends RaylibBase> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
 
   final _debugLabels = _RaylibLightDartDebugLabels();

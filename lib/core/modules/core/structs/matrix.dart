@@ -37,22 +37,22 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
 
-  static final _m0F = struct.scalar<double, RFloat>(.m0);
-  static final _m4F = struct.scalar<double, RFloat>(.m4);
-  static final _m8F = struct.scalar<double, RFloat>(.m8);
-  static final _m12F = struct.scalar<double, RFloat>(.m12);
-  static final _m1F = struct.scalar<double, RFloat>(.m1);
-  static final _m5F = struct.scalar<double, RFloat>(.m5);
-  static final _m9F = struct.scalar<double, RFloat>(.m9);
-  static final _m13F = struct.scalar<double, RFloat>(.m13);
-  static final _m2F = struct.scalar<double, RFloat>(.m2);
-  static final _m6F = struct.scalar<double, RFloat>(.m6);
-  static final _m10F = struct.scalar<double, RFloat>(.m10);
-  static final _m14F = struct.scalar<double, RFloat>(.m14);
-  static final _m3F = struct.scalar<double, RFloat>(.m3);
-  static final _m7F = struct.scalar<double, RFloat>(.m7);
-  static final _m11F = struct.scalar<double, RFloat>(.m11);
-  static final _m15F = struct.scalar<double, RFloat>(.m15);
+  static final field_m0 = struct.scalar<double, RFloat>(.m0);
+  static final field_m4 = struct.scalar<double, RFloat>(.m4);
+  static final field_m8 = struct.scalar<double, RFloat>(.m8);
+  static final field_m12 = struct.scalar<double, RFloat>(.m12);
+  static final field_m1 = struct.scalar<double, RFloat>(.m1);
+  static final field_m5 = struct.scalar<double, RFloat>(.m5);
+  static final field_m9 = struct.scalar<double, RFloat>(.m9);
+  static final field_m13 = struct.scalar<double, RFloat>(.m13);
+  static final field_m2 = struct.scalar<double, RFloat>(.m2);
+  static final field_m6 = struct.scalar<double, RFloat>(.m6);
+  static final field_m10 = struct.scalar<double, RFloat>(.m10);
+  static final field_m14 = struct.scalar<double, RFloat>(.m14);
+  static final field_m3 = struct.scalar<double, RFloat>(.m3);
+  static final field_m7 = struct.scalar<double, RFloat>(.m7);
+  static final field_m11 = struct.scalar<double, RFloat>(.m11);
+  static final field_m15 = struct.scalar<double, RFloat>(.m15);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -64,83 +64,83 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   double _m0;
   /// Column 0, row 0
-  double get m0 => _m0 = _m0F.readOr(op, _m0);
-  set m0(double value) => _m0 = _m0F.writeIf(op, value);
+  double get m0 => _m0 = field_m0.readOr(op, _m0);
+  set m0(double value) => _m0 = field_m0.writeIf(op, value);
   
   double _m1;
   /// Column 0, row 1
-  double get m1 => _m1 = _m1F.readOr(op, _m1);
-  set m1(double value) => _m1 = _m1F.writeIf(op, value);
+  double get m1 => _m1 = field_m1.readOr(op, _m1);
+  set m1(double value) => _m1 = field_m1.writeIf(op, value);
   
   double _m2;
   /// Column 0, row 2
-  double get m2 => _m2 = _m2F.readOr(op, _m2);
-  set m2(double value) => _m2 = _m2F.writeIf(op, value);
+  double get m2 => _m2 = field_m2.readOr(op, _m2);
+  set m2(double value) => _m2 = field_m2.writeIf(op, value);
   
   double _m3;
   /// Column 0, row 3
-  double get m3 => _m3 = _m3F.readOr(op, _m3);
-  set m3(double value) => _m3 = _m3F.writeIf(op, value);
+  double get m3 => _m3 = field_m3.readOr(op, _m3);
+  set m3(double value) => _m3 = field_m3.writeIf(op, value);
 
   double _m4;
   /// Column 1, row 0
-  double get m4 => _m4 = _m4F.readOr(op, _m4);
-  set m4(double value) => _m4 = _m4F.writeIf(op, value);
+  double get m4 => _m4 = field_m4.readOr(op, _m4);
+  set m4(double value) => _m4 = field_m4.writeIf(op, value);
 
   double _m5;
   /// Column 1, row 1
-  double get m5 => _m5 = _m5F.readOr(op, _m5);
-  set m5(double value) => _m5 = _m5F.writeIf(op, value);
+  double get m5 => _m5 = field_m5.readOr(op, _m5);
+  set m5(double value) => _m5 = field_m5.writeIf(op, value);
 
   double _m6;
   /// Column 1, row 2
-  double get m6 => _m6 = _m6F.readOr(op, _m6);
-  set m6(double value) => _m6 = _m6F.writeIf(op, value);
+  double get m6 => _m6 = field_m6.readOr(op, _m6);
+  set m6(double value) => _m6 = field_m6.writeIf(op, value);
   
   double _m7;
   /// Column 1, row 3
-  double get m7 => _m7 = _m7F.readOr(op, _m7);
-  set m7(double value) => _m7 = _m7F.writeIf(op, value);
+  double get m7 => _m7 = field_m7.readOr(op, _m7);
+  set m7(double value) => _m7 = field_m7.writeIf(op, value);
 
   double _m8;
   /// Column 2, row 0
-  double get m8 => _m8 = _m8F.readOr(op, _m8);
-  set m8(double value) => _m8 = _m8F.writeIf(op, value);
+  double get m8 => _m8 = field_m8.readOr(op, _m8);
+  set m8(double value) => _m8 = field_m8.writeIf(op, value);
   
   double _m9;
   /// Column 2, row 1
-  double get m9 => _m9 = _m9F.readOr(op, _m9);
-  set m9(double value) => _m9 = _m9F.writeIf(op, value);
+  double get m9 => _m9 = field_m9.readOr(op, _m9);
+  set m9(double value) => _m9 = field_m9.writeIf(op, value);
   
   double _m10;
   /// Column 2, row 2
-  double get m10 => _m10 = _m10F.readOr(op, _m10);
-  set m10(double value) => _m10 = _m10F.writeIf(op, value);
+  double get m10 => _m10 = field_m10.readOr(op, _m10);
+  set m10(double value) => _m10 = field_m10.writeIf(op, value);
 
   double _m11;
   /// Column 2, row 3
-  double get m11 => _m11 = _m11F.readOr(op, _m11);
-  set m11(double value) => _m11 = _m11F.writeIf(op, value);
+  double get m11 => _m11 = field_m11.readOr(op, _m11);
+  set m11(double value) => _m11 = field_m11.writeIf(op, value);
   
   double _m12;
   /// Column 3, row 0 (translation X)
-  double get m12 => _m12 = _m12F.readOr(op, _m12);
-  set m12(double value) => _m12 = _m12F.writeIf(op, value);
+  double get m12 => _m12 = field_m12.readOr(op, _m12);
+  set m12(double value) => _m12 = field_m12.writeIf(op, value);
   
   double _m13;
   /// Column 3, row 1 (translation Y)
-  double get m13 => _m13 = _m13F.readOr(op, _m13);
-  set m13(double value) => _m13 = _m13F.writeIf(op, value);
+  double get m13 => _m13 = field_m13.readOr(op, _m13);
+  set m13(double value) => _m13 = field_m13.writeIf(op, value);
   
   double _m14;
   /// Column 3, row 2 (translation Z)
-  double get m14 => _m14 = _m14F.readOr(op, _m14);
-  set m14(double value) => _m14 = _m14F.writeIf(op, value);
+  double get m14 => _m14 = field_m14.readOr(op, _m14);
+  set m14(double value) => _m14 = field_m14.writeIf(op, value);
   
   double _m15;
   /// Column 3, row 3
-  double get m15 => _m15 = _m15F.readOr(op, _m15);
-  set m15(double value) => _m15 = _m15F.writeIf(op, value);
+  double get m15 => _m15 = field_m15.readOr(op, _m15);
+  set m15(double value) => _m15 = field_m15.writeIf(op, value);
 
   MatrixD({
     super.op,
@@ -194,48 +194,48 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _m0F.write(p, _m0);
-    _m4F.write(p, _m4);
-    _m8F.write(p, _m8);
-    _m12F.write(p, _m12);
+    field_m0.write(p, _m0);
+    field_m4.write(p, _m4);
+    field_m8.write(p, _m8);
+    field_m12.write(p, _m12);
 
-    _m1F.write(p, _m1);
-    _m5F.write(p, _m5);
-    _m9F.write(p, _m9);
-    _m13F.write(p, _m13);
+    field_m1.write(p, _m1);
+    field_m5.write(p, _m5);
+    field_m9.write(p, _m9);
+    field_m13.write(p, _m13);
 
-    _m2F.write(p, _m2);
-    _m6F.write(p, _m6);
-    _m10F.write(p, _m10);
-    _m14F.write(p, _m14);
+    field_m2.write(p, _m2);
+    field_m6.write(p, _m6);
+    field_m10.write(p, _m10);
+    field_m14.write(p, _m14);
 
-    _m3F.write(p, _m3);
-    _m7F.write(p, _m7);
-    _m11F.write(p, _m11);
-    _m15F.write(p, _m15);
+    field_m3.write(p, _m3);
+    field_m7.write(p, _m7);
+    field_m11.write(p, _m11);
+    field_m15.write(p, _m15);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _m0 = _m0F.read(p);
-    _m4 = _m4F.read(p);
-    _m8 = _m8F.read(p);
-    _m12 = _m12F.read(p);
+    _m0 = field_m0.read(p);
+    _m4 = field_m4.read(p);
+    _m8 = field_m8.read(p);
+    _m12 = field_m12.read(p);
 
-    _m1 = _m1F.read(p);
-    _m5 = _m5F.read(p);
-    _m9 = _m9F.read(p);
-    _m13 = _m13F.read(p);
+    _m1 = field_m1.read(p);
+    _m5 = field_m5.read(p);
+    _m9 = field_m9.read(p);
+    _m13 = field_m13.read(p);
 
-    _m2 = _m2F.read(p);
-    _m6 = _m6F.read(p);
-    _m10 = _m10F.read(p);
-    _m14 = _m14F.read(p);
+    _m2 = field_m2.read(p);
+    _m6 = field_m6.read(p);
+    _m10 = field_m10.read(p);
+    _m14 = field_m14.read(p);
 
-    _m3 = _m3F.read(p);
-    _m7 = _m7F.read(p);
-    _m11 = _m11F.read(p);
-    _m15 = _m15F.read(p);
+    _m3 = field_m3.read(p);
+    _m7 = field_m7.read(p);
+    _m11 = field_m11.read(p);
+    _m15 = field_m15.read(p);
   }
 
   @override

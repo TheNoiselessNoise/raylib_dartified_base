@@ -170,7 +170,7 @@ Vector2D Vector2ClampValue(
 ) => _module.Vector2ClampValue(v, min, max);
 
 /// See [RaylibVector2ExtDart.Vector2Equals].
-int Vector2Equals(
+bool Vector2Equals(
   Vector2D p,
   Vector2D q,
 ) => _module.Vector2Equals(p, q);

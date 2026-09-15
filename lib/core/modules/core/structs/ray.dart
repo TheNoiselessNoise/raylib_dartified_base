@@ -30,8 +30,8 @@ class RayD extends RaylibStructLiteral<RayD> {
   static StructPointer<RayD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RayD.new, RayD.pointer);
 
-  static final _positionF = struct.struct(.position, Vector3D.pointer);
-  static final _directionF = struct.struct(.direction, Vector3D.pointer);
+  static final field_position = struct.struct(.position, Vector3D.pointer);
+  static final field_direction = struct.struct(.direction, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -43,13 +43,13 @@ class RayD extends RaylibStructLiteral<RayD> {
 
   Vector3D _position;
   /// Ray position (origin)
-  Vector3D get position => _position = _positionF.readOr(op, _position);
-  set position(Vector3D value) => _position = _positionF.writeIf(op, value);
+  Vector3D get position => _position = field_position.readOr(op, _position);
+  set position(Vector3D value) => _position = field_position.writeIf(op, value);
 
   Vector3D _direction;
   /// Ray direction (normalized)
-  Vector3D get direction => _direction = _directionF.readOr(op, _direction);
-  set direction(Vector3D value) => _direction = _directionF.writeIf(op, value);
+  Vector3D get direction => _direction = field_direction.readOr(op, _direction);
+  set direction(Vector3D value) => _direction = field_direction.writeIf(op, value);
 
   RayD({
     super.op,
@@ -70,14 +70,14 @@ class RayD extends RaylibStructLiteral<RayD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _positionF.write(p, _position);
-    _directionF.write(p, _direction);
+    field_position.write(p, _position);
+    field_direction.write(p, _direction);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _position = _positionF.read(p);
-    _direction = _directionF.read(p);
+    _position = field_position.read(p);
+    _direction = field_direction.read(p);
   }
 
   @override

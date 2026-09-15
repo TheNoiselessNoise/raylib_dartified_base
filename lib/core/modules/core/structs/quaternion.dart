@@ -39,10 +39,10 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, QuaternionD.new, QuaternionD.pointer);
 
-  static final _xF = struct.scalar<double, RFloat>(.x);
-  static final _yF = struct.scalar<double, RFloat>(.y);
-  static final _zF = struct.scalar<double, RFloat>(.z);
-  static final _wF = struct.scalar<double, RFloat>(.w);
+  static final field_x = struct.scalar<double, RFloat>(.x);
+  static final field_y = struct.scalar<double, RFloat>(.y);
+  static final field_z = struct.scalar<double, RFloat>(.z);
+  static final field_w = struct.scalar<double, RFloat>(.w);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -54,23 +54,23 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   double _x;
   /// Imaginary i component
-  double get x => _x = _xF.readOr(op, _x);
-  set x(double value) => _x = _xF.writeIf(op, value);
+  double get x => _x = field_x.readOr(op, _x);
+  set x(double value) => _x = field_x.writeIf(op, value);
 
   double _y;
   /// Imaginary j component
-  double get y => _y = _yF.readOr(op, _y);
-  set y(double value) => _y = _yF.writeIf(op, value);
+  double get y => _y = field_y.readOr(op, _y);
+  set y(double value) => _y = field_y.writeIf(op, value);
 
   double _z;
   /// Imaginary k component
-  double get z => _z = _zF.readOr(op, _z);
-  set z(double value) => _z = _zF.writeIf(op, value);
+  double get z => _z = field_z.readOr(op, _z);
+  set z(double value) => _z = field_z.writeIf(op, value);
 
   double _w;
   /// Real (scalar) component
-  double get w => _w = _wF.readOr(op, _w);
-  set w(double value) => _w = _wF.writeIf(op, value);
+  double get w => _w = field_w.readOr(op, _w);
+  set w(double value) => _w = field_w.writeIf(op, value);
 
   QuaternionD({
     super.op,
@@ -103,18 +103,18 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _xF.write(p, _x);
-    _yF.write(p, _y);
-    _zF.write(p, _z);
-    _wF.write(p, _w);
+    field_x.write(p, _x);
+    field_y.write(p, _y);
+    field_z.write(p, _z);
+    field_w.write(p, _w);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _x = _xF.read(p);
-    _y = _yF.read(p);
-    _z = _zF.read(p);
-    _w = _wF.read(p);
+    _x = field_x.read(p);
+    _y = field_y.read(p);
+    _z = field_z.read(p);
+    _w = field_w.read(p);
   }
 
   @override

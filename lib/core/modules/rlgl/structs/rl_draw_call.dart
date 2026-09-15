@@ -34,10 +34,10 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   static StructPointer<RlDrawCallD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RlDrawCallD.new, RlDrawCallD.pointer);
 
-  static final _modeF = struct.enumValue(.mode, RlDrawMode.fromValue);
-  static final _vertexCountF = struct.scalar<int, RInt>(.vertexCount);
-  static final _vertexAlignmentF = struct.scalar<int, RInt>(.vertexAlignment);
-  static final _textureIdF = struct.scalar<int, RUnsignedInt>(.textureId);
+  static final field_mode = struct.enumValue(.mode, RlDrawMode.fromValue);
+  static final field_vertexCount = struct.scalar<int, RInt>(.vertexCount);
+  static final field_vertexAlignment = struct.scalar<int, RInt>(.vertexAlignment);
+  static final field_textureId = struct.scalar<int, RUnsignedInt>(.textureId);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -49,23 +49,23 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
   RlDrawMode _mode;
   /// Drawing mode: LINES, TRIANGLES, QUADS
-  RlDrawMode get mode => _mode = _modeF.readOr(op, _mode);
-  set mode(RlDrawMode value) => _mode = _modeF.writeIf(op, value);
+  RlDrawMode get mode => _mode = field_mode.readOr(op, _mode);
+  set mode(RlDrawMode value) => _mode = field_mode.writeIf(op, value);
 
   int _vertexCount;
   /// Number of vertex of the draw
-  int get vertexCount => _vertexCount = _vertexCountF.readOr(op, _vertexCount);
-  set vertexCount(int value) => _vertexCount = _vertexCountF.writeIf(op, value);
+  int get vertexCount => _vertexCount = field_vertexCount.readOr(op, _vertexCount);
+  set vertexCount(int value) => _vertexCount = field_vertexCount.writeIf(op, value);
 
   int _vertexAlignment;
   /// Number of vertex required for index alignment (LINES, TRIANGLES)
-  int get vertexAlignment => _vertexAlignment = _vertexAlignmentF.readOr(op, _vertexAlignment);
-  set vertexAlignment(int value) => _vertexAlignment = _vertexAlignmentF.writeIf(op, value);
+  int get vertexAlignment => _vertexAlignment = field_vertexAlignment.readOr(op, _vertexAlignment);
+  set vertexAlignment(int value) => _vertexAlignment = field_vertexAlignment.writeIf(op, value);
 
   int _textureId;
   /// Texture id to be used on the draw -> Use to create new draw call if changes
-  int get textureId => _textureId = _textureIdF.readOr(op, _textureId);
-  set textureId(int value) => _textureId = _textureIdF.writeIf(op, value);
+  int get textureId => _textureId = field_textureId.readOr(op, _textureId);
+  set textureId(int value) => _textureId = field_textureId.writeIf(op, value);
   
   RlDrawCallD({
     super.op,
@@ -92,18 +92,18 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _modeF.write(p, _mode);
-    _vertexCountF.write(p, _vertexCount);
-    _vertexAlignmentF.write(p, _vertexAlignment);
-    _textureIdF.write(p, _textureId);
+    field_mode.write(p, _mode);
+    field_vertexCount.write(p, _vertexCount);
+    field_vertexAlignment.write(p, _vertexAlignment);
+    field_textureId.write(p, _textureId);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _mode = _modeF.read(p);
-    _vertexCount = _vertexCountF.read(p);
-    _vertexAlignment = _vertexAlignmentF.read(p);
-    _textureId = _textureIdF.read(p);
+    _mode = field_mode.read(p);
+    _vertexCount = field_vertexCount.read(p);
+    _vertexAlignment = field_vertexAlignment.read(p);
+    _textureId = field_textureId.read(p);
   }
 
   @override

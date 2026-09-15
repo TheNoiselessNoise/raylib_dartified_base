@@ -152,7 +152,7 @@ abstract class RaylibQuaternionFlatExt<R extends RaylibBase> extends RaylibModul
   );
 
   /// Check whether two given quaternions are almost equal
-  int QuaternionEquals(
+  bool QuaternionEquals(
     QuaternionD p,
     QuaternionD q,
   );

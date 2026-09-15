@@ -1,10 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-// TODO: change the doc-comments for module_dart/module_flat classes and extension_dart/extension_dart as well
-/// Backend-agnostic contract for the Raygui module.
-///
-/// Concrete platform implementations mix in or extend this to provide
-/// the full API surface across different backends.
+/// Backend-agnostic Raygui module.
 final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with RaylibGuiModuleExtras<R> {
 
   final _debugLabels = _RaylibGuiDartDebugLabels();

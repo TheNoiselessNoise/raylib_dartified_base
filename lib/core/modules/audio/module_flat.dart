@@ -332,7 +332,7 @@ abstract class RaylibAudioFlatModule<R extends RaylibBase> extends RaylibModule<
     double pitch,
   );
   
-  /// Set pan for audio stream (0.5 is centered)
+  /// Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)
   void SetAudioStreamPan(
     AudioStreamD stream,
     double pan,

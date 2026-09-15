@@ -140,7 +140,7 @@ QuaternionD QuaternionTransform(
 ) => _module.QuaternionTransform(q, mat);
 
 /// See [RaylibQuaternionFlatExt.QuaternionEquals].
-int QuaternionEquals(
+bool QuaternionEquals(
   QuaternionD p,
   QuaternionD q,
 ) => _module.QuaternionEquals(p, q);

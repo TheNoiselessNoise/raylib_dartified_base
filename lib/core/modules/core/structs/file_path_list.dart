@@ -30,8 +30,8 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, FilePathListD.new, FilePathListD.pointer);
 
-  static final _countF = struct.scalar<int, RUnsignedInt>(.count);
-  // NOTE: no direct QoL field for `paths`
+  static final field_count = struct.scalar<int, RUnsignedInt>(.count);
+  static final field_paths = struct.pointerAny<RPointer<RChar>>(.paths);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -42,7 +42,7 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   // ░███████   ░██████████ ░██        
 
   /// Filepaths entries count
-  int get count => _countF.read(getOp());
+  int get count => field_count.read(getOp());
 
   /// Filepaths entries
   List<String> get paths => getOp()

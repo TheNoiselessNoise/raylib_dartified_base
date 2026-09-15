@@ -36,11 +36,11 @@ class MusicD extends RaylibStruct<MusicD> {
   static StructPointer<MusicD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
 
-  static final _streamF = struct.struct(.stream, AudioStreamD.pointer);
-  static final _frameCountF = struct.scalar<int, RUnsignedInt>(.frameCount);
-  static final _loopingF = struct.scalar<bool, RBool>(.looping);
-  static final _ctxTypeF = struct.enumValue(.ctxType, MusicContextType.fromValue);
-  static final _ctxDataF = struct.pointerUnknown<RVoid>(.ctxData);
+  static final field_stream = struct.struct(.stream, AudioStreamD.pointer);
+  static final field_frameCount = struct.scalar<int, RUnsignedInt>(.frameCount);
+  static final field_looping = struct.scalar<bool, RBool>(.looping);
+  static final field_ctxType = struct.enumValue(.ctxType, MusicContextType.fromValue);
+  static final field_ctxData = struct.pointerUnknown<RVoid>(.ctxData);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -52,28 +52,28 @@ class MusicD extends RaylibStruct<MusicD> {
 
   AudioStreamD _stream;
   /// Audio stream
-  AudioStreamD get stream => _stream = _streamF.readOr(op, _stream);
-  set stream(AudioStreamD value) => _stream = _streamF.writeIf(op, value);
+  AudioStreamD get stream => _stream = field_stream.readOr(op, _stream);
+  set stream(AudioStreamD value) => _stream = field_stream.writeIf(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
-  int get frameCount => _frameCount = _frameCountF.readOr(op, _frameCount);
-  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op, value);
+  int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
+  set frameCount(int value) => _frameCount = field_frameCount.writeIf(op, value);
 
   bool _looping;
   /// Music looping enable
-  bool get looping => _looping = _loopingF.readOr(op, _looping);
-  set looping(bool value) => _looping = _loopingF.writeIf(op, value);
+  bool get looping => _looping = field_looping.readOr(op, _looping);
+  set looping(bool value) => _looping = field_looping.writeIf(op, value);
 
   MusicContextType _ctxType;
   /// Type of music context (audio filetype)
-  MusicContextType get ctxType => _ctxType = _ctxTypeF.readOr(op, _ctxType);
-  set ctxType(MusicContextType value) => _ctxType = _ctxTypeF.writeIf(op, value);
+  MusicContextType get ctxType => _ctxType = field_ctxType.readOr(op, _ctxType);
+  set ctxType(MusicContextType value) => _ctxType = field_ctxType.writeIf(op, value);
 
   /// Audio context data, depends on type
   /// 
   /// `void *ctxData;`
-  late final LivePointerSync<RVoid> _ctxData = _ctxDataF.live(() => op);
+  late final LivePointerSync<RVoid> _ctxData = field_ctxData.live(() => op);
   MemoryPointer<RVoid> get ctxData => _ctxData.derefPtr();
 
   MusicD({
@@ -96,24 +96,24 @@ class MusicD extends RaylibStruct<MusicD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _ctxDataF.allocate(temp, p, '${key}_ctxData');
+    field_ctxData.allocate(temp, p, '${key}_ctxData');
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _streamF.write(p, _stream);
-    _frameCountF.write(p, _frameCount);
-    _loopingF.write(p, _looping);
-    _ctxTypeF.write(p, _ctxType);
+    field_stream.write(p, _stream);
+    field_frameCount.write(p, _frameCount);
+    field_looping.write(p, _looping);
+    field_ctxType.write(p, _ctxType);
     _ctxData.syncInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _stream = _streamF.read(p);
-    _frameCount = _frameCountF.read(p);
-    _looping = _loopingF.read(p);
-    _ctxType = _ctxTypeF.read(p);
+    _stream = field_stream.read(p);
+    _frameCount = field_frameCount.read(p);
+    _looping = field_looping.read(p);
+    _ctxType = field_ctxType.read(p);
     _ctxData.syncFrom(p);
   }
 

@@ -36,11 +36,11 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
 
-  static final _bufferF = struct.pointerUnknown<ROpaque>(.buffer);
-  static final _processorF = struct.pointerUnknown<ROpaque>(.processor);
-  static final _sampleRateF = struct.scalar<int, RUnsignedInt>(.sampleRate);
-  static final _sampleSizeF = struct.scalar<int, RUnsignedInt>(.sampleSize);
-  static final _channelsF = struct.scalar<int, RUnsignedInt>(.channels);
+  static final field_buffer = struct.pointerUnknown<ROpaque>(.buffer);
+  static final field_processor = struct.pointerUnknown<ROpaque>(.processor);
+  static final field_sampleRate = struct.scalar<int, RUnsignedInt>(.sampleRate);
+  static final field_sampleSize = struct.scalar<int, RUnsignedInt>(.sampleSize);
+  static final field_channels = struct.scalar<int, RUnsignedInt>(.channels);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -53,29 +53,29 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   /// Pointer to internal data used by the audio system
   /// 
   /// `rAudioBuffer *buffer;`
-  late final LivePointerSync<ROpaque> _buffer = _bufferF.live(() => op);
+  late final LivePointerSync<ROpaque> _buffer = field_buffer.live(() => op);
   MemoryPointer<ROpaque> get buffer => _buffer.derefPtr();
 
   /// Pointer to internal data processor, useful for audio effects
   /// 
   /// `rAudioProcessor *processor;`
-  late final LivePointerSync<ROpaque> _processor = _processorF.live(() => op);
+  late final LivePointerSync<ROpaque> _processor = field_processor.live(() => op);
   MemoryPointer<ROpaque> get processor => _processor.derefPtr();
 
   int _sampleRate;
   /// Frequency (samples per second)
-  int get sampleRate => _sampleRate = _sampleRateF.readOr(op, _sampleRate);
-  set sampleRate(int value) => _sampleRate = _sampleRateF.writeIf(op, value);
+  int get sampleRate => _sampleRate = field_sampleRate.readOr(op, _sampleRate);
+  set sampleRate(int value) => _sampleRate = field_sampleRate.writeIf(op, value);
 
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-  int get sampleSize => _sampleSize = _sampleSizeF.readOr(op, _sampleSize);
-  set sampleSize(int value) => _sampleSize = _sampleSizeF.writeIf(op, value);
+  int get sampleSize => _sampleSize = field_sampleSize.readOr(op, _sampleSize);
+  set sampleSize(int value) => _sampleSize = field_sampleSize.writeIf(op, value);
 
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
-  int get channels => _channels = _channelsF.readOr(op, _channels);
-  set channels(int value) => _channels = _channelsF.writeIf(op, value);
+  int get channels => _channels = field_channels.readOr(op, _channels);
+  set channels(int value) => _channels = field_channels.writeIf(op, value);
 
   AudioStreamD({
     super.op,
@@ -95,26 +95,26 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _bufferF.allocate(temp, p, '${key}_buffer');
-    _processorF.allocate(temp, p, '${key}_processor');
+    field_buffer.allocate(temp, p, '${key}_buffer');
+    field_processor.allocate(temp, p, '${key}_processor');
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
     _buffer.syncInto(p);
     _processor.syncInto(p);
-    _sampleRateF.write(p, _sampleRate);
-    _sampleSizeF.write(p, _sampleSize);
-    _channelsF.write(p, _channels);
+    field_sampleRate.write(p, _sampleRate);
+    field_sampleSize.write(p, _sampleSize);
+    field_channels.write(p, _channels);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
     _buffer.syncFrom(p);
     _processor.syncFrom(p);
-    _sampleRate = _sampleRateF.read(p);
-    _sampleSize = _sampleSizeF.read(p);
-    _channels = _channelsF.read(p);
+    _sampleRate = field_sampleRate.read(p);
+    _sampleSize = field_sampleSize.read(p);
+    _channels = field_channels.read(p);
   }
 
   @override

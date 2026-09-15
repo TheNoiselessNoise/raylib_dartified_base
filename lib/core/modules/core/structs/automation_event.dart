@@ -32,9 +32,9 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventD.new, AutomationEventD.pointer);
 
-  static final _frameF = struct.scalar<int, RUnsignedInt>(.frame);
-  static final _typeF = struct.enumValue(.type, AutomationEventType.fromValue);
-  static final _paramsF = struct.scalarArray<int, RInt>(.params);
+  static final field_frame = struct.scalar<int, RUnsignedInt>(.frame);
+  static final field_type = struct.enumValue(.type, AutomationEventType.fromValue);
+  static final field_params = struct.scalarArray<int, RInt>(.params);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -60,13 +60,13 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   int _frame;
   /// Event frame
-  int get frame => _frame = _frameF.readOr(op, _frame);
-  set frame(int value) => _frame = _frameF.writeIf(op, value);
+  int get frame => _frame = field_frame.readOr(op, _frame);
+  set frame(int value) => _frame = field_frame.writeIf(op, value);
 
   AutomationEventType _type;
   /// Event type
-  AutomationEventType get type => _type = _typeF.readOr(op, _type);
-  set type(AutomationEventType value) => _type = _typeF.writeIf(op, value);
+  AutomationEventType get type => _type = field_type.readOr(op, _type);
+  set type(AutomationEventType value) => _type = field_type.writeIf(op, value);
 
   late final StructLiveList<int, RInt> _params;
   /// Event parameters (if required)
@@ -82,9 +82,9 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
     _frame = frame,
     _type = type
   {
-    _params = _paramsF.live(
+    _params = field_params.live(
       () => op,
-      .filled(_paramsF.codec.type.count, 0),
+      .filled(field_params.codec.type.count, 0),
     );
   }
 
@@ -100,15 +100,15 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _frameF.write(p, _frame);
-    _typeF.write(p, _type);
+    field_frame.write(p, _frame);
+    field_type.write(p, _type);
     _params.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _frame = _frameF.read(p);
-    _type = _typeF.read(p);
+    _frame = field_frame.read(p);
+    _type = field_type.read(p);
     _params.readFrom(p);
   }
 

@@ -36,11 +36,11 @@ class WaveD extends RaylibStruct<WaveD> {
   static StructPointer<WaveD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, WaveD.new, WaveD.pointer);
 
-  static final _frameCountF = struct.scalar<int, RUnsignedInt>(.frameCount);
-  static final _sampleRateF = struct.scalar<int, RUnsignedInt>(.sampleRate);
-  static final _sampleSizeF = struct.scalar<int, RUnsignedInt>(.sampleSize);
-  static final _channelsF = struct.scalar<int, RUnsignedInt>(.channels);
-  static final _dataF = struct.pointerUnknown<RVoid>(.data);
+  static final field_frameCount = struct.scalar<int, RUnsignedInt>(.frameCount);
+  static final field_sampleRate = struct.scalar<int, RUnsignedInt>(.sampleRate);
+  static final field_sampleSize = struct.scalar<int, RUnsignedInt>(.sampleSize);
+  static final field_channels = struct.scalar<int, RUnsignedInt>(.channels);
+  static final field_data = struct.pointerUnknown<RVoid>(.data);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -108,28 +108,28 @@ class WaveD extends RaylibStruct<WaveD> {
 
   int _frameCount;
   /// Total number of frames (considering channels)
-  int get frameCount => _frameCount = _frameCountF.readOr(op, _frameCount);
-  set frameCount(int value) => _frameCount = _frameCountF.writeIf(op, value);
+  int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
+  set frameCount(int value) => _frameCount = field_frameCount.writeIf(op, value);
   
   int _sampleRate;
   /// Frequency (samples per second)
-  int get sampleRate => _sampleRate = _sampleRateF.readOr(op, _sampleRate);
-  set sampleRate(int value) => _sampleRate = _sampleRateF.writeIf(op, value);
+  int get sampleRate => _sampleRate = field_sampleRate.readOr(op, _sampleRate);
+  set sampleRate(int value) => _sampleRate = field_sampleRate.writeIf(op, value);
 
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-  int get sampleSize => _sampleSize = _sampleSizeF.readOr(op, _sampleSize);
-  set sampleSize(int value) => _sampleSize = _sampleSizeF.writeIf(op, value);
+  int get sampleSize => _sampleSize = field_sampleSize.readOr(op, _sampleSize);
+  set sampleSize(int value) => _sampleSize = field_sampleSize.writeIf(op, value);
 
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
-  int get channels => _channels = _channelsF.readOr(op, _channels);
-  set channels(int value) => _channels = _channelsF.writeIf(op, value);
+  int get channels => _channels = field_channels.readOr(op, _channels);
+  set channels(int value) => _channels = field_channels.writeIf(op, value);
 
   /// Buffer data pointer
   /// 
   /// `void *data;`
-  late final LivePointerSync<RVoid> _data = _dataF.live(() => op);
+  late final LivePointerSync<RVoid> _data = field_data.live(() => op);
   MemoryPointer<RVoid> get data => _data.derefPtr();
 
   late ByteBuffer _dataBuffer;
@@ -174,15 +174,15 @@ class WaveD extends RaylibStruct<WaveD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _dataF.allocate(temp, p, '${key}_data', count: _dataBuffer.lengthInBytes);
+    field_data.allocate(temp, p, '${key}_data', count: _dataBuffer.lengthInBytes);
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _frameCountF.write(p, _frameCount);
-    _sampleRateF.write(p, _sampleRate);
-    _sampleSizeF.write(p, _sampleSize);
-    _channelsF.write(p, _channels);
+    field_frameCount.write(p, _frameCount);
+    field_sampleRate.write(p, _sampleRate);
+    field_sampleSize.write(p, _sampleSize);
+    field_channels.write(p, _channels);
     _data.syncInto(p);
 
     if (!data.isNull && _isNew) {
@@ -194,10 +194,10 @@ class WaveD extends RaylibStruct<WaveD> {
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _frameCount = _frameCountF.read(p);
-    _sampleRate = _sampleRateF.read(p);
-    _sampleSize = _sampleSizeF.read(p);
-    _channels = _channelsF.read(p);
+    _frameCount = field_frameCount.read(p);
+    _sampleRate = field_sampleRate.read(p);
+    _sampleSize = field_sampleSize.read(p);
+    _channels = field_channels.read(p);
     _data.syncFrom(p);
     // NOTE: no need to sync `dataBuffer` here, it's already live
   }

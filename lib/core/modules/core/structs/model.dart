@@ -48,15 +48,15 @@ class ModelD extends RaylibStruct<ModelD> {
   static StructPointer<ModelD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelD.new, ModelD.pointer);
 
-  static final _transformF = struct.struct(.transform, MatrixD.pointer);
-  static final _meshCountF = struct.scalar<int, RInt>(.meshCount);
-  static final _materialCountF = struct.scalar<int, RInt>(.materialCount);
-  static final _meshesF = struct.pointerStructArray(.meshes, MeshD.pointer);
-  static final _materialsF = struct.pointerStructArray(.materials, MaterialD.pointer);
-  static final _meshMaterialF = struct.pointerScalarArray<int, RInt>(.meshMaterial);
-  static final _skeletonF = struct.struct(.skeleton, ModelSkeletonD.pointer);
-  static final _currentPoseF = struct.pointerStructArray(.currentPose, TransformD.pointer);
-  static final _boneMatricesF = struct.pointerStructArray(.boneMatrices, MatrixD.pointer);
+  static final field_transform = struct.struct(.transform, MatrixD.pointer);
+  static final field_meshCount = struct.scalar<int, RInt>(.meshCount);
+  static final field_materialCount = struct.scalar<int, RInt>(.materialCount);
+  static final field_meshes = struct.pointerStructArray(.meshes, MeshD.pointer);
+  static final field_materials = struct.pointerStructArray(.materials, MaterialD.pointer);
+  static final field_meshMaterial = struct.pointerScalarArray<int, RInt>(.meshMaterial);
+  static final field_skeleton = struct.struct(.skeleton, ModelSkeletonD.pointer);
+  static final field_currentPose = struct.pointerStructArray(.currentPose, TransformD.pointer);
+  static final field_boneMatrices = struct.pointerStructArray(.boneMatrices, MatrixD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -68,18 +68,18 @@ class ModelD extends RaylibStruct<ModelD> {
 
   MatrixD _transform;
   /// Local transform matrix
-  MatrixD get transform => _transform = _transformF.readOr(op, _transform);
-  set transform(MatrixD value) => _transform = _transformF.writeIf(op, value);
+  MatrixD get transform => _transform = field_transform.readOr(op, _transform);
+  set transform(MatrixD value) => _transform = field_transform.writeIf(op, value);
   
   int _meshCount;
   /// Number of meshes
-  int get meshCount => _meshCount = _meshCountF.readOr(op, _meshCount);
-  set meshCount(int value) => _meshCount = _meshCountF.writeIf(op, value);
+  int get meshCount => _meshCount = field_meshCount.readOr(op, _meshCount);
+  set meshCount(int value) => _meshCount = field_meshCount.writeIf(op, value);
 
   int _materialCount;
   /// Number of materials
-  int get materialCount => _materialCount = _materialCountF.readOr(op, _materialCount);
-  set materialCount(int value) => _materialCount = _materialCountF.writeIf(op, value);
+  int get materialCount => _materialCount = field_materialCount.readOr(op, _materialCount);
+  set materialCount(int value) => _materialCount = field_materialCount.writeIf(op, value);
 
   late final StructLiveListStruct<MeshD> _meshes;
   /// Meshes array
@@ -98,8 +98,8 @@ class ModelD extends RaylibStruct<ModelD> {
 
   ModelSkeletonD _skeleton;
   /// Skeleton for animation
-  ModelSkeletonD get skeleton => _skeleton = _skeletonF.readOr(op, _skeleton);
-  set skeleton(ModelSkeletonD value) => _skeleton = _skeletonF.writeIf(op, value);
+  ModelSkeletonD get skeleton => _skeleton = field_skeleton.readOr(op, _skeleton);
+  set skeleton(ModelSkeletonD value) => _skeleton = field_skeleton.writeIf(op, value);
 
   late final StructLiveListStruct<TransformD> _currentPose;
   /// Current animation pose (Transform[])
@@ -126,11 +126,11 @@ class ModelD extends RaylibStruct<ModelD> {
     _materialCount = materials?.length ?? 0,
     _skeleton = skeleton ?? .new()
   {
-    _meshes = _meshesF.live(() => op, meshes ?? []);
-    _materials = _materialsF.live(() => op, materials ?? []);
-    _meshMaterial = _meshMaterialF.live(() => op, meshMaterial ?? []);
-    _currentPose = _currentPoseF.live(() => op, currentPose ?? []);
-    _boneMatrices = _boneMatricesF.live(() => op, boneMatrices ?? []);
+    _meshes = field_meshes.live(() => op, meshes ?? []);
+    _materials = field_materials.live(() => op, materials ?? []);
+    _meshMaterial = field_meshMaterial.live(() => op, meshMaterial ?? []);
+    _currentPose = field_currentPose.live(() => op, currentPose ?? []);
+    _boneMatrices = field_boneMatrices.live(() => op, boneMatrices ?? []);
   }
 
   factory ModelD.zero() => .new();
@@ -148,35 +148,35 @@ class ModelD extends RaylibStruct<ModelD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _meshesF.allocate(temp, p, '${key}_meshes', count: meshCount);
-    _materialsF.allocate(temp, p, '${key}_materials', count: materialCount);
-    _meshMaterialF.allocate(temp, p, '${key}_meshMaterial', count: materialCount);
-    _currentPoseF.allocate(temp, p, '${key}_currentPose', count: skeleton.boneCount);
-    _boneMatricesF.allocate(temp, p, '${key}_boneMatrices', count: skeleton.boneCount);
+    field_meshes.allocate(temp, p, '${key}_meshes', count: meshCount);
+    field_materials.allocate(temp, p, '${key}_materials', count: materialCount);
+    field_meshMaterial.allocate(temp, p, '${key}_meshMaterial', count: materialCount);
+    field_currentPose.allocate(temp, p, '${key}_currentPose', count: skeleton.boneCount);
+    field_boneMatrices.allocate(temp, p, '${key}_boneMatrices', count: skeleton.boneCount);
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _transformF.write(p, _transform);
-    _meshCountF.write(p, _meshCount);
-    _materialCountF.write(p, _materialCount);
+    field_transform.write(p, _transform);
+    field_meshCount.write(p, _meshCount);
+    field_materialCount.write(p, _materialCount);
     _meshes.writeInto(p);
     _materials.writeInto(p);
     _meshMaterial.writeInto(p);
-    _skeletonF.write(p, _skeleton);
+    field_skeleton.write(p, _skeleton);
     _currentPose.writeInto(p);
     _boneMatrices.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _transform = _transformF.read(p);
-    _meshCount = _meshCountF.read(p);
-    _materialCount = _materialCountF.read(p);
+    _transform = field_transform.read(p);
+    _meshCount = field_meshCount.read(p);
+    _materialCount = field_materialCount.read(p);
     _meshes.readFrom(p, count: meshCount);
     _materials.readFrom(p, count: materialCount);
     _meshMaterial.readFrom(p, count: materialCount);
-    _skeleton = _skeletonF.read(p);
+    _skeleton = field_skeleton.read(p);
     _currentPose.readFrom(p, count: skeleton.boneCount);
     _boneMatrices.readFrom(p, count: skeleton.boneCount);
   }

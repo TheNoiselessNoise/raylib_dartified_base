@@ -30,8 +30,8 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, BoundingBoxD.new, BoundingBoxD.pointer);
 
-  static final _minF = struct.struct(.min, Vector3D.pointer);
-  static final _maxF = struct.struct(.max, Vector3D.pointer);
+  static final field_min = struct.struct(.min, Vector3D.pointer);
+  static final field_max = struct.struct(.max, Vector3D.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -43,13 +43,13 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
 
   Vector3D _min;
   /// Minimum vertex box-corner
-  Vector3D get min => _min = _minF.readOr(op, _min);
-  set min(Vector3D value) => _min = _minF.writeIf(op, value);
+  Vector3D get min => _min = field_min.readOr(op, _min);
+  set min(Vector3D value) => _min = field_min.writeIf(op, value);
 
   Vector3D _max;
   /// Maximum vertex box-corner
-  Vector3D get max => _max = _maxF.readOr(op, _max);
-  set max(Vector3D value) => _max = _maxF.writeIf(op, value);
+  Vector3D get max => _max = field_max.readOr(op, _max);
+  set max(Vector3D value) => _max = field_max.writeIf(op, value);
 
   BoundingBoxD({
     super.op,
@@ -78,14 +78,14 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _minF.write(p, _min);
-    _maxF.write(p, _max);
+    field_min.write(p, _min);
+    field_max.write(p, _max);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _min = _minF.read(p);
-    _max = _maxF.read(p);
+    _min = field_min.read(p);
+    _max = field_max.read(p);
   }
   
   @override

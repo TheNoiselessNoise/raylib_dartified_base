@@ -36,11 +36,11 @@ class ImageD extends RaylibStruct<ImageD> {
   static StructPointer<ImageD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ImageD.new, ImageD.pointer);
 
-  static final _dataF = struct.pointerUnknown<RVoid>(.data);
-  static final _widthF = struct.scalar<int, RInt>(.width);
-  static final _heightF = struct.scalar<int, RInt>(.height);
-  static final _mipmapsF = struct.scalar<int, RInt>(.mipmaps);
-  static final _formatF = struct.enumValue(.format, PixelFormat.fromValue);
+  static final field_data = struct.pointerUnknown<RVoid>(.data);
+  static final field_width = struct.scalar<int, RInt>(.width);
+  static final field_height = struct.scalar<int, RInt>(.height);
+  static final field_mipmaps = struct.scalar<int, RInt>(.mipmaps);
+  static final field_format = struct.enumValue(.format, PixelFormat.fromValue);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -114,7 +114,7 @@ class ImageD extends RaylibStruct<ImageD> {
   // ░███████   ░██████████ ░██        
   
   Uint8List? _initialData;
-  late final LivePointerSync<RVoid> _data = _dataF.live(() => op);
+  late final LivePointerSync<RVoid> _data = field_data.live(() => op);
   /// Image raw data
   ///
   /// For single-frame images this is exactly `frameSize` bytes.
@@ -125,28 +125,28 @@ class ImageD extends RaylibStruct<ImageD> {
 
   int _width;
   /// Image base width
-  int get width => _width = _widthF.readOr(op, _width);
-  set width(int value) => _width = _widthF.writeIf(op, value);
+  int get width => _width = field_width.readOr(op, _width);
+  set width(int value) => _width = field_width.writeIf(op, value);
 
   int _height;
   /// Image base height
-  int get height => _height = _heightF.readOr(op, _height);
-  set height(int value) => _height = _heightF.writeIf(op, value);
+  int get height => _height = field_height.readOr(op, _height);
+  set height(int value) => _height = field_height.writeIf(op, value);
 
   int _mipmaps;
   /// Mipmap levels, 1 by default
   /// 
   /// 1 means no mipmaps (base image only).
-  int get mipmaps => _mipmaps = _mipmapsF.readOr(op, _mipmaps);
-  set mipmaps(int value) => _mipmaps = _mipmapsF.writeIf(op, value);
+  int get mipmaps => _mipmaps = field_mipmaps.readOr(op, _mipmaps);
+  set mipmaps(int value) => _mipmaps = field_mipmaps.writeIf(op, value);
 
   PixelFormat _format;
   /// Data format (PixelFormat type)
   ///
   /// Must be set to a value other than [PixelFormat.PIXELFORMAT_NONE] before
   /// accessing [bytesPerPixel], [frameSize], or [dataLength].
-  PixelFormat get format => _format = _formatF.readOr(op, _format);
-  set format(PixelFormat value) => _format = _formatF.writeIf(op, value);
+  PixelFormat get format => _format = field_format.readOr(op, _format);
+  set format(PixelFormat value) => _format = field_format.writeIf(op, value);
 
   /// Number of frames in the image.
   ///
@@ -183,7 +183,7 @@ class ImageD extends RaylibStruct<ImageD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _dataF.allocate(temp, p, '${key}_data', count: _initialData?.length ?? dataLength, raw: true);
+    field_data.allocate(temp, p, '${key}_data', count: _initialData?.length ?? dataLength, raw: true);
 
     if (_initialData != null) {
       _data.derefPtr<RUint8>().writeArray(_initialData!);
@@ -194,19 +194,19 @@ class ImageD extends RaylibStruct<ImageD> {
   @override
   void structWriteInto(MemoryPointer p) {
     _data.syncInto(p);
-    _widthF.write(p, _width);
-    _heightF.write(p, _height);
-    _mipmapsF.write(p, _mipmaps);
-    _formatF.write(p, _format);
+    field_width.write(p, _width);
+    field_height.write(p, _height);
+    field_mipmaps.write(p, _mipmaps);
+    field_format.write(p, _format);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
     _data.syncFrom(p);
-    _width = _widthF.read(p);
-    _height = _heightF.read(p);
-    _mipmaps = _mipmapsF.read(p);
-    _format = _formatF.read(p);
+    _width = field_width.read(p);
+    _height = field_height.read(p);
+    _mipmaps = field_mipmaps.read(p);
+    _format = field_format.read(p);
   }
 
   @override

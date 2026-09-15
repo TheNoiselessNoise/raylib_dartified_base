@@ -38,12 +38,12 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   static StructPointer<NPatchInfoD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, NPatchInfoD.new, NPatchInfoD.pointer);
 
-  static final _sourceF = struct.struct(.source, RectangleD.pointer);
-  static final _leftF = struct.scalar<int, RInt>(.left);
-  static final _topF = struct.scalar<int, RInt>(.top);
-  static final _rightF = struct.scalar<int, RInt>(.right);
-  static final _bottomF = struct.scalar<int, RInt>(.bottom);
-  static final _layoutF = struct.enumValue(.layout, NPatchLayout.fromValue);
+  static final field_source = struct.struct(.source, RectangleD.pointer);
+  static final field_left = struct.scalar<int, RInt>(.left);
+  static final field_top = struct.scalar<int, RInt>(.top);
+  static final field_right = struct.scalar<int, RInt>(.right);
+  static final field_bottom = struct.scalar<int, RInt>(.bottom);
+  static final field_layout = struct.enumValue(.layout, NPatchLayout.fromValue);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -55,33 +55,33 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   RectangleD _source;
   /// Texture source rectangle
-  RectangleD get source => _source = _sourceF.readOr(op, _source);
-  set source(RectangleD value) => _source = _sourceF.writeIf(op, value);
+  RectangleD get source => _source = field_source.readOr(op, _source);
+  set source(RectangleD value) => _source = field_source.writeIf(op, value);
 
   int _left;
   /// Left border offset
-  int get left => _left = _leftF.readOr(op, _left);
-  set left(int value) => _left = _leftF.writeIf(op, value);
+  int get left => _left = field_left.readOr(op, _left);
+  set left(int value) => _left = field_left.writeIf(op, value);
 
   int _top;
   /// Top border offset
-  int get top => _top = _topF.readOr(op, _top);
-  set top(int value) => _top = _topF.writeIf(op, value);
+  int get top => _top = field_top.readOr(op, _top);
+  set top(int value) => _top = field_top.writeIf(op, value);
 
   int _right;
   /// Right border offset
-  int get right => _right = _rightF.readOr(op, _right);
-  set right(int value) => _right = _rightF.writeIf(op, value);
+  int get right => _right = field_right.readOr(op, _right);
+  set right(int value) => _right = field_right.writeIf(op, value);
 
   int _bottom;
   /// Bottom border offset
-  int get bottom => _bottom = _bottomF.readOr(op, _bottom);
-  set bottom(int value) => _bottom = _bottomF.writeIf(op, value);
+  int get bottom => _bottom = field_bottom.readOr(op, _bottom);
+  set bottom(int value) => _bottom = field_bottom.writeIf(op, value);
 
   NPatchLayout _layout;
   /// Layout of the n-patch: 3x3, 1x3 or 3x1
-  NPatchLayout get layout => _layout = _layoutF.readOr(op, _layout);
-  set layout(NPatchLayout value) => _layout = _layoutF.writeIf(op, value);
+  NPatchLayout get layout => _layout = field_layout.readOr(op, _layout);
+  set layout(NPatchLayout value) => _layout = field_layout.writeIf(op, value);
 
   NPatchInfoD({
     super.op,
@@ -114,22 +114,22 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _sourceF.write(p, _source);
-    _leftF.write(p, _left);
-    _topF.write(p, _top);
-    _rightF.write(p, _right);
-    _bottomF.write(p, _bottom);
-    _layoutF.write(p, _layout);
+    field_source.write(p, _source);
+    field_left.write(p, _left);
+    field_top.write(p, _top);
+    field_right.write(p, _right);
+    field_bottom.write(p, _bottom);
+    field_layout.write(p, _layout);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _source = _sourceF.read(p);
-    _left = _leftF.read(p);
-    _top = _topF.read(p);
-    _right = _rightF.read(p);
-    _bottom = _bottomF.read(p);
-    _layout = _layoutF.read(p);
+    _source = field_source.read(p);
+    _left = field_left.read(p);
+    _top = field_top.read(p);
+    _right = field_right.read(p);
+    _bottom = field_bottom.read(p);
+    _layout = field_layout.read(p);
   }
 
   @override

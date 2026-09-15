@@ -34,7 +34,7 @@ A platform implementation must provide:
 See [raylib_dartified](https://github.com/TheNoiselessNoise/raylib_dartified) (FFI) and [raylib_dartified_web](https://github.com/TheNoiselessNoise/raylib_dartified_web) (WASM) for
 reference implementations.
 
-## External module revisions
+## Module revisions
 
 Some modules are sourced from external projects rather than the official
 raylib repository. The following table records the exact upstream revision
@@ -42,7 +42,8 @@ used for each package version.
 
 | Package | Module | Upstream | Revision |
 |---|---|---|---|
-| 6.0 | Gui | [raygui](https://github.com/raysan5/raygui) | `30e303400781d3ef6e81f01e1b95cdf3b19386df` |
+| 6.0.0 | * | [raylib](https://github.com/raysan5/raylib) | `dbc56a87da87d973a9c5baa4e7438a9d20121d28` |
+| 6.0.0 | Gui | [raygui](https://github.com/raysan5/raygui) | `30e303400781d3ef6e81f01e1b95cdf3b19386df` |
 
 ## License
 

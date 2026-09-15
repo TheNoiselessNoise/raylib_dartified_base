@@ -1,9 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Backend-agnostic contract for the Raylib MsfGif module.
-///
-/// Concrete platform implementations mix in or extend this to provide
-/// the full API surface across different backends.
+/// Backend-agnostic MsfGif module.
 final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
 
   final _debugLabels = _RaylibMsfGifDartDebugLabels();

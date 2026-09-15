@@ -34,10 +34,10 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
 
-  static final _nameF = struct.stringAsCharArray(.name);
-  static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
-  static final _keyframeCountF = struct.scalar<int, RInt>(.keyframeCount);
-  static final _keyframePosesF = struct.pointerPointerStructArray(.keyframePoses, TransformD.pointer);
+  static final field_name = struct.stringAsCharArray(.name);
+  static final field_boneCount = struct.scalar<int, RInt>(.boneCount);
+  static final field_keyframeCount = struct.scalar<int, RInt>(.keyframeCount);
+  static final field_keyframePoses = struct.pointerPointerStructArray(.keyframePoses, TransformD.pointer);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -62,15 +62,15 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   // ░███████   ░██████████ ░██        
 
   /// Animation name
-  String get name => _nameF.readOr(op, '');
+  String get name => field_name.readOr(op, '');
 
   /// Number of bones (per pose)
-  int get boneCount => _boneCountF.readOr(op, 0);
+  int get boneCount => field_boneCount.readOr(op, 0);
 
   /// Number of animation key frames
-  int get keyframeCount => _keyframeCountF.readOr(op, 0);
+  int get keyframeCount => field_keyframeCount.readOr(op, 0);
 
-  StructLiveListStructNested<TransformD> get keyframePoses => _keyframePosesF.liveNested(() => op, []);
+  StructLiveListStructNested<TransformD> get keyframePoses => field_keyframePoses.liveNested(() => op, []);
 
   ModelAnimationD({ super.op });
 

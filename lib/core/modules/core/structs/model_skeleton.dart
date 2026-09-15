@@ -32,9 +32,9 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ModelSkeletonD.new, ModelSkeletonD.pointer);
 
-  static final _boneCountF = struct.scalar<int, RInt>(.boneCount);
-  static final _bonesF = struct.pointerStructArray(.bones, BoneInfoD.pointer);
-  static final _bindPoseF = struct.pointerStructArray(.bindPose, TransformD.pointer);
+  static final field_boneCount = struct.scalar<int, RInt>(.boneCount);
+  static final field_bones = struct.pointerStructArray(.bones, BoneInfoD.pointer);
+  static final field_bindPose = struct.pointerStructArray(.bindPose, TransformD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,8 +46,8 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   int _boneCount;
   /// Number of bones
-  int get boneCount => _boneCount = _boneCountF.readOr(op, _boneCount);
-  set boneCount(int value) => _boneCount = _boneCountF.writeIf(op, value);
+  int get boneCount => _boneCount = field_boneCount.readOr(op, _boneCount);
+  set boneCount(int value) => _boneCount = field_boneCount.writeIf(op, value);
 
   late final StructLiveListStruct<BoneInfoD> _bones;
   /// Bones information (skeleton)
@@ -65,8 +65,8 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
     List<BoneInfoD>? bones,
     List<TransformD>? bindPose,
   }) : _boneCount = boneCount ?? bones?.length ?? 0 {
-    _bones = _bonesF.live(() => op, bones ?? []);
-    _bindPose = _bindPoseF.live(() => op, bindPose ?? []);
+    _bones = field_bones.live(() => op, bones ?? []);
+    _bindPose = field_bindPose.live(() => op, bindPose ?? []);
   }
 
   factory ModelSkeletonD.zero() => .new();
@@ -81,20 +81,20 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _bonesF.allocate(temp, p, '${key}_bones', count: boneCount);
-    _bindPoseF.allocate(temp, p, '${key}_bindPose', count: boneCount);
+    field_bones.allocate(temp, p, '${key}_bones', count: boneCount);
+    field_bindPose.allocate(temp, p, '${key}_bindPose', count: boneCount);
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _boneCountF.write(p, _boneCount);
+    field_boneCount.write(p, _boneCount);
     _bones.writeInto(p);
     _bindPose.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _boneCount = _boneCountF.read(p);
+    _boneCount = field_boneCount.read(p);
     _bones.readFrom(p, count: boneCount);
     _bindPose.readFrom(p, count: boneCount);
   }

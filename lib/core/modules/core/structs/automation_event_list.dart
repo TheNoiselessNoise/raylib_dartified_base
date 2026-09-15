@@ -32,9 +32,9 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   static StructPointer<AutomationEventListD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, AutomationEventListD.new, AutomationEventListD.pointer);
 
-  static final _capacityF = struct.scalar<int, RUnsignedInt>(.capacity);
-  static final _countF = struct.scalar<int, RUnsignedInt>(.count);
-  static final _eventsF = struct.pointerStructArray(.events, AutomationEventD.pointer);
+  static final field_capacity = struct.scalar<int, RUnsignedInt>(.capacity);
+  static final field_count = struct.scalar<int, RUnsignedInt>(.count);
+  static final field_events = struct.pointerStructArray(.events, AutomationEventD.pointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -45,13 +45,13 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   // ░███████   ░██████████ ░██        
 
   /// Events max entries (MAX_AUTOMATION_EVENTS)
-  int get capacity => _capacityF.read(getOp());
+  int get capacity => field_capacity.read(getOp());
   
   /// Events entries count
-  int get count => _countF.read(getOp());
+  int get count => field_count.read(getOp());
 
   /// Events entries
-  List<AutomationEventD> get events => _eventsF.readCount(getOp(), count);
+  List<AutomationEventD> get events => field_events.readCount(getOp(), count);
 
   AutomationEventListD({ super.op });
 

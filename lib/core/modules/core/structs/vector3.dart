@@ -35,9 +35,9 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Vector3D.new, Vector3D.pointer);
 
-  static final _xF = struct.scalar<double, RFloat>(.x);
-  static final _yF = struct.scalar<double, RFloat>(.y);
-  static final _zF = struct.scalar<double, RFloat>(.z);
+  static final field_x = struct.scalar<double, RFloat>(.x);
+  static final field_y = struct.scalar<double, RFloat>(.y);
+  static final field_z = struct.scalar<double, RFloat>(.z);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -49,18 +49,18 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   
   double _x;
   /// Vector x component
-  double get x => _x = _xF.readOr(op, _x);
-  set x(double value) => _x = _xF.writeIf(op, value);
+  double get x => _x = field_x.readOr(op, _x);
+  set x(double value) => _x = field_x.writeIf(op, value);
 
   double _y;
   /// Vector y component
-  double get y => _y = _yF.readOr(op, _y);
-  set y(double value) => _y = _yF.writeIf(op, value);
+  double get y => _y = field_y.readOr(op, _y);
+  set y(double value) => _y = field_y.writeIf(op, value);
 
   double _z;
   /// Vector z component
-  double get z => _z = _zF.readOr(op, _z);
-  set z(double value) => _z = _zF.writeIf(op, value);
+  double get z => _z = field_z.readOr(op, _z);
+  set z(double value) => _z = field_z.writeIf(op, value);
   
   Vector3D({
     super.op,
@@ -91,16 +91,16 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _xF.write(p, _x);
-    _yF.write(p, _y);
-    _zF.write(p, _z);
+    field_x.write(p, _x);
+    field_y.write(p, _y);
+    field_z.write(p, _z);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _x = _xF.read(p);
-    _y = _yF.read(p);
-    _z = _zF.read(p);
+    _x = field_x.read(p);
+    _y = field_y.read(p);
+    _z = field_z.read(p);
   }
 
   @override

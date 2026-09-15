@@ -52,19 +52,19 @@ class LightD extends RaylibStruct<LightD> {
   static StructPointer<LightD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, LightD.new, LightD.pointer);
 
-  static final _typeF = struct.scalar<int, RInt>(.type);
-  static final _enabledF = struct.scalar<bool, RBool>(.enabled);
-  static final _positionF = struct.struct(.position, Vector3D.pointer);
-  static final _targetF = struct.struct(.target, Vector3D.pointer);
-  static final _colorF = struct.struct(.color, ColorD.pointer);
-  static final _attenuationF = struct.scalar<double, RFloat>(.attenuation);
+  static final field_type = struct.scalar<int, RInt>(.type);
+  static final field_enabled = struct.scalar<bool, RBool>(.enabled);
+  static final field_position = struct.struct(.position, Vector3D.pointer);
+  static final field_target = struct.struct(.target, Vector3D.pointer);
+  static final field_color = struct.struct(.color, ColorD.pointer);
+  static final field_attenuation = struct.scalar<double, RFloat>(.attenuation);
   
-  static final _enabledLocF = struct.scalar<int, RInt>(.enabledLoc);
-  static final _typeLocF = struct.scalar<int, RInt>(.typeLoc);
-  static final _positionLocF = struct.scalar<int, RInt>(.positionLoc);
-  static final _targetLocF = struct.scalar<int, RInt>(.targetLoc);
-  static final _colorLocF = struct.scalar<int, RInt>(.colorLoc);
-  static final _attenuationLocF = struct.scalar<int, RInt>(.attenuationLoc);
+  static final field_enabledLoc = struct.scalar<int, RInt>(.enabledLoc);
+  static final field_typeLoc = struct.scalar<int, RInt>(.typeLoc);
+  static final field_positionLoc = struct.scalar<int, RInt>(.positionLoc);
+  static final field_targetLoc = struct.scalar<int, RInt>(.targetLoc);
+  static final field_colorLoc = struct.scalar<int, RInt>(.colorLoc);
+  static final field_attenuationLoc = struct.scalar<int, RInt>(.attenuationLoc);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -76,63 +76,63 @@ class LightD extends RaylibStruct<LightD> {
 
   LightType _type;
   /// Light type (directional or point)
-  LightType get type => _type = .fromValue(_typeF.readOr(op, _type.value));
-  set type(LightType value) => _type = .fromValue(_typeF.writeIf(op, value.value));
+  LightType get type => _type = .fromValue(field_type.readOr(op, _type.value));
+  set type(LightType value) => _type = .fromValue(field_type.writeIf(op, value.value));
 
   bool _enabled;
   /// Whether the light is currently active
-  bool get enabled => _enabled = _enabledF.readOr(op, _enabled);
-  set enabled(bool value) => _enabled = _enabledF.writeIf(op, value);
+  bool get enabled => _enabled = field_enabled.readOr(op, _enabled);
+  set enabled(bool value) => _enabled = field_enabled.writeIf(op, value);
   
   Vector3D _position;
   /// Light position in world space
-  Vector3D get position => _position = _positionF.readOr(op, _position);
-  set position(Vector3D value) => _position = _positionF.writeIf(op, value);
+  Vector3D get position => _position = field_position.readOr(op, _position);
+  set position(Vector3D value) => _position = field_position.writeIf(op, value);
   
   Vector3D _target;
   /// Light target direction (used for directional lights)
-  Vector3D get target => _target = _targetF.readOr(op, _target);
-  set target(Vector3D value) => _target = _targetF.writeIf(op, value);
+  Vector3D get target => _target = field_target.readOr(op, _target);
+  set target(Vector3D value) => _target = field_target.writeIf(op, value);
   
   ColorD _color;
   /// Light color
-  ColorD get color => _color = _colorF.readOr(op, _color);
-  set color(ColorD value) => _color = _colorF.writeIf(op, value);
+  ColorD get color => _color = field_color.readOr(op, _color);
+  set color(ColorD value) => _color = field_color.writeIf(op, value);
   
   double _attenuation;
   /// Light attenuation factor (falloff over distance)
-  double get attenuation => _attenuation = _attenuationF.readOr(op, _attenuation);
-  set attenuation(double value) => _attenuation = _attenuationF.writeIf(op, value);
+  double get attenuation => _attenuation = field_attenuation.readOr(op, _attenuation);
+  set attenuation(double value) => _attenuation = field_attenuation.writeIf(op, value);
 
   int _enabledLoc;
   /// Shader location for [enabled]
-  int get enabledLoc => _enabledLoc = _enabledLocF.readOr(op, _enabledLoc);
-  set enabledLoc(int value) => _enabledLoc = _enabledLocF.writeIf(op, value);
+  int get enabledLoc => _enabledLoc = field_enabledLoc.readOr(op, _enabledLoc);
+  set enabledLoc(int value) => _enabledLoc = field_enabledLoc.writeIf(op, value);
   
   int _typeLoc;
   /// Shader location for [type]
-  int get typeLoc => _typeLoc = _typeLocF.readOr(op, _typeLoc);
-  set typeLoc(int value) => _typeLoc = _typeLocF.writeIf(op, value);
+  int get typeLoc => _typeLoc = field_typeLoc.readOr(op, _typeLoc);
+  set typeLoc(int value) => _typeLoc = field_typeLoc.writeIf(op, value);
   
   int _positionLoc;
   /// Shader location for [position]
-  int get positionLoc => _positionLoc = _positionLocF.readOr(op, _positionLoc);
-  set positionLoc(int value) => _positionLoc = _positionLocF.writeIf(op, value);
+  int get positionLoc => _positionLoc = field_positionLoc.readOr(op, _positionLoc);
+  set positionLoc(int value) => _positionLoc = field_positionLoc.writeIf(op, value);
   
   int _targetLoc;
   /// Shader location for [target]
-  int get targetLoc => _targetLoc = _targetLocF.readOr(op, _targetLoc);
-  set targetLoc(int value) => _targetLoc = _targetLocF.writeIf(op, value);
+  int get targetLoc => _targetLoc = field_targetLoc.readOr(op, _targetLoc);
+  set targetLoc(int value) => _targetLoc = field_targetLoc.writeIf(op, value);
   
   int _colorLoc;
   /// Shader location for [color]
-  int get colorLoc => _colorLoc = _colorLocF.readOr(op, _colorLoc);
-  set colorLoc(int value) => _colorLoc = _colorLocF.writeIf(op, value);
+  int get colorLoc => _colorLoc = field_colorLoc.readOr(op, _colorLoc);
+  set colorLoc(int value) => _colorLoc = field_colorLoc.writeIf(op, value);
   
   int _attenuationLoc;
   /// Shader location for [attenuation]
-  int get attenuationLoc => _attenuationLoc = _attenuationLocF.readOr(op, _attenuationLoc);
-  set attenuationLoc(int value) => _attenuationLoc = _attenuationLocF.writeIf(op, value);
+  int get attenuationLoc => _attenuationLoc = field_attenuationLoc.readOr(op, _attenuationLoc);
+  set attenuationLoc(int value) => _attenuationLoc = field_attenuationLoc.writeIf(op, value);
 
   LightD({
     super.op,
@@ -183,34 +183,34 @@ class LightD extends RaylibStruct<LightD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _typeF.write(p, _type.value);
-    _enabledF.write(p, _enabled);
-    _positionF.write(p, _position);
-    _targetF.write(p, _target);
-    _colorF.write(p, _color);
-    _attenuationF.write(p, _attenuation);
-    _enabledLocF.write(p, _enabledLoc);
-    _typeLocF.write(p, _typeLoc);
-    _positionLocF.write(p, _positionLoc);
-    _targetLocF.write(p, _targetLoc);
-    _colorLocF.write(p, _colorLoc);
-    _attenuationLocF.write(p, _attenuationLoc);
+    field_type.write(p, _type.value);
+    field_enabled.write(p, _enabled);
+    field_position.write(p, _position);
+    field_target.write(p, _target);
+    field_color.write(p, _color);
+    field_attenuation.write(p, _attenuation);
+    field_enabledLoc.write(p, _enabledLoc);
+    field_typeLoc.write(p, _typeLoc);
+    field_positionLoc.write(p, _positionLoc);
+    field_targetLoc.write(p, _targetLoc);
+    field_colorLoc.write(p, _colorLoc);
+    field_attenuationLoc.write(p, _attenuationLoc);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _type = .fromValue(_typeF.read(p));
-    _enabled = _enabledF.read(p);
-    _position = _positionF.read(p);
-    _target = _targetF.read(p);
-    _color = _colorF.read(p);
-    _attenuation = _attenuationF.read(p);
-    _enabledLoc = _enabledLocF.read(p);
-    _typeLoc = _typeLocF.read(p);
-    _positionLoc = _positionLocF.read(p);
-    _targetLoc = _targetLocF.read(p);
-    _colorLoc = _colorLocF.read(p);
-    _attenuationLoc = _attenuationLocF.read(p);
+    _type = .fromValue(field_type.read(p));
+    _enabled = field_enabled.read(p);
+    _position = field_position.read(p);
+    _target = field_target.read(p);
+    _color = field_color.read(p);
+    _attenuation = field_attenuation.read(p);
+    _enabledLoc = field_enabledLoc.read(p);
+    _typeLoc = field_typeLoc.read(p);
+    _positionLoc = field_positionLoc.read(p);
+    _targetLoc = field_targetLoc.read(p);
+    _colorLoc = field_colorLoc.read(p);
+    _attenuationLoc = field_attenuationLoc.read(p);
   }
 
   @override

@@ -42,14 +42,14 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, VrStereoConfigD.new, VrStereoConfigD.pointer);
 
-  static final _projectionF = struct.structArray(.projection, MatrixD.pointer);
-  static final _viewOffsetF = struct.structArray(.viewOffset, MatrixD.pointer);
-  static final _leftLensCenterF = struct.scalarArray<double, RFloat>(.leftLensCenter);
-  static final _rightLensCenterF = struct.scalarArray<double, RFloat>(.rightLensCenter);
-  static final _leftScreenCenterF = struct.scalarArray<double, RFloat>(.leftScreenCenter);
-  static final _rightScreenCenterF = struct.scalarArray<double, RFloat>(.rightScreenCenter);
-  static final _scaleF = struct.scalarArray<double, RFloat>(.scale);
-  static final _scaleInF = struct.scalarArray<double, RFloat>(.scaleIn);
+  static final field_projection = struct.structArray(.projection, MatrixD.pointer);
+  static final field_viewOffset = struct.structArray(.viewOffset, MatrixD.pointer);
+  static final field_leftLensCenter = struct.scalarArray<double, RFloat>(.leftLensCenter);
+  static final field_rightLensCenter = struct.scalarArray<double, RFloat>(.rightLensCenter);
+  static final field_leftScreenCenter = struct.scalarArray<double, RFloat>(.leftScreenCenter);
+  static final field_rightScreenCenter = struct.scalarArray<double, RFloat>(.rightScreenCenter);
+  static final field_scale = struct.scalarArray<double, RFloat>(.scale);
+  static final field_scaleIn = struct.scalarArray<double, RFloat>(.scaleIn);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -124,14 +124,14 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     List<double>? scale,
     List<double>? scaleIn,
   }) {
-    _projection = _projectionF.live(() => op, projection ?? .generate(_projectionF.codec.type.count, (_) => .zero()));
-    _viewOffset = _viewOffsetF.live(() => op, viewOffset ?? .generate(_viewOffsetF.codec.type.count, (_) => .zero()));
-    _leftLensCenter = _leftLensCenterF.live(() => op, leftLensCenter ?? .filled(_leftLensCenterF.codec.type.count, 0));
-    _rightLensCenter = _rightLensCenterF.live(() => op, rightLensCenter ?? .filled(_rightLensCenterF.codec.type.count, 0));
-    _leftScreenCenter = _leftScreenCenterF.live(() => op, leftScreenCenter ?? .filled(_leftScreenCenterF.codec.type.count, 0));
-    _rightScreenCenter = _rightScreenCenterF.live(() => op, rightScreenCenter ?? .filled(_rightScreenCenterF.codec.type.count, 0));
-    _scale = _scaleF.live(() => op, scale ?? .filled(_scaleF.codec.type.count, 0));
-    _scaleIn = _scaleInF.live(() => op, scaleIn ?? .filled(_scaleInF.codec.type.count, 0));
+    _projection = field_projection.live(() => op, projection ?? .generate(field_projection.codec.type.count, (_) => .zero()));
+    _viewOffset = field_viewOffset.live(() => op, viewOffset ?? .generate(field_viewOffset.codec.type.count, (_) => .zero()));
+    _leftLensCenter = field_leftLensCenter.live(() => op, leftLensCenter ?? .filled(field_leftLensCenter.codec.type.count, 0));
+    _rightLensCenter = field_rightLensCenter.live(() => op, rightLensCenter ?? .filled(field_rightLensCenter.codec.type.count, 0));
+    _leftScreenCenter = field_leftScreenCenter.live(() => op, leftScreenCenter ?? .filled(field_leftScreenCenter.codec.type.count, 0));
+    _rightScreenCenter = field_rightScreenCenter.live(() => op, rightScreenCenter ?? .filled(field_rightScreenCenter.codec.type.count, 0));
+    _scale = field_scale.live(() => op, scale ?? .filled(field_scale.codec.type.count, 0));
+    _scaleIn = field_scaleIn.live(() => op, scaleIn ?? .filled(field_scaleIn.codec.type.count, 0));
   }
 
   factory VrStereoConfigD.zero() => .new();

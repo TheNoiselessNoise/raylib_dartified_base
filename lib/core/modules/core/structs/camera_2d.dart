@@ -34,10 +34,10 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, Camera2DD.new, Camera2DD.pointer);
 
-  static final _offsetF = struct.struct(.offset, Vector2D.pointer);
-  static final _targetF = struct.struct(.target, Vector2D.pointer);
-  static final _rotationF = struct.scalar<double, RFloat>(.rotation);
-  static final _zoomF = struct.scalar<double, RFloat>(.zoom);
+  static final field_offset = struct.struct(.offset, Vector2D.pointer);
+  static final field_target = struct.struct(.target, Vector2D.pointer);
+  static final field_rotation = struct.scalar<double, RFloat>(.rotation);
+  static final field_zoom = struct.scalar<double, RFloat>(.zoom);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -49,23 +49,23 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   
   Vector2D _offset;
   /// Camera offset (screen space offset from window origin)
-  Vector2D get offset => _offset = _offsetF.readOr(op, _offset);
-  set offset(Vector2D value) => _offset = _offsetF.writeIf(op, value);
+  Vector2D get offset => _offset = field_offset.readOr(op, _offset);
+  set offset(Vector2D value) => _offset = field_offset.writeIf(op, value);
   
   Vector2D _target;
   /// Camera target (world space target point that is mapped to screen space offset)
-  Vector2D get target => _target = _targetF.readOr(op, _target);
-  set target(Vector2D value) => _target = _targetF.writeIf(op, value);
+  Vector2D get target => _target = field_target.readOr(op, _target);
+  set target(Vector2D value) => _target = field_target.writeIf(op, value);
 
   double _rotation;
   /// Camera rotation in degrees (pivots around target)
-  double get rotation => _rotation = _rotationF.readOr(op, _rotation);
-  set rotation(double value) => _rotation = _rotationF.writeIf(op, value);
+  double get rotation => _rotation = field_rotation.readOr(op, _rotation);
+  set rotation(double value) => _rotation = field_rotation.writeIf(op, value);
 
   double _zoom;
   /// Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
-  double get zoom => _zoom = _zoomF.readOr(op, _zoom);
-  set zoom(double value) => _zoom = _zoomF.writeIf(op, value);
+  double get zoom => _zoom = field_zoom.readOr(op, _zoom);
+  set zoom(double value) => _zoom = field_zoom.writeIf(op, value);
 
   Camera2DD({
     super.op,
@@ -92,18 +92,18 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _offsetF.write(p, _offset);
-    _targetF.write(p, _target);
-    _rotationF.write(p, _rotation);
-    _zoomF.write(p, _zoom);
+    field_offset.write(p, _offset);
+    field_target.write(p, _target);
+    field_rotation.write(p, _rotation);
+    field_zoom.write(p, _zoom);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _offset = _offsetF.read(p);
-    _target = _targetF.read(p);
-    _rotation = _rotationF.read(p);
-    _zoom = _zoomF.read(p);
+    _offset = field_offset.read(p);
+    _target = field_target.read(p);
+    _rotation = field_rotation.read(p);
+    _zoom = field_zoom.read(p);
   }
   
   @override

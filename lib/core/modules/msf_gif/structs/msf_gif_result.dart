@@ -34,10 +34,10 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MsfGifResultD.new, MsfGifResultD.pointer);
 
-  static final _dataF = struct.pointerUnknown<RVoid>(.data);
-  static final _dataSizeF = struct.scalar<int, RSize>(.dataSize);
-  static final _allocSizeF = struct.scalar<int, RSize>(.allocSize);
-  static final _contextPointerF = struct.pointerUnknown<RVoid>(.contextPointer);
+  static final field_data = struct.pointerUnknown<RVoid>(.data);
+  static final field_dataSize = struct.scalar<int, RSize>(.dataSize);
+  static final field_allocSize = struct.scalar<int, RSize>(.allocSize);
+  static final field_contextPointer = struct.pointerUnknown<RVoid>(.contextPointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -47,15 +47,15 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  late final LivePointerSync<RVoid> _data = _dataF.live(() => op);
+  late final LivePointerSync<RVoid> _data = field_data.live(() => op);
   MemoryPointer<RVoid> get data => _data.derefPtr();
   Uint8List get dataView => data.asView(dataSize);
 
-  int get dataSize => _dataSizeF.read(getOp());
+  int get dataSize => field_dataSize.read(getOp());
 
-  int get allocSize => _allocSizeF.read(getOp());
+  int get allocSize => field_allocSize.read(getOp());
 
-  late final LivePointerSync<RVoid> _contextPointer = _contextPointerF.live(() => op);
+  late final LivePointerSync<RVoid> _contextPointer = field_contextPointer.live(() => op);
   MemoryPointer<RVoid> get contextPointer => _contextPointer.derefPtr();
 
   MsfGifResultD({ super.op });

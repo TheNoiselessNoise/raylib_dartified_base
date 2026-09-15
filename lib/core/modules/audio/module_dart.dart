@@ -1,9 +1,6 @@
 part of '../../raylib_dartified_base.dart';
 
-/// Backend-agnostic contract for the Raylib Audio module.
-///
-/// Concrete platform implementations mix in or extend this to provide
-/// the full API surface across different backends.
+/// Backend-agnostic Raylib Audio module.
 final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   final _debugLabels = _RaylibAudioDartDebugLabels();
@@ -632,7 +629,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
     ),
   );
 
-  /// Set pan for audio stream (0.5 is centered)
+  /// Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)
   void SetAudioStreamPan(
     AudioStreamD stream,
     double pan,

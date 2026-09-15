@@ -34,10 +34,10 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   static StructPointer<ColorD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, ColorD.new, ColorD.pointer);
 
-  static final _rF = struct.scalar<int, RUnsignedChar>(.r);
-  static final _gF = struct.scalar<int, RUnsignedChar>(.g);
-  static final _bF = struct.scalar<int, RUnsignedChar>(.b);
-  static final _aF = struct.scalar<int, RUnsignedChar>(.a);
+  static final field_r = struct.scalar<int, RUnsignedChar>(.r);
+  static final field_g = struct.scalar<int, RUnsignedChar>(.g);
+  static final field_b = struct.scalar<int, RUnsignedChar>(.b);
+  static final field_a = struct.scalar<int, RUnsignedChar>(.a);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -51,29 +51,29 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   /// Color red value
   ///
   /// Expected range: 0-255
-  int get r => _r = _rF.readOr(op, _r);
-  set r(int value) => _r = _rF.writeIf(op, value);
+  int get r => _r = field_r.readOr(op, _r);
+  set r(int value) => _r = field_r.writeIf(op, value);
   
   int _g;
   /// Color green value
   ///
   /// Expected range: 0-255
-  int get g => _g = _gF.readOr(op, _g);
-  set g(int value) => _g = _gF.writeIf(op, value);
+  int get g => _g = field_g.readOr(op, _g);
+  set g(int value) => _g = field_g.writeIf(op, value);
   
   int _b;
   /// Color blue value
   ///
   /// Expected range: 0-255
-  int get b => _b = _bF.readOr(op, _b);
-  set b(int value) => _b = _bF.writeIf(op, value);
+  int get b => _b = field_b.readOr(op, _b);
+  set b(int value) => _b = field_b.writeIf(op, value);
   
   int _a;
   /// Color alpha value
   ///
   /// Expected range: 0-255
-  int get a => _a = _aF.readOr(op, _a);
-  set a(int value) => _a = _aF.writeIf(op, value);
+  int get a => _a = field_a.readOr(op, _a);
+  set a(int value) => _a = field_a.writeIf(op, value);
 
   ColorD({
     super.op,
@@ -106,18 +106,18 @@ class ColorD extends RaylibStructLiteral<ColorD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _rF.write(p, _r);
-    _gF.write(p, _g);
-    _bF.write(p, _b);
-    _aF.write(p, _a);
+    field_r.write(p, _r);
+    field_g.write(p, _g);
+    field_b.write(p, _b);
+    field_a.write(p, _a);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _r = _rF.read(p);
-    _g = _gF.read(p);
-    _b = _bF.read(p);
-    _a = _aF.read(p);
+    _r = field_r.read(p);
+    _g = field_g.read(p);
+    _b = field_b.read(p);
+    _a = field_a.read(p);
   }
 
   @override

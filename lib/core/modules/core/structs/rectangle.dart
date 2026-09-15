@@ -34,10 +34,10 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, RectangleD.new, RectangleD.pointer);
 
-  static final _xF = struct.scalar<double, RFloat>(.x);
-  static final _yF = struct.scalar<double, RFloat>(.y);
-  static final _widthF = struct.scalar<double, RFloat>(.width);
-  static final _heightF = struct.scalar<double, RFloat>(.height);
+  static final field_x = struct.scalar<double, RFloat>(.x);
+  static final field_y = struct.scalar<double, RFloat>(.y);
+  static final field_width = struct.scalar<double, RFloat>(.width);
+  static final field_height = struct.scalar<double, RFloat>(.height);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -49,23 +49,23 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   double _x;
   /// Rectangle top-left corner position x
-  double get x => _x = _xF.readOr(op, _x);
-  set x(double value) => _x = _xF.writeIf(op, value);
+  double get x => _x = field_x.readOr(op, _x);
+  set x(double value) => _x = field_x.writeIf(op, value);
   
   double _y;
   /// Rectangle top-left corner position y
-  double get y => _y = _yF.readOr(op, _y);
-  set y(double value) => _y = _yF.writeIf(op, value);
+  double get y => _y = field_y.readOr(op, _y);
+  set y(double value) => _y = field_y.writeIf(op, value);
 
   double _width;
   /// Rectangle width
-  double get width => _width = _widthF.readOr(op, _width);
-  set width(double value) => _width = _widthF.writeIf(op, value);
+  double get width => _width = field_width.readOr(op, _width);
+  set width(double value) => _width = field_width.writeIf(op, value);
 
   double _height;
   /// Rectangle height
-  double get height => _height = _heightF.readOr(op, _height);
-  set height(double value) => _height = _heightF.writeIf(op, value);
+  double get height => _height = field_height.readOr(op, _height);
+  set height(double value) => _height = field_height.writeIf(op, value);
   
   RectangleD({
     super.op,
@@ -100,18 +100,18 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _xF.write(p, _x);
-    _yF.write(p, _y);
-    _widthF.write(p, _width);
-    _heightF.write(p, _height);
+    field_x.write(p, _x);
+    field_y.write(p, _y);
+    field_width.write(p, _width);
+    field_height.write(p, _height);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _x = _xF.read(p);
-    _y = _yF.read(p);
-    _width = _widthF.read(p);
-    _height = _heightF.read(p);
+    _x = field_x.read(p);
+    _y = field_y.read(p);
+    _width = field_width.read(p);
+    _height = field_height.read(p);
   }
 
   @override

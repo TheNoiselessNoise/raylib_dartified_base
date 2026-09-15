@@ -32,9 +32,9 @@ class MaterialD extends RaylibStruct<MaterialD> {
   static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
     => .nullable(ptr, struct, MaterialD.new, MaterialD.pointer);
 
-  static final _shaderF = struct.struct(.shader, ShaderD.pointer);
-  static final _mapsF = struct.pointerStructFixedArray(.maps, MaterialMapD.pointer);
-  static final _paramsF = struct.scalarArray<double, RFloat>(.params);
+  static final field_shader = struct.struct(.shader, ShaderD.pointer);
+  static final field_maps = struct.pointerStructFixedArray(.maps, MaterialMapD.pointer);
+  static final field_params = struct.scalarArray<double, RFloat>(.params);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -66,8 +66,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   ShaderD _shader;
   /// Material shader
-  ShaderD get shader => _shader = _shaderF.readOr(op, _shader);
-  set shader(ShaderD value) => _shader = _shaderF.writeIf(op, value);
+  ShaderD get shader => _shader = field_shader.readOr(op, _shader);
+  set shader(ShaderD value) => _shader = field_shader.writeIf(op, value);
 
   late final StructLiveListStruct<MaterialMapD> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
@@ -87,8 +87,8 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = _mapsF.live(() => op, .generate(BASE_mapsCount, (_) => .zero()));
-    _params = _paramsF.live(() => op, .filled(_paramsF.codec.type.count, 0));
+    _maps = field_maps.live(() => op, .generate(BASE_mapsCount, (_) => .zero()));
+    _params = field_params.live(() => op, .filled(field_params.codec.type.count, 0));
   }
 
   factory MaterialD.zero() => .new();
@@ -103,19 +103,19 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    _mapsF.allocate(temp, p, '${key}_maps', count: BASE_mapsCount);
+    field_maps.allocate(temp, p, '${key}_maps', count: BASE_mapsCount);
   }
 
   @override
   void structWriteInto(MemoryPointer p) {
-    _shaderF.write(p, _shader);
+    field_shader.write(p, _shader);
     _maps.writeInto(p);
     _params.writeInto(p);
   }
 
   @override
   void structReadFrom(MemoryPointer p) {
-    _shader = _shaderF.read(p);
+    _shader = field_shader.read(p);
     _maps.readFrom(p, count: mapsCount);
     _params.readFrom(p);
   }
