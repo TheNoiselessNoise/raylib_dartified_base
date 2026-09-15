@@ -1,11 +1,11 @@
 part of '../../../raylib_dartified_base.dart';
 
-// TODO: debug labels and `run`
-
 /// Exposes Raylib's quaternion math API as module-level functions by delegating
 /// to the corresponding [QuaternionD] methods/factories.
 /// Exists purely for Raylib API symmetry.
 class RaylibQuaternionExtDart<R extends RaylibBase> extends RaylibModule<R> {
+
+  final _debugLabels = _RaylibQuaternionExtDartDebugLabels();
 
   RaylibQuaternionExtDart(super.rl);
 
@@ -13,83 +13,124 @@ class RaylibQuaternionExtDart<R extends RaylibBase> extends RaylibModule<R> {
   QuaternionD QuaternionAdd(
     QuaternionD q1,
     QuaternionD q2,
-  ) => q1.add(q2);
+  ) => run(
+    () => _debugLabels.QuaternionAdd(q1, q2),
+    () => q1.add(q2),
+  );
 
   /// See [QuaternionD.addValue].
   QuaternionD QuaternionAddValue(
     QuaternionD q,
     double add,
-  ) => q.addValue(add);
+  ) => run(
+    () => _debugLabels.QuaternionAddValue(q, add),
+    () => q.addValue(add),
+  );
 
   /// See [QuaternionD.sub].
   QuaternionD QuaternionSubtract(
     QuaternionD q1,
     QuaternionD q2,
-  ) => q1.sub(q2);
+  ) => run(
+    () => _debugLabels.QuaternionSubtract(q1, q2),
+    () => q1.sub(q2),
+  );
 
   /// See [QuaternionD.subValue].
   QuaternionD QuaternionSubtractValue(
     QuaternionD q,
     double sub,
-  ) => q.subValue(sub);
+  ) => run(
+    () => _debugLabels.QuaternionSubtractValue(q, sub),
+    () => q.subValue(sub),
+  );
 
   /// See [QuaternionD.identity].
-  QuaternionD QuaternionIdentity()
-    => .identity();
+  QuaternionD QuaternionIdentity() => run(
+    () => _debugLabels.QuaternionIdentity(),
+    () => .identity(),
+  );
 
   /// See [QuaternionD.length].
   double QuaternionLength(
     QuaternionD q,
-  ) => q.length;
+  ) => run(
+    () => _debugLabels.QuaternionLength(q),
+    () => q.length,
+  );
 
   /// See [QuaternionD.normalize].
   QuaternionD QuaternionNormalize(
     QuaternionD q,
-  ) => q.normalize();
+  ) => run(
+    () => _debugLabels.QuaternionNormalize(q),
+    () => q.normalize(),
+  );
 
   /// See [QuaternionD.invert].
   QuaternionD QuaternionInvert(
     QuaternionD q,
-  ) => q.invert();
+  ) => run(
+    () => _debugLabels.QuaternionInvert(q),
+    () => q.invert(),
+  );
 
   /// See [QuaternionD.mul].
   QuaternionD QuaternionMultiply(
     QuaternionD q1,
     QuaternionD q2,
-  ) => q1.mul(q2);
+  ) => run(
+    () => _debugLabels.QuaternionMultiply(q1, q2),
+    () => q1.mul(q2),
+  );
 
   /// See [QuaternionD.scale].
   QuaternionD QuaternionScale(
     QuaternionD q,
     double mul,
-  ) => q.scale(mul);
+  ) => run(
+    () => _debugLabels.QuaternionScale(q, mul),
+    () => q.scale(mul),
+  );
 
   /// See [QuaternionD.div].
   QuaternionD QuaternionDivide(
     QuaternionD q1,
     QuaternionD q2,
-  ) => q1.div(q2);
+  ) => run(
+    () => _debugLabels.QuaternionDivide(q1, q2),
+    () => q1.div(q2),
+  );
 
   /// See [QuaternionD.lerp].
   QuaternionD QuaternionLerp(
     QuaternionD q1,
     QuaternionD q2,
     double amount,
-  ) => q1.lerp(q2, amount);
+  ) => run(
+    () => _debugLabels.QuaternionLerp(q1, q2, amount),
+    () => q1.lerp(q2, amount),
+  );
 
   /// See [QuaternionD.nLerp].
   QuaternionD QuaternionNlerp(
     QuaternionD q1,
     QuaternionD q2,
     double amount,
-  ) => q1.nLerp(q2, amount);
+  ) => run(
+    () => _debugLabels.QuaternionNlerp(q1, q2, amount),
+    () => q1.nLerp(q2, amount),
+  );
 
   /// See [QuaternionD.sLerp].
   QuaternionD QuaternionSlerp(
     QuaternionD q1,
     QuaternionD q2,
     double amount,
-  ) => q1.sLerp(q2, amount);
+  ) => run(
+    () => _debugLabels.QuaternionSlerp(q1, q2, amount),
+    () => q1.sLerp(q2, amount),
+  );
 
   /// See [QuaternionD.cubicHermiteSpline].
   QuaternionD QuaternionCubicHermiteSpline(
@@ -98,56 +139,86 @@ class RaylibQuaternionExtDart<R extends RaylibBase> extends RaylibModule<R> {
     QuaternionD q2,
     QuaternionD inTangent2,
     double t,
-  ) => q1.cubicHermiteSpline(outTangent1, q2, inTangent2, t);
+  ) => run(
+    () => _debugLabels.QuaternionCubicHermiteSpline(q1, outTangent1, q2, inTangent2, t),
+    () => q1.cubicHermiteSpline(outTangent1, q2, inTangent2, t),
+  );
 
   /// See [QuaternionD.fromVector3ToVector3].
   QuaternionD QuaternionFromVector3ToVector3(
     Vector3D from,
     Vector3D to,
-  ) => .fromVector3ToVector3(from, to);
+  ) => run(
+    () => _debugLabels.QuaternionFromVector3ToVector3(from, to),
+    () => .fromVector3ToVector3(from, to),
+  );
 
   /// See [QuaternionD.fromMatrix].
   QuaternionD QuaternionFromMatrix(
     MatrixD mat,
-  ) => .fromMatrix(mat);
+  ) => run(
+    () => _debugLabels.QuaternionFromMatrix(mat),
+    () => .fromMatrix(mat),
+  );
 
   /// See [QuaternionD.toMatrix].
   MatrixD QuaternionToMatrix(
     QuaternionD q,
-  ) => q.toMatrix();
+  ) => run(
+    () => _debugLabels.QuaternionToMatrix(q),
+    () => q.toMatrix(),
+  );
 
   /// See [QuaternionD.fromAxisAngle].
   QuaternionD QuaternionFromAxisAngle(
     Vector3D axis,
     double angle,
-  ) => .fromAxisAngle(axis, angle);
+  ) => run(
+    () => _debugLabels.QuaternionFromAxisAngle(axis, angle),
+    () => .fromAxisAngle(axis, angle),
+  );
 
   /// See [QuaternionD.toAxisAngle].
   (Vector3D outAxis, double outAngle) QuaternionToAxisAngle(
     QuaternionD q,
-  ) => q.toAxisAngle();
+  ) => run(
+    () => _debugLabels.QuaternionToAxisAngle(q),
+    () => q.toAxisAngle(),
+  );
 
   /// See [QuaternionD.fromEuler].
   QuaternionD QuaternionFromEuler(
     double pitch,
     double yaw,
     double roll,
-  ) => .fromEuler(pitch, yaw, roll);
+  ) => run(
+    () => _debugLabels.QuaternionFromEuler(pitch, yaw, roll),
+    () => .fromEuler(pitch, yaw, roll),
+  );
 
   /// See [QuaternionD.toEuler].
   Vector3D QuaternionToEuler(
     QuaternionD q,
-  ) => q.toEuler();
+  ) => run(
+    () => _debugLabels.QuaternionToEuler(q),
+    () => q.toEuler(),
+  );
 
   /// See [QuaternionD.transform].
   QuaternionD QuaternionTransform(
     QuaternionD q,
     MatrixD mat,
-  ) => q.transform(mat);
+  ) => run(
+    () => _debugLabels.QuaternionTransform(q, mat),
+    () => q.transform(mat),
+  );
 
   /// See [QuaternionD.equals].
   bool QuaternionEquals(
     QuaternionD p,
     QuaternionD q,
-  ) => p.equals(q);
+  ) => run(
+    () => _debugLabels.QuaternionEquals(p, q),
+    () => p.equals(q),
+  );
 }

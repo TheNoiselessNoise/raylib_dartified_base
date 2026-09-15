@@ -1,106 +1,156 @@
 part of '../../../raylib_dartified_base.dart';
 
-// TODO: debug labels and `run`
-
 /// Exposes Raylib's matrix math API as module-level functions by delegating
 /// to the corresponding [MatrixD] methods/factories.
 /// Exists purely for Raylib API symmetry.
 class RaylibMatrixExtDart<R extends RaylibBase> extends RaylibModule<R> {
+
+  final _debugLabels = _RaylibMatrixExtDartDebugLabels();
 
   RaylibMatrixExtDart(super.rl);
 
   /// See [MatrixD.determinant].
   double MatrixDeterminant(
     MatrixD mat,
-  ) => mat.determinant();
+  ) => run(
+    () => _debugLabels.MatrixDeterminant(mat),
+    () => mat.determinant(),
+  );
 
   /// See [MatrixD.trace].
   double MatrixTrace(
     MatrixD mat,
-  ) => mat.trace();
+  ) => run(
+    () => _debugLabels.MatrixTrace(mat),
+    () => mat.trace(),
+  );
 
   /// See [MatrixD.transpose].
   MatrixD MatrixTranspose(
     MatrixD mat,
-  ) => mat.transpose();
+  ) => run(
+    () => _debugLabels.MatrixTranspose(mat),
+    () => mat.transpose(),
+  );
 
   /// See [MatrixD.invert].
   MatrixD MatrixInvert(
     MatrixD mat,
-  ) => mat.invert();
+  ) => run(
+    () => _debugLabels.MatrixInvert(mat),
+    () => mat.invert(),
+  );
 
   /// See [MatrixD.identity].
-  MatrixD MatrixIdentity()
-    => .identity();
+  MatrixD MatrixIdentity() => run(
+    () => _debugLabels.MatrixIdentity(),
+    () => .identity(),
+  );
 
   /// See [MatrixD.add].
   MatrixD MatrixAdd(
     MatrixD left,
     MatrixD right,
-  ) => left.add(right);
+  ) => run(
+    () => _debugLabels.MatrixAdd(left, right),
+    () => left.add(right),
+  );
 
   /// See [MatrixD.sub].
   MatrixD MatrixSubtract(
     MatrixD left,
     MatrixD right,
-  ) => left.sub(right);
+  ) => run(
+    () => _debugLabels.MatrixSubtract(left, right),
+    () => left.sub(right),
+  );
 
   /// See [MatrixD.mul].
   MatrixD MatrixMultiply(
     MatrixD left,
     MatrixD right,
-  ) => left.mul(right);
+  ) => run(
+    () => _debugLabels.MatrixMultiply(left, right),
+    () => left.mul(right),
+  );
 
   /// See [MatrixD.mulValue].
   MatrixD MatrixMultiplyValue(
     MatrixD left,
     double value,
-  ) => left.mulValue(value);
+  ) => run(
+    () => _debugLabels.MatrixMultiplyValue(left, value),
+    () => left.mulValue(value),
+  );
 
   /// See [MatrixD.translate].
   MatrixD MatrixTranslate(
     double x,
     double y,
     double z,
-  ) => .translate(x, y, z);
+  ) => run(
+    () => _debugLabels.MatrixTranslate(x, y, z),
+    () => .translate(x, y, z),
+  );
 
   /// See [MatrixD.rotateAngle].
   MatrixD MatrixRotate(
     Vector3D axis,
     double angle,
-  ) => .rotateAngle(axis, angle);
+  ) => run(
+    () => _debugLabels.MatrixRotate(axis, angle),
+    () => .rotateAngle(axis, angle),
+  );
 
   /// See [MatrixD.rotateX].
   MatrixD MatrixRotateX(
     double angle,
-  ) => .rotateX(angle);
+  ) => run(
+    () => _debugLabels.MatrixRotateX(angle),
+    () => .rotateX(angle),
+  );
 
   /// See [MatrixD.rotateY].
   MatrixD MatrixRotateY(
     double angle,
-  ) => .rotateY(angle);
+  ) => run(
+    () => _debugLabels.MatrixRotateY(angle),
+    () => .rotateY(angle),
+  );
 
   /// See [MatrixD.rotateZ].
   MatrixD MatrixRotateZ(
     double angle,
-  ) => .rotateZ(angle);
+  ) => run(
+    () => _debugLabels.MatrixRotateZ(angle),
+    () => .rotateZ(angle),
+  );
 
   /// See [MatrixD.rotateXYZ].
   MatrixD MatrixRotateXYZ(
     Vector3D angle,
-  ) => .rotateXYZ(angle);
+  ) => run(
+    () => _debugLabels.MatrixRotateXYZ(angle),
+    () => .rotateXYZ(angle),
+  );
 
   /// See [MatrixD.rotateZYX].
   MatrixD MatrixRotateZYX(
     Vector3D angle,
-  ) => .rotateZYX(angle);
+  ) => run(
+    () => _debugLabels.MatrixRotateZYX(angle),
+    () => .rotateZYX(angle),
+  );
 
   /// See [MatrixD.scale].
   MatrixD MatrixScale(
     double x,
     double y,
     double z,
-  ) => .scale(x, y, z);
+  ) => run(
+    () => _debugLabels.MatrixScale(x, y, z),
+    () => .scale(x, y, z),
+  );
 
   /// See [MatrixD.frustum].
   MatrixD MatrixFrustum(
@@ -110,7 +160,10 @@ class RaylibMatrixExtDart<R extends RaylibBase> extends RaylibModule<R> {
     double top,
     double nearPlane,
     double farPlane,
-  ) => .frustum(left, right, bottom, top, nearPlane, farPlane);
+  ) => run(
+    () => _debugLabels.MatrixFrustum(left, right, bottom, top, nearPlane, farPlane),
+    () => .frustum(left, right, bottom, top, nearPlane, farPlane),
+  );
 
   /// See [MatrixD.perspective].
   MatrixD MatrixPerspective(
@@ -118,7 +171,10 @@ class RaylibMatrixExtDart<R extends RaylibBase> extends RaylibModule<R> {
     double aspect,
     double nearPlane,
     double farPlane,
-  ) => .perspective(fovY, aspect, nearPlane, farPlane);
+  ) => run(
+    () => _debugLabels.MatrixPerspective(fovY, aspect, nearPlane, farPlane),
+    () => .perspective(fovY, aspect, nearPlane, farPlane),
+  );
 
   /// See [MatrixD.ortho].
   MatrixD MatrixOrtho(
@@ -128,29 +184,44 @@ class RaylibMatrixExtDart<R extends RaylibBase> extends RaylibModule<R> {
     double top,
     double nearPlane,
     double farPlane,
-  ) => .ortho(left, right, bottom, top, nearPlane, farPlane);
+  ) => run(
+    () => _debugLabels.MatrixOrtho(left, right, bottom, top, nearPlane, farPlane),
+    () => .ortho(left, right, bottom, top, nearPlane, farPlane),
+  );
 
   /// See [MatrixD.lookAt].
   MatrixD MatrixLookAt(
     Vector3D eye,
     Vector3D target,
     Vector3D up,
-  ) => .lookAt(eye, target, up);
+  ) => run(
+    () => _debugLabels.MatrixLookAt(eye, target, up),
+    () => .lookAt(eye, target, up),
+  );
   
   /// See [MatrixD.toFloatV].
   float16D MatrixToFloatV(
     MatrixD mat,
-  ) => mat.toFloatV();
+  ) => run(
+    () => _debugLabels.MatrixToFloatV(mat),
+    () => mat.toFloatV(),
+  );
 
   /// See [MatrixD.compose].
   MatrixD MatrixCompose(
     Vector3D translation,
     QuaternionD rotation, 
     Vector3D scale,
-  ) => .compose(translation, rotation, scale);
+  ) => run(
+    () => _debugLabels.MatrixCompose(translation, rotation, scale),
+    () => .compose(translation, rotation, scale),
+  );
 
   /// See [MatrixD.decompose].
   (Vector3D translation, QuaternionD rotation, Vector3D scale) MatrixDecompose(
     MatrixD mat,
-  ) => mat.decompose();
+  ) => run(
+    () => _debugLabels.MatrixDecompose(mat),
+    () => mat.decompose(),
+  );
 }

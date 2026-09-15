@@ -18,18 +18,23 @@ part 'extensions/ease/extension_dart.dart';
 
 part 'extensions/raymath/matrix/extension_dart.dart';
 part 'extensions/raymath/matrix/extension_flat.dart';
+part 'extensions/raymath/matrix/labels.dart';
 
 part 'extensions/raymath/quaternion/extension_dart.dart';
 part 'extensions/raymath/quaternion/extension_flat.dart';
+part 'extensions/raymath/quaternion/labels.dart';
 
 part 'extensions/raymath/vector2/extension_dart.dart';
 part 'extensions/raymath/vector2/extension_flat.dart';
+part 'extensions/raymath/vector2/labels.dart';
 
 part 'extensions/raymath/vector3/extension_dart.dart';
 part 'extensions/raymath/vector3/extension_flat.dart';
+part 'extensions/raymath/vector3/labels.dart';
 
 part 'extensions/raymath/vector4/extension_dart.dart';
 part 'extensions/raymath/vector4/extension_flat.dart';
+part 'extensions/raymath/vector4/labels.dart';
 
 part 'memory/allocator/base.dart';
 part 'memory/allocator/scalar.dart';
