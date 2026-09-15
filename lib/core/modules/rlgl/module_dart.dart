@@ -88,7 +88,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlMultMatrixf(matf),
     () => _flat.rlMultMatrixf(
-      rl.Temp.Float32$.Array(matf),
+      $.Float32$.Array(matf),
     ),
   );
 
@@ -375,7 +375,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
       final existing = _rlEnableStatePointer_statePointers[vertexAttribType];
       if (existing != null) existing.free();
 
-      final native = rl.Temp.TypedDataList$.Array(buffer, key: 'rlEnableStatePointer_$vertexAttribType');
+      final native = $.TypedDataList$.Array(buffer, key: 'rlEnableStatePointer_$vertexAttribType');
 
       _rlEnableStatePointer_statePointers[vertexAttribType] = native;
 
@@ -920,7 +920,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlDrawRenderBatch(batch),
     () => _flat.rlDrawRenderBatch(
-      rl.Temp.RlRenderBatch$.Ref1(batch),
+      $.RlRenderBatch$.Ref1(batch),
     ),
   );
 
@@ -930,7 +930,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ]) => run(
     () => _debugLabels.rlSetRenderBatchActive(batch),
     () => _flat.rlSetRenderBatchActive(
-      rl.Temp.RlRenderBatch$.Ref1(batch),
+      $.RlRenderBatch$.Ref1(batch),
     ),
   );
 
@@ -973,7 +973,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadVertexBuffer(buffer, dynamic),
     () => _flat.rlLoadVertexBuffer(
-      rl.Temp.TypedDataList$.Array(buffer),
+      $.TypedDataList$.Array(buffer),
       buffer.length,
       dynamic,
     ),
@@ -986,7 +986,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadVertexBufferElement(buffer, dynamic),
     () => _flat.rlLoadVertexBufferElement(
-      rl.Temp.TypedDataList$.Array(buffer),
+      $.TypedDataList$.Array(buffer),
       buffer.length,
       dynamic,
     ),
@@ -1002,8 +1002,8 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlUpdateVertexBuffer(bufferId, data, dataSize, offset),
     () => _flat.rlUpdateVertexBuffer(
       bufferId.toInt(),
-      rl.Temp.TypedDataList$.Array(data),
-      (dataSize * rl.Temp.TypedDataList$.ElementSize(data)).toInt(),
+      $.TypedDataList$.Array(data),
+      (dataSize * $.TypedDataList$.ElementSize(data)).toInt(),
       offset.toInt(),
     ),
   );
@@ -1018,8 +1018,8 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlUpdateVertexBufferElements(id, data, dataSize, offset),
     () => _flat.rlUpdateVertexBufferElements(
       id.toInt(),
-      rl.Temp.TypedDataList$.Array(data),
-      (dataSize * rl.Temp.TypedDataList$.ElementSize(data)).toInt(),
+      $.TypedDataList$.Array(data),
+      (dataSize * $.TypedDataList$.ElementSize(data)).toInt(),
       offset.toInt(),
     ),
   );
@@ -1085,7 +1085,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlSetVertexAttributeDefault(locIndex, value, attribType),
     () => _flat.rlSetVertexAttributeDefault(
       locIndex.toInt(),
-      rl.Temp.Float32$.FromTypedList(value).cast(),
+      $.Float32$.FromTypedList(value).cast(),
       attribType.value,
       value.length,
     ),
@@ -1113,7 +1113,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _flat.rlDrawVertexArrayElements(
       offset.toInt(),
       count.toInt(),
-      rl.Temp.Uint16$.FromTypedList(buffer).cast(),
+      $.Uint16$.FromTypedList(buffer).cast(),
     ),
   );
 
@@ -1142,7 +1142,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _flat.rlDrawVertexArrayElementsInstanced(
       offset.toInt(),
       count.toInt(),
-      rl.Temp.Uint16$.FromTypedList(buffer).cast(),
+      $.Uint16$.FromTypedList(buffer).cast(),
       instances.toInt(),
     ),
   );
@@ -1157,7 +1157,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadTexture(data, width, height, format, mipmapCount),
     () => _flat.rlLoadTexture(
-      data == null ? MemoryPointer.nullptr() : rl.Temp.Uint8$.FromTypedList(data).cast(),
+      data == null ? MemoryPointer.nullptr() : $.Uint8$.FromTypedList(data).cast(),
       width.toInt(),
       height.toInt(),
       format.value,
@@ -1188,7 +1188,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadTextureCubemap(data, size, format, mipmapCount),
     () => _flat.rlLoadTextureCubemap(
-      data == null ? MemoryPointer.nullptr() : rl.Temp.Uint8$.FromTypedList(data).cast(),
+      data == null ? MemoryPointer.nullptr() : $.Uint8$.FromTypedList(data).cast(),
       size.toInt(),
       format.value,
       mipmapCount.toInt(),
@@ -1213,7 +1213,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
       width.toInt(),
       height.toInt(),
       format.value,
-      rl.Temp.Uint8$.FromTypedList(data).cast(),
+      $.Uint8$.FromTypedList(data).cast(),
     ),
   );
 
@@ -1223,9 +1223,9 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlGetGlTextureFormats(format),
     () {
-      final glInternalFormat = rl.Temp.UnsignedInt$.Ref1();
-      final glFormat = rl.Temp.UnsignedInt$.Ref2();
-      final glType = rl.Temp.UnsignedInt$.Ref3();
+      final glInternalFormat = $.UnsignedInt$.Ref1();
+      final glFormat = $.UnsignedInt$.Ref2();
+      final glType = $.UnsignedInt$.Ref3();
       _flat.rlGetGlTextureFormats(
         format.value,
         glInternalFormat,
@@ -1265,7 +1265,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlGenTextureMipmaps(id, width, height, format),
     () {
-      final mipmaps = rl.Temp.Int$.Ref1();
+      final mipmaps = $.Int$.Ref1();
       _flat.rlGenTextureMipmaps(
         id.toInt(),
         width.toInt(),
@@ -1386,7 +1386,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
         );
       }
 
-      final pixels = rl.Temp.Uint8$.Sized(size);
+      final pixels = $.Uint8$.Sized(size);
 
       _flat.rlCopyFramebuffer(
         x.toInt(),
@@ -1420,7 +1420,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadShader(code, type),
     () => _flat.rlLoadShader(
-      rl.Temp.String$.ValueOrNull(code),
+      $.String$.ValueOrNull(code),
       type.value,
     ),
   );
@@ -1432,8 +1432,8 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlLoadShaderProgram(vsCode, fsCode),
     () => _flat.rlLoadShaderProgram(
-      rl.Temp.String$.ValueOrNull(vsCode),
-      rl.Temp.String$.ValueOrNull(fsCode),
+      $.String$.ValueOrNull(vsCode),
+      $.String$.ValueOrNull(fsCode),
     ),
   );
 
@@ -1487,7 +1487,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlGetLocationUniform(shaderId, uniformName),
     () => _flat.rlGetLocationUniform(
       shaderId.toInt(),
-      rl.Temp.String$.ValueOrNull(uniformName),
+      $.String$.ValueOrNull(uniformName),
     ),
   );
 
@@ -1499,7 +1499,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlGetLocationAttrib(shaderId, attribName),
     () => _flat.rlGetLocationAttrib(
       shaderId.toInt(),
-      rl.Temp.String$.ValueOrNull(attribName),
+      $.String$.ValueOrNull(attribName),
     ),
   );
 
@@ -1518,18 +1518,18 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
         case .RL_SHADER_UNIFORM_VEC2:
         case .RL_SHADER_UNIFORM_VEC3:
         case .RL_SHADER_UNIFORM_VEC4:
-          ptr = rl.Temp.Float32$.FromTypedData(value);
+          ptr = $.Float32$.FromTypedData(value);
         case .RL_SHADER_UNIFORM_INT:
         case .RL_SHADER_UNIFORM_IVEC2:
         case .RL_SHADER_UNIFORM_IVEC3:
         case .RL_SHADER_UNIFORM_IVEC4:
         case .RL_SHADER_UNIFORM_SAMPLER2D:
-          ptr = rl.Temp.Int32$.FromTypedData(value);
+          ptr = $.Int32$.FromTypedData(value);
         case .RL_SHADER_UNIFORM_UINT:
         case .RL_SHADER_UNIFORM_UIVEC2:
         case .RL_SHADER_UNIFORM_UIVEC3:
         case .RL_SHADER_UNIFORM_UIVEC4:
-          ptr = rl.Temp.Uint32$.FromTypedData(value);
+          ptr = $.Uint32$.FromTypedData(value);
       }
       _flat.rlSetUniform(
         locIndex.toInt(),
@@ -1560,7 +1560,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlSetUniformMatrices(locIndex, mat),
     () => _flat.rlSetUniformMatrices(
       locIndex.toInt(),
-      rl.Temp.Matrix$.ArrayStruct(mat),
+      $.Matrix$.ArrayStruct(mat),
       mat.length,
     ),
   );
@@ -1585,7 +1585,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlSetShader(id, locs),
     () => _flat.rlSetShader(
       id.toInt(),
-      rl.Temp.Int$.Array(locs),
+      $.Int$.Array(locs),
     ),
   );
 
@@ -1612,7 +1612,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlLoadShaderBuffer(size, data, usageHint),
     () => _flat.rlLoadShaderBuffer(
       size.toInt(),
-      data == null ? MemoryPointer.nullptr() : rl.Temp.TypedDataList$.Array(data),
+      data == null ? MemoryPointer.nullptr() : $.TypedDataList$.Array(data),
       usageHint?.value ?? 0,
     ),
   );
@@ -1636,7 +1636,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
     () => _debugLabels.rlUpdateShaderBuffer(id, data, offset),
     () => _flat.rlUpdateShaderBuffer(
       id.toInt(),
-      rl.Temp.TypedDataList$.Array(data),
+      $.TypedDataList$.Array(data),
       data.length,
       offset.toInt(),
     ),
@@ -1662,7 +1662,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   ) => run(
     () => _debugLabels.rlReadShaderBuffer(id, count, offset),
     () {
-      final values = rl.Temp.Uint8$.Sized(count.toInt());
+      final values = $.Uint8$.Sized(count.toInt());
       _flat.rlReadShaderBuffer(
         id.toInt(),
         values.cast(),

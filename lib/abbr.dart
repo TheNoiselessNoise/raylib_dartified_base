@@ -8,6 +8,10 @@ import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 RaylibBase get _rl => RaylibBase.instance;
 
+/// See [RaylibBase.registerModule].
+T registerModule<T extends RaylibModule>(T module)
+  => _rl.registerModule(module);
+
 /// See [RaylibBase.dispose].
 void disposeRaylib() => _rl.dispose();
 

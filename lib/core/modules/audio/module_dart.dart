@@ -49,7 +49,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadWave(fileName),
     () => _flat.LoadWave(
-      rl.Temp.String$.ValueOrNull(fileName),
+      $.String$.ValueOrNull(fileName),
     ),
   );
 
@@ -60,8 +60,8 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadWaveFromMemory(fileType, fileData),
     () => _flat.LoadWaveFromMemory(
-      rl.Temp.String$.ValueOrNull(fileType),
-      rl.Temp.UnsignedChar$.Array(fileData),
+      $.String$.ValueOrNull(fileType),
+      $.UnsignedChar$.Array(fileData),
       fileData.length,
     ),
   );
@@ -82,7 +82,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadSound(fileName),
     () => _flat.LoadSound(
-      rl.Temp.String$.ValueOrNull(fileName),
+      $.String$.ValueOrNull(fileName),
     ),
   );
 
@@ -125,7 +125,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
     () => _debugLabels.UpdateSound(sound, data, sampleCount),
     () => _flat.UpdateSound(
       sound,
-      rl.Temp.TypedDataList$.Array(data),
+      $.TypedDataList$.Array(data),
       sampleCount,
     ),
   );
@@ -168,7 +168,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
     () => _debugLabels.ExportWave(wave, fileName),
     () => _flat.ExportWave(
       wave,
-      rl.Temp.String$.ValueOrNull(fileName),
+      $.String$.ValueOrNull(fileName),
     ),
   );
 
@@ -180,7 +180,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
     () => _debugLabels.ExportWaveAsCode(wave, fileName),
     () => _flat.ExportWaveAsCode(
       wave,
-      rl.Temp.String$.ValueOrNull(fileName),
+      $.String$.ValueOrNull(fileName),
     ),
   );
 
@@ -288,7 +288,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.WaveCrop(wave, initFrame, finalFrame),
     () => _flat.WaveCrop(
-      rl.Temp.Wave$.Ref1(wave),
+      $.Wave$.Ref1(wave),
       initFrame,
       finalFrame,
     ),
@@ -303,7 +303,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.WaveFormat(wave, sampleRate, sampleSize, channels),
     () => _flat.WaveFormat(
-      rl.Temp.Wave$.Ref1(wave),
+      $.Wave$.Ref1(wave),
       sampleRate,
       sampleSize,
       channels,
@@ -333,7 +333,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadMusicStream(fileName),
     () => _flat.LoadMusicStream(
-      rl.Temp.String$.ValueOrNull(fileName),
+      $.String$.ValueOrNull(fileName),
     ),
   );
 
@@ -344,8 +344,8 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.LoadMusicStreamFromMemory(fileType, data),
     () => _flat.LoadMusicStreamFromMemory(
-      rl.Temp.String$.ValueOrNull(fileType),
-      rl.Temp.UnsignedChar$.Array(data),
+      $.String$.ValueOrNull(fileType),
+      $.UnsignedChar$.Array(data),
       data.length,
     ),
   );
@@ -540,7 +540,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
     () => _debugLabels.UpdateAudioStream(stream, data),
     () => _flat.UpdateAudioStream(
       stream,
-      rl.Temp.TypedDataList$.Array(data),
+      $.TypedDataList$.Array(data),
       data.length,
     ),
   );

@@ -25,7 +25,7 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.msf_gif_begin(handle, width, height),
     () => _flat.msf_gif_begin(
-      rl.Temp.MsfGifState$.Ref1(handle),
+      $.MsfGifState$.Ref1(handle),
       width.toInt(),
       height.toInt(),
     ),
@@ -41,8 +41,8 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.msf_gif_frame(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes),
     () => _flat.msf_gif_frame(
-      rl.Temp.MsfGifState$.Ref1(handle),
-      rl.Temp.TypedDataList$.Array(pixelData).cast(),
+      $.MsfGifState$.Ref1(handle),
+      $.TypedDataList$.Array(pixelData).cast(),
       centiSecondsPerFame.toInt(),
       maxBitDepth.toInt(),
       pitchInBytes.toInt(),
@@ -55,7 +55,7 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.msf_gif_end(handle),
     () => _flat.msf_gif_end(
-      rl.Temp.MsfGifState$.Ref1(handle),
+      $.MsfGifState$.Ref1(handle),
     ),
   );
 

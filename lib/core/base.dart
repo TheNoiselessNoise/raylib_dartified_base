@@ -1,7 +1,5 @@
 part of 'raylib_dartified_base.dart';
 
-// TODO: think about if it's possible to detach `rl.Temp` from `rl`
-
 /// Supported Raylib runtime platforms.
 enum RaylibPlatform {
   /// Native Dart VM / FFI backend.
@@ -94,6 +92,9 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
 
   RaylibModule(this.rl);
 
+  /// See [RaylibTemp].
+  RaylibTemp get $ => rl.module();
+
   /// If this module was loaded.
   bool _isLoaded = false;
 
@@ -169,7 +170,7 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
       fn(ptr);
     } finally {
       if (ptr.allocationKey case final key?) {
-        rl.Temp.structAlloc<D>()!.Free(key);
+        $.structAlloc<D>()!.Free(key);
       }
     }
   }
@@ -193,7 +194,7 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
       fn(ptr);
     } finally {
       if (ptr.allocationKey case final key?) {
-        rl.Temp.structAlloc<D>()!.Unslot(key);
+        $.structAlloc<D>()!.Unslot(key);
       }
     }
   }
@@ -201,10 +202,10 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
   /// Executes [f] with [RaylibTemp] syncing temporarily disabled,
   /// restoring the previous sync state afterward.
   T disableSync<T>(T Function() f) {
-    final oldSyncing = rl.Temp.doSync;
-    rl.Temp.enableSyncing(false);
+    final oldSyncing = $.doSync;
+    $.enableSyncing(false);
     final result = f();
-    rl.Temp.enableSyncing(oldSyncing);
+    $.enableSyncing(oldSyncing);
     return result;
   }
 }
@@ -221,7 +222,7 @@ abstract class RaylibBase with RaylibDisposable {
     => instance as R;
 
   /// See [RaylibTemp].
-  late final RaylibTemp Temp;
+  RaylibTemp get $ => module();  
 
   /// See [RaylibUtilsModule].
   late final RaylibUtilsModule Utils;
@@ -259,7 +260,7 @@ abstract class RaylibBase with RaylibDisposable {
   }
 
   void _registerBuiltins() {
-    registerModule(Temp = .new(this));
+    registerModule(RaylibTemp(this));
 
     registerModule(RaylibEaseExtDart(this));
     registerModule(RaylibQuaternionExtDart(this));
@@ -293,8 +294,8 @@ abstract class RaylibBase with RaylibDisposable {
   /// Enables or disables debug logging across all modules and the temp allocator.
   void debugEverything(bool debug) {
     registeredModules.forEach((d) => d.debug(debug));
-    Temp.debugFree(debug);
-    Temp.debugSync(debug);
+    $.debugFree(debug);
+    $.debugSync(debug);
   }
 
   /// Logs a message at the info level.

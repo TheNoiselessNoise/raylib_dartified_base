@@ -15,7 +15,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.GetCameraForward(camera),
     () => _flat.GetCameraForward(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
     ),
   );
 
@@ -27,7 +27,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.GetCameraUp(camera),
     () => _flat.GetCameraUp(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
     ),
   );
 
@@ -37,7 +37,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.GetCameraRight(camera),
     () => _flat.GetCameraRight(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
     ),
   );
 
@@ -52,7 +52,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraMoveForward(camera, distance, moveInWorldPlane),
     () => _flat.CameraMoveForward(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       distance.toDouble(),
       moveInWorldPlane,
     ),
@@ -65,7 +65,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraMoveUp(camera, distance),
     () => _flat.CameraMoveUp(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       distance.toDouble(),
     ),
   );
@@ -81,7 +81,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraMoveRight(camera, distance, moveInWorldPlane),
     () => _flat.CameraMoveRight(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       distance.toDouble(),
       moveInWorldPlane,
     ),
@@ -94,7 +94,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraMoveToTarget(camera, delta),
     () => _flat.CameraMoveToTarget(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       delta.toDouble(),
     ),
   );
@@ -112,7 +112,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraYaw(camera, angle, rotateAroundTarget),
     () => _flat.CameraYaw(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       angle.toDouble(),
       rotateAroundTarget,
     ),
@@ -137,7 +137,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraPitch(camera, angle, lockView, rotateAroundTarget, rotateUp),
     () => _flat.CameraPitch(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       angle.toDouble(),
       lockView,
       rotateAroundTarget,
@@ -154,7 +154,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraRoll(camera, angle),
     () => _flat.CameraRoll(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       angle.toDouble(),
     ),
   );
@@ -165,7 +165,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.GetCameraViewMatrix(camera),
     () => _flat.GetCameraViewMatrix(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
     ),
   );
 
@@ -176,7 +176,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.GetCameraProjectionMatrix(camera, aspect),
     () => _flat.GetCameraProjectionMatrix(
-      rl.Temp.Camera3D$.Ref1(camera),
+      $.Camera3D$.Ref1(camera),
       aspect.toDouble(),
     ),
   );
