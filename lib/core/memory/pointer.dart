@@ -389,8 +389,9 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   /// Throws a [StateError] if this struct requires it's live memory reference.
   D get detached {
     final value = this.value;
-    if (value is RaylibStructView) {
-      throw StateError('$runtimeType is a view and cannot be detached from its backing memory.');
+    if (value._requiresOp) {
+      value.structSyncFromMemory();
+      value.op = null;
     }
     return value;
   }

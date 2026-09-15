@@ -7,16 +7,19 @@ final class RaylibTempStructAllocator<
   X extends RaylibStruct<X> // Dart mirror object
 > extends RaylibTempArrayAllocator<X, RStruct> {
 
+  final StructLayout layout; // untyped
+
   final StructFactory<X> factory;
 
   final StructPointerFactory<X> pointerFactory;
 
   RaylibTempStructAllocator(super.temp, {
-    required super.byteSize,
+    required this.layout,
     required this.factory,
     required this.pointerFactory,
   }) : super(
-    indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * byteSize)),
+    byteSize: layout.byteSize,
+    indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * layout.byteSize)),
   );
 
   @override

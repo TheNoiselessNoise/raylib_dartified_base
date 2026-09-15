@@ -626,7 +626,8 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 /// native memory rather than an owner of its own data.
 ///
 /// Unlike a regular [RaylibStruct], a view never copies field values into
-/// Dart-side storage and never writes through: [structWriteInto] and [structReadFrom]
+/// Dart-side storage and never writes through:
+/// [structAllocateInto], [structWriteInto] and [structReadFrom]
 /// are no-ops, and [setDart] throws, since there is no independent Dart-side
 /// state to sync, every field read reflects [op] at the moment of access.
 ///
@@ -636,11 +637,32 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 /// and stale/zeroed fields. Use [RaylibStructView] for structs you only
 /// ever observe through a pointer you don't own.
 abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<D> {
-  RaylibStructView({ super.op });
+  // NOTE: we can't make `op` as `required` unfortunately
+  RaylibStructView({super.op}) {
+    if (op == null) {
+      throw StateError(
+        '$runtimeType requires a backing memory pointer.',
+      );
+    }
+  }
+
+  @override
+  set op(StructPointer<D>? value) {
+    if (value == null) {
+      throw StateError(
+        '$runtimeType requires a backing memory pointer.',
+      );
+    }
+    super.op = value;
+  }
 
   @override
   @nonVirtual
   D setDart(D o) => throw UnsupportedError('$runtimeType: is just a view; cannot write to it.');
+
+  @override
+  @nonVirtual
+  void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {} // NOTE: do nothing
 
   @override
   @nonVirtual
