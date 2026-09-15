@@ -321,54 +321,56 @@ final class RaylibTemp<R extends RaylibBase> extends RaylibModule {
   late final RaylibTempStructAllocator<WaveD> Wave$;
 
   final Map<Type, RaylibTempStructAllocator> _builtInStructAllocators = {};
-  RaylibTempStructAllocator<X> _bStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator)
-    => _builtInStructAllocators[X] = allocator;
+  RaylibTempStructAllocator<X> _bStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator) {
+    StructTypes.register(allocator.struct);
+    return _builtInStructAllocators[X] = allocator;
+  }
 
   void _initStructAllocators() {
-    float3$ = _bStruct(.new(this, layout: float3D.struct, factory: float3D.new, pointerFactory: float3D.pointer));
-    float16$ = _bStruct(.new(this, layout: float16D.struct, factory: float16D.new, pointerFactory: float16D.pointer));
+    float3$ = _bStruct(.new(this, struct: float3D.struct));
+    float16$ = _bStruct(.new(this, struct: float16D.struct));
 
-    AutomationEventList$ = _bStruct(.new(this, layout: AutomationEventListD.struct, factory: AutomationEventListD.new, pointerFactory: AutomationEventListD.pointer));
-    AutomationEvent$ = _bStruct(.new(this, layout: AutomationEventD.struct, factory: AutomationEventD.new, pointerFactory: AutomationEventD.pointer));
-    AudioStream$ = _bStruct(.new(this, layout: AudioStreamD.struct, factory: AudioStreamD.new, pointerFactory: AudioStreamD.pointer));
-    BoneInfo$ = _bStruct(.new(this, layout: BoneInfoD.struct, factory: BoneInfoD.new, pointerFactory: BoneInfoD.pointer));
-    BoundingBox$ = _bStruct(.new(this, layout: BoundingBoxD.struct, factory: BoundingBoxD.new, pointerFactory: BoundingBoxD.pointer));
-    Camera2D$ = _bStruct(.new(this, layout: Camera2DD.struct, factory: Camera2DD.new, pointerFactory: Camera2DD.pointer));
-    Camera3D$ = _bStruct(.new(this, layout: Camera3DD.struct, factory: Camera3DD.new, pointerFactory: Camera3DD.pointer));
-    Color$ = _bStruct(.new(this, layout: ColorD.struct, factory: ColorD.new, pointerFactory: ColorD.pointer));
-    FilePathList$ = _bStruct(.new(this, layout: FilePathListD.struct, factory: FilePathListD.new, pointerFactory: FilePathListD.pointer));
-    Font$ = _bStruct(.new(this, layout: FontD.struct, factory: FontD.new, pointerFactory: FontD.pointer));
-    GestureEvent$ = _bStruct(.new(this, layout: GestureEventD.struct, factory: GestureEventD.new, pointerFactory: GestureEventD.pointer));
-    GlyphInfo$ = _bStruct(.new(this, layout: GlyphInfoD.struct, factory: GlyphInfoD.new, pointerFactory: GlyphInfoD.pointer));
-    Image$ = _bStruct(.new(this, layout: ImageD.struct, factory: ImageD.new, pointerFactory: ImageD.pointer));
-    Light$ = _bStruct(.new(this, layout: LightD.struct, factory: LightD.new, pointerFactory: LightD.pointer));
-    MaterialMap$ = _bStruct(.new(this, layout: MaterialMapD.struct, factory: MaterialMapD.new, pointerFactory: MaterialMapD.pointer));
-    Material$ = _bStruct(.new(this, layout: MaterialD.struct, factory: MaterialD.new, pointerFactory: MaterialD.pointer));
-    Matrix$ = _bStruct(.new(this, layout: MatrixD.struct, factory: MatrixD.new, pointerFactory: MatrixD.pointer));
-    Mesh$ = _bStruct(.new(this, layout: MeshD.struct, factory: MeshD.new, pointerFactory: MeshD.pointer));
-    ModelAnimation$ = _bStruct(.new(this, layout: ModelAnimationD.struct, factory: ModelAnimationD.new, pointerFactory: ModelAnimationD.pointer));
-    ModelSkeleton$ = _bStruct(.new(this, layout: ModelSkeletonD.struct, factory: ModelSkeletonD.new, pointerFactory: ModelSkeletonD.pointer));
-    Model$ = _bStruct(.new(this, layout: ModelD.struct, factory: ModelD.new, pointerFactory: ModelD.pointer));
-    Music$ = _bStruct(.new(this, layout: MusicD.struct, factory: MusicD.new, pointerFactory: MusicD.pointer));
-    NPatchInfo$ = _bStruct(.new(this, layout: NPatchInfoD.struct, factory: NPatchInfoD.new, pointerFactory: NPatchInfoD.pointer));
-    Quaternion$ = _bStruct(.new(this, layout: QuaternionD.struct, factory: QuaternionD.new, pointerFactory: QuaternionD.pointer));
-    RayCollision$ = _bStruct(.new(this, layout: RayCollisionD.struct, factory: RayCollisionD.new, pointerFactory: RayCollisionD.pointer));
-    Ray$ = _bStruct(.new(this, layout: RayD.struct, factory: RayD.new, pointerFactory: RayD.pointer));
-    Rectangle$ = _bStruct(.new(this, layout: RectangleD.struct, factory: RectangleD.new, pointerFactory: RectangleD.pointer));
-    RenderTexture$ = _bStruct(.new(this, layout: RenderTextureD.struct, factory: RenderTextureD.new, pointerFactory: RenderTextureD.pointer));
-    RlDrawCall$ = _bStruct(.new(this, layout: RlDrawCallD.struct, factory: RlDrawCallD.new, pointerFactory: RlDrawCallD.pointer));
-    RlRenderBatch$ = _bStruct(.new(this, layout: RlRenderBatchD.struct, factory: RlRenderBatchD.new, pointerFactory: RlRenderBatchD.pointer));
-    RlVertexBuffer$ = _bStruct(.new(this, layout: RlVertexBufferD.struct, factory: RlVertexBufferD.new, pointerFactory: RlVertexBufferD.pointer));
-    Shader$ = _bStruct(.new(this, layout: ShaderD.struct, factory: ShaderD.new, pointerFactory: ShaderD.pointer));
-    Sound$ = _bStruct(.new(this, layout: SoundD.struct, factory: SoundD.new, pointerFactory: SoundD.pointer));
-    Texture$ = _bStruct(.new(this, layout: TextureD.struct, factory: TextureD.new, pointerFactory: TextureD.pointer));
-    Transform$ = _bStruct(.new(this, layout: TransformD.struct, factory: TransformD.new, pointerFactory: TransformD.pointer));
-    Vector2$ = _bStruct(.new(this, layout: Vector2D.struct, factory: Vector2D.new, pointerFactory: Vector2D.pointer));
-    Vector3$ = _bStruct(.new(this, layout: Vector3D.struct, factory: Vector3D.new, pointerFactory: Vector3D.pointer));
-    Vector4$ = _bStruct(.new(this, layout: Vector4D.struct, factory: Vector4D.new, pointerFactory: Vector4D.pointer));
-    VrDeviceInfo$ = _bStruct(.new(this, layout: VrDeviceInfoD.struct, factory: VrDeviceInfoD.new, pointerFactory: VrDeviceInfoD.pointer));
-    VrStereoConfig$ = _bStruct(.new(this, layout: VrStereoConfigD.struct, factory: VrStereoConfigD.new, pointerFactory: VrStereoConfigD.pointer));
-    Wave$ = _bStruct(.new(this, layout: WaveD.struct, factory: WaveD.new, pointerFactory: WaveD.pointer));
+    AutomationEventList$ = _bStruct(.new(this, struct: AutomationEventListD.struct));
+    AutomationEvent$ = _bStruct(.new(this, struct: AutomationEventD.struct));
+    AudioStream$ = _bStruct(.new(this, struct: AudioStreamD.struct));
+    BoneInfo$ = _bStruct(.new(this, struct: BoneInfoD.struct));
+    BoundingBox$ = _bStruct(.new(this, struct: BoundingBoxD.struct));
+    Camera2D$ = _bStruct(.new(this, struct: Camera2DD.struct));
+    Camera3D$ = _bStruct(.new(this, struct: Camera3DD.struct));
+    Color$ = _bStruct(.new(this, struct: ColorD.struct));
+    FilePathList$ = _bStruct(.new(this, struct: FilePathListD.struct));
+    Font$ = _bStruct(.new(this, struct: FontD.struct));
+    GestureEvent$ = _bStruct(.new(this, struct: GestureEventD.struct));
+    GlyphInfo$ = _bStruct(.new(this, struct: GlyphInfoD.struct));
+    Image$ = _bStruct(.new(this, struct: ImageD.struct));
+    Light$ = _bStruct(.new(this, struct: LightD.struct));
+    MaterialMap$ = _bStruct(.new(this, struct: MaterialMapD.struct));
+    Material$ = _bStruct(.new(this, struct: MaterialD.struct));
+    Matrix$ = _bStruct(.new(this, struct: MatrixD.struct));
+    Mesh$ = _bStruct(.new(this, struct: MeshD.struct));
+    ModelAnimation$ = _bStruct(.new(this, struct: ModelAnimationD.struct));
+    ModelSkeleton$ = _bStruct(.new(this, struct: ModelSkeletonD.struct));
+    Model$ = _bStruct(.new(this, struct: ModelD.struct));
+    Music$ = _bStruct(.new(this, struct: MusicD.struct));
+    NPatchInfo$ = _bStruct(.new(this, struct: NPatchInfoD.struct));
+    Quaternion$ = _bStruct(.new(this, struct: QuaternionD.struct));
+    RayCollision$ = _bStruct(.new(this, struct: RayCollisionD.struct));
+    Ray$ = _bStruct(.new(this, struct: RayD.struct));
+    Rectangle$ = _bStruct(.new(this, struct: RectangleD.struct));
+    RenderTexture$ = _bStruct(.new(this, struct: RenderTextureD.struct));
+    RlDrawCall$ = _bStruct(.new(this, struct: RlDrawCallD.struct));
+    RlRenderBatch$ = _bStruct(.new(this, struct: RlRenderBatchD.struct));
+    RlVertexBuffer$ = _bStruct(.new(this, struct: RlVertexBufferD.struct));
+    Shader$ = _bStruct(.new(this, struct: ShaderD.struct));
+    Sound$ = _bStruct(.new(this, struct: SoundD.struct));
+    Texture$ = _bStruct(.new(this, struct: TextureD.struct));
+    Transform$ = _bStruct(.new(this, struct: TransformD.struct));
+    Vector2$ = _bStruct(.new(this, struct: Vector2D.struct));
+    Vector3$ = _bStruct(.new(this, struct: Vector3D.struct));
+    Vector4$ = _bStruct(.new(this, struct: Vector4D.struct));
+    VrDeviceInfo$ = _bStruct(.new(this, struct: VrDeviceInfoD.struct));
+    VrStereoConfig$ = _bStruct(.new(this, struct: VrStereoConfigD.struct));
+    Wave$ = _bStruct(.new(this, struct: WaveD.struct));
   }
 
   // optional structs
@@ -377,39 +379,27 @@ final class RaylibTemp<R extends RaylibBase> extends RaylibModule {
   late final RaylibTempStructAllocator<MsfGifStateD> MsfGifState$;
 
   void _initOptionalStructAllocators() {
-    MsfGifResult$ = _bStruct(.new(this, layout: MsfGifResultD.struct, factory: MsfGifResultD.new, pointerFactory: MsfGifResultD.pointer));
-    MsfGifState$ = _bStruct(.new(this, layout: MsfGifStateD.struct, factory: MsfGifStateD.new, pointerFactory: MsfGifStateD.pointer));
+    MsfGifResult$ = _bStruct(.new(this, struct: MsfGifResultD.struct));
+    MsfGifState$ = _bStruct(.new(this, struct: MsfGifStateD.struct));
   }
-
-  final Map<Type, RaylibTempScalarAllocator> _customScalarAllocators = {};
-  // A _cScalar<X extends RType, A extends RaylibTempScalarAllocator>(A allocator)
-  //   => _customScalarAllocators[X] = allocator;
 
   final Map<Type, RaylibTempStructAllocator> _customStructAllocators = {};
   RaylibTempStructAllocator<X> _cStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator)
     => _customStructAllocators[X] = allocator;
 
   /// Creates and registers a struct allocator.
-  RaylibTempStructAllocator<X> createStructAllocator<X extends RaylibStruct<X>>({
-    required StructLayout layout,
-    required StructFactory<X> factory,
-    required StructPointerFactory<X> pointerFactory,
-  }) => _cStruct(.new(this,
-    layout: layout,
-    factory: factory,
-    pointerFactory: pointerFactory,
-  ));
+  RaylibTempStructAllocator<X> createStructAllocator<X extends RaylibStruct<X>>(StructType<X> struct, {bool registerType = true}) {
+    if (registerType) StructTypes.register(struct);
+    return _cStruct(.new(this, struct: struct));
+  }
 
   /// Returns the struct allocator registered under struct type [X].
   RaylibTempScalarAllocator? scalarAlloc<Y extends RType>()
-    => _builtInScalarAllocators[Y] ?? _customScalarAllocators[Y];
+    => _builtInScalarAllocators[Y];
 
   /// Returns the struct allocator registered under struct type [X].
   RaylibTempStructAllocator<X>? structAlloc<X extends RaylibStruct<X>>()
-    => (
-      _builtInStructAllocators[X] ??
-      _customStructAllocators[X]
-    ) as RaylibTempStructAllocator<X>?;
+    => (_builtInStructAllocators[X] ?? _customStructAllocators[X]) as RaylibTempStructAllocator<X>?;
 
   /// Frees all allocators, then delegates to [RaylibModule.dispose].
   @override
@@ -424,11 +414,6 @@ final class RaylibTemp<R extends RaylibBase> extends RaylibModule {
 
     debugFreeInfo('Freeing built-in ${_builtInStructAllocators.length} struct allocators...');
     _builtInStructAllocators.values.forEach((a) => a.dispose());
-
-    if (_customScalarAllocators.isNotEmpty) {
-      debugFreeInfo('Freeing ${_customScalarAllocators.length} custom scalar allocators...');
-      _customScalarAllocators.values.forEach((a) => a.dispose());
-    }
 
     if (_customStructAllocators.isNotEmpty) {
       debugFreeInfo('Freeing ${_customStructAllocators.length} custom struct allocators...');

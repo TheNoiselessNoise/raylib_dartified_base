@@ -373,15 +373,15 @@ typedef RFloat = RFloat32;
 typedef RDouble = RFloat64;
 
 class RStruct extends RType {
-  final StructLayout layout;
+  final StructType struct;
 
-  const RStruct(this.layout);
-
-  @override
-  int get byteSize => layout.byteSize;
+  const RStruct(this.struct);
 
   @override
-  int get alignment => layout.alignment;
+  int get byteSize => struct.layout.byteSize;
+
+  @override
+  int get alignment => struct.layout.alignment;
 
   @override
   V? read<V>(MemoryPointer p, int offset)

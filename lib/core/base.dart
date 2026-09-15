@@ -493,30 +493,41 @@ abstract class RaylibBase with RaylibDisposable {
   double randC() => rand() * RAND_MAX;
 }
 
-/// Platform-agnostic game lifecycle interface for Raylib applications.
+/// Platform-agnostic app lifecycle interface for Raylib applications.
 ///
-/// Implement this to define your game logic independently of the backend.
+/// Implement this to define your app logic independently of the backend.
 /// Each backend provides its own [RaylibAppBase] subclass
 /// and [runRaylib] function that drives the lifecycle in a platform-appropriate way.
 ///
 /// The expected call order is:
-/// 1. [init] = set up your game state and call [RaylibCoreDart.InitWindow]
+/// 1. [init] = set up your app state and call [RaylibCoreDart.InitWindow]
 /// 2. [loop] = called every frame
 /// 3. [close] = called when [shouldClose] returns `true`; call [RaylibCoreDart.CloseWindow] here
 /// 4. [dispose] = release Dart-side resources
 abstract class RaylibAppBase<R extends RaylibBase> {
 
-  /// Called once before the game loop starts.
+  /// Called once before the app loop starts.
   ///
-  /// Use this to initialize game state and open the window via
+  /// Use this to initialize app state and open the window via
   /// [RaylibCoreDart.InitWindow].
   void init(R rl);
 
-  /// Returns `true` when the game loop should stop.
+  /// Returns `true` when the app loop should stop.
+  /// 
+  /// Branches on `currentRaylibPlatform`.
+  /// WASM has no exit condition of its own (the browser owns the loop) and `WindowShouldClose`
+  /// should not be called in WASM backend, so this one check is the honest boundary
+  /// of "agnostic" rather than a leak in the abstraction.
   ///
-  /// Defaults to [RaylibCoreDart.WindowShouldClose]; override to
-  /// implement custom exit conditions.
-  bool shouldClose(R rl) => rl.module<RaylibCoreDart>().WindowShouldClose();
+  /// Defaults to
+  ///   - [RaylibCoreDart.WindowShouldClose] (on native)
+  ///   - `false` (on web)
+  /// 
+  /// Override to implement custom exit conditions.
+  bool shouldClose(R rl) => switch (currentRaylibPlatform) {
+    .native => rl.module<RaylibCoreDart>().WindowShouldClose(),
+    .web => false,
+  };
 
   /// Called once per frame while [shouldClose] returns `false`.
   Future<void> loop(R rl);
@@ -536,4 +547,4 @@ abstract class RaylibAppBase<R extends RaylibBase> {
 
 // NOTE: each backend implements it's own function
 // `nativeLibPath` leaking into WASM version... we can't do anything
-// void runRaylib(RaylibAppBase game, {String? nativeLibPath, bool silent = false});
+// void runRaylib(RaylibAppBase app, {String? nativeLibPath, bool silent = false});

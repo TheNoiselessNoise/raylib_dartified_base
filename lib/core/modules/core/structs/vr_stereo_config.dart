@@ -22,34 +22,41 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<VrStereoConfigField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<VrStereoConfigD> struct = .new(
+    factory: VrStereoConfigD.new,
+    layout: .aligned<VrStereoConfigField>({
+      .projection:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR projection matrices (per eye)
+      .viewOffset:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR view offset matrices (per eye)
+      .leftLensCenter:    RArray(RFloat(), BASE_paramsCount), // VR left lens center
+      .rightLensCenter:   RArray(RFloat(), BASE_paramsCount), // VR right lens center
+      .leftScreenCenter:  RArray(RFloat(), BASE_paramsCount), // VR left screen center
+      .rightScreenCenter: RArray(RFloat(), BASE_paramsCount), // VR right screen center
+      .scale:             RArray(RFloat(), BASE_paramsCount), // VR distortion scale
+      .scaleIn:           RArray(RFloat(), BASE_paramsCount), // VR distortion scale in
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<VrStereoConfigField> struct = .aligned({
-    .projection:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR projection matrices (per eye)
-    .viewOffset:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR view offset matrices (per eye)
-    .leftLensCenter:    RArray(RFloat(), BASE_paramsCount), // VR left lens center
-    .rightLensCenter:   RArray(RFloat(), BASE_paramsCount), // VR right lens center
-    .leftScreenCenter:  RArray(RFloat(), BASE_paramsCount), // VR left screen center
-    .rightScreenCenter: RArray(RFloat(), BASE_paramsCount), // VR right screen center
-    .scale:             RArray(RFloat(), BASE_paramsCount), // VR distortion scale
-    .scaleIn:           RArray(RFloat(), BASE_paramsCount), // VR distortion scale in
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<VrStereoConfigField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<VrStereoConfigD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, VrStereoConfigD.new, VrStereoConfigD.pointer);
-
-  static final field_projection = struct.structArray(.projection, MatrixD.pointer);
-  static final field_viewOffset = struct.structArray(.viewOffset, MatrixD.pointer);
-  static final field_leftLensCenter = struct.scalarArray<double, RFloat>(.leftLensCenter);
-  static final field_rightLensCenter = struct.scalarArray<double, RFloat>(.rightLensCenter);
-  static final field_leftScreenCenter = struct.scalarArray<double, RFloat>(.leftScreenCenter);
-  static final field_rightScreenCenter = struct.scalarArray<double, RFloat>(.rightScreenCenter);
-  static final field_scale = struct.scalarArray<double, RFloat>(.scale);
-  static final field_scaleIn = struct.scalarArray<double, RFloat>(.scaleIn);
+  /// Field descriptor for [projection].
+  static final field_projection = structLayout.structArray<MatrixD>(.projection);
+  /// Field descriptor for [viewOffset].
+  static final field_viewOffset = structLayout.structArray<MatrixD>(.viewOffset);
+  /// Field descriptor for [leftLensCenter].
+  static final field_leftLensCenter = structLayout.scalarArray<double, RFloat>(.leftLensCenter);
+  /// Field descriptor for [rightLensCenter].
+  static final field_rightLensCenter = structLayout.scalarArray<double, RFloat>(.rightLensCenter);
+  /// Field descriptor for [leftScreenCenter].
+  static final field_leftScreenCenter = structLayout.scalarArray<double, RFloat>(.leftScreenCenter);
+  /// Field descriptor for [rightScreenCenter].
+  static final field_rightScreenCenter = structLayout.scalarArray<double, RFloat>(.rightScreenCenter);
+  /// Field descriptor for [scale].
+  static final field_scale = structLayout.scalarArray<double, RFloat>(.scale);
+  /// Field descriptor for [scaleIn].
+  static final field_scaleIn = structLayout.scalarArray<double, RFloat>(.scaleIn);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    

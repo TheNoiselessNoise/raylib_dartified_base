@@ -20,30 +20,35 @@ class FontD extends RaylibStruct<FontD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<FontField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<FontD> struct = .new(
+    factory: FontD.new,
+    layout: .aligned<FontField>({
+      .baseSize:     RInt(), // Base size (default chars height)
+      .glyphCount:   RInt(), // Number of glyph characters
+      .glyphPadding: RInt(), // Padding around the glyph characters
+      .texture:      RStruct(TextureD.struct), // Texture atlas containing the glyphs
+      .recs:         RPointer(RStruct(RectangleD.struct)), // Rectangles in texture for the glyphs
+      .glyphs:       RPointer(RStruct(GlyphInfoD.struct)), // Glyphs info data
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<FontField> struct = .aligned({
-    .baseSize:     RInt(), // Base size (default chars height)
-    .glyphCount:   RInt(), // Number of glyph characters
-    .glyphPadding: RInt(), // Padding around the glyph characters
-    .texture:      RStruct(TextureD.struct), // Texture atlas containing the glyphs
-    .recs:         RPointer(RStruct(RectangleD.struct)), // Rectangles in texture for the glyphs
-    .glyphs:       RPointer(RStruct(GlyphInfoD.struct)), // Glyphs info data
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<FontField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<FontD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, FontD.new, FontD.pointer);
-
-  static final field_baseSize = struct.scalar<int, RInt>(.baseSize);
-  static final field_glyphCount = struct.scalar<int, RInt>(.glyphCount);
-  static final field_glyphPadding = struct.scalar<int, RInt>(.glyphPadding);
-  static final field_texture = struct.struct(.texture, TextureD.pointer);
-  static final field_recs = struct.pointerStructArray(.recs, RectangleD.pointer);
-  static final field_glyphs = struct.pointerStructArray(.glyphs, GlyphInfoD.pointer);
+  /// Field descriptor for [baseSize].
+  static final field_baseSize = structLayout.scalar<int, RInt>(.baseSize);
+  /// Field descriptor for [glyphCount].
+  static final field_glyphCount = structLayout.scalar<int, RInt>(.glyphCount);
+  /// Field descriptor for [glyphPadding].
+  static final field_glyphPadding = structLayout.scalar<int, RInt>(.glyphPadding);
+  /// Field descriptor for [texture].
+  static final field_texture = structLayout.struct<TextureD>(.texture);
+  /// Field descriptor for [recs].
+  static final field_recs = structLayout.pointerStructArray<RectangleD>(.recs);
+  /// Field descriptor for [glyphs].
+  static final field_glyphs = structLayout.pointerStructArray<GlyphInfoD>(.glyphs);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -56,22 +61,22 @@ class FontD extends RaylibStruct<FontD> {
   int _baseSize;
   /// Base size (default chars height)
   int get baseSize => _baseSize = field_baseSize.readOr(op, _baseSize);
-  set baseSize(int value) => _baseSize = field_baseSize.writeIf(op, value);
+  set baseSize(int value) => _baseSize = field_baseSize.writeOr(op, value);
 
   int _glyphCount;
   /// Number of glyph characters
   int get glyphCount => _glyphCount = field_glyphCount.readOr(op, _glyphCount);
-  set glyphCount(int value) => _glyphCount = field_glyphCount.writeIf(op, value);
+  set glyphCount(int value) => _glyphCount = field_glyphCount.writeOr(op, value);
 
   int _glyphPadding;
   /// Padding around the glyph characters
   int get glyphPadding => _glyphPadding = field_glyphPadding.readOr(op, _glyphPadding);
-  set glyphPadding(int value) => _glyphPadding = field_glyphPadding.writeIf(op, value);
+  set glyphPadding(int value) => _glyphPadding = field_glyphPadding.writeOr(op, value);
 
   TextureD _texture;
   /// Texture atlas containing the glyphs
   TextureD get texture => _texture = field_texture.readOr(op, _texture);
-  set texture(TextureD value) => _texture = field_texture.writeIf(op, value);
+  set texture(TextureD value) => _texture = field_texture.writeOr(op, value);
 
   late final StructLiveListStruct<RectangleD> _recs;
   /// Rectangles in texture for the glyphs

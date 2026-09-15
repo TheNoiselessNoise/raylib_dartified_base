@@ -18,26 +18,29 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RlDrawCallField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RlDrawCallD> struct = .new(
+    factory: RlDrawCallD.new,
+    layout: .aligned<RlDrawCallField>({
+      .mode:            RInt(), // Drawing mode: LINES, TRIANGLES, QUADS
+      .vertexCount:     RInt(), // Number of vertex of the draw
+      .vertexAlignment: RInt(), // Number of vertex required for index alignment (LINES, TRIANGLES)
+      .textureId:       RUnsignedInt(), // Texture id to be used on the draw -> Use to create new draw call if changes
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RlDrawCallField> struct = .aligned({
-    .mode:            RInt(), // Drawing mode: LINES, TRIANGLES, QUADS
-    .vertexCount:     RInt(), // Number of vertex of the draw
-    .vertexAlignment: RInt(), // Number of vertex required for index alignment (LINES, TRIANGLES)
-    .textureId:       RUnsignedInt(), // Texture id to be used on the draw -> Use to create new draw call if changes
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RlDrawCallField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlDrawCallD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RlDrawCallD.new, RlDrawCallD.pointer);
-
-  static final field_mode = struct.enumValue(.mode, RlDrawMode.fromValue);
-  static final field_vertexCount = struct.scalar<int, RInt>(.vertexCount);
-  static final field_vertexAlignment = struct.scalar<int, RInt>(.vertexAlignment);
-  static final field_textureId = struct.scalar<int, RUnsignedInt>(.textureId);
+  /// Field descriptor for [mode].
+  static final field_mode = structLayout.enumValue(.mode, RlDrawMode.fromValue);
+  /// Field descriptor for [vertexCount].
+  static final field_vertexCount = structLayout.scalar<int, RInt>(.vertexCount);
+  /// Field descriptor for [vertexAlignment].
+  static final field_vertexAlignment = structLayout.scalar<int, RInt>(.vertexAlignment);
+  /// Field descriptor for [textureId].
+  static final field_textureId = structLayout.scalar<int, RUnsignedInt>(.textureId);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -50,22 +53,22 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   RlDrawMode _mode;
   /// Drawing mode: LINES, TRIANGLES, QUADS
   RlDrawMode get mode => _mode = field_mode.readOr(op, _mode);
-  set mode(RlDrawMode value) => _mode = field_mode.writeIf(op, value);
+  set mode(RlDrawMode value) => _mode = field_mode.writeOr(op, value);
 
   int _vertexCount;
   /// Number of vertex of the draw
   int get vertexCount => _vertexCount = field_vertexCount.readOr(op, _vertexCount);
-  set vertexCount(int value) => _vertexCount = field_vertexCount.writeIf(op, value);
+  set vertexCount(int value) => _vertexCount = field_vertexCount.writeOr(op, value);
 
   int _vertexAlignment;
   /// Number of vertex required for index alignment (LINES, TRIANGLES)
   int get vertexAlignment => _vertexAlignment = field_vertexAlignment.readOr(op, _vertexAlignment);
-  set vertexAlignment(int value) => _vertexAlignment = field_vertexAlignment.writeIf(op, value);
+  set vertexAlignment(int value) => _vertexAlignment = field_vertexAlignment.writeOr(op, value);
 
   int _textureId;
   /// Texture id to be used on the draw -> Use to create new draw call if changes
   int get textureId => _textureId = field_textureId.readOr(op, _textureId);
-  set textureId(int value) => _textureId = field_textureId.writeIf(op, value);
+  set textureId(int value) => _textureId = field_textureId.writeOr(op, value);
   
   RlDrawCallD({
     super.op,

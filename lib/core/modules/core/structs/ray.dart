@@ -16,22 +16,23 @@ class RayD extends RaylibStructLiteral<RayD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RayField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RayD> struct = .new(
+    factory: RayD.new,
+    layout: .aligned<RayField>({
+      .position:  RStruct(Vector3D.struct), // Ray position (origin)
+      .direction: RStruct(Vector3D.struct), // Ray direction (normalized)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RayField> struct = .aligned({
-    .position:  RStruct(Vector3D.struct), // Ray position (origin)
-    .direction: RStruct(Vector3D.struct), // Ray direction (normalized)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RayField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RayD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RayD.new, RayD.pointer);
-
-  static final field_position = struct.struct(.position, Vector3D.pointer);
-  static final field_direction = struct.struct(.direction, Vector3D.pointer);
+  /// Field descriptor for [position].
+  static final field_position = structLayout.struct<Vector3D>(.position);
+  /// Field descriptor for [direction].
+  static final field_direction = structLayout.struct<Vector3D>(.direction);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -44,12 +45,12 @@ class RayD extends RaylibStructLiteral<RayD> {
   Vector3D _position;
   /// Ray position (origin)
   Vector3D get position => _position = field_position.readOr(op, _position);
-  set position(Vector3D value) => _position = field_position.writeIf(op, value);
+  set position(Vector3D value) => _position = field_position.writeOr(op, value);
 
   Vector3D _direction;
   /// Ray direction (normalized)
   Vector3D get direction => _direction = field_direction.readOr(op, _direction);
-  set direction(Vector3D value) => _direction = field_direction.writeIf(op, value);
+  set direction(Vector3D value) => _direction = field_direction.writeOr(op, value);
 
   RayD({
     super.op,

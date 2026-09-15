@@ -17,24 +17,26 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RenderTextureField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RenderTextureD> struct = .new(
+    factory: RenderTextureD.new,
+    layout: .aligned<RenderTextureField>({
+      .id:      RUnsignedInt(), // OpenGL framebuffer object id
+      .texture: RStruct(TextureD.struct), // Color buffer attachment texture
+      .depth:   RStruct(TextureD.struct), // Depth buffer attachment texture
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RenderTextureField> struct = .aligned({
-    .id:      RUnsignedInt(), // OpenGL framebuffer object id
-    .texture: RStruct(TextureD.struct), // Color buffer attachment texture
-    .depth:   RStruct(TextureD.struct), // Depth buffer attachment texture
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RenderTextureField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RenderTextureD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RenderTextureD.new, RenderTextureD.pointer);
-
-  static final field_id = struct.scalar<int, RUnsignedInt>(.id);
-  static final field_texture = struct.struct(.texture, TextureD.pointer);
-  static final field_depth = struct.struct(.depth, TextureD.pointer);
+  /// Field descriptor for [id].
+  static final field_id = structLayout.scalar<int, RUnsignedInt>(.id);
+  /// Field descriptor for [texture].
+  static final field_texture = structLayout.struct<TextureD>(.texture);
+  /// Field descriptor for [depth].
+  static final field_depth = structLayout.struct<TextureD>(.depth);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -47,17 +49,17 @@ class RenderTextureD extends RaylibStructLiteral<RenderTextureD> {
   int _id;
   /// OpenGL framebuffer object id
   int get id => _id = field_id.readOr(op, _id);
-  set id(int value) => _id = field_id.writeIf(op, value);
+  set id(int value) => _id = field_id.writeOr(op, value);
 
   TextureD _texture;
   /// Color buffer attachment texture
   TextureD get texture => _texture = field_texture.readOr(op, _texture);
-  set texture(TextureD value) => _texture = field_texture.writeIf(op, value);
+  set texture(TextureD value) => _texture = field_texture.writeOr(op, value);
 
   TextureD _depth;
   /// Depth buffer attachment texture
   TextureD get depth => _depth = field_depth.readOr(op, _depth);
-  set depth(TextureD value) => _depth = field_depth.writeIf(op, value);
+  set depth(TextureD value) => _depth = field_depth.writeOr(op, value);
 
   RenderTextureD({
     super.op,

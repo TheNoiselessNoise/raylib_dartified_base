@@ -7,38 +7,32 @@ final class RaylibTempStructAllocator<
   X extends RaylibStruct<X> // Dart mirror object
 > extends RaylibTempArrayAllocator<X, RStruct> {
 
-  final StructLayout layout; // untyped
-
-  final StructFactory<X> factory;
-
-  final StructPointerFactory<X> pointerFactory;
+  final StructType<X> struct;
 
   RaylibTempStructAllocator(super.temp, {
-    required this.layout,
-    required this.factory,
-    required this.pointerFactory,
+    required this.struct,
   }) : super(
-    byteSize: layout.byteSize,
-    indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * layout.byteSize)),
+    byteSize: struct.layout.byteSize,
+    indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * struct.layout.byteSize)),
   );
 
   @override
   String get name => '$X';
 
   StructPointer<X> RawStruct([int count = 1])
-    => pointerFactory(Raw(count));
+    => struct.ptr(Raw(count));
 
   StructPointer<X> RawArrayStruct(List<X> array)
-    => pointerFactory(RawArray(array));
+    => struct.ptr(RawArray(array));
 
   StructPointer<X> ArrayStruct(List<X> array, {String? key})
-    => pointerFactory(Array(array, key: key));
+    => struct.ptr(Array(array, key: key));
 
   StructPointer<X> AtStruct(String key, [int count = 1])
-    => pointerFactory(At(key, count));
+    => struct.ptr(At(key, count));
 
   StructPointer<X> AtUniqueStruct({String key = '_unique_', int count = 1})
-    => pointerFactory(AtUnique(key: key, count: count));
+    => struct.ptr(AtUnique(key: key, count: count));
 
   /// Pointer allocator for this struct [X].
   late final RaylibTempStructPointerAllocator<X> $ = .new(temp,
@@ -81,11 +75,9 @@ final class RaylibTempStructAllocator<
 
     final requiresOp = value._requiresOp;
     String baseKey = getBaseKey(value, _slotKey(key));    
-    final p = pointerFactory(requiresOp ? AtUnique(key: baseKey) : At(baseKey));
-    if (requiresOp) {
-      temp.debugSyncInfo('[SYNC] ${value.structName} allocate into');
-      value.op = p;
-    }
+    final p = struct.ptr(requiresOp ? AtUnique(key: baseKey) : At(baseKey));
+    temp.debugSyncInfo('[SYNC] ${value.structName} allocate into');
+    value.op = p;
     value.structAllocateInto(temp, p, baseKey);
     value.structWriteInto(p);
     return p;
@@ -95,7 +87,7 @@ final class RaylibTempStructAllocator<
   StructPointer<X> Copy(MemoryPointer src, int length, {String? key}) {
     final p = At(_slotKey(key), length);
     p.copyBytesFrom(src, length * byteSize);
-    return pointerFactory(p);
+    return struct.ptr(p);
   }
 
   /// Returns the pointer for slot [key], optionally writing [value] into it.
@@ -104,7 +96,7 @@ final class RaylibTempStructAllocator<
   StructPointer<X> Value([X? value, String? key]) {
     final p = At(_slotKey(key));
     if (value != null) value.structWriteInto(p);
-    return pointerFactory(p);
+    return struct.ptr(p);
   }
 
   /// Allocates an unslotted pointer, optionally writing [value] into it.
@@ -113,7 +105,7 @@ final class RaylibTempStructAllocator<
   StructPointer<X> RawValue([X? value]) {
     final p = Raw();
     if (value != null) value.structWriteInto(p);
-    return pointerFactory(p);
+    return struct.ptr(p);
   }
 
   /// Returns the pointer for the slot identified by a unique [key] suffix
@@ -125,7 +117,7 @@ final class RaylibTempStructAllocator<
   StructPointer<X> ValueUnique(X? value, {String key = '__value_unique__'}) {
     final p = At(_uniqueSlotKey(key));
     if (value != null) value.structWriteInto(p);
-    return pointerFactory(p);
+    return struct.ptr(p);
   }
 
   /// Returns a [StructPointer] for the given [X] value, using the existing allocation at [key]
@@ -135,12 +127,12 @@ final class RaylibTempStructAllocator<
   /// the slot's current allocation via [At]. Use [_RefOrNull] when a `null` input
   /// should produce a `nullptr` instead.
   StructPointer<X> _Ref(X? x, String key) => x == null
-    ? pointerFactory(At(key))
+    ? struct.ptr(At(key))
     : Allocate(x, key);
 
   StructPointer<X> RefUnique(X? x) {
     if (x == null) {
-      return pointerFactory(MemoryPointer.nullptr());
+      return struct.ptr(MemoryPointer.nullptr());
     }
     if (x.op == null) {
       x.op = AtUniqueStruct();
@@ -200,42 +192,42 @@ final class RaylibTempStructAllocator<
   /// Allocates [o] into slot `@slot:1`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull1([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref1(o);
+  StructPointer<X> RefOrNull1([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref1(o);
 
   /// Allocates [o] into slot `@slot:2`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull2([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref2(o);
+  StructPointer<X> RefOrNull2([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref2(o);
 
   /// Allocates [o] into slot `@slot:3`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull3([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref3(o);
+  StructPointer<X> RefOrNull3([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref3(o);
 
   /// Allocates [o] into slot `@slot:4`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull4([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref4(o);
+  StructPointer<X> RefOrNull4([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref4(o);
 
   /// Allocates [o] into slot `@slot:5`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull5([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref5(o);
+  StructPointer<X> RefOrNull5([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref5(o);
 
   /// Allocates [o] into slot `@slot:6`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull6([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref6(o);
+  StructPointer<X> RefOrNull6([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref6(o);
 
   /// Allocates [o] into slot `@slot:7`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull7([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref7(o);
+  StructPointer<X> RefOrNull7([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref7(o);
 
   /// Allocates [o] into slot `@slot:8`, or returns `nullptr` if [o] is `null`.
   ///
   /// Intended as a short-lived scratch reference within a single C call.
-  StructPointer<X> RefOrNull8([X? o]) => o == null ? pointerFactory(MemoryPointer.nullptr()) : Ref8(o);
+  StructPointer<X> RefOrNull8([X? o]) => o == null ? struct.ptr(MemoryPointer.nullptr()) : Ref8(o);
 
   /// Allocates a uniquely-keyed temporary slot and passes it to [fn].
   ///
@@ -253,7 +245,7 @@ final class RaylibTempStructAllocator<
   /// This allows the same extraction mechanism to support different backend
   /// representations of struct-returning functions.
   X RefCapture(String key, dynamic Function(StructPointer<X> ptr) fn) {
-    final ptr = pointerFactory(AtUnique(key: '@capture:$key'));
+    final ptr = struct.ptr(AtUnique(key: '@capture:$key'));
     return _getValue(ptr, fn(ptr));
   }
 
@@ -278,7 +270,7 @@ final class RaylibTempStructAllocator<
   /// value. Do not use it when each call must preserve an independent captured
   /// value; use [RefCapture] in that case.
   X RefCaptureCached(String key, dynamic Function(StructPointer<X> ptr) fn) {
-    final ptr = pointerFactory(At('@cached:$key'));
+    final ptr = struct.ptr(At('@cached:$key'));
     return _getValue(ptr, fn(ptr));
   }
 
@@ -420,7 +412,7 @@ final class RaylibTempStructAllocator<
   /// shared (via [At]) across every call site that touches it, so writing
   /// through it permanently corrupts the "zero" invariant for everyone else,
   /// there is no reset. Use [$1Ptr]..[$4Ptr] or [$newPtr] for a mutable slot.
-  StructPointer<X> get $zeroPtr => pointerFactory(At('@reusableZero'));
+  StructPointer<X> get $zeroPtr => struct.ptr(At('@reusableZero'));
 
   /// [X] view of [$zeroPtr]. Same read-only convention applies: do not
   /// mutate fields on this reference.
@@ -430,7 +422,7 @@ final class RaylibTempStructAllocator<
   /// this is expected to be written through, it's a fixed shared buffer,
   /// not a zero-invariant one, so callers may freely overwrite its contents
   /// between uses.
-  StructPointer<X> get $1Ptr => pointerFactory(At('@reusable1'));
+  StructPointer<X> get $1Ptr => struct.ptr(At('@reusable1'));
 
   /// [X] view of [$1Ptr].
   X get $1 => $1Ptr.ref;
@@ -438,13 +430,13 @@ final class RaylibTempStructAllocator<
   /// Reusable single-element scratch slot, parallel to [$1Ptr] under a
   /// distinct key. Use when a call needs a second independent scratch
   /// struct alongside [$1]/[$1Ptr] (e.g. two out-parameters in one call).
-  StructPointer<X> get $2Ptr => pointerFactory(At('@reusable2'));
+  StructPointer<X> get $2Ptr => struct.ptr(At('@reusable2'));
 
   /// [X] view of [$2Ptr].
   X get $2 => $2Ptr.ref;
 
   /// Reusable single-element scratch slot, parallel to [$1Ptr]/[$2Ptr].
-  StructPointer<X> get $3Ptr => pointerFactory(At('@reusable3'));
+  StructPointer<X> get $3Ptr => struct.ptr(At('@reusable3'));
 
   /// [X] view of [$3Ptr].
   X get $3 => $3Ptr.ref;
@@ -455,7 +447,7 @@ final class RaylibTempStructAllocator<
   /// (plus the read-only [$zeroPtr]) for call sites that need several
   /// simultaneous native struct out-parameters without allocating a fresh
   /// buffer each time.
-  StructPointer<X> get $4Ptr => pointerFactory(At('@reusable4'));
+  StructPointer<X> get $4Ptr => struct.ptr(At('@reusable4'));
 
   /// [X] view of [$4Ptr].
   X get $4 => $4Ptr.ref;
@@ -465,7 +457,7 @@ final class RaylibTempStructAllocator<
   /// Each access gets its own slot via [AtUnique], keyed with a monotonic id,
   /// so it is safe even when the same call site may be active multiple times
   /// at once (recursion, re-entrant calls).
-  StructPointer<X> get $newPtr => pointerFactory(AtUnique(key: '@newPtr:'));
+  StructPointer<X> get $newPtr => struct.ptr(AtUnique(key: '@newPtr:'));
 
   /// [X] view of [$newPtr].
   X get $new => $newPtr.ref;

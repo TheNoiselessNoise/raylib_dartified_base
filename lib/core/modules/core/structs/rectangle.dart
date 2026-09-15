@@ -18,26 +18,29 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RectangleField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RectangleD> struct = .new(
+    factory: RectangleD.new,
+    layout: .aligned<RectangleField>({
+      .x:      RFloat(), // Rectangle top-left corner position x
+      .y:      RFloat(), // Rectangle top-left corner position y
+      .width:  RFloat(), // Rectangle width
+      .height: RFloat(), // Rectangle height
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RectangleField> struct = .aligned({
-    .x:      RFloat(), // Rectangle top-left corner position x
-    .y:      RFloat(), // Rectangle top-left corner position y
-    .width:  RFloat(), // Rectangle width
-    .height: RFloat(), // Rectangle height
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RectangleField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RectangleD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RectangleD.new, RectangleD.pointer);
-
-  static final field_x = struct.scalar<double, RFloat>(.x);
-  static final field_y = struct.scalar<double, RFloat>(.y);
-  static final field_width = struct.scalar<double, RFloat>(.width);
-  static final field_height = struct.scalar<double, RFloat>(.height);
+  /// Field descriptor for [x].
+  static final field_x = structLayout.scalar<double, RFloat>(.x);
+  /// Field descriptor for [y].
+  static final field_y = structLayout.scalar<double, RFloat>(.y);
+  /// Field descriptor for [width].
+  static final field_width = structLayout.scalar<double, RFloat>(.width);
+  /// Field descriptor for [height].
+  static final field_height = structLayout.scalar<double, RFloat>(.height);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -50,22 +53,22 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   double _x;
   /// Rectangle top-left corner position x
   double get x => _x = field_x.readOr(op, _x);
-  set x(double value) => _x = field_x.writeIf(op, value);
+  set x(double value) => _x = field_x.writeOr(op, value);
   
   double _y;
   /// Rectangle top-left corner position y
   double get y => _y = field_y.readOr(op, _y);
-  set y(double value) => _y = field_y.writeIf(op, value);
+  set y(double value) => _y = field_y.writeOr(op, value);
 
   double _width;
   /// Rectangle width
   double get width => _width = field_width.readOr(op, _width);
-  set width(double value) => _width = field_width.writeIf(op, value);
+  set width(double value) => _width = field_width.writeOr(op, value);
 
   double _height;
   /// Rectangle height
   double get height => _height = field_height.readOr(op, _height);
-  set height(double value) => _height = field_height.writeIf(op, value);
+  set height(double value) => _height = field_height.writeOr(op, value);
   
   RectangleD({
     super.op,

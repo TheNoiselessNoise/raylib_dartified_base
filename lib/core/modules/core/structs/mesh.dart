@@ -30,59 +30,74 @@ class MeshD extends RaylibStruct<MeshD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MeshField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MeshD> struct = .new(
+    factory: MeshD.new,
+    layout: .aligned<MeshField>({
+      .vertexCount:   RInt(), // Number of vertices stored in arrays
+      .triangleCount: RInt(), // Number of triangles stored (indexed or not)
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MeshField> struct = .aligned({
-    .vertexCount:   RInt(), // Number of vertices stored in arrays
-    .triangleCount: RInt(), // Number of triangles stored (indexed or not)
+      // Vertex attributes data
+      .vertices:      RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
+      .texcoords:     RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
+      .texcoords2:    RPointer(RFloat()), // Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
+      .normals:       RPointer(RFloat()), // Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
+      .tangents:      RPointer(RFloat()), // Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
+      .colors:        RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
+      .indices:       RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed)
 
-    // Vertex attributes data
-    .vertices:      RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-    .texcoords:     RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-    .texcoords2:    RPointer(RFloat()), // Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
-    .normals:       RPointer(RFloat()), // Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
-    .tangents:      RPointer(RFloat()), // Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
-    .colors:        RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-    .indices:       RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed)
+      // Skin data for animation
+      .boneCount:     RInt(), // Number of bones (MAX: 256 bones)
+      .boneIndices:   RPointer(RUnsignedChar()), // Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
+      .boneWeights:   RPointer(RFloat()), // Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
 
-    // Skin data for animation
-    .boneCount:     RInt(), // Number of bones (MAX: 256 bones)
-    .boneIndices:   RPointer(RUnsignedChar()), // Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-    .boneWeights:   RPointer(RFloat()), // Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
+      // Runtime animation vertex data (CPU skinning)
+      // NOTE: In case of GPU skinning, not used, pointers are NULL
+      .animVertices:  RPointer(RFloat()), // Animated vertex positions (after bones transformations)
+      .animNormals:   RPointer(RFloat()), // Animated normals (after bones transformations)
 
-    // Runtime animation vertex data (CPU skinning)
-    // NOTE: In case of GPU skinning, not used, pointers are NULL
-    .animVertices:  RPointer(RFloat()), // Animated vertex positions (after bones transformations)
-    .animNormals:   RPointer(RFloat()), // Animated normals (after bones transformations)
+      // OpenGL identifiers
+      .vaoId:         RUnsignedInt(), // OpenGL Vertex Array Object id
+      .vboId:         RPointer(RUnsignedInt()), // OpenGL Vertex Buffer Objects id (default vertex data)
+    }),
+  );
 
-    // OpenGL identifiers
-    .vaoId:         RUnsignedInt(), // OpenGL Vertex Array Object id
-    .vboId:         RPointer(RUnsignedInt()), // OpenGL Vertex Buffer Objects id (default vertex data)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MeshField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MeshD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MeshD.new, MeshD.pointer);
-
-  static final field_vertexCount = struct.scalar<int, RInt>(.vertexCount);
-  static final field_triangleCount = struct.scalar<int, RInt>(.triangleCount);
-  static final field_vertices = struct.pointerScalarArray<double, RFloat>(.vertices);
-  static final field_texcoords = struct.pointerScalarArray<double, RFloat>(.texcoords);
-  static final field_texcoords2 = struct.pointerScalarArray<double, RFloat>(.texcoords2);
-  static final field_normals = struct.pointerScalarArray<double, RFloat>(.normals);
-  static final field_tangents = struct.pointerScalarArray<double, RFloat>(.tangents);
-  static final field_colors = struct.pointerScalarArray<int, RUnsignedChar>(.colors);
-  static final field_indices = struct.pointerScalarArray<int, RUnsignedShort>(.indices);
-  static final field_boneCount = struct.scalar<int, RInt>(.boneCount);
-  static final field_boneIndices = struct.pointerScalarArray<int, RUnsignedChar>(.boneIndices);
-  static final field_boneWeights = struct.pointerScalarArray<double, RFloat>(.boneWeights);
-  static final field_animVertices = struct.pointerScalarArray<double, RFloat>(.animVertices);
-  static final field_animNormals = struct.pointerScalarArray<double, RFloat>(.animNormals);
-  static final field_vaoId = struct.scalar<int, RUnsignedInt>(.vaoId);
-  static final field_vboId = struct.pointerScalarArray<int, RUnsignedInt>(.vboId);
+  /// Field descriptor for [vertexCount].
+  static final field_vertexCount = structLayout.scalar<int, RInt>(.vertexCount);
+  /// Field descriptor for [triangleCount].
+  static final field_triangleCount = structLayout.scalar<int, RInt>(.triangleCount);
+  /// Field descriptor for [vertices].
+  static final field_vertices = structLayout.pointerScalarArray<double, RFloat>(.vertices);
+  /// Field descriptor for [texcoords].
+  static final field_texcoords = structLayout.pointerScalarArray<double, RFloat>(.texcoords);
+  /// Field descriptor for [texcoords2].
+  static final field_texcoords2 = structLayout.pointerScalarArray<double, RFloat>(.texcoords2);
+  /// Field descriptor for [normals].
+  static final field_normals = structLayout.pointerScalarArray<double, RFloat>(.normals);
+  /// Field descriptor for [tangents].
+  static final field_tangents = structLayout.pointerScalarArray<double, RFloat>(.tangents);
+  /// Field descriptor for [colors].
+  static final field_colors = structLayout.pointerScalarArray<int, RUnsignedChar>(.colors);
+  /// Field descriptor for [indices].
+  static final field_indices = structLayout.pointerScalarArray<int, RUnsignedShort>(.indices);
+  /// Field descriptor for [boneCount].
+  static final field_boneCount = structLayout.scalar<int, RInt>(.boneCount);
+  /// Field descriptor for [boneIndices].
+  static final field_boneIndices = structLayout.pointerScalarArray<int, RUnsignedChar>(.boneIndices);
+  /// Field descriptor for [boneWeights].
+  static final field_boneWeights = structLayout.pointerScalarArray<double, RFloat>(.boneWeights);
+  /// Field descriptor for [animVertices].
+  static final field_animVertices = structLayout.pointerScalarArray<double, RFloat>(.animVertices);
+  /// Field descriptor for [animNormals].
+  static final field_animNormals = structLayout.pointerScalarArray<double, RFloat>(.animNormals);
+  /// Field descriptor for [vaoId].
+  static final field_vaoId = structLayout.scalar<int, RUnsignedInt>(.vaoId);
+  /// Field descriptor for [vboId].
+  static final field_vboId = structLayout.pointerScalarArray<int, RUnsignedInt>(.vboId);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -175,12 +190,12 @@ class MeshD extends RaylibStruct<MeshD> {
   int _vertexCount;
   /// Number of vertices stored in arrays
   int get vertexCount => _vertexCount = field_vertexCount.readOr(op, _vertexCount);
-  set vertexCount(int value) => _vertexCount = field_vertexCount.writeIf(op, value);
+  set vertexCount(int value) => _vertexCount = field_vertexCount.writeOr(op, value);
 
   int _triangleCount;
   /// Number of triangles stored (indexed or not)
   int get triangleCount => _triangleCount = field_triangleCount.readOr(op, _triangleCount);
-  set triangleCount(int value) => _triangleCount = field_triangleCount.writeIf(op, value);
+  set triangleCount(int value) => _triangleCount = field_triangleCount.writeOr(op, value);
   
   // Vertex attributes data
   
@@ -224,7 +239,7 @@ class MeshD extends RaylibStruct<MeshD> {
   int _boneCount;
   // Number of bones (MAX: 256 bones)
   int get boneCount => _boneCount = field_boneCount.readOr(op, _boneCount);
-  set boneCount(int value) => _boneCount = field_boneCount.writeIf(op, value);
+  set boneCount(int value) => _boneCount = field_boneCount.writeOr(op, value);
 
   late final StructLiveList<int, RUnsignedChar> _boneIndices;
   /// Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
@@ -251,7 +266,7 @@ class MeshD extends RaylibStruct<MeshD> {
   int _vaoId;
   /// OpenGL Vertex Array Object id
   int get vaoId => _vaoId = field_vaoId.readOr(op, _vaoId);
-  set vaoId(int value) => _vaoId = field_vaoId.writeIf(op, value);
+  set vaoId(int value) => _vaoId = field_vaoId.writeOr(op, value);
 
   late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (default vertex data)

@@ -357,9 +357,9 @@ class StructCodec<E extends RaylibStruct<E>>
   extends ElementCodec<E, RStruct>
   with ContiguousCodec<E, RStruct>
 {
-  final StructPointerFactory<E> pointer;
+  const StructCodec(super.type);
 
-  const StructCodec(super.type, this.pointer);
+  StructPointerFactory<E> get pointer => StructTypes.of<E>().ptr;
 
   @override
   E read(MemoryPointer p) {

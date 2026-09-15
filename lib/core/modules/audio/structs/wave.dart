@@ -19,28 +19,32 @@ class WaveD extends RaylibStruct<WaveD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<WaveField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<WaveD> struct = .new(
+    factory: WaveD.new,
+    layout: .aligned<WaveField>({
+      .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
+      .sampleRate: RUnsignedInt(), // Frequency (samples per second)
+      .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
+      .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
+      .data:       RPointer(RVoid()), // Buffer data pointer
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<WaveField> struct = .aligned({
-    .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
-    .sampleRate: RUnsignedInt(), // Frequency (samples per second)
-    .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-    .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
-    .data:       RPointer(RVoid()), // Buffer data pointer
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<WaveField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<WaveD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, WaveD.new, WaveD.pointer);
-
-  static final field_frameCount = struct.scalar<int, RUnsignedInt>(.frameCount);
-  static final field_sampleRate = struct.scalar<int, RUnsignedInt>(.sampleRate);
-  static final field_sampleSize = struct.scalar<int, RUnsignedInt>(.sampleSize);
-  static final field_channels = struct.scalar<int, RUnsignedInt>(.channels);
-  static final field_data = struct.pointerUnknown<RVoid>(.data);
+  /// Field descriptor for [frameCount].
+  static final field_frameCount = structLayout.scalar<int, RUnsignedInt>(.frameCount);
+  /// Field descriptor for [sampleRate].
+  static final field_sampleRate = structLayout.scalar<int, RUnsignedInt>(.sampleRate);
+  /// Field descriptor for [sampleSize].
+  static final field_sampleSize = structLayout.scalar<int, RUnsignedInt>(.sampleSize);
+  /// Field descriptor for [channels].
+  static final field_channels = structLayout.scalar<int, RUnsignedInt>(.channels);
+  /// Field descriptor for [data].
+  static final field_data = structLayout.pointerUnknown<RVoid>(.data);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -109,22 +113,22 @@ class WaveD extends RaylibStruct<WaveD> {
   int _frameCount;
   /// Total number of frames (considering channels)
   int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
-  set frameCount(int value) => _frameCount = field_frameCount.writeIf(op, value);
+  set frameCount(int value) => _frameCount = field_frameCount.writeOr(op, value);
   
   int _sampleRate;
   /// Frequency (samples per second)
   int get sampleRate => _sampleRate = field_sampleRate.readOr(op, _sampleRate);
-  set sampleRate(int value) => _sampleRate = field_sampleRate.writeIf(op, value);
+  set sampleRate(int value) => _sampleRate = field_sampleRate.writeOr(op, value);
 
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
   int get sampleSize => _sampleSize = field_sampleSize.readOr(op, _sampleSize);
-  set sampleSize(int value) => _sampleSize = field_sampleSize.writeIf(op, value);
+  set sampleSize(int value) => _sampleSize = field_sampleSize.writeOr(op, value);
 
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
   int get channels => _channels = field_channels.readOr(op, _channels);
-  set channels(int value) => _channels = field_channels.writeIf(op, value);
+  set channels(int value) => _channels = field_channels.writeOr(op, value);
 
   /// Buffer data pointer
   /// 

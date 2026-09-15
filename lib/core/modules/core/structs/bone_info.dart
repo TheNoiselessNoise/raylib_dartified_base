@@ -16,22 +16,23 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<BoneInfoField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<BoneInfoD> struct = .new(
+    factory: BoneInfoD.new,
+    layout: .aligned<BoneInfoField>({
+      .name:   RArray(RChar(), BASE_nameLength), // Bone name
+      .parent: RInt(), // Bone parent
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<BoneInfoField> struct = .aligned({
-    .name:   RArray(RChar(), BASE_nameLength), // Bone name
-    .parent: RInt(), // Bone parent
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<BoneInfoField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<BoneInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, BoneInfoD.new, BoneInfoD.pointer);
-
-  static final field_name = struct.stringAsCharArray<RChar>(.name);
-  static final field_parent = struct.scalar<int, RInt>(.parent);
+  /// Field descriptor for [name].
+  static final field_name = structLayout.stringAsCharArray<RChar>(.name);
+  /// Field descriptor for [parent].
+  static final field_parent = structLayout.scalar<int, RInt>(.parent);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -58,12 +59,12 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   String _name;
   /// Bone name
   String get name => _name = field_name.readOr(op, _name);
-  set name(String value) => _name = field_name.writeIf(op, value);
+  set name(String value) => _name = field_name.writeOr(op, value);
   
   int _parent;
   /// Bone parent
   int get parent => _parent = field_parent.readOr(op, _parent);
-  set parent(int value) => _parent = field_parent.writeIf(op, value);
+  set parent(int value) => _parent = field_parent.writeOr(op, value);
 
   BoneInfoD({
     super.op,

@@ -17,24 +17,26 @@ class MaterialD extends RaylibStruct<MaterialD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MaterialField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MaterialD> struct = .new(
+    factory: MaterialD.new,
+    layout: .aligned<MaterialField>({
+      .shader: RStruct(ShaderD.struct), // Material shader
+      .maps:   RPointer(RArray(RStruct(MaterialMapD.struct), BASE_mapsCount)), // Material maps array (MAX_MATERIAL_MAPS)
+      .params: RArray(RFloat(), BASE_paramsCount), // Material generic parameters (if required)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MaterialField> struct = .aligned({
-    .shader: RStruct(ShaderD.struct), // Material shader
-    .maps:   RPointer(RArray(RStruct(MaterialMapD.struct), BASE_mapsCount)), // Material maps array (MAX_MATERIAL_MAPS)
-    .params: RArray(RFloat(), BASE_paramsCount), // Material generic parameters (if required)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MaterialField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MaterialD.new, MaterialD.pointer);
-
-  static final field_shader = struct.struct(.shader, ShaderD.pointer);
-  static final field_maps = struct.pointerStructFixedArray(.maps, MaterialMapD.pointer);
-  static final field_params = struct.scalarArray<double, RFloat>(.params);
+  /// Field descriptor for [shader].
+  static final field_shader = structLayout.struct<ShaderD>(.shader);
+  /// Field descriptor for [maps].
+  static final field_maps = structLayout.pointerStructFixedArray<MaterialMapD>(.maps);
+  /// Field descriptor for [params].
+  static final field_params = structLayout.scalarArray<double, RFloat>(.params);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -67,7 +69,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   ShaderD _shader;
   /// Material shader
   ShaderD get shader => _shader = field_shader.readOr(op, _shader);
-  set shader(ShaderD value) => _shader = field_shader.writeIf(op, value);
+  set shader(ShaderD value) => _shader = field_shader.writeOr(op, value);
 
   late final StructLiveListStruct<MaterialMapD> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)

@@ -20,24 +20,26 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<Vector3Field> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<Vector3D> struct = .new(
+    factory: Vector3D.new,
+    layout: .aligned<Vector3Field>({
+      .x: RFloat(), // Vector x component
+      .y: RFloat(), // Vector y component
+      .z: RFloat(), // Vector z component
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<Vector3Field> struct = .aligned({
-    .x: RFloat(), // Vector x component
-    .y: RFloat(), // Vector y component
-    .z: RFloat(), // Vector z component
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<Vector3Field> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Vector3D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, Vector3D.new, Vector3D.pointer);
-
-  static final field_x = struct.scalar<double, RFloat>(.x);
-  static final field_y = struct.scalar<double, RFloat>(.y);
-  static final field_z = struct.scalar<double, RFloat>(.z);
+  /// Field descriptor for [x].
+  static final field_x = structLayout.scalar<double, RFloat>(.x);
+  /// Field descriptor for [y].
+  static final field_y = structLayout.scalar<double, RFloat>(.y);
+  /// Field descriptor for [z].
+  static final field_z = structLayout.scalar<double, RFloat>(.z);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -50,17 +52,17 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   double _x;
   /// Vector x component
   double get x => _x = field_x.readOr(op, _x);
-  set x(double value) => _x = field_x.writeIf(op, value);
+  set x(double value) => _x = field_x.writeOr(op, value);
 
   double _y;
   /// Vector y component
   double get y => _y = field_y.readOr(op, _y);
-  set y(double value) => _y = field_y.writeIf(op, value);
+  set y(double value) => _y = field_y.writeOr(op, value);
 
   double _z;
   /// Vector z component
   double get z => _z = field_z.readOr(op, _z);
-  set z(double value) => _z = field_z.writeIf(op, value);
+  set z(double value) => _z = field_z.writeOr(op, value);
   
   Vector3D({
     super.op,

@@ -20,30 +20,35 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RlRenderBatchField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RlRenderBatchD> struct = .new(
+    factory: RlRenderBatchD.new,
+    layout: .aligned<RlRenderBatchField>({
+      .bufferCount:   RInt(), // Number of vertex buffers (multi-buffering support)
+      .currentBuffer: RInt(), // Current buffer tracking in case of multi-buffering
+      .vertexBuffer:  RPointer(RStruct(RlVertexBufferD.struct)), // Dynamic buffer(s) for vertex data
+      .draws:         RPointer(RStruct(RlDrawCallD.struct)), // Draw calls array, depends on textureId
+      .drawCounter:   RInt(), // Draw calls counter
+      .currentDepth:  RFloat(), // Current depth value for next draw
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RlRenderBatchField> struct = .aligned({
-    .bufferCount:   RInt(), // Number of vertex buffers (multi-buffering support)
-    .currentBuffer: RInt(), // Current buffer tracking in case of multi-buffering
-    .vertexBuffer:  RPointer(RStruct(RlVertexBufferD.struct)), // Dynamic buffer(s) for vertex data
-    .draws:         RPointer(RStruct(RlDrawCallD.struct)), // Draw calls array, depends on textureId
-    .drawCounter:   RInt(), // Draw calls counter
-    .currentDepth:  RFloat(), // Current depth value for next draw
-  });
-
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlRenderBatchD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RlRenderBatchD.new, RlRenderBatchD.pointer);
+  /// Raw memory layout of this object.
+  static final StructLayout<RlRenderBatchField> structLayout = struct.layoutOf();
   
-  static final field_bufferCount = struct.scalar<int, RInt>(.bufferCount);
-  static final field_currentBuffer = struct.scalar<int, RInt>(.currentBuffer);
-  static final field_vertexBuffer = struct.pointerStructArray(.vertexBuffer, RlVertexBufferD.pointer);
-  static final field_draws = struct.pointerStructArray(.draws, RlDrawCallD.pointer);
-  static final field_drawCounter = struct.scalar<int, RInt>(.drawCounter);
-  static final field_currentDepth = struct.scalar<double, RFloat>(.currentDepth);
+  /// Field descriptor for [bufferCount].
+  static final field_bufferCount = structLayout.scalar<int, RInt>(.bufferCount);
+  /// Field descriptor for [currentBuffer].
+  static final field_currentBuffer = structLayout.scalar<int, RInt>(.currentBuffer);
+  /// Field descriptor for [vertexBuffer].
+  static final field_vertexBuffer = structLayout.pointerStructArray<RlVertexBufferD>(.vertexBuffer);
+  /// Field descriptor for [draws].
+  static final field_draws = structLayout.pointerStructArray<RlDrawCallD>(.draws);
+  /// Field descriptor for [drawCounter].
+  static final field_drawCounter = structLayout.scalar<int, RInt>(.drawCounter);
+  /// Field descriptor for [currentDepth].
+  static final field_currentDepth = structLayout.scalar<double, RFloat>(.currentDepth);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -56,12 +61,12 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   int _bufferCount;
   /// Number of vertex buffers (multi-buffering support)
   int get bufferCount => _bufferCount = field_bufferCount.readOr(op, _bufferCount);
-  set bufferCount(int value) => _bufferCount = field_bufferCount.writeIf(op, value);
+  set bufferCount(int value) => _bufferCount = field_bufferCount.writeOr(op, value);
 
   int _currentBuffer;
   /// Current buffer tracking in case of multi-buffering
   int get currentBuffer => _currentBuffer = field_currentBuffer.readOr(op, _currentBuffer);
-  set currentBuffer(int value) => _currentBuffer = field_currentBuffer.writeIf(op, value);
+  set currentBuffer(int value) => _currentBuffer = field_currentBuffer.writeOr(op, value);
 
   late final StructLiveListStruct<RlVertexBufferD> _vertexBuffer;
   /// Dynamic buffer(s) for vertex data
@@ -76,12 +81,12 @@ class RlRenderBatchD extends RaylibStruct<RlRenderBatchD> {
   int _drawCounter;
   /// Draw calls counter
   int get drawCounter => _drawCounter = field_drawCounter.readOr(op, _drawCounter);
-  set drawCounter(int value) => _drawCounter = field_drawCounter.writeIf(op, value);
+  set drawCounter(int value) => _drawCounter = field_drawCounter.writeOr(op, value);
   
   double _currentDepth;
   /// Current depth value for next draw
   double get currentDepth => _currentDepth = field_currentDepth.readOr(op, _currentDepth);
-  set currentDepth(double value) => _currentDepth = field_currentDepth.writeIf(op, value);
+  set currentDepth(double value) => _currentDepth = field_currentDepth.writeOr(op, value);
   
   RlRenderBatchD({
     super.op,

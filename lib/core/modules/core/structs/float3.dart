@@ -20,20 +20,20 @@ class float3D extends RaylibStructLiteral<float3D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<float3Field> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<float3D> struct = .new(
+    factory: float3D.new,
+    layout: .aligned<float3Field>({
+      .v: RArray(RFloat(), 3),
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<float3Field> struct = .aligned({
-    .v: RArray(RFloat(), 3),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<float3Field> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<float3D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, float3D.new, float3D.pointer);
-
-  static final field_v = struct.scalarArray<double, RFloat>(.v);
+  /// Field descriptor for [v].
+  static final field_v = structLayout.scalarArray<double, RFloat>(.v);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

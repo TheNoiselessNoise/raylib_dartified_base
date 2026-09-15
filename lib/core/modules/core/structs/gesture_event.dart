@@ -18,26 +18,29 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<GestureEventField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<GestureEventD> struct = .new(
+    factory: GestureEventD.new,
+    layout: .aligned<GestureEventField>({
+      .touchAction: RInt(),
+      .pointCount:  RInt(),
+      .pointId:     RArray(RInt(), BASE_maxTouchPoints),
+      .position:    RArray(RStruct(Vector2D.struct), BASE_maxTouchPoints),
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<GestureEventField> struct = .aligned({
-    .touchAction: RInt(),
-    .pointCount:  RInt(),
-    .pointId:     RArray(RInt(), BASE_maxTouchPoints),
-    .position:    RArray(RStruct(Vector2D.struct), BASE_maxTouchPoints),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<GestureEventField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<GestureEventD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, GestureEventD.new, GestureEventD.pointer);
-
-  static final field_touchAction = struct.scalar<int, RInt>(.touchAction);
-  static final field_pointCount = struct.scalar<int, RInt>(.pointCount);
-  static final field_pointId = struct.scalarArray<int, RInt>(.pointId);
-  static final field_position = struct.structArray(.position, Vector2D.pointer);
+  /// Field descriptor for [touchAction].
+  static final field_touchAction = structLayout.scalar<int, RInt>(.touchAction);
+  /// Field descriptor for [pointCount].
+  static final field_pointCount = structLayout.scalar<int, RInt>(.pointCount);
+  /// Field descriptor for [pointId].
+  static final field_pointId = structLayout.scalarArray<int, RInt>(.pointId);
+  /// Field descriptor for [position].
+  static final field_position = structLayout.structArray<Vector2D>(.position);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -64,12 +67,12 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   TouchAction _touchAction;
   /// Touch action
   TouchAction get touchAction => _touchAction = .fromValue(field_touchAction.readOr(op, _touchAction.value));
-  set touchAction(TouchAction value) => _touchAction = .fromValue(field_touchAction.writeIf(op, value.value));
+  set touchAction(TouchAction value) => _touchAction = .fromValue(field_touchAction.writeOr(op, value.value));
 
   int _pointCount;
   /// Point count
   int get pointCount => _pointCount = field_pointCount.readOr(op, _pointCount);
-  set pointCount(int value) => _pointCount = field_pointCount.writeIf(op, value);
+  set pointCount(int value) => _pointCount = field_pointCount.writeOr(op, value);
 
   late final StructLiveList<int, RInt> _pointId;
   /// Point Id

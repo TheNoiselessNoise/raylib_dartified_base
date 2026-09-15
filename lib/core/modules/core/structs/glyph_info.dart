@@ -19,28 +19,32 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<GlyphInfoField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<GlyphInfoD> struct = .new(
+    factory: GlyphInfoD.new,
+    layout: .aligned<GlyphInfoField>({
+      .value:    RInt(), // Character value (Unicode)
+      .offsetX:  RInt(), // Character offset X when drawing
+      .offsetY:  RInt(), // Character offset Y when drawing
+      .advanceX: RInt(), // Character advance position X
+      .image:    RStruct(ImageD.struct), // Character image data
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<GlyphInfoField> struct = .aligned({
-    .value:    RInt(), // Character value (Unicode)
-    .offsetX:  RInt(), // Character offset X when drawing
-    .offsetY:  RInt(), // Character offset Y when drawing
-    .advanceX: RInt(), // Character advance position X
-    .image:    RStruct(ImageD.struct), // Character image data
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<GlyphInfoField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<GlyphInfoD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, GlyphInfoD.new, GlyphInfoD.pointer);
-
-  static final field_value = struct.scalar<int, RInt>(.value);
-  static final field_offsetX = struct.scalar<int, RInt>(.offsetX);
-  static final field_offsetY = struct.scalar<int, RInt>(.offsetY);
-  static final field_advanceX = struct.scalar<int, RInt>(.advanceX);
-  static final field_image = struct.struct(.image, ImageD.pointer);
+  /// Field descriptor for [value].
+  static final field_value = structLayout.scalar<int, RInt>(.value);
+  /// Field descriptor for [offsetX].
+  static final field_offsetX = structLayout.scalar<int, RInt>(.offsetX);
+  /// Field descriptor for [offsetY].
+  static final field_offsetY = structLayout.scalar<int, RInt>(.offsetY);
+  /// Field descriptor for [advanceX].
+  static final field_advanceX = structLayout.scalar<int, RInt>(.advanceX);
+  /// Field descriptor for [image].
+  static final field_image = structLayout.struct<ImageD>(.image);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -53,27 +57,27 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   int _value;
   /// Character value (Unicode)
   int get value => _value = field_value.readOr(op, _value);
-  set value(int value) => _value = field_value.writeIf(op, value);
+  set value(int value) => _value = field_value.writeOr(op, value);
 
   int _offsetX;
   /// Character offset X when drawing
   int get offsetX => _offsetX = field_offsetX.readOr(op, _offsetX);
-  set offsetX(int value) => _offsetX = field_offsetX.writeIf(op, value);
+  set offsetX(int value) => _offsetX = field_offsetX.writeOr(op, value);
 
   int _offsetY;
   /// Character offset Y when drawing
   int get offsetY => _offsetY = field_offsetY.readOr(op, _offsetY);
-  set offsetY(int value) => _offsetY = field_offsetY.writeIf(op, value);
+  set offsetY(int value) => _offsetY = field_offsetY.writeOr(op, value);
 
   int _advanceX;
   /// Character advance position X
   int get advanceX => _advanceX = field_advanceX.readOr(op, _advanceX);
-  set advanceX(int value) => _advanceX = field_advanceX.writeIf(op, value);
+  set advanceX(int value) => _advanceX = field_advanceX.writeOr(op, value);
 
   ImageD _image;
   /// Character image data
   ImageD get image => _image = field_image.readOr(op, _image);
-  set image(ImageD value) => _image = field_image.writeIf(op, value);
+  set image(ImageD value) => _image = field_image.writeOr(op, value);
 
   GlyphInfoD({
     super.op,

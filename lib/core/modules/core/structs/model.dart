@@ -23,40 +23,48 @@ class ModelD extends RaylibStruct<ModelD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ModelField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ModelD> struct = .new(
+    factory: ModelD.new,
+    layout: .aligned<ModelField>({
+      .transform:     RStruct(MatrixD.struct), // Local transform matrix
+      .meshCount:     RInt(), // Number of meshes
+      .materialCount: RInt(), // Number of materials
+      .meshes:        RPointer(RStruct(MeshD.struct)), // Meshes array
+      .materials:     RPointer(RStruct(MaterialD.struct)), // Materials array
+      .meshMaterial:  RPointer(RInt()), // Mesh material number
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ModelField> struct = .aligned({
-    .transform:     RStruct(MatrixD.struct), // Local transform matrix
-    .meshCount:     RInt(), // Number of meshes
-    .materialCount: RInt(), // Number of materials
-    .meshes:        RPointer(RStruct(MeshD.struct)), // Meshes array
-    .materials:     RPointer(RStruct(MaterialD.struct)), // Materials array
-    .meshMaterial:  RPointer(RInt()), // Mesh material number
+      // Animation data
+      .skeleton:      RStruct(ModelSkeletonD.struct), // Skeleton for animation
 
-    // Animation data
-    .skeleton:      RStruct(ModelSkeletonD.struct), // Skeleton for animation
+      // Runtime animation data (CPU/GPU skinning)
+      .currentPose:   RPointer(RStruct(TransformD.struct)), // Current animation pose (Transform[])
+      .boneMatrices:  RPointer(RStruct(MatrixD.struct)), // Bones animated transformation matrices
+    }),
+  );
 
-    // Runtime animation data (CPU/GPU skinning)
-    .currentPose:   RPointer(RStruct(TransformD.struct)), // Current animation pose (Transform[])
-    .boneMatrices:  RPointer(RStruct(MatrixD.struct)), // Bones animated transformation matrices
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ModelField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ModelD.new, ModelD.pointer);
-
-  static final field_transform = struct.struct(.transform, MatrixD.pointer);
-  static final field_meshCount = struct.scalar<int, RInt>(.meshCount);
-  static final field_materialCount = struct.scalar<int, RInt>(.materialCount);
-  static final field_meshes = struct.pointerStructArray(.meshes, MeshD.pointer);
-  static final field_materials = struct.pointerStructArray(.materials, MaterialD.pointer);
-  static final field_meshMaterial = struct.pointerScalarArray<int, RInt>(.meshMaterial);
-  static final field_skeleton = struct.struct(.skeleton, ModelSkeletonD.pointer);
-  static final field_currentPose = struct.pointerStructArray(.currentPose, TransformD.pointer);
-  static final field_boneMatrices = struct.pointerStructArray(.boneMatrices, MatrixD.pointer);
+  /// Field descriptor for [transform].
+  static final field_transform = structLayout.struct<MatrixD>(.transform);
+  /// Field descriptor for [meshCount].
+  static final field_meshCount = structLayout.scalar<int, RInt>(.meshCount);
+  /// Field descriptor for [materialCount].
+  static final field_materialCount = structLayout.scalar<int, RInt>(.materialCount);
+  /// Field descriptor for [meshes].
+  static final field_meshes = structLayout.pointerStructArray<MeshD>(.meshes);
+  /// Field descriptor for [materials].
+  static final field_materials = structLayout.pointerStructArray<MaterialD>(.materials);
+  /// Field descriptor for [meshMaterial].
+  static final field_meshMaterial = structLayout.pointerScalarArray<int, RInt>(.meshMaterial);
+  /// Field descriptor for [skeleton].
+  static final field_skeleton = structLayout.struct<ModelSkeletonD>(.skeleton);
+  /// Field descriptor for [currentPose].
+  static final field_currentPose = structLayout.pointerStructArray<TransformD>(.currentPose);
+  /// Field descriptor for [boneMatrices].
+  static final field_boneMatrices = structLayout.pointerStructArray<MatrixD>(.boneMatrices);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -69,17 +77,17 @@ class ModelD extends RaylibStruct<ModelD> {
   MatrixD _transform;
   /// Local transform matrix
   MatrixD get transform => _transform = field_transform.readOr(op, _transform);
-  set transform(MatrixD value) => _transform = field_transform.writeIf(op, value);
+  set transform(MatrixD value) => _transform = field_transform.writeOr(op, value);
   
   int _meshCount;
   /// Number of meshes
   int get meshCount => _meshCount = field_meshCount.readOr(op, _meshCount);
-  set meshCount(int value) => _meshCount = field_meshCount.writeIf(op, value);
+  set meshCount(int value) => _meshCount = field_meshCount.writeOr(op, value);
 
   int _materialCount;
   /// Number of materials
   int get materialCount => _materialCount = field_materialCount.readOr(op, _materialCount);
-  set materialCount(int value) => _materialCount = field_materialCount.writeIf(op, value);
+  set materialCount(int value) => _materialCount = field_materialCount.writeOr(op, value);
 
   late final StructLiveListStruct<MeshD> _meshes;
   /// Meshes array
@@ -99,7 +107,7 @@ class ModelD extends RaylibStruct<ModelD> {
   ModelSkeletonD _skeleton;
   /// Skeleton for animation
   ModelSkeletonD get skeleton => _skeleton = field_skeleton.readOr(op, _skeleton);
-  set skeleton(ModelSkeletonD value) => _skeleton = field_skeleton.writeIf(op, value);
+  set skeleton(ModelSkeletonD value) => _skeleton = field_skeleton.writeOr(op, value);
 
   late final StructLiveListStruct<TransformD> _currentPose;
   /// Current animation pose (Transform[])

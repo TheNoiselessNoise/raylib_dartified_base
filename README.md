@@ -6,7 +6,7 @@ Defines the shared API surface (types, structs, abstract flat-call
 modules) that platform implementations bind to. This package is **not**
 fully backend-agnostic: it defines primitives a platform must supply
 itself, since pointer representation and native call dispatch differ
-between native (`dart:ffi`) and WebAssembly (linear memory + imports).
+between native (`dart:ffi`) and WebAssembly (linear memory).
 
 ## For platform implementors
 
@@ -18,6 +18,14 @@ A platform implementation must provide:
 - A concrete flat module for each of the following, extending the
   matching abstract type defined here and exposed via `RaylibBase`:
 
+  | Extension | Abstract type |
+  |---|---|
+  | Matrix ext. | `RaylibMatrixFlatExt<R>` |
+  | Quaternion ext. | `RaylibQuaternionFlatExt<R>` |
+  | Vector2 ext. | `RaylibVector2FlatExt<R>` |
+  | Vector3 ext. | `RaylibVector3FlatExt<R>` |
+  | Vector4 ext. | `RaylibVector4FlatExt<R>` |
+
   | Module | Abstract type |
   |---|---|
   | Audio | `RaylibAudioFlatModule<R>` |
@@ -27,9 +35,6 @@ A platform implementation must provide:
   | Light | `RaylibLightFlatModule<R>` |
   | MsfGif | `RaylibMsfGifFlatModule<R>` |
   | Rlgl | `RaylibRlglFlatModule<R>` |
-
-  Each module implements its methods by dispatching to the platform's
-  native call surface.
 
 See [raylib_dartified](https://github.com/TheNoiselessNoise/raylib_dartified) (FFI) and [raylib_dartified_web](https://github.com/TheNoiselessNoise/raylib_dartified_web) (WASM) for
 reference implementations.

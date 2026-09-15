@@ -4904,7 +4904,7 @@ final class RaylibCoreDart<R extends RaylibBase> extends RaylibModule<R> {
         );
 
         final innerPtr = recsPtr.readPtr();
-        final recs = RectangleD.pointer(innerPtr).readArray(glyphs.length);
+        final recs = RectangleD.struct.ptr(innerPtr).readArray(glyphs.length);
 
         return (image, recs);
       } finally {

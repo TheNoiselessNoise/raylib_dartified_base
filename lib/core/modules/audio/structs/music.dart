@@ -19,28 +19,32 @@ class MusicD extends RaylibStruct<MusicD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MusicField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MusicD> struct = .new(
+    factory: MusicD.new,
+    layout: .aligned<MusicField>({
+      .stream:     RStruct(AudioStreamD.struct), // Audio stream
+      .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
+      .looping:    RBool(), // Music looping enable
+      .ctxType:    RInt(), // Type of music context (audio filetype)
+      .ctxData:    RPointer(RVoid()), // Audio context data, depends on type
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MusicField> struct = .aligned({
-    .stream:     RStruct(AudioStreamD.struct), // Audio stream
-    .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
-    .looping:    RBool(), // Music looping enable
-    .ctxType:    RInt(), // Type of music context (audio filetype)
-    .ctxData:    RPointer(RVoid()), // Audio context data, depends on type
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MusicField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MusicD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MusicD.new, MusicD.pointer);
-
-  static final field_stream = struct.struct(.stream, AudioStreamD.pointer);
-  static final field_frameCount = struct.scalar<int, RUnsignedInt>(.frameCount);
-  static final field_looping = struct.scalar<bool, RBool>(.looping);
-  static final field_ctxType = struct.enumValue(.ctxType, MusicContextType.fromValue);
-  static final field_ctxData = struct.pointerUnknown<RVoid>(.ctxData);
+  /// Field descriptor for [stream].
+  static final field_stream = structLayout.struct<AudioStreamD>(.stream);
+  /// Field descriptor for [frameCount].
+  static final field_frameCount = structLayout.scalar<int, RUnsignedInt>(.frameCount);
+  /// Field descriptor for [looping].
+  static final field_looping = structLayout.scalar<bool, RBool>(.looping);
+  /// Field descriptor for [ctxType].
+  static final field_ctxType = structLayout.enumValue(.ctxType, MusicContextType.fromValue);
+  /// Field descriptor for [ctxData].
+  static final field_ctxData = structLayout.pointerUnknown<RVoid>(.ctxData);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -53,22 +57,22 @@ class MusicD extends RaylibStruct<MusicD> {
   AudioStreamD _stream;
   /// Audio stream
   AudioStreamD get stream => _stream = field_stream.readOr(op, _stream);
-  set stream(AudioStreamD value) => _stream = field_stream.writeIf(op, value);
+  set stream(AudioStreamD value) => _stream = field_stream.writeOr(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
   int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
-  set frameCount(int value) => _frameCount = field_frameCount.writeIf(op, value);
+  set frameCount(int value) => _frameCount = field_frameCount.writeOr(op, value);
 
   bool _looping;
   /// Music looping enable
   bool get looping => _looping = field_looping.readOr(op, _looping);
-  set looping(bool value) => _looping = field_looping.writeIf(op, value);
+  set looping(bool value) => _looping = field_looping.writeOr(op, value);
 
   MusicContextType _ctxType;
   /// Type of music context (audio filetype)
   MusicContextType get ctxType => _ctxType = field_ctxType.readOr(op, _ctxType);
-  set ctxType(MusicContextType value) => _ctxType = field_ctxType.writeIf(op, value);
+  set ctxType(MusicContextType value) => _ctxType = field_ctxType.writeOr(op, value);
 
   /// Audio context data, depends on type
   /// 

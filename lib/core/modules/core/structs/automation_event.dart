@@ -17,24 +17,26 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<AutomationEventField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<AutomationEventD> struct = .new(
+    factory: AutomationEventD.new,
+    layout: .aligned<AutomationEventField>({
+      .frame:  RUnsignedInt(), // Event frame
+      .type:   RUnsignedInt(), // Event type (AutomationEventType)
+      .params: RArray(RInt(), BASE_paramsCount), // Event parameters (if required)
+    }),
+  );
+  
+  /// Raw memory layout of this object.
+  static final StructLayout<AutomationEventField> structLayout = struct.layoutOf();
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<AutomationEventField> struct = .aligned({
-    .frame:  RUnsignedInt(), // Event frame
-    .type:   RUnsignedInt(), // Event type (AutomationEventType)
-    .params: RArray(RInt(), BASE_paramsCount), // Event parameters (if required)
-  });
-
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AutomationEventD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, AutomationEventD.new, AutomationEventD.pointer);
-
-  static final field_frame = struct.scalar<int, RUnsignedInt>(.frame);
-  static final field_type = struct.enumValue(.type, AutomationEventType.fromValue);
-  static final field_params = struct.scalarArray<int, RInt>(.params);
+  /// Field descriptor for [frame].
+  static final field_frame = structLayout.scalar<int, RUnsignedInt>(.frame);
+  /// Field descriptor for [type].
+  static final field_type = structLayout.enumValue(.type, AutomationEventType.fromValue);
+  /// Field descriptor for [params].
+  static final field_params = structLayout.scalarArray<int, RInt>(.params);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -61,12 +63,12 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   int _frame;
   /// Event frame
   int get frame => _frame = field_frame.readOr(op, _frame);
-  set frame(int value) => _frame = field_frame.writeIf(op, value);
+  set frame(int value) => _frame = field_frame.writeOr(op, value);
 
   AutomationEventType _type;
   /// Event type
   AutomationEventType get type => _type = field_type.readOr(op, _type);
-  set type(AutomationEventType value) => _type = field_type.writeIf(op, value);
+  set type(AutomationEventType value) => _type = field_type.writeOr(op, value);
 
   late final StructLiveList<int, RInt> _params;
   /// Event parameters (if required)

@@ -341,29 +341,20 @@ abstract class MemoryPointer<X extends RType> {
 /// offer .value/[]/[]= the similar way scalar RType extensions do.
 final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStruct> {
   final MemoryPointer ptr;
-  final StructLayout struct;
-  final StructFactory<D> create;
-  final StructPointerFactory<D> pointerFactory;
+  final StructType<D> structType;
 
-  StructPointer(this.ptr, this.struct, this.create, this.pointerFactory);
+  StructPointer(this.ptr, this.structType);
 
   factory StructPointer.nullable(
     MemoryPointer? ptr,
-    StructLayout struct,
-    StructFactory<D> create,
-    StructPointerFactory<D> pointerFactory,
-  ) => .new(
-    ptr ?? MemoryPointer.nullptr(),
-    struct,
-    create,
-    pointerFactory,
-  );
+    StructType<D> structType,
+  ) => .new(ptr ?? MemoryPointer.nullptr(), structType);
 
   /// Returns a live view of the struct backed by this memory.
   ///
   /// The returned struct always retains its memory reference. Field mutations
   /// are therefore written through to the underlying memory immediately.
-  D get ref => create(op: this);
+  D get ref => structType.factory(op: this);
 
   /// Returns the current value of the struct.
   ///
@@ -405,15 +396,15 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
     final src = v.op;
     if (src != null) {
       if (src.address == dst.address) return;
-      dst.copyBytesFrom(src, struct.byteSize);
+      dst.copyBytesFrom(src, structType.layout.byteSize);
     } else {
       v.structWriteInto(dst);
     }
   }
 
   D _getAtIndex(int i, {bool owned = true}) {
-    final inner = ptr.offsetBy(i * struct.byteSize);
-    final value = create(op: pointerFactory(inner));
+    final inner = ptr.offsetBy(i * structType.layout.byteSize);
+    final value = structType.factory(op: structType.ptr(inner));
     if (!owned) {
       value.structSyncFromMemory();
       value.op = null;
@@ -436,7 +427,7 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   ///
   /// This copies the value into memory and does not attach [v] to the
   /// destination memory location.
-  void operator []=(int i, D v) => _copyOrWrite(ptr.offsetBy(i * struct.byteSize), v);
+  void operator []=(int i, D v) => _copyOrWrite(ptr.offsetBy(i * structType.layout.byteSize), v);
 
   /// Writes [items] sequentially into the memory referenced by this pointer.
   ///
@@ -444,7 +435,7 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   /// capacity.
   void writeArray(List<D> items) {
     for (var i = 0; i < items.length; i++) {
-      _copyOrWrite(ptr.offsetBy(i * struct.byteSize), items[i]);
+      _copyOrWrite(ptr.offsetBy(i * structType.layout.byteSize), items[i]);
     }
   }
 

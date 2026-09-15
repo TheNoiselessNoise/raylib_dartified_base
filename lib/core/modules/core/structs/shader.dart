@@ -16,22 +16,23 @@ class ShaderD extends RaylibStruct<ShaderD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ShaderField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ShaderD> struct = .new(
+    factory: ShaderD.new,
+    layout: .aligned<ShaderField>({
+      .id:   RUnsignedInt(), // Shader program id
+      .locs: RPointer(RArray(RInt(), BASE_shaderLocsCount)), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ShaderField> struct = .aligned({
-    .id:   RUnsignedInt(), // Shader program id
-    .locs: RPointer(RArray(RInt(), BASE_shaderLocsCount)), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ShaderField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ShaderD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ShaderD.new, ShaderD.pointer);
-
-  static final field_id = struct.scalar<int, RUnsignedInt>(.id);
-  static final field_locs = struct.pointerScalarFixedArray<int, RInt>(.locs);
+  /// Field descriptor for [id].
+  static final field_id = structLayout.scalar<int, RUnsignedInt>(.id);
+  /// Field descriptor for [locs].
+  static final field_locs = structLayout.pointerScalarFixedArray<int, RInt>(.locs);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -58,7 +59,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   int _id;
   /// Shader program id
   int get id => _id = field_id.readOr(op, _id);
-  set id(int value) => _id = field_id.writeIf(op, value);
+  set id(int value) => _id = field_id.writeOr(op, value);
 
   late final StructLiveList<int, RInt> _locs;
   /// Shader locations array (RL_MAX_SHADER_LOCATIONS)

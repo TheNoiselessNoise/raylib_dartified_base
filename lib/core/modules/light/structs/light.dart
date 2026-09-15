@@ -26,45 +26,55 @@ class LightD extends RaylibStruct<LightD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<LightField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<LightD> struct = .new(
+    factory: LightD.new,
+    layout: .aligned<LightField>({
+      .type:           RInt(),
+      .enabled:        RBool(),
+      .position:       RStruct(Vector3D.struct),
+      .target:         RStruct(Vector3D.struct),
+      .color:          RStruct(ColorD.struct),
+      .attenuation:    RFloat(),
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<LightField> struct = .aligned({
-    .type:           RInt(),
-    .enabled:        RBool(),
-    .position:       RStruct(Vector3D.struct),
-    .target:         RStruct(Vector3D.struct),
-    .color:          RStruct(ColorD.struct),
-    .attenuation:    RFloat(),
+      // Shader locations
+      .enabledLoc:     RInt(),
+      .typeLoc:        RInt(),
+      .positionLoc:    RInt(),
+      .targetLoc:      RInt(),
+      .colorLoc:       RInt(),
+      .attenuationLoc: RInt(),
+    }),
+  );
 
-    // Shader locations
-    .enabledLoc:     RInt(),
-    .typeLoc:        RInt(),
-    .positionLoc:    RInt(),
-    .targetLoc:      RInt(),
-    .colorLoc:       RInt(),
-    .attenuationLoc: RInt(),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<LightField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<LightD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, LightD.new, LightD.pointer);
-
-  static final field_type = struct.scalar<int, RInt>(.type);
-  static final field_enabled = struct.scalar<bool, RBool>(.enabled);
-  static final field_position = struct.struct(.position, Vector3D.pointer);
-  static final field_target = struct.struct(.target, Vector3D.pointer);
-  static final field_color = struct.struct(.color, ColorD.pointer);
-  static final field_attenuation = struct.scalar<double, RFloat>(.attenuation);
-  
-  static final field_enabledLoc = struct.scalar<int, RInt>(.enabledLoc);
-  static final field_typeLoc = struct.scalar<int, RInt>(.typeLoc);
-  static final field_positionLoc = struct.scalar<int, RInt>(.positionLoc);
-  static final field_targetLoc = struct.scalar<int, RInt>(.targetLoc);
-  static final field_colorLoc = struct.scalar<int, RInt>(.colorLoc);
-  static final field_attenuationLoc = struct.scalar<int, RInt>(.attenuationLoc);
+  /// Field descriptor for [type].
+  static final field_type = structLayout.scalar<int, RInt>(.type);
+  /// Field descriptor for [enabled].
+  static final field_enabled = structLayout.scalar<bool, RBool>(.enabled);
+  /// Field descriptor for [position].
+  static final field_position = structLayout.struct<Vector3D>(.position);
+  /// Field descriptor for [target].
+  static final field_target = structLayout.struct<Vector3D>(.target);
+  /// Field descriptor for [color].
+  static final field_color = structLayout.struct<ColorD>(.color);
+  /// Field descriptor for [attenuation].
+  static final field_attenuation = structLayout.scalar<double, RFloat>(.attenuation);
+  /// Field descriptor for [enabledLoc].
+  static final field_enabledLoc = structLayout.scalar<int, RInt>(.enabledLoc);
+  /// Field descriptor for [typeLoc].
+  static final field_typeLoc = structLayout.scalar<int, RInt>(.typeLoc);
+  /// Field descriptor for [positionLoc].
+  static final field_positionLoc = structLayout.scalar<int, RInt>(.positionLoc);
+  /// Field descriptor for [targetLoc].
+  static final field_targetLoc = structLayout.scalar<int, RInt>(.targetLoc);
+  /// Field descriptor for [colorLoc].
+  static final field_colorLoc = structLayout.scalar<int, RInt>(.colorLoc);
+  /// Field descriptor for [attenuationLoc].
+  static final field_attenuationLoc = structLayout.scalar<int, RInt>(.attenuationLoc);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -77,62 +87,62 @@ class LightD extends RaylibStruct<LightD> {
   LightType _type;
   /// Light type (directional or point)
   LightType get type => _type = .fromValue(field_type.readOr(op, _type.value));
-  set type(LightType value) => _type = .fromValue(field_type.writeIf(op, value.value));
+  set type(LightType value) => _type = .fromValue(field_type.writeOr(op, value.value));
 
   bool _enabled;
   /// Whether the light is currently active
   bool get enabled => _enabled = field_enabled.readOr(op, _enabled);
-  set enabled(bool value) => _enabled = field_enabled.writeIf(op, value);
+  set enabled(bool value) => _enabled = field_enabled.writeOr(op, value);
   
   Vector3D _position;
   /// Light position in world space
   Vector3D get position => _position = field_position.readOr(op, _position);
-  set position(Vector3D value) => _position = field_position.writeIf(op, value);
+  set position(Vector3D value) => _position = field_position.writeOr(op, value);
   
   Vector3D _target;
   /// Light target direction (used for directional lights)
   Vector3D get target => _target = field_target.readOr(op, _target);
-  set target(Vector3D value) => _target = field_target.writeIf(op, value);
+  set target(Vector3D value) => _target = field_target.writeOr(op, value);
   
   ColorD _color;
   /// Light color
   ColorD get color => _color = field_color.readOr(op, _color);
-  set color(ColorD value) => _color = field_color.writeIf(op, value);
+  set color(ColorD value) => _color = field_color.writeOr(op, value);
   
   double _attenuation;
   /// Light attenuation factor (falloff over distance)
   double get attenuation => _attenuation = field_attenuation.readOr(op, _attenuation);
-  set attenuation(double value) => _attenuation = field_attenuation.writeIf(op, value);
+  set attenuation(double value) => _attenuation = field_attenuation.writeOr(op, value);
 
   int _enabledLoc;
   /// Shader location for [enabled]
   int get enabledLoc => _enabledLoc = field_enabledLoc.readOr(op, _enabledLoc);
-  set enabledLoc(int value) => _enabledLoc = field_enabledLoc.writeIf(op, value);
+  set enabledLoc(int value) => _enabledLoc = field_enabledLoc.writeOr(op, value);
   
   int _typeLoc;
   /// Shader location for [type]
   int get typeLoc => _typeLoc = field_typeLoc.readOr(op, _typeLoc);
-  set typeLoc(int value) => _typeLoc = field_typeLoc.writeIf(op, value);
+  set typeLoc(int value) => _typeLoc = field_typeLoc.writeOr(op, value);
   
   int _positionLoc;
   /// Shader location for [position]
   int get positionLoc => _positionLoc = field_positionLoc.readOr(op, _positionLoc);
-  set positionLoc(int value) => _positionLoc = field_positionLoc.writeIf(op, value);
+  set positionLoc(int value) => _positionLoc = field_positionLoc.writeOr(op, value);
   
   int _targetLoc;
   /// Shader location for [target]
   int get targetLoc => _targetLoc = field_targetLoc.readOr(op, _targetLoc);
-  set targetLoc(int value) => _targetLoc = field_targetLoc.writeIf(op, value);
+  set targetLoc(int value) => _targetLoc = field_targetLoc.writeOr(op, value);
   
   int _colorLoc;
   /// Shader location for [color]
   int get colorLoc => _colorLoc = field_colorLoc.readOr(op, _colorLoc);
-  set colorLoc(int value) => _colorLoc = field_colorLoc.writeIf(op, value);
+  set colorLoc(int value) => _colorLoc = field_colorLoc.writeOr(op, value);
   
   int _attenuationLoc;
   /// Shader location for [attenuation]
   int get attenuationLoc => _attenuationLoc = field_attenuationLoc.readOr(op, _attenuationLoc);
-  set attenuationLoc(int value) => _attenuationLoc = field_attenuationLoc.writeIf(op, value);
+  set attenuationLoc(int value) => _attenuationLoc = field_attenuationLoc.writeOr(op, value);
 
   LightD({
     super.op,

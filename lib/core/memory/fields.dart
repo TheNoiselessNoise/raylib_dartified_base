@@ -11,7 +11,7 @@ abstract class StructFieldBase<E> {
 
   E write(MemoryPointer p, E value);
 
-  E writeIf(MemoryPointer? p, E value) {
+  E writeOr(MemoryPointer? p, E value) {
     if (p != null) write(p, value);
     return value;
   }

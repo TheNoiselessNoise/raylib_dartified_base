@@ -18,26 +18,29 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MsfGifResultField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MsfGifResultD> struct = .new(
+    factory: MsfGifResultD.new,
+    layout: .aligned<MsfGifResultField>({
+      .data:           RPointer(RVoid()),
+      .dataSize:       RSize(),
+      .allocSize:      RSize(),
+      .contextPointer: RPointer(RVoid()),
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MsfGifResultField> struct = .aligned({
-    .data:           RPointer(RVoid()),
-    .dataSize:       RSize(),
-    .allocSize:      RSize(),
-    .contextPointer: RPointer(RVoid()),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MsfGifResultField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MsfGifResultD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MsfGifResultD.new, MsfGifResultD.pointer);
-
-  static final field_data = struct.pointerUnknown<RVoid>(.data);
-  static final field_dataSize = struct.scalar<int, RSize>(.dataSize);
-  static final field_allocSize = struct.scalar<int, RSize>(.allocSize);
-  static final field_contextPointer = struct.pointerUnknown<RVoid>(.contextPointer);
+  /// Field descriptor for [data].
+  static final field_data = structLayout.pointerUnknown<RVoid>(.data);
+  /// Field descriptor for [dataSize].
+  static final field_dataSize = structLayout.scalar<int, RSize>(.dataSize);
+  /// Field descriptor for [allocSize].
+  static final field_allocSize = structLayout.scalar<int, RSize>(.allocSize);
+  /// Field descriptor for [contextPointer].
+  static final field_contextPointer = structLayout.pointerUnknown<RVoid>(.contextPointer);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -61,9 +64,6 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   MsfGifResultD({ super.op });
 
   factory MsfGifResultD.zero() => .new();
-
-  @override
-  MsfGifResultD clone() => .new(op: getOp());
 
   @override
   String signature() => '$structName(dataSize: $dataSize, allocSize: $allocSize)';

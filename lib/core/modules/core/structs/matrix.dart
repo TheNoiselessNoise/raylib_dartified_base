@@ -21,38 +21,53 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MatrixField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MatrixD> struct = .new(
+    factory: MatrixD.new,
+    layout: .aligned<MatrixField>({
+      .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)
+      .m1: RFloat(), .m5: RFloat(), .m9: RFloat(), .m13: RFloat(), // Matrix second row (4 components)
+      .m2: RFloat(), .m6: RFloat(), .m10: RFloat(), .m14: RFloat(), // Matrix third row (4 components)
+      .m3: RFloat(), .m7: RFloat(), .m11: RFloat(), .m15: RFloat(), // Matrix fourth row (4 components)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MatrixField> struct = .aligned({
-    .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)
-    .m1: RFloat(), .m5: RFloat(), .m9: RFloat(), .m13: RFloat(), // Matrix second row (4 components)
-    .m2: RFloat(), .m6: RFloat(), .m10: RFloat(), .m14: RFloat(), // Matrix third row (4 components)
-    .m3: RFloat(), .m7: RFloat(), .m11: RFloat(), .m15: RFloat(), // Matrix fourth row (4 components)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MatrixField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MatrixD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MatrixD.new, MatrixD.pointer);
-
-  static final field_m0 = struct.scalar<double, RFloat>(.m0);
-  static final field_m4 = struct.scalar<double, RFloat>(.m4);
-  static final field_m8 = struct.scalar<double, RFloat>(.m8);
-  static final field_m12 = struct.scalar<double, RFloat>(.m12);
-  static final field_m1 = struct.scalar<double, RFloat>(.m1);
-  static final field_m5 = struct.scalar<double, RFloat>(.m5);
-  static final field_m9 = struct.scalar<double, RFloat>(.m9);
-  static final field_m13 = struct.scalar<double, RFloat>(.m13);
-  static final field_m2 = struct.scalar<double, RFloat>(.m2);
-  static final field_m6 = struct.scalar<double, RFloat>(.m6);
-  static final field_m10 = struct.scalar<double, RFloat>(.m10);
-  static final field_m14 = struct.scalar<double, RFloat>(.m14);
-  static final field_m3 = struct.scalar<double, RFloat>(.m3);
-  static final field_m7 = struct.scalar<double, RFloat>(.m7);
-  static final field_m11 = struct.scalar<double, RFloat>(.m11);
-  static final field_m15 = struct.scalar<double, RFloat>(.m15);
+  /// Field descriptor for [m0].
+  static final field_m0 = structLayout.scalar<double, RFloat>(.m0);
+  /// Field descriptor for [m4].
+  static final field_m4 = structLayout.scalar<double, RFloat>(.m4);
+  /// Field descriptor for [m8].
+  static final field_m8 = structLayout.scalar<double, RFloat>(.m8);
+  /// Field descriptor for [m12].
+  static final field_m12 = structLayout.scalar<double, RFloat>(.m12);
+  /// Field descriptor for [m1].
+  static final field_m1 = structLayout.scalar<double, RFloat>(.m1);
+  /// Field descriptor for [m5].
+  static final field_m5 = structLayout.scalar<double, RFloat>(.m5);
+  /// Field descriptor for [m9].
+  static final field_m9 = structLayout.scalar<double, RFloat>(.m9);
+  /// Field descriptor for [m13].
+  static final field_m13 = structLayout.scalar<double, RFloat>(.m13);
+  /// Field descriptor for [m2].
+  static final field_m2 = structLayout.scalar<double, RFloat>(.m2);
+  /// Field descriptor for [m6].
+  static final field_m6 = structLayout.scalar<double, RFloat>(.m6);
+  /// Field descriptor for [m10].
+  static final field_m10 = structLayout.scalar<double, RFloat>(.m10);
+  /// Field descriptor for [m14].
+  static final field_m14 = structLayout.scalar<double, RFloat>(.m14);
+  /// Field descriptor for [m3].
+  static final field_m3 = structLayout.scalar<double, RFloat>(.m3);
+  /// Field descriptor for [m7].
+  static final field_m7 = structLayout.scalar<double, RFloat>(.m7);
+  /// Field descriptor for [m11].
+  static final field_m11 = structLayout.scalar<double, RFloat>(.m11);
+  /// Field descriptor for [m15].
+  static final field_m15 = structLayout.scalar<double, RFloat>(.m15);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -65,82 +80,82 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   double _m0;
   /// Column 0, row 0
   double get m0 => _m0 = field_m0.readOr(op, _m0);
-  set m0(double value) => _m0 = field_m0.writeIf(op, value);
+  set m0(double value) => _m0 = field_m0.writeOr(op, value);
   
   double _m1;
   /// Column 0, row 1
   double get m1 => _m1 = field_m1.readOr(op, _m1);
-  set m1(double value) => _m1 = field_m1.writeIf(op, value);
+  set m1(double value) => _m1 = field_m1.writeOr(op, value);
   
   double _m2;
   /// Column 0, row 2
   double get m2 => _m2 = field_m2.readOr(op, _m2);
-  set m2(double value) => _m2 = field_m2.writeIf(op, value);
+  set m2(double value) => _m2 = field_m2.writeOr(op, value);
   
   double _m3;
   /// Column 0, row 3
   double get m3 => _m3 = field_m3.readOr(op, _m3);
-  set m3(double value) => _m3 = field_m3.writeIf(op, value);
+  set m3(double value) => _m3 = field_m3.writeOr(op, value);
 
   double _m4;
   /// Column 1, row 0
   double get m4 => _m4 = field_m4.readOr(op, _m4);
-  set m4(double value) => _m4 = field_m4.writeIf(op, value);
+  set m4(double value) => _m4 = field_m4.writeOr(op, value);
 
   double _m5;
   /// Column 1, row 1
   double get m5 => _m5 = field_m5.readOr(op, _m5);
-  set m5(double value) => _m5 = field_m5.writeIf(op, value);
+  set m5(double value) => _m5 = field_m5.writeOr(op, value);
 
   double _m6;
   /// Column 1, row 2
   double get m6 => _m6 = field_m6.readOr(op, _m6);
-  set m6(double value) => _m6 = field_m6.writeIf(op, value);
+  set m6(double value) => _m6 = field_m6.writeOr(op, value);
   
   double _m7;
   /// Column 1, row 3
   double get m7 => _m7 = field_m7.readOr(op, _m7);
-  set m7(double value) => _m7 = field_m7.writeIf(op, value);
+  set m7(double value) => _m7 = field_m7.writeOr(op, value);
 
   double _m8;
   /// Column 2, row 0
   double get m8 => _m8 = field_m8.readOr(op, _m8);
-  set m8(double value) => _m8 = field_m8.writeIf(op, value);
+  set m8(double value) => _m8 = field_m8.writeOr(op, value);
   
   double _m9;
   /// Column 2, row 1
   double get m9 => _m9 = field_m9.readOr(op, _m9);
-  set m9(double value) => _m9 = field_m9.writeIf(op, value);
+  set m9(double value) => _m9 = field_m9.writeOr(op, value);
   
   double _m10;
   /// Column 2, row 2
   double get m10 => _m10 = field_m10.readOr(op, _m10);
-  set m10(double value) => _m10 = field_m10.writeIf(op, value);
+  set m10(double value) => _m10 = field_m10.writeOr(op, value);
 
   double _m11;
   /// Column 2, row 3
   double get m11 => _m11 = field_m11.readOr(op, _m11);
-  set m11(double value) => _m11 = field_m11.writeIf(op, value);
+  set m11(double value) => _m11 = field_m11.writeOr(op, value);
   
   double _m12;
   /// Column 3, row 0 (translation X)
   double get m12 => _m12 = field_m12.readOr(op, _m12);
-  set m12(double value) => _m12 = field_m12.writeIf(op, value);
+  set m12(double value) => _m12 = field_m12.writeOr(op, value);
   
   double _m13;
   /// Column 3, row 1 (translation Y)
   double get m13 => _m13 = field_m13.readOr(op, _m13);
-  set m13(double value) => _m13 = field_m13.writeIf(op, value);
+  set m13(double value) => _m13 = field_m13.writeOr(op, value);
   
   double _m14;
   /// Column 3, row 2 (translation Z)
   double get m14 => _m14 = field_m14.readOr(op, _m14);
-  set m14(double value) => _m14 = field_m14.writeIf(op, value);
+  set m14(double value) => _m14 = field_m14.writeOr(op, value);
   
   double _m15;
   /// Column 3, row 3
   double get m15 => _m15 = field_m15.readOr(op, _m15);
-  set m15(double value) => _m15 = field_m15.writeIf(op, value);
+  set m15(double value) => _m15 = field_m15.writeOr(op, value);
 
   MatrixD({
     super.op,

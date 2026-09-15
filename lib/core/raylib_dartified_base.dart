@@ -46,6 +46,7 @@ part 'memory/fields.dart';
 part 'memory/list.dart';
 part 'memory/pointer.dart';
 part 'memory/scratch.dart';
+part 'memory/struct_types.dart';
 part 'memory/struct.dart';
 part 'memory/temp.dart';
 part 'memory/trace.dart';

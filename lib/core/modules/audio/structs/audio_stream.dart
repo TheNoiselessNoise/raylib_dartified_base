@@ -19,28 +19,32 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<AudioStreamField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<AudioStreamD> struct = .new(
+    factory: AudioStreamD.new,
+    layout: .aligned<AudioStreamField>({
+      .buffer:     RPointer(ROpaque()), // Pointer to internal data used by the audio system
+      .processor:  RPointer(ROpaque()), // Pointer to internal data processor, useful for audio effects
+      .sampleRate: RUnsignedInt(), // Frequency (samples per second)
+      .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
+      .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<AudioStreamField> struct = .aligned({
-    .buffer:     RPointer(ROpaque()), // Pointer to internal data used by the audio system
-    .processor:  RPointer(ROpaque()), // Pointer to internal data processor, useful for audio effects
-    .sampleRate: RUnsignedInt(), // Frequency (samples per second)
-    .sampleSize: RUnsignedInt(), // Bit depth (bits per sample): 8, 16, 32 (24 not supported)
-    .channels:   RUnsignedInt(), // Number of channels (1-mono, 2-stereo, ...)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<AudioStreamField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<AudioStreamD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, AudioStreamD.new, AudioStreamD.pointer);
-
-  static final field_buffer = struct.pointerUnknown<ROpaque>(.buffer);
-  static final field_processor = struct.pointerUnknown<ROpaque>(.processor);
-  static final field_sampleRate = struct.scalar<int, RUnsignedInt>(.sampleRate);
-  static final field_sampleSize = struct.scalar<int, RUnsignedInt>(.sampleSize);
-  static final field_channels = struct.scalar<int, RUnsignedInt>(.channels);
+  /// Field descriptor for [buffer].
+  static final field_buffer = structLayout.pointerUnknown<ROpaque>(.buffer);
+  /// Field descriptor for [processor].
+  static final field_processor = structLayout.pointerUnknown<ROpaque>(.processor);
+  /// Field descriptor for [sampleRate].
+  static final field_sampleRate = structLayout.scalar<int, RUnsignedInt>(.sampleRate);
+  /// Field descriptor for [sampleSize].
+  static final field_sampleSize = structLayout.scalar<int, RUnsignedInt>(.sampleSize);
+  /// Field descriptor for [channels].
+  static final field_channels = structLayout.scalar<int, RUnsignedInt>(.channels);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -65,17 +69,17 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   int _sampleRate;
   /// Frequency (samples per second)
   int get sampleRate => _sampleRate = field_sampleRate.readOr(op, _sampleRate);
-  set sampleRate(int value) => _sampleRate = field_sampleRate.writeIf(op, value);
+  set sampleRate(int value) => _sampleRate = field_sampleRate.writeOr(op, value);
 
   int _sampleSize;
   /// Bit depth (bits per sample): 8, 16, 32 (24 not supported)
   int get sampleSize => _sampleSize = field_sampleSize.readOr(op, _sampleSize);
-  set sampleSize(int value) => _sampleSize = field_sampleSize.writeIf(op, value);
+  set sampleSize(int value) => _sampleSize = field_sampleSize.writeOr(op, value);
 
   int _channels;
   /// Number of channels (1-mono, 2-stereo, ...)
   int get channels => _channels = field_channels.readOr(op, _channels);
-  set channels(int value) => _channels = field_channels.writeIf(op, value);
+  set channels(int value) => _channels = field_channels.writeOr(op, value);
 
   AudioStreamD({
     super.op,

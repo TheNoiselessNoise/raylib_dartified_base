@@ -20,20 +20,20 @@ class float16D extends RaylibStructLiteral<float16D> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<float16Field> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<float16D> struct = .new(
+    factory: float16D.new,
+    layout: .aligned<float16Field>({
+      .v: RArray(RFloat(), 16),
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<float16Field> struct = .aligned({
-    .v: RArray(RFloat(), 16),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<float16Field> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<float16D> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, float16D.new, float16D.pointer);
-
-  static final field_v = struct.scalarArray<double, RFloat>(.v);
+  /// Field descriptor for [v].
+  static final field_v = structLayout.scalarArray<double, RFloat>(.v);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        

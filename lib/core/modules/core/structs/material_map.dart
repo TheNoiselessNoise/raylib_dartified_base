@@ -17,24 +17,26 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MaterialMapField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MaterialMapD> struct = .new(
+    factory: MaterialMapD.new,
+    layout: .aligned<MaterialMapField>({
+      .texture: RStruct(TextureD.struct), // Material map texture
+      .color:   RStruct(ColorD.struct), // Material map color
+      .value:   RFloat(), // Material map value
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MaterialMapField> struct = .aligned({
-    .texture: RStruct(TextureD.struct), // Material map texture
-    .color:   RStruct(ColorD.struct), // Material map color
-    .value:   RFloat(), // Material map value
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MaterialMapField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MaterialMapD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MaterialMapD.new, MaterialMapD.pointer);
-
-  static final field_texture = struct.struct(.texture, TextureD.pointer);
-  static final field_color = struct.struct(.color, ColorD.pointer);
-  static final field_value = struct.scalar<double, RFloat>(.value);
+  /// Field descriptor for [texture].
+  static final field_texture = structLayout.struct<TextureD>(.texture);
+  /// Field descriptor for [color].
+  static final field_color = structLayout.struct<ColorD>(.color);
+  /// Field descriptor for [value].
+  static final field_value = structLayout.scalar<double, RFloat>(.value);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -47,17 +49,17 @@ class MaterialMapD extends RaylibStruct<MaterialMapD> {
   TextureD _texture;
   /// Material map texture
   TextureD get texture => _texture = field_texture.readOr(op, _texture);
-  set texture(TextureD value) => _texture = field_texture.writeIf(op, value);
+  set texture(TextureD value) => _texture = field_texture.writeOr(op, value);
 
   ColorD _color;
   /// Material map color
   ColorD get color => _color = field_color.readOr(op, _color);
-  set color(ColorD value) => _color = field_color.writeIf(op, value);
+  set color(ColorD value) => _color = field_color.writeOr(op, value);
 
   double _value;
   /// Material map value
   double get value => _value = field_value.readOr(op, _value);
-  set value(double value) => _value = field_value.writeIf(op, value);
+  set value(double value) => _value = field_value.writeOr(op, value);
   
   MaterialMapD({
     super.op,

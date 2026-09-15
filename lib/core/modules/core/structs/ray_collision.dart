@@ -18,26 +18,29 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RayCollisionField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RayCollisionD> struct = .new(
+    factory: RayCollisionD.new,
+    layout: .aligned<RayCollisionField>({
+      .hit:      RBool(), // Did the ray hit something?
+      .distance: RFloat(), // Distance to the nearest hit
+      .point:    RStruct(Vector3D.struct), // Point of the nearest hit
+      .normal:   RStruct(Vector3D.struct), // Surface normal of hit
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RayCollisionField> struct = .aligned({
-    .hit:      RBool(), // Did the ray hit something?
-    .distance: RFloat(), // Distance to the nearest hit
-    .point:    RStruct(Vector3D.struct), // Point of the nearest hit
-    .normal:   RStruct(Vector3D.struct), // Surface normal of hit
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RayCollisionField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RayCollisionD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RayCollisionD.new, RayCollisionD.pointer);
-
-  static final field_hit = struct.scalar<bool, RBool>(.hit);
-  static final field_distance = struct.scalar<double, RFloat>(.distance);
-  static final field_point = struct.struct(.point, Vector3D.pointer);
-  static final field_normal = struct.struct(.normal, Vector3D.pointer);
+  /// Field descriptor for [hit].
+  static final field_hit = structLayout.scalar<bool, RBool>(.hit);
+  /// Field descriptor for [distance].
+  static final field_distance = structLayout.scalar<double, RFloat>(.distance);
+  /// Field descriptor for [point].
+  static final field_point = structLayout.struct<Vector3D>(.point);
+  /// Field descriptor for [normal].
+  static final field_normal = structLayout.struct<Vector3D>(.normal);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -50,22 +53,22 @@ class RayCollisionD extends RaylibStructLiteral<RayCollisionD> {
   bool _hit;
   /// Did the ray hit something?
   bool get hit => _hit = field_hit.readOr(op, _hit);
-  set hit(bool value) => _hit = field_hit.writeIf(op, value);
+  set hit(bool value) => _hit = field_hit.writeOr(op, value);
 
   double _distance;
   /// Distance to the nearest hit
   double get distance => _distance = field_distance.readOr(op, _distance);
-  set distance(double value) => _distance = field_distance.writeIf(op, value);
+  set distance(double value) => _distance = field_distance.writeOr(op, value);
 
   Vector3D _point;
   /// Point of the nearest hit
   Vector3D get point => _point = field_point.readOr(op, _point);
-  set point(Vector3D value) => _point = field_point.writeIf(op, value);
+  set point(Vector3D value) => _point = field_point.writeOr(op, value);
 
   Vector3D _normal;
   /// Surface normal of hit
   Vector3D get normal => _normal = field_normal.readOr(op, _normal);
-  set normal(Vector3D value) => _normal = field_normal.writeIf(op, value);
+  set normal(Vector3D value) => _normal = field_normal.writeOr(op, value);
 
   RayCollisionD({
     super.op,

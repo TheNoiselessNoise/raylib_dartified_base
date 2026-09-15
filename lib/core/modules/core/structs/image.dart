@@ -19,28 +19,32 @@ class ImageD extends RaylibStruct<ImageD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ImageField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ImageD> struct = .new(
+    factory: ImageD.new,
+    layout: .aligned<ImageField>({
+      .data:    RPointer(RVoid()), // Image raw data
+      .width:   RInt(), // Image base width
+      .height:  RInt(), // Image base height
+      .mipmaps: RInt(), // Mipmap levels, 1 by default
+      .format:  RInt(), // Data format (PixelFormat type)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ImageField> struct = .aligned({
-    .data:    RPointer(RVoid()), // Image raw data
-    .width:   RInt(), // Image base width
-    .height:  RInt(), // Image base height
-    .mipmaps: RInt(), // Mipmap levels, 1 by default
-    .format:  RInt(), // Data format (PixelFormat type)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ImageField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ImageD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ImageD.new, ImageD.pointer);
-
-  static final field_data = struct.pointerUnknown<RVoid>(.data);
-  static final field_width = struct.scalar<int, RInt>(.width);
-  static final field_height = struct.scalar<int, RInt>(.height);
-  static final field_mipmaps = struct.scalar<int, RInt>(.mipmaps);
-  static final field_format = struct.enumValue(.format, PixelFormat.fromValue);
+  /// Field descriptor for [data].
+  static final field_data = structLayout.pointerUnknown<RVoid>(.data);
+  /// Field descriptor for [width].
+  static final field_width = structLayout.scalar<int, RInt>(.width);
+  /// Field descriptor for [height].
+  static final field_height = structLayout.scalar<int, RInt>(.height);
+  /// Field descriptor for [mipmaps].
+  static final field_mipmaps = structLayout.scalar<int, RInt>(.mipmaps);
+  /// Field descriptor for [format].
+  static final field_format = structLayout.enumValue(.format, PixelFormat.fromValue);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -126,19 +130,19 @@ class ImageD extends RaylibStruct<ImageD> {
   int _width;
   /// Image base width
   int get width => _width = field_width.readOr(op, _width);
-  set width(int value) => _width = field_width.writeIf(op, value);
+  set width(int value) => _width = field_width.writeOr(op, value);
 
   int _height;
   /// Image base height
   int get height => _height = field_height.readOr(op, _height);
-  set height(int value) => _height = field_height.writeIf(op, value);
+  set height(int value) => _height = field_height.writeOr(op, value);
 
   int _mipmaps;
   /// Mipmap levels, 1 by default
   /// 
   /// 1 means no mipmaps (base image only).
   int get mipmaps => _mipmaps = field_mipmaps.readOr(op, _mipmaps);
-  set mipmaps(int value) => _mipmaps = field_mipmaps.writeIf(op, value);
+  set mipmaps(int value) => _mipmaps = field_mipmaps.writeOr(op, value);
 
   PixelFormat _format;
   /// Data format (PixelFormat type)
@@ -146,7 +150,7 @@ class ImageD extends RaylibStruct<ImageD> {
   /// Must be set to a value other than [PixelFormat.PIXELFORMAT_NONE] before
   /// accessing [bytesPerPixel], [frameSize], or [dataLength].
   PixelFormat get format => _format = field_format.readOr(op, _format);
-  set format(PixelFormat value) => _format = field_format.writeIf(op, value);
+  set format(PixelFormat value) => _format = field_format.writeOr(op, value);
 
   /// Number of frames in the image.
   ///

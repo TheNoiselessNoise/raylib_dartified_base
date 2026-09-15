@@ -23,26 +23,29 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<QuaternionField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<QuaternionD> struct = .new(
+    factory: QuaternionD.new,
+    layout: .aligned<QuaternionField>({
+      .x: RFloat(), // Imaginary i component
+      .y: RFloat(), // Imaginary j component
+      .z: RFloat(), // Imaginary k component
+      .w: RFloat(), // Real (scalar) component
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<QuaternionField> struct = .aligned({
-    .x: RFloat(), // Imaginary i component
-    .y: RFloat(), // Imaginary j component
-    .z: RFloat(), // Imaginary k component
-    .w: RFloat(), // Real (scalar) component
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<QuaternionField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<QuaternionD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, QuaternionD.new, QuaternionD.pointer);
-
-  static final field_x = struct.scalar<double, RFloat>(.x);
-  static final field_y = struct.scalar<double, RFloat>(.y);
-  static final field_z = struct.scalar<double, RFloat>(.z);
-  static final field_w = struct.scalar<double, RFloat>(.w);
+  /// Field descriptor for [x].
+  static final field_x = structLayout.scalar<double, RFloat>(.x);
+  /// Field descriptor for [y].
+  static final field_y = structLayout.scalar<double, RFloat>(.y);
+  /// Field descriptor for [z].
+  static final field_z = structLayout.scalar<double, RFloat>(.z);
+  /// Field descriptor for [w].
+  static final field_w = structLayout.scalar<double, RFloat>(.w);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -55,22 +58,22 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   double _x;
   /// Imaginary i component
   double get x => _x = field_x.readOr(op, _x);
-  set x(double value) => _x = field_x.writeIf(op, value);
+  set x(double value) => _x = field_x.writeOr(op, value);
 
   double _y;
   /// Imaginary j component
   double get y => _y = field_y.readOr(op, _y);
-  set y(double value) => _y = field_y.writeIf(op, value);
+  set y(double value) => _y = field_y.writeOr(op, value);
 
   double _z;
   /// Imaginary k component
   double get z => _z = field_z.readOr(op, _z);
-  set z(double value) => _z = field_z.writeIf(op, value);
+  set z(double value) => _z = field_z.writeOr(op, value);
 
   double _w;
   /// Real (scalar) component
   double get w => _w = field_w.readOr(op, _w);
-  set w(double value) => _w = field_w.writeIf(op, value);
+  set w(double value) => _w = field_w.writeOr(op, value);
 
   QuaternionD({
     super.op,

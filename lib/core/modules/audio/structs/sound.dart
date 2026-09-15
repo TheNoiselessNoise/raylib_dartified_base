@@ -16,22 +16,23 @@ class SoundD extends RaylibStruct<SoundD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<SoundField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<SoundD> struct = .new(
+    factory: SoundD.new,
+    layout: .aligned<SoundField>({
+      .stream:     RStruct(AudioStreamD.struct), // Audio stream
+      .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<SoundField> struct = .aligned({
-    .stream:     RStruct(AudioStreamD.struct), // Audio stream
-    .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<SoundField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<SoundD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, SoundD.new, SoundD.pointer);
-
-  static final field_stream = struct.struct(.stream, AudioStreamD.pointer);
-  static final field_frameCount = struct.scalar<int, RUnsignedInt>(.frameCount);
+  /// Field descriptor for [stream].
+  static final field_stream = structLayout.struct<AudioStreamD>(.stream);
+  /// Field descriptor for [frameCount].
+  static final field_frameCount = structLayout.scalar<int, RUnsignedInt>(.frameCount);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -44,12 +45,12 @@ class SoundD extends RaylibStruct<SoundD> {
   AudioStreamD _stream;
   /// Audio stream
   AudioStreamD get stream => _stream = field_stream.readOr(op, _stream);
-  set stream(AudioStreamD value) => _stream = field_stream.writeIf(op, value);
+  set stream(AudioStreamD value) => _stream = field_stream.writeOr(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
   int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
-  set frameCount(int value) => _frameCount = field_frameCount.writeIf(op, value);
+  set frameCount(int value) => _frameCount = field_frameCount.writeOr(op, value);
 
   SoundD({
     super.op,

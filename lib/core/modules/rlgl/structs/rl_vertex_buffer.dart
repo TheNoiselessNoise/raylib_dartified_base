@@ -22,40 +22,47 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<RlVertexBufferField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<RlVertexBufferD> struct = .new(
+    factory: RlVertexBufferD.new,
+    layout: .aligned<RlVertexBufferField>({
+      .elementCount: RInt(), // Number of elements in the buffer (QUADS)
+      .vertices:     RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
+      .texcoords:    RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
+      .normals:      RPointer(RFloat()), // Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
+      .colors:       RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
+      .indices: switch (currentRaylibPlatform) {
+        .native   => RPointer(RUnsignedInt()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
+        .web      => RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
+      },
+      .vaoId:        RUnsignedInt(), // OpenGL Vertex Array Object id
+      .vboId:        RArray(RUnsignedInt(), BASE_vboIdCount), // OpenGL Vertex Buffer Objects id (5 types of vertex data)
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<RlVertexBufferField> struct = .aligned({
-    .elementCount: RInt(), // Number of elements in the buffer (QUADS)
-    .vertices:     RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-    .texcoords:    RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-    .normals:      RPointer(RFloat()), // Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
-    .colors:       RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-    .indices: switch (currentRaylibPlatform) {
-      .native   => RPointer(RUnsignedInt()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
-      .web      => RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
-    },
-    .vaoId:        RUnsignedInt(), // OpenGL Vertex Array Object id
-    .vboId:        RArray(RUnsignedInt(), BASE_vboIdCount), // OpenGL Vertex Buffer Objects id (5 types of vertex data)
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<RlVertexBufferField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<RlVertexBufferD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, RlVertexBufferD.new, RlVertexBufferD.pointer);
-
-  static final field_elementCount = struct.scalar<int, RInt>(.elementCount);
-  static final field_vertices = struct.pointerScalarArray<double, RFloat>(.vertices);
-  static final field_texcoords = struct.pointerScalarArray<double, RFloat>(.texcoords);
-  static final field_normals = struct.pointerScalarArray<double, RFloat>(.normals);
-  static final field_colors = struct.pointerScalarArray<int, RUnsignedChar>(.colors);
+  /// Field descriptor for [elementCount].
+  static final field_elementCount = structLayout.scalar<int, RInt>(.elementCount);
+  /// Field descriptor for [vertices].
+  static final field_vertices = structLayout.pointerScalarArray<double, RFloat>(.vertices);
+  /// Field descriptor for [texcoords].
+  static final field_texcoords = structLayout.pointerScalarArray<double, RFloat>(.texcoords);
+  /// Field descriptor for [normals].
+  static final field_normals = structLayout.pointerScalarArray<double, RFloat>(.normals);
+  /// Field descriptor for [colors].
+  static final field_colors = structLayout.pointerScalarArray<int, RUnsignedChar>(.colors);
+  /// Field descriptor for [indices].
   static final field_indices = switch (currentRaylibPlatform) {
-    .native => struct.pointerScalarArray<int, RUnsignedInt>(.indices),
-    .web    => struct.pointerScalarArray<int, RUnsignedShort>(.indices),
+    .native => structLayout.pointerScalarArray<int, RUnsignedInt>(.indices),
+    .web    => structLayout.pointerScalarArray<int, RUnsignedShort>(.indices),
   };
-  static final field_vaoId = struct.scalar<int, RUnsignedInt>(.vaoId);
-  static final field_vboId = struct.scalarArray<int, RUnsignedInt>(.vboId);
+  /// Field descriptor for [vaoId].
+  static final field_vaoId = structLayout.scalar<int, RUnsignedInt>(.vaoId);
+  /// Field descriptor for [vboId].
+  static final field_vboId = structLayout.scalarArray<int, RUnsignedInt>(.vboId);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -112,7 +119,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   int _elementCount;
   /// Number of elements in the buffer (QUADS)
   int get elementCount => _elementCount = field_elementCount.readOr(op, _elementCount);
-  set elementCount(int value) => _elementCount = field_elementCount.writeIf(op, value);
+  set elementCount(int value) => _elementCount = field_elementCount.writeOr(op, value);
 
   late final StructLiveList<double, RFloat> _vertices;
   /// Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
@@ -142,7 +149,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   int _vaoId;
   /// OpenGL Vertex Array Object id
   int get vaoId => _vaoId = field_vaoId.readOr(op, _vaoId);
-  set vaoId(int value) => _vaoId = field_vaoId.writeIf(op, value);
+  set vaoId(int value) => _vaoId = field_vaoId.writeOr(op, value);
   
   late final StructLiveList<int, RUnsignedInt> _vboId;
   /// OpenGL Vertex Buffer Objects id (5 types of vertex data)

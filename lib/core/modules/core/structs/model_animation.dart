@@ -18,26 +18,29 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ModelAnimationField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ModelAnimationD> struct = .new(
+    factory: ModelAnimationD.new,
+    layout: .aligned<ModelAnimationField>({
+      .name:          RArray(RChar(), BASE_nameLength), // Animation name
+      .boneCount:     RInt(), // Number of bones (per pose)
+      .keyframeCount: RInt(), // Number of animation key frames
+      .keyframePoses: RPointer(RPointer(RStruct(TransformD.struct))), // Animation sequence keyframe poses [keyframe][pose]
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ModelAnimationField> struct = .aligned({
-    .name:          RArray(RChar(), BASE_nameLength), // Animation name
-    .boneCount:     RInt(), // Number of bones (per pose)
-    .keyframeCount: RInt(), // Number of animation key frames
-    .keyframePoses: RPointer(RPointer(RStruct(TransformD.struct))), // Animation sequence keyframe poses [keyframe][pose]
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ModelAnimationField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelAnimationD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ModelAnimationD.new, ModelAnimationD.pointer);
-
-  static final field_name = struct.stringAsCharArray(.name);
-  static final field_boneCount = struct.scalar<int, RInt>(.boneCount);
-  static final field_keyframeCount = struct.scalar<int, RInt>(.keyframeCount);
-  static final field_keyframePoses = struct.pointerPointerStructArray(.keyframePoses, TransformD.pointer);
+  /// Field descriptor for [name].
+  static final field_name = structLayout.stringAsCharArray(.name);
+  /// Field descriptor for [boneCount].
+  static final field_boneCount = structLayout.scalar<int, RInt>(.boneCount);
+  /// Field descriptor for [keyframeCount].
+  static final field_keyframeCount = structLayout.scalar<int, RInt>(.keyframeCount);
+  /// Field descriptor for [keyframePoses].
+  static final field_keyframePoses = structLayout.pointerPointerStructArray<TransformD>(.keyframePoses);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -75,9 +78,6 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   ModelAnimationD({ super.op });
 
   factory ModelAnimationD.zero() => .new();
-
-  @override
-  ModelAnimationD clone() => .new(op: op);
 
   @override
   String signature() => '$structName(name: $name, boneCount: $boneCount, keyframeCount: $keyframeCount)';

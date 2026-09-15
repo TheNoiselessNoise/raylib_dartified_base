@@ -16,22 +16,23 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<FilePathListField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<FilePathListD> struct = .new(
+    factory: FilePathListD.new,
+    layout: .aligned<FilePathListField>({
+      .count: RUnsignedInt(), // Filepaths entries count
+      .paths: RPointer(RPointer(RChar())), // Filepaths entries
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<FilePathListField> struct = .aligned({
-    .count: RUnsignedInt(), // Filepaths entries count
-    .paths: RPointer(RPointer(RChar())), // Filepaths entries
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<FilePathListField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<FilePathListD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, FilePathListD.new, FilePathListD.pointer);
-
-  static final field_count = struct.scalar<int, RUnsignedInt>(.count);
-  static final field_paths = struct.pointerAny<RPointer<RChar>>(.paths);
+  /// Field descriptor for [count].
+  static final field_count = structLayout.scalar<int, RUnsignedInt>(.count);
+  /// Field descriptor for [paths].
+  static final field_paths = structLayout.pointerAny<RPointer<RChar>>(.paths);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,15 +47,12 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
 
   /// Filepaths entries
   List<String> get paths => getOp()
-    .readPtr<RPointer<RChar>>(struct.offset(.paths))
+    .readPtr<RPointer<RChar>>(structLayout.offset(.paths))
     .readStringArray(count);
   
   FilePathListD({ super.op });
 
   factory FilePathListD.zero() => .new();
-
-  @override
-  FilePathListD clone() => .new(op: getOp());
 
   @override
   String signature() => '$structName(count: $count)';

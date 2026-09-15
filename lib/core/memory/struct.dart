@@ -103,8 +103,8 @@ final class StructLayout<F extends StructFields> {
         _walkFloatSlots(type.element, baseOffset + i * elemSize, slots);
       }
     } else if (type is RStruct) {
-      for (final e in type.layout.fields.entries) {
-        _walkFloatSlots(e.value, baseOffset + type.layout.offset(e.key), slots);
+      for (final e in type.struct.layout.fields.entries) {
+        _walkFloatSlots(e.value, baseOffset + type.struct.layout.offset(e.key), slots);
       }
     }
   }
@@ -150,7 +150,7 @@ final class StructLayout<F extends StructFields> {
   ///
   /// This matches the layout rules used by C for flat structs containing
   /// primitives and pointers.
-  factory StructLayout.aligned(Map<F, RType> fields) {
+  static StructLayout<F> aligned<F extends StructFields>(Map<F, RType> fields) {
     final offsets = <F, int>{};
     var offset = 0;
     var maxAlign = 1;
@@ -187,16 +187,10 @@ final class StructLayout<F extends StructFields> {
   }
 
   /// Creates a nested struct value field for [f].
-  ///
-  /// [pointerFactory] creates the Dart wrapper used to access the nested
-  /// struct stored at the field's address.
-  StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(
-    F f,
-    StructPointerFactory<T> pointerFactory,
-  ) {
+  StructValueField<T, RStruct> struct<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RStruct>(f);
-    return .new(offset(f), StructCodec<T>(type, pointerFactory));
+    return .new(offset(f), StructCodec<T>(type));
   }
 
   /// Creates an enum value field for [f].
@@ -250,15 +244,10 @@ final class StructLayout<F extends StructFields> {
   }
 
   /// Creates a fixed-size nested struct array field for [f].
-  ///
-  /// [pointerFactory] creates the Dart wrapper for each nested struct.
-  StructValueField<List<T>, RArray<RStruct>> structArray<T extends RaylibStruct<T>>(
-    F f,
-    StructPointerFactory<T> pointerFactory,
-  ) {
+  StructValueField<List<T>, RArray<RStruct>> structArray<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RArray<RStruct>>(f);
-    final structCodec = StructCodec(type.element, pointerFactory);
+    final structCodec = StructCodec<T>(type.element);
     final arrayCodec = ArrayCodec(type, structCodec, type.count);
     return .new(offset(f), arrayCodec);
   }
@@ -277,15 +266,10 @@ final class StructLayout<F extends StructFields> {
   /// Creates a pointer-to-struct field for [f].
   ///
   /// The field represents a C-style `T*` pointer to a nested struct.
-  ///
-  /// [pointerFactory] creates the Dart wrapper used to access the target
-  /// struct.
-  StructPointerValueField<T, RStruct> pointerStruct<
-    T extends RaylibStruct<T>
-  >(F f, StructPointerFactory<T> pointerFactory) {
+  StructPointerValueField<T, RStruct> pointerStruct<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RStruct>>(f);
-    final structCodec = StructCodec(type.target, pointerFactory);
+    final structCodec = StructCodec<T>(type.target);
     final pointerCodec = PointerCodec(type, structCodec);
     return .new(offset(f), pointerCodec);
   }
@@ -350,13 +334,11 @@ final class StructLayout<F extends StructFields> {
   ///
   /// The field represents a C-style `T*` pointing to exactly
   /// [RArray.count] nested structs.
-  StructPointerValueField<List<T>, RArray<RStruct>> pointerStructFixedArray<
-    T extends RaylibStruct<T>
-  >(F f, StructPointerFactory<T> pointer) {
+  StructPointerValueField<List<T>, RArray<RStruct>> pointerStructFixedArray<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RArray<RStruct>>>(f);
     final array = type.target;
-    final structCodec = StructCodec(array.element, pointer);
+    final structCodec = StructCodec<T>(array.element);
     final arrayCodec = ArrayCodec(type.target, structCodec, array.count);
     final pointerCodec = PointerCodec(type, arrayCodec);
     return .new(offset(f), pointerCodec);
@@ -378,13 +360,10 @@ final class StructLayout<F extends StructFields> {
   ///
   /// The field represents a C-style `T*` pointing to a sequence of nested
   /// structs whose element count is determined externally.
-  StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(
-    F f,
-    StructPointerFactory<T> pointerFactory,
-  ) {
+  StructPointerArrayField<T, RStruct> pointerStructArray<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RStruct>>(f);
-    final structCodec = StructCodec(type.target, pointerFactory);
+    final structCodec = StructCodec<T>(type.target);
     final pointerCodec = PointerCodec(type, structCodec);
     return .new(offset(f), pointerCodec);
   }
@@ -412,15 +391,10 @@ final class StructLayout<F extends StructFields> {
   ///
   /// [pointerFactory] creates the Dart wrapper used to access each target
   /// struct.
-  StructPointerArrayField<T, RPointer<RStruct>> pointerPointerStructArray<
-    T extends RaylibStruct<T>
-  >(
-    F f,
-    StructPointerFactory<T> pointerFactory,
-  ) {
+  StructPointerArrayField<T, RPointer<RStruct>> pointerPointerStructArray<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RPointer<RStruct>>>(f);
-    final structCodec = StructCodec(type.target.target, pointerFactory);
+    final structCodec = StructCodec<T>(type.target.target);
     final innerPointerCodec = PointerCodec(type.target, structCodec);
     final pointerCodec = PointerCodec(type, innerPointerCodec);
     return .new(offset(f), pointerCodec);
@@ -542,11 +516,9 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// Syncs all fields to the memory. Requires [op].
   void structSyncToMemory() => structWriteInto(getOp());
 
-  /// [StructLayout] of this object.
-  StructLayout get structLayout;
-
   void _canonicalizeFloats(MemoryPointer p) {
-    for (final f in structLayout.floatFields) {
+    final type = StructTypes.of<D>();
+    for (final f in type.layout.floatFields) {
       switch (f.size) {
         case 4:
           final bits = p.readUint32(f.offset);
@@ -564,6 +536,8 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! D) return false;
+
+    final type = StructTypes.of<D>();
 
     ScratchHandle? srcBuffer;
     ScratchHandle? dstBuffer;
@@ -586,7 +560,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
       if (srcPtr.address == dstPtr.address) return true;
 
-      return srcPtr.compareBytes(dstPtr, structLayout.byteSize) == 0;
+      return srcPtr.compareBytes(dstPtr, type.layout.byteSize) == 0;
     } finally {
       dstBuffer?.release();
       srcBuffer?.release();
@@ -596,11 +570,12 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   @override
   int get hashCode {
     final op = this.op;
+    final type = StructTypes.of<D>();
 
     // If memory-backed, hash native memory directly
     if (op != null) {
       _canonicalizeFloats(op);
-      return op.computeByteHash(structLayout.byteSize);
+      return op.computeByteHash(type.layout.byteSize);
     }
 
     // If unbacked, serialize and hash the bytes
@@ -609,7 +584,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
       final ptr = scratch.pointer;
       structWriteInto(ptr);
       _canonicalizeFloats(ptr);
-      return ptr.computeByteHash(structLayout.byteSize);
+      return ptr.computeByteHash(type.layout.byteSize);
     } finally {
       scratch.release();
     }
@@ -631,11 +606,13 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 /// are no-ops, and [setDart] throws, since there is no independent Dart-side
 /// state to sync, every field read reflects [op] at the moment of access.
 ///
-/// [copy] is overridden to behave like [clone] (it keeps [op] instead
-/// of detaching from it), because a view has no independent state to copy
-/// *into* and detaching would just produce a struct with no backing memory
-/// and stale/zeroed fields. Use [RaylibStructView] for structs you only
-/// ever observe through a pointer you don't own.
+/// [clone] returns the same view instance because a view has no independent
+/// state to clone. [copy] delegates to [clone] and therefore also preserves
+/// the backing pointer.
+///
+/// A [RaylibStructView] represents data that is only observed through a
+/// pointer it does not own; use [RaylibStructView] when the struct should
+/// remain tied to that external memory.
 abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<D> {
   // NOTE: we can't make `op` as `required` unfortunately
   RaylibStructView({super.op}) {
@@ -671,6 +648,10 @@ abstract class RaylibStructView<D extends RaylibStruct<D>> extends RaylibStruct<
   @override
   @nonVirtual
   void structReadFrom(MemoryPointer p) {} // NOTE: do nothing
+
+  @override
+  @nonVirtual
+  D clone() => _self;
 
   @override
   @nonVirtual

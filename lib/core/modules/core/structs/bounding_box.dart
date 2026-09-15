@@ -16,22 +16,23 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<BoundingBoxField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<BoundingBoxD> struct = .new(
+    factory: BoundingBoxD.new,
+    layout: .aligned<BoundingBoxField>({
+      .min: RStruct(Vector3D.struct), // Minimum vertex box-corner
+      .max: RStruct(Vector3D.struct), // Maximum vertex box-corner
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<BoundingBoxField> struct = .aligned({
-    .min: RStruct(Vector3D.struct), // Minimum vertex box-corner
-    .max: RStruct(Vector3D.struct), // Maximum vertex box-corner
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<BoundingBoxField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<BoundingBoxD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, BoundingBoxD.new, BoundingBoxD.pointer);
-
-  static final field_min = struct.struct(.min, Vector3D.pointer);
-  static final field_max = struct.struct(.max, Vector3D.pointer);
+  /// Field descriptor for [min].
+  static final field_min = structLayout.struct<Vector3D>(.min);
+  /// Field descriptor for [max].
+  static final field_max = structLayout.struct<Vector3D>(.max);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -44,12 +45,12 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   Vector3D _min;
   /// Minimum vertex box-corner
   Vector3D get min => _min = field_min.readOr(op, _min);
-  set min(Vector3D value) => _min = field_min.writeIf(op, value);
+  set min(Vector3D value) => _min = field_min.writeOr(op, value);
 
   Vector3D _max;
   /// Maximum vertex box-corner
   Vector3D get max => _max = field_max.readOr(op, _max);
-  set max(Vector3D value) => _max = field_max.writeIf(op, value);
+  set max(Vector3D value) => _max = field_max.writeOr(op, value);
 
   BoundingBoxD({
     super.op,

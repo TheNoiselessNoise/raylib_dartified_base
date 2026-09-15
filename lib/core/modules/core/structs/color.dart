@@ -18,26 +18,29 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ColorField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ColorD> struct = .new(
+    factory: ColorD.new,
+    layout: .aligned<ColorField>({
+      .r: RUnsignedChar(), // Color red value
+      .g: RUnsignedChar(), // Color green value
+      .b: RUnsignedChar(), // Color blue value
+      .a: RUnsignedChar(), // Color alpha value
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ColorField> struct = .aligned({
-    .r: RUnsignedChar(), // Color red value
-    .g: RUnsignedChar(), // Color green value
-    .b: RUnsignedChar(), // Color blue value
-    .a: RUnsignedChar(), // Color alpha value
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ColorField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ColorD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ColorD.new, ColorD.pointer);
-
-  static final field_r = struct.scalar<int, RUnsignedChar>(.r);
-  static final field_g = struct.scalar<int, RUnsignedChar>(.g);
-  static final field_b = struct.scalar<int, RUnsignedChar>(.b);
-  static final field_a = struct.scalar<int, RUnsignedChar>(.a);
+  /// Field descriptor for [r].
+  static final field_r = structLayout.scalar<int, RUnsignedChar>(.r);
+  /// Field descriptor for [g].
+  static final field_g = structLayout.scalar<int, RUnsignedChar>(.g);
+  /// Field descriptor for [b].
+  static final field_b = structLayout.scalar<int, RUnsignedChar>(.b);
+  /// Field descriptor for [a].
+  static final field_a = structLayout.scalar<int, RUnsignedChar>(.a);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -52,28 +55,28 @@ class ColorD extends RaylibStructLiteral<ColorD> {
   ///
   /// Expected range: 0-255
   int get r => _r = field_r.readOr(op, _r);
-  set r(int value) => _r = field_r.writeIf(op, value);
+  set r(int value) => _r = field_r.writeOr(op, value);
   
   int _g;
   /// Color green value
   ///
   /// Expected range: 0-255
   int get g => _g = field_g.readOr(op, _g);
-  set g(int value) => _g = field_g.writeIf(op, value);
+  set g(int value) => _g = field_g.writeOr(op, value);
   
   int _b;
   /// Color blue value
   ///
   /// Expected range: 0-255
   int get b => _b = field_b.readOr(op, _b);
-  set b(int value) => _b = field_b.writeIf(op, value);
+  set b(int value) => _b = field_b.writeOr(op, value);
   
   int _a;
   /// Color alpha value
   ///
   /// Expected range: 0-255
   int get a => _a = field_a.readOr(op, _a);
-  set a(int value) => _a = field_a.writeIf(op, value);
+  set a(int value) => _a = field_a.writeOr(op, value);
 
   ColorD({
     super.op,

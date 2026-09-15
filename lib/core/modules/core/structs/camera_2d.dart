@@ -18,26 +18,29 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<Camera2DField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<Camera2DD> struct = .new(
+    factory: Camera2DD.new,
+    layout: .aligned<Camera2DField>({
+      .offset:   RStruct(Vector2D.struct), // Camera offset (screen space offset from window origin)
+      .target:   RStruct(Vector2D.struct), // Camera target (world space target point that is mapped to screen space offset)
+      .rotation: RFloat(), // Camera rotation in degrees (pivots around target)
+      .zoom:     RFloat(), // Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<Camera2DField> struct = .aligned({
-    .offset:   RStruct(Vector2D.struct), // Camera offset (screen space offset from window origin)
-    .target:   RStruct(Vector2D.struct), // Camera target (world space target point that is mapped to screen space offset)
-    .rotation: RFloat(), // Camera rotation in degrees (pivots around target)
-    .zoom:     RFloat(), // Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<Camera2DField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<Camera2DD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, Camera2DD.new, Camera2DD.pointer);
-
-  static final field_offset = struct.struct(.offset, Vector2D.pointer);
-  static final field_target = struct.struct(.target, Vector2D.pointer);
-  static final field_rotation = struct.scalar<double, RFloat>(.rotation);
-  static final field_zoom = struct.scalar<double, RFloat>(.zoom);
+  /// Field descriptor for [offset].
+  static final field_offset = structLayout.struct<Vector2D>(.offset);
+  /// Field descriptor for [target].
+  static final field_target = structLayout.struct<Vector2D>(.target);
+  /// Field descriptor for [rotation].
+  static final field_rotation = structLayout.scalar<double, RFloat>(.rotation);
+  /// Field descriptor for [zoom].
+  static final field_zoom = structLayout.scalar<double, RFloat>(.zoom);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -50,22 +53,22 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   Vector2D _offset;
   /// Camera offset (screen space offset from window origin)
   Vector2D get offset => _offset = field_offset.readOr(op, _offset);
-  set offset(Vector2D value) => _offset = field_offset.writeIf(op, value);
+  set offset(Vector2D value) => _offset = field_offset.writeOr(op, value);
   
   Vector2D _target;
   /// Camera target (world space target point that is mapped to screen space offset)
   Vector2D get target => _target = field_target.readOr(op, _target);
-  set target(Vector2D value) => _target = field_target.writeIf(op, value);
+  set target(Vector2D value) => _target = field_target.writeOr(op, value);
 
   double _rotation;
   /// Camera rotation in degrees (pivots around target)
   double get rotation => _rotation = field_rotation.readOr(op, _rotation);
-  set rotation(double value) => _rotation = field_rotation.writeIf(op, value);
+  set rotation(double value) => _rotation = field_rotation.writeOr(op, value);
 
   double _zoom;
   /// Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
   double get zoom => _zoom = field_zoom.readOr(op, _zoom);
-  set zoom(double value) => _zoom = field_zoom.writeIf(op, value);
+  set zoom(double value) => _zoom = field_zoom.writeOr(op, value);
 
   Camera2DD({
     super.op,

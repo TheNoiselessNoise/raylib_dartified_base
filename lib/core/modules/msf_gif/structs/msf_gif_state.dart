@@ -23,6 +23,24 @@ enum MsfGifStateField with StructFields {
   framesSubmitted,
 }
 
+class _MsfGifCookedFrameD extends RaylibStructView<_MsfGifCookedFrameD> {
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<_MsfGifCookedFrameD> struct = .new(
+    factory: _MsfGifCookedFrameD.new,
+    layout: .aligned<MsfGifCookedFrameField>({
+      .pixels: RPointer(RUint32()),
+      .depth:  RInt(),
+      .count:  RInt(),
+      .rbits:  RInt(),
+      .gbits:  RInt(),
+      .bbits:  RInt(),
+    }),
+  );
+
+  _MsfGifCookedFrameD({super.op});
+}
+
 /// MsfGifState
 class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
@@ -34,41 +52,34 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<MsfGifStateField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<MsfGifStateD> struct = .new(
+    factory: MsfGifStateD.new,
+    layout: .aligned<MsfGifStateField>({
+      .fileWriteFunc:          RPointer(RFunction<MsfGifFileWriteCallbackBase>()),
+      .fileWriteData:          RPointer(RVoid()),
+      .previousFrame:          RStruct(_MsfGifCookedFrameD.struct),
+      .currentFrame:           RStruct(_MsfGifCookedFrameD.struct),
+      .lzwMem:                 RPointer(RInt16()),
+      .listHead:               RPointer(ROpaque()),
+      .listTail:               RPointer(ROpaque()),
+      .width:                  RInt(),
+      .height:                 RInt(),
+      .customAllocatorContext: RPointer(RVoid()),
+      .framesSubmitted:        RInt(),
+    }),
+  );
 
-  static final StructLayout<MsfGifCookedFrameField> cookedFrameStructLayout = .aligned({
-    .pixels: RPointer(RUint32()),
-    .depth:  RInt(),
-    .count:  RInt(),
-    .rbits:  RInt(),
-    .gbits:  RInt(),
-    .bbits:  RInt(),
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<MsfGifStateField> structLayout = struct.layoutOf();
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<MsfGifStateField> struct = .aligned({
-    .fileWriteFunc:          RPointer(RFunction<MsfGifFileWriteCallbackBase>()),
-    .fileWriteData:          RPointer(RVoid()),
-    .previousFrame:          RStruct(cookedFrameStructLayout),
-    .currentFrame:           RStruct(cookedFrameStructLayout),
-    .lzwMem:                 RPointer(RInt16()),
-    .listHead:               RPointer(ROpaque()),
-    .listTail:               RPointer(ROpaque()),
-    .width:                  RInt(),
-    .height:                 RInt(),
-    .customAllocatorContext: RPointer(RVoid()),
-    .framesSubmitted:        RInt(),
-  });
-
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<MsfGifStateD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, MsfGifStateD.new, MsfGifStateD.pointer);
-
-  static final field_width = struct.scalar<int, RInt>(.width);
-  static final field_height = struct.scalar<int, RInt>(.height);
-  static final field_framesSubmitted = struct.scalar<int, RInt>(.framesSubmitted);
+  /// Field descriptor for [width].
+  static final field_width = structLayout.scalar<int, RInt>(.width);
+  /// Field descriptor for [height].
+  static final field_height = structLayout.scalar<int, RInt>(.height);
+  /// Field descriptor for [framesSubmitted].
+  static final field_framesSubmitted = structLayout.scalar<int, RInt>(.framesSubmitted);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -87,9 +98,6 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   MsfGifStateD({ super.op });
 
   factory MsfGifStateD.zero() => .new();
-
-  @override
-  MsfGifStateD clone() => .new(op: op);
 
   @override
   String signature() => '$structName(width: $width, height: $height, framesSubmitted: $framesSubmitted)';

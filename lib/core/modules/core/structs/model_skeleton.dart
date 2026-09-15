@@ -17,24 +17,26 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   //  ░██   ░██      ░██    ░██    ░██   ░██   ░██   ░██   ░██     ░██    
   //   ░██████       ░██    ░██     ░██   ░██████     ░██████      ░██    
 
-  @override
-  StructLayout<ModelSkeletonField> get structLayout => struct;
+  /// Describes the raw memory layout, construction, and pointer representation
+  /// of this struct type.
+  static final StructType<ModelSkeletonD> struct = .new(
+    factory: ModelSkeletonD.new,
+    layout: .aligned<ModelSkeletonField>({
+      .boneCount: RInt(), // Number of bones
+      .bones:     RPointer(RStruct(BoneInfoD.struct)), // Bones information (skeleton)
+      .bindPose:  RPointer(RStruct(TransformD.struct)), // Bones base transformation (Transform[])
+    }),
+  );
 
-  /// Raw memory layout of the C struct (field order, offsets, and backing [RType]s).
-  static final StructLayout<ModelSkeletonField> struct = .aligned({
-    .boneCount: RInt(), // Number of bones
-    .bones:     RPointer(RStruct(BoneInfoD.struct)), // Bones information (skeleton)
-    .bindPose:  RPointer(RStruct(TransformD.struct)), // Bones base transformation (Transform[])
-  });
+  /// Raw memory layout of this object.
+  static final StructLayout<ModelSkeletonField> structLayout = struct.layoutOf();
 
-  /// Wraps [ptr] as a [StructPointer]; if [ptr] is `null`, the returned
-  /// [StructPointer] wraps [MemoryPointer.nullptr].
-  static StructPointer<ModelSkeletonD> pointer(MemoryPointer? ptr)
-    => .nullable(ptr, struct, ModelSkeletonD.new, ModelSkeletonD.pointer);
-
-  static final field_boneCount = struct.scalar<int, RInt>(.boneCount);
-  static final field_bones = struct.pointerStructArray(.bones, BoneInfoD.pointer);
-  static final field_bindPose = struct.pointerStructArray(.bindPose, TransformD.pointer);
+  /// Field descriptor for [boneCount].
+  static final field_boneCount = structLayout.scalar<int, RInt>(.boneCount);
+  /// Field descriptor for [bones].
+  static final field_bones = structLayout.pointerStructArray<BoneInfoD>(.bones);
+  /// Field descriptor for [bindPose].
+  static final field_bindPose = structLayout.pointerStructArray<TransformD>(.bindPose);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -47,7 +49,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   int _boneCount;
   /// Number of bones
   int get boneCount => _boneCount = field_boneCount.readOr(op, _boneCount);
-  set boneCount(int value) => _boneCount = field_boneCount.writeIf(op, value);
+  set boneCount(int value) => _boneCount = field_boneCount.writeOr(op, value);
 
   late final StructLiveListStruct<BoneInfoD> _bones;
   /// Bones information (skeleton)
