@@ -1,9 +1,6 @@
 part of '../raylib_dartified_base.dart';
 
-typedef StructFactory<D extends RaylibStruct<D>> = D Function({
-  StructPointer<D>? op,
-});
-
+typedef StructFactory<D extends RaylibStruct<D>> = D Function({ StructPointer<D>? op });
 typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointer?);
 
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
@@ -18,8 +15,6 @@ final class RaylibTempStructState with RaylibDisposable {
   /// Whether [RaylibStruct.structMarkDisposed] has been called on this instance.
   bool isDisposed = false;
   
-  /// Whether [RaylibTempStructAllocator.Allocate] has never been called for this instance.
-  ///
   /// Used to full sync once to push pre-promotion Dart state to memory on the first
   /// [RaylibTempStructAllocator.Allocate] allocation.
   bool isFirstSync = true;
@@ -388,9 +383,6 @@ final class StructLayout<F extends StructFields> {
   ///
   /// The field represents a C-style `T**`: an outer pointer points to
   /// pointers, and each inner pointer points to a nested struct.
-  ///
-  /// [pointerFactory] creates the Dart wrapper used to access each target
-  /// struct.
   StructPointerArrayField<T, RPointer<RStruct>> pointerPointerStructArray<T extends RaylibStruct<T>>(F f) {
     _checkField(f);
     final type = _getFieldAs<RPointer<RPointer<RStruct>>>(f);
@@ -401,8 +393,53 @@ final class StructLayout<F extends StructFields> {
   }
 }
 
-/// Backend-agnostic base for Raylib struct mirror objects that are backed by
-/// native memory, adding [op] ownership tracking on top.
+/// Base type for objects backed by native (C-side) struct memory.
+///
+/// Every [RaylibStruct] is defined by two independent, orthogonal axes:
+///
+/// ### 1. Slot allocation
+/// Does [RaylibTempStructAllocator.Allocate] give a fresh slot, or reuse the one already at `key`?
+///
+///   * **Unique** => each call to `Allocate` for this key claims a new,
+///     independent slot. Used for structs with real identity: two
+///     `RaylibStruct` instances allocated at the same key are still
+///     backed by distinct memory.
+///   * **Reused** => calls to `Allocate` for this key reuse the same
+///     underlying slot every time. Used for value types that are
+///     constructed, written, and consumed within a single call, there's
+///     nothing to preserve between calls, so there's no reason to burn a
+///     fresh slot each time.
+///
+/// ### 2. [op] preservation
+/// After [RaylibTempStructAllocator.Allocate] returns, does the struct keep its pointer, or does it forget it?
+///
+///   * **Preserved** => [op] remains set after allocation. The struct is
+///     assumed "live": its pointer is meaningful beyond the current call,
+///     and future code may read or reuse it directly.
+///   * **Not preserved** => [op] is cleared back to `null` once the value
+///     has been written into its slot. The pointer was scratch: valid
+///     only for the duration of the call that allocated it, and must not
+///     be treated as identity afterward.
+///
+/// | | unique slot | reused slot |
+/// |:---:|:---:|:---:|
+/// | **[op] preserved**     | [RaylibStruct] (default) / [RaylibStructView] | *(invalid, see below)* |
+/// | **[op] not preserved** | *(no reason to, see below)*                  | [RaylibStructLiteral]   |
+///
+/// Preserving [op] on a *reused* slot is a bug, not just an unused
+/// combination: it means the struct believes it owns a pointer that
+/// another `Allocate` call for the same key may silently overwrite out
+/// from under it. The inverse, burning a *unique* slot but immediately
+/// discarding [op], is simply wasteful: there is no benefit to unique
+/// backing memory the struct doesn't remember how to find again.
+///
+/// [RaylibStruct] itself is the "owned" default: unique slot, [op]
+/// preserved. [RaylibStructView] refines it with a stricter invariant,
+/// [op] isn't just preserved, it's *mandatory*: constructing a view
+/// without one, or clearing it, throws [StateError]. [RaylibStructLiteral]
+/// is the other extreme: a plain value type (`Vector2`, `Color`) whose
+/// real data lives entirely in Dart-side fields, where [op] is at most
+/// transient interop scaffolding for a single native call.
 abstract class RaylibStruct<D extends RaylibStruct<D>> {
   D get _self => this as D;
   bool get _requiresOp => this is! RaylibStructLiteral;

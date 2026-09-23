@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibCameraFlatModule get _module => RaylibBase.instance.module();
+RaylibCameraFlat get _module => RaylibBase.instance.module();
 
 /// See [RaylibCameraFlatModule.GetCameraForward].
 Vector3D GetCameraForward(

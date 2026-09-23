@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibAudioFlatModule get _module => RaylibBase.instance.module();
+RaylibAudioFlat get _module => RaylibBase.instance.module();
 
 /// See [RaylibAudioFlatModule.InitAudioDevice].
 void InitAudioDevice() => _module.InitAudioDevice();

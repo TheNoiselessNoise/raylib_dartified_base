@@ -410,8 +410,8 @@ extension SizePointer on MemoryPointer<RSize> {
 extension BoolPointer on MemoryPointer<RBool> {
   bool get value => readBool();
   set value(bool v) => writeBool(v);
-  bool operator [](int i) => readBool(i);
-  void operator []=(int i, bool v) => writeBool(v, i);
+  bool operator [](int i) => readBool(i * RBool.scalarByteSize);
+  void operator []=(int i, bool v) => writeBool(v, i * RBool.scalarByteSize);
 
   List<bool> readArray(int count) => .generate(count, (i) => this[i]);
 
@@ -716,29 +716,28 @@ extension Float64Pointer on MemoryPointer<RFloat64> {
 
 extension MemoryPointerMatrixIO on MemoryPointer<RPointer<RStruct>> {
   void writeMatrix<D extends RaylibStruct<D>>(
-    List<StructLiveList<D, RStruct>> rows
+    List<List<D>> rows,
   ) {
-    final pSize = RType.nativeWordSize;
+    final type = StructTypes.of<D>();
     for (var i = 0; i < rows.length; i++) {
-      final row = rows[i];
-      final p = row.ptrOf()!;
-      writePtr(p, i * pSize);
-      row.writeInto(p);
+      type.ptr(readPtr(i * RType.nativeWordSize)).writeArray(rows[i]);
     }
   }
 
-  List<List<D>> readMatrix<D extends RaylibStruct<D>>(
+  List<StructLiveList<D, RStruct>> readMatrix<D extends RaylibStruct<D>>(
     int rowCount,
-    int rowLength,
-    StructPointer<D> Function(MemoryPointer ptr) factory,
-    {bool owned = false}
-  ) {
-    final pSize = RType.nativeWordSize;
-    return List.generate(rowCount, (i) {
-      final rowPtr = factory(readPtr(i * pSize));
-      return rowPtr.isNull 
-        ? const []
-        : rowPtr.readArray(rowLength, owned: owned);
-    });
+    int rowLength, {
+    bool owned = false,
+    bool materialize = false,
+  }) {
+    final type = StructTypes.of<D>();
+    final List<StructLiveList<D, RStruct>> list = .generate(rowCount,
+      (i) {
+        final live = type.ptr(readPtr(i * RType.nativeWordSize)).live(owned: owned);
+        if (materialize) live.materialize(count: rowLength, safe: true);
+        return live;
+      },
+    );
+    return list;
   }
 }

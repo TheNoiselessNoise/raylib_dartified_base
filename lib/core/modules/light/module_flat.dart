@@ -13,12 +13,12 @@ mixin RaylibLightModuleExtras<R extends RaylibBase> on RaylibModule<R> {
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibLightFlatModule<R extends RaylibBase> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
+abstract class RaylibLightFlat<R extends RaylibBase> extends RaylibModule<R> with RaylibLightModuleExtras<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
   final RaylibCaptureIds = _RaylibLightDartCaptureIds();
 
-  RaylibLightFlatModule(super.rl);
+  RaylibLightFlat(super.rl);
 
   /// Create a light and get its shader locations
   LightD CreateLight(

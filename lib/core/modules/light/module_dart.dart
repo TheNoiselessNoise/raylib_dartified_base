@@ -7,7 +7,7 @@ final class RaylibLightDart<R extends RaylibBase> extends RaylibModule<R> with R
 
   RaylibLightDart(super.rl);
 
-  RaylibLightFlatModule get _flat => rl.module();
+  RaylibLightFlat get _flat => rl.module();
 
   /// Create a light and get its shader locations
   LightD CreateLight(

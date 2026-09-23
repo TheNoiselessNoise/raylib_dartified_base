@@ -7,7 +7,7 @@ final class RaylibCoreDart<R extends RaylibBase> extends RaylibModule<R> {
 
   RaylibCoreDart(super.rl);
 
-  RaylibCoreFlatModule get _flat => rl.module();
+  RaylibCoreFlat get _flat => rl.module();
 
   // //////////// //
   // CUSTOM STUFF //

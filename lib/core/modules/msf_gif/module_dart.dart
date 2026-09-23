@@ -7,7 +7,7 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   
   RaylibMsfGifDart(super.rl);
 
-  RaylibMsfGifFlatModule get _flat => rl.module();
+  RaylibMsfGifFlat get _flat => rl.module();
 
   /// `msf_gif_alpha_threshold`
   int get msf_gif_alpha_threshold => _flat.msf_gif_alpha_threshold;

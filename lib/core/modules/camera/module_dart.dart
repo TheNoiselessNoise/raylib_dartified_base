@@ -7,7 +7,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
 
   RaylibCameraDart(super.rl);
 
-  RaylibCameraFlatModule get _flat => rl.module();
+  RaylibCameraFlat get _flat => rl.module();
 
   /// Returns the forward vector (normalized) of [camera].
   Vector3D GetCameraForward(

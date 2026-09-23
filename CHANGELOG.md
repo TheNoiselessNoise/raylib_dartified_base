@@ -1,3 +1,9 @@
+## 6.0.1
+
+- Fixed `MemoryPointer<RBool>` extension.
+- Fixed RaylibStruct `op` preservation.
+- Fixed module naming.
+
 ## 6.0.0
 
 - [BREAKING] Unified `MemoryPointer<X extends RType>` abstraction replacing per-backend pointer handling

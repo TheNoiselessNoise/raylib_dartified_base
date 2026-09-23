@@ -4,9 +4,9 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibCameraFlatModule<R extends RaylibBase> extends RaylibModule<R> {
+abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
 
-  RaylibCameraFlatModule(super.rl);
+  RaylibCameraFlat(super.rl);
 
   /// Returns the forward vector (normalized) of [camera].
   Vector3D GetCameraForward(

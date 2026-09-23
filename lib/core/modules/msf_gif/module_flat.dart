@@ -4,12 +4,12 @@ part of '../../raylib_dartified_base.dart';
 ///
 /// Concrete platform implementations mix in or extend this to provide
 /// the full API surface across different backends.
-abstract class RaylibMsfGifFlatModule<R extends RaylibBase> extends RaylibModule<R> {
+abstract class RaylibMsfGifFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Capture ID generator for pointer slots allocated by this module.
   final RaylibCaptureIds = _RaylibMsfGifDartCaptureIds();
 
-  RaylibMsfGifFlatModule(super.rl);
+  RaylibMsfGifFlat(super.rl);
 
   @override
   @nonVirtual

@@ -28,13 +28,13 @@ A platform implementation must provide:
 
   | Module | Abstract type |
   |---|---|
-  | Audio | `RaylibAudioFlatModule<R>` |
-  | Camera | `RaylibCameraFlatModule<R>` |
-  | Core | `RaylibCoreFlatModule<R>` |
-  | Gui | `RaylibGuiFlatModule<R>` |
-  | Light | `RaylibLightFlatModule<R>` |
-  | MsfGif | `RaylibMsfGifFlatModule<R>` |
-  | Rlgl | `RaylibRlglFlatModule<R>` |
+  | Audio | `RaylibAudioFlat<R>` |
+  | Camera | `RaylibCameraFlat<R>` |
+  | Core | `RaylibCoreFlat<R>` |
+  | Gui | `RaylibGuiFlat<R>` |
+  | Light | `RaylibLightFlat<R>` |
+  | MsfGif | `RaylibMsfGifFlat<R>` |
+  | Rlgl | `RaylibRlglFlat<R>` |
 
 See [raylib_dartified](https://github.com/TheNoiselessNoise/raylib_dartified) (FFI) and [raylib_dartified_web](https://github.com/TheNoiselessNoise/raylib_dartified_web) (WASM) for
 reference implementations.

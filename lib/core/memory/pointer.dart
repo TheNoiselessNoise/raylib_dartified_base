@@ -95,7 +95,7 @@ abstract class MemoryPointer<X extends RType> {
   /// Same address/offset, no copy, no runtime check, purely a
   /// compile-time relabeling of what the memory is assumed to contain.
   /// The caller is responsible for [Y] actually matching the underlying data.
-  MemoryPointer<Y> cast<Y extends RType>();
+  MemoryPointer<Y> cast<Y extends RType>() => this as MemoryPointer<Y>;
 
   /// Copies [length] bytes, viewed as [T].
   /// 
@@ -451,9 +451,9 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
     (i) => _getAtIndex(i, owned: owned),
   );
 
-  StructLiveList<D, RStruct> live([List<D>? initial]) => .live(
+  StructLiveList<D, RStruct> live({List<D>? initial, bool owned = true}) => .live(
     () => ptr,
-    readAt: (_, i) => this[i],
+    readAt: (_, i) => owned ? this.owned(i) : this[i],
     writeAt: (_, i, v) => this[i] = v,
     initial: initial ?? [],
   );

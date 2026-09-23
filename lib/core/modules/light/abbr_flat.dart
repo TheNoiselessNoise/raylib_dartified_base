@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibLightFlatModule get _module => RaylibBase.instance.module();
+RaylibLightFlat get _module => RaylibBase.instance.module();
 
 /// See [RaylibLightFlatModule.CreateLight].
 LightD CreateLight(

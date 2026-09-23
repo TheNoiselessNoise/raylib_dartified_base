@@ -369,13 +369,6 @@ class StructCodec<E extends RaylibStruct<E>>
 
   @override
   void write(MemoryPointer p, E value) {
-    // print(
-    //   'STRUCT CODEC WRITE '
-    //   'type=$E '
-    //   'dst=${p.address.hex} '
-    //   'src=${value.op?.address.hex} '
-    //   'size=${type.byteSize}',
-    // );
     _check(p, 'write struct');
     pointer(p).ref = value;
   }

@@ -73,13 +73,12 @@ final class RaylibTempStructAllocator<
       throw StateError('You are trying to allocate disposed $value object!');
     }
 
-    final requiresOp = value._requiresOp;
     String baseKey = getBaseKey(value, _slotKey(key));    
-    final p = struct.ptr(requiresOp ? AtUnique(key: baseKey) : At(baseKey));
-    temp.debugSyncInfo('[SYNC] ${value.structName} allocate into');
-    value.op = p;
+    final p = struct.ptr(value._requiresOp ? AtUnique(key: baseKey) : At(baseKey));
+    temp.debugSyncInfo('[SYNC] ${value.structName} allocate into \'${p.allocationKey}\'');
     value.structAllocateInto(temp, p, baseKey);
     value.structWriteInto(p);
+    if (value._requiresOp) value.op = op;
     return p;
   }
 

@@ -7,7 +7,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   RaylibAudioDart(super.rl);
 
-  RaylibAudioFlatModule get _flat => rl.module();
+  RaylibAudioFlat get _flat => rl.module();
 
   /// Initialize audio device and context
   void InitAudioDevice() => run(

@@ -8,7 +8,7 @@ final class RaylibRlglDart<R extends RaylibBase> extends RaylibModule<R> with Ra
   RaylibRlglDart(super.rl);
 
   RaylibCoreDart get _coreDart => rl.module();
-  RaylibRlglFlatModule get _flat => rl.module();
+  RaylibRlglFlat get _flat => rl.module();
 
   /// Choose the current matrix to be transformed
   void rlMatrixMode(

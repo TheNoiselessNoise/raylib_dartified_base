@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibRlglFlatModule get _module => RaylibBase.instance.module();
+RaylibRlglFlat get _module => RaylibBase.instance.module();
 
 /// See [RaylibRlglFlatModule.rlMatrixMode].
 void rlMatrixMode(

@@ -12,6 +12,10 @@ RaylibBase get _rl => RaylibBase.instance;
 T registerModule<T extends RaylibModule>(T module)
   => _rl.registerModule(module);
 
+/// See [RaylibBase.module].
+T getModule<T extends RaylibModule>()
+  => _rl.module();
+
 /// See [RaylibBase.dispose].
 void disposeRaylib() => _rl.dispose();
 

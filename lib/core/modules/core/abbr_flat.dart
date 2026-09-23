@@ -1,6 +1,6 @@
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
-RaylibCoreFlatModule get _module => RaylibBase.instance.module();
+RaylibCoreFlat get _module => RaylibBase.instance.module();
 
 /// See [RaylibCoreFlatModule.InitWindow].
 void InitWindow(

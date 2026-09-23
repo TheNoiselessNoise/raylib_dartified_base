@@ -7,8 +7,8 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   
   RaylibGuiDart(super.rl);
 
-  RaylibCoreFlatModule get _coreFlat => rl.module();
-  RaylibGuiFlatModule get _flat => rl.module();
+  RaylibCoreFlat get _coreFlat => rl.module();
+  RaylibGuiFlat get _flat => rl.module();
 
   /// Enable gui controls (global state)
   void GuiEnable() => run(
