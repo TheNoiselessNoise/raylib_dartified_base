@@ -1,3 +1,10 @@
+## 6.0.2
+
+- `currentRaylibPlatform` is now more descriptive
+- fixed `MemoryPointer.cast`
+- some docs for codecs
+- add new types ssize, intptr, uintptr, ptrdiff, long, unsigned long, long long, unsigned long long
+
 ## 6.0.1
 
 - Fixed `MemoryPointer<RBool>` extension.

@@ -4,20 +4,32 @@ part of '../raylib_dartified_base.dart';
 /// memory (the field's own on-struct type, for a pointer field this is
 /// `RPointer<Pointee>`, not `Pointee`).
 abstract class ElementCodec<E, R extends RType> {
+  /// Native type describing the memory region this codec reads and writes.
   final R type;
 
   const ElementCodec(this.type);
 
+  /// Throws [StateError] if [p] is null, naming [action] in the message.
   void _check(MemoryPointer p, String action) {
     if (p.isNull) throw StateError('You are trying to $action on a nullptr.');
   }
 
+  /// Reads a value of type [E] from the memory at [p].
   E read(MemoryPointer p);
 
+  /// Writes [value] to the memory at [p].
   void write(MemoryPointer p, E value);
 
+  /// Returns the temp allocator this codec uses to allocate backing storage
+  /// out of [temp], or `null` if it doesn't allocate.
   RaylibTempAllocator? allocator(RaylibTemp temp);
 
+  /// Allocates any backing storage for a value at [p], using [temp] and
+  /// identified by [key]. [count] and [raw] are for codecs that allocate
+  /// arrays or need unmanaged memory.
+  ///
+  /// No-op by default: most codecs (scalar, enum, struct) don't own
+  /// pointers, so there's nothing to allocate.
   void allocate(RaylibTemp temp, MemoryPointer p, String key, {int count = 1, bool raw = false}) {
     // no-op by default, most codecs (Scalar, Enum, Struct) don't own
     // pointers, so there's nothing to allocate.
@@ -30,8 +42,10 @@ abstract class ElementCodec<E, R extends RType> {
 /// this is deliberately separate from the base contract rather than forced
 /// on every codec.
 mixin ContiguousCodec<E, R extends RType> on ElementCodec<E, R> {
+  /// Reads [count] consecutive values starting at [p].
   List<E> readArray(MemoryPointer p, int count);
 
+  /// Writes [values] consecutively starting at [p].
   void writeArray(MemoryPointer p, List<E> values);
 }
 
@@ -194,12 +208,15 @@ class PointerCodec<E, R extends RType>
   extends ElementCodec<E, RPointer<R>>
   with ContiguousCodec<E, RPointer<R>>
 {
+  /// Codec for the pointed-to value, applied after dereferencing.
   final ElementCodec<E, R> inner;
 
   const PointerCodec(super.type, this.inner);
 
+  /// Reads the pointer stored in the slot at [p] and returns it, i.e. `*p`.
   MemoryPointer<Y> deref<Y extends RType>(MemoryPointer p) => p.readPtr();
 
+  /// Whether the pointer stored in the slot at [p] is non-null.
   bool isValid(MemoryPointer p) => !deref(p).isNull;
 
   @override
@@ -208,6 +225,8 @@ class PointerCodec<E, R extends RType>
     return inner.read(deref(p));
   }
 
+  /// Like [read], but returns [fallback] if the pointer stored in the slot
+  /// at [p] is null.
   E readSafe(MemoryPointer p, E fallback) {
     final ref = deref(p);
     if (ref.isNull) return fallback;
@@ -217,6 +236,8 @@ class PointerCodec<E, R extends RType>
   @override
   void write(MemoryPointer p, E value) => inner.write(deref(p), value);
 
+  /// Like [write], but does nothing if the pointer stored in the slot at
+  /// [p] is null.
   void writeSafe(MemoryPointer p, E value) {
     final ref = deref(p);
     if (ref.isNull) return;
@@ -262,9 +283,15 @@ class PointerCodec<E, R extends RType>
   MemoryPointer<R> pointerElementPtr(MemoryPointer fieldPtr, int index)
     => fieldPtr.readPtr(index * RType.nativeWordSize);
 
+  /// Reads element [index] of the array pointed to by the pointer slot at
+  /// [fieldPtr], i.e. `fieldPtr->[index]` for `T* xs`.
   E readAt(MemoryPointer fieldPtr, int index)
     => inner.read(elementPtr(fieldPtr, index));
 
+  /// Writes [value] to element [index] of the array pointed to by the
+  /// pointer slot at [fieldPtr].
+  ///
+  /// Returns [value].
   E writeAt(MemoryPointer fieldPtr, int index, E value) {
     inner.write(elementPtr(fieldPtr, index), value);
     return value;

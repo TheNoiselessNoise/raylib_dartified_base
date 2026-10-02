@@ -491,10 +491,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   /// Called internally after the native resource is unloaded. Accessing
   /// [getOp] after disposal will throw.
   @nonVirtual
-  void structMarkDisposed() {
-    $state.isDisposed = true;
-    op = null;
-  }
+  void structMarkDisposed() => $state.isDisposed = true;
 
   /// Calls [callback] with [op] if it is set, otherwise no-ops.
   @nonVirtual

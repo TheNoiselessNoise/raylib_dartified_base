@@ -147,8 +147,8 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
     this._offset,
     this._fixedCount,
     this._access,
-    List<E> initial,
-  ) : _cache = .of(initial);
+    List<E>? initial,
+  ) : _cache = .of(initial ?? []);
 
   /// General-purpose escape hatch: builds a live list from manual
   /// read/write closures over an already-resolved base pointer ([offset]
@@ -158,17 +158,17 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
     int? fixedCount,
     required E? Function(MemoryPointer fieldPtr, int index) readAt,
     required void Function(MemoryPointer fieldPtr, int index, E value) writeAt,
-    List<E> initial = const [],
+    List<E>? initial,
   }) => ._(ptrOf, 0, fixedCount, _ClosureAccess(readAt, writeAt), initial);
 
   /// Fixed-size inline array field.
   factory StructLiveList.array(
     MemoryPointer? Function() ptrOf,
     StructValueField<List<E>, RArray<R>> field,
-    List<E> initial,
+    List<E>? initial,
   ) {
     final codec = field.codec as ArrayCodec<E, R>;
-    assert(initial.length <= codec.count);
+    assert((initial?.length ?? 0) <= codec.count);
     return ._(ptrOf, field.offset, codec.count, _InlineArrayAccess<E, R>(codec), initial);
   }
 
@@ -176,7 +176,7 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   factory StructLiveList.pointerArray(
     MemoryPointer? Function() ptrOf,
     StructPointerArrayField<E, R> field,
-    List<E> initial,
+    List<E>? initial,
   ) {
     final codec = field.codec;
     return ._(ptrOf, field.offset, null, _PointerArrayAccess<E, R>(codec), initial);
@@ -186,11 +186,11 @@ class StructLiveList<E, R extends RType> extends ListMixin<E> {
   factory StructLiveList.pointerFixedArray(
     MemoryPointer? Function() ptrOf,
     StructPointerValueField<List<E>, RArray<R>> field,
-    List<E> initial,
+    List<E>? initial,
   ) {
     final pointerCodec = field.codec;
     final arrayCodec = pointerCodec.inner as ArrayCodec<E, R>;
-    assert(initial.length <= arrayCodec.count);
+    assert((initial?.length ?? 0) <= arrayCodec.count);
     return ._(ptrOf, field.offset, arrayCodec.count, _PointerToFixedArrayAccess<E, R>(pointerCodec), initial);
   }
 
@@ -347,17 +347,17 @@ extension StructLiveListNested<E, R extends RType> on StructLiveList<List<E>, RP
 }
 
 extension LiveArrayFieldX<E, R extends RType> on StructValueField<List<E>, RArray<R>> {
-  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E>? initial)
     => .array(ptrOf, this, initial);
 }
 
 extension LivePointerArrayFieldX<E, R extends RType> on StructPointerArrayField<E, R> {
-  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E>? initial)
     => .pointerArray(ptrOf, this, initial);
 }
 
 extension LivePointerFixedArrayFieldX<E, R extends RType> on StructPointerValueField<List<E>, RArray<R>> {
-  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E> initial)
+  StructLiveList<E, R> live(MemoryPointer? Function() ptrOf, List<E>? initial)
     => .pointerFixedArray(ptrOf, this, initial);
 }
 

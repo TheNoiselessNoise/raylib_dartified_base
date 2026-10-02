@@ -45,6 +45,15 @@ mixin RTypeDoubleLike on RType {}
 /// Marker type for any unknown-like [RType]s.
 mixin RTypeUnknownLike on RType {}
 
+/// Base class for any [RType] whose size matches the platform's native word size
+/// (4 bytes on 32-bit, 8 bytes on 64-bit).
+abstract class RWordSizedType extends RType {
+  const RWordSizedType();
+
+  @override
+  int get byteSize => RType.nativeWordSize;
+}
+
 final class RArray<E extends RType> extends RType {
   final E element;
   final int count;
@@ -117,13 +126,10 @@ final class RVoid extends RType with RTypeUnknownLike {
 /// A raw address into backend memory.
 /// 
 /// Maps to any C pointer type (`void*`, `Image*`, `unsigned char*`, ...).
-final class RPointer<X extends RType> extends RType {
+final class RPointer<X extends RType> extends RWordSizedType {
   final X target;
   
   const RPointer(this.target);
-
-  @override
-  int get byteSize => RType.nativeWordSize;
 
   @override
   V? read<V>(MemoryPointer p, int offset)
@@ -134,12 +140,9 @@ final class RPointer<X extends RType> extends RType {
     => p.writePtr(value as MemoryPointer?, offset);
 }
 
-/// Unsigned pointer-sized integer. Maps to C `size_t`.
-final class RSize extends RType with RTypeIntLike {
+/// Platform-dependent unsigned integer for object sizes. Maps to C `size_t`.
+final class RSize extends RWordSizedType with RTypeIntLike {
   const RSize();
-
-  @override
-  int get byteSize => RType.nativeWordSize;
 
   @override
   V? read<V>(MemoryPointer p, int offset)
@@ -148,6 +151,58 @@ final class RSize extends RType with RTypeIntLike {
   @override
   void write<V>(MemoryPointer p, int offset, V? value)
     => p.writeSize(value as int, offset);
+}
+
+/// Platform-dependent signed integer for object sizes. Maps to C `ssize_t`.
+final class RSsize extends RWordSizedType with RTypeIntLike {
+  const RSsize();
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readSsize(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeSsize(value as int, offset);
+}
+
+/// Platform-dependent signed integer capable of holding a pointer. Maps to C `intptr_t`.
+final class RIntPtr extends RWordSizedType with RTypeIntLike {
+  const RIntPtr();
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readIntPtr(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeIntPtr(value as int, offset);
+}
+
+/// Platform-dependent unsigned integer capable of holding a pointer. Maps to C `uintptr_t`.
+final class RUintPtr extends RWordSizedType with RTypeIntLike {
+  const RUintPtr();
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUintPtr(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUintPtr(value as int, offset);
+}
+
+/// Platform-dependent signed integer representing the difference between pointers. Maps to C `ptrdiff_t`.
+final class RPtrDiff extends RWordSizedType with RTypeIntLike {
+  const RPtrDiff();
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readPtrDiff(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writePtrDiff(value as int, offset);
 }
 
 /// Unsigned 8-bit integer. Maps to C `bool`.
@@ -346,6 +401,84 @@ final class RFloat64 extends RType {
   @override
   void write<V>(MemoryPointer p, int offset, V? value)
     => p.writeFloat64(value as double, offset);
+}
+
+/// Platform-dependent signed long integer. Maps to C `long`.
+final class RLong extends RType with RTypeIntLike {
+  const RLong();
+
+  static int get scalarByteSize => switch (currentRaylibPlatform) {
+    .windows => 4,
+    _ => RType.nativeWordSize, 
+  };
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readLong(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeLong(value as int, offset);
+}
+
+/// Platform-dependent unsigned long integer. Maps to C `unsigned long`.
+final class RUnsignedLong extends RType with RTypeIntLike {
+  const RUnsignedLong();
+
+  static int get scalarByteSize => switch (currentRaylibPlatform) {
+    .windows => 4,
+    _ => RType.nativeWordSize, 
+  };
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUnsignedLong(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUnsignedLong(value as int, offset);
+}
+
+/// Signed 64-bit integer. Maps to C `long long`.
+final class RLongLong extends RType with RTypeIntLike {
+  const RLongLong();
+
+  static final int scalarByteSize = 8; 
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readLongLong(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeLongLong(value as int, offset);
+}
+
+/// Unsigned 64-bit integer. Maps to C `unsigned long long`.
+final class RUnsignedLongLong extends RType with RTypeIntLike {
+  const RUnsignedLongLong();
+
+  static final int scalarByteSize = 8; 
+
+  @override
+  int get byteSize => scalarByteSize;
+
+  @override
+  V? read<V>(MemoryPointer p, int offset)
+    => p.readUnsignedLongLong(offset) as V;
+
+  @override
+  void write<V>(MemoryPointer p, int offset, V? value)
+    => p.writeUnsignedLongLong(value as int, offset);
 }
 
 /// C `char`. Alias for [RInt8].

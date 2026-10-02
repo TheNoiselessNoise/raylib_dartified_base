@@ -146,9 +146,12 @@ class ModelD extends RaylibStruct<ModelD> {
   @override
   ModelD setDart(ModelD o) {
     transform.setDart(o.transform);
+    meshCount = o.meshCount;
+    materialCount = o.materialCount;
     meshes = .from(o.meshes);
     materials = .from(o.materials);
     meshMaterial = .from(o.meshMaterial);
+    skeleton.setDart(o.skeleton);
     currentPose = .from(o.currentPose);
     boneMatrices = .from(o.boneMatrices);
     return this;

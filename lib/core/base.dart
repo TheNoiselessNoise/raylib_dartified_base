@@ -2,6 +2,19 @@ part of 'raylib_dartified_base.dart';
 
 /// Supported Raylib runtime platforms.
 enum RaylibPlatform {
+  linux(.native),
+  windows(.native),
+  macOS(.native),
+  web(.web),
+  android(.native),
+  iOS(.native),
+  fuchsia(.native);
+
+  const RaylibPlatform(this.type);
+  final RaylibPlatformType type;
+}
+
+enum RaylibPlatformType {
   /// Native Dart VM / FFI backend.
   native,
 
@@ -524,7 +537,7 @@ abstract class RaylibAppBase<R extends RaylibBase> {
   ///   - `false` (on web)
   /// 
   /// Override to implement custom exit conditions.
-  bool shouldClose(R rl) => switch (currentRaylibPlatform) {
+  bool shouldClose(R rl) => switch (currentRaylibPlatform.type) {
     .native => rl.module<RaylibCoreDart>().WindowShouldClose(),
     .web => false,
   };

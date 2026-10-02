@@ -32,7 +32,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
       .texcoords:    RPointer(RFloat()), // Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
       .normals:      RPointer(RFloat()), // Vertex normal (XYZ - 3 components per vertex) (shader-location = 2)
       .colors:       RPointer(RUnsignedChar()), // Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-      .indices: switch (currentRaylibPlatform) {
+      .indices: switch (currentRaylibPlatform.type) {
         .native   => RPointer(RUnsignedInt()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
         .web      => RPointer(RUnsignedShort()), // Vertex indices (in case vertex data comes indexed) (6 indices per quad)
       },
@@ -55,7 +55,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   /// Field descriptor for [colors].
   static final field_colors = structLayout.pointerScalarArray<int, RUnsignedChar>(.colors);
   /// Field descriptor for [indices].
-  static final field_indices = switch (currentRaylibPlatform) {
+  static final field_indices = switch (currentRaylibPlatform.type) {
     .native => structLayout.pointerScalarArray<int, RUnsignedInt>(.indices),
     .web    => structLayout.pointerScalarArray<int, RUnsignedShort>(.indices),
   };

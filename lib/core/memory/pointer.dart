@@ -95,7 +95,7 @@ abstract class MemoryPointer<X extends RType> {
   /// Same address/offset, no copy, no runtime check, purely a
   /// compile-time relabeling of what the memory is assumed to contain.
   /// The caller is responsible for [Y] actually matching the underlying data.
-  MemoryPointer<Y> cast<Y extends RType>() => this as MemoryPointer<Y>;
+  MemoryPointer<Y> cast<Y extends RType>();
 
   /// Copies [length] bytes, viewed as [T].
   /// 
@@ -179,7 +179,19 @@ abstract class MemoryPointer<X extends RType> {
   void writePtr(MemoryPointer? value, [int byteOffset = 0]);
 
   /// Reads a value of type [RSize] at given `address + byteOffset`.
-  int readSize([int byteOffset = 0]);
+  int readSize([int byteOffset = 0]) => RType.isNative32Bit ? readUint32(byteOffset) : readUint64(byteOffset);
+
+  /// Reads a value of type [RSsize] at given `address + byteOffset`.
+  int readSsize([int byteOffset = 0]) => RType.isNative32Bit ? readInt32(byteOffset) : readInt64(byteOffset);
+  
+  /// Reads a value of type [RIntPtr] at given `address + byteOffset`.
+  int readIntPtr([int byteOffset = 0]) => readSsize(byteOffset);
+  
+  /// Reads a value of type [RUintPtr] at given `address + byteOffset`.
+  int readUintPtr([int byteOffset = 0]) => readSize(byteOffset);
+
+  /// Reads a value of type [RPtrDiff] at given `address + byteOffset`.
+  int readPtrDiff([int byteOffset = 0]) => readSsize(byteOffset);
 
   /// Reads a value of type [RBool] at given `address + byteOffset`.
   bool readBool([int byteOffset = 0]) => readUint8(byteOffset) != 0;
@@ -238,6 +250,18 @@ abstract class MemoryPointer<X extends RType> {
   /// Reads a value of type [RDouble] at given `address + byteOffset`.
   double readDouble([int byteOffset = 0]) => readFloat64(byteOffset);
 
+  /// Reads a value of type [RLong] at given `address + byteOffset`.
+  int readLong([int byteOffset = 0]) => RLong.scalarByteSize == 4 ? readInt32(byteOffset) : readInt64(byteOffset);
+  
+  /// Reads a value of type [RUnsignedLong] at given `address + byteOffset`.
+  int readUnsignedLong([int byteOffset = 0]) => RLong.scalarByteSize == 4 ? readUint32(byteOffset) : readUint64(byteOffset);
+
+  /// Reads a value of type [RLongLong] at given `address + byteOffset`.
+  int readLongLong([int byteOffset = 0]) => readInt64(byteOffset);
+  
+  /// Reads a value of type [RUnsignedLongLong] at given `address + byteOffset`.
+  int readUnsignedLongLong([int byteOffset = 0]) => readUint64(byteOffset);
+
   /// Reads a fixed-size char-buffer field as a UTF-8 string, stopping early at NUL if present.
   String readStringUTF8([int? maxLength, int byteOffset = 0])
     => offsetBy(byteOffset).cast<RInt8>().toDartString(maxLength);
@@ -251,7 +275,19 @@ abstract class MemoryPointer<X extends RType> {
     => offsetBy(byteOffset).cast<RInt32>().toDartString(maxLength);
 
   /// Writes a [value] of type [RSize] at given `address + byteOffset`.
-  void writeSize(int value, [int byteOffset = 0]);
+  void writeSize(int value, [int byteOffset = 0]) => RType.isNative32Bit ? writeUint32(value, byteOffset) : writeUint64(value, byteOffset);
+
+  /// Writes a [value] of type [RSsize] at given `address + byteOffset`.
+  void writeSsize(int value, [int byteOffset = 0]) => RType.isNative32Bit ? writeInt32(value, byteOffset) : writeInt64(value, byteOffset);
+  
+  /// Writes a [value] of type [RIntPtr] at given `address + byteOffset`.
+  void writeIntPtr(int value, [int byteOffset = 0]) => writeSsize(byteOffset);
+  
+  /// Writes a [value] of type [RUintPtr] at given `address + byteOffset`.
+  void writeUintPtr(int value, [int byteOffset = 0]) => writeSize(byteOffset);
+
+  /// Writes a [value] of type [RPtrDiff] at given `address + byteOffset`.
+  void writePtrDiff(int value, [int byteOffset = 0]) => writeSsize(byteOffset);
 
   /// Writes a [value] of type [RBool] at given `address + byteOffset`.
   void writeBool(bool value, [int byteOffset = 0]);
@@ -309,6 +345,18 @@ abstract class MemoryPointer<X extends RType> {
 
   /// Writes a [value] of type [RDouble] at given `address + byteOffset`.
   void writeDouble(double value, [int byteOffset = 0]) => writeFloat64(value, byteOffset);
+
+  /// Writes a [value] of type [RLong] at given `address + byteOffset`.
+  void writeLong(int value, [int byteOffset = 0]) => RLong.scalarByteSize == 4 ? writeInt32(value, byteOffset) : writeInt64(value, byteOffset);
+  
+  /// Writes a [value] of type [RUnsignedLong] at given `address + byteOffset`.
+  void writeUnsignedLong(int value, [int byteOffset = 0]) => RLong.scalarByteSize == 4 ? writeUint32(value, byteOffset) : writeUint64(value, byteOffset);
+
+  /// Writes a [value] of type [RLongLong] at given `address + byteOffset`.
+  void writeLongLong(int value, [int byteOffset = 0]) => writeInt64(value, byteOffset);
+  
+  /// Writes a [value] of type [RUnsignedLongLong] at given `address + byteOffset`.
+  void writeUnsignedLongLong(int value, [int byteOffset = 0]) => writeUint64(value, byteOffset);
 
   /// Writes a UTF-8 [text] into a fixed-size [maxLength]-byte buffer field at
   /// `address + byteOffset`. Truncates if too long; otherwise NUL-terminates
@@ -514,6 +562,18 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   int readSize([int byteOffset = 0]) => ptr.readSize(byteOffset);
 
   @override
+  int readSsize([int byteOffset = 0]) => ptr.readSsize(byteOffset);
+  
+  @override
+  int readIntPtr([int byteOffset = 0]) => ptr.readIntPtr(byteOffset);
+  
+  @override
+  int readUintPtr([int byteOffset = 0]) => ptr.readUintPtr(byteOffset);
+
+  @override
+  int readPtrDiff([int byteOffset = 0]) => ptr.readPtrDiff(byteOffset);
+
+  @override
   bool readBool([int byteOffset = 0]) => ptr.readBool(byteOffset);
 
   @override
@@ -571,6 +631,18 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
   double readDouble([int byteOffset = 0]) => ptr.readDouble(byteOffset);
 
   @override
+  int readLong([int byteOffset = 0]) => ptr.readLong(byteOffset);
+  
+  @override
+  int readUnsignedLong([int byteOffset = 0]) => ptr.readUnsignedLong(byteOffset);
+
+  @override
+  int readLongLong([int byteOffset = 0]) => ptr.readLongLong(byteOffset);
+  
+  @override
+  int readUnsignedLongLong([int byteOffset = 0]) => ptr.readUnsignedLongLong(byteOffset);
+
+  @override
   String readStringUTF8([int? maxLength, int byteOffset = 0]) => ptr.readStringUTF8(maxLength, byteOffset);
 
   @override
@@ -581,6 +653,18 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
 
   @override
   void writeSize(int value, [int byteOffset = 0]) => ptr.writeSize(value, byteOffset);
+
+  @override
+  void writeSsize(int value, [int byteOffset = 0]) => ptr.writeSsize(value, byteOffset);
+  
+  @override
+  void writeIntPtr(int value, [int byteOffset = 0]) => ptr.writeIntPtr(byteOffset);
+  
+  @override
+  void writeUintPtr(int value, [int byteOffset = 0]) => ptr.writeUintPtr(byteOffset);
+
+  @override
+  void writePtrDiff(int value, [int byteOffset = 0]) => ptr.writePtrDiff(byteOffset);
 
   @override
   void writeBool(bool value, [int byteOffset = 0]) => ptr.writeBool(value, byteOffset);
@@ -638,6 +722,18 @@ final class StructPointer<D extends RaylibStruct<D>> extends MemoryPointer<RStru
 
   @override
   void writeDouble(double value, [int byteOffset = 0]) => ptr.writeDouble(value, byteOffset);
+
+  @override
+  void writeLong(int value, [int byteOffset = 0]) => ptr.writeLong(value, byteOffset);
+  
+  @override
+  void writeUnsignedLong(int value, [int byteOffset = 0]) => ptr.writeUnsignedLong(value, byteOffset);
+
+  @override
+  void writeLongLong(int value, [int byteOffset = 0]) => ptr.writeLongLong(value, byteOffset);
+  
+  @override
+  void writeUnsignedLongLong(int value, [int byteOffset = 0]) => ptr.writeUnsignedLongLong(value, byteOffset);
 
   @override
   void writeStringUTF8(String text, [int? maxLength, int byteOffset = 0]) => ptr.writeStringUTF8(text, maxLength, byteOffset);
