@@ -8,7 +8,7 @@ enum Camera2DField with StructFields {
 }
 
 /// Camera2D, defines position/orientation in 2d space
-class Camera2DD extends RaylibStructLiteral<Camera2DD> {
+class Camera2D extends RaylibStructLiteral<Camera2D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,11 +20,11 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<Camera2DD> struct = .new(
-    factory: Camera2DD.new,
+  static final StructType<Camera2D> struct = ._builtin(
+    factory: Camera2D.new,
     layout: .aligned<Camera2DField>({
-      .offset:   RStruct(Vector2D.struct), // Camera offset (screen space offset from window origin)
-      .target:   RStruct(Vector2D.struct), // Camera target (world space target point that is mapped to screen space offset)
+      .offset:   RStruct(Vector2.struct), // Camera offset (screen space offset from window origin)
+      .target:   RStruct(Vector2.struct), // Camera target (world space target point that is mapped to screen space offset)
       .rotation: RFloat(), // Camera rotation in degrees (pivots around target)
       .zoom:     RFloat(), // Camera zoom (scaling around target), must not be set to 0, set to 1.0f for no scale
     }),
@@ -34,9 +34,9 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   static final StructLayout<Camera2DField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [offset].
-  static final field_offset = structLayout.struct<Vector2D>(.offset);
+  static final field_offset = structLayout.struct<Vector2>(.offset);
   /// Field descriptor for [target].
-  static final field_target = structLayout.struct<Vector2D>(.target);
+  static final field_target = structLayout.struct<Vector2>(.target);
   /// Field descriptor for [rotation].
   static final field_rotation = structLayout.scalar<double, RFloat>(.rotation);
   /// Field descriptor for [zoom].
@@ -50,15 +50,15 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  Vector2D _offset;
+  Vector2 _offset;
   /// Camera offset (screen space offset from window origin)
-  Vector2D get offset => _offset = field_offset.readOr(op, _offset);
-  set offset(Vector2D value) => _offset = field_offset.writeOr(op, value);
+  Vector2 get offset => _offset = field_offset.readOr(op, _offset);
+  set offset(Vector2 value) => _offset = field_offset.writeOr(op, value);
   
-  Vector2D _target;
+  Vector2 _target;
   /// Camera target (world space target point that is mapped to screen space offset)
-  Vector2D get target => _target = field_target.readOr(op, _target);
-  set target(Vector2D value) => _target = field_target.writeOr(op, value);
+  Vector2 get target => _target = field_target.readOr(op, _target);
+  set target(Vector2 value) => _target = field_target.writeOr(op, value);
 
   double _rotation;
   /// Camera rotation in degrees (pivots around target)
@@ -70,10 +70,10 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   double get zoom => _zoom = field_zoom.readOr(op, _zoom);
   set zoom(double value) => _zoom = field_zoom.writeOr(op, value);
 
-  Camera2DD({
+  Camera2D({
     super.op,
-    Vector2D? offset,
-    Vector2D? target,
+    Vector2? offset,
+    Vector2? target,
     double rotation = 0,
     double zoom = 1,
   }) :
@@ -82,10 +82,10 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
     _rotation = rotation,
     _zoom = zoom;
 
-  factory Camera2DD.zero() => .new();
+  factory Camera2D.zero() => .new();
 
   @override
-  Camera2DD setDart(Camera2DD o) {
+  Camera2D setDart(Camera2D o) {
     offset.setDart(o.offset);
     target.setDart(o.target);
     rotation = o.rotation;
@@ -110,7 +110,7 @@ class Camera2DD extends RaylibStructLiteral<Camera2DD> {
   }
   
   @override
-  Camera2DD clone() => .new(
+  Camera2D clone() => .new(
     op: op,
     offset: offset.clone(),
     target: target.clone(),

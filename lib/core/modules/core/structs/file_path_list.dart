@@ -6,7 +6,7 @@ enum FilePathListField with StructFields {
 }
 
 /// File path list
-class FilePathListD extends RaylibStructView<FilePathListD> {
+class FilePathList extends RaylibStructView<FilePathList> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -18,8 +18,8 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<FilePathListD> struct = .new(
-    factory: FilePathListD.new,
+  static final StructType<FilePathList> struct = ._builtin(
+    factory: FilePathList.new,
     layout: .aligned<FilePathListField>({
       .count: RUnsignedInt(), // Filepaths entries count
       .paths: RPointer(RPointer(RChar())), // Filepaths entries
@@ -50,9 +50,9 @@ class FilePathListD extends RaylibStructView<FilePathListD> {
     .readPtr<RPointer<RChar>>(structLayout.offset(.paths))
     .readStringArray(count);
   
-  FilePathListD({ super.op });
+  FilePathList({ super.op });
 
-  factory FilePathListD.zero() => .new();
+  factory FilePathList.zero() => .new();
 
   @override
   String signature() => '$structName(count: $count)';

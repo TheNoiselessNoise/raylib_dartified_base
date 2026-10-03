@@ -10,55 +10,55 @@ abstract class RaylibMatrixFlatExt<R extends RaylibBase> extends RaylibModule<R>
 
   /// Compute matrix determinant
   double MatrixDeterminant(
-    MatrixD mat,
+    Matrix mat,
   );
 
   /// Get the trace of the matrix (sum of the values along the diagonal)
   double MatrixTrace(
-    MatrixD mat,
+    Matrix mat,
   );
 
   /// Transposes provided matrix
-  MatrixD MatrixTranspose(
-    MatrixD mat,
+  Matrix MatrixTranspose(
+    Matrix mat,
   );
 
   /// Invert provided matrix
-  MatrixD MatrixInvert(
-    MatrixD mat,
+  Matrix MatrixInvert(
+    Matrix mat,
   );
 
   /// Get identity matrix
-  MatrixD MatrixIdentity();
+  Matrix MatrixIdentity();
 
   /// Add two matrices
-  MatrixD MatrixAdd(
-    MatrixD left,
-    MatrixD right,
+  Matrix MatrixAdd(
+    Matrix left,
+    Matrix right,
   );
 
   /// Subtract two matrices (left - right)
-  MatrixD MatrixSubtract(
-    MatrixD left,
-    MatrixD right,
+  Matrix MatrixSubtract(
+    Matrix left,
+    Matrix right,
   );
 
   /// Get two matrix multiplication
   /// 
   /// NOTE: When multiplying matrices... the order matters!
-  MatrixD MatrixMultiply(
-    MatrixD left,
-    MatrixD right,
+  Matrix MatrixMultiply(
+    Matrix left,
+    Matrix right,
   );
 
   /// Multiply matrix components by value
-  MatrixD MatrixMultiplyValue(
-    MatrixD left,
+  Matrix MatrixMultiplyValue(
+    Matrix left,
     double value,
   );
 
   /// Get translation matrix
-  MatrixD MatrixTranslate(
+  Matrix MatrixTranslate(
     double x,
     double y,
     double z,
@@ -67,55 +67,55 @@ abstract class RaylibMatrixFlatExt<R extends RaylibBase> extends RaylibModule<R>
   /// Create rotation matrix from axis and angle
   /// 
   /// NOTE: Angle should be provided in radians
-  MatrixD MatrixRotate(
-    Vector3D axis,
+  Matrix MatrixRotate(
+    Vector3 axis,
     double angle,
   );
 
   /// Get x-rotation matrix
   /// 
   /// NOTE: Angle must be provided in radians
-  MatrixD MatrixRotateX(
+  Matrix MatrixRotateX(
     double angle,  
   );
 
   /// Get y-rotation matrix
   /// 
   /// NOTE: Angle must be provided in radians
-  MatrixD MatrixRotateY(
+  Matrix MatrixRotateY(
     double angle,
   );
 
   /// Get z-rotation matrix
   /// 
   /// NOTE: Angle must be provided in radians
-  MatrixD MatrixRotateZ(
+  Matrix MatrixRotateZ(
     double angle,
   );
 
   /// Get xyz-rotation matrix
   /// 
   /// NOTE: Angle must be provided in radians
-  MatrixD MatrixRotateXYZ(
-    Vector3D angle,
+  Matrix MatrixRotateXYZ(
+    Vector3 angle,
   );
 
   /// Get zyx-rotation matrix
   /// 
   /// NOTE: Angle must be provided in radians
-  MatrixD MatrixRotateZYX(
-    Vector3D angle,
+  Matrix MatrixRotateZYX(
+    Vector3 angle,
   );
 
   /// Get scaling matrix
-  MatrixD MatrixScale(
+  Matrix MatrixScale(
     double x,
     double y,
     double z,
   );
 
   /// Get perspective projection matrix
-  MatrixD MatrixFrustum(
+  Matrix MatrixFrustum(
     double left,
     double right,
     double bottom,
@@ -127,7 +127,7 @@ abstract class RaylibMatrixFlatExt<R extends RaylibBase> extends RaylibModule<R>
   /// Get perspective projection matrix
   ///
   /// NOTE: Fovy angle must be provided in radians
-  MatrixD MatrixPerspective(
+  Matrix MatrixPerspective(
     double fovY,
     double aspect,
     double nearPlane,
@@ -135,7 +135,7 @@ abstract class RaylibMatrixFlatExt<R extends RaylibBase> extends RaylibModule<R>
   );
 
   /// Get orthographic projection matrix
-  MatrixD MatrixOrtho(
+  Matrix MatrixOrtho(
     double left,
     double right,
     double bottom,
@@ -145,29 +145,29 @@ abstract class RaylibMatrixFlatExt<R extends RaylibBase> extends RaylibModule<R>
   );
 
   /// Get camera look-at matrix (view matrix)
-  MatrixD MatrixLookAt(
-    Vector3D eye,
-    Vector3D target,
-    Vector3D up,
+  Matrix MatrixLookAt(
+    Vector3 eye,
+    Vector3 target,
+    Vector3 up,
   );
 
   /// Get float array of matrix data
-  float16D MatrixToFloatV(
-    MatrixD mat,
+  float16 MatrixToFloatV(
+    Matrix mat,
   );
 
   /// Compose a transformation matrix from rotational, translational and scaling components
-  MatrixD MatrixCompose(
-    Vector3D translation,
-    QuaternionD rotation,
-    Vector3D scale,
+  Matrix MatrixCompose(
+    Vector3 translation,
+    Quaternion rotation,
+    Vector3 scale,
   );
 
   /// Decompose a transformation matrix into its rotational, translational and scaling components and remove shear
   void MatrixDecompose(
-    MatrixD mat,
-    StructPointer<Vector3D> translation,
-    StructPointer<QuaternionD> rotation,
-    StructPointer<Vector3D> scale,
+    Matrix mat,
+    StructPointer<Vector3> translation,
+    StructPointer<Quaternion> rotation,
+    StructPointer<Vector3> scale,
   );
 }

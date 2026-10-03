@@ -44,31 +44,31 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load wave data from file
-  WaveD LoadWave(
+  Wave LoadWave(
     String fileName,
   ) => run(
     () => _debugLabels.LoadWave(fileName),
     () => _flat.LoadWave(
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
   /// Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
-  WaveD LoadWaveFromMemory(
+  Wave LoadWaveFromMemory(
     String fileType,
     Uint8List fileData,
   ) => run(
     () => _debugLabels.LoadWaveFromMemory(fileType, fileData),
     () => _flat.LoadWaveFromMemory(
-      $.String$.ValueOrNull(fileType),
-      $.UnsignedChar$.Array(fileData),
+      String$.ValueOrNull(fileType),
+      UnsignedChar$.Array(fileData),
       fileData.length,
     ),
   );
 
   /// Checks if wave data is valid (data loaded and parameters)
   bool IsWaveValid(
-    WaveD wave,
+    Wave wave,
   ) => run(
     () => _debugLabels.IsWaveValid(wave),
     () => _flat.IsWaveValid(
@@ -77,18 +77,18 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load sound from file
-  SoundD LoadSound(
+  Sound LoadSound(
     String fileName,
   ) => run(
     () => _debugLabels.LoadSound(fileName),
     () => _flat.LoadSound(
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
   /// Load sound from wave data
-  SoundD LoadSoundFromWave(
-    WaveD wave,
+  Sound LoadSoundFromWave(
+    Wave wave,
   ) => run(
     () => _debugLabels.LoadSoundFromWave(wave),
     () => _flat.LoadSoundFromWave(
@@ -97,8 +97,8 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Create a new sound that shares the same sample data as the source sound, does not own the sound data
-  SoundD LoadSoundAlias(
-    SoundD source,
+  Sound LoadSoundAlias(
+    Sound source,
   ) => run(
     () => _debugLabels.LoadSoundAlias(source),
     () => _flat.LoadSoundAlias(
@@ -108,7 +108,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Checks if a sound is valid (data loaded and buffers initialized)
   bool IsSoundValid(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.IsSoundValid(sound),
     () => _flat.IsSoundValid(
@@ -118,21 +118,21 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Update sound buffer with new data
   void UpdateSound(
-    SoundD sound,
+    Sound sound,
     TypedDataList data,
     int sampleCount,
   ) => run(
     () => _debugLabels.UpdateSound(sound, data, sampleCount),
     () => _flat.UpdateSound(
       sound,
-      $.TypedDataList$.Array(data),
+      TypedDataList$.Array(data),
       sampleCount,
     ),
   );
 
   /// Unload wave data
   void UnloadWave(
-    WaveD wave,
+    Wave wave,
   ) => run(
     () => _debugLabels.UnloadWave(wave),
     () => _flat.UnloadWave(
@@ -142,7 +142,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload sound
   void UnloadSound(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.UnloadSound(sound),
     () => _flat.UnloadSound(
@@ -152,7 +152,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload a sound alias (does not deallocate sample data)
   void UnloadSoundAlias(
-    SoundD alias,
+    Sound alias,
   ) => run(
     () => _debugLabels.UnloadSoundAlias(alias),
     () => _flat.UnloadSoundAlias(
@@ -162,31 +162,31 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Export wave data to file, returns true on success
   bool ExportWave(
-    WaveD wave,
+    Wave wave,
     String fileName,
   ) => run(
     () => _debugLabels.ExportWave(wave, fileName),
     () => _flat.ExportWave(
       wave,
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
   /// Export wave sample data to code (.h), returns true on success
   bool ExportWaveAsCode(
-    WaveD wave,
+    Wave wave,
     String fileName,
   ) => run(
     () => _debugLabels.ExportWaveAsCode(wave, fileName),
     () => _flat.ExportWaveAsCode(
       wave,
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
   /// Play a sound
   void PlaySound(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.PlaySound(sound),
     () => _flat.PlaySound(
@@ -196,7 +196,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Stop playing a sound
   void StopSound(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.StopSound(sound),
     () => _flat.StopSound(
@@ -206,7 +206,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Pause a sound
   void PauseSound(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.PauseSound(sound),
     () => _flat.PauseSound(
@@ -216,7 +216,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Resume a paused sound
   void ResumeSound(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.ResumeSound(sound),
     () => _flat.ResumeSound(
@@ -226,7 +226,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Check if a sound is currently playing
   bool IsSoundPlaying(
-    SoundD sound,
+    Sound sound,
   ) => run(
     () => _debugLabels.IsSoundPlaying(sound),
     () => _flat.IsSoundPlaying(
@@ -236,7 +236,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set volume for a sound (1.0 is max level)
   void SetSoundVolume(
-    SoundD sound,
+    Sound sound,
     double volume,
   ) => run(
     () => _debugLabels.SetSoundVolume(sound, volume),
@@ -248,7 +248,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pitch for a sound (1.0 is base level)
   void SetSoundPitch(
-    SoundD sound,
+    Sound sound,
     double pitch,
   ) => run(
     () => _debugLabels.SetSoundPitch(sound, pitch),
@@ -260,7 +260,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pan for a sound (0.5 is center)
   void SetSoundPan(
-    SoundD sound,
+    Sound sound,
     double pan,
   ) => run(
     () => _debugLabels.SetSoundPan(sound, pan),
@@ -271,8 +271,8 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Copy a wave to a new wave
-  WaveD WaveCopy(
-    WaveD wave,
+  Wave WaveCopy(
+    Wave wave,
   ) => run(
     () => _debugLabels.WaveCopy(wave),
     () => _flat.WaveCopy(
@@ -282,13 +282,13 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Crop a wave to defined frames range
   void WaveCrop(
-    WaveD wave,
+    Wave wave,
     int initFrame,
     int finalFrame,
   ) => run(
     () => _debugLabels.WaveCrop(wave, initFrame, finalFrame),
     () => _flat.WaveCrop(
-      $.Wave$.Ref1(wave),
+      Wave$.Ref1(wave),
       initFrame,
       finalFrame,
     ),
@@ -296,14 +296,14 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Convert wave data to desired format
   void WaveFormat(
-    WaveD wave,
+    Wave wave,
     int sampleRate,
     int sampleSize,
     int channels,
   ) => run(
     () => _debugLabels.WaveFormat(wave, sampleRate, sampleSize, channels),
     () => _flat.WaveFormat(
-      $.Wave$.Ref1(wave),
+      Wave$.Ref1(wave),
       sampleRate,
       sampleSize,
       channels,
@@ -312,7 +312,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Load samples data from wave as a 32bit float data array
   List<double> LoadWaveSamples(
-    WaveD wave,
+    Wave wave,
   ) => run(
     () => _debugLabels.LoadWaveSamples(wave),
     () {
@@ -328,31 +328,31 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load music stream from file
-  MusicD LoadMusicStream(
+  Music LoadMusicStream(
     String fileName,
   ) => run(
     () => _debugLabels.LoadMusicStream(fileName),
     () => _flat.LoadMusicStream(
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
   /// Load music stream from data
-  MusicD LoadMusicStreamFromMemory(
+  Music LoadMusicStreamFromMemory(
     String fileType,
     Uint8List data,
   ) => run(
     () => _debugLabels.LoadMusicStreamFromMemory(fileType, data),
     () => _flat.LoadMusicStreamFromMemory(
-      $.String$.ValueOrNull(fileType),
-      $.UnsignedChar$.Array(data),
+      String$.ValueOrNull(fileType),
+      UnsignedChar$.Array(data),
       data.length,
     ),
   );
 
   /// Checks if a music stream is valid (context and buffers initialized)
   bool IsMusicValid(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.IsMusicValid(music),
     () => _flat.IsMusicValid(
@@ -362,7 +362,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload music stream
   void UnloadMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.UnloadMusicStream(music),
     () => _flat.UnloadMusicStream(
@@ -372,7 +372,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Start music playing
   void PlayMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.PlayMusicStream(music),
     () => _flat.PlayMusicStream(
@@ -382,7 +382,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Check if music is playing
   bool IsMusicStreamPlaying(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.IsMusicStreamPlaying(music),
     () => _flat.IsMusicStreamPlaying(
@@ -392,7 +392,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Updates buffers for music streaming
   void UpdateMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.UpdateMusicStream(music),
     () => _flat.UpdateMusicStream(
@@ -402,7 +402,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Stop music playing
   void StopMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.StopMusicStream(music),
     () => _flat.StopMusicStream(
@@ -412,7 +412,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Pause music playing
   void PauseMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.PauseMusicStream(music),
     () => _flat.PauseMusicStream(
@@ -422,7 +422,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Resume playing paused music
   void ResumeMusicStream(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.ResumeMusicStream(music),
     () => _flat.ResumeMusicStream(
@@ -432,7 +432,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Seek music to a position (in seconds)
   void SeekMusicStream(
-    MusicD music,
+    Music music,
     double position,
   ) => run(
     () => _debugLabels.SeekMusicStream(music, position),
@@ -444,7 +444,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set volume for music (1.0 is max level)
   void SetMusicVolume(
-    MusicD music,
+    Music music,
     double volume,
   ) => run(
     () => _debugLabels.SetMusicVolume(music, volume),
@@ -456,7 +456,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pitch for a music (1.0 is base level)
   void SetMusicPitch(
-    MusicD music,
+    Music music,
     double pitch,
   ) => run(
     () => _debugLabels.SetMusicPitch(music, pitch),
@@ -468,7 +468,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pan for a music (0.5 is center)
   void SetMusicPan(
-    MusicD music,
+    Music music,
     double pan,
   ) => run(
     () => _debugLabels.SetMusicPan(music, pan),
@@ -480,7 +480,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Get music time length (in seconds)
   double GetMusicTimeLength(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.GetMusicTimeLength(music),
     () => _flat.GetMusicTimeLength(
@@ -490,7 +490,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Get current music time played (in seconds)
   double GetMusicTimePlayed(
-    MusicD music,
+    Music music,
   ) => run(
     () => _debugLabels.GetMusicTimePlayed(music),
     () => _flat.GetMusicTimePlayed(
@@ -499,7 +499,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load audio stream (to stream raw audio pcm data)
-  AudioStreamD LoadAudioStream(
+  AudioStream LoadAudioStream(
     int sampleRate,
     int sampleSize,
     int channels,
@@ -514,7 +514,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Checks if an audio stream is valid (buffers initialized)
   bool IsAudioStreamValid(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.IsAudioStreamValid(stream),
     () => _flat.IsAudioStreamValid(
@@ -524,7 +524,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload audio stream and free memory
   void UnloadAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.UnloadAudioStream(stream),
     () => _flat.UnloadAudioStream(
@@ -534,20 +534,20 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Update audio stream buffers with data
   void UpdateAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
     TypedDataList data,
   ) => run(
     () => _debugLabels.UpdateAudioStream(stream, data),
     () => _flat.UpdateAudioStream(
       stream,
-      $.TypedDataList$.Array(data),
+      TypedDataList$.Array(data),
       data.length,
     ),
   );
 
   /// Check if any audio stream buffers requires refill
   bool IsAudioStreamProcessed(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.IsAudioStreamProcessed(stream),
     () => _flat.IsAudioStreamProcessed(
@@ -557,7 +557,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Play audio stream
   void PlayAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.PlayAudioStream(stream),
     () => _flat.PlayAudioStream(
@@ -567,7 +567,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Pause audio stream
   void PauseAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.PauseAudioStream(stream),
     () => _flat.PauseAudioStream(
@@ -577,7 +577,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Resume audio stream
   void ResumeAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.ResumeAudioStream(stream),
     () => _flat.ResumeAudioStream(
@@ -587,7 +587,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Check if audio stream is playing
   bool IsAudioStreamPlaying(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.IsAudioStreamPlaying(stream),
     () => _flat.IsAudioStreamPlaying(
@@ -597,7 +597,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Stop audio stream
   void StopAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => run(
     () => _debugLabels.StopAudioStream(stream),
     () => _flat.StopAudioStream(
@@ -607,7 +607,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set volume for audio stream (1.0 is max level)
   void SetAudioStreamVolume(
-    AudioStreamD stream,
+    AudioStream stream,
     double volume,
   ) => run(
     () => _debugLabels.SetAudioStreamVolume(stream, volume),
@@ -619,7 +619,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pitch for audio stream (1.0 is base level)
   void SetAudioStreamPitch(
-    AudioStreamD stream,
+    AudioStream stream,
     double pitch,
   ) => run(
     () => _debugLabels.SetAudioStreamPitch(stream, pitch),
@@ -631,7 +631,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)
   void SetAudioStreamPan(
-    AudioStreamD stream,
+    AudioStream stream,
     double pan,
   ) => run(
     () => _debugLabels.SetAudioStreamPan(stream, pan),
@@ -653,7 +653,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Audio thread callback to request new data
   void SetAudioStreamCallback(
-    AudioStreamD stream,
+    AudioStream stream,
     covariant AudioCallbackBase? callback,
   ) => run(
     () => _debugLabels.SetAudioStreamCallback(stream, callback),
@@ -665,7 +665,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Attach audio stream processor to stream, receives the samples as 'float'
   void AttachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     covariant AudioCallbackBase processor,
   ) => run(
     () => _debugLabels.AttachAudioStreamProcessor(stream, processor),
@@ -677,7 +677,7 @@ final class RaylibAudioDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Detach audio stream processor from stream
   void DetachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     covariant AudioCallbackBase processor,
     {bool keepAlive = false}
   ) => run(

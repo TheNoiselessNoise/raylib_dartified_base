@@ -37,12 +37,12 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   double GetMasterVolume();
   
   /// Load wave data from file
-  WaveD LoadWave(
+  Wave LoadWave(
     MemoryPointer<RChar> fileName,
   );
   
   /// Load wave from memory buffer, fileType refers to extension: i.e. '.wav'
-  WaveD LoadWaveFromMemory(
+  Wave LoadWaveFromMemory(
     MemoryPointer<RChar> fileType,
     MemoryPointer<RUnsignedChar> fileData,
     int dataSize,
@@ -50,121 +50,121 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   
   /// Checks if wave data is valid (data loaded and parameters)
   bool IsWaveValid(
-    WaveD wave,
+    Wave wave,
   );
   
   /// Load sound from file
-  SoundD LoadSound(
+  Sound LoadSound(
     MemoryPointer<RChar> fileName,
   );
   
   /// Load sound from wave data
-  SoundD LoadSoundFromWave(
-    WaveD wave,
+  Sound LoadSoundFromWave(
+    Wave wave,
   );
   
   /// Create a new sound that shares the same sample data as the source sound, does not own the sound data
-  SoundD LoadSoundAlias(
-    SoundD source,
+  Sound LoadSoundAlias(
+    Sound source,
   );
   
   /// Checks if a sound is valid (data loaded and buffers initialized)
   bool IsSoundValid(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Update sound buffer with new data
   void UpdateSound(
-    SoundD sound,
+    Sound sound,
     MemoryPointer<RVoid> data,
     int sampleCount,
   );
   
   /// Unload wave data
   void UnloadWave(
-    WaveD wave,
+    Wave wave,
   );
   
   /// Unload sound
   void UnloadSound(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Unload a sound alias (does not deallocate sample data)
   void UnloadSoundAlias(
-    SoundD alias,
+    Sound alias,
   );
   
   /// Export wave data to file, returns true on success
   bool ExportWave(
-    WaveD wave,
+    Wave wave,
     MemoryPointer<RChar> fileName,
   );
   
   /// Export wave sample data to code (.h), returns true on success
   bool ExportWaveAsCode(
-    WaveD wave,
+    Wave wave,
     MemoryPointer<RChar> fileName,
   );
   
   /// Play a sound
   void PlaySound(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Stop playing a sound
   void StopSound(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Pause a sound
   void PauseSound(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Resume a paused sound
   void ResumeSound(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Check if a sound is currently playing
   bool IsSoundPlaying(
-    SoundD sound,
+    Sound sound,
   );
   
   /// Set volume for a sound (1.0 is max level)
   void SetSoundVolume(
-    SoundD sound,
+    Sound sound,
     double volume,
   );
   
   /// Set pitch for a sound (1.0 is base level)
   void SetSoundPitch(
-    SoundD sound,
+    Sound sound,
     double pitch,
   );
   
   /// Set pan for a sound (0.5 is center)
   void SetSoundPan(
-    SoundD sound,
+    Sound sound,
     double pan,
   );
   
   /// Copy a wave to a new wave
-  WaveD WaveCopy(
-    WaveD wave,
+  Wave WaveCopy(
+    Wave wave,
   );
 
   /// Crop a wave to defined frames range
   void WaveCrop(
-    StructPointer<WaveD> wave,
+    StructPointer<Wave> wave,
     int initFrame,
     int finalFrame,
   );
   
   /// Convert wave data to desired format
   void WaveFormat(
-    StructPointer<WaveD> wave,
+    StructPointer<Wave> wave,
     int sampleRate,
     int sampleSize,
     int channels,
@@ -172,7 +172,7 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   
   /// Load samples data from wave as a 32bit float data array
   MemoryPointer<RFloat32> LoadWaveSamples(
-    WaveD wave,
+    Wave wave,
   );
   
   /// Unload samples data loaded with LoadWaveSamples()
@@ -181,12 +181,12 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
   
   /// Load music stream from file
-  MusicD LoadMusicStream(
+  Music LoadMusicStream(
     MemoryPointer<RChar> fileName,
   );
   
   /// Load music stream from data
-  MusicD LoadMusicStreamFromMemory(
+  Music LoadMusicStreamFromMemory(
     MemoryPointer<RChar> fileType,
     MemoryPointer<RUnsignedChar> data,
     int dataSize,
@@ -194,80 +194,80 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   
   /// Checks if a music stream is valid (context and buffers initialized)
   bool IsMusicValid(
-    MusicD music,
+    Music music,
   );
   
   /// Unload music stream
   void UnloadMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Start music playing
   void PlayMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Check if music is playing
   bool IsMusicStreamPlaying(
-    MusicD music,
+    Music music,
   );
   
   /// Updates buffers for music streaming
   void UpdateMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Stop music playing
   void StopMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Pause music playing
   void PauseMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Resume playing paused music
   void ResumeMusicStream(
-    MusicD music,
+    Music music,
   );
   
   /// Seek music to a position (in seconds)
   void SeekMusicStream(
-    MusicD music,
+    Music music,
     double position,
   );
   
   /// Set volume for music (1.0 is max level)
   void SetMusicVolume(
-    MusicD music,
+    Music music,
     double volume,
   );
   
   /// Set pitch for a music (1.0 is base level)
   void SetMusicPitch(
-    MusicD music,
+    Music music,
     double pitch,
   );
   
   /// Set pan for a music (0.5 is center)
   void SetMusicPan(
-    MusicD music,
+    Music music,
     double pan,
   );
   
   /// Get music time length (in seconds)
   double GetMusicTimeLength(
-    MusicD music,
+    Music music,
   );
   
   /// Get current music time played (in seconds)
   double GetMusicTimePlayed(
-    MusicD music,
+    Music music,
   );
   
   /// Load audio stream (to stream raw audio pcm data)
-  AudioStreamD LoadAudioStream(
+  AudioStream LoadAudioStream(
     int sampleRate,
     int sampleSize,
     int channels
@@ -275,66 +275,66 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   
   /// Checks if an audio stream is valid (buffers initialized)
   bool IsAudioStreamValid(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Unload audio stream and free memory
   void UnloadAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Update audio stream buffers with data
   void UpdateAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
     MemoryPointer<RVoid> data,
     int frameCount,
   );
   
   /// Check if any audio stream buffers requires refill
   bool IsAudioStreamProcessed(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Play audio stream
   void PlayAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Pause audio stream
   void PauseAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Resume audio stream
   void ResumeAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Check if audio stream is playing
   bool IsAudioStreamPlaying(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Stop audio stream
   void StopAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   );
   
   /// Set volume for audio stream (1.0 is max level)
   void SetAudioStreamVolume(
-    AudioStreamD stream,
+    AudioStream stream,
     double volume,
   );
   
   /// Set pitch for audio stream (1.0 is base level)
   void SetAudioStreamPitch(
-    AudioStreamD stream,
+    AudioStream stream,
     double pitch,
   );
   
   /// Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)
   void SetAudioStreamPan(
-    AudioStreamD stream,
+    AudioStream stream,
     double pan,
   );
   
@@ -345,19 +345,19 @@ abstract class RaylibAudioFlat<R extends RaylibBase> extends RaylibModule<R> {
   
   /// Audio thread callback to request new data
   void SetAudioStreamCallback(
-    AudioStreamD stream,
+    AudioStream stream,
     MemoryPointer<RFunction<AudioCallbackBase>> callback,
   );
   
   /// Attach audio stream processor to stream, receives the samples as 'float'
   void AttachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
   
   /// Detach audio stream processor from stream
   void DetachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     MemoryPointer<RFunction<AudioCallbackBase>> processor,
   );
   

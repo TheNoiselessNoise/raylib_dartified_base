@@ -6,7 +6,7 @@ enum ShaderField with StructFields {
 }
 
 /// Shader
-class ShaderD extends RaylibStruct<ShaderD> {
+class Shader extends RaylibStruct<Shader> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -18,8 +18,8 @@ class ShaderD extends RaylibStruct<ShaderD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<ShaderD> struct = .new(
-    factory: ShaderD.new,
+  static final StructType<Shader> struct = ._builtin(
+    factory: Shader.new,
     layout: .aligned<ShaderField>({
       .id:   RUnsignedInt(), // Shader program id
       .locs: RPointer(RArray(RInt(), BASE_shaderLocsCount)), // Shader locations array (RL_MAX_SHADER_LOCATIONS)
@@ -66,20 +66,20 @@ class ShaderD extends RaylibStruct<ShaderD> {
   StructLiveList<int, RInt> get locs => _locs;
   set locs(List<int> value) => _locs.inner = value;
 
-  ShaderD({
+  Shader({
     super.op,
     int id = 0,
     List<int>? locs,
   }) :
     _id = id
   {
-    _locs = field_locs.live(() => op, .filled(BASE_shaderLocsCount, 0));
+    _locs = field_locs.live(() => op, locs ?? .filled(BASE_shaderLocsCount, 0));
   }
 
-  factory ShaderD.zero() => .new();
+  factory Shader.zero() => .new();
 
   @override
-  ShaderD setDart(ShaderD o) {
+  Shader setDart(Shader o) {
     id = o.id;
     locs = .from(o.locs);
     return this;
@@ -103,7 +103,7 @@ class ShaderD extends RaylibStruct<ShaderD> {
   }
 
   @override
-  ShaderD clone() => .new(
+  Shader clone() => .new(
     op: op,
     id: id,
     locs: .from(locs),

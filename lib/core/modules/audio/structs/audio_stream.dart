@@ -9,7 +9,7 @@ enum AudioStreamField with StructFields {
 }
 
 /// AudioStream, custom audio stream
-class AudioStreamD extends RaylibStruct<AudioStreamD> {
+class AudioStream extends RaylibStruct<AudioStream> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,8 +21,8 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<AudioStreamD> struct = .new(
-    factory: AudioStreamD.new,
+  static final StructType<AudioStream> struct = ._builtin(
+    factory: AudioStream.new,
     layout: .aligned<AudioStreamField>({
       .buffer:     RPointer(ROpaque()), // Pointer to internal data used by the audio system
       .processor:  RPointer(ROpaque()), // Pointer to internal data processor, useful for audio effects
@@ -81,7 +81,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   int get channels => _channels = field_channels.readOr(op, _channels);
   set channels(int value) => _channels = field_channels.writeOr(op, value);
 
-  AudioStreamD({
+  AudioStream({
     super.op,
     int sampleRate = 0,
     int sampleSize = 0,
@@ -91,10 +91,10 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
     _sampleSize = sampleSize,
     _channels = channels;
 
-  factory AudioStreamD.zero() => .new();
+  factory AudioStream.zero() => .new();
 
   @override
-  AudioStreamD setDart(AudioStreamD o)
+  AudioStream setDart(AudioStream o)
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
@@ -122,7 +122,7 @@ class AudioStreamD extends RaylibStruct<AudioStreamD> {
   }
 
   @override
-  AudioStreamD clone() => .new(
+  AudioStream clone() => .new(
     op: op,
     sampleRate: sampleRate,
     sampleSize: sampleSize,

@@ -21,18 +21,18 @@ abstract class RaylibLightFlat<R extends RaylibBase> extends RaylibModule<R> wit
   RaylibLightFlat(super.rl);
 
   /// Create a light and get its shader locations
-  LightD CreateLight(
+  Light CreateLight(
     int type,
-    Vector3D position,
-    Vector3D target,
-    ColorD color,
-    ShaderD shader,
+    Vector3 position,
+    Vector3 target,
+    Color color,
+    Shader shader,
   );
 
   /// Send light properties to shader
   void UpdateLightValues(
-    ShaderD shader,
-    LightD light,
+    Shader shader,
+    Light light,
   );
 
 }

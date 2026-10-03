@@ -23,11 +23,11 @@ enum MsfGifStateField with StructFields {
   framesSubmitted,
 }
 
-class _MsfGifCookedFrameD extends RaylibStructView<_MsfGifCookedFrameD> {
+class _MsfGifCookedFrame extends RaylibStructView<_MsfGifCookedFrame> {
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<_MsfGifCookedFrameD> struct = .new(
-    factory: _MsfGifCookedFrameD.new,
+  static final StructType<_MsfGifCookedFrame> struct = ._builtin(
+    factory: _MsfGifCookedFrame.new,
     layout: .aligned<MsfGifCookedFrameField>({
       .pixels: RPointer(RUint32()),
       .depth:  RInt(),
@@ -38,11 +38,11 @@ class _MsfGifCookedFrameD extends RaylibStructView<_MsfGifCookedFrameD> {
     }),
   );
 
-  _MsfGifCookedFrameD({super.op});
+  _MsfGifCookedFrame({super.op});
 }
 
 /// MsfGifState
-class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
+class MsfGifState extends RaylibStructView<MsfGifState> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -54,13 +54,13 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MsfGifStateD> struct = .new(
-    factory: MsfGifStateD.new,
+  static final StructType<MsfGifState> struct = ._builtin(
+    factory: MsfGifState.new,
     layout: .aligned<MsfGifStateField>({
       .fileWriteFunc:          RPointer(RFunction<MsfGifFileWriteCallbackBase>()),
       .fileWriteData:          RPointer(RVoid()),
-      .previousFrame:          RStruct(_MsfGifCookedFrameD.struct),
-      .currentFrame:           RStruct(_MsfGifCookedFrameD.struct),
+      .previousFrame:          RStruct(_MsfGifCookedFrame.struct),
+      .currentFrame:           RStruct(_MsfGifCookedFrame.struct),
       .lzwMem:                 RPointer(RInt16()),
       .listHead:               RPointer(ROpaque()),
       .listTail:               RPointer(ROpaque()),
@@ -95,9 +95,9 @@ class MsfGifStateD extends RaylibStructView<MsfGifStateD> {
   
   int get framesSubmitted => field_framesSubmitted.readOr(op, 0);
 
-  MsfGifStateD({ super.op });
+  MsfGifState({ super.op });
 
-  factory MsfGifStateD.zero() => .new();
+  factory MsfGifState.zero() => .new();
 
   @override
   String signature() => '$structName(width: $width, height: $height, framesSubmitted: $framesSubmitted)';

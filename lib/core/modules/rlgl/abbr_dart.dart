@@ -438,24 +438,24 @@ int rlGetShaderIdDefault() => _module.rlGetShaderIdDefault();
 List<int> rlGetShaderLocsDefault() => _module.rlGetShaderLocsDefault();
 
 /// See [RaylibRlglDart.rlLoadRenderBatch].
-RlRenderBatchD rlLoadRenderBatch(
+RlRenderBatch rlLoadRenderBatch(
   num numBuffers,
   num bufferElements,
 ) => _module.rlLoadRenderBatch(numBuffers, bufferElements);
 
 /// See [RaylibRlglDart.rlUnloadRenderBatch].
 void rlUnloadRenderBatch(
-  RlRenderBatchD batch,
+  RlRenderBatch batch,
 ) => _module.rlUnloadRenderBatch(batch);
 
 /// See [RaylibRlglDart.rlDrawRenderBatch].
 void rlDrawRenderBatch(
-  RlRenderBatchD batch,
+  RlRenderBatch batch,
 ) => _module.rlDrawRenderBatch(batch);
 
 /// See [RaylibRlglDart.rlSetRenderBatchActive].
 void rlSetRenderBatchActive(
-  RlRenderBatchD batch,
+  RlRenderBatch batch,
 ) => _module.rlSetRenderBatchActive(batch);
 
 /// See [RaylibRlglDart.rlDrawRenderBatchActive].
@@ -728,13 +728,13 @@ void rlSetUniform(
 /// See [RaylibRlglDart.rlSetUniformMatrix].
 void rlSetUniformMatrix(
   num locIndex,
-  MatrixD mat,
+  Matrix mat,
 ) => _module.rlSetUniformMatrix(locIndex, mat);
 
 /// See [RaylibRlglDart.rlSetUniformMatrices].
 void rlSetUniformMatrices(
   num locIndex,
-  List<MatrixD> mat,
+  List<Matrix> mat,
 ) => _module.rlSetUniformMatrices(locIndex, mat);
 
 /// See [RaylibRlglDart.rlSetUniformSampler].
@@ -811,44 +811,44 @@ void rlBindImageTexture(
 ) => _module.rlBindImageTexture(id, index, format, readonly);
 
 /// See [RaylibRlglDart.rlGetMatrixModelview].
-MatrixD rlGetMatrixModelview() => _module.rlGetMatrixModelview();
+Matrix rlGetMatrixModelview() => _module.rlGetMatrixModelview();
 
 /// See [RaylibRlglDart.rlGetMatrixProjection].
-MatrixD rlGetMatrixProjection() => _module.rlGetMatrixProjection();
+Matrix rlGetMatrixProjection() => _module.rlGetMatrixProjection();
 
 /// See [RaylibRlglDart.rlGetMatrixTransform].
-MatrixD rlGetMatrixTransform() => _module.rlGetMatrixTransform();
+Matrix rlGetMatrixTransform() => _module.rlGetMatrixTransform();
 
 /// See [RaylibRlglDart.rlGetMatrixProjectionStereo].
-MatrixD rlGetMatrixProjectionStereo(
+Matrix rlGetMatrixProjectionStereo(
   num eye,
 ) => _module.rlGetMatrixProjectionStereo(eye);
 
 /// See [RaylibRlglDart.rlGetMatrixViewOffsetStereo].
-MatrixD rlGetMatrixViewOffsetStereo(
+Matrix rlGetMatrixViewOffsetStereo(
   num eye,
 ) => _module.rlGetMatrixViewOffsetStereo(eye);
 
 /// See [RaylibRlglDart.rlSetMatrixProjection].
 void rlSetMatrixProjection(
-  MatrixD proj,
+  Matrix proj,
 ) => _module.rlSetMatrixProjection(proj);
 
 /// See [RaylibRlglDart.rlSetMatrixModelview].
 void rlSetMatrixModelview(
-  MatrixD view,
+  Matrix view,
 ) => _module.rlSetMatrixModelview(view);
 
 /// See [RaylibRlglDart.rlSetMatrixProjectionStereo].
 void rlSetMatrixProjectionStereo(
-  MatrixD right,
-  MatrixD left,
+  Matrix right,
+  Matrix left,
 ) => _module.rlSetMatrixProjectionStereo(right, left);
 
 /// See [RaylibRlglDart.rlSetMatrixViewOffsetStereo].
 void rlSetMatrixViewOffsetStereo(
-  MatrixD right,
-  MatrixD left,
+  Matrix right,
+  Matrix left,
 ) => _module.rlSetMatrixViewOffsetStereo(right, left);
 
 /// See [RaylibRlglDart.rlLoadDrawCube].

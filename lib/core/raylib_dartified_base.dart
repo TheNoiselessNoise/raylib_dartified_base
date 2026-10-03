@@ -8,6 +8,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:meta/meta.dart' show nonVirtual, mustCallSuper;
 import 'platform/platform.dart';
+import 'package:raylib_dartified_base/abbr/allocators.dart';
 
 part 'base.dart';
 part 'callback.dart';

@@ -9,9 +9,7 @@ final class RaylibTempStructAllocator<
 
   final StructType<X> struct;
 
-  RaylibTempStructAllocator(super.temp, {
-    required this.struct,
-  }) : super(
+  RaylibTempStructAllocator(super.temp, this.struct) : super(
     byteSize: struct.layout.byteSize,
     indexSetterFunc: (ptr, i, value) => value.structWriteInto(ptr.offsetBy(i * struct.layout.byteSize)),
   );
@@ -48,9 +46,6 @@ final class RaylibTempStructAllocator<
   /// Allocates or syncs [value] to a tracked slot at [key].
   StructPointer<X> Allocate(X value, [String? key]) {
     final op = value.op;
-    if (op != null) return op;
-
-    value.$state.isAllocated = true;
 
     if (op != null) {
       if (value.$state.isFirstSync) {
@@ -76,9 +71,12 @@ final class RaylibTempStructAllocator<
     String baseKey = getBaseKey(value, _slotKey(key));    
     final p = struct.ptr(value._requiresOp ? AtUnique(key: baseKey) : At(baseKey));
     temp.debugSyncInfo('[SYNC] ${value.structName} allocate into \'${p.allocationKey}\'');
-    value.structAllocateInto(temp, p, baseKey);
+    value.structAllocateInto(temp, p, p.allocationKey ?? baseKey);
     value.structWriteInto(p);
-    if (value._requiresOp) value.op = op;
+    if (value._requiresOp) {
+      value.op = p;
+      value.$state.isFirstSync = false;
+    }
     return p;
   }
 

@@ -90,9 +90,13 @@ mixin RaylibDisposable {
   /// Registers [fn] to be called when this module is disposed.
   void onDispose(void Function() fn) => _onDisposeFns.add(fn);
 
+  bool _isDisposed = false;
+
   /// Calls all registered [onDispose] callbacks and clears them.
   @mustCallSuper
   void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
     _onDisposeFns.forEach((f) => f());
     _onDisposeFns.clear();
   }
@@ -106,8 +110,8 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
   RaylibModule(this.rl);
 
   /// See [RaylibTemp].
-  RaylibTemp get $ => rl.module();
-
+  RaylibTemp get Temp => rl.module();
+  
   /// If this module was loaded.
   bool _isLoaded = false;
 
@@ -183,7 +187,9 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
       fn(ptr);
     } finally {
       if (ptr.allocationKey case final key?) {
-        $.structAlloc<D>()!.Free(key);
+        Temp.structAlloc<D>().Free(key);
+      } else {
+        ptr.free();
       }
     }
   }
@@ -207,7 +213,7 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
       fn(ptr);
     } finally {
       if (ptr.allocationKey case final key?) {
-        $.structAlloc<D>()!.Unslot(key);
+        Temp.structAlloc<D>().Unslot(key);
       }
     }
   }
@@ -215,10 +221,10 @@ abstract class RaylibModule<R extends RaylibBase> with RaylibDisposable {
   /// Executes [f] with [RaylibTemp] syncing temporarily disabled,
   /// restoring the previous sync state afterward.
   T disableSync<T>(T Function() f) {
-    final oldSyncing = $.doSync;
-    $.enableSyncing(false);
+    final oldSyncing = Temp.doSync;
+    Temp.enableSyncing(false);
     final result = f();
-    $.enableSyncing(oldSyncing);
+    Temp.enableSyncing(oldSyncing);
     return result;
   }
 }
@@ -235,7 +241,7 @@ abstract class RaylibBase with RaylibDisposable {
     => instance as R;
 
   /// See [RaylibTemp].
-  RaylibTemp get $ => module();  
+  RaylibTemp get Temp => module();  
 
   /// See [RaylibUtilsModule].
   late final RaylibUtilsModule Utils;
@@ -307,8 +313,8 @@ abstract class RaylibBase with RaylibDisposable {
   /// Enables or disables debug logging across all modules and the temp allocator.
   void debugEverything(bool debug) {
     registeredModules.forEach((d) => d.debug(debug));
-    $.debugFree(debug);
-    $.debugSync(debug);
+    Temp.debugFree(debug);
+    Temp.debugSync(debug);
   }
 
   /// Logs a message at the info level.

@@ -68,12 +68,12 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.SetWindowIcon].
   String SetWindowIcon(
-    ImageD image,
+    Image image,
   ) => 'SetWindowIcon($image)';
     
   /// Label for [RaylibCoreDart.SetWindowIcons].
   String SetWindowIcons(
-    List<ImageD> images,
+    List<Image> images,
   ) => 'SetWindowIcons(${images.map((i) => i.$state.internalId).join(', ')})';
     
   /// Label for [RaylibCoreDart.SetWindowTitle].
@@ -214,7 +214,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.ClearBackground].
   String ClearBackground(
-    ColorD color,
+    Color color,
   ) => 'ClearBackground($color)';
     
   /// Label for [RaylibCoreDart.BeginDrawing].
@@ -225,7 +225,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.BeginMode2D].
   String BeginMode2D(
-    Camera2DD camera,
+    Camera2D camera,
   ) => 'BeginMode2D($camera)';
 
   /// Label for [RaylibCoreDart.EndMode2D].
@@ -233,7 +233,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.BeginMode3D].
   String BeginMode3D(
-    Camera3DD camera,
+    Camera3D camera,
   ) => 'BeginMode3D($camera)';
 
   /// Label for [RaylibCoreDart.EndMode3D].
@@ -241,7 +241,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.BeginTextureMode].
   String BeginTextureMode(
-    RenderTextureD target,
+    RenderTexture target,
   ) => 'BeginTextureMode($target)';
     
   /// Label for [RaylibCoreDart.EndTextureMode].
@@ -249,7 +249,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.BeginShaderMode].
   String BeginShaderMode(
-    ShaderD shader,
+    Shader shader,
   ) => 'BeginShaderMode($shader)';
     
   /// Label for [RaylibCoreDart.EndShaderMode].
@@ -276,7 +276,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.BeginVrStereoMode].
   String BeginVrStereoMode(
-    VrStereoConfigD config,
+    VrStereoConfig config,
   ) => 'BeginVrStereoMode($config)';
     
   /// Label for [RaylibCoreDart.EndVrStereoMode].
@@ -284,12 +284,12 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.LoadVrStereoConfig].
   String LoadVrStereoConfig(
-    VrDeviceInfoD device,
+    VrDeviceInfo device,
   ) => 'LoadVrStereoConfig($device)';
     
   /// Label for [RaylibCoreDart.UnloadVrStereoConfig].
   String UnloadVrStereoConfig(
-    VrStereoConfigD config,
+    VrStereoConfig config,
   ) => 'UnloadVrStereoConfig($config)';
     
   /// Label for [RaylibCoreDart.LoadShader].
@@ -306,24 +306,24 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.IsShaderValid].
   String IsShaderValid(
-    ShaderD shader,
+    Shader shader,
   ) => 'IsShaderValid($shader)';
     
   /// Label for [RaylibCoreDart.GetShaderLocation].
   String GetShaderLocation(
-    ShaderD shader,
+    Shader shader,
     String uniformName,
   ) => 'GetShaderLocation($shader, $uniformName)';
     
   /// Label for [RaylibCoreDart.GetShaderLocationAttrib].
   String GetShaderLocationAttrib(
-    ShaderD shader,
+    Shader shader,
     String attribName,
   ) => 'GetShaderLocationAttrib($shader, $attribName)';
   
   /// Label for [RaylibCoreDart.SetShaderValue].
   String SetShaderValue(
-    ShaderD shader,
+    Shader shader,
     num locIndex,
     List<num> value,
     ShaderUniformDataType uniformType,
@@ -337,7 +337,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.SetShaderValueV].
   String SetShaderValueV(
-    ShaderD shader,
+    Shader shader,
     num locIndex,
     List<num> value,
     ShaderUniformDataType uniformType,
@@ -346,71 +346,71 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.SetShaderValueMatrix].
   String SetShaderValueMatrix(
-    ShaderD shader,
+    Shader shader,
     num locIndex,
-    MatrixD mat,
+    Matrix mat,
   ) => 'SetShaderValueMatrix($shader, $locIndex, $mat)';
     
   /// Label for [RaylibCoreDart.SetShaderValueTexture].
   String SetShaderValueTexture(
-    ShaderD shader,
+    Shader shader,
     num locIndex,
-    TextureD texture,
+    Texture texture,
   ) => 'SetShaderValueTexture($shader, $locIndex, $texture)';
     
   /// Label for [RaylibCoreDart.UnloadShader].
   String UnloadShader(
-    ShaderD shader,
+    Shader shader,
   ) => 'UnloadShader($shader)';
     
   /// Label for [RaylibCoreDart.GetScreenToWorldRay].
   String GetScreenToWorldRay(
-    Vector2D position,
-    Camera3DD camera,
+    Vector2 position,
+    Camera3D camera,
   ) => 'GetScreenToWorldRay($position, $camera)';
     
   /// Label for [RaylibCoreDart.GetScreenToWorldRayEx].
   String GetScreenToWorldRayEx(
-    Vector2D position,
-    Camera3DD camera,
+    Vector2 position,
+    Camera3D camera,
     num width,
     num height,
   ) => 'GetScreenToWorldRayEx($position, $camera, $width, $height)';
 
   /// Label for [RaylibCoreDart.GetWorldToScreen].
   String GetWorldToScreen(
-    Vector3D position,
-    Camera3DD camera,
+    Vector3 position,
+    Camera3D camera,
   ) => 'GetWorldToScreen($position, $camera)';
 
   /// Label for [RaylibCoreDart.GetWorldToScreenEx].
   String GetWorldToScreenEx(
-    Vector3D position,
-    Camera3DD camera,
+    Vector3 position,
+    Camera3D camera,
     num width,
     num height,
   ) => 'GetWorldToScreenEx($position, $camera, $width, $height)';
 
   /// Label for [RaylibCoreDart.GetWorldToScreen2D].
   String GetWorldToScreen2D(
-    Vector2D position,
-    Camera2DD camera,
+    Vector2 position,
+    Camera2D camera,
   ) => 'GetWorldToScreen2D($position, $camera)';
 
   /// Label for [RaylibCoreDart.GetScreenToWorld2D].
   String GetScreenToWorld2D(
-    Vector2D position,
-    Camera2DD camera,
+    Vector2 position,
+    Camera2D camera,
   ) => 'GetScreenToWorld2D($position, $camera)';
 
   /// Label for [RaylibCoreDart.GetCameraMatrix].
   String GetCameraMatrix(
-    Camera3DD camera,
+    Camera3D camera,
   ) => 'GetCameraMatrix($camera)';
 
   /// Label for [RaylibCoreDart.GetCameraMatrix2D].
   String GetCameraMatrix2D(
-    Camera2DD camera,
+    Camera2D camera,
   ) => 'GetCameraMatrix2D($camera)';
     
   /// Label for [RaylibCoreDart.SetTargetFPS].
@@ -669,7 +669,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.UnloadDirectoryFiles].
   String UnloadDirectoryFiles(
-    FilePathListD files,
+    FilePathList files,
   ) => 'UnloadDirectoryFiles($files)';
 
   /// Label for [RaylibCoreDart.IsFileDropped].
@@ -680,7 +680,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.UnloadDroppedFiles].
   String UnloadDroppedFiles(
-    FilePathListD files,
+    FilePathList files,
   ) => 'UnloadDroppedFiles($files)';
 
   /// Label for [RaylibCoreDart.GetFileModTime].
@@ -735,18 +735,18 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.UnloadAutomationEventList].
   String UnloadAutomationEventList(
-    AutomationEventListD list,
+    AutomationEventList list,
   ) => 'UnloadAutomationEventList($list)';
     
   /// Label for [RaylibCoreDart.ExportAutomationEventList].
   String ExportAutomationEventList(
-    AutomationEventListD list,
+    AutomationEventList list,
     String fileName,
   ) => 'ExportAutomationEventList($list, $fileName)';
     
   /// Label for [RaylibCoreDart.SetAutomationEventList].
   String SetAutomationEventList(
-    AutomationEventListD list,
+    AutomationEventList list,
   ) => 'SetAutomationEventList($list)';
     
   /// Label for [RaylibCoreDart.SetAutomationEventBaseFrame].
@@ -762,7 +762,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.PlayAutomationEvent].
   String PlayAutomationEvent(
-    AutomationEventD event,
+    AutomationEvent event,
   ) => 'PlayAutomationEvent($event)';
 
   /// Label for [RaylibCoreDart.IsKeyPressed].
@@ -977,7 +977,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.ProcessGestureEvent].
   String ProcessGestureEvent(
-    GestureEventD event,
+    GestureEvent event,
   ) => 'ProcessGestureEvent($event)';
   
   /// Label for [RaylibCoreDart.UpdateGestures].
@@ -985,22 +985,22 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.UpdateCamera].
   String UpdateCamera(
-    Camera3DD camera,
+    Camera3D camera,
     CameraMode mode,
   ) => 'UpdateCamera($camera, $mode)';
 
   /// Label for [RaylibCoreDart.UpdateCameraPro].
   String UpdateCameraPro(
-    Camera3DD camera,
-    Vector3D movement,
-    Vector3D rotation,
+    Camera3D camera,
+    Vector3 movement,
+    Vector3 rotation,
     num zoom,
   ) => 'UpdateCameraPro($camera, $movement, $rotation, $zoom)';
 
   /// Label for [RaylibCoreDart.SetShapesTexture].
   String SetShapesTexture(
-    TextureD texture,
-    RectangleD source,
+    Texture texture,
+    Rectangle source,
   ) => 'SetShapesTexture($texture, $source)';
 
   /// Label for [RaylibCoreDart.GetShapesTexture].
@@ -1013,13 +1013,13 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
   String DrawPixel(
     num posX,
     num posY,
-    ColorD color,
+    Color color,
   ) => 'DrawPixel($posX, $posY, $color)';
 
   /// Label for [RaylibCoreDart.DrawPixelV].
   String DrawPixelV(
-    Vector2D position,
-    ColorD color,
+    Vector2 position,
+    Color color,
   ) => 'DrawPixelV($position, $color)';
     
   /// Label for [RaylibCoreDart.DrawLine].
@@ -1028,45 +1028,45 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num startPosY,
     num endPosX,
     num endPosY,
-    ColorD color,
+    Color color,
   ) => 'DrawLine($startPosX, $startPosY, $endPosX, $endPosY, $color)';
 
   /// Label for [RaylibCoreDart.DrawLineV].
   String DrawLineV(
-    Vector2D startPos,
-    Vector2D endPos,
-    ColorD color,
+    Vector2 startPos,
+    Vector2 endPos,
+    Color color,
   ) => 'DrawLineV($startPos, $endPos, $color)';
 
   /// Label for [RaylibCoreDart.DrawLineEx].
   String DrawLineEx(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawLineEx($startPos, $endPos, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawLineStrip].
   String DrawLineStrip(
-    List<Vector2D> points,
-    ColorD color,
+    List<Vector2> points,
+    Color color,
   ) => 'DrawLineStrip(points: ${points.length}, $color)';
 
   /// Label for [RaylibCoreDart.DrawLineBezier].
   String DrawLineBezier(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawLineBezier($startPos, $endPos, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawLineDashed].
   String DrawLineDashed(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     num dashSize,
     num spaceSize,
-    ColorD color,
+    Color color,
   ) => 'DrawLineDashed($startPos, $endPos, $dashSize, $spaceSize, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircle].
@@ -1074,42 +1074,42 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num centerX,
     num centerY,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'DrawCircle($centerX, $centerY, $radius, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircleSector].
   String DrawCircleSector(
-    Vector2D center,
+    Vector2 center,
     num radius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawCircleSector($center, $radius, $startAngle, $endAngle, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircleSectorLines].
   String DrawCircleSectorLines(
-    Vector2D center,
+    Vector2 center,
     num radius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawCircleSectorLines($center, $radius, $startAngle, $endAngle, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircleGradient].
   String DrawCircleGradient(
-    Vector2D center,
+    Vector2 center,
     num radius,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   ) => 'DrawCircleGradient($center, $radius, $inner, $outer)';
 
   /// Label for [RaylibCoreDart.DrawCircleV].
   String DrawCircleV(
-    Vector2D center,
+    Vector2 center,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'DrawCircleV($center, $radius, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircleLines].
@@ -1117,14 +1117,14 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num centerX,
     num centerY,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'DrawCircleLines($centerX, $centerY, $radius, $color)';
 
   /// Label for [RaylibCoreDart.DrawCircleLinesV].
   String DrawCircleLinesV(
-    Vector2D center,
+    Vector2 center,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'DrawCircleLinesV($center, $radius, $color)';
     
   /// Label for [RaylibCoreDart.DrawEllipse].
@@ -1133,15 +1133,15 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num centerY,
     num radiusH,
     num radiusV,
-    ColorD color,
+    Color color,
   ) => 'DrawEllipse($centerX, $centerY, $radiusH, $radiusV, $color)';
 
   /// Label for [RaylibCoreDart.DrawEllipseV].
   String DrawEllipseV(
-    Vector2D center,
+    Vector2 center,
     num radiusH,
     num radiusV,
-    ColorD color,
+    Color color,
   ) => 'DrawEllipse($center, $radiusH, $radiusV, $color)';
 
   /// Label for [RaylibCoreDart.DrawEllipseLines].
@@ -1150,37 +1150,37 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num centerY,
     num radiusH,
     num radiusV,
-    ColorD color,
+    Color color,
   ) => 'DrawEllipseLines($centerX, $centerY, $radiusH, $radiusV, $color)';
 
   /// Label for [RaylibCoreDart.DrawEllipseLinesV].
   String DrawEllipseLinesV(
-    Vector2D center,
+    Vector2 center,
     num radiusH,
     num radiusV,
-    ColorD color,
+    Color color,
   ) => 'DrawEllipseLinesV($center, $radiusH, $radiusV, $color)';
 
   /// Label for [RaylibCoreDart.DrawRing].
   String DrawRing(
-    Vector2D center,
+    Vector2 center,
     num innerRadius,
     num outerRadius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawRing($center, $innerRadius, $outerRadius, $startAngle, $endAngle, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawRingLines].
   String DrawRingLines(
-    Vector2D center,
+    Vector2 center,
     num innerRadius,
     num outerRadius,
     num startAngle,
     num endAngle,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawRingLines($center, $innerRadius, $outerRadius, $startAngle, $endAngle, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangle].
@@ -1189,28 +1189,28 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num posY,
     num width,
     num height,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangle($posX, $posY, $width, $height, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleV].
   String DrawRectangleV(
-    Vector2D position,
-    Vector2D size,
-    ColorD color,
+    Vector2 position,
+    Vector2 size,
+    Color color,
   ) => 'DrawRectangleV($position, $size, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleRec].
   String DrawRectangleRec(
-    RectangleD rec,
-    ColorD color,
+    Rectangle rec,
+    Color color,
   ) => 'DrawRectangleRec($rec, $color)';
     
   /// Label for [RaylibCoreDart.DrawRectanglePro].
   String DrawRectanglePro(
-    RectangleD rec,
-    Vector2D origin,
+    Rectangle rec,
+    Vector2 origin,
     num rotation,
-    ColorD color,
+    Color color,
   ) => 'DrawRectanglePro($rec, $origin, $rotation, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleGradientV].
@@ -1219,8 +1219,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num posY,
     num width,
     num height,
-    ColorD top,
-    ColorD bottom,
+    Color top,
+    Color bottom,
   ) => 'DrawRectangleGradientV($posX, $posY, $width, $height, $top, $bottom)';
 
   /// Label for [RaylibCoreDart.DrawRectangleGradientH].
@@ -1229,17 +1229,17 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num posY,
     num width,
     num height,
-    ColorD left,
-    ColorD right,
+    Color left,
+    Color right,
   ) => 'DrawRectangleGradientH($posX, $posY, $width, $height, $left, $right)';
 
   /// Label for [RaylibCoreDart.DrawRectangleGradientEx].
   String DrawRectangleGradientEx(
-    RectangleD rec,
-    ColorD topLeft,
-    ColorD bottomLeft,
-    ColorD topRight,
-    ColorD bottomRight,
+    Rectangle rec,
+    Color topLeft,
+    Color bottomLeft,
+    Color topRight,
+    Color bottomRight,
   ) => 'DrawRectangleGradientEx($rec, $topLeft, $bottomLeft, $topRight, $bottomRight)';
 
   /// Label for [RaylibCoreDart.DrawRectangleLines].
@@ -1248,297 +1248,297 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num posY,
     num width,
     num height,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangleLines($posX, $posY, $width, $height, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleLinesEx].
   String DrawRectangleLinesEx(
-    RectangleD rec,
+    Rectangle rec,
     num lineThick,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangleLinesEx($rec, $lineThick, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleRounded].
   String DrawRectangleRounded(
-    RectangleD rec,
+    Rectangle rec,
     num roundness,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangleRounded($rec, $roundness, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleRoundedLines].
   String DrawRectangleRoundedLines(
-    RectangleD rec,
+    Rectangle rec,
     num roundness,
     num segments,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangleRoundedLines($rec, $roundness, $segments, $color)';
 
   /// Label for [RaylibCoreDart.DrawRectangleRoundedLinesEx].
   String DrawRectangleRoundedLinesEx(
-    RectangleD rec,
+    Rectangle rec,
     num roundness,
     num segments,
     num lineThick,
-    ColorD color,
+    Color color,
   ) => 'DrawRectangleRoundedLinesEx($rec, $roundness, $segments, $lineThick, $color)';
     
   /// Label for [RaylibCoreDart.DrawTriangle].
   String DrawTriangle(
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   ) => 'DrawTriangle($v1, $v2, $v3, $color)';
 
   /// Label for [RaylibCoreDart.DrawTriangleLines].
   String DrawTriangleLines(
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   ) => 'DrawTriangleLines($v1, $v2, $v3, $color)';
 
   /// Label for [RaylibCoreDart.DrawTriangleFan].
   String DrawTriangleFan(
-    List<Vector2D> points,
-    ColorD color,
+    List<Vector2> points,
+    Color color,
   ) => 'DrawTriangleFan(points: ${points.length}, $color)';
 
   /// Label for [RaylibCoreDart.DrawTriangleStrip].
   String DrawTriangleStrip(
-    List<Vector2D> points,
-    ColorD color,
+    List<Vector2> points,
+    Color color,
   ) => 'DrawTriangleStrip(points: ${points.length}, $color)';
 
   /// Label for [RaylibCoreDart.DrawPoly].
   String DrawPoly(
-    Vector2D center,
+    Vector2 center,
     num sides,
     num radius,
     num rotation,
-    ColorD color,
+    Color color,
   ) => 'DrawPoly($center, $sides, $radius, $rotation, $color)';
 
   /// Label for [RaylibCoreDart.DrawPolyLines].
   String DrawPolyLines(
-    Vector2D center,
+    Vector2 center,
     num sides,
     num radius,
     num rotation,
-    ColorD color,
+    Color color,
   ) => 'DrawPolyLines($center, $sides, $radius, $rotation, $color)';
 
   /// Label for [RaylibCoreDart.DrawPolyLinesEx].
   String DrawPolyLinesEx(
-    Vector2D center,
+    Vector2 center,
     num sides,
     num radius,
     num rotation,
     num lineThick,
-    ColorD color,
+    Color color,
   ) => 'DrawPolyLinesEx($center, $sides, $radius, $rotation, $lineThick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineLinear].
   String DrawSplineLinear(
-    List<Vector2D> points,
+    List<Vector2> points,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineLinear(points: ${points.length}, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineBasis].
   String DrawSplineBasis(
-    List<Vector2D> points,
+    List<Vector2> points,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineBasis(points: ${points.length}, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineCatmullRom].
   String DrawSplineCatmullRom(
-    List<Vector2D> points,
+    List<Vector2> points,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineCatmullRom(points: ${points.length}, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineBezierQuadratic].
   String DrawSplineBezierQuadratic(
-    List<Vector2D> points,
+    List<Vector2> points,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineBezierQuadratic(points: ${points.length}, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineBezierCubic].
   String DrawSplineBezierCubic(
-    List<Vector2D> points,
+    List<Vector2> points,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineBezierCubic(points: ${points.length}, $thick, $color)';
     
   /// Label for [RaylibCoreDart.DrawSplineSegmentLinear].
   String DrawSplineSegmentLinear(
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 p1,
+    Vector2 p2,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineSegmentLinear($p1, $p2, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineSegmentBasis].
   String DrawSplineSegmentBasis(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineSegmentBasis($p1, $p2, $p3, $p4, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineSegmentCatmullRom].
   String DrawSplineSegmentCatmullRom(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineSegmentCatmullRom($p1, $p2, $p3, $p4, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineSegmentBezierQuadratic].
   String DrawSplineSegmentBezierQuadratic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D p3,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 p3,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineSegmentBezierQuadratic($p1, $c2, $p3, $thick, $color)';
 
   /// Label for [RaylibCoreDart.DrawSplineSegmentBezierCubic].
   String DrawSplineSegmentBezierCubic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D c3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 c3,
+    Vector2 p4,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'DrawSplineSegmentBezierCubic($p1, $c2, $c3, $p4, $thick, $color)';
 
   /// Label for [RaylibCoreDart.GetSplinePointLinear].
   String GetSplinePointLinear(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     num t,
   ) => 'GetSplinePointLinear($startPos, $endPos, $t)';
 
   /// Label for [RaylibCoreDart.GetSplinePointBasis].
   String GetSplinePointBasis(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     num t,
   ) => 'GetSplinePointBasis($p1, $p2, $p3, $p4, $t)';
     
   /// Label for [RaylibCoreDart.GetSplinePointCatmullRom].
   String GetSplinePointCatmullRom(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     num t,
   ) => 'GetSplinePointCatmullRom($p1, $p2, $p3, $p4, $t)';
 
   /// Label for [RaylibCoreDart.GetSplinePointBezierQuad].
   String GetSplinePointBezierQuad(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D p3,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 p3,
     num t,
   ) => 'GetSplinePointBezierQuad($p1, $c2, $p3, $t)';
 
   /// Label for [RaylibCoreDart.GetSplinePointBezierCubic].
   String GetSplinePointBezierCubic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D c3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 c3,
+    Vector2 p4,
     num t,
   ) => 'GetSplinePointBezierCubic($p1, $c2, $c3, $p4, $t)';
 
   /// Label for [RaylibCoreDart.CheckCollisionRecs].
   String CheckCollisionRecs(
-    RectangleD rec1,
-    RectangleD rec2,
+    Rectangle rec1,
+    Rectangle rec2,
   ) => 'CheckCollisionRecs($rec1, $rec2)';
 
   /// Label for [RaylibCoreDart.CheckCollisionCircles].
   String CheckCollisionCircles(
-    Vector2D center1,
+    Vector2 center1,
     num radius1,
-    Vector2D center2,
+    Vector2 center2,
     num radius2,
   ) => 'CheckCollisionCircles($center1, $radius1, $center2, $radius2)';
 
   /// Label for [RaylibCoreDart.CheckCollisionCircleRec].
   String CheckCollisionCircleRec(
-    Vector2D center,
+    Vector2 center,
     num radius,
-    RectangleD rec,
+    Rectangle rec,
   ) => 'CheckCollisionCircleRec($center, $radius, $rec)';
 
   /// Label for [RaylibCoreDart.CheckCollisionCircleLine].
   String CheckCollisionCircleLine(
-    Vector2D center,
+    Vector2 center,
     num radius,
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 p1,
+    Vector2 p2,
   ) => 'CheckCollisionCircleLine($center, $radius, $p1, $p2)';
 
   /// Label for [RaylibCoreDart.CheckCollisionPointRec].
   String CheckCollisionPointRec(
-    Vector2D point,
-    RectangleD rec,
+    Vector2 point,
+    Rectangle rec,
   ) => 'CheckCollisionPointRec($point, $rec)';
     
   /// Label for [RaylibCoreDart.CheckCollisionPointCircle].
   String CheckCollisionPointCircle(
-    Vector2D point,
-    Vector2D center,
+    Vector2 point,
+    Vector2 center,
     num radius,
   ) => 'CheckCollisionPointCircle($point, $center, $radius)';
 
   /// Label for [RaylibCoreDart.CheckCollisionPointTriangle].
   String CheckCollisionPointTriangle(
-    Vector2D point,
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
+    Vector2 point,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
   ) => 'CheckCollisionPointTriangle($point, $p1, $p2, $p3)';
 
   /// Label for [RaylibCoreDart.CheckCollisionPointLine].
   String CheckCollisionPointLine(
-    Vector2D point,
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 point,
+    Vector2 p1,
+    Vector2 p2,
     num threshold,
   ) => 'CheckCollisionPointLine($point, $p1, $p2, $threshold)';
 
   /// Label for [RaylibCoreDart.CheckCollisionPointPoly].
   String CheckCollisionPointPoly(
-    Vector2D point,
-    List<Vector2D> points,
+    Vector2 point,
+    List<Vector2> points,
   ) => 'CheckCollisionPointPoly($point, points: ${points.length})';
 
   /// Label for [RaylibCoreDart.CheckCollisionLines].
   String CheckCollisionLines(
-    Vector2D startPos1,
-    Vector2D endPos1,
-    Vector2D startPos2,
-    Vector2D endPos2,
+    Vector2 startPos1,
+    Vector2 endPos1,
+    Vector2 startPos2,
+    Vector2 endPos2,
   ) => 'CheckCollisionLines($startPos1, $endPos1, $startPos2, $endPos2)';
 
   /// Label for [RaylibCoreDart.GetCollisionRec].
   String GetCollisionRec(
-    RectangleD rec1,
-    RectangleD rec2,
+    Rectangle rec1,
+    Rectangle rec2,
   ) => 'GetCollisionRec($rec1, $rec2)';
 
   /// Label for [RaylibCoreDart.LoadImage].
@@ -1574,7 +1574,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.LoadImageFromTexture].
   String LoadImageFromTexture(
-    TextureD texture,
+    Texture texture,
   ) => 'LoadImageFromTexture($texture)';
 
   /// Label for [RaylibCoreDart.LoadImageFromScreen].
@@ -1582,29 +1582,29 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.IsImageValid].
   String IsImageValid(
-    ImageD image,
+    Image image,
   ) => 'IsImageValid($image)';
 
   /// Label for [RaylibCoreDart.UnloadImage].
   String UnloadImage(
-    ImageD image,
+    Image image,
   ) => 'UnloadImage($image)';
 
   /// Label for [RaylibCoreDart.ExportImage].
   String ExportImage(
-    ImageD image,
+    Image image,
     String fileName,
   ) => 'ExportImage($image, $fileName)';
     
   /// Label for [RaylibCoreDart.ExportImageToMemory].
   String ExportImageToMemory(
-    ImageD image,
+    Image image,
     String fileType,
   ) => 'ExportImageToMemory($image, $fileType)';
 
   /// Label for [RaylibCoreDart.ExportImageAsCode].
   String ExportImageAsCode(
-    ImageD image,
+    Image image,
     String fileName,
   ) => 'ExportImageAsCode($image, $fileName)';
 
@@ -1612,7 +1612,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
   String GenImageColor(
     num width,
     num height,
-    ColorD color,
+    Color color,
   ) => 'GenImageColor($width, $height, $color)';
 
   /// Label for [RaylibCoreDart.GenImageGradientLinear].
@@ -1620,8 +1620,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num width,
     num height,
     num direction,
-    ColorD start,
-    ColorD end,
+    Color start,
+    Color end,
   ) => 'GenImageGradientLinear($width, $height, $direction, $start, $end)';
 
   /// Label for [RaylibCoreDart.GenImageGradientRadial].
@@ -1629,8 +1629,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num width,
     num height,
     num density,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   ) => 'GenImageGradientRadial($width, $height, $density, $inner, $outer)';
 
   /// Label for [RaylibCoreDart.GenImageGradientSquare].
@@ -1638,8 +1638,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num width,
     num height,
     num density,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   ) => 'GenImageGradientSquare($width, $height, $density, $inner, $outer)';
 
   /// Label for [RaylibCoreDart.GenImageChecked].
@@ -1648,8 +1648,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num height,
     num checksX,
     num checksY,
-    ColorD col1,
-    ColorD col2,
+    Color col1,
+    Color col2,
   ) => 'GenImageChecked($width, $height, $checksX, $checksY, $col1, $col2)';
 
   /// Label for [RaylibCoreDart.GenImageWhiteNoise].
@@ -1684,18 +1684,18 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.ImageCopy].
   String ImageCopy(
-    ImageD image,
+    Image image,
   ) => 'ImageCopy($image)';
 
   /// Label for [RaylibCoreDart.ImageFromImage].
   String ImageFromImage(
-    ImageD image,
-    RectangleD rec,
+    Image image,
+    Rectangle rec,
   ) => 'ImageFromImage($image, $rec)';
 
   /// Label for [RaylibCoreDart.ImageFromChannel].
   String ImageFromChannel(
-    ImageD image,
+    Image image,
     num selectedChannel,
   ) => 'ImageFromChannel($image, $selectedChannel)';
 
@@ -1703,104 +1703,104 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
   String ImageText(
     String text,
     num fontSize,
-    ColorD color,
+    Color color,
   ) => 'ImageText($text, $fontSize, $color)';
 
   /// Label for [RaylibCoreDart.ImageTextEx].
   String ImageTextEx(
-    FontD font,
+    Font font,
     String text,
     num fontSize,
     num spacing,
-    ColorD tint,
+    Color tint,
   ) => 'ImageTextEx($font, $text, $fontSize, $spacing, $tint)';
 
   /// Label for [RaylibCoreDart.ImageFormat].
   String ImageFormat(
-    ImageD image,
+    Image image,
     PixelFormat newFormat,
   ) => 'ImageFormat($image, ${newFormat.name})';
     
   /// Label for [RaylibCoreDart.ImageToPOT].
   String ImageToPOT(
-    ImageD image,
-    ColorD fill,
+    Image image,
+    Color fill,
   ) => 'ImageToPOT($image, $fill)';
 
   /// Label for [RaylibCoreDart.ImageCrop].
   String ImageCrop(
-    ImageD image,
-    RectangleD crop,
+    Image image,
+    Rectangle crop,
   ) => 'ImageCrop($image, $crop)';
 
   /// Label for [RaylibCoreDart.ImageAlphaCrop].
   String ImageAlphaCrop(
-    ImageD image,
+    Image image,
     num threshold,
   ) => 'ImageAlphaCrop($image, $threshold)';
 
   /// Label for [RaylibCoreDart.ImageAlphaClear].
   String ImageAlphaClear(
-    ImageD image,
-    ColorD color,
+    Image image,
+    Color color,
     num threshold,
   ) => 'ImageAlphaClear($image, $color, $threshold)';
 
   /// Label for [RaylibCoreDart.ImageAlphaMask].
   String ImageAlphaMask(
-    ImageD image,
-    ImageD alphaMask,
+    Image image,
+    Image alphaMask,
   ) => 'ImageAlphaMask($image, $alphaMask)';
 
   /// Label for [RaylibCoreDart.ImageAlphaPremultiply].
   String ImageAlphaPremultiply(
-    ImageD image,
+    Image image,
   ) => 'ImageAlphaPremultiply($image)';
 
   /// Label for [RaylibCoreDart.ImageBlurGaussian].
   String ImageBlurGaussian(
-    ImageD image,
+    Image image,
     num blurSize,
   ) => 'ImageBlurGaussian($image, $blurSize)';
 
   /// Label for [RaylibCoreDart.ImageKernelConvolution].
   String ImageKernelConvolution(
-    ImageD image,
+    Image image,
     List<double> kernel,
   ) => 'ImageKernelConvolution($image, kernel: ${kernel.length})';
 
   /// Label for [RaylibCoreDart.ImageResize].
   String ImageResize(
-    ImageD image,
+    Image image,
     num newWidth,
     num newHeight,
   ) => 'ImageResize($image, $newWidth, $newHeight)';
 
   /// Label for [RaylibCoreDart.ImageResizeNN].
   String ImageResizeNN(
-    ImageD image,
+    Image image,
     num newWidth,
     num newHeight,
   ) => 'ImageResizeNN($image, $newWidth, $newHeight)';
     
   /// Label for [RaylibCoreDart.ImageResizeCanvas].
   String ImageResizeCanvas(
-    ImageD image,
+    Image image,
     num newWidth,
     num newHeight,
     num offsetX,
     num offsetY,
-    ColorD fill,
+    Color fill,
   ) => 'ImageResizeCanvas($image, $newWidth, $newHeight, $offsetX, $offsetY, $fill)';
 
   /// Label for [RaylibCoreDart.ImageMipmaps].
   String ImageMipmaps(
-    ImageD image,
+    Image image,
   ) => 'ImageMipmaps($image)';
 
   /// Label for [RaylibCoreDart.ImageDither].
   String ImageDither(
-    ImageD image,
+    Image image,
     num rBpp,
     num gBpp,
     num bBpp,
@@ -1809,275 +1809,275 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.ImageFlipVertical].
   String ImageFlipVertical(
-    ImageD image,
+    Image image,
   ) => 'ImageFlipVertical($image)';
 
   /// Label for [RaylibCoreDart.ImageFlipHorizontal].
   String ImageFlipHorizontal(
-    ImageD image,
+    Image image,
   ) => 'ImageFlipHorizontal($image)';
 
   /// Label for [RaylibCoreDart.ImageRotate].
   String ImageRotate(
-    ImageD image,
+    Image image,
     num degrees,
   ) => 'ImageRotate($image, $degrees)';
 
   /// Label for [RaylibCoreDart.ImageRotateCW].
   String ImageRotateCW(
-    ImageD image,
+    Image image,
   ) => 'ImageRotateCW($image)';
 
   /// Label for [RaylibCoreDart.ImageRotateCCW].
   String ImageRotateCCW(
-    ImageD image,
+    Image image,
   ) => 'ImageRotateCCW($image)';
     
   /// Label for [RaylibCoreDart.ImageColorTint].
   String ImageColorTint(
-    ImageD image,
-    ColorD color,
+    Image image,
+    Color color,
   ) => 'ImageColorTint($image, $color)';
 
   /// Label for [RaylibCoreDart.ImageColorInvert].
   String ImageColorInvert(
-    ImageD image,
+    Image image,
   ) => 'ImageColorInvert($image)';
 
   /// Label for [RaylibCoreDart.ImageColorGrayscale].
   String ImageColorGrayscale(
-    ImageD image,
+    Image image,
   ) => 'ImageColorGrayscale($image)';
 
   /// Label for [RaylibCoreDart.ImageColorContrast].
   String ImageColorContrast(
-    ImageD image,
+    Image image,
     num contrast,
   ) => 'ImageColorContrast($image, $contrast)';
 
   /// Label for [RaylibCoreDart.ImageColorBrightness].
   String ImageColorBrightness(
-    ImageD image,
+    Image image,
     num brightness,
   ) => 'ImageColorBrightness($image, $brightness)';
 
   /// Label for [RaylibCoreDart.ImageColorReplace].
   String ImageColorReplace(
-    ImageD image,
-    ColorD color,
-    ColorD replace,
+    Image image,
+    Color color,
+    Color replace,
   ) => 'ImageColorReplace($image, $color, $replace)';
 
   /// Label for [RaylibCoreDart.LoadImageColors].
   String LoadImageColors(
-    ImageD image,
+    Image image,
   ) => 'LoadImageColors($image)';
   
   /// Label for [RaylibCoreDart.LoadImagePalette].
   String LoadImagePalette(
-    ImageD image,
+    Image image,
     num maxPaletteSize,
   ) => 'LoadImagePalette($image, $maxPaletteSize)';
 
   /// Label for [RaylibCoreDart.GetImageAlphaBorder].
   String GetImageAlphaBorder(
-    ImageD image,
+    Image image,
     num threshold,
   ) => 'GetImageAlphaBorder($image, $threshold)';
 
   /// Label for [RaylibCoreDart.GetImageColor].
   String GetImageColor(
-    ImageD image,
+    Image image,
     num x,
     num y,
   ) => 'GetImageColor($image, $x, $y)';
 
   /// Label for [RaylibCoreDart.ImageClearBackground].
   String ImageClearBackground(
-    ImageD dst,
-    ColorD color,
+    Image dst,
+    Color color,
   ) => 'ImageClearBackground($dst, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawPixel].
   String ImageDrawPixel(
-    ImageD dst,
+    Image dst,
     num posX,
     num posY,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawPixel($dst, $posX, $posY, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawPixelV].
   String ImageDrawPixelV(
-    ImageD dst,
-    Vector2D position,
-    ColorD color,
+    Image dst,
+    Vector2 position,
+    Color color,
   ) => 'ImageDrawPixelV($dst, $position, $color)';
     
   /// Label for [RaylibCoreDart.ImageDrawLine].
   String ImageDrawLine(
-    ImageD dst,
+    Image dst,
     num startPosX,
     num startPosY,
     num endPosX,
     num endPosY,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawLine($dst, $startPosX, $startPosY, $endPosX, $endPosY, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawLineV].
   String ImageDrawLineV(
-    ImageD dst,
-    Vector2D start,
-    Vector2D end,
-    ColorD color,
+    Image dst,
+    Vector2 start,
+    Vector2 end,
+    Color color,
   ) => 'ImageDrawLineV($dst, $start, $end, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawLineEx].
   String ImageDrawLineEx(
-    ImageD dst,
-    Vector2D start,
-    Vector2D end,
+    Image dst,
+    Vector2 start,
+    Vector2 end,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawLineEx($dst, $start, $end, $thick, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawCircle].
   String ImageDrawCircle(
-    ImageD dst,
+    Image dst,
     num centerX,
     num centerY,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawCircle($dst, $centerX, $centerY, $radius, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawCircleV].
   String ImageDrawCircleV(
-    ImageD dst,
-    Vector2D center,
+    Image dst,
+    Vector2 center,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawCircleV($dst, $center, $radius, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawCircleLines].
   String ImageDrawCircleLines(
-    ImageD dst,
+    Image dst,
     num centerX,
     num centerY,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawCircleLines($dst, $centerX, $centerY, $radius, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawCircleLinesV].
   String ImageDrawCircleLinesV(
-    ImageD dst,
-    Vector2D center,
+    Image dst,
+    Vector2 center,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawCircleLinesV($dst, $center, $radius, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawRectangle].
   String ImageDrawRectangle(
-    ImageD dst,
+    Image dst,
     num posX,
     num posY,
     num width,
     num height,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawRectangle($dst, $posX, $posY, $width, $height, $color)';
     
   /// Label for [RaylibCoreDart.ImageDrawRectangleV].
   String ImageDrawRectangleV(
-    ImageD dst,
-    Vector2D position,
-    Vector2D size,
-    ColorD color,
+    Image dst,
+    Vector2 position,
+    Vector2 size,
+    Color color,
   ) => 'ImageDrawRectangleV($dst, $position, $size, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawRectangleRec].
   String ImageDrawRectangleRec(
-    ImageD dst,
-    RectangleD rec,
-    ColorD color,
+    Image dst,
+    Rectangle rec,
+    Color color,
   ) => 'ImageDrawRectangleRec($dst, $rec, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawRectangleLines].
   String ImageDrawRectangleLines(
-    ImageD dst,
-    RectangleD rec,
+    Image dst,
+    Rectangle rec,
     num thick,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawRectangleLines($dst, $rec, $thick, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawTriangle].
   String ImageDrawTriangle(
-    ImageD dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Image dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   ) => 'ImageDrawTriangle($dst, $v1, $v2, $v3, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawTriangleEx].
   String ImageDrawTriangleEx(
-    ImageD dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD c1,
-    ColorD c2,
-    ColorD c3,
+    Image dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color c1,
+    Color c2,
+    Color c3,
   ) => 'ImageDrawTriangleEx($dst, $v1, $v2, $v3, $c1, $c2, $c3)';
 
   /// Label for [RaylibCoreDart.ImageDrawTriangleLines].
   String ImageDrawTriangleLines(
-    ImageD dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Image dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   ) => 'ImageDrawTriangleLines($dst, $v1, $v2, $v3, $color)';
     
   /// Label for [RaylibCoreDart.ImageDrawTriangleFan].
   String ImageDrawTriangleFan(
-    ImageD dst,
-    List<Vector2D> points,
-    ColorD color,
+    Image dst,
+    List<Vector2> points,
+    Color color,
   ) => 'ImageDrawTriangleFan($dst, points: ${points.length}, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawTriangleStrip].
   String ImageDrawTriangleStrip(
-    ImageD dst,
-    List<Vector2D> points,
-    ColorD color,
+    Image dst,
+    List<Vector2> points,
+    Color color,
   ) => 'ImageDrawTriangleStrip($dst, points: ${points.length}, $color)';
 
   /// Label for [RaylibCoreDart.ImageDraw].
   String ImageDraw(
-    ImageD dst,
-    ImageD src,
-    RectangleD srcRec,
-    RectangleD dstRec,
-    ColorD tint,
+    Image dst,
+    Image src,
+    Rectangle srcRec,
+    Rectangle dstRec,
+    Color tint,
   ) => 'ImageDraw($dst, $src, $srcRec, $dstRec, $tint)';
 
   /// Label for [RaylibCoreDart.ImageDrawText].
   String ImageDrawText(
-    ImageD dst,
+    Image dst,
     String text,
     num posX,
     num posY,
     num fontSize,
-    ColorD color,
+    Color color,
   ) => 'ImageDrawText($dst, $text, $posX, $posY, $fontSize, $color)';
 
   /// Label for [RaylibCoreDart.ImageDrawTextEx].
   String ImageDrawTextEx(
-    ImageD dst,
-    FontD font,
+    Image dst,
+    Font font,
     String text,
-    Vector2D position,
+    Vector2 position,
     num fontSize,
     num spacing,
-    ColorD tint,
+    Color tint,
   ) => 'ImageDrawTextEx($dst, $font, $text, $position, $fontSize, $spacing, $tint)';
 
   /// Label for [RaylibCoreDart.LoadTexture].
@@ -2087,12 +2087,12 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.LoadTextureFromImage].
   String LoadTextureFromImage(
-    ImageD image,
+    Image image,
   ) => 'LoadTextureFromImage($image)';
 
   /// Label for [RaylibCoreDart.LoadTextureCubemap].
   String LoadTextureCubemap(
-    ImageD image,
+    Image image,
     CubemapLayout layout,
   ) => 'LoadTextureCubemap($image, $layout)';
 
@@ -2104,136 +2104,136 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.IsTextureValid].
   String IsTextureValid(
-    TextureD texture,
+    Texture texture,
   ) => 'IsTextureValid($texture)';
 
   /// Label for [RaylibCoreDart.UnloadTexture].
   String UnloadTexture(
-    TextureD texture,
+    Texture texture,
   ) => 'UnloadTexture($texture)';
 
   /// Label for [RaylibCoreDart.IsRenderTextureValid].
   String IsRenderTextureValid(
-    RenderTextureD target,
+    RenderTexture target,
   ) => 'IsRenderTextureValid($target)';
 
   /// Label for [RaylibCoreDart.UnloadRenderTexture].
   String UnloadRenderTexture(
-    RenderTextureD target,
+    RenderTexture target,
   ) => 'UnloadRenderTexture($target)';
 
   /// Label for [RaylibCoreDart.UpdateTexture].
   String UpdateTexture(
-    TextureD texture,
+    Texture texture,
     Uint8List pixels,
   ) => 'UpdateTexture($texture, pixels: ${pixels.length})';
     
   /// Label for [RaylibCoreDart.UpdateTextureRec].
   String UpdateTextureRec(
-    TextureD texture,
-    RectangleD rec,
+    Texture texture,
+    Rectangle rec,
     Uint8List pixels,
   ) => 'UpdateTextureRec($texture, $rec, pixels: ${pixels.length})';
 
   /// Label for [RaylibCoreDart.GenTextureMipmaps].
   String GenTextureMipmaps(
-    TextureD texture,
+    Texture texture,
   ) => 'GenTextureMipmaps($texture)';
 
   /// Label for [RaylibCoreDart.SetTextureFilter].
   String SetTextureFilter(
-    TextureD texture,
+    Texture texture,
     TextureFilter filter,
   ) => 'SetTextureFilter($texture, $filter)';
 
   /// Label for [RaylibCoreDart.SetTextureWrap].
   String SetTextureWrap(
-    TextureD texture,
+    Texture texture,
     TextureWrap wrap,
   ) => 'SetTextureWrap($texture, $wrap)';
 
   /// Label for [RaylibCoreDart.DrawTexture].
   String DrawTexture(
-    TextureD texture,
+    Texture texture,
     num posX,
     num posY,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTexture($texture, $posX, $posY, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTextureV].
   String DrawTextureV(
-    TextureD texture,
-    Vector2D position,
-    ColorD tint,
+    Texture texture,
+    Vector2 position,
+    Color tint,
   ) => 'DrawTextureV($texture, $position, $tint)';
     
   /// Label for [RaylibCoreDart.DrawTextureEx].
   String DrawTextureEx(
-    TextureD texture,
-    Vector2D position,
+    Texture texture,
+    Vector2 position,
     num rotation,
     num scale,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextureEx($texture, $position, $rotation, $scale, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTextureRec].
   String DrawTextureRec(
-    TextureD texture,
-    RectangleD source,
-    Vector2D position,
-    ColorD tint,
+    Texture texture,
+    Rectangle source,
+    Vector2 position,
+    Color tint,
   ) => 'DrawTextureRec($texture, $source, $position, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTexturePro].
   String DrawTexturePro(
-    TextureD texture,
-    RectangleD source,
-    RectangleD dest,
-    Vector2D origin,
+    Texture texture,
+    Rectangle source,
+    Rectangle dest,
+    Vector2 origin,
     num rotation,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTexturePro($texture, $source, $dest, $origin, $rotation, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTextureNPatch].
   String DrawTextureNPatch(
-    TextureD texture,
-    NPatchInfoD nPatchInfo,
-    RectangleD dest,
-    Vector2D origin,
+    Texture texture,
+    NPatchInfo nPatchInfo,
+    Rectangle dest,
+    Vector2 origin,
     num rotation,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextureNPatch($texture, $nPatchInfo, $dest, $origin, $rotation, $tint)';
 
   /// Label for [RaylibCoreDart.ColorIsEqual].
   String ColorIsEqual(
-    ColorD col1,
-    ColorD col2,
+    Color col1,
+    Color col2,
   ) => 'ColorIsEqual($col1, $col2)';
 
   /// Label for [RaylibCoreDart.Fade].
   String Fade(
-    ColorD color,
+    Color color,
     num alpha,
   ) => 'Fade($color, $alpha)';
 
   /// Label for [RaylibCoreDart.ColorToInt].
   String ColorToInt(
-    ColorD color,
+    Color color,
   ) => 'ColorToInt($color)';
 
   /// Label for [RaylibCoreDart.ColorNormalize].
   String ColorNormalize(
-    ColorD color,
+    Color color,
   ) => 'ColorNormalize($color)';
 
   /// Label for [RaylibCoreDart.ColorFromNormalized].
   String ColorFromNormalized(
-    Vector4D normalized,
+    Vector4 normalized,
   ) => 'ColorFromNormalized($normalized)';
 
   /// Label for [RaylibCoreDart.ColorToHSV].
   String ColorToHSV(
-    ColorD color,
+    Color color,
   ) => 'ColorToHSV($color)';
 
   /// Label for [RaylibCoreDart.ColorFromHSV].
@@ -2245,39 +2245,39 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.ColorTint].
   String ColorTint(
-    ColorD color,
-    ColorD tint,
+    Color color,
+    Color tint,
   ) => 'ColorTint($color, $tint)';
 
   /// Label for [RaylibCoreDart.ColorBrightness].
   String ColorBrightness(
-    ColorD color,
+    Color color,
     num factor,
   ) => 'ColorBrightness($color, $factor)';
 
   /// Label for [RaylibCoreDart.ColorContrast].
   String ColorContrast(
-    ColorD color,
+    Color color,
     num contrast,
   ) => 'ColorContrast($color, $contrast)';
 
   /// Label for [RaylibCoreDart.ColorAlpha].
   String ColorAlpha(
-    ColorD color,
+    Color color,
     num alpha,
   ) => 'ColorAlpha($color, $alpha)';
 
   /// Label for [RaylibCoreDart.ColorAlphaBlend].
   String ColorAlphaBlend(
-    ColorD dst,
-    ColorD src,
-    ColorD tint,
+    Color dst,
+    Color src,
+    Color tint,
   ) => 'ColorAlphaBlend($dst, $src, $tint)';
 
   /// Label for [RaylibCoreDart.ColorLerp].
   String ColorLerp(
-    ColorD color1,
-    ColorD color2,
+    Color color1,
+    Color color2,
     num factor,
   ) => 'ColorLerp($color1, $color2, $factor)';
 
@@ -2312,8 +2312,8 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.LoadFontFromImage].
   String LoadFontFromImage(
-    ImageD image,
-    ColorD key,
+    Image image,
+    Color key,
     num firstChar,
   ) => 'LoadFontFromImage($image, $key, $firstChar)';
 
@@ -2327,7 +2327,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.IsFontValid].
   String IsFontValid(
-    FontD font,
+    Font font,
   ) => 'IsFontValid($font)';
 
   /// Label for [RaylibCoreDart.LoadFontData].
@@ -2341,7 +2341,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.GenImageFontAtlas].
   String GenImageFontAtlas(
-    List<GlyphInfoD> glyphs,
+    List<GlyphInfo> glyphs,
     num fontSize,
     num padding,
     num packMethod,
@@ -2349,17 +2349,17 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.UnloadFontData].
   String UnloadFontData(
-    List<GlyphInfoD> glyphs,
+    List<GlyphInfo> glyphs,
   ) => 'UnloadFontData(glyphs: ${glyphs.length})';
     
   /// Label for [RaylibCoreDart.UnloadFont].
   String UnloadFont(
-    FontD font,
+    Font font,
   ) => 'UnloadFont($font)';
 
   /// Label for [RaylibCoreDart.ExportFontAsCode].
   String ExportFontAsCode(
-    FontD font,
+    Font font,
     String fileName,
   ) => 'ExportFontAsCode($font, $fileName)';
 
@@ -2375,48 +2375,48 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     num posX,
     num posY,
     num fontSize,
-    ColorD color,
+    Color color,
   ) => 'DrawText($text, $posX, $posY, $fontSize, $color)';
 
   /// Label for [RaylibCoreDart.DrawTextEx].
   String DrawTextEx(
-    FontD font,
+    Font font,
     String text,
-    Vector2D position,
+    Vector2 position,
     num fontSize,
     num spacing,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextEx($font, $text, $position, $fontSize, $spacing, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTextPro].
   String DrawTextPro(
-    FontD font,
+    Font font,
     String text,
-    Vector2D position,
-    Vector2D origin,
+    Vector2 position,
+    Vector2 origin,
     num rotation,
     num fontSize,
     num spacing,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextPro($font, $text, $position, $origin, $rotation, $fontSize, $spacing, $tint)';
     
   /// Label for [RaylibCoreDart.DrawTextCodepoint].
   String DrawTextCodepoint(
-    FontD font,
+    Font font,
     num codepoint,
-    Vector2D position,
+    Vector2 position,
     num fontSize,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextCodepoint($font, $codepoint, $position, $fontSize, $tint)';
 
   /// Label for [RaylibCoreDart.DrawTextCodepoints].
   String DrawTextCodepoints(
-    FontD font,
+    Font font,
     Int32List codepoints,
-    Vector2D position,
+    Vector2 position,
     num fontSize,
     num spacing,
-    ColorD tint,
+    Color tint,
   ) => 'DrawTextCodepoints($font, codepoints: ${codepoints.length}, $position, $fontSize, $spacing, $tint)';
 
   /// Label for [RaylibCoreDart.SetTextLineSpacing].
@@ -2432,7 +2432,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.MeasureTextEx].
   String MeasureTextEx(
-    FontD font,
+    Font font,
     String text,
     num fontSize,
     num spacing,
@@ -2440,7 +2440,7 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.MeasureTextCodepoints].
   String MeasureTextCodepoints(
-    FontD font,
+    Font font,
     Int32List codepoints,
     num fontSize,
     num spacing,
@@ -2448,19 +2448,19 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibCoreDart.GetGlyphIndex].
   String GetGlyphIndex(
-    FontD font,
+    Font font,
     num codepoint,
   ) => 'GetGlyphIndex($font, $codepoint)';
 
   /// Label for [RaylibCoreDart.GetGlyphInfo].
   String GetGlyphInfo(
-    FontD font,
+    Font font,
     num codepoint,
   ) => 'GetGlyphInfo($font, $codepoint)';
 
   /// Label for [RaylibCoreDart.GetGlyphAtlasRec].
   String GetGlyphAtlasRec(
-    FontD font,
+    Font font,
     num codepoint,
   ) => 'GetGlyphAtlasRec($font, $codepoint)';
     
@@ -2624,168 +2624,168 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.DrawLine3D].
   String DrawLine3D(
-    Vector3D startPos,
-    Vector3D endPos,
-    ColorD color,
+    Vector3 startPos,
+    Vector3 endPos,
+    Color color,
   ) => 'DrawLine3D($startPos, $endPos, $color)';
     
   /// Label for [RaylibCoreDart.DrawPoint3D].
   String DrawPoint3D(
-    Vector3D position,
-    ColorD color,
+    Vector3 position,
+    Color color,
   ) => 'DrawPoint3D($position, $color)';
     
   /// Label for [RaylibCoreDart.DrawCircle3D].
   String DrawCircle3D(
-    Vector3D center,
+    Vector3 center,
     num radius,
-    Vector3D rotationAxis,
+    Vector3 rotationAxis,
     num rotationAngle,
-    ColorD color,
+    Color color,
   ) => 'DrawCircle3D($center, $radius, $rotationAxis, $rotationAngle, $color)';
     
   /// Label for [RaylibCoreDart.DrawTriangle3D].
   String DrawTriangle3D(
-    Vector3D v1,
-    Vector3D v2,
-    Vector3D v3,
-    ColorD color,
+    Vector3 v1,
+    Vector3 v2,
+    Vector3 v3,
+    Color color,
   ) => 'DrawTriangle3D($v1, $v2, $v3, $color)';
     
   /// Label for [RaylibCoreDart.DrawTriangleStrip3D].
   String DrawTriangleStrip3D(
-    List<Vector3D> points,
-    ColorD color,
+    List<Vector3> points,
+    Color color,
   ) => 'DrawTriangleStrip3D(points: ${points.length}, $color)';
     
   /// Label for [RaylibCoreDart.DrawCube].
   String DrawCube(
-    Vector3D position,
+    Vector3 position,
     num width,
     num height,
     num length,
-    ColorD color,
+    Color color,
   ) => 'DrawCube($position, $width, $height, $length, $color)';
     
   /// Label for [RaylibCoreDart.DrawCubeV].
   String DrawCubeV(
-    Vector3D position,
-    Vector3D size,
-    ColorD color,
+    Vector3 position,
+    Vector3 size,
+    Color color,
   ) => 'DrawCubeV($position, $size, $color)';
     
   /// Label for [RaylibCoreDart.DrawCubeWires].
   String DrawCubeWires(
-    Vector3D position,
+    Vector3 position,
     num width,
     num height,
     num length,
-    ColorD color,
+    Color color,
   ) => 'DrawCubeWires($position, $width, $height, $length, $color)';
     
   /// Label for [RaylibCoreDart.DrawCubeWiresV].
   String DrawCubeWiresV(
-    Vector3D position,
-    Vector3D size,
-    ColorD color,
+    Vector3 position,
+    Vector3 size,
+    Color color,
   ) => 'DrawCubeWiresV($position, $size, $color)';
     
   /// Label for [RaylibCoreDart.DrawSphere].
   String DrawSphere(
-    Vector3D centerPos,
+    Vector3 centerPos,
     num radius,
-    ColorD color,
+    Color color,
   ) => 'DrawSphere($centerPos, $radius, $color)';
     
   /// Label for [RaylibCoreDart.DrawSphereEx].
   String DrawSphereEx(
-    Vector3D centerPos,
+    Vector3 centerPos,
     num radius,
     num rings,
     num slices,
-    ColorD color,
+    Color color,
   ) => 'DrawSphereEx($centerPos, $radius, $rings, $slices, $color)';
     
   /// Label for [RaylibCoreDart.DrawSphereWires].
   String DrawSphereWires(
-    Vector3D centerPos,
+    Vector3 centerPos,
     num radius,
     num rings,
     num slices,
-    ColorD color,
+    Color color,
   ) => 'DrawSphereWires($centerPos, $radius, $rings, $slices, $color)';
     
   /// Label for [RaylibCoreDart.DrawCylinder].
   String DrawCylinder(
-    Vector3D position,
+    Vector3 position,
     num radiusTop,
     num radiusBottom,
     num height,
     num slices,
-    ColorD color,
+    Color color,
   ) => 'DrawCylinder($position, $radiusTop, $radiusBottom, $height, $slices, $color)';
     
   /// Label for [RaylibCoreDart.DrawCylinderEx].
   String DrawCylinderEx(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     num startRadius,
     num endRadius,
     num sides,
-    ColorD color,
+    Color color,
   ) => 'DrawCylinderEx($startPos, $endPos, $startRadius, $endRadius, $sides, $color)';
     
   /// Label for [RaylibCoreDart.DrawCylinderWires].
   String DrawCylinderWires(
-    Vector3D position,
+    Vector3 position,
     num radiusTop,
     num radiusBottom,
     num height,
     num slices,
-    ColorD color,
+    Color color,
   ) => 'DrawCylinderWires($position, $radiusTop, $radiusBottom, $height, $slices, $color)';
     
   /// Label for [RaylibCoreDart.DrawCylinderWiresEx].
   String DrawCylinderWiresEx(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     num startRadius,
     num endRadius,
     num sides,
-    ColorD color,
+    Color color,
   ) => 'DrawCylinderWiresEx($startPos, $endPos, $startRadius, $endRadius, $sides, $color)';
     
   /// Label for [RaylibCoreDart.DrawCapsule].
   String DrawCapsule(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     num radius,
     num slices,
     num rings,
-    ColorD color,
+    Color color,
   ) => 'DrawCapsule($startPos, $endPos, $radius, $slices, $rings, $color)';
     
   /// Label for [RaylibCoreDart.DrawCapsuleWires].
   String DrawCapsuleWires(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     num radius,
     num slices,
     num rings,
-    ColorD color,
+    Color color,
   ) => 'DrawCapsuleWires($startPos, $endPos, $radius, $slices, $rings, $color)';
     
   /// Label for [RaylibCoreDart.DrawPlane].
   String DrawPlane(
-    Vector3D centerPos,
-    Vector2D size,
-    ColorD color,
+    Vector3 centerPos,
+    Vector2 size,
+    Color color,
   ) => 'DrawPlane($centerPos, $size, $color)';
     
   /// Label for [RaylibCoreDart.DrawRay].
   String DrawRay(
-    RayD ray,
-    ColorD color,
+    Ray ray,
+    Color color,
   ) => 'DrawRay($ray, $color)';
     
   /// Label for [RaylibCoreDart.DrawGrid].
@@ -2801,107 +2801,107 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.LoadModelFromMesh].
   String LoadModelFromMesh(
-    MeshD mesh,
+    Mesh mesh,
   ) => 'LoadModelFromMesh($mesh)';
     
   /// Label for [RaylibCoreDart.IsModelValid].
   String IsModelValid(
-    ModelD model,
+    Model model,
   ) => 'IsModelValid($model)';
     
   /// Label for [RaylibCoreDart.UnloadModel].
   String UnloadModel(
-    ModelD model,
+    Model model,
   ) => 'UnloadModel($model)';
     
   /// Label for [RaylibCoreDart.GetModelBoundingBox].
   String GetModelBoundingBox(
-    ModelD model,
+    Model model,
   ) => 'GetModelBoundingBox($model)';
     
   /// Label for [RaylibCoreDart.DrawModel].
   String DrawModel(
-    ModelD model,
-    Vector3D position,
+    Model model,
+    Vector3 position,
     num scale,
-    ColorD tint
+    Color tint
   ) => 'DrawModel($model, $position, $scale, $tint)';
     
   /// Label for [RaylibCoreDart.DrawModelEx].
   String DrawModelEx(
-    ModelD model,
-    Vector3D position,
-    Vector3D rotationAxis,
+    Model model,
+    Vector3 position,
+    Vector3 rotationAxis,
     num rotationAngle,
-    Vector3D scale,
-    ColorD tint,
+    Vector3 scale,
+    Color tint,
   ) => 'DrawModelEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
     
   /// Label for [RaylibCoreDart.DrawModelWires].
   String DrawModelWires(
-    ModelD model,
-    Vector3D position,
+    Model model,
+    Vector3 position,
     num scale,
-    ColorD tint,
+    Color tint,
   ) => 'DrawModelWires($model, $position, $scale, $tint)';
     
   /// Label for [RaylibCoreDart.DrawModelWiresEx].
   String DrawModelWiresEx(
-    ModelD model,
-    Vector3D position,
-    Vector3D rotationAxis,
+    Model model,
+    Vector3 position,
+    Vector3 rotationAxis,
     num rotationAngle,
-    Vector3D scale,
-    ColorD tint,
+    Vector3 scale,
+    Color tint,
   ) => 'DrawModelWiresEx($model, $position, $rotationAxis, $rotationAngle, $scale, $tint)';
     
   /// Label for [RaylibCoreDart.DrawBoundingBox].
   String DrawBoundingBox(
-    BoundingBoxD box,
-    ColorD color,
+    BoundingBox box,
+    Color color,
   ) => 'DrawBoundingBox($box, $color)';
 
   /// Label for [RaylibCoreDart.DrawBillboard].
   String DrawBillboard(
-    Camera3DD camera,
-    TextureD texture,
-    Vector3D position,
+    Camera3D camera,
+    Texture texture,
+    Vector3 position,
     num scale,
-    ColorD tint,
+    Color tint,
   ) => 'DrawBillboard($camera, $texture, $position, $scale, $tint)';
 
   /// Label for [RaylibCoreDart.DrawBillboardRec].
   String DrawBillboardRec(
-    Camera3DD camera,
-    TextureD texture,
-    RectangleD source,
-    Vector3D position,
-    Vector2D size,
-    ColorD tint,
+    Camera3D camera,
+    Texture texture,
+    Rectangle source,
+    Vector3 position,
+    Vector2 size,
+    Color tint,
   ) => 'DrawBillboardRec($camera, $texture, $source, $position, $size, $tint)';
 
   /// Label for [RaylibCoreDart.DrawBillboardPro].
   String DrawBillboardPro(
-    Camera3DD camera,
-    TextureD texture,
-    RectangleD source,
-    Vector3D position,
-    Vector3D up,
-    Vector2D size,
-    Vector2D origin,
+    Camera3D camera,
+    Texture texture,
+    Rectangle source,
+    Vector3 position,
+    Vector3 up,
+    Vector2 size,
+    Vector2 origin,
     num rotation,
-    ColorD tint,
+    Color tint,
   ) => 'DrawBillboardPro($camera, $texture, $source, $position, $up, $size, $origin, $rotation, $tint)';
   
   /// Label for [RaylibCoreDart.UploadMesh].
   String UploadMesh(
-    MeshD mesh,
+    Mesh mesh,
     bool dynamic,
   ) => 'UploadMesh($mesh, $dynamic)';
     
   /// Label for [RaylibCoreDart.UpdateMeshBuffer].
   String UpdateMeshBuffer(
-    MeshD mesh,
+    Mesh mesh,
     num index,
     TypedDataList data,
     num offset,
@@ -2909,42 +2909,42 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.UnloadMesh].
   String UnloadMesh(
-    MeshD mesh,
+    Mesh mesh,
   ) => 'UnloadMesh($mesh)';
     
   /// Label for [RaylibCoreDart.DrawMesh].
   String DrawMesh(
-    MeshD mesh,
-    MaterialD material,
-    MatrixD transform,
+    Mesh mesh,
+    Material material,
+    Matrix transform,
   ) => 'DrawMesh($mesh, $material, transform: $transform)';
     
   /// Label for [RaylibCoreDart.DrawMeshInstanced].
   String DrawMeshInstanced(
-    MeshD mesh,
-    MaterialD material,
-    List<MatrixD> transforms,
+    Mesh mesh,
+    Material material,
+    List<Matrix> transforms,
   ) => 'DrawMeshInstanced($mesh, $material, transforms: ${transforms.length})';
     
   /// Label for [RaylibCoreDart.GetMeshBoundingBox].
   String GetMeshBoundingBox(
-    MeshD mesh,
+    Mesh mesh,
   ) => 'GetMeshBoundingBox($mesh)';
     
   /// Label for [RaylibCoreDart.GenMeshTangents].
   String GenMeshTangents(
-    MeshD mesh,
+    Mesh mesh,
   ) => 'GenMeshTangents($mesh)';
     
   /// Label for [RaylibCoreDart.ExportMesh].
   String ExportMesh(
-    MeshD mesh,
+    Mesh mesh,
     String fileName,
   ) => 'ExportMesh($mesh, $fileName)';
     
   /// Label for [RaylibCoreDart.ExportMeshAsCode].
   String ExportMeshAsCode(
-    MeshD mesh,
+    Mesh mesh,
     String fileName,
   ) => 'ExportMeshAsCode($mesh, $fileName)';
     
@@ -3015,14 +3015,14 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.GenMeshHeightmap].
   String GenMeshHeightmap(
-    ImageD heightmap,
-    Vector3D size,
+    Image heightmap,
+    Vector3 size,
   ) => 'GenMeshHeightmap($heightmap, $size)';
     
   /// Label for [RaylibCoreDart.GenMeshCubicmap].
   String GenMeshCubicmap(
-    ImageD cubicmap,
-    Vector3D cubeSize,
+    Image cubicmap,
+    Vector3 cubeSize,
   ) => 'GenMeshCubicmap($cubicmap, $cubeSize)';
     
   /// Label for [RaylibCoreDart.LoadMaterials].
@@ -3035,24 +3035,24 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.IsMaterialValid].
   String IsMaterialValid(
-    MaterialD material,
+    Material material,
   ) => 'IsMaterialValid($material)';
     
   /// Label for [RaylibCoreDart.UnloadMaterial].
   String UnloadMaterial(
-    MaterialD material,
+    Material material,
   ) => 'UnloadMaterial($material)';
     
   /// Label for [RaylibCoreDart.SetMaterialTexture].
   String SetMaterialTexture(
-    MaterialD material,
+    Material material,
     MaterialMapIndex mapType,
-    TextureD texture,
+    Texture texture,
   ) => 'SetMaterialTexture($material, ${mapType.name}, $texture)';
     
   /// Label for [RaylibCoreDart.SetModelMeshMaterial].
   String SetModelMeshMaterial(
-    ModelD model,
+    Model model,
     num meshId,
     num materialId,
   ) => 'SetModelMeshMaterial($model, $meshId, $materialId)';
@@ -3064,88 +3064,88 @@ class _RaylibCoreDartDebugLabels extends RaylibDebugLabelsBase {
     
   /// Label for [RaylibCoreDart.UpdateModelAnimation].
   String UpdateModelAnimation(
-    ModelD model,
-    ModelAnimationD anim,
+    Model model,
+    ModelAnimation anim,
     num frame,
   ) => 'UpdateModelAnimation($model, $anim, $frame)';
 
   /// Label for [RaylibCoreDart.UpdateModelAnimationEx].
   String UpdateModelAnimationEx(
-    ModelD model,
-    ModelAnimationD animA,
+    Model model,
+    ModelAnimation animA,
     num frameA,
-    ModelAnimationD animB,
+    ModelAnimation animB,
     num frameB,
     num blend,
   ) => 'UpdateModelAnimationEx($model, $animA, $frameA, $animB, $frameB, $blend)';
     
   /// Label for [RaylibCoreDart.UnloadModelAnimations].
   String UnloadModelAnimations(
-    List<ModelAnimationD> animations,
+    List<ModelAnimation> animations,
   ) => 'UnloadModelAnimations(animations: ${animations.length})';
     
   /// Label for [RaylibCoreDart.IsModelAnimationValid].
   String IsModelAnimationValid(
-    ModelD model,
-    ModelAnimationD anim,
+    Model model,
+    ModelAnimation anim,
   ) => 'IsModelAnimationValid($model, $anim)';
     
   /// Label for [RaylibCoreDart.CheckCollisionSpheres].
   String CheckCollisionSpheres(
-    Vector3D center1,
+    Vector3 center1,
     num radius1,
-    Vector3D center2,
+    Vector3 center2,
     num radius2,
   ) => 'CheckCollisionSpheres($center1, $radius1, $center2, $radius2)';
     
   /// Label for [RaylibCoreDart.CheckCollisionBoxes].
   String CheckCollisionBoxes(
-    BoundingBoxD box1,
-    BoundingBoxD box2,
+    BoundingBox box1,
+    BoundingBox box2,
   ) => 'CheckCollisionBoxes($box1, $box2)';
     
   /// Label for [RaylibCoreDart.CheckCollisionBoxSphere].
   String CheckCollisionBoxSphere(
-    BoundingBoxD box,
-    Vector3D center,
+    BoundingBox box,
+    Vector3 center,
     num radius,
   ) => 'CheckCollisionBoxSphere($box, $center, $radius)';
     
   /// Label for [RaylibCoreDart.GetRayCollisionSphere].
   String GetRayCollisionSphere(
-    RayD ray,
-    Vector3D center,
+    Ray ray,
+    Vector3 center,
     num radius,
   ) => 'GetRayCollisionSphere($ray, $center, $radius)';
     
   /// Label for [RaylibCoreDart.GetRayCollisionBox].
   String GetRayCollisionBox(
-    RayD ray,
-    BoundingBoxD box,
+    Ray ray,
+    BoundingBox box,
   ) => 'GetRayCollisionBox($ray, $box)';
     
   /// Label for [RaylibCoreDart.GetRayCollisionMesh].
   String GetRayCollisionMesh(
-    RayD ray,
-    MeshD mesh,
-    MatrixD transform,
+    Ray ray,
+    Mesh mesh,
+    Matrix transform,
   ) => 'GetRayCollisionMesh($ray, $mesh, $transform)';
     
   /// Label for [RaylibCoreDart.GetRayCollisionTriangle].
   String GetRayCollisionTriangle(
-    RayD ray,
-    Vector3D p1,
-    Vector3D p2,
-    Vector3D p3,
+    Ray ray,
+    Vector3 p1,
+    Vector3 p2,
+    Vector3 p3,
   ) => 'GetRayCollisionTriangle($ray, $p1, $p2, $p3)';
     
   /// Label for [RaylibCoreDart.GetRayCollisionQuad].
   String GetRayCollisionQuad(
-    RayD ray,
-    Vector3D p1,
-    Vector3D p2,
-    Vector3D p3,
-    Vector3D p4,
+    Ray ray,
+    Vector3 p1,
+    Vector3 p2,
+    Vector3 p3,
+    Vector3 p4,
   ) => 'GetRayCollisionQuad($ray, $p1, $p2, $p3, $p4)';
   
 }

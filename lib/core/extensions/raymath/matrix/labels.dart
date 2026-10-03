@@ -4,22 +4,22 @@ class _RaylibMatrixExtDartDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibMatrixExtDart.MatrixDeterminant].
   String MatrixDeterminant(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixDeterminant($mat)';
 
   /// Label for [RaylibMatrixExtDart.MatrixTrace].
   String MatrixTrace(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixTrace($mat)';
 
   /// Label for [RaylibMatrixExtDart.MatrixTranspose].
   String MatrixTranspose(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixTranspose($mat)';
 
   /// Label for [RaylibMatrixExtDart.MatrixInvert].
   String MatrixInvert(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixInvert($mat)';
 
   /// Label for [RaylibMatrixExtDart.MatrixIdentity].
@@ -28,25 +28,25 @@ class _RaylibMatrixExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibMatrixExtDart.MatrixAdd].
   String MatrixAdd(
-    MatrixD left,
-    MatrixD right,
+    Matrix left,
+    Matrix right,
   ) => 'MatrixAdd($left, $right)';
 
   /// Label for [RaylibMatrixExtDart.MatrixSubtract].
   String MatrixSubtract(
-    MatrixD left,
-    MatrixD right,
+    Matrix left,
+    Matrix right,
   ) => 'MatrixSubtract($left, $right)';
 
   /// Label for [RaylibMatrixExtDart.MatrixMultiply].
   String MatrixMultiply(
-    MatrixD left,
-    MatrixD right,
+    Matrix left,
+    Matrix right,
   ) => 'MatrixMultiply($left, $right)';
 
   /// Label for [RaylibMatrixExtDart.MatrixMultiplyValue].
   String MatrixMultiplyValue(
-    MatrixD left,
+    Matrix left,
     double value,
   ) => 'MatrixMultiplyValue($left, $value)';
 
@@ -59,7 +59,7 @@ class _RaylibMatrixExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibMatrixExtDart.MatrixRotate].
   String MatrixRotate(
-    Vector3D axis,
+    Vector3 axis,
     double angle,
   ) => 'MatrixRotate($axis, $angle)';
 
@@ -80,12 +80,12 @@ class _RaylibMatrixExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibMatrixExtDart.MatrixRotateXYZ].
   String MatrixRotateXYZ(
-    Vector3D angle,
+    Vector3 angle,
   ) => 'MatrixRotateXYZ($angle)';
 
   /// Label for [RaylibMatrixExtDart.MatrixRotateZYX].
   String MatrixRotateZYX(
-    Vector3D angle,
+    Vector3 angle,
   ) => 'MatrixRotateZYX($angle)';
 
   /// Label for [RaylibMatrixExtDart.MatrixScale].
@@ -125,26 +125,26 @@ class _RaylibMatrixExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibMatrixExtDart.MatrixLookAt].
   String MatrixLookAt(
-    Vector3D eye,
-    Vector3D target,
-    Vector3D up,
+    Vector3 eye,
+    Vector3 target,
+    Vector3 up,
   ) => 'MatrixLookAt($eye, $target, $up)';
   
   /// Label for [RaylibMatrixExtDart.MatrixToFloatV].
   String MatrixToFloatV(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixToFloatV($mat)';
 
   /// Label for [RaylibMatrixExtDart.MatrixCompose].
   String MatrixCompose(
-    Vector3D translation,
-    QuaternionD rotation, 
-    Vector3D scale,
+    Vector3 translation,
+    Quaternion rotation, 
+    Vector3 scale,
   ) => 'MatrixCompose($translation, $rotation, $scale)';
 
   /// Label for [RaylibMatrixExtDart.MatrixDecompose].
   String MatrixDecompose(
-    MatrixD mat,
+    Matrix mat,
   ) => 'MatrixDecompose($mat)';
   
 }

@@ -4,25 +4,25 @@ class _RaylibQuaternionExtDartDebugLabels extends RaylibDebugLabelsBase {
   
   /// Label for [RaylibQuaternionExtDart.QuaternionAdd].
   String QuaternionAdd(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
   ) => 'QuaternionAdd($q1, $q2)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionAddValue].
   String QuaternionAddValue(
-    QuaternionD q,
+    Quaternion q,
     double add,
   ) => 'QuaternionAddValue($q, $add)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionSubtract].
   String QuaternionSubtract(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
   ) => 'QuaternionSubtract($q1, $q2)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionSubtractValue].
   String QuaternionSubtractValue(
-    QuaternionD q,
+    Quaternion q,
     double sub,
   ) => 'QuaternionSubtractValue($q, $sub)';
 
@@ -32,92 +32,92 @@ class _RaylibQuaternionExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibQuaternionExtDart.QuaternionLength].
   String QuaternionLength(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionLength($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionNormalize].
   String QuaternionNormalize(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionNormalize($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionInvert].
   String QuaternionInvert(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionInvert($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionMultiply].
   String QuaternionMultiply(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
   ) => 'QuaternionMultiply($q1, $q2)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionScale].
   String QuaternionScale(
-    QuaternionD q,
+    Quaternion q,
     double mul,
   ) => 'QuaternionScale($q, $mul)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionDivide].
   String QuaternionDivide(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
   ) => 'QuaternionDivide($q1, $q2)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionLerp].
   String QuaternionLerp(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
     double amount,
   ) => 'QuaternionLerp($q1, $q2, $amount)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionNlerp].
   String QuaternionNlerp(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
     double amount,
   ) => 'QuaternionNlerp($q1, $q2, $amount)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionSlerp].
   String QuaternionSlerp(
-    QuaternionD q1,
-    QuaternionD q2,
+    Quaternion q1,
+    Quaternion q2,
     double amount,
   ) => 'QuaternionSlerp($q1, $q2, $amount)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionCubicHermiteSpline].
   String QuaternionCubicHermiteSpline(
-    QuaternionD q1,
-    QuaternionD outTangent1,
-    QuaternionD q2,
-    QuaternionD inTangent2,
+    Quaternion q1,
+    Quaternion outTangent1,
+    Quaternion q2,
+    Quaternion inTangent2,
     double t,
   ) => 'QuaternionCubicHermiteSpline($q1, $outTangent1, $q2, $inTangent2, $t)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionFromVector3ToVector3].
   String QuaternionFromVector3ToVector3(
-    Vector3D from,
-    Vector3D to,
+    Vector3 from,
+    Vector3 to,
   ) => 'QuaternionFromVector3ToVector3($from, $to)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionFromMatrix].
   String QuaternionFromMatrix(
-    MatrixD mat,
+    Matrix mat,
   ) => 'QuaternionFromMatrix($mat)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionToMatrix].
   String QuaternionToMatrix(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionToMatrix($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionFromAxisAngle].
   String QuaternionFromAxisAngle(
-    Vector3D axis,
+    Vector3 axis,
     double angle,
   ) => 'QuaternionFromAxisAngle($axis, $angle)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionToAxisAngle].
   String QuaternionToAxisAngle(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionToAxisAngle($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionFromEuler].
@@ -129,19 +129,19 @@ class _RaylibQuaternionExtDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibQuaternionExtDart.QuaternionToEuler].
   String QuaternionToEuler(
-    QuaternionD q,
+    Quaternion q,
   ) => 'QuaternionToEuler($q)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionTransform].
   String QuaternionTransform(
-    QuaternionD q,
-    MatrixD mat,
+    Quaternion q,
+    Matrix mat,
   ) => 'QuaternionTransform($q, $mat)';
 
   /// Label for [RaylibQuaternionExtDart.QuaternionEquals].
   String QuaternionEquals(
-    QuaternionD p,
-    QuaternionD q,
+    Quaternion p,
+    Quaternion q,
   ) => 'QuaternionEquals($p, $q)';
   
 }

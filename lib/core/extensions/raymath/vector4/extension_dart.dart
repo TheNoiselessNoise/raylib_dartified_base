@@ -1,7 +1,7 @@
 part of '../../../raylib_dartified_base.dart';
 
 /// Exposes Raylib's vector math API as module-level functions by delegating
-/// to the corresponding [Vector4D] methods/factories.
+/// to the corresponding [Vector4] methods/factories.
 /// Exists purely for Raylib API symmetry.
 class RaylibVector4ExtDart<R extends RaylibBase> extends RaylibModule<R> {
 
@@ -10,189 +10,189 @@ class RaylibVector4ExtDart<R extends RaylibBase> extends RaylibModule<R> {
   RaylibVector4ExtDart(super.rl);
 
   /// See [Vector4D.zero].
-  Vector4D Vector4Zero() => run(
+  Vector4 Vector4Zero() => run(
     () => _debugLabels.Vector4Zero(),
     () => .zero(),
   );
 
   /// See [Vector4D.one].
-  Vector4D Vector4One() => run(
+  Vector4 Vector4One() => run(
     () => _debugLabels.Vector4One(),
     () => .one(),
   );
 
-  /// See [Vector4D.add].
-  Vector4D Vector4Add(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.add].
+  Vector4 Vector4Add(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Add(v1, v2),
     () => v1.add(v2),
   );
 
-  /// See [Vector4D.addValue].
-  Vector4D Vector4AddValue(
-    Vector4D v,
+  /// See [Vector4.addValue].
+  Vector4 Vector4AddValue(
+    Vector4 v,
     double add,
   ) => run(
     () => _debugLabels.Vector4AddValue(v, add),
     () => v.addValue(add),
   );
 
-  /// See [Vector4D.sub].
-  Vector4D Vector4Subtract(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.sub].
+  Vector4 Vector4Subtract(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Subtract(v1, v2),
     () => v1.sub(v2),
   );
 
-  /// See [Vector4D.subValue].
-  Vector4D Vector4SubtractValue(
-    Vector4D v,
+  /// See [Vector4.subValue].
+  Vector4 Vector4SubtractValue(
+    Vector4 v,
     double sub,
   ) => run(
     () => _debugLabels.Vector4SubtractValue(v, sub),
     () => v.subValue(sub),
   );
 
-  /// See [Vector4D.length].
+  /// See [Vector4.length].
   double Vector4Length(
-    Vector4D v,
+    Vector4 v,
   ) => run(
     () => _debugLabels.Vector4Length(v),
     () => v.length,
   );
 
-  /// See [Vector4D.lengthSqr].
+  /// See [Vector4.lengthSqr].
   double Vector4LengthSqr(
-    Vector4D v,
+    Vector4 v,
   ) => run(
     () => _debugLabels.Vector4LengthSqr(v),
     () => v.lengthSqr,
   );
 
-  /// See [Vector4D.dotProduct].
+  /// See [Vector4.dotProduct].
   double Vector4DotProduct(
-    Vector4D v1,
-    Vector4D v2,
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4DotProduct(v1, v2),
     () => v1.dotProduct(v2),
   );
 
-  /// See [Vector4D.distance].
+  /// See [Vector4.distance].
   double Vector4Distance(
-    Vector4D v1,
-    Vector4D v2,
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Distance(v1, v2),
     () => v1.distance(v2),
   );
 
-  /// See [Vector4D.distanceSqr].
+  /// See [Vector4.distanceSqr].
   double Vector4DistanceSqr(
-    Vector4D v1,
-    Vector4D v2,
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4DistanceSqr(v1, v2),
     () => v1.distanceSqr(v2),
   );
 
-  /// See [Vector4D.scale].
-  Vector4D Vector4Scale(
-    Vector4D v,
+  /// See [Vector4.scale].
+  Vector4 Vector4Scale(
+    Vector4 v,
     double scale,
   ) => run(
     () => _debugLabels.Vector4Scale(v, scale),
     () => v.scale(scale),
   );
 
-  /// See [Vector4D.mul].
-  Vector4D Vector4Multiply(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.mul].
+  Vector4 Vector4Multiply(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Multiply(v1, v2),
     () => v1.mul(v2),
   );
 
-  /// See [Vector4D.negate].
-  Vector4D Vector4Negate(
-    Vector4D v,
+  /// See [Vector4.negate].
+  Vector4 Vector4Negate(
+    Vector4 v,
   ) => run(
     () => _debugLabels.Vector4Negate(v),
     () => v.negate(),
   );
 
-  /// See [Vector4D.div].
-  Vector4D Vector4Divide(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.div].
+  Vector4 Vector4Divide(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Divide(v1, v2),
     () => v1.div(v2),
   );
 
-  /// See [Vector4D.normalize].
-  Vector4D Vector4Normalize(
-    Vector4D v,
+  /// See [Vector4.normalize].
+  Vector4 Vector4Normalize(
+    Vector4 v,
   ) => run(
     () => _debugLabels.Vector4Normalize(v),
     () => v.normalize(),
   );
 
-  /// See [Vector4D.min].
-  Vector4D Vector4Min(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.min].
+  Vector4 Vector4Min(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Min(v1, v2),
     () => v1.min(v2),
   );
 
-  /// See [Vector4D.max].
-  Vector4D Vector4Max(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.max].
+  Vector4 Vector4Max(
+    Vector4 v1,
+    Vector4 v2,
   ) => run(
     () => _debugLabels.Vector4Max(v1, v2),
     () => v1.max(v2),
   );
 
-  /// See [Vector4D.lerp].
-  Vector4D Vector4Lerp(
-    Vector4D v1,
-    Vector4D v2,
+  /// See [Vector4.lerp].
+  Vector4 Vector4Lerp(
+    Vector4 v1,
+    Vector4 v2,
     double amount,
   ) => run(
     () => _debugLabels.Vector4Lerp(v1, v2, amount),
     () => v1.lerp(v2, amount),
   );
 
-  /// See [Vector4D.moveTowards].
-  Vector4D Vector4MoveTowards(
-    Vector4D v,
-    Vector4D target,
+  /// See [Vector4.moveTowards].
+  Vector4 Vector4MoveTowards(
+    Vector4 v,
+    Vector4 target,
     double maxDistance,
   ) => run(
     () => _debugLabels.Vector4MoveTowards(v, target, maxDistance),
     () => v.moveTowards(target, maxDistance),
   );
 
-  /// See [Vector4D.invert].
-  Vector4D Vector4Invert(
-    Vector4D v,
+  /// See [Vector4.invert].
+  Vector4 Vector4Invert(
+    Vector4 v,
   ) => run(
     () => _debugLabels.Vector4Invert(v),
     () => v.invert(),
   );
 
-  /// See [Vector4D.equals].
+  /// See [Vector4.equals].
   bool Vector4Equals(
-    Vector4D p,
-    Vector4D q,
+    Vector4 p,
+    Vector4 q,
   ) => run(
     () => _debugLabels.Vector4Equals(p, q),
     () => p.equals(q),

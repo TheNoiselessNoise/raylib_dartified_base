@@ -9,7 +9,7 @@ enum ImageField with StructFields {
 }
 
 /// Image, pixel data stored in CPU memory (RAM)
-class ImageD extends RaylibStruct<ImageD> {
+class Image extends RaylibStruct<Image> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,8 +21,8 @@ class ImageD extends RaylibStruct<ImageD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<ImageD> struct = .new(
-    factory: ImageD.new,
+  static final StructType<Image> struct = ._builtin(
+    factory: Image.new,
     layout: .aligned<ImageField>({
       .data:    RPointer(RVoid()), // Image raw data
       .width:   RInt(), // Image base width
@@ -159,7 +159,7 @@ class ImageD extends RaylibStruct<ImageD> {
   /// Setting this value also updates the `data` according to [dataLength].
   int frameCount = 1;
 
-  ImageD({
+  Image({
     super.op,
     Uint8List? data,
     int width = 0,
@@ -173,10 +173,10 @@ class ImageD extends RaylibStruct<ImageD> {
     _mipmaps = mipmaps,
     _format = format;
 
-  factory ImageD.zero() => .new();
+  factory Image.zero() => .new();
 
   @override
-  ImageD setDart(ImageD o) {
+  Image setDart(Image o) {
     width = o.width;
     height = o.height;
     mipmaps = o.mipmaps;
@@ -214,7 +214,7 @@ class ImageD extends RaylibStruct<ImageD> {
   }
 
   @override
-  ImageD clone() => .new(
+  Image clone() => .new(
     op: op,
     width: width,
     height: height,

@@ -11,7 +11,7 @@ enum Vector4Field with StructFields {
 }
 
 /// Vector4, 4 components
-class Vector4D extends RaylibStructLiteral<Vector4D> {
+class Vector4 extends RaylibStructLiteral<Vector4> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -23,8 +23,8 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<Vector4D> struct = .new(
-    factory: Vector4D.new,
+  static final StructType<Vector4> struct = ._builtin(
+    factory: Vector4.new,
     layout: .aligned<Vector4Field>({
       .x: RFloat(), // Vector x component
       .y: RFloat(), // Vector y component
@@ -73,7 +73,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   double get w => _w = field_w.readOr(op, _w);
   set w(double value) => _w = field_w.writeOr(op, value);
 
-  Vector4D({
+  Vector4({
     super.op,
     double x = 0,
     double y = 0,
@@ -85,11 +85,11 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
     _z = z,
     _w = w;
 
-  factory Vector4D.zero() => .vec4(0, 0, 0, 0);
+  factory Vector4.zero() => .vec4(0, 0, 0, 0);
 
-  factory Vector4D.one() => .vec4(1, 1, 1, 1);
+  factory Vector4.one() => .vec4(1, 1, 1, 1);
 
-  factory Vector4D.vec4(
+  factory Vector4.vec4(
     num x,
     num y,
     num z,
@@ -102,7 +102,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   );
 
   @override
-  Vector4D setDart(Vector4D o) => set(o.x, o.y, o.z, o.w);
+  Vector4 setDart(Vector4 o) => set(o.x, o.y, o.z, o.w);
 
   @override
   void structWriteInto(MemoryPointer p) {
@@ -121,7 +121,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   }
 
   @override
-  Vector4D clone() => .new(
+  Vector4 clone() => .new(
     op: op,
     x: x,
     y: y,
@@ -130,7 +130,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   );
 
   /// Converts [color] RGBA channels from `0–255` to normalized `0.0–1.0` components.
-  factory Vector4D.colorNormalize(ColorD color) => .vec4(
+  factory Vector4.colorNormalize(Color color) => .vec4(
     color.r/255.0,
     color.g/255.0,
     color.b/255.0,
@@ -138,9 +138,9 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   );
 
   /// Creates a quaternion from an [axis] and rotation [angle] (in radians).
-  factory Vector4D.fromAxisAngle(Vector3D axis, double angle)
+  factory Vector4.fromAxisAngle(Vector3 axis, double angle)
   {
-    Vector4D result = .vec4(0, 0, 0, 1);
+    Vector4 result = .vec4(0, 0, 0, 1);
 
     if (axis.length != 0.0)
     {
@@ -162,8 +162,8 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
     return result;
   }
 
-  /// Creates a [Vector4D] from the raw XYZW components of [q].
-  factory Vector4D.fromQuaternion(QuaternionD q) => .vec4(
+  /// Creates a [Vector4] from the raw XYZW components of [q].
+  factory Vector4.fromQuaternion(Quaternion q) => .vec4(
     q.x,
     q.y,
     q.z,
@@ -173,7 +173,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  Vector4D set(num x, num y, num z, num w) {
+  Vector4 set(num x, num y, num z, num w) {
     this.x = x.toDouble();
     this.y = y.toDouble();
     this.z = z.toDouble();
@@ -182,15 +182,15 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   }
 
   /// Euclidean distance between this vector and [o].
-  double distance(Vector4D o) => math.sqrt(distanceSqr(o));
+  double distance(Vector4 o) => math.sqrt(distanceSqr(o));
   
   /// Squared Euclidean distance between this vector and [o].
   ///
   /// Prefer over [distance] when only relative comparison is needed.
-  double distanceSqr(Vector4D o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
+  double distanceSqr(Vector4 o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
   
   /// Dot product of this vector and [o].
-  double dotProduct(Vector4D o) => x * o.x + y * o.y + z * o.z + w * o.w;
+  double dotProduct(Vector4 o) => x * o.x + y * o.y + z * o.z + w * o.w;
   
   /// Euclidean length (magnitude) of this vector.
   double get length => math.sqrt(lengthSqr);
@@ -209,36 +209,36 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   String format([int x0 = 0, int? y0, int? z0, int? w0]) => '[ ${x.toStringAsFixed(x0)}, ${y.toStringAsFixed(y0 ?? x0)}, ${z.toStringAsFixed(z0 ?? x0)}, ${w.toStringAsFixed(w0 ?? x0)} ]';
 
   /// Returns a new vector that is the component-wise sum of this and [o].
-  Vector4D add(Vector4D o) => .vec4(x + o.x, y + o.y, z + o.z, w + o.w);
+  Vector4 add(Vector4 o) => .vec4(x + o.x, y + o.y, z + o.z, w + o.w);
   
   /// Returns a new vector with [value] added to each component.
-  Vector4D addValue(num value) => .vec4(x + value, y + value, z + value, w + value);
+  Vector4 addValue(num value) => .vec4(x + value, y + value, z + value, w + value);
   
   /// Returns a new vector that is the component-wise difference of this and [o].
-  Vector4D sub(Vector4D o) => .vec4(x - o.x, y - o.y, z - o.z, w - o.w);
+  Vector4 sub(Vector4 o) => .vec4(x - o.x, y - o.y, z - o.z, w - o.w);
   
   /// Returns a new vector with [value] subtracted from each component.
-  Vector4D subValue(num value) => .vec4(x - value, y - value, z - value, w - value);
+  Vector4 subValue(num value) => .vec4(x - value, y - value, z - value, w - value);
   
   /// Returns a new vector with all components scaled by [o].
-  Vector4D scale(num o) => .vec4(x * o, y * o, z * o, w * o);
+  Vector4 scale(num o) => .vec4(x * o, y * o, z * o, w * o);
   
   /// Returns a new vector that is the component-wise product of this and [o].
-  Vector4D mul(Vector4D o) => .vec4(x * o.x, y * o.y, z * o.z, w * o.w);
+  Vector4 mul(Vector4 o) => .vec4(x * o.x, y * o.y, z * o.z, w * o.w);
   
   /// Returns a new vector with all components divided by [o].
-  Vector4D divideBy(num o) => scale(1 / o);
+  Vector4 divideBy(num o) => scale(1 / o);
   
   /// Returns a new vector that is the component-wise quotient of this and [o].
-  Vector4D div(Vector4D o) => .vec4(x / o.x, y / o.y, z / o.z, w / o.w);
+  Vector4 div(Vector4 o) => .vec4(x / o.x, y / o.y, z / o.z, w / o.w);
   
   /// Returns a new vector with all components negated.
-  Vector4D negate() => .vec4(-x, -y, -z, -w);
+  Vector4 negate() => .vec4(-x, -y, -z, -w);
   
   /// Returns a normalized (unit-length) copy of this vector.
   ///
   /// If [length] is zero, treats it as 1 to avoid division by zero.
-  Vector4D normalize() {
+  Vector4 normalize() {
     double length = this.length;
     if (length == 0.0) length = 1.0;
     final ilength = 1.0/length;
@@ -251,7 +251,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   }
 
   /// Returns a new vector with each component being the component-wise minimum of this and [o].
-  Vector4D min(Vector4D o) => .vec4(
+  Vector4 min(Vector4 o) => .vec4(
     math.min(x, o.x),
     math.min(y, o.y),
     math.min(z, o.z),
@@ -259,7 +259,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   );
 
   /// Returns a new vector with each component being the component-wise maximum of this and [o].
-  Vector4D max(Vector4D o) => .vec4(
+  Vector4 max(Vector4 o) => .vec4(
     math.max(x, o.x),
     math.max(y, o.y),
     math.max(z, o.z),
@@ -269,7 +269,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   /// Linear interpolation between this and [o] by [amount].
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  Vector4D lerp(Vector4D o, double amount) => .vec4(
+  Vector4 lerp(Vector4 o, double amount) => .vec4(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
     z + amount*(o.z - z),
@@ -279,7 +279,7 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   /// Moves this vector towards [target] by at most [maxDistance].
   ///
   /// Returns [target] directly if already within [maxDistance].
-  Vector4D moveTowards(Vector4D target, double maxDistance) {
+  Vector4 moveTowards(Vector4 target, double maxDistance) {
     final dx = target.x - x;
     final dy = target.y - y;
     final dz = target.z - z;
@@ -302,20 +302,20 @@ class Vector4D extends RaylibStructLiteral<Vector4D> {
   }
 
   /// Returns a new vector with each component replaced by its reciprocal.
-  Vector4D invert() => .vec4(1.0/x, 1.0/y, 1.0/z, 1.0/w);
+  Vector4 invert() => .vec4(1.0/x, 1.0/y, 1.0/z, 1.0/w);
 
   /// Returns `true` if this vector is approximately equal to [o].
   ///
   /// Uses epsilon-based per-component comparison scaled to the magnitude
   /// of the compared values.
-  bool equals(Vector4D o) =>
+  bool equals(Vector4 o) =>
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs())))) &&
     (((z - o.z).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((z).abs(), (o.z).abs())))) &&
     (((w - o.w).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((w).abs(), (o.w).abs()))));
 
   /// Converts this vector to a quaternion with the same `(x, y, z, w)` components.
-  QuaternionD toQuaternion() => .fromVector4(this);
+  Quaternion toQuaternion() => .fromVector4(this);
 
   /// Returns the components as a new double list.
   ///

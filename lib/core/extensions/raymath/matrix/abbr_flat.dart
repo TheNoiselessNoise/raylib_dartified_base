@@ -4,98 +4,98 @@ RaylibMatrixFlatExt get _module => RaylibBase.instance.module();
 
 /// See [RaylibMatrixFlatExt.MatrixDeterminant].
 double MatrixDeterminant(
-  MatrixD mat,
+  Matrix mat,
 ) => _module.MatrixDeterminant(mat);
 
 /// See [RaylibMatrixFlatExt.MatrixTrace].
 double MatrixTrace(
-  MatrixD mat,
+  Matrix mat,
 ) => _module.MatrixTrace(mat);
 
 /// See [RaylibMatrixFlatExt.MatrixTranspose].
-MatrixD MatrixTranspose(
-  MatrixD mat,
+Matrix MatrixTranspose(
+  Matrix mat,
 ) => _module.MatrixTranspose(mat);
 
 /// See [RaylibMatrixFlatExt.MatrixInvert].
-MatrixD MatrixInvert(
-  MatrixD mat,
+Matrix MatrixInvert(
+  Matrix mat,
 ) => _module.MatrixInvert(mat);
 
 /// See [RaylibMatrixFlatExt.MatrixIdentity].
-MatrixD MatrixIdentity() => _module.MatrixIdentity();
+Matrix MatrixIdentity() => _module.MatrixIdentity();
 
 /// See [RaylibMatrixFlatExt.MatrixAdd].
-MatrixD MatrixAdd(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixAdd(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixAdd(left, right);
 
 /// See [RaylibMatrixFlatExt.MatrixSubtract].
-MatrixD MatrixSubtract(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixSubtract(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixSubtract(left, right);
 
 /// See [RaylibMatrixFlatExt.MatrixMultiply].
-MatrixD MatrixMultiply(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixMultiply(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixMultiply(left, right);
 
 /// See [RaylibMatrixFlatExt.MatrixMultiplyValue].
-MatrixD MatrixMultiplyValue(
-  MatrixD left,
+Matrix MatrixMultiplyValue(
+  Matrix left,
   double value,
 ) => _module.MatrixMultiplyValue(left, value);
 
 /// See [RaylibMatrixFlatExt.MatrixTranslate].
-MatrixD MatrixTranslate(
+Matrix MatrixTranslate(
   double x,
   double y,
   double z,
 ) => _module.MatrixTranslate(x, y, z);
 
 /// See [RaylibMatrixFlatExt.MatrixRotate].
-MatrixD MatrixRotate(
-  Vector3D axis,
+Matrix MatrixRotate(
+  Vector3 axis,
   double angle,
 ) => _module.MatrixRotate(axis, angle);
 
 /// See [RaylibMatrixFlatExt.MatrixRotateX].
-MatrixD MatrixRotateX(
+Matrix MatrixRotateX(
   double angle,  
 ) => _module.MatrixRotateX(angle);
 
 /// See [RaylibMatrixFlatExt.MatrixRotateY].
-MatrixD MatrixRotateY(
+Matrix MatrixRotateY(
   double angle,
 ) => _module.MatrixRotateY(angle);
 
 /// See [RaylibMatrixFlatExt.MatrixRotateZ].
-MatrixD MatrixRotateZ(
+Matrix MatrixRotateZ(
   double angle,
 ) => _module.MatrixRotateZ(angle);
 
 /// See [RaylibMatrixFlatExt.MatrixRotateXYZ].
-MatrixD MatrixRotateXYZ(
-  Vector3D angle,
+Matrix MatrixRotateXYZ(
+  Vector3 angle,
 ) => _module.MatrixRotateXYZ(angle);
 
 /// See [RaylibMatrixFlatExt.MatrixRotateZYX].
-MatrixD MatrixRotateZYX(
-  Vector3D angle,
+Matrix MatrixRotateZYX(
+  Vector3 angle,
 ) => _module.MatrixRotateZYX(angle);
 
 /// See [RaylibMatrixFlatExt.MatrixScale].
-MatrixD MatrixScale(
+Matrix MatrixScale(
   double x,
   double y,
   double z,
 ) => _module.MatrixScale(x, y, z);
 
 /// See [RaylibMatrixFlatExt.MatrixFrustum].
-MatrixD MatrixFrustum(
+Matrix MatrixFrustum(
   double left,
   double right,
   double bottom,
@@ -105,7 +105,7 @@ MatrixD MatrixFrustum(
 ) => _module.MatrixFrustum(left, right, bottom, top, nearPlane, farPlane);
 
 /// See [RaylibMatrixFlatExt.MatrixPerspective].
-MatrixD MatrixPerspective(
+Matrix MatrixPerspective(
   double fovY,
   double aspect,
   double nearPlane,
@@ -113,7 +113,7 @@ MatrixD MatrixPerspective(
 ) => _module.MatrixPerspective(fovY, aspect, nearPlane, farPlane);
 
 /// See [RaylibMatrixFlatExt.MatrixOrtho].
-MatrixD MatrixOrtho(
+Matrix MatrixOrtho(
   double left,
   double right,
   double bottom,
@@ -123,28 +123,28 @@ MatrixD MatrixOrtho(
 ) => _module.MatrixOrtho(left, right, bottom, top, nearPlane, farPlane);
 
 /// See [RaylibMatrixFlatExt.MatrixLookAt].
-MatrixD MatrixLookAt(
-  Vector3D eye,
-  Vector3D target,
-  Vector3D up,
+Matrix MatrixLookAt(
+  Vector3 eye,
+  Vector3 target,
+  Vector3 up,
 ) => _module.MatrixLookAt(eye, target, up);
 
 /// See [RaylibMatrixFlatExt.MatrixToFloatV].
-float16D MatrixToFloatV(
-  MatrixD mat,
+float16 MatrixToFloatV(
+  Matrix mat,
 ) => _module.MatrixToFloatV(mat);
 
 /// See [RaylibMatrixFlatExt.MatrixCompose].
-MatrixD MatrixCompose(
-  Vector3D translation,
-  QuaternionD rotation,
-  Vector3D scale,
+Matrix MatrixCompose(
+  Vector3 translation,
+  Quaternion rotation,
+  Vector3 scale,
 ) => _module.MatrixCompose(translation, rotation, scale);
 
 /// See [RaylibMatrixFlatExt.MatrixDecompose].
 void MatrixDecompose(
-  MatrixD mat,
-  StructPointer<Vector3D> translation,
-  StructPointer<QuaternionD> rotation,
-  StructPointer<Vector3D> scale,
+  Matrix mat,
+  StructPointer<Vector3> translation,
+  StructPointer<Quaternion> rotation,
+  StructPointer<Vector3> scale,
 ) => _module.MatrixDecompose(mat, translation, rotation, scale);

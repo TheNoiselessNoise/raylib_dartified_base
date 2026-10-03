@@ -9,7 +9,7 @@ enum Vector2Field with StructFields {
 }
 
 /// Vector2, 2 components
-class Vector2D extends RaylibStructLiteral<Vector2D> {
+class Vector2 extends RaylibStructLiteral<Vector2> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,8 +21,8 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<Vector2D> struct = .new(
-    factory: Vector2D.new,
+  static final StructType<Vector2> struct = ._builtin(
+    factory: Vector2.new,
     layout: .aligned<Vector2Field>({
       .x: RFloat(), // Vector x component
       .y: RFloat(), // Vector y component
@@ -55,7 +55,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   double get y => _y = field_y.readOr(op, _y);
   set y(double value) => _y = field_y.writeOr(op, value);
 
-  Vector2D({
+  Vector2({
     super.op,
     double x = 0,
     double y = 0,
@@ -63,11 +63,11 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
     _x = x,
     _y = y;
 
-  factory Vector2D.zero() => .vec2(0, 0);
+  factory Vector2.zero() => .vec2(0, 0);
 
-  factory Vector2D.one() => .vec2(1, 1);
+  factory Vector2.one() => .vec2(1, 1);
 
-  factory Vector2D.vec2(
+  factory Vector2.vec2(
     num x,
     num y,
   ) => .new(
@@ -76,7 +76,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   );
 
   @override
-  Vector2D setDart(Vector2D o) => set(o.x, o.y);
+  Vector2 setDart(Vector2 o) => set(o.x, o.y);
 
   @override
   void structWriteInto(MemoryPointer p) {
@@ -91,25 +91,25 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   }
 
   @override
-  Vector2D clone() => .new(
+  Vector2 clone() => .new(
     op: op,
     x: x,
     y: y,
   );
 
   /// Euclidean distance between this vector and [o].
-  double distance(Vector2D o) => math.sqrt(distanceSqr(o));
+  double distance(Vector2 o) => math.sqrt(distanceSqr(o));
 
   /// Squared Euclidean distance between this vector and [o].
   ///
   /// Prefer over [distance] when only relative comparison is needed.
-  double distanceSqr(Vector2D o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y);
+  double distanceSqr(Vector2 o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y);
   
   /// Dot product of this vector and [o].
-  double dotProduct(Vector2D o) => x * o.x + y * o.y;
+  double dotProduct(Vector2 o) => x * o.x + y * o.y;
 
   /// Cross product of this vector and [o].
-  double crossProduct(Vector2D o) => x*o.y - y*o.x;
+  double crossProduct(Vector2 o) => x*o.y - y*o.x;
   
   /// Euclidean length (magnitude) of this vector.
   double get length => math.sqrt(lengthSqr);
@@ -123,12 +123,12 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   ///
   /// Returns the signed angle measured from this vector to [o],
   /// in the range `(-π, π]`.
-  double angle(Vector2D o) => math.atan2(x*o.y - y*o.x, x*o.x + y*o.y);
+  double angle(Vector2 o) => math.atan2(x*o.y - y*o.x, x*o.x + y*o.y);
   
   /// Angle of the line from this point to [o], relative to the X axis.
   ///
   /// Equivalent to `-atan2(dy, dx)`. Useful for screen-space direction.
-  double lineAngle(Vector2D o) => -math.atan2(o.y - y, o.x - x);
+  double lineAngle(Vector2 o) => -math.atan2(o.y - y, o.x - x);
   
   /// Returns a formatted string representation of this vector.
   ///
@@ -145,45 +145,45 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  Vector2D set(num x, num y) {
+  Vector2 set(num x, num y) {
     this.x = x.toDouble();
     this.y = y.toDouble();
     return this;
   }
 
   /// Returns a new vector that is the component-wise sum of this and [o].
-  Vector2D add(Vector2D o) => .vec2(x + o.x, y + o.y);
+  Vector2 add(Vector2 o) => .vec2(x + o.x, y + o.y);
 
   /// Returns a new vector with [value] added to each component.
-  Vector2D addValue(num value) => .vec2(x + value, y + value);
+  Vector2 addValue(num value) => .vec2(x + value, y + value);
   
   /// Returns a new vector that is the component-wise difference of this and [o].
-  Vector2D sub(Vector2D o) => .vec2(x - o.x, y - o.y);
+  Vector2 sub(Vector2 o) => .vec2(x - o.x, y - o.y);
   
   /// Returns a new vector with [value] subtracted from each component.
-  Vector2D subValue(num value) => .vec2(x - value, y - value);
+  Vector2 subValue(num value) => .vec2(x - value, y - value);
   
   /// Returns a new vector with all components scaled by [o].
-  Vector2D scale(num o) => .vec2(x * o, y * o);
+  Vector2 scale(num o) => .vec2(x * o, y * o);
   
   /// Returns a new vector with all components negated.
-  Vector2D negate() => .vec2(-x, -y);
+  Vector2 negate() => .vec2(-x, -y);
   
   /// Returns a new vector that is the component-wise product of this and [o].
-  Vector2D mul(Vector2D o) => .vec2(x * o.x, y * o.y);
+  Vector2 mul(Vector2 o) => .vec2(x * o.x, y * o.y);
   
   /// Returns a new vector with all components divided by [o].
-  Vector2D divideBy(num o) => scale(1 / o);
+  Vector2 divideBy(num o) => scale(1 / o);
   
   /// Returns a new vector that is the component-wise quotient of this and [o].
-  Vector2D div(Vector2D o) => .vec2(x / o.x, y / o.y);
+  Vector2 div(Vector2 o) => .vec2(x / o.x, y / o.y);
   
   /// Transforms this vector by matrix [o].
   ///
   /// Applies the 2D affine transformation encoded in the top-left 2x2 portion
   /// of [o] plus the translation column (`m12`, `m13`). The Z component is
   /// treated as 0.
-  Vector2D transform(MatrixD o) => .vec2(
+  Vector2 transform(Matrix o) => .vec2(
     o.m0*x + o.m4*y + o.m8*0 + o.m12,
     o.m1*x + o.m5*y + o.m9*0 + o.m13
   );
@@ -191,7 +191,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Returns a normalized (unit-length) copy of this vector.
   ///
   /// Returns the zero vector if [length] is 0.
-  Vector2D normalize() {
+  Vector2 normalize() {
     double length = this.length;
     if (length > 0) {
       double ilength = 1.0/length;
@@ -203,7 +203,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Linear interpolation between this and [o] by [amount].
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  Vector2D lerp(Vector2D o, double amount) => .vec2(
+  Vector2 lerp(Vector2 o, double amount) => .vec2(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
   );
@@ -211,7 +211,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Reflects this vector off a surface with the given [normal].
   ///
   /// [normal] is assumed to be normalized.
-  Vector2D reflect(Vector2D normal) {
+  Vector2 reflect(Vector2 normal) {
     double dot = dotProduct(normal);
     return .vec2(
       x - (2.0*normal.x)*dot,
@@ -220,19 +220,19 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   }
   
   /// Returns a new vector with each component being the component-wise minimum of this and [o].
-  Vector2D min(Vector2D o) => .vec2(
+  Vector2 min(Vector2 o) => .vec2(
     math.min(x, o.x),
     math.min(y, o.y),
   );
   
   /// Returns a new vector with each component being the component-wise maximum of this and [o].
-  Vector2D max(Vector2D o) => .vec2(
+  Vector2 max(Vector2 o) => .vec2(
     math.max(x, o.x),
     math.max(y, o.y),
   );
   
   /// Clamps each component of this vector between the corresponding components of [min] and [max].
-  Vector2D clamp(Vector2D min, Vector2D max) => .vec2(
+  Vector2 clamp(Vector2 min, Vector2 max) => .vec2(
     math.min(max.x, math.max(min.x, x)),
     math.min(max.y, math.max(min.y, y)),
   );
@@ -240,7 +240,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Clamps the length of this vector to the range `[min, max]`.
   ///
   /// Returns `this` unchanged if [lengthSqr] is zero.
-  Vector2D clampValue(double min, double max) {
+  Vector2 clampValue(double min, double max) {
     double length = lengthSqr;
     if (length > 0.0) {
       length = math.sqrt(length);
@@ -259,7 +259,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   }
   
   /// Rotates this vector by [angle] radians around the origin.
-  Vector2D rotate(double angle) {
+  Vector2 rotate(double angle) {
     final cosres = math.cos(angle);
     final sinres = math.sin(angle);
     return .vec2(
@@ -271,7 +271,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// Moves this vector towards [target] by at most [maxDistance].
   ///
   /// Returns [target] directly if already within [maxDistance].
-  Vector2D moveTowards(Vector2D target, double maxDistance) {
+  Vector2 moveTowards(Vector2 target, double maxDistance) {
     final dx = target.x - x;
     final dy = target.y - y;
     final value = (dx*dx) + (dy*dy);
@@ -294,7 +294,7 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   /// [r] is the ratio of indices of refraction (`n1 / n2`).
   /// Returns `this` unchanged if total internal reflection occurs
   /// (i.e. the discriminant is negative).
-  Vector2D refract(Vector2D n, double r) {
+  Vector2 refract(Vector2 n, double r) {
     final dot = dotProduct(n);
     double d = 1.0 - r*r*(1.0 - dot*dot);
 
@@ -310,13 +310,13 @@ class Vector2D extends RaylibStructLiteral<Vector2D> {
   }
 
   /// Returns a new vector with each component replaced by its reciprocal (`1/x`, `1/y`).
-  Vector2D invert() => .vec2(1.0/x, 1.0/y);
+  Vector2 invert() => .vec2(1.0/x, 1.0/y);
 
   /// Returns `true` if this vector is approximately equal to [o].
   ///
   /// Uses epsilon-based per-component comparison scaled to the magnitude
   /// of the compared values.
-  bool equals(Vector2D o) =>
+  bool equals(Vector2 o) =>
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs()))));
 

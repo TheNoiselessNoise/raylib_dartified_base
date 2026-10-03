@@ -13,7 +13,7 @@ enum ModelField with StructFields {
 }
 
 /// Model, meshes, materials and animation data
-class ModelD extends RaylibStruct<ModelD> {
+class Model extends RaylibStruct<Model> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -25,22 +25,22 @@ class ModelD extends RaylibStruct<ModelD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<ModelD> struct = .new(
-    factory: ModelD.new,
+  static final StructType<Model> struct = ._builtin(
+    factory: Model.new,
     layout: .aligned<ModelField>({
-      .transform:     RStruct(MatrixD.struct), // Local transform matrix
+      .transform:     RStruct(Matrix.struct), // Local transform matrix
       .meshCount:     RInt(), // Number of meshes
       .materialCount: RInt(), // Number of materials
-      .meshes:        RPointer(RStruct(MeshD.struct)), // Meshes array
-      .materials:     RPointer(RStruct(MaterialD.struct)), // Materials array
+      .meshes:        RPointer(RStruct(Mesh.struct)), // Meshes array
+      .materials:     RPointer(RStruct(Material.struct)), // Materials array
       .meshMaterial:  RPointer(RInt()), // Mesh material number
 
       // Animation data
-      .skeleton:      RStruct(ModelSkeletonD.struct), // Skeleton for animation
+      .skeleton:      RStruct(ModelSkeleton.struct), // Skeleton for animation
 
       // Runtime animation data (CPU/GPU skinning)
-      .currentPose:   RPointer(RStruct(TransformD.struct)), // Current animation pose (Transform[])
-      .boneMatrices:  RPointer(RStruct(MatrixD.struct)), // Bones animated transformation matrices
+      .currentPose:   RPointer(RStruct(Transform.struct)), // Current animation pose (Transform[])
+      .boneMatrices:  RPointer(RStruct(Matrix.struct)), // Bones animated transformation matrices
     }),
   );
 
@@ -48,23 +48,23 @@ class ModelD extends RaylibStruct<ModelD> {
   static final StructLayout<ModelField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [transform].
-  static final field_transform = structLayout.struct<MatrixD>(.transform);
+  static final field_transform = structLayout.struct<Matrix>(.transform);
   /// Field descriptor for [meshCount].
   static final field_meshCount = structLayout.scalar<int, RInt>(.meshCount);
   /// Field descriptor for [materialCount].
   static final field_materialCount = structLayout.scalar<int, RInt>(.materialCount);
   /// Field descriptor for [meshes].
-  static final field_meshes = structLayout.pointerStructArray<MeshD>(.meshes);
+  static final field_meshes = structLayout.pointerStructArray<Mesh>(.meshes);
   /// Field descriptor for [materials].
-  static final field_materials = structLayout.pointerStructArray<MaterialD>(.materials);
+  static final field_materials = structLayout.pointerStructArray<Material>(.materials);
   /// Field descriptor for [meshMaterial].
   static final field_meshMaterial = structLayout.pointerScalarArray<int, RInt>(.meshMaterial);
   /// Field descriptor for [skeleton].
-  static final field_skeleton = structLayout.struct<ModelSkeletonD>(.skeleton);
+  static final field_skeleton = structLayout.struct<ModelSkeleton>(.skeleton);
   /// Field descriptor for [currentPose].
-  static final field_currentPose = structLayout.pointerStructArray<TransformD>(.currentPose);
+  static final field_currentPose = structLayout.pointerStructArray<Transform>(.currentPose);
   /// Field descriptor for [boneMatrices].
-  static final field_boneMatrices = structLayout.pointerStructArray<MatrixD>(.boneMatrices);
+  static final field_boneMatrices = structLayout.pointerStructArray<Matrix>(.boneMatrices);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -74,10 +74,10 @@ class ModelD extends RaylibStruct<ModelD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  MatrixD _transform;
+  Matrix _transform;
   /// Local transform matrix
-  MatrixD get transform => _transform = field_transform.readOr(op, _transform);
-  set transform(MatrixD value) => _transform = field_transform.writeOr(op, value);
+  Matrix get transform => _transform = field_transform.readOr(op, _transform);
+  set transform(Matrix value) => _transform = field_transform.writeOr(op, value);
   
   int _meshCount;
   /// Number of meshes
@@ -89,45 +89,45 @@ class ModelD extends RaylibStruct<ModelD> {
   int get materialCount => _materialCount = field_materialCount.readOr(op, _materialCount);
   set materialCount(int value) => _materialCount = field_materialCount.writeOr(op, value);
 
-  late final StructLiveListStruct<MeshD> _meshes;
+  late final StructLiveListStruct<Mesh> _meshes;
   /// Meshes array
-  StructLiveListStruct<MeshD> get meshes => _meshes;
-  set meshes(List<MeshD> value) => _meshes.inner = value;
+  StructLiveListStruct<Mesh> get meshes => _meshes;
+  set meshes(List<Mesh> value) => _meshes.inner = value;
   
-  late final StructLiveListStruct<MaterialD> _materials;
+  late final StructLiveListStruct<Material> _materials;
   /// Materials array
-  StructLiveListStruct<MaterialD> get materials => _materials;
-  set materials(List<MaterialD> value) => _materials.inner = value;
+  StructLiveListStruct<Material> get materials => _materials;
+  set materials(List<Material> value) => _materials.inner = value;
 
   late final StructLiveList<int, RInt> _meshMaterial;
   /// Mesh material number
   StructLiveList<int, RInt> get meshMaterial => _meshMaterial;
   set meshMaterial(List<int> value) => _meshMaterial.inner = value;
 
-  ModelSkeletonD _skeleton;
+  ModelSkeleton _skeleton;
   /// Skeleton for animation
-  ModelSkeletonD get skeleton => _skeleton = field_skeleton.readOr(op, _skeleton);
-  set skeleton(ModelSkeletonD value) => _skeleton = field_skeleton.writeOr(op, value);
+  ModelSkeleton get skeleton => _skeleton = field_skeleton.readOr(op, _skeleton);
+  set skeleton(ModelSkeleton value) => _skeleton = field_skeleton.writeOr(op, value);
 
-  late final StructLiveListStruct<TransformD> _currentPose;
+  late final StructLiveListStruct<Transform> _currentPose;
   /// Current animation pose (Transform[])
-  StructLiveListStruct<TransformD> get currentPose => _currentPose;
-  set currentPose(List<TransformD> value) => _currentPose.inner = value;
+  StructLiveListStruct<Transform> get currentPose => _currentPose;
+  set currentPose(List<Transform> value) => _currentPose.inner = value;
   
-  late final StructLiveListStruct<MatrixD> _boneMatrices;
+  late final StructLiveListStruct<Matrix> _boneMatrices;
   /// Bones animated transformation matrices
-  StructLiveListStruct<MatrixD> get boneMatrices => _boneMatrices;
-  set boneMatrices(List<MatrixD> value) => _boneMatrices.inner = value;
+  StructLiveListStruct<Matrix> get boneMatrices => _boneMatrices;
+  set boneMatrices(List<Matrix> value) => _boneMatrices.inner = value;
 
-  ModelD({
+  Model({
     super.op,
-    MatrixD? transform,
-    List<MeshD>? meshes,
-    List<MaterialD>? materials,
+    Matrix? transform,
+    List<Mesh>? meshes,
+    List<Material>? materials,
     List<int>? meshMaterial,
-    ModelSkeletonD? skeleton,
-    List<TransformD>? currentPose,
-    List<MatrixD>? boneMatrices,
+    ModelSkeleton? skeleton,
+    List<Transform>? currentPose,
+    List<Matrix>? boneMatrices,
   }) :
     _transform = transform ?? .new(),
     _meshCount = meshes?.length ?? 0,
@@ -141,10 +141,10 @@ class ModelD extends RaylibStruct<ModelD> {
     _boneMatrices = field_boneMatrices.live(() => op, boneMatrices ?? []);
   }
 
-  factory ModelD.zero() => .new();
+  factory Model.zero() => .new();
 
   @override
-  ModelD setDart(ModelD o) {
+  Model setDart(Model o) {
     transform.setDart(o.transform);
     meshCount = o.meshCount;
     materialCount = o.materialCount;
@@ -193,7 +193,7 @@ class ModelD extends RaylibStruct<ModelD> {
   }
 
   @override
-  ModelD clone() => .new(
+  Model clone() => .new(
     op: op,
     transform: transform.clone(),
     meshes: meshes.map((x) => x.clone()).toList(),

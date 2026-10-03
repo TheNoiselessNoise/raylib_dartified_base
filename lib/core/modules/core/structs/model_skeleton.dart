@@ -7,7 +7,7 @@ enum ModelSkeletonField with StructFields {
 }
 
 /// Skeleton, animation bones hierarchy
-class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
+class ModelSkeleton extends RaylibStruct<ModelSkeleton> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -19,12 +19,12 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<ModelSkeletonD> struct = .new(
-    factory: ModelSkeletonD.new,
+  static final StructType<ModelSkeleton> struct = ._builtin(
+    factory: ModelSkeleton.new,
     layout: .aligned<ModelSkeletonField>({
       .boneCount: RInt(), // Number of bones
-      .bones:     RPointer(RStruct(BoneInfoD.struct)), // Bones information (skeleton)
-      .bindPose:  RPointer(RStruct(TransformD.struct)), // Bones base transformation (Transform[])
+      .bones:     RPointer(RStruct(BoneInfo.struct)), // Bones information (skeleton)
+      .bindPose:  RPointer(RStruct(Transform.struct)), // Bones base transformation (Transform[])
     }),
   );
 
@@ -34,9 +34,9 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   /// Field descriptor for [boneCount].
   static final field_boneCount = structLayout.scalar<int, RInt>(.boneCount);
   /// Field descriptor for [bones].
-  static final field_bones = structLayout.pointerStructArray<BoneInfoD>(.bones);
+  static final field_bones = structLayout.pointerStructArray<BoneInfo>(.bones);
   /// Field descriptor for [bindPose].
-  static final field_bindPose = structLayout.pointerStructArray<TransformD>(.bindPose);
+  static final field_bindPose = structLayout.pointerStructArray<Transform>(.bindPose);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -51,30 +51,30 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   int get boneCount => _boneCount = field_boneCount.readOr(op, _boneCount);
   set boneCount(int value) => _boneCount = field_boneCount.writeOr(op, value);
 
-  late final StructLiveListStruct<BoneInfoD> _bones;
+  late final StructLiveListStruct<BoneInfo> _bones;
   /// Bones information (skeleton)
-  StructLiveListStruct<BoneInfoD> get bones => _bones;
-  set bones(List<BoneInfoD> value) => _bones.inner = value;
+  StructLiveListStruct<BoneInfo> get bones => _bones;
+  set bones(List<BoneInfo> value) => _bones.inner = value;
 
-  late final StructLiveListStruct<TransformD> _bindPose;
+  late final StructLiveListStruct<Transform> _bindPose;
   /// Bones base transformation (Transform[])
-  StructLiveListStruct<TransformD> get bindPose => _bindPose;
-  set bindPose(List<TransformD> value) => _bindPose.inner = value;
+  StructLiveListStruct<Transform> get bindPose => _bindPose;
+  set bindPose(List<Transform> value) => _bindPose.inner = value;
   
-  ModelSkeletonD({
+  ModelSkeleton({
     super.op,
     int? boneCount,
-    List<BoneInfoD>? bones,
-    List<TransformD>? bindPose,
+    List<BoneInfo>? bones,
+    List<Transform>? bindPose,
   }) : _boneCount = boneCount ?? bones?.length ?? 0 {
     _bones = field_bones.live(() => op, bones ?? []);
     _bindPose = field_bindPose.live(() => op, bindPose ?? []);
   }
 
-  factory ModelSkeletonD.zero() => .new();
+  factory ModelSkeleton.zero() => .new();
 
   @override
-  ModelSkeletonD setDart(ModelSkeletonD o) {
+  ModelSkeleton setDart(ModelSkeleton o) {
     boneCount = o.boneCount;
     bones = .from(o.bones);
     bindPose = .from(o.bindPose); 
@@ -102,7 +102,7 @@ class ModelSkeletonD extends RaylibStruct<ModelSkeletonD> {
   }
 
   @override
-  ModelSkeletonD clone() => .new(
+  ModelSkeleton clone() => .new(
     op: op,
     boneCount: boneCount,
     bones: bones.map((x) => x.clone()).toList(),

@@ -6,7 +6,7 @@ enum BoneInfoField with StructFields {
 }
 
 /// Bone, skeletal animation bone
-class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
+class BoneInfo extends RaylibStructLiteral<BoneInfo> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -18,8 +18,8 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<BoneInfoD> struct = .new(
-    factory: BoneInfoD.new,
+  static final StructType<BoneInfo> struct = ._builtin(
+    factory: BoneInfo.new,
     layout: .aligned<BoneInfoField>({
       .name:   RArray(RChar(), BASE_nameLength), // Bone name
       .parent: RInt(), // Bone parent
@@ -66,7 +66,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   int get parent => _parent = field_parent.readOr(op, _parent);
   set parent(int value) => _parent = field_parent.writeOr(op, value);
 
-  BoneInfoD({
+  BoneInfo({
     super.op,
     String name = '',
     int parent = 0,
@@ -74,10 +74,10 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
     _name = name,
     _parent = parent;
 
-  factory BoneInfoD.zero() => .new();
+  factory BoneInfo.zero() => .new();
 
   @override
-  BoneInfoD setDart(BoneInfoD o) {
+  BoneInfo setDart(BoneInfo o) {
     name = o.name;
     parent = o.parent;
     return this;
@@ -96,7 +96,7 @@ class BoneInfoD extends RaylibStructLiteral<BoneInfoD> {
   }
 
   @override
-  BoneInfoD clone() => .new(
+  BoneInfo clone() => .new(
     op: op,
     name: name,
     parent: parent,

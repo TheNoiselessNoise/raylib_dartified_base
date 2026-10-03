@@ -8,7 +8,7 @@ enum RectangleField with StructFields {
 }
 
 /// Rectangle, 4 components
-class RectangleD extends RaylibStructLiteral<RectangleD> {
+class Rectangle extends RaylibStructLiteral<Rectangle> {
   
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,8 +20,8 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<RectangleD> struct = .new(
-    factory: RectangleD.new,
+  static final StructType<Rectangle> struct = ._builtin(
+    factory: Rectangle.new,
     layout: .aligned<RectangleField>({
       .x:      RFloat(), // Rectangle top-left corner position x
       .y:      RFloat(), // Rectangle top-left corner position y
@@ -70,7 +70,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   double get height => _height = field_height.readOr(op, _height);
   set height(double value) => _height = field_height.writeOr(op, value);
   
-  RectangleD({
+  Rectangle({
     super.op,
     double x = 0,
     double y = 0,
@@ -82,9 +82,9 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
     _width = width,
     _height = height;
 
-  factory RectangleD.zero() => .new();
+  factory Rectangle.zero() => .new();
 
-  factory RectangleD.rect(
+  factory Rectangle.rect(
     num x,
     num y,
     num width,
@@ -97,7 +97,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   );
 
   @override
-  RectangleD setDart(RectangleD o) {
+  Rectangle setDart(Rectangle o) {
     return set(o.x, o.y, o.width, o.height);
   }
 
@@ -118,7 +118,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   }
 
   @override
-  RectangleD clone() => .new(
+  Rectangle clone() => .new(
     op: op,
     x: x,
     y: y,
@@ -129,7 +129,7 @@ class RectangleD extends RaylibStructLiteral<RectangleD> {
   /// Sets all components at once.
   ///
   /// Values are converted using [num.toDouble].
-  RectangleD set(num x, num y, num width, num height) {
+  Rectangle set(num x, num y, num width, num height) {
     this.x = x.toDouble();
     this.y = y.toDouble();
     this.width = width.toDouble();

@@ -32,7 +32,7 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.IsWaveValid].
   String IsWaveValid(
-    WaveD wave,
+    Wave wave,
   ) => 'IsWaveValid($wave)';
 
   /// Label for [RaylibAudioDart.LoadSound].
@@ -42,111 +42,111 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.LoadSoundFromWave].
   String LoadSoundFromWave(
-    WaveD wave,
+    Wave wave,
   ) => 'LoadSoundFromWave($wave)';
 
   /// Label for [RaylibAudioDart.LoadSoundAlias].
   String LoadSoundAlias(
-    SoundD source,
+    Sound source,
   ) => 'LoadSoundAlias($source)';
 
   /// Label for [RaylibAudioDart.IsSoundValid].
   String IsSoundValid(
-    SoundD sound,
+    Sound sound,
   ) => 'IsSoundValid($sound)';
 
   /// Label for [RaylibAudioDart.UpdateSound].
   String UpdateSound(
-    SoundD sound,
+    Sound sound,
     TypedDataList data,
     num sampleCount,
   ) => 'UpdateSound($sound, data: ${data.length}, sampleCount: $sampleCount)';
 
   /// Label for [RaylibAudioDart.UnloadWave].
   String UnloadWave(
-    WaveD wave,
+    Wave wave,
   ) => 'UnloadWave($wave)';
 
   /// Label for [RaylibAudioDart.UnloadSound].
   String UnloadSound(
-    SoundD sound,
+    Sound sound,
   ) => 'UnloadSound($sound)';
 
   /// Label for [RaylibAudioDart.UnloadSoundAlias].
   String UnloadSoundAlias(
-    SoundD alias,
+    Sound alias,
   ) => 'UnloadSoundAlias($alias)';
 
   /// Label for [RaylibAudioDart.ExportWave].
   String ExportWave(
-    WaveD wave,
+    Wave wave,
     String fileName,
   ) => 'ExportWave($wave, $fileName)';
 
   /// Label for [RaylibAudioDart.ExportWaveAsCode].
   String ExportWaveAsCode(
-    WaveD wave,
+    Wave wave,
     String fileName,
   ) => 'ExportWaveAsCode($wave, $fileName)';
 
   /// Label for [RaylibAudioDart.PlaySound].
   String PlaySound(
-    SoundD sound,
+    Sound sound,
   ) => 'PlaySound($sound)';
 
   /// Label for [RaylibAudioDart.StopSound].
   String StopSound(
-    SoundD sound,
+    Sound sound,
   ) => 'StopSound($sound)';
 
   /// Label for [RaylibAudioDart.PauseSound].
   String PauseSound(
-    SoundD sound,
+    Sound sound,
   ) => 'PauseSound($sound)';
 
   /// Label for [RaylibAudioDart.ResumeSound].
   String ResumeSound(
-    SoundD sound,
+    Sound sound,
   ) => 'ResumeSound($sound)';
 
   /// Label for [RaylibAudioDart.IsSoundPlaying].
   String IsSoundPlaying(
-    SoundD sound,
+    Sound sound,
   ) => 'IsSoundPlaying($sound)';
 
   /// Label for [RaylibAudioDart.SetSoundVolume].
   String SetSoundVolume(
-    SoundD sound,
+    Sound sound,
     num volume,
   ) => 'SetSoundVolume($sound, $volume)';
 
   /// Label for [RaylibAudioDart.SetSoundPitch].
   String SetSoundPitch(
-    SoundD sound,
+    Sound sound,
     num pitch,
   ) => 'SetSoundPitch($sound, $pitch)';
 
   /// Label for [RaylibAudioDart.SetSoundPan].
   String SetSoundPan(
-    SoundD sound,
+    Sound sound,
     num pan,
   ) => 'SetSoundPan($sound, $pan)';
 
   /// Label for [RaylibAudioDart.WaveCopy].
   String WaveCopy(
-    WaveD wave,
+    Wave wave,
   ) => 'WaveCopy($wave)';
 
   /// Label for [RaylibAudioDart.WaveCrop].
   String WaveCrop(
-    WaveD wave,
+    Wave wave,
     num initFrame,
     num finalFrame,
   ) => 'WaveCrop($wave, $initFrame, $finalFrame)';
 
   /// Label for [RaylibAudioDart.WaveFormat].
   String WaveFormat(
-    WaveD wave,
+    Wave wave,
     num sampleRate,
     num sampleSize,
     num channels,
@@ -154,7 +154,7 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.LoadWaveSamples].
   String LoadWaveSamples(
-    WaveD wave
+    Wave wave
   ) => 'LoadWaveSamples($wave)';
 
   /// Label for [RaylibAudioDart.LoadMusicStream].
@@ -170,76 +170,76 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.IsMusicValid].
   String IsMusicValid(
-    MusicD music,
+    Music music,
   ) => 'IsMusicValid($music)';
 
   /// Label for [RaylibAudioDart.UnloadMusicStream].
   String UnloadMusicStream(
-    MusicD music,
+    Music music,
   ) => 'UnloadMusicStream($music)';
 
   /// Label for [RaylibAudioDart.PlayMusicStream].
   String PlayMusicStream(
-    MusicD music,
+    Music music,
   ) => 'PlayMusicStream($music)';
 
   /// Label for [RaylibAudioDart.IsMusicStreamPlaying].
   String IsMusicStreamPlaying(
-    MusicD music,
+    Music music,
   ) => 'IsMusicStreamPlaying($music)';
 
   /// Label for [RaylibAudioDart.UpdateMusicStream].
   String UpdateMusicStream(
-    MusicD music,
+    Music music,
   ) => 'UpdateMusicStream($music)';
 
   /// Label for [RaylibAudioDart.StopMusicStream].
   String StopMusicStream(
-    MusicD music,
+    Music music,
   ) => 'StopMusicStream($music)';
 
   /// Label for [RaylibAudioDart.PauseMusicStream].
   String PauseMusicStream(
-    MusicD music,
+    Music music,
   ) => 'PauseMusicStream($music)';
 
   /// Label for [RaylibAudioDart.ResumeMusicStream].
   String ResumeMusicStream(
-    MusicD music,
+    Music music,
   ) => 'ResumeMusicStream($music)';
 
   /// Label for [RaylibAudioDart.SeekMusicStream].
   String SeekMusicStream(
-    MusicD music,
+    Music music,
     num position,
   ) => 'SeekMusicStream($music, $position)';
 
   /// Label for [RaylibAudioDart.SetMusicVolume].
   String SetMusicVolume(
-    MusicD music,
+    Music music,
     num volume,
   ) => 'SetMusicVolume($music, $volume)';
 
   /// Label for [RaylibAudioDart.SetMusicPitch].
   String SetMusicPitch(
-    MusicD music,
+    Music music,
     num pitch,
   ) => 'SetMusicPitch($music, $pitch)';
 
   /// Label for [RaylibAudioDart.SetMusicPan].
   String SetMusicPan(
-    MusicD music,
+    Music music,
     num pan,
   ) => 'SetMusicPan($music, $pan)';
 
   /// Label for [RaylibAudioDart.GetMusicTimeLength].
   String GetMusicTimeLength(
-    MusicD music,
+    Music music,
   ) => 'GetMusicTimeLength($music)';
 
   /// Label for [RaylibAudioDart.GetMusicTimePlayed].
   String GetMusicTimePlayed(
-    MusicD music,
+    Music music,
   ) => 'GetMusicTimePlayed($music)';
 
   /// Label for [RaylibAudioDart.LoadAudioStream].
@@ -251,65 +251,65 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.IsAudioStreamValid].
   String IsAudioStreamValid(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'IsAudioStreamValid($stream)';
 
   /// Label for [RaylibAudioDart.UnloadAudioStream].
   String UnloadAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'UnloadAudioStream($stream)';
 
   /// Label for [RaylibAudioDart.UpdateAudioStream].
   String UpdateAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
     TypedDataList data,
   ) => 'UpdateAudioStream($stream, data: ${data.length})';
 
   /// Label for [RaylibAudioDart.IsAudioStreamProcessed].
   String IsAudioStreamProcessed(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'IsAudioStreamProcessed($stream)';
 
   /// Label for [RaylibAudioDart.PlayAudioStream].
   String PlayAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'PlayAudioStream($stream)';
 
   /// Label for [RaylibAudioDart.PauseAudioStream].
   String PauseAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'PauseAudioStream($stream)';
 
   /// Label for [RaylibAudioDart.ResumeAudioStream].
   String ResumeAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'ResumeAudioStream($stream)';
 
   /// Label for [RaylibAudioDart.IsAudioStreamPlaying].
   String IsAudioStreamPlaying(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'IsAudioStreamPlaying($stream)';
 
   /// Label for [RaylibAudioDart.StopAudioStream].
   String StopAudioStream(
-    AudioStreamD stream,
+    AudioStream stream,
   ) => 'StopAudioStream($stream)';
 
   /// Label for [RaylibAudioDart.SetAudioStreamVolume].
   String SetAudioStreamVolume(
-    AudioStreamD stream,
+    AudioStream stream,
     num volume,
   ) => 'SetAudioStreamVolume($stream, $volume)';
 
   /// Label for [RaylibAudioDart.SetAudioStreamPitch].
   String SetAudioStreamPitch(
-    AudioStreamD stream,
+    AudioStream stream,
     num pitch,
   ) => 'SetAudioStreamPitch($stream, $pitch)';
 
   /// Label for [RaylibAudioDart.SetAudioStreamPan].
   String SetAudioStreamPan(
-    AudioStreamD stream,
+    AudioStream stream,
     num pan,
   ) => 'SetAudioStreamPan($stream, $pan)';
 
@@ -320,19 +320,19 @@ class _RaylibAudioDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibAudioDart.SetAudioStreamCallback].
   String SetAudioStreamCallback(
-    AudioStreamD stream,
+    AudioStream stream,
     AudioCallbackBase? callback,
   ) => 'SetAudioStreamCallback($stream, callback: $callback)';
 
   /// Label for [RaylibAudioDart.AttachAudioStreamProcessor].
   String AttachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     AudioCallbackBase processor,
   ) => 'AttachAudioStreamProcessor($stream, processor: $processor)';
 
   /// Label for [RaylibAudioDart.DetachAudioStreamProcessor].
   String DetachAudioStreamProcessor(
-    AudioStreamD stream,
+    AudioStream stream,
     AudioCallbackBase processor,
     {bool keepAlive = false}
   ) => 'DetachAudioStreamProcessor($stream, processor: $processor, keepAlive: $keepAlive)';

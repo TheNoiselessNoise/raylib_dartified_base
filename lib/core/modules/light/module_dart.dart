@@ -10,12 +10,12 @@ final class RaylibLightDart<R extends RaylibBase> extends RaylibModule<R> with R
   RaylibLightFlat get _flat => rl.module();
 
   /// Create a light and get its shader locations
-  LightD CreateLight(
+  Light CreateLight(
     LightType type,
-    Vector3D position,
-    Vector3D target,
-    ColorD color,
-    ShaderD shader,
+    Vector3 position,
+    Vector3 target,
+    Color color,
+    Shader shader,
   ) => run(
     () => _debugLabels.CreateLight(type, position, target, color, shader),
     () => _flat.CreateLight(
@@ -29,8 +29,8 @@ final class RaylibLightDart<R extends RaylibBase> extends RaylibModule<R> with R
 
   /// Send light properties to shader
   void UpdateLightValues(
-    ShaderD shader,
-    LightD light,
+    Shader shader,
+    Light light,
   ) => run(
     () => _debugLabels.UpdateLightValues(shader, light),
     () => _flat.UpdateLightValues(

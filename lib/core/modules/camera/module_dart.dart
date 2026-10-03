@@ -10,34 +10,34 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   RaylibCameraFlat get _flat => rl.module();
 
   /// Returns the forward vector (normalized) of [camera].
-  Vector3D GetCameraForward(
-    Camera3DD camera,
+  Vector3 GetCameraForward(
+    Camera3D camera,
   ) => run(
     () => _debugLabels.GetCameraForward(camera),
     () => _flat.GetCameraForward(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
     ),
   );
 
   /// Returns the up vector (normalized) of [camera].
   /// 
   /// The up vector might not be perpendicular to the forward vector.
-  Vector3D GetCameraUp(
-    Camera3DD camera,
+  Vector3 GetCameraUp(
+    Camera3D camera,
   ) => run(
     () => _debugLabels.GetCameraUp(camera),
     () => _flat.GetCameraUp(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
     ),
   );
 
   /// Returns the right vector (normalized) of [camera].
-  Vector3D GetCameraRight(
-    Camera3DD camera,
+  Vector3 GetCameraRight(
+    Camera3D camera,
   ) => run(
     () => _debugLabels.GetCameraRight(camera),
     () => _flat.GetCameraRight(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
     ),
   );
 
@@ -46,13 +46,13 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   /// If [moveInWorldPlane] is `true`, movement is constrained to the XZ plane
   /// regardless of the camera's pitch.
   void CameraMoveForward(
-    Camera3DD camera,
+    Camera3D camera,
     num distance,
     bool moveInWorldPlane,
   ) => run(
     () => _debugLabels.CameraMoveForward(camera, distance, moveInWorldPlane),
     () => _flat.CameraMoveForward(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       distance.toDouble(),
       moveInWorldPlane,
     ),
@@ -60,12 +60,12 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Moves the [camera] in its up direction by [distance].
   void CameraMoveUp(
-    Camera3DD camera,
+    Camera3D camera,
     num distance,
   ) => run(
     () => _debugLabels.CameraMoveUp(camera, distance),
     () => _flat.CameraMoveUp(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       distance.toDouble(),
     ),
   );
@@ -75,13 +75,13 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   /// If [moveInWorldPlane] is `true`, movement is constrained to the XZ plane
   /// regardless of the camera's pitch.
   void CameraMoveRight(
-    Camera3DD camera,
+    Camera3D camera,
     num distance,
     bool moveInWorldPlane,
   ) => run(
     () => _debugLabels.CameraMoveRight(camera, distance, moveInWorldPlane),
     () => _flat.CameraMoveRight(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       distance.toDouble(),
       moveInWorldPlane,
     ),
@@ -89,12 +89,12 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Moves [camera] closer to or further from its target by [delta].
   void CameraMoveToTarget(
-    Camera3DD camera,
+    Camera3D camera,
     num delta,
   ) => run(
     () => _debugLabels.CameraMoveToTarget(camera, delta),
     () => _flat.CameraMoveToTarget(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       delta.toDouble(),
     ),
   );
@@ -106,13 +106,13 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   /// If [rotateAroundTarget] is `true`, the camera orbits its target;
   /// otherwise it rotates in place.
   void CameraYaw(
-    Camera3DD camera,
+    Camera3D camera,
     num angle,
     bool rotateAroundTarget,
   ) => run(
     () => _debugLabels.CameraYaw(camera, angle, rotateAroundTarget),
     () => _flat.CameraYaw(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       angle.toDouble(),
       rotateAroundTarget,
     ),
@@ -129,7 +129,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   /// 
   /// If [rotateUp] is `true`, the up vector is rotated as well (typically useful in [CameraMode.CAMERA_FREE]).
   void CameraPitch(
-    Camera3DD camera,
+    Camera3D camera,
     num angle,
     bool lockView,
     bool rotateAroundTarget,
@@ -137,7 +137,7 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.CameraPitch(camera, angle, lockView, rotateAroundTarget, rotateUp),
     () => _flat.CameraPitch(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       angle.toDouble(),
       lockView,
       rotateAroundTarget,
@@ -149,34 +149,34 @@ final class RaylibCameraDart<R extends RaylibBase> extends RaylibModule<R> {
   /// 
   /// Roll is "turning your head sideways to the left or right"
   void CameraRoll(
-    Camera3DD camera,
+    Camera3D camera,
     num angle,
   ) => run(
     () => _debugLabels.CameraRoll(camera, angle),
     () => _flat.CameraRoll(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       angle.toDouble(),
     ),
   );
 
   /// Returns the view matrix for [camera].
-  MatrixD GetCameraViewMatrix(
-    Camera3DD camera,
+  Matrix GetCameraViewMatrix(
+    Camera3D camera,
   ) => run(
     () => _debugLabels.GetCameraViewMatrix(camera),
     () => _flat.GetCameraViewMatrix(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
     ),
   );
 
   /// Returns the projection matrix for [camera] with the given [aspect] ratio.
-  MatrixD GetCameraProjectionMatrix(
-    Camera3DD camera,
+  Matrix GetCameraProjectionMatrix(
+    Camera3D camera,
     num aspect,
   ) => run(
     () => _debugLabels.GetCameraProjectionMatrix(camera, aspect),
     () => _flat.GetCameraProjectionMatrix(
-      $.Camera3D$.Ref1(camera),
+      Camera3D$.Ref1(camera),
       aspect.toDouble(),
     ),
   );

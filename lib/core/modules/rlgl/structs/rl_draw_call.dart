@@ -8,7 +8,7 @@ enum RlDrawCallField with StructFields {
 }
 
 /// Draw call type
-class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
+class RlDrawCall extends RaylibStruct<RlDrawCall> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,8 +20,8 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<RlDrawCallD> struct = .new(
-    factory: RlDrawCallD.new,
+  static final StructType<RlDrawCall> struct = ._builtin(
+    factory: RlDrawCall.new,
     layout: .aligned<RlDrawCallField>({
       .mode:            RInt(), // Drawing mode: LINES, TRIANGLES, QUADS
       .vertexCount:     RInt(), // Number of vertex of the draw
@@ -70,7 +70,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   int get textureId => _textureId = field_textureId.readOr(op, _textureId);
   set textureId(int value) => _textureId = field_textureId.writeOr(op, value);
   
-  RlDrawCallD({
+  RlDrawCall({
     super.op,
     RlDrawMode mode = .RL_NONE,
     int vertexCount = 0,
@@ -82,10 +82,10 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
     _vertexAlignment = vertexAlignment,
     _textureId = textureId;
 
-  factory RlDrawCallD.zero() => .new();
+  factory RlDrawCall.zero() => .new();
 
   @override
-  RlDrawCallD setDart(RlDrawCallD o) {
+  RlDrawCall setDart(RlDrawCall o) {
     mode = o.mode;
     vertexCount = o.vertexCount;
     vertexAlignment = o.vertexAlignment;
@@ -110,7 +110,7 @@ class RlDrawCallD extends RaylibStruct<RlDrawCallD> {
   }
 
   @override
-  RlDrawCallD clone() => .new(
+  RlDrawCall clone() => .new(
     op: op,
     mode: mode,
     vertexCount: vertexCount,

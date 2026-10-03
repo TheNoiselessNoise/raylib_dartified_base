@@ -4,23 +4,20 @@ typedef StructFactory<D extends RaylibStruct<D>> = D Function({ StructPointer<D>
 typedef StructPointerFactory<D extends RaylibStruct<D>> = StructPointer<D> Function(MemoryPointer?);
 
 /// Per-instance allocation state for a [RaylibStruct] mirror object,
-/// tracking its current slot key, tag, disposal status, and stable identity
+/// tracking its current slot key, disposal status, and stable identity
 /// across repeated [RaylibTempStructAllocator.Allocate] calls.
 final class RaylibTempStructState with RaylibDisposable {
   /// The slot tag used to disambiguate [RaylibTemp] keys for this instance.
   ///
-  /// Defaults to `default`. Change via [RaylibStruct.structSetTag].
+  /// Defaults to `default`.
   String tag = 'default';
   
-  /// Whether [RaylibStruct.structMarkDisposed] has been called on this instance.
+  /// Whether the [RaylibStruct] is disposed.
   bool isDisposed = false;
   
   /// Used to full sync once to push pre-promotion Dart state to memory on the first
   /// [RaylibTempStructAllocator.Allocate] allocation.
   bool isFirstSync = true;
-
-  /// Whether [RaylibTempStructAllocator.Allocate] has ever been called for this instance.
-  bool isAllocated = false;
 
   /// A stable numeric ID assigned on first [RaylibTempStructAllocator.Allocate] call for pointer-owning structs.
   ///
@@ -30,6 +27,13 @@ final class RaylibTempStructState with RaylibDisposable {
   
   static int _internalIdCounter = 0;
   int get nextId => internalId ??= ++_internalIdCounter;
+
+  @override
+  @nonVirtual
+  void dispose() {
+    isDisposed = true;
+    super.dispose();
+  }
 }
 
 mixin StructFields on Enum {}
@@ -483,15 +487,12 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
     return _self;
   }
 
-  /// Whether [structMarkDisposed] has been called on this instance.
-  bool get structIsDisposed => $state.isDisposed;
-
-  /// Marks this instance as disposed and clears [op].
+  /// Marks this instance as disposed.
   ///
   /// Called internally after the native resource is unloaded. Accessing
   /// [getOp] after disposal will throw.
   @nonVirtual
-  void structMarkDisposed() => $state.isDisposed = true;
+  void structDispose() => $state.dispose();
 
   /// Calls [callback] with [op] if it is set, otherwise no-ops.
   @nonVirtual
@@ -511,7 +512,9 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
 
     if (op == null) {
       if (!_requiresOp) {
-        throw StateError('$structName.getOp() was called on a value-type struct that never owns a pointer.');
+        throw StateError(
+          '$structName.getOp() was called on a value-type struct that never owns a pointer.'
+        );
       } else {
         throw StateError(
           '$structName.getOp() was called but op is null. '
@@ -519,6 +522,7 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
         );
       }
     }
+    
     return op!;
   }
 
@@ -529,7 +533,6 @@ abstract class RaylibStruct<D extends RaylibStruct<D>> {
   @nonVirtual
   StructPointer<D> getOpAndDispose() {
     final ptr = getOp();
-    structMarkDisposed();
     $state.dispose();
     return ptr;
   }

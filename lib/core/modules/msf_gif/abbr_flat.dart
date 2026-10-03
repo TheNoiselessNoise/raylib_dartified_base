@@ -2,61 +2,61 @@ import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 RaylibMsfGifFlat get _module => RaylibBase.instance.module();
 
-/// See [RaylibMsfGifFlatModule.msf_gif_alpha_threshold].
+/// See [RaylibMsfGifFlat.msf_gif_alpha_threshold].
 int get msf_gif_alpha_threshold => _module.msf_gif_alpha_threshold;
-/// See [RaylibMsfGifFlatModule.msf_gif_alpha_threshold].
+/// See [RaylibMsfGifFlat.msf_gif_alpha_threshold].
 set msf_gif_alpha_threshold(int v) => _module.msf_gif_alpha_threshold = v;
 
-/// See [RaylibMsfGifFlatModule.msf_gif_bgra_flag].
+/// See [RaylibMsfGifFlat.msf_gif_bgra_flag].
 int get msf_gif_bgra_flag => _module.msf_gif_bgra_flag;
-/// See [RaylibMsfGifFlatModule.msf_gif_bgra_flag].
+/// See [RaylibMsfGifFlat.msf_gif_bgra_flag].
 set msf_gif_bgra_flag(int v) => _module.msf_gif_bgra_flag = v;
 
-/// See [RaylibMsfGifFlatModule.msf_gif_begin].
+/// See [RaylibMsfGifFlat.msf_gif_begin].
 int msf_gif_begin(
-  StructPointer<MsfGifStateD> handle,
+  StructPointer<MsfGifState> handle,
   int width,
   int height,
 ) => _module.msf_gif_begin(handle, width, height);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_frame].
+/// See [RaylibMsfGifFlat.msf_gif_frame].
 int msf_gif_frame(
-  StructPointer<MsfGifStateD> handle,
+  StructPointer<MsfGifState> handle,
   MemoryPointer<RUint8> pixelData,
   int centiSecondsPerFame,
   int maxBitDepth,
   int pitchInBytes,
 ) => _module.msf_gif_frame(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_end].
-MsfGifResultD msf_gif_end(
-  StructPointer<MsfGifStateD> handle,
+/// See [RaylibMsfGifFlat.msf_gif_end].
+MsfGifResult msf_gif_end(
+  StructPointer<MsfGifState> handle,
 ) => _module.msf_gif_end(handle);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_free].
+/// See [RaylibMsfGifFlat.msf_gif_free].
 void msf_gif_free(
-  MsfGifResultD result,
+  MsfGifResult result,
 ) => _module.msf_gif_free(result);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_begin_to_file].
+/// See [RaylibMsfGifFlat.msf_gif_begin_to_file].
 int msf_gif_begin_to_file(
-  StructPointer<MsfGifStateD> handle,
+  StructPointer<MsfGifState> handle,
   int width,
   int height,
   MemoryPointer<RFunction> func,
   MemoryPointer<RVoid> filePointer,
 ) => _module.msf_gif_begin_to_file(handle, width, height, func, filePointer);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_frame_to_file].
+/// See [RaylibMsfGifFlat.msf_gif_frame_to_file].
 int msf_gif_frame_to_file(
-  StructPointer<MsfGifStateD> handle,
+  StructPointer<MsfGifState> handle,
   MemoryPointer<RUint8> pixelData,
   int centiSecondsPerFame,
   int maxBitDepth,
   int pitchInBytes,
 ) => _module.msf_gif_frame_to_file(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes);
 
-/// See [RaylibMsfGifFlatModule.msf_gif_end_to_file].
+/// See [RaylibMsfGifFlat.msf_gif_end_to_file].
 int msf_gif_end_to_file(
-  StructPointer<MsfGifStateD> handle,
+  StructPointer<MsfGifState> handle,
 ) => _module.msf_gif_end_to_file(handle);

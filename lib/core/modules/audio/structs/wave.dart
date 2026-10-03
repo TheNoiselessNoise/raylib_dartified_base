@@ -9,7 +9,7 @@ enum WaveField with StructFields {
 }
 
 /// Wave, audio wave data
-class WaveD extends RaylibStruct<WaveD> {
+class Wave extends RaylibStruct<Wave> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,8 +21,8 @@ class WaveD extends RaylibStruct<WaveD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<WaveD> struct = .new(
-    factory: WaveD.new,
+  static final StructType<Wave> struct = ._builtin(
+    factory: Wave.new,
     layout: .aligned<WaveField>({
       .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
       .sampleRate: RUnsignedInt(), // Frequency (samples per second)
@@ -147,7 +147,7 @@ class WaveD extends RaylibStruct<WaveD> {
 
   bool _isNew = true;
 
-  WaveD({
+  Wave({
     super.op,
     int frameCount = 0,
     int sampleRate = 0,
@@ -164,10 +164,10 @@ class WaveD extends RaylibStruct<WaveD> {
     _dataBuffer = data ?? BASE_dummyData(sampleSize, waveLength);
   }
 
-  factory WaveD.zero() => .new();
+  factory Wave.zero() => .new();
 
   @override
-  WaveD setDart(WaveD o) {
+  Wave setDart(Wave o) {
     frameCount = o.frameCount;
     sampleRate = o.sampleRate;
     sampleSize = o.sampleSize;
@@ -207,7 +207,7 @@ class WaveD extends RaylibStruct<WaveD> {
   }
 
   @override
-  WaveD clone() => .new(
+  Wave clone() => .new(
     op: op,
     frameCount: frameCount,
     sampleRate: sampleRate,

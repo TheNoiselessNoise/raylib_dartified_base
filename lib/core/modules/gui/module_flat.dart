@@ -161,11 +161,11 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Set gui custom font (global state)
   void GuiSetFont(
-    FontD font,
+    Font font,
   );
 
   /// Get gui custom font (global state)
-  FontD GuiGetFont();
+  Font GuiGetFont();
 
   /// Set one style property
   void GuiSetStyle(
@@ -238,7 +238,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
     int posX,
     int posY,
     int pixelSize,
-    ColorD color,
+    Color color,
   );
 
   /// Get text width considering gui style and icon size (if required)
@@ -248,93 +248,93 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Window Box control, shows a window that can be closed
   int GuiWindowBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> title,
   );
 
   /// Group Box control with text name
   int GuiGroupBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Line separator control, could contain text
   int GuiLine(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Panel control, useful to group controls
   int GuiPanel(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Scroll Panel control
   int GuiScrollPanel(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
-    RectangleD content,
-    StructPointer<Vector2D> scroll,
-    StructPointer<RectangleD> view,
+    Rectangle content,
+    StructPointer<Vector2> scroll,
+    StructPointer<Rectangle> view,
   );
 
   /// Label control
   int GuiLabel(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Button control, returns true when clicked
   int GuiButton(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Label button control, returns true when clicked
   int GuiLabelButton(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Toggle Button control
   int GuiToggle(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RBool> active,
   );
 
   /// Toggle Group control
   int GuiToggleGroup(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> active,
   );
 
   /// Toggle Slider control
   int GuiToggleSlider(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> active,
   );
 
   /// Check Box control, returns true when active
   int GuiCheckBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RBool> checked,
   );
 
   /// Combo Box control
   int GuiComboBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> active,
   );
 
   /// Dropdown Box control
   int GuiDropdownBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> active,
     bool editMode,
@@ -342,7 +342,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Spinner control
   int GuiSpinner(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> value,
     int minValue,
@@ -352,7 +352,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Value Box control, updates input text with numbers
   int GuiValueBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> value,
     int minValue,
@@ -362,7 +362,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Value box control for float values
   int GuiValueBoxFloat(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RChar> textValue,
     MemoryPointer<RFloat> value,
@@ -371,7 +371,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Text Box control, updates input text
   int GuiTextBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     int textSize,
     bool editMode,
@@ -379,7 +379,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Slider control
   int GuiSlider(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> textLeft,
     MemoryPointer<RChar> textRight,
     MemoryPointer<RFloat> value,
@@ -389,7 +389,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Slider Bar control
   int GuiSliderBar(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> textLeft,
     MemoryPointer<RChar> textRight,
     MemoryPointer<RFloat> value,
@@ -399,7 +399,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Progress Bar control
   int GuiProgressBar(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> textLeft,
     MemoryPointer<RChar> textRight,
     MemoryPointer<RFloat> value,
@@ -409,28 +409,28 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Status Bar control, shows info text
   int GuiStatusBar(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Dummy control for placeholders
   int GuiDummyRec(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
   );
 
   /// Grid control
   int GuiGrid(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     double spacing,
     int subdivs,
-    StructPointer<Vector2D> mouseCell,
+    StructPointer<Vector2> mouseCell,
   );
 
   /// List View control
   int GuiListView(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> scrollIndex,
     MemoryPointer<RInt> active,
@@ -438,7 +438,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// List View control, using text entries list and returning focus entry
   int GuiListViewEx(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RPointer<RChar>> text,
     int count,
     MemoryPointer<RInt> scrollIndex,
@@ -448,7 +448,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Tab Bar control
   int GuiTabBar(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RInt> hscroll,
     MemoryPointer<RInt> active,
@@ -456,7 +456,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Tab Bar control, using text entries list and returning focus entry
   int GuiTabBarEx(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RPointer<RChar>> text,
     int count,
     MemoryPointer<RInt> hscroll,
@@ -466,7 +466,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Message Box control, displays a message
   int GuiMessageBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> title,
     MemoryPointer<RChar> message,
     MemoryPointer<RChar> btnText,
@@ -475,7 +475,7 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Text Input Box control, ask for text, supports secret
   int GuiTextInputBox(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> title,
     MemoryPointer<RChar> message,
     MemoryPointer<RChar> text,
@@ -487,43 +487,43 @@ abstract class RaylibGuiFlat<R extends RaylibBase> extends RaylibModule<R> with 
 
   /// Color Picker control, includes Color bar controls
   int GuiColorPicker(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
-    StructPointer<ColorD> color,
+    StructPointer<Color> color,
   );
 
   /// Color Panel control
   int GuiColorPanel(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
-    StructPointer<ColorD> color,
+    StructPointer<Color> color,
   );
 
   /// Color Bar Alpha control
   int GuiColorBarAlpha(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RFloat> alpha,
   );
 
   /// Color Bar Hue control
   int GuiColorBarHue(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
     MemoryPointer<RFloat> value,
   );
 
   /// Color Picker control, using Hue-Saturation-Value color data, includes Color bar controls
   int GuiColorPickerHSV(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
-    StructPointer<Vector3D> colorHsv,
+    StructPointer<Vector3> colorHsv,
   );
 
   /// Color Panel control, using Hue-Saturation-Value color data
   int GuiColorPanelHSV(
-    RectangleD bounds,
+    Rectangle bounds,
     MemoryPointer<RChar> text,
-    StructPointer<Vector3D> colorHsv,
+    StructPointer<Vector3> colorHsv,
   );
 }

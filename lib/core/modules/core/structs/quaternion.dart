@@ -13,7 +13,7 @@ enum QuaternionField with StructFields {
 /// Quaternion, 4 components
 /// 
 /// A unit quaternion representing a 3D rotation as `xi + yj + zk + w`.
-class QuaternionD extends RaylibStructLiteral<QuaternionD> {
+class Quaternion extends RaylibStructLiteral<Quaternion> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -25,8 +25,8 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<QuaternionD> struct = .new(
-    factory: QuaternionD.new,
+  static final StructType<Quaternion> struct = ._builtin(
+    factory: Quaternion.new,
     layout: .aligned<QuaternionField>({
       .x: RFloat(), // Imaginary i component
       .y: RFloat(), // Imaginary j component
@@ -75,7 +75,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   double get w => _w = field_w.readOr(op, _w);
   set w(double value) => _w = field_w.writeOr(op, value);
 
-  QuaternionD({
+  Quaternion({
     super.op,
     double x = 0,
     double y = 0,
@@ -87,9 +87,9 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
     _z = z,
     _w = w;
 
-  factory QuaternionD.zero() => .new();
+  factory Quaternion.zero() => .new();
 
-  factory QuaternionD.quat(
+  factory Quaternion.quat(
     num x,
     num y,
     num z,
@@ -102,7 +102,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   );
 
   @override
-  QuaternionD setDart(QuaternionD o) => set(o.x, o.y, o.z, o.w);
+  Quaternion setDart(Quaternion o) => set(o.x, o.y, o.z, o.w);
 
   @override
   void structWriteInto(MemoryPointer p) {
@@ -121,7 +121,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   @override
-  QuaternionD clone() => .new(
+  Quaternion clone() => .new(
     op: op,
     x: x,
     y: y,
@@ -130,10 +130,10 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   );
 
   /// Returns the identity quaternion `(0, 0, 0, 1)`.
-  factory QuaternionD.identity() => .quat(0.0, 0.0, 0.0, 1.0);
+  factory Quaternion.identity() => .quat(0.0, 0.0, 0.0, 1.0);
 
   /// Returns the shortest-arc quaternion rotating [from] to [to].
-  factory QuaternionD.fromVector3ToVector3(Vector3D from, Vector3D to) {
+  factory Quaternion.fromVector3ToVector3(Vector3 from, Vector3 to) {
     final cross = from.crossProduct(to);
     return .quat(
       cross.x,
@@ -144,7 +144,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Returns the quaternion equivalent of rotation matrix [mat].
-  factory QuaternionD.fromMatrix(MatrixD mat) {
+  factory Quaternion.fromMatrix(Matrix mat) {
     final fourWSquaredMinus1 = mat.m0  + mat.m5 + mat.m10;
     final fourXSquaredMinus1 = mat.m0  - mat.m5 - mat.m10;
     final fourYSquaredMinus1 = mat.m5  - mat.m0 - mat.m10;
@@ -200,7 +200,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Returns a quaternion from [pitch], [yaw], [roll] Euler angles (in radians).
-  factory QuaternionD.fromEuler(double pitch, double yaw, double roll) {
+  factory Quaternion.fromEuler(double pitch, double yaw, double roll) {
     final x0 = math.cos(pitch*0.5);
     final x1 = math.sin(pitch*0.5);
     final y0 = math.cos(yaw*0.5);
@@ -217,9 +217,9 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Returns a quaternion representing a rotation of [angle] radians around [axis].
-  factory QuaternionD.fromAxisAngle(Vector3D axis, double angle)
+  factory Quaternion.fromAxisAngle(Vector3 axis, double angle)
   {
-    QuaternionD result = .identity();
+    Quaternion result = .identity();
 
     if (axis.length != 0.0)
     {
@@ -242,7 +242,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Returns a quaternion from the raw XYZW components of [v].
-  factory QuaternionD.fromVector4(Vector4D v) => .quat(
+  factory Quaternion.fromVector4(Vector4 v) => .quat(
     v.x,
     v.y,
     v.z,
@@ -252,7 +252,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  QuaternionD set(num x, num y, num z, num w) {
+  Quaternion set(num x, num y, num z, num w) {
     this.x = x.toDouble();
     this.y = y.toDouble();
     this.z = z.toDouble();
@@ -261,15 +261,15 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Euclidean distance between this quaternion and [o] in 4D space.
-  double distance(QuaternionD o) => math.sqrt(distanceSqr(o));
+  double distance(Quaternion o) => math.sqrt(distanceSqr(o));
 
   /// Squared Euclidean distance between this quaternion and [o].
   ///
   /// Prefer over [distance] when only relative comparison is needed.
-  double distanceSqr(QuaternionD o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
+  double distanceSqr(Quaternion o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z) + (w - o.w)*(w - o.w);
 
   /// Dot product of this quaternion and [o].
-  double dotProduct(QuaternionD o) => x * o.x + y * o.y + z * o.z + w * o.w;
+  double dotProduct(Quaternion o) => x * o.x + y * o.y + z * o.z + w * o.w;
 
   /// Euclidean length (magnitude) of this quaternion.
   double get length => math.sqrt(lengthSqr);
@@ -294,24 +294,24 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
     ']';
 
   /// Returns a new quaternion that is the component-wise sum of this and [o].
-  QuaternionD add(QuaternionD o) => .quat(x + o.x, y + o.y, z + o.z, w + o.w);
+  Quaternion add(Quaternion o) => .quat(x + o.x, y + o.y, z + o.z, w + o.w);
 
   /// Returns a new quaternion with [value] added to each component.
-  QuaternionD addValue(num value) => .quat(x + value, y + value, z + value, w + value);
+  Quaternion addValue(num value) => .quat(x + value, y + value, z + value, w + value);
 
   /// Returns a new quaternion that is the component-wise difference of this and [o].
-  QuaternionD sub(QuaternionD o) => .quat(x - o.x, y - o.y, z - o.z, w - o.w);
+  Quaternion sub(Quaternion o) => .quat(x - o.x, y - o.y, z - o.z, w - o.w);
 
   /// Returns a new quaternion with [value] subtracted from each component.
-  QuaternionD subValue(num value) => .quat(x - value, y - value, z - value, w - value);
+  Quaternion subValue(num value) => .quat(x - value, y - value, z - value, w - value);
 
   /// Returns a new quaternion with all components scaled by [o].
-  QuaternionD scale(num o) => .quat(x * o, y * o, z * o, w * o);
+  Quaternion scale(num o) => .quat(x * o, y * o, z * o, w * o);
 
   /// Returns the Hamilton product of this quaternion and [o].
   ///
   /// Not commutative: `a.mul(b) != b.mul(a)`.
-  QuaternionD mul(QuaternionD o) => .quat(
+  Quaternion mul(Quaternion o) => .quat(
     x*o.w + w*o.x + y*o.z - z*o.y,
     y*o.w + w*o.y + z*o.x - x*o.z,
     z*o.w + w*o.z + x*o.y - y*o.x,
@@ -319,18 +319,18 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   );
 
   /// Returns a new quaternion with all components divided by [o].
-  QuaternionD divideBy(num o) => scale(1 / o);
+  Quaternion divideBy(num o) => scale(1 / o);
 
   /// Returns a new quaternion that is the component-wise quotient of this and [o].
-  QuaternionD div(QuaternionD o) => .quat(x / o.x, y / o.y, z / o.z, w / o.w);
+  Quaternion div(Quaternion o) => .quat(x / o.x, y / o.y, z / o.z, w / o.w);
 
   /// Returns a new quaternion with all components negated.
-  QuaternionD negate() => .quat(-x, -y, -z, -w);
+  Quaternion negate() => .quat(-x, -y, -z, -w);
 
   /// Returns a normalized (unit-length) copy of this quaternion.
   ///
   /// If [length] is zero, treats it as 1 to avoid division by zero.
-  QuaternionD normalize() {
+  Quaternion normalize() {
     double length = this.length;
     if (length == 0.0) length = 1.0;
     final ilength = 1.0/length;
@@ -338,7 +338,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Returns a new quaternion with each component being the component-wise minimum of this and [o].
-  QuaternionD min(QuaternionD o) => .quat(
+  Quaternion min(Quaternion o) => .quat(
     math.min(x, o.x),
     math.min(y, o.y),
     math.min(z, o.z),
@@ -346,7 +346,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   );
 
   /// Returns a new quaternion with each component being the component-wise maximum of this and [o].
-  QuaternionD max(QuaternionD o) => .quat(
+  Quaternion max(Quaternion o) => .quat(
     math.max(x, o.x),
     math.max(y, o.y),
     math.max(z, o.z),
@@ -356,7 +356,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Linear interpolation between this and [o] by [amount] (component-wise).
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  QuaternionD lerp(QuaternionD o, double amount) => .quat(
+  Quaternion lerp(Quaternion o, double amount) => .quat(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
     z + amount*(o.z - z),
@@ -366,7 +366,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Returns the inverse (conjugate divided by squared length) of this quaternion.
   ///
   /// Returns `this` unchanged if the squared length is zero.
-  QuaternionD invert() {
+  Quaternion invert() {
     final lengthSq = x*x + y*y + z*z + w*w;
 
     if (lengthSq != 0.0) {
@@ -386,7 +386,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// Normalized linear interpolation between this and [o] by [amount].
   ///
   /// Faster than [sLerp] but does not maintain constant angular velocity.
-  QuaternionD nLerp(QuaternionD o, double amount) => lerp(o, amount).normalize();
+  Quaternion nLerp(Quaternion o, double amount) => lerp(o, amount).normalize();
 
   /// Spherical linear interpolation between this and [o] by [amount].
   ///
@@ -396,7 +396,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// near zero.
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  QuaternionD sLerp(QuaternionD o, double amount) {
+  Quaternion sLerp(Quaternion o, double amount) {
     double cosHalfTheta = x*o.x + y*o.y + z*o.z + w*o.w;
 
     if (cosHalfTheta < 0)
@@ -443,10 +443,10 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// [t] is the interpolation parameter in `[0.0, 1.0]`.
   ///
   /// Result is normalized.
-  QuaternionD cubicHermiteSpline(
-    QuaternionD outTangent1,
-    QuaternionD q2,
-    QuaternionD inTangent2,
+  Quaternion cubicHermiteSpline(
+    Quaternion outTangent1,
+    Quaternion q2,
+    Quaternion inTangent2,
     double t,
   ) {
     final t2 = t*t;
@@ -465,8 +465,8 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Converts this quaternion to an equivalent rotation matrix.
-  MatrixD toMatrix() {
-    MatrixD result = .identity();
+  Matrix toMatrix() {
+    Matrix result = .identity();
 
     final a2 = x*x;
     final b2 = y*y;
@@ -497,10 +497,10 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   ///
   /// Returns `(axis, angle)` where [angle] is in radians.
   /// If the quaternion represents a zero rotation, the axis defaults to `(1, 0, 0)`.
-  (Vector3D outAxis, double outAngle) toAxisAngle() {
+  (Vector3 outAxis, double outAngle) toAxisAngle() {
     final q = w.abs() > 1.0 ? normalize() : this;
 
-    Vector3D resAxis = .zero();
+    Vector3 resAxis = .zero();
     final resAngle = 2.0*math.acos(q.w);
     final den = math.sqrt(1.0 - q.w*q.w);
 
@@ -522,7 +522,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   /// - X = roll (rotation around X axis)
   /// - Y = pitch (rotation around Y axis)
   /// - Z = yaw (rotation around Z axis)
-  Vector3D toEuler() {
+  Vector3 toEuler() {
     // Roll (x-axis rotation)
     final x0 = 2.0*(w*x + y*z);
     final x1 = 1.0 - 2.0*(x*x + y*y);
@@ -544,7 +544,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   }
 
   /// Transforms this quaternion by the given matrix [mat].
-  QuaternionD transform(MatrixD mat) => .quat(
+  Quaternion transform(Matrix mat) => .quat(
     mat.m0*x + mat.m4*y + mat.m8*z + mat.m12*w,
     mat.m1*x + mat.m5*y + mat.m9*z + mat.m13*w,
     mat.m2*x + mat.m6*y + mat.m10*z + mat.m14*w,
@@ -555,7 +555,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   ///
   /// Uses epsilon-based comparison per component, and also considers
   /// `q == -q` as equal (both represent the same rotation).
-  bool equals(QuaternionD o) => (
+  bool equals(Quaternion o) => (
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs())))) &&
     (((z - o.z).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((z).abs(), (o.z).abs())))) &&
@@ -568,7 +568,7 @@ class QuaternionD extends RaylibStructLiteral<QuaternionD> {
   );
 
   /// Converts this quaternion to a [V4] with the same `(x, y, z, w)` components.
-  Vector4D toVector4() => .vec4(x, y, z, w);
+  Vector4 toVector4() => .vec4(x, y, z, w);
 
   /// Returns the components as a new double list.
   ///

@@ -1,3 +1,8 @@
+## 6.0.3
+
+- fix `Mesh`
+- [BREAKING] rename structs by removing the suffix "D"
+
 ## 6.0.2
 
 - `currentRaylibPlatform` is now more descriptive

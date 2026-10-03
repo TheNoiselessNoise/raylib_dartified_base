@@ -2,218 +2,218 @@ import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 RaylibGuiFlat get _module => RaylibBase.instance.module();
 
-/// See [RaylibGuiFlatModule.GuiEnable].
+/// See [RaylibGuiFlat.GuiEnable].
 void GuiEnable() => _module.GuiEnable();
 
-/// See [RaylibGuiFlatModule.GuiDisable].
+/// See [RaylibGuiFlat.GuiDisable].
 void GuiDisable() => _module.GuiDisable();
 
-/// See [RaylibGuiFlatModule.GuiLock].
+/// See [RaylibGuiFlat.GuiLock].
 void GuiLock() => _module.GuiLock();
 
-/// See [RaylibGuiFlatModule.GuiUnlock].
+/// See [RaylibGuiFlat.GuiUnlock].
 void GuiUnlock() => _module.GuiUnlock();
 
-/// See [RaylibGuiFlatModule.GuiIsLocked].
+/// See [RaylibGuiFlat.GuiIsLocked].
 bool GuiIsLocked() => _module.GuiIsLocked();
 
-/// See [RaylibGuiFlatModule.GuiSetAlpha].
+/// See [RaylibGuiFlat.GuiSetAlpha].
 void GuiSetAlpha(
   double alpha,
 ) => _module.GuiSetAlpha(alpha);
 
-/// See [RaylibGuiFlatModule.GuiSetState].
+/// See [RaylibGuiFlat.GuiSetState].
 void GuiSetState(
   int state,
 ) => _module.GuiSetState(state);
 
-/// See [RaylibGuiFlatModule.GuiGetState].
+/// See [RaylibGuiFlat.GuiGetState].
 int GuiGetState() => _module.GuiGetState();
 
-/// See [RaylibGuiFlatModule.GuiSetFont].
+/// See [RaylibGuiFlat.GuiSetFont].
 void GuiSetFont(
-  FontD font,
+  Font font,
 ) => _module.GuiSetFont(font);
 
-/// See [RaylibGuiFlatModule.GuiGetFont].
-FontD GuiGetFont() => _module.GuiGetFont();
+/// See [RaylibGuiFlat.GuiGetFont].
+Font GuiGetFont() => _module.GuiGetFont();
 
-/// See [RaylibGuiFlatModule.GuiSetStyle].
+/// See [RaylibGuiFlat.GuiSetStyle].
 void GuiSetStyle(
   int control,
   int property,
   int value,
 ) => _module.GuiSetStyle(control, property, value);
 
-/// See [RaylibGuiFlatModule.GuiGetStyle].
+/// See [RaylibGuiFlat.GuiGetStyle].
 int GuiGetStyle(
   int control,
   int property,
 ) => _module.GuiGetStyle(control, property);
 
-/// See [RaylibGuiFlatModule.GuiLoadStyle].
+/// See [RaylibGuiFlat.GuiLoadStyle].
 void GuiLoadStyle(
   MemoryPointer<RChar> fileName,
 ) => _module.GuiLoadStyle(fileName);
 
-/// See [RaylibGuiFlatModule.GuiLoadStyle].
+/// See [RaylibGuiFlat.GuiLoadStyle].
 void GuiLoadStyleFromMemory(
   MemoryPointer<RUnsignedChar> fileData,
   int dataSize,
 ) => _module.GuiLoadStyleFromMemory(fileData, dataSize);
 
-/// See [RaylibGuiFlatModule.GuiLoadStyleDefault].
+/// See [RaylibGuiFlat.GuiLoadStyleDefault].
 void GuiLoadStyleDefault() => _module.GuiLoadStyleDefault();
 
-/// See [RaylibGuiFlatModule.GuiEnableTooltip].
+/// See [RaylibGuiFlat.GuiEnableTooltip].
 void GuiEnableTooltip() => _module.GuiEnableTooltip();
 
-/// See [RaylibGuiFlatModule.GuiDisableTooltip].
+/// See [RaylibGuiFlat.GuiDisableTooltip].
 void GuiDisableTooltip() => _module.GuiDisableTooltip();
 
-/// See [RaylibGuiFlatModule.GuiSetTooltip].
+/// See [RaylibGuiFlat.GuiSetTooltip].
 void GuiSetTooltip(
   MemoryPointer<RChar> tooltip,
 ) => _module.GuiSetTooltip(tooltip);
 
-/// See [RaylibGuiFlatModule.GuiIconText].
+/// See [RaylibGuiFlat.GuiIconText].
 MemoryPointer<RChar> GuiIconText(
   int iconId,
   MemoryPointer<RChar> text,
 ) => _module.GuiIconText(iconId, text);
 
-/// See [RaylibGuiFlatModule.GuiSetIconScale].
+/// See [RaylibGuiFlat.GuiSetIconScale].
 void GuiSetIconScale(
   int scale,
 ) => _module.GuiSetIconScale(scale);
 
-/// See [RaylibGuiFlatModule.GuiGetIcons].
+/// See [RaylibGuiFlat.GuiGetIcons].
 MemoryPointer<RUnsignedInt> GuiGetIcons() => _module.GuiGetIcons();
 
-/// See [RaylibGuiFlatModule.GuiLoadIcons].
+/// See [RaylibGuiFlat.GuiLoadIcons].
 MemoryPointer<RPointer<RChar>> GuiLoadIcons(
   MemoryPointer<RChar> fileName,
   bool loadIconsName,
 ) => _module.GuiLoadIcons(fileName, loadIconsName);
 
-/// See [RaylibGuiFlatModule.GuiLoadIconsFromMemory].
+/// See [RaylibGuiFlat.GuiLoadIconsFromMemory].
 MemoryPointer<RPointer<RChar>> GuiLoadIconsFromMemory(
   MemoryPointer<RUnsignedChar> fileData,
   int dataSize,
   bool loadIconsName,
 ) => _module.GuiLoadIconsFromMemory(fileData, dataSize, loadIconsName);
 
-/// See [RaylibGuiFlatModule.GuiDrawIcon].
+/// See [RaylibGuiFlat.GuiDrawIcon].
 void GuiDrawIcon(
   int iconId,
   int posX,
   int posY,
   int pixelSize,
-  ColorD color,
+  Color color,
 ) => _module.GuiDrawIcon(iconId, posX, posY, pixelSize, color);
 
-/// See [RaylibGuiFlatModule.GuiGetTextWidth].
+/// See [RaylibGuiFlat.GuiGetTextWidth].
 int GuiGetTextWidth(
   MemoryPointer<RChar> text,
 ) => _module.GuiGetTextWidth(text);
 
-/// See [RaylibGuiFlatModule.GuiWindowBox].
+/// See [RaylibGuiFlat.GuiWindowBox].
 int GuiWindowBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> title,
 ) => _module.GuiWindowBox(bounds, title);
 
-/// See [RaylibGuiFlatModule.GuiGroupBox].
+/// See [RaylibGuiFlat.GuiGroupBox].
 int GuiGroupBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiGroupBox(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiLine].
+/// See [RaylibGuiFlat.GuiLine].
 int GuiLine(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiLine(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiPanel].
+/// See [RaylibGuiFlat.GuiPanel].
 int GuiPanel(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiPanel(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiScrollPanel].
+/// See [RaylibGuiFlat.GuiScrollPanel].
 int GuiScrollPanel(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
-  RectangleD content,
-  StructPointer<Vector2D> scroll,
-  StructPointer<RectangleD> view,
+  Rectangle content,
+  StructPointer<Vector2> scroll,
+  StructPointer<Rectangle> view,
 ) => _module.GuiScrollPanel(bounds, text, content, scroll, view);
 
-/// See [RaylibGuiFlatModule.GuiLabel].
+/// See [RaylibGuiFlat.GuiLabel].
 int GuiLabel(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiLabel(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiButton].
+/// See [RaylibGuiFlat.GuiButton].
 int GuiButton(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiButton(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiLabelButton].
+/// See [RaylibGuiFlat.GuiLabelButton].
 int GuiLabelButton(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiLabelButton(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiToggle].
+/// See [RaylibGuiFlat.GuiToggle].
 int GuiToggle(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RBool> active,
 ) => _module.GuiToggle(bounds, text, active);
 
-/// See [RaylibGuiFlatModule.GuiToggleGroup].
+/// See [RaylibGuiFlat.GuiToggleGroup].
 int GuiToggleGroup(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> active,
 ) => _module.GuiToggleGroup(bounds, text, active);
 
-/// See [RaylibGuiFlatModule.GuiToggleSlider].
+/// See [RaylibGuiFlat.GuiToggleSlider].
 int GuiToggleSlider(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> active,
 ) => _module.GuiToggleSlider(bounds, text, active);
 
-/// See [RaylibGuiFlatModule.GuiCheckBox].
+/// See [RaylibGuiFlat.GuiCheckBox].
 int GuiCheckBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RBool> checked,
 ) => _module.GuiCheckBox(bounds, text, checked);
 
-/// See [RaylibGuiFlatModule.GuiComboBox].
+/// See [RaylibGuiFlat.GuiComboBox].
 int GuiComboBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> active,
 ) => _module.GuiComboBox(bounds, text, active);
 
-/// See [RaylibGuiFlatModule.GuiDropdownBox].
+/// See [RaylibGuiFlat.GuiDropdownBox].
 int GuiDropdownBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> active,
   bool editMode,
 ) => _module.GuiDropdownBox(bounds, text, active, editMode);
 
-/// See [RaylibGuiFlatModule.GuiSpinner].
+/// See [RaylibGuiFlat.GuiSpinner].
 int GuiSpinner(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> value,
   int minValue,
@@ -221,9 +221,9 @@ int GuiSpinner(
   bool editMode,
 ) => _module.GuiSpinner(bounds, text, value, minValue, maxValue, editMode);
 
-/// See [RaylibGuiFlatModule.GuiValueBox].
+/// See [RaylibGuiFlat.GuiValueBox].
 int GuiValueBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> value,
   int minValue,
@@ -231,26 +231,26 @@ int GuiValueBox(
   bool editMode,
 ) => _module.GuiValueBox(bounds, text, value, minValue, maxValue, editMode);
 
-/// See [RaylibGuiFlatModule.GuiValueBoxFloat].
+/// See [RaylibGuiFlat.GuiValueBoxFloat].
 int GuiValueBoxFloat(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RChar> textValue,
   MemoryPointer<RFloat> value,
   bool editMode,
 ) => _module.GuiValueBoxFloat(bounds, text, textValue, value, editMode);
 
-/// See [RaylibGuiFlatModule.GuiTextBox].
+/// See [RaylibGuiFlat.GuiTextBox].
 int GuiTextBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   int textSize,
   bool editMode,
 ) => _module.GuiTextBox(bounds, text, textSize, editMode);
 
-/// See [RaylibGuiFlatModule.GuiSlider].
+/// See [RaylibGuiFlat.GuiSlider].
 int GuiSlider(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> textLeft,
   MemoryPointer<RChar> textRight,
   MemoryPointer<RFloat> value,
@@ -258,9 +258,9 @@ int GuiSlider(
   double maxValue,
 ) => _module.GuiSlider(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiFlatModule.GuiSliderBar].
+/// See [RaylibGuiFlat.GuiSliderBar].
 int GuiSliderBar(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> textLeft,
   MemoryPointer<RChar> textRight,
   MemoryPointer<RFloat> value,
@@ -268,9 +268,9 @@ int GuiSliderBar(
   double maxValue,
 ) => _module.GuiSliderBar(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiFlatModule.GuiProgressBar].
+/// See [RaylibGuiFlat.GuiProgressBar].
 int GuiProgressBar(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> textLeft,
   MemoryPointer<RChar> textRight,
   MemoryPointer<RFloat> value,
@@ -278,38 +278,38 @@ int GuiProgressBar(
   double maxValue,
 ) => _module.GuiProgressBar(bounds, textLeft, textRight, value, minValue, maxValue);
 
-/// See [RaylibGuiFlatModule.GuiStatusBar].
+/// See [RaylibGuiFlat.GuiStatusBar].
 int GuiStatusBar(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiStatusBar(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiDummyRec].
+/// See [RaylibGuiFlat.GuiDummyRec].
 int GuiDummyRec(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
 ) => _module.GuiDummyRec(bounds, text);
 
-/// See [RaylibGuiFlatModule.GuiGrid].
+/// See [RaylibGuiFlat.GuiGrid].
 int GuiGrid(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   double spacing,
   int subdivs,
-  StructPointer<Vector2D> mouseCell,
+  StructPointer<Vector2> mouseCell,
 ) => _module.GuiGrid(bounds, text, spacing, subdivs, mouseCell);
 
-/// See [RaylibGuiFlatModule.GuiListView].
+/// See [RaylibGuiFlat.GuiListView].
 int GuiListView(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> scrollIndex,
   MemoryPointer<RInt> active,
 ) => _module.GuiListView(bounds, text, scrollIndex, active);
 
-/// See [RaylibGuiFlatModule.GuiListViewEx].
+/// See [RaylibGuiFlat.GuiListViewEx].
 int GuiListViewEx(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RPointer<RChar>> text,
   int count,
   MemoryPointer<RInt> scrollIndex,
@@ -317,17 +317,17 @@ int GuiListViewEx(
   MemoryPointer<RInt> focus,
 ) => _module.GuiListViewEx(bounds, text, count, scrollIndex, active, focus);
 
-/// See [RaylibGuiFlatModule.GuiTabBar].
+/// See [RaylibGuiFlat.GuiTabBar].
 int GuiTabBar(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RInt> hscroll,
   MemoryPointer<RInt> active,
 ) => _module.GuiTabBar(bounds, text, hscroll, active);
 
-/// See [RaylibGuiFlatModule.GuiTabBarEx].
+/// See [RaylibGuiFlat.GuiTabBarEx].
 int GuiTabBarEx(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RPointer<RChar>> text,
   int count,
   MemoryPointer<RInt> hscroll,
@@ -335,18 +335,18 @@ int GuiTabBarEx(
   MemoryPointer<RInt> focus,
 ) => _module.GuiTabBarEx(bounds, text, count, hscroll, active, focus);
 
-/// See [RaylibGuiFlatModule.GuiMessageBox].
+/// See [RaylibGuiFlat.GuiMessageBox].
 int GuiMessageBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> title,
   MemoryPointer<RChar> message,
   MemoryPointer<RChar> btnText,
   MemoryPointer<RInt> btnActive,
 ) => _module.GuiMessageBox(bounds, title, message, btnText, btnActive);
 
-/// See [RaylibGuiFlatModule.GuiTextInputBox].
+/// See [RaylibGuiFlat.GuiTextInputBox].
 int GuiTextInputBox(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> title,
   MemoryPointer<RChar> message,
   MemoryPointer<RChar> text,
@@ -356,44 +356,44 @@ int GuiTextInputBox(
   MemoryPointer<RBool> secretViewActive,
 ) => _module.GuiTextInputBox(bounds, title, message, text, textSize, btnText, btnActive, secretViewActive);
 
-/// See [RaylibGuiFlatModule.GuiColorPicker].
+/// See [RaylibGuiFlat.GuiColorPicker].
 int GuiColorPicker(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
-  StructPointer<ColorD> color,
+  StructPointer<Color> color,
 ) => _module.GuiColorPicker(bounds, text, color);
 
-/// See [RaylibGuiFlatModule.GuiColorPanel].
+/// See [RaylibGuiFlat.GuiColorPanel].
 int GuiColorPanel(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
-  StructPointer<ColorD> color,
+  StructPointer<Color> color,
 ) => _module.GuiColorPanel(bounds, text, color);
 
-/// See [RaylibGuiFlatModule.GuiColorBarAlpha].
+/// See [RaylibGuiFlat.GuiColorBarAlpha].
 int GuiColorBarAlpha(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RFloat> alpha,
 ) => _module.GuiColorBarAlpha(bounds, text, alpha);
 
-/// See [RaylibGuiFlatModule.GuiColorBarHue].
+/// See [RaylibGuiFlat.GuiColorBarHue].
 int GuiColorBarHue(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
   MemoryPointer<RFloat> value,
 ) => _module.GuiColorBarHue(bounds, text, value);
 
-/// See [RaylibGuiFlatModule.GuiColorPickerHSV].
+/// See [RaylibGuiFlat.GuiColorPickerHSV].
 int GuiColorPickerHSV(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
-  StructPointer<Vector3D> colorHsv,
+  StructPointer<Vector3> colorHsv,
 ) => _module.GuiColorPickerHSV(bounds, text, colorHsv);
 
-/// See [RaylibGuiFlatModule.GuiColorPanelHSV].
+/// See [RaylibGuiFlat.GuiColorPanelHSV].
 int GuiColorPanelHSV(
-  RectangleD bounds,
+  Rectangle bounds,
   MemoryPointer<RChar> text,
-  StructPointer<Vector3D> colorHsv,
+  StructPointer<Vector3> colorHsv,
 ) => _module.GuiColorPanelHSV(bounds, text, colorHsv);

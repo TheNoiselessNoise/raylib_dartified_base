@@ -11,7 +11,7 @@ enum MatrixField with StructFields {
 }
 
 /// Matrix, 4x4 components, column major, OpenGL style, right-handed
-class MatrixD extends RaylibStructLiteral<MatrixD> {
+class Matrix extends RaylibStructLiteral<Matrix> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -23,8 +23,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MatrixD> struct = .new(
-    factory: MatrixD.new,
+  static final StructType<Matrix> struct = ._builtin(
+    factory: Matrix.new,
     layout: .aligned<MatrixField>({
       .m0: RFloat(), .m4: RFloat(), .m8: RFloat(), .m12: RFloat(), // Matrix first row (4 components)
       .m1: RFloat(), .m5: RFloat(), .m9: RFloat(), .m13: RFloat(), // Matrix second row (4 components)
@@ -157,7 +157,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   double get m15 => _m15 = field_m15.readOr(op, _m15);
   set m15(double value) => _m15 = field_m15.writeOr(op, value);
 
-  MatrixD({
+  Matrix({
     super.op,
     double m0 = 0, double m1 = 0, double m2 = 0, double m3 = 0,
     double m4 = 0, double m5 = 0, double m6 = 0, double m7 = 0,
@@ -169,11 +169,11 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     _m8 = m8, _m9 = m9, _m10 = m10, _m11 = m11,
     _m12 = m12, _m13 = m13, _m14 = m14, _m15 = m15;
 
-  factory MatrixD.zero() => .new();
+  factory Matrix.zero() => .new();
 
   static double _d(num x) => x.toDouble();
 
-  factory MatrixD.mat4(
+  factory Matrix.mat4(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,
     num m8, num m9, num m10, num m11,
@@ -185,7 +185,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     m12: _d(m12), m13: _d(m13), m14: _d(m14), m15: _d(m15),
   );
 
-  factory MatrixD.mat4RowMajor(
+  factory Matrix.mat4RowMajor(
     num m0, num m4, num m8, num m12,
     num m1, num m5, num m9, num m13,
     num m2, num m6, num m10, num m14,
@@ -198,7 +198,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   @override
-  MatrixD setDart(MatrixD o) {
+  Matrix setDart(Matrix o) {
     return set(
       o.m0, o.m1, o.m2, o.m3,
       o.m4, o.m5, o.m6, o.m7,
@@ -254,7 +254,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   @override
-  MatrixD clone() => .new(
+  Matrix clone() => .new(
     op: op,
     m0: m0, m1: m1, m2: m2, m3: m3,
     m4: m4, m5: m5, m6: m6, m7: m7,
@@ -263,7 +263,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   /// Returns the 4x4 identity matrix.
-  factory MatrixD.identity() => .mat4(
+  factory Matrix.identity() => .mat4(
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
@@ -271,13 +271,13 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   /// Returns a view matrix oriented from [eye] toward [target], with [up] defining the vertical axis.
-  factory MatrixD.lookAt(Vector3D eye, Vector3D target, Vector3D up)
+  factory Matrix.lookAt(Vector3 eye, Vector3 target, Vector3 up)
   {
     final vz = eye.sub(target).normalize();
     final vx = up.crossProduct(vz).normalize();
     final vy = vz.crossProduct(vx);
 
-    final MatrixD result = .zero();
+    final Matrix result = .zero();
 
     result.m0 = vx.x;
     result.m1 = vy.x;
@@ -300,7 +300,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a scaling matrix for the given [x], [y], [z] factors.
-  factory MatrixD.scale(double x, double y, double z) => .mat4(
+  factory Matrix.scale(double x, double y, double z) => .mat4(
     x, 0, 0, 0,
     0, y, 0, 0,
     0, 0, z, 0,
@@ -308,7 +308,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   /// Returns a translation matrix for the given [x], [y], [z] offsets.
-  factory MatrixD.translate(num x, num y, num z) => .mat4(
+  factory Matrix.translate(num x, num y, num z) => .mat4(
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
@@ -316,10 +316,10 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
   
   /// Returns a translation matrix from [v]'s components. Convenience wrapper for [translate].
-  factory MatrixD.translateVector3(Vector3D v) => .translate(v.x, v.y, v.z);
+  factory Matrix.translateVector3(Vector3 v) => .translate(v.x, v.y, v.z);
 
   /// Returns a rotation matrix around [axis] by [angle] radians.
-  factory MatrixD.rotateAngle(Vector3D axis, double angle) {
+  factory Matrix.rotateAngle(Vector3 axis, double angle) {
     double x = axis.x, y = axis.y, z = axis.z;
 
     final lengthSquared = x*x + y*y + z*z;
@@ -336,7 +336,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     final cosres = math.cos(angle);
     final t = 1.0 - cosres;
 
-    final MatrixD result = .zero();
+    final Matrix result = .zero();
 
     result.m0 = x*x*t + cosres;
     result.m1 = y*x*t + z*sinres;
@@ -356,8 +356,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a rotation matrix applied in X > Y > Z order from [angle]'s components (in radians).
-  factory MatrixD.rotateXYZ(Vector3D angle) {
-    final MatrixD result = .identity();
+  factory Matrix.rotateXYZ(Vector3 angle) {
+    final Matrix result = .identity();
 
     final cosz = math.cos(-angle.z);
     final sinz = math.sin(-angle.z);
@@ -382,8 +382,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a rotation matrix applied in Z > Y > X order from [angle]'s components (in radians).
-  factory MatrixD.rotateZYX(Vector3D angle) {
-    final MatrixD result = .zero();
+  factory Matrix.rotateZYX(Vector3 angle) {
+    final Matrix result = .zero();
 
     final cz = math.cos(angle.z);
     final sz = math.sin(angle.z);
@@ -410,7 +410,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a perspective projection matrix defined by the given frustum planes.
-  factory MatrixD.frustum(
+  factory Matrix.frustum(
     double left,
     double right,
     double bottom,
@@ -418,7 +418,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     double nearPlane,
     double farPlane,
   ) {
-    final MatrixD result = .zero();
+    final Matrix result = .zero();
 
     final rl = right - left;
     final tb = top - bottom;
@@ -436,7 +436,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a perspective projection matrix from a vertical FOV [fovY] (in radians), [aspect] ratio, and clip planes.
-  factory MatrixD.perspective(
+  factory Matrix.perspective(
     double fovY,
     double aspect,
     double nearPlane,
@@ -448,7 +448,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns an orthographic projection matrix defined by the given clip planes.
-  factory MatrixD.ortho(
+  factory Matrix.ortho(
     double left,
     double right,
     double bottom,
@@ -456,7 +456,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     double nearPlane,
     double farPlane,
   ) {
-    final MatrixD result = .zero();
+    final Matrix result = .zero();
 
     final rl = right - left;
     final tb = top - bottom;
@@ -474,8 +474,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a rotation matrix around the X axis by [angle] radians.
-  factory MatrixD.rotateX(double angle) {
-    final MatrixD result = .identity();
+  factory Matrix.rotateX(double angle) {
+    final Matrix result = .identity();
 
     final cosres = math.cos(angle);
     final sinres = math.sin(angle);
@@ -489,8 +489,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a rotation matrix around the Y axis by [angle] radians.
-  factory MatrixD.rotateY(double angle) {
-    final MatrixD result = .identity();
+  factory Matrix.rotateY(double angle) {
+    final Matrix result = .identity();
 
     final cosres = math.cos(angle);
     final sinres = math.sin(angle);
@@ -504,8 +504,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a rotation matrix around the Z axis by [angle] radians.
-  factory MatrixD.rotateZ(double angle) {
-    final MatrixD result = .identity();
+  factory Matrix.rotateZ(double angle) {
+    final Matrix result = .identity();
 
     final cosres = math.cos(angle);
     final sinres = math.sin(angle);
@@ -519,14 +519,14 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a transformation matrix composed of a rotational, translational and scaling components.
-  factory MatrixD.compose(
-    Vector3D translation,
-    QuaternionD rotation,
-    Vector3D scale,
+  factory Matrix.compose(
+    Vector3 translation,
+    Quaternion rotation,
+    Vector3 scale,
   ) {
-    Vector3D right = .vec3(1.0, 0.0, 0.0);
-    Vector3D up = .vec3(0.0, 1.0, 0.0);
-    Vector3D forward = .vec3(0.0, 0.0, 1.0);
+    Vector3 right = .vec3(1.0, 0.0, 0.0);
+    Vector3 up = .vec3(0.0, 1.0, 0.0);
+    Vector3 forward = .vec3(0.0, 0.0, 1.0);
 
     right = right.scale(scale.x);
     up = up.scale(scale.y);
@@ -545,8 +545,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns the rotation matrix equivalent of quaternion [q].
-  factory MatrixD.fromQuaternion(QuaternionD q) {
-    final MatrixD result = .identity();
+  factory Matrix.fromQuaternion(Quaternion q) {
+    final Matrix result = .identity();
 
     final a2 = q.x*q.x;
     final b2 = q.y*q.y;
@@ -576,7 +576,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   /// Sets all components in column-major order at once.
   /// 
   /// Values are converted using [num.toDouble].
-  MatrixD set(
+  Matrix set(
     num m0, num m1, num m2, num m3,
     num m4, num m5, num m6, num m7,
     num m8, num m9, num m10, num m11,
@@ -601,7 +601,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
     ].join('\n')} ]';
 
   /// Returns a new matrix that is the transpose of this one.
-  MatrixD transpose() => .mat4(
+  Matrix transpose() => .mat4(
     m0, m4, m8, m12,
     m1, m5, m9, m13,
     m2, m6, m10, m14,
@@ -612,8 +612,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   ///
   /// Uses the cofactor expansion method. Result is undefined if the matrix
   /// is singular (i.e. [determinant] is zero).
-  MatrixD invert() {
-    final MatrixD result = .zero();
+  Matrix invert() {
+    final Matrix result = .zero();
 
     final a00 = m0, a01 = m1, a02 = m2, a03 = m3;
     final a10 = m4, a11 = m5, a12 = m6, a13 = m7;
@@ -656,7 +656,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   }
 
   /// Returns a new matrix that is the component-wise sum of this and [o].
-  MatrixD add(MatrixD o) => .mat4(
+  Matrix add(Matrix o) => .mat4(
     m0+o.m0, m1+o.m1, m2+o.m2, m3+o.m3,
     m4+o.m4, m5+o.m5, m6+o.m6, m7+o.m7,
     m8+o.m8, m9+o.m9, m10+o.m10, m11+o.m11,
@@ -664,7 +664,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   /// Returns a new matrix that is the component-wise difference of this and [o].
-  MatrixD sub(MatrixD o) => .mat4(
+  Matrix sub(Matrix o) => .mat4(
     m0-o.m0, m1-o.m1, m2-o.m2, m3-o.m3,
     m4-o.m4, m5-o.m5, m6-o.m6, m7-o.m7,
     m8-o.m8, m9-o.m9, m10-o.m10, m11-o.m11,
@@ -674,7 +674,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   /// Returns a new matrix that is the product of this and [o].
   ///
   /// Follows standard matrix multiplication rules; not commutative.
-  MatrixD mul(MatrixD o) => .mat4(
+  Matrix mul(Matrix o) => .mat4(
     m0*o.m0 + m1*o.m4 + m2*o.m8 + m3*o.m12,
     m0*o.m1 + m1*o.m5 + m2*o.m9 + m3*o.m13,
     m0*o.m2 + m1*o.m6 + m2*o.m10 + m3*o.m14,
@@ -694,7 +694,7 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   );
 
   /// Returns a new matrix with components multiplied by [value].
-  MatrixD mulValue(double value) => .mat4(
+  Matrix mulValue(double value) => .mat4(
     m0*value, m1*value, m2*value, m3*value,
     m4*value, m5*value, m6*value, m7*value,
     m8*value, m9*value, m10*value, m11*value,
@@ -717,10 +717,10 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
   ///
   /// Returns a record `(translation, rotation, scale)`. If the determinant
   /// is close to zero, [rotation] falls back to the identity quaternion.
-  (Vector3D translation, QuaternionD rotation, Vector3D scale) decompose() {
-    late Vector3D translation;
-    late QuaternionD rotation;
-    late Vector3D scale;
+  (Vector3 translation, Quaternion rotation, Vector3 scale) decompose() {
+    late Vector3 translation;
+    late Quaternion rotation;
+    late Vector3 scale;
 
     // Extract translation.
     translation = .vec3(m12, m13, m14);
@@ -741,16 +741,16 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
 
     // Extract scale
     final det = a*A + b*B + c*C;
-    Vector3D abc = .vec3(a, b, c);
-    Vector3D def = .vec3(d, e, f);
-    Vector3D ghi = .vec3(g, h, i);
+    Vector3 abc = .vec3(a, b, c);
+    Vector3 def = .vec3(d, e, f);
+    Vector3 ghi = .vec3(g, h, i);
 
-    Vector3D s = .vec3(abc.length, def.length, ghi.length);
+    Vector3 s = .vec3(abc.length, def.length, ghi.length);
     if (det < 0) s = s.negate();
     scale = s;
 
     // Remove scale from the matrix if it is not close to zero
-    MatrixD clone = this.clone();
+    Matrix clone = this.clone();
     if (!RaylibFunctions.FloatEquals(det, 0)) {
       clone.m0 /= s.x;
       clone.m4 /= s.x;
@@ -786,8 +786,8 @@ class MatrixD extends RaylibStructLiteral<MatrixD> {
       m12, m13, m14, m15
     ];
 
-  /// Returns all 16 components as a [float16D] in column-major order by default.
-  float16D toFloatV({bool rowMajorOrder = false})
+  /// Returns all 16 components as a [float16] in column-major order by default.
+  float16 toFloatV({bool rowMajorOrder = false})
     => .new(v: toArray(rowMajorOrder: rowMajorOrder));
 
   @override

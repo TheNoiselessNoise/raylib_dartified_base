@@ -7,7 +7,7 @@ enum TransformField with StructFields {
 }
 
 /// Transform, vertex transformation data
-class TransformD extends RaylibStructLiteral<TransformD> {
+class Transform extends RaylibStructLiteral<Transform> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -19,12 +19,12 @@ class TransformD extends RaylibStructLiteral<TransformD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<TransformD> struct = .new(
-    factory: TransformD.new,
+  static final StructType<Transform> struct = ._builtin(
+    factory: Transform.new,
     layout: .aligned<TransformField>({
-      .translation: RStruct(Vector3D.struct), // Translation
-      .rotation: RStruct(QuaternionD.struct), // Rotation
-      .scale: RStruct(Vector3D.struct), // Scale
+      .translation: RStruct(Vector3.struct), // Translation
+      .rotation: RStruct(Quaternion.struct), // Rotation
+      .scale: RStruct(Vector3.struct), // Scale
     }),
   );
 
@@ -32,11 +32,11 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   static final StructLayout<TransformField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [translation].
-  static final field_translation = structLayout.struct<Vector3D>(.translation);
+  static final field_translation = structLayout.struct<Vector3>(.translation);
   /// Field descriptor for [rotation].
-  static final field_rotation = structLayout.struct<QuaternionD>(.rotation);
+  static final field_rotation = structLayout.struct<Quaternion>(.rotation);
   /// Field descriptor for [scale].
-  static final field_scale = structLayout.struct<Vector3D>(.scale);
+  static final field_scale = structLayout.struct<Vector3>(.scale);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -46,35 +46,35 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  Vector3D _translation;
+  Vector3 _translation;
   /// Translation
-  Vector3D get translation => _translation = field_translation.readOr(op, _translation);
-  set translation(Vector3D value) => _translation = field_translation.writeOr(op, value);
+  Vector3 get translation => _translation = field_translation.readOr(op, _translation);
+  set translation(Vector3 value) => _translation = field_translation.writeOr(op, value);
 
-  QuaternionD _rotation;
+  Quaternion _rotation;
   /// Rotation
-  QuaternionD get rotation => _rotation = field_rotation.readOr(op, _rotation);
-  set rotation(QuaternionD value) => _rotation = field_rotation.writeOr(op, value);
+  Quaternion get rotation => _rotation = field_rotation.readOr(op, _rotation);
+  set rotation(Quaternion value) => _rotation = field_rotation.writeOr(op, value);
 
-  Vector3D _scale;
+  Vector3 _scale;
   /// Scale
-  Vector3D get scale => _scale = field_scale.readOr(op, _scale);
-  set scale(Vector3D value) => _scale = field_scale.writeOr(op, value);
+  Vector3 get scale => _scale = field_scale.readOr(op, _scale);
+  set scale(Vector3 value) => _scale = field_scale.writeOr(op, value);
   
-  TransformD({
+  Transform({
     super.op,
-    Vector3D? translation,
-    QuaternionD? rotation,
-    Vector3D? scale,
+    Vector3? translation,
+    Quaternion? rotation,
+    Vector3? scale,
   }) :
     _translation = translation ?? .zero(),
     _rotation = rotation ?? .zero(),
     _scale = scale ?? .zero();
 
-  factory TransformD.zero() => .new();
+  factory Transform.zero() => .new();
 
   @override
-  TransformD setDart(TransformD o) {
+  Transform setDart(Transform o) {
     translation.setDart(o.translation);
     rotation.setDart(o.rotation);
     scale.setDart(o.scale);
@@ -96,7 +96,7 @@ class TransformD extends RaylibStructLiteral<TransformD> {
   }
 
   @override
-  TransformD clone() => .new(
+  Transform clone() => .new(
     op: op,
     translation: translation.clone(),
     rotation: rotation.clone(),

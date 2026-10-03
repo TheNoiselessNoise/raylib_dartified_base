@@ -19,13 +19,13 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// `msf_gif_begin`
   int msf_gif_begin(
-    MsfGifStateD handle,
+    MsfGifState handle,
     num width,
     num height,
   ) => run(
     () => _debugLabels.msf_gif_begin(handle, width, height),
     () => _flat.msf_gif_begin(
-      $.MsfGifState$.Ref1(handle),
+      MsfGifState$.Ref1(handle),
       width.toInt(),
       height.toInt(),
     ),
@@ -33,7 +33,7 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
 
   /// `msf_gif_frame`
   int msf_gif_frame(
-    MsfGifStateD handle,
+    MsfGifState handle,
     Uint8List pixelData,
     num centiSecondsPerFame,
     num maxBitDepth,
@@ -41,8 +41,8 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   ) => run(
     () => _debugLabels.msf_gif_frame(handle, pixelData, centiSecondsPerFame, maxBitDepth, pitchInBytes),
     () => _flat.msf_gif_frame(
-      $.MsfGifState$.Ref1(handle),
-      $.TypedDataList$.Array(pixelData).cast(),
+      MsfGifState$.Ref1(handle),
+      TypedDataList$.Array(pixelData).cast(),
       centiSecondsPerFame.toInt(),
       maxBitDepth.toInt(),
       pitchInBytes.toInt(),
@@ -50,18 +50,18 @@ final class RaylibMsfGifDart<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// `msf_gif_end`
-  MsfGifResultD msf_gif_end(
-    MsfGifStateD handle,
+  MsfGifResult msf_gif_end(
+    MsfGifState handle,
   ) => run(
     () => _debugLabels.msf_gif_end(handle),
     () => _flat.msf_gif_end(
-      $.MsfGifState$.Ref1(handle),
+      MsfGifState$.Ref1(handle),
     ),
   );
 
   /// `msf_gif_free`
   void msf_gif_free(
-    MsfGifResultD result,
+    MsfGifResult result,
   ) => run(
     () => _debugLabels.msf_gif_free(result),
     () => _flat.msf_gif_free(

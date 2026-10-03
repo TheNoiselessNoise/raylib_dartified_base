@@ -2,76 +2,76 @@ import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 RaylibCameraFlat get _module => RaylibBase.instance.module();
 
-/// See [RaylibCameraFlatModule.GetCameraForward].
-Vector3D GetCameraForward(
-  StructPointer<Camera3DD> camera,
+/// See [RaylibCameraFlat.GetCameraForward].
+Vector3 GetCameraForward(
+  StructPointer<Camera3D> camera,
 ) => _module.GetCameraForward(camera);
 
-/// See [RaylibCameraFlatModule.GetCameraUp].
-Vector3D GetCameraUp(
-  StructPointer<Camera3DD> camera,
+/// See [RaylibCameraFlat.GetCameraUp].
+Vector3 GetCameraUp(
+  StructPointer<Camera3D> camera,
 ) => _module.GetCameraUp(camera);
 
-/// See [RaylibCameraFlatModule.GetCameraRight].
-Vector3D GetCameraRight(
-  StructPointer<Camera3DD> camera,
+/// See [RaylibCameraFlat.GetCameraRight].
+Vector3 GetCameraRight(
+  StructPointer<Camera3D> camera,
 ) => _module.GetCameraRight(camera);
 
-/// See [RaylibCameraFlatModule.CameraMoveForward].
+/// See [RaylibCameraFlat.CameraMoveForward].
 void CameraMoveForward(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double distance,
   bool moveInWorldPlane,
 ) => _module.CameraMoveForward(camera, distance, moveInWorldPlane);
 
-/// See [RaylibCameraFlatModule.CameraMoveUp].
+/// See [RaylibCameraFlat.CameraMoveUp].
 void CameraMoveUp(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double distance,
 ) => _module.CameraMoveUp(camera, distance);
 
-/// See [RaylibCameraFlatModule.CameraMoveRight].
+/// See [RaylibCameraFlat.CameraMoveRight].
 void CameraMoveRight(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double distance,
   bool moveInWorldPlane,
 ) => _module.CameraMoveRight(camera, distance, moveInWorldPlane);
 
-/// See [RaylibCameraFlatModule.CameraMoveToTarget].
+/// See [RaylibCameraFlat.CameraMoveToTarget].
 void CameraMoveToTarget(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double delta,
 ) => _module.CameraMoveToTarget(camera, delta);
 
-/// See [RaylibCameraFlatModule.CameraYaw].
+/// See [RaylibCameraFlat.CameraYaw].
 void CameraYaw(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double angle,
   bool rotateAroundTarget,
 ) => _module.CameraYaw(camera, angle, rotateAroundTarget);
 
-/// See [RaylibCameraFlatModule.CameraPitch].
+/// See [RaylibCameraFlat.CameraPitch].
 void CameraPitch(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double angle,
   bool lockView,
   bool rotateAroundTarget,
   bool rotateUp,
 ) => _module.CameraPitch(camera, angle, lockView, rotateAroundTarget, rotateUp);
 
-/// See [RaylibCameraFlatModule.CameraRoll].
+/// See [RaylibCameraFlat.CameraRoll].
 void CameraRoll(
-  StructPointer<Camera3DD> camera,
+  StructPointer<Camera3D> camera,
   double angle,
 ) => _module.CameraRoll(camera, angle);
 
-/// See [RaylibCameraFlatModule.GetCameraViewMatrix].
-MatrixD GetCameraViewMatrix(
-  StructPointer<Camera3DD> camera,
+/// See [RaylibCameraFlat.GetCameraViewMatrix].
+Matrix GetCameraViewMatrix(
+  StructPointer<Camera3D> camera,
 ) => _module.GetCameraViewMatrix(camera);
 
-/// See [RaylibCameraFlatModule.GetCameraProjectionMatrix].
-MatrixD GetCameraProjectionMatrix(
-  StructPointer<Camera3DD> camera,
+/// See [RaylibCameraFlat.GetCameraProjectionMatrix].
+Matrix GetCameraProjectionMatrix(
+  StructPointer<Camera3D> camera,
   double aspect,
 ) => _module.GetCameraProjectionMatrix(camera, aspect);

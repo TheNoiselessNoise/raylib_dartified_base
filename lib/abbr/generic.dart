@@ -1,7 +1,7 @@
-export 'core/modules/core/abbr_consts.dart';
-export 'core/modules/gui/abbr_consts.dart';
-export 'core/modules/light/abbr_consts.dart';
-export 'core/modules/rlgl/abbr_consts.dart';
+export '../core/modules/core/abbr_consts.dart';
+export '../core/modules/gui/abbr_consts.dart';
+export '../core/modules/light/abbr_consts.dart';
+export '../core/modules/rlgl/abbr_consts.dart';
 import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 // Exports everything that can be used in backend specific code.

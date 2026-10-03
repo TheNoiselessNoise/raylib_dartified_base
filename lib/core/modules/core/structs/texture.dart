@@ -9,7 +9,7 @@ enum TextureField with StructFields {
 }
 
 /// Texture, tex data stored in GPU memory (VRAM)
-class TextureD extends RaylibStruct<TextureD> {
+class Texture extends RaylibStruct<Texture> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,8 +21,8 @@ class TextureD extends RaylibStruct<TextureD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<TextureD> struct = .new(
-    factory: TextureD.new,
+  static final StructType<Texture> struct = ._builtin(
+    factory: Texture.new,
     layout: .aligned<TextureField>({
       .id:      RUnsignedInt(), // OpenGL texture id
       .width:   RInt(), // Texture base width
@@ -79,7 +79,7 @@ class TextureD extends RaylibStruct<TextureD> {
   PixelFormat get format => _format = .fromValue(field_format.readOr(op, _format.value));
   set format(PixelFormat value) => _format = .fromValue(field_format.writeOr(op, value.value));
 
-  TextureD({
+  Texture({
     super.op,
     int id = 0,
     int width = 0,
@@ -93,10 +93,10 @@ class TextureD extends RaylibStruct<TextureD> {
     _mipmaps = mipmaps,
     _format = format;
 
-  factory TextureD.zero() => .new();
+  factory Texture.zero() => .new();
 
   @override
-  TextureD setDart(TextureD o) {
+  Texture setDart(Texture o) {
     id = o.id;
     width = o.width;
     height = o.height;
@@ -124,7 +124,7 @@ class TextureD extends RaylibStruct<TextureD> {
   }
 
   @override
-  TextureD clone() => .new(
+  Texture clone() => .new(
     op: op,
     id: id,
     width: width,

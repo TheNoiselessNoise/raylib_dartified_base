@@ -6,7 +6,7 @@ enum SoundField with StructFields {
 }
 
 /// Sound
-class SoundD extends RaylibStruct<SoundD> {
+class Sound extends RaylibStruct<Sound> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -18,10 +18,10 @@ class SoundD extends RaylibStruct<SoundD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<SoundD> struct = .new(
-    factory: SoundD.new,
+  static final StructType<Sound> struct = ._builtin(
+    factory: Sound.new,
     layout: .aligned<SoundField>({
-      .stream:     RStruct(AudioStreamD.struct), // Audio stream
+      .stream:     RStruct(AudioStream.struct), // Audio stream
       .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
     }),
   );
@@ -30,7 +30,7 @@ class SoundD extends RaylibStruct<SoundD> {
   static final StructLayout<SoundField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [stream].
-  static final field_stream = structLayout.struct<AudioStreamD>(.stream);
+  static final field_stream = structLayout.struct<AudioStream>(.stream);
   /// Field descriptor for [frameCount].
   static final field_frameCount = structLayout.scalar<int, RUnsignedInt>(.frameCount);
 
@@ -42,28 +42,28 @@ class SoundD extends RaylibStruct<SoundD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  AudioStreamD _stream;
+  AudioStream _stream;
   /// Audio stream
-  AudioStreamD get stream => _stream = field_stream.readOr(op, _stream);
-  set stream(AudioStreamD value) => _stream = field_stream.writeOr(op, value);
+  AudioStream get stream => _stream = field_stream.readOr(op, _stream);
+  set stream(AudioStream value) => _stream = field_stream.writeOr(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
   int get frameCount => _frameCount = field_frameCount.readOr(op, _frameCount);
   set frameCount(int value) => _frameCount = field_frameCount.writeOr(op, value);
 
-  SoundD({
+  Sound({
     super.op,
-    AudioStreamD? stream,
+    AudioStream? stream,
     int frameCount = 0,
   }) :
     _stream = stream ?? .zero(),
     _frameCount = frameCount;
 
-  factory SoundD.zero() => .new();
+  factory Sound.zero() => .new();
 
   @override
-  SoundD setDart(SoundD o) {
+  Sound setDart(Sound o) {
     stream.setDart(o.stream);
     frameCount = o.frameCount;
     return this;
@@ -82,7 +82,7 @@ class SoundD extends RaylibStruct<SoundD> {
   }
 
   @override
-  SoundD clone() => .new(
+  Sound clone() => .new(
     op: op,
     stream: stream.clone(),
     frameCount: frameCount,

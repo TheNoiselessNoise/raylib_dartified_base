@@ -27,14 +27,14 @@ abstract class RaylibMsfGifFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// `msf_gif_begin`
   int msf_gif_begin(
-    StructPointer<MsfGifStateD> handle,
+    StructPointer<MsfGifState> handle,
     int width,
     int height,
   );
 
   /// `msf_gif_frame`
   int msf_gif_frame(
-    StructPointer<MsfGifStateD> handle,
+    StructPointer<MsfGifState> handle,
     MemoryPointer<RUint8> pixelData,
     int centiSecondsPerFame,
     int maxBitDepth,
@@ -42,18 +42,18 @@ abstract class RaylibMsfGifFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// `msf_gif_end`
-  MsfGifResultD msf_gif_end(
-    StructPointer<MsfGifStateD> handle,
+  MsfGifResult msf_gif_end(
+    StructPointer<MsfGifState> handle,
   );
 
   /// `msf_gif_free`
   void msf_gif_free(
-    MsfGifResultD result,
+    MsfGifResult result,
   );
 
   /// `msf_gif_begin_to_file`
   int msf_gif_begin_to_file(
-    StructPointer<MsfGifStateD> handle,
+    StructPointer<MsfGifState> handle,
     int width,
     int height,
     MemoryPointer<RFunction> func,
@@ -62,7 +62,7 @@ abstract class RaylibMsfGifFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// `msf_gif_frame_to_file`
   int msf_gif_frame_to_file(
-    StructPointer<MsfGifStateD> handle,
+    StructPointer<MsfGifState> handle,
     MemoryPointer<RUint8> pixelData,
     int centiSecondsPerFame,
     int maxBitDepth,
@@ -71,6 +71,6 @@ abstract class RaylibMsfGifFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// `msf_gif_end_to_file`
   int msf_gif_end_to_file(
-    StructPointer<MsfGifStateD> handle,
+    StructPointer<MsfGifState> handle,
   );
 }

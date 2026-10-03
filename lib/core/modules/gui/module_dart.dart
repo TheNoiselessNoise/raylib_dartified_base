@@ -68,7 +68,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Set gui custom font (global state)
   void GuiSetFont(
-    FontD font,
+    Font font,
   ) => run(
     () => _debugLabels.GuiSetFont(font),
     () => _flat.GuiSetFont(
@@ -77,7 +77,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   );
 
   /// Get gui custom font (global state)
-  FontD GuiGetFont() => run(
+  Font GuiGetFont() => run(
     () => _debugLabels.GuiGetFont(),
     () => _flat.GuiGetFont(),
   );
@@ -114,7 +114,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiLoadStyle(fileName),
     () => _flat.GuiLoadStyle(
-      $.String$.ValueOrNull(fileName),
+      String$.ValueOrNull(fileName),
     ),
   );
 
@@ -124,7 +124,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiLoadStyleFromMemory(fileData),
     () => _flat.GuiLoadStyleFromMemory(
-      $.UnsignedChar$.Array(fileData),
+      UnsignedChar$.Array(fileData),
       fileData.length,
     ),
   );
@@ -153,7 +153,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiSetTooltip(tooltip),
     () => _flat.GuiSetTooltip(
-      $.String$.ValueOrNull(tooltip),
+      String$.ValueOrNull(tooltip),
     ),
   );
 
@@ -165,7 +165,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
     () => _debugLabels.GuiIconText(iconId, text),
     () => _flat.GuiIconText(
       iconId.value,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     ).toDartString(),
   );
 
@@ -195,14 +195,14 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiLoadIcons(fileName, loadIconsName),
     () {
-      final fileNamePtr = $.String$.ValueOrNull(fileName);
+      final fileNamePtr = String$.ValueOrNull(fileName);
       final values = _flat.GuiLoadIcons(
         fileNamePtr,
         loadIconsName,
       );
       if (!loadIconsName || values.isNull) return [];
 
-      final dataSize = $.Int$.Ref1();
+      final dataSize = Int$.Ref1();
       final bytes = _coreFlat.LoadFileData(fileNamePtr, dataSize);
       if (dataSize.value < 10) return [];
 
@@ -225,7 +225,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
     () => _debugLabels.GuiLoadIconsFromMemory(fileData, loadIconsName),
     () {
       final values = _flat.GuiLoadIconsFromMemory(
-        $.UnsignedChar$.Array(fileData),
+        UnsignedChar$.Array(fileData),
         fileData.length,
         loadIconsName,
       );
@@ -249,7 +249,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
     num posX,
     num posY,
     num pixelSize,
-    ColorD color,
+    Color color,
   ) => run(
     () => _debugLabels.GuiDrawIcon(iconId, posX, posY, pixelSize, color),
     () => _flat.GuiDrawIcon(
@@ -267,124 +267,124 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiGetTextWidth(text),
     () => _flat.GuiGetTextWidth(
-      $.String$.ValueOrNull(text), 
+      String$.ValueOrNull(text), 
     ),
   );
 
   /// Window Box control, shows a window that can be closed
   GuiResult GuiWindowBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? title,
   ) => run(
     () => _debugLabels.GuiWindowBox(bounds, title),
     () => .fromValue(_flat.GuiWindowBox(
       bounds,
-      $.String$.ValueOrNull(title),
+      String$.ValueOrNull(title),
     )),
   );
 
   /// Group Box control with text name
   GuiResult GuiGroupBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiGroupBox(bounds, text),
     () => .fromValue(_flat.GuiGroupBox(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Line separator control, could contain text
   GuiResult GuiLine(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiLine(bounds, text),
     () => .fromValue(_flat.GuiLine(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Panel control, useful to group controls
   GuiResult GuiPanel(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiPanel(bounds, text),
     () => .fromValue(_flat.GuiPanel(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Scroll Panel control
   GuiResult GuiScrollPanel(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
-    RectangleD content, {
-    Vector2D? scroll,
-    RectangleD? view,
+    Rectangle content, {
+    Vector2? scroll,
+    Rectangle? view,
   }) => run(
     () => _debugLabels.GuiScrollPanel(bounds, text, content, scroll: scroll, view: view),
     () => .fromValue(_flat.GuiScrollPanel(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
       content,
-      $.Vector2$.RefUnique(scroll),
-      $.Rectangle$.RefUnique(view),
+      Vector2$.RefUnique(scroll),
+      Rectangle$.RefUnique(view),
     )),
   );
 
   /// Label control
   GuiResult GuiLabel(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiLabel(bounds, text),
     () => .fromValue(_flat.GuiLabel(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Button control, returns true when clicked
   GuiResult GuiButton(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiButton(bounds, text),
     () => .fromValue(_flat.GuiButton(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Label button control, returns true when clicked
   GuiResult GuiLabelButton(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiLabelButton(bounds, text),
     () => .fromValue(_flat.GuiLabelButton(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Toggle Button control
   (GuiResult result, bool active) GuiToggle(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     bool active,
   ) => run(
     () => _debugLabels.GuiToggle(bounds, text, active),
     () {
-      final valuePtr = $.Bool$.Ref1(active);
+      final valuePtr = Bool$.Ref1(active);
       final result = _flat.GuiToggle(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
       );
       return (.fromValue(result), valuePtr.value);
@@ -393,16 +393,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Toggle Group control
   (GuiResult result, int active) GuiToggleGroup(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num active,
   ) => run(
     () => _debugLabels.GuiToggleGroup(bounds, text, active),
     () {
-      final valuePtr = $.Int$.Ref1(active.toInt());
+      final valuePtr = Int$.Ref1(active.toInt());
       final result = _flat.GuiToggleGroup(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
       );
       return (.fromValue(result), valuePtr.value);
@@ -411,16 +411,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Toggle Slider control
   (GuiResult result, int active) GuiToggleSlider(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num active,
   ) => run(
     () => _debugLabels.GuiToggleSlider(bounds, text, active),
     () {
-      final valuePtr = $.Int$.Ref1(active.toInt());
+      final valuePtr = Int$.Ref1(active.toInt());
       final result = _flat.GuiToggleSlider(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
       );
       return (.fromValue(result), valuePtr.value);
@@ -429,16 +429,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Check Box control, returns true when active
   (GuiResult result, bool checked) GuiCheckBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     bool checked,
   ) => run(
     () => _debugLabels.GuiCheckBox(bounds, text, checked),
     () {
-      final valuePtr = $.Bool$.Ref1(checked);
+      final valuePtr = Bool$.Ref1(checked);
       final result = _flat.GuiCheckBox(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
       );
       return (.fromValue(result), valuePtr.value);
@@ -447,16 +447,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Combo Box control
   (GuiResult result, int active) GuiComboBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num active,
   ) => run(
     () => _debugLabels.GuiComboBox(bounds, text, active),
     () {
-      final valuePtr = $.Int$.Ref1(active.toInt());
+      final valuePtr = Int$.Ref1(active.toInt());
       final result = _flat.GuiComboBox(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
       );
       return (.fromValue(result), valuePtr.value);
@@ -465,17 +465,17 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Dropdown Box control
   (GuiResult result, int active) GuiDropdownBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num active,
     bool editMode,
   ) => run(
     () => _debugLabels.GuiDropdownBox(bounds, text, active, editMode),
     () {
-      final valuePtr = $.Int$.Ref1(active.toInt());
+      final valuePtr = Int$.Ref1(active.toInt());
       final result = _flat.GuiDropdownBox(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
         editMode,
       );
@@ -485,7 +485,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Spinner control
   (GuiResult result, int value) GuiSpinner(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num value,
     num minValue,
@@ -494,10 +494,10 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiSpinner(bounds, text, value, minValue, maxValue, editMode),
     () {
-      final valuePtr = $.Int$.Ref1(value.toInt());
+      final valuePtr = Int$.Ref1(value.toInt());
       final result = _flat.GuiSpinner(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
         minValue.toInt(),
         maxValue.toInt(),
@@ -509,7 +509,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Value Box control, updates input text with numbers
   (GuiResult result, int value) GuiValueBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num value,
     num minValue,
@@ -518,10 +518,10 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiValueBox(bounds, text, value, minValue, maxValue, editMode),
     () {
-      final valuePtr = $.Int$.Ref1(value.toInt());
+      final valuePtr = Int$.Ref1(value.toInt());
       final result = _flat.GuiValueBox(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         valuePtr,
         minValue.toInt(),
         maxValue.toInt(),
@@ -533,7 +533,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Value box control for float values
   (GuiResult result, double value) GuiValueBoxFloat(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     String textValue,
     num value,
@@ -541,11 +541,11 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiValueBoxFloat(bounds, text, textValue, value, editMode),
     () {
-      final valuePtr = $.Float$.Ref1(value.toDouble());
+      final valuePtr = Float$.Ref1(value.toDouble());
       final result = _flat.GuiValueBoxFloat(
         bounds,
-        $.String$.ValueOrNull(text),
-        $.String$.ValueOrNull(textValue),
+        String$.ValueOrNull(text),
+        String$.ValueOrNull(textValue),
         valuePtr,
         editMode,
       );
@@ -555,14 +555,14 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Text Box control, updates input text
   (GuiResult result, String value) GuiTextBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     num textSize,
     bool editMode,
   ) => run(
     () => _debugLabels.GuiTextBox(bounds, text, textSize, editMode),
     () {
-      final valuePtr = $.String$.Ref1(text ?? '', textSize.toInt());
+      final valuePtr = String$.Ref1(text ?? '', textSize.toInt());
       final result = _flat.GuiTextBox(
         bounds,
         valuePtr,
@@ -575,7 +575,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Slider control
   (GuiResult result, double value) GuiSlider(
-    RectangleD bounds,
+    Rectangle bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -584,11 +584,11 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiSlider(bounds, textLeft, textRight, value, minValue, maxValue),
     () {
-      final valuePtr = $.Float$.Ref1(value.toDouble());
+      final valuePtr = Float$.Ref1(value.toDouble());
       final result = _flat.GuiSlider(
         bounds,
-        $.String$.ValueOrNull(textLeft),
-        $.String$.ValueOrNull(textRight),
+        String$.ValueOrNull(textLeft),
+        String$.ValueOrNull(textRight),
         valuePtr,
         minValue.toDouble(),
         maxValue.toDouble(),
@@ -599,7 +599,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Slider Bar control
   (GuiResult result, double value) GuiSliderBar(
-    RectangleD bounds,
+    Rectangle bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -608,11 +608,11 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiSliderBar(bounds, textLeft, textRight, value, minValue, maxValue),
     () {
-      final valuePtr = $.Float$.Ref1(value.toDouble());
+      final valuePtr = Float$.Ref1(value.toDouble());
       final result = _flat.GuiSliderBar(
         bounds,
-        $.String$.ValueOrNull(textLeft),
-        $.String$.ValueOrNull(textRight),
+        String$.ValueOrNull(textLeft),
+        String$.ValueOrNull(textRight),
         valuePtr,
         minValue.toDouble(),
         maxValue.toDouble(),
@@ -623,7 +623,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Progress Bar control
   (GuiResult result, double value) GuiProgressBar(
-    RectangleD bounds,
+    Rectangle bounds,
     String? textLeft,
     String? textRight,
     num value,
@@ -632,11 +632,11 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiProgressBar(bounds, textLeft, textRight, value, minValue, maxValue),
     () {
-      final valuePtr = $.Float$.Ref1(value.toDouble());
+      final valuePtr = Float$.Ref1(value.toDouble());
       final result = _flat.GuiProgressBar(
         bounds,
-        $.String$.ValueOrNull(textLeft),
-        $.String$.ValueOrNull(textRight),
+        String$.ValueOrNull(textLeft),
+        String$.ValueOrNull(textRight),
         valuePtr,
         minValue.toDouble(),
         maxValue.toDouble(),
@@ -647,34 +647,34 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Status Bar control, shows info text
   GuiResult GuiStatusBar(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiStatusBar(bounds, text),
     () => .fromValue(_flat.GuiStatusBar(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Dummy control for placeholders
   GuiResult GuiDummyRec(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
   ) => run(
     () => _debugLabels.GuiDummyRec(bounds, text),
     () => .fromValue(_flat.GuiDummyRec(
       bounds,
-      $.String$.ValueOrNull(text),
+      String$.ValueOrNull(text),
     )),
   );
 
   /// Grid control
   GuiResult GuiGrid(
-    RectangleD bounds,
+    Rectangle bounds,
     num spacing,
     num subdivs, {
-    Vector2D? mouseCell,
+    Vector2? mouseCell,
   }) => run(
     () => _debugLabels.GuiGrid(bounds, spacing, subdivs, mouseCell: mouseCell),
     () => .fromValue(_flat.GuiGrid(
@@ -682,24 +682,24 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
       MemoryPointer.nullptr(), // `text` is not used at all
       spacing.toDouble(),
       subdivs.toInt(),
-      $.Vector2$.RefUnique(mouseCell),
+      Vector2$.RefUnique(mouseCell),
     )),
   );
 
   /// List View control
   (GuiResult result, int? scrollIndex, int? active) GuiListView(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text, {
     int? scrollIndex,
     int? active,
   }) => run(
     () => _debugLabels.GuiListView(bounds, text, scrollIndex: scrollIndex, active: active),
     () {
-      final scrollIndexPtr = $.Int$.RefOrNull1(scrollIndex);
-      final activePtr = $.Int$.RefOrNull2(active);
+      final scrollIndexPtr = Int$.RefOrNull1(scrollIndex);
+      final activePtr = Int$.RefOrNull2(active);
       final result = _flat.GuiListView(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         scrollIndexPtr,
         activePtr,
       );
@@ -713,7 +713,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// List View control, using text entries list and returning focus entry
   (GuiResult result, int? scrollIndex, int? active, int? focus) GuiListViewEx(
-    RectangleD bounds,
+    Rectangle bounds,
     List<String>? text, {
     int? scrollIndex,
     int? active,
@@ -721,12 +721,12 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   }) => run(
     () => _debugLabels.GuiListViewEx(bounds, text, scrollIndex: scrollIndex, active: active, focus: focus),
     () {
-      final scrollIndexPtr = $.Int$.RefOrNull1(scrollIndex);
-      final activePtr = $.Int$.RefOrNull2(active);
-      final focusPtr = $.Int$.RefOrNull3(focus);
+      final scrollIndexPtr = Int$.RefOrNull1(scrollIndex);
+      final activePtr = Int$.RefOrNull2(active);
+      final focusPtr = Int$.RefOrNull3(focus);
       final result = _flat.GuiListViewEx(
         bounds,
-        text == null ? MemoryPointer.nullptr() : $.String$.Array(text).cast(),
+        text == null ? MemoryPointer.nullptr() : String$.Array(text).cast(),
         text?.length ?? 0,
         scrollIndexPtr,
         activePtr,
@@ -743,16 +743,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Tab Bar control
   (GuiResult result, int active) GuiTabBar(
-    RectangleD bounds,
+    Rectangle bounds,
     String? text,
     int active,
   ) => run(
     () => _debugLabels.GuiTabBar(bounds, text, active: active),
     () {
-      final activePtr = $.Int$.Ref1(active);
+      final activePtr = Int$.Ref1(active);
       final result = _flat.GuiTabBar(
         bounds,
-        $.String$.ValueOrNull(text),
+        String$.ValueOrNull(text),
         MemoryPointer.nullptr(), // `hscroll` is not used at all
         activePtr,
       );
@@ -762,16 +762,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Tab Bar control, using text entries list and returning focus entry
   (GuiResult result, int active) GuiTabBarEx(
-    RectangleD bounds,
+    Rectangle bounds,
     List<String>? text, {
     int? active,
   }) => run(
     () => _debugLabels.GuiTabBarEx(bounds, text, active: active),
     () {
-      final activePtr = $.Int$.RefOrNull1(active);
+      final activePtr = Int$.RefOrNull1(active);
       final result = _flat.GuiTabBarEx(
         bounds,
-        text == null ? MemoryPointer.nullptr() : $.String$.Array(text).cast(),
+        text == null ? MemoryPointer.nullptr() : String$.Array(text).cast(),
         text?.length ?? 0,
         MemoryPointer.nullptr(), // `hscroll` is not used at all
         activePtr,
@@ -783,19 +783,19 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Message Box control, displays a message
   (GuiResult result, int btnActive) GuiMessageBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? title,
     String message,
     String btnText,
   ) => run(
     () => _debugLabels.GuiMessageBox(bounds, title, message, btnText),
     () {
-      final btnActivePtr = $.Int$.Ref1();
+      final btnActivePtr = Int$.Ref1();
       int result = _flat.GuiMessageBox(
         bounds,
-        $.String$.ValueOrNull(title),
-        $.String$.ValueOrNull(message),
-        $.String$.ValueOrNull(btnText),
+        String$.ValueOrNull(title),
+        String$.ValueOrNull(message),
+        String$.ValueOrNull(btnText),
         btnActivePtr,
       );
       return (.fromValue(result), btnActivePtr.value);
@@ -804,7 +804,7 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Text Input Box control, ask for text, supports secret
   (GuiResult result, String value, int btnActive, bool? secretViewActive) GuiTextInputBox(
-    RectangleD bounds,
+    Rectangle bounds,
     String? title,
     String? message,
     String? text,
@@ -814,16 +814,16 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   ) => run(
     () => _debugLabels.GuiTextInputBox(bounds, title, message, text, textSize, btnText, secretViewActive),
     () {
-      final textPtr = $.String$.Ref1(text, textSize.toInt());
-      final btnActivePtr = $.Int$.Ref1();
-      final secretViewActivePtr = $.Bool$.RefOrNull1(secretViewActive);
+      final textPtr = String$.Ref1(text, textSize.toInt());
+      final btnActivePtr = Int$.Ref1();
+      final secretViewActivePtr = Bool$.RefOrNull1(secretViewActive);
       final result = _flat.GuiTextInputBox(
         bounds,
-        $.String$.ValueOrNull(title),
-        $.String$.ValueOrNull(message),
+        String$.ValueOrNull(title),
+        String$.ValueOrNull(message),
         textPtr,
         textSize.toInt(),
-        $.String$.ValueOrNull(btnText),
+        String$.ValueOrNull(btnText),
         btnActivePtr,
         secretViewActivePtr,
       );
@@ -837,13 +837,13 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   );
 
   /// Color Picker control, includes Color bar controls
-  (GuiResult result, ColorD color) GuiColorPicker(
-    RectangleD bounds,
-    ColorD? color,
+  (GuiResult result, Color color) GuiColorPicker(
+    Rectangle bounds,
+    Color? color,
   ) => run(
     () => _debugLabels.GuiColorPicker(bounds, color),
     () {
-      final valuePtr = $.Color$.Ref1(color);
+      final valuePtr = Color$.Ref1(color);
       final result = _flat.GuiColorPicker(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all
@@ -854,13 +854,13 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   );
 
   /// Color Panel control
-  (GuiResult result, ColorD color) GuiColorPanel(
-    RectangleD bounds,
-    ColorD color,
+  (GuiResult result, Color color) GuiColorPanel(
+    Rectangle bounds,
+    Color color,
   ) => run(
     () => _debugLabels.GuiColorPanel(bounds, color),
     () {
-      final valuePtr = $.Color$.Ref1(color);
+      final valuePtr = Color$.Ref1(color);
       final result = _flat.GuiColorPanel(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all
@@ -872,12 +872,12 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Color Bar Alpha control
   (GuiResult result, double alpha) GuiColorBarAlpha(
-    RectangleD bounds,
+    Rectangle bounds,
     num alpha,
   ) => run(
     () => _debugLabels.GuiColorBarAlpha(bounds, alpha),
     () {
-      final valuePtr = $.Float$.Ref1(alpha.toDouble());
+      final valuePtr = Float$.Ref1(alpha.toDouble());
       final result = _flat.GuiColorBarAlpha(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all
@@ -889,12 +889,12 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
 
   /// Color Bar Hue control
   (GuiResult result, double value) GuiColorBarHue(
-    RectangleD bounds,
+    Rectangle bounds,
     num value,
   ) => run(
     () => _debugLabels.GuiColorBarHue(bounds, value),
     () {
-      final valuePtr = $.Float$.Ref1(value.toDouble());
+      final valuePtr = Float$.Ref1(value.toDouble());
       final result = _flat.GuiColorBarHue(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all
@@ -905,13 +905,13 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   );
 
   /// Color Picker control, using Hue-Saturation-Value color data, includes Color bar controls
-  (GuiResult result, Vector3D hsv) GuiColorPickerHSV(
-    RectangleD bounds,
-    [Vector3D? colorHsv]
+  (GuiResult result, Vector3 hsv) GuiColorPickerHSV(
+    Rectangle bounds,
+    [Vector3? colorHsv]
   ) => run(
     () => _debugLabels.GuiColorPickerHSV(bounds, colorHsv),
     () {
-      final valuePtr = $.Vector3$.Ref1(colorHsv);
+      final valuePtr = Vector3$.Ref1(colorHsv);
       final result = _flat.GuiColorPickerHSV(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all
@@ -922,13 +922,13 @@ final class RaylibGuiDart<R extends RaylibBase> extends RaylibModule<R> with Ray
   );
 
   /// Color Panel control, using Hue-Saturation-Value color data
-  (GuiResult result, Vector3D hsv) GuiColorPanelHSV(
-    RectangleD bounds,
-    [Vector3D? colorHsv]
+  (GuiResult result, Vector3 hsv) GuiColorPanelHSV(
+    Rectangle bounds,
+    [Vector3? colorHsv]
   ) => run(
     () => _debugLabels.GuiColorPanelHSV(bounds, colorHsv),
     () {
-      final valuePtr = $.Vector3$.Ref1(colorHsv);
+      final valuePtr = Vector3$.Ref1(colorHsv);
       final result = _flat.GuiColorPanelHSV(
         bounds,
         MemoryPointer.nullptr(), // `text` is not used at all

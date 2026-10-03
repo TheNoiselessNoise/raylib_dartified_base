@@ -10,7 +10,7 @@ enum NPatchInfoField with StructFields {
 }
 
 /// NPatchInfo, n-patch layout info
-class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
+class NPatchInfo extends RaylibStructLiteral<NPatchInfo> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -22,10 +22,10 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<NPatchInfoD> struct = .new(
-    factory: NPatchInfoD.new,
+  static final StructType<NPatchInfo> struct = ._builtin(
+    factory: NPatchInfo.new,
     layout: .aligned<NPatchInfoField>({
-      .source: RStruct(RectangleD.struct), // Texture source rectangle
+      .source: RStruct(Rectangle.struct), // Texture source rectangle
       .left:   RInt(), // Left border offset
       .top:    RInt(), // Top border offset
       .right:  RInt(), // Right border offset
@@ -38,7 +38,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   static final StructLayout<NPatchInfoField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [source].
-  static final field_source = structLayout.struct<RectangleD>(.source);
+  static final field_source = structLayout.struct<Rectangle>(.source);
   /// Field descriptor for [left].
   static final field_left = structLayout.scalar<int, RInt>(.left);
   /// Field descriptor for [top].
@@ -58,10 +58,10 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  RectangleD _source;
+  Rectangle _source;
   /// Texture source rectangle
-  RectangleD get source => _source = field_source.readOr(op, _source);
-  set source(RectangleD value) => _source = field_source.writeOr(op, value);
+  Rectangle get source => _source = field_source.readOr(op, _source);
+  set source(Rectangle value) => _source = field_source.writeOr(op, value);
 
   int _left;
   /// Left border offset
@@ -88,9 +88,9 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   NPatchLayout get layout => _layout = field_layout.readOr(op, _layout);
   set layout(NPatchLayout value) => _layout = field_layout.writeOr(op, value);
 
-  NPatchInfoD({
+  NPatchInfo({
     super.op,
-    RectangleD? source,
+    Rectangle? source,
     int left = 0,
     int top = 0,
     int right = 0,
@@ -104,10 +104,10 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
     _bottom = bottom,
     _layout = layout;
 
-  factory NPatchInfoD.zero() => .new();
+  factory NPatchInfo.zero() => .new();
 
   @override
-  NPatchInfoD setDart(NPatchInfoD o) {
+  NPatchInfo setDart(NPatchInfo o) {
     source.setDart(o.source);
     left = o.left;
     top = o.top;
@@ -138,7 +138,7 @@ class NPatchInfoD extends RaylibStructLiteral<NPatchInfoD> {
   }
 
   @override
-  NPatchInfoD clone() => .new(
+  NPatchInfo clone() => .new(
     op: op,
     source: source.clone(),
     left: left,

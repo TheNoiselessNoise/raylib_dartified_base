@@ -9,7 +9,7 @@ enum GlyphInfoField with StructFields {
 }
 
 /// GlyphInfo, font characters glyphs info
-class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
+class GlyphInfo extends RaylibStruct<GlyphInfo> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,14 +21,14 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<GlyphInfoD> struct = .new(
-    factory: GlyphInfoD.new,
+  static final StructType<GlyphInfo> struct = ._builtin(
+    factory: GlyphInfo.new,
     layout: .aligned<GlyphInfoField>({
       .value:    RInt(), // Character value (Unicode)
       .offsetX:  RInt(), // Character offset X when drawing
       .offsetY:  RInt(), // Character offset Y when drawing
       .advanceX: RInt(), // Character advance position X
-      .image:    RStruct(ImageD.struct), // Character image data
+      .image:    RStruct(Image.struct), // Character image data
     }),
   );
 
@@ -44,7 +44,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   /// Field descriptor for [advanceX].
   static final field_advanceX = structLayout.scalar<int, RInt>(.advanceX);
   /// Field descriptor for [image].
-  static final field_image = structLayout.struct<ImageD>(.image);
+  static final field_image = structLayout.struct<Image>(.image);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -74,18 +74,18 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   int get advanceX => _advanceX = field_advanceX.readOr(op, _advanceX);
   set advanceX(int value) => _advanceX = field_advanceX.writeOr(op, value);
 
-  ImageD _image;
+  Image _image;
   /// Character image data
-  ImageD get image => _image = field_image.readOr(op, _image);
-  set image(ImageD value) => _image = field_image.writeOr(op, value);
+  Image get image => _image = field_image.readOr(op, _image);
+  set image(Image value) => _image = field_image.writeOr(op, value);
 
-  GlyphInfoD({
+  GlyphInfo({
     super.op,
     int value = 0,
     int offsetX = 0,
     int offsetY = 0,
     int advanceX = 0,
-    ImageD? image,
+    Image? image,
   }) :
     _value = value,
     _offsetX = offsetX,
@@ -93,10 +93,10 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
     _advanceX = advanceX,
     _image = image ?? .zero();
 
-  factory GlyphInfoD.zero() => .new();
+  factory GlyphInfo.zero() => .new();
 
   @override
-  GlyphInfoD setDart(GlyphInfoD o) {
+  GlyphInfo setDart(GlyphInfo o) {
     value = o.value;
     offsetX = o.offsetX;
     offsetY = o.offsetY;
@@ -124,7 +124,7 @@ class GlyphInfoD extends RaylibStruct<GlyphInfoD> {
   }
 
   @override
-  GlyphInfoD clone() => .new(
+  GlyphInfo clone() => .new(
     op: op,
     value: value,
     offsetX: offsetX,

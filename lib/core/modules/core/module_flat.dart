@@ -89,12 +89,12 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set icon for window (single image, RGBA 32bit)
   void SetWindowIcon(
-    ImageD image,
+    Image image,
   );
 
   /// Set icon for window (multiple images, RGBA 32bit)
   void SetWindowIcons(
-    StructPointer<ImageD> images,
+    StructPointer<Image> images,
     int count,
   );
 
@@ -168,7 +168,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// Get specified monitor position
   /// 
   /// **[!] Not implemented on WASM**
-  Vector2D GetMonitorPosition(
+  Vector2 GetMonitorPosition(
     int monitor,
   );
 
@@ -204,10 +204,10 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Get window position XY on monitor
-  Vector2D GetWindowPosition();
+  Vector2 GetWindowPosition();
 
   /// Get window scale DPI factor
-  Vector2D GetWindowScaleDPI();
+  Vector2 GetWindowScaleDPI();
 
   /// Get the human-readable, UTF-8 encoded name of the specified monitor
   /// 
@@ -225,7 +225,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   MemoryPointer<RChar> GetClipboardText();
 
   /// Get clipboard image content
-  ImageD GetClipboardImage();
+  Image GetClipboardImage();
 
   /// Enable waiting for events on EndDrawing(), no automatic event polling
   void EnableEventWaiting();
@@ -253,7 +253,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set background color (framebuffer clear color)
   void ClearBackground(
-    ColorD color,
+    Color color,
   );
 
   /// Setup canvas (framebuffer) to start drawing
@@ -264,7 +264,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Begin 2D mode with custom camera (2D)
   void BeginMode2D(
-    Camera2DD camera,
+    Camera2D camera,
   );
 
   /// Ends 2D mode with custom camera
@@ -272,7 +272,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Begin 3D mode with custom camera (3D)
   void BeginMode3D(
-    Camera3DD camera,
+    Camera3D camera,
   );
 
   /// Ends 3D mode and returns to default 2D orthographic mode
@@ -280,7 +280,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Begin drawing to render texture
   void BeginTextureMode(
-    RenderTextureD target,
+    RenderTexture target,
   );
 
   /// Ends drawing to render texture
@@ -288,7 +288,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Begin custom shader drawing
   void BeginShaderMode(
-    ShaderD shader,
+    Shader shader,
   );
 
   /// End custom shader drawing (use default shader)
@@ -315,55 +315,55 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Begin stereo rendering (requires VR simulator)
   void BeginVrStereoMode(
-    VrStereoConfigD config,
+    VrStereoConfig config,
   );
 
   /// End stereo rendering (requires VR simulator)
   void EndVrStereoMode();
 
   /// Load VR stereo config for VR simulator device parameters
-  VrStereoConfigD LoadVrStereoConfig(
-    VrDeviceInfoD device,
+  VrStereoConfig LoadVrStereoConfig(
+    VrDeviceInfo device,
   );
 
   /// Unload VR stereo config
   void UnloadVrStereoConfig(
-    VrStereoConfigD config,
+    VrStereoConfig config,
   );
 
   /// Load shader from files and bind default locations
-  ShaderD LoadShader(
+  Shader LoadShader(
     MemoryPointer<RChar> vsFileName,
     MemoryPointer<RChar> fsFileName,
   );
 
   /// Load shader from code strings and bind default locations
-  ShaderD LoadShaderFromMemory(
+  Shader LoadShaderFromMemory(
     MemoryPointer<RChar> vsCode,
     MemoryPointer<RChar> fsCode,
   );
 
   /// Check if a shader is valid (loaded on GPU)
   bool IsShaderValid(
-    ShaderD shader,
+    Shader shader,
   );
 
   /// Get shader uniform location
   int GetShaderLocation(
-    ShaderD shader,
+    Shader shader,
     MemoryPointer<RChar> uniformName,
   );
 
   /// Get shader attribute location
   int GetShaderLocationAttrib(
-    ShaderD shader,
+    Shader shader,
     MemoryPointer<RChar> attribName,
   );
 
   /// Set shader uniform value
   @nonVirtual
   void SetShaderValue(
-    ShaderD shader,
+    Shader shader,
     int locIndex,
     MemoryPointer<RVoid> value,
     int uniformType,
@@ -377,7 +377,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set shader uniform value vector
   void SetShaderValueV(
-    ShaderD shader,
+    Shader shader,
     int locIndex,
     MemoryPointer<RVoid> value,
     int uniformType,
@@ -386,71 +386,71 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Set shader uniform value (matrix 4x4)
   void SetShaderValueMatrix(
-    ShaderD shader,
+    Shader shader,
     int locIndex,
-    MatrixD mat,
+    Matrix mat,
   );
 
   /// Set shader uniform value for texture (sampler2d)
   void SetShaderValueTexture(
-    ShaderD shader,
+    Shader shader,
     int locIndex,
-    TextureD texture,
+    Texture texture,
   );
 
   /// Unload shader from GPU memory (VRAM)
   void UnloadShader(
-    ShaderD shader,
+    Shader shader,
   );
 
   /// Get a ray trace from screen position (i.e mouse)
-  RayD GetScreenToWorldRay(
-    Vector2D position,
-    Camera3DD camera,
+  Ray GetScreenToWorldRay(
+    Vector2 position,
+    Camera3D camera,
   );
 
   /// Get a ray trace from screen position (i.e mouse) in a viewport
-  RayD GetScreenToWorldRayEx(
-    Vector2D position,
-    Camera3DD camera,
+  Ray GetScreenToWorldRayEx(
+    Vector2 position,
+    Camera3D camera,
     int width,
     int height,
   );
 
   /// Get the screen space position for a 3d world space position
-  Vector2D GetWorldToScreen(
-    Vector3D position,
-    Camera3DD camera,
+  Vector2 GetWorldToScreen(
+    Vector3 position,
+    Camera3D camera,
   );
 
   /// Get size position for a 3d world space position
-  Vector2D GetWorldToScreenEx(
-    Vector3D position,
-    Camera3DD camera,
+  Vector2 GetWorldToScreenEx(
+    Vector3 position,
+    Camera3D camera,
     int width,
     int height,
   );
 
   /// Get the screen space position for a 2d camera world space position
-  Vector2D GetWorldToScreen2D(
-    Vector2D position,
-    Camera2DD camera,
+  Vector2 GetWorldToScreen2D(
+    Vector2 position,
+    Camera2D camera,
   );
 
   /// Get the world space position for a 2d camera screen space position
-  Vector2D GetScreenToWorld2D(
-    Vector2D position,
-    Camera2DD camera,
+  Vector2 GetScreenToWorld2D(
+    Vector2 position,
+    Camera2D camera,
   );
 
   /// Get camera transform matrix (view matrix)
-  MatrixD GetCameraMatrix(
-    Camera3DD camera,
+  Matrix GetCameraMatrix(
+    Camera3D camera,
   );
 
   /// Get camera 2d transform matrix
-  MatrixD GetCameraMatrix2D(
-    Camera2DD camera,
+  Matrix GetCameraMatrix2D(
+    Camera2D camera,
   );
 
   /// Set target FPS (maximum)
@@ -717,14 +717,14 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load directory filepaths
-  FilePathListD LoadDirectoryFiles(
+  FilePathList LoadDirectoryFiles(
     MemoryPointer<RChar> dirPath,
   );
 
   /// Load directory filepaths with extension filtering and recursive directory scan.
   /// 
   /// Use 'DIR' in the filter string to include directories in the result
-  FilePathListD LoadDirectoryFilesEx(
+  FilePathList LoadDirectoryFilesEx(
     MemoryPointer<RChar> basePath,
     MemoryPointer<RChar> filter,
     bool scanSubdirs,
@@ -732,18 +732,18 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload filepaths
   void UnloadDirectoryFiles(
-    FilePathListD files,
+    FilePathList files,
   );
 
   /// Check if a file has been dropped into window
   bool IsFileDropped();
 
   /// Load dropped filepaths
-  FilePathListD LoadDroppedFiles();
+  FilePathList LoadDroppedFiles();
 
   /// Unload dropped filepaths
   void UnloadDroppedFiles(
-    FilePathListD files,
+    FilePathList files,
   );
 
   /// Get file modification time (last write time)
@@ -803,24 +803,24 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load automation events list from file, NULL for empty list
-  AutomationEventListD LoadAutomationEventList(
+  AutomationEventList LoadAutomationEventList(
     MemoryPointer<RChar> fileName,
   );
 
   /// Unload automation events list from file
   void UnloadAutomationEventList(
-    AutomationEventListD list,
+    AutomationEventList list,
   );
 
   /// Export automation events list as text file
   bool ExportAutomationEventList(
-    AutomationEventListD list,
+    AutomationEventList list,
     MemoryPointer<RChar> fileName,
   );
 
   /// Set automation event list to record to
   void SetAutomationEventList(
-    StructPointer<AutomationEventListD> list,
+    StructPointer<AutomationEventList> list,
   );
 
   /// Set automation event internal base frame to start recording
@@ -836,7 +836,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Play a recorded automation event
   void PlayAutomationEvent(
-    AutomationEventD event,
+    AutomationEvent event,
   );
 
   /// Check if a key has been pressed once
@@ -970,10 +970,10 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   int GetMouseY();
 
   /// Get mouse position XY
-  Vector2D GetMousePosition();
+  Vector2 GetMousePosition();
 
   /// Get mouse delta between frames
-  Vector2D GetMouseDelta();
+  Vector2 GetMouseDelta();
 
   /// Set mouse position XY
   void SetMousePosition(
@@ -997,7 +997,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   double GetMouseWheelMove();
 
   /// Get mouse wheel movement for both X and Y
-  Vector2D GetMouseWheelMoveV();
+  Vector2 GetMouseWheelMoveV();
 
   /// Set mouse cursor
   void SetMouseCursor(
@@ -1011,7 +1011,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   int GetTouchY();
 
   /// Get touch position XY for a touch point index (relative to screen size)
-  Vector2D GetTouchPosition(
+  Vector2 GetTouchPosition(
     int index,
   );
 
@@ -1040,20 +1040,20 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   double GetGestureHoldDuration();
 
   /// Get gesture drag vector
-  Vector2D GetGestureDragVector();
+  Vector2 GetGestureDragVector();
 
   /// Get gesture drag angle
   double GetGestureDragAngle();
 
   /// Get gesture pinch delta
-  Vector2D GetGesturePinchVector();
+  Vector2 GetGesturePinchVector();
 
   /// Get gesture pinch angle
   double GetGesturePinchAngle();
 
   /// Process gesture event and translate it into gestures
   void ProcessGestureEvent(
-    GestureEventD event,
+    GestureEvent event,
   );
 
   /// Update gestures detected (must be called every frame)
@@ -1061,41 +1061,41 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Update camera position for selected mode
   void UpdateCamera(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     int mode,
   );
 
   /// Update camera movement/rotation
   void UpdateCameraPro(
-    StructPointer<Camera3DD> camera,
-    Vector3D movement,
-    Vector3D rotation,
+    StructPointer<Camera3D> camera,
+    Vector3 movement,
+    Vector3 rotation,
     double zoom,
   );
 
   /// Set texture and rectangle to be used on shapes drawing
   void SetShapesTexture(
-    TextureD texture,
-    RectangleD source,
+    Texture texture,
+    Rectangle source,
   );
 
   /// Get texture that is used for shapes drawing
-  TextureD GetShapesTexture();
+  Texture GetShapesTexture();
 
   /// Get texture source rectangle that is used for shapes drawing
-  RectangleD GetShapesTextureRectangle();
+  Rectangle GetShapesTextureRectangle();
 
   /// Draw a pixel using geometry [Can be slow, use with care]
   void DrawPixel(
     int posX,
     int posY,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a pixel using geometry (Vector version) [Can be slow, use with care]
   void DrawPixelV(
-    Vector2D position,
-    ColorD color,
+    Vector2 position,
+    Color color,
   );
 
   /// Draw a line
@@ -1104,46 +1104,46 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int startPosY,
     int endPosX,
     int endPosY,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a line (using gl lines)
   void DrawLineV(
-    Vector2D startPos,
-    Vector2D endPos,
-    ColorD color,
+    Vector2 startPos,
+    Vector2 endPos,
+    Color color,
   );
 
   /// Draw a line (using triangles/quads)
   void DrawLineEx(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw lines sequence (using gl lines)
   void DrawLineStrip(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw line segment cubic-bezier in-out interpolation
   void DrawLineBezier(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a dashed line
   void DrawLineDashed(
-    Vector2D startPos,
-    Vector2D endPos,
+    Vector2 startPos,
+    Vector2 endPos,
     int dashSize,
     int spaceSize,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a color-filled circle
@@ -1151,42 +1151,42 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int centerX,
     int centerY,
     double radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a piece of a circle
   void DrawCircleSector(
-    Vector2D center,
+    Vector2 center,
     double radius,
     double startAngle,
     double endAngle,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw circle sector outline
   void DrawCircleSectorLines(
-    Vector2D center,
+    Vector2 center,
     double radius,
     double startAngle,
     double endAngle,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a gradient-filled circle
   void DrawCircleGradient(
-    Vector2D center,
+    Vector2 center,
     double radius,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   );
 
   /// Draw a color-filled circle (Vector version)
   void DrawCircleV(
-    Vector2D center,
+    Vector2 center,
     double radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw circle outline
@@ -1194,14 +1194,14 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int centerX,
     int centerY,
     double radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw circle outline (Vector version)
   void DrawCircleLinesV(
-    Vector2D center,
+    Vector2 center,
     double radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ellipse
@@ -1210,15 +1210,15 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int centerY,
     double radiusH,
     double radiusV,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ellipse (Vector version)
   void DrawEllipseV(
-    Vector2D center,
+    Vector2 center,
     double radiusH,
     double radiusV,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ellipse outline
@@ -1227,37 +1227,37 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int centerY,
     double radiusH,
     double radiusV,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ellipse outline (Vector version)
   void DrawEllipseLinesV(
-    Vector2D center,
+    Vector2 center,
     double radiusH,
     double radiusV,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ring
   void DrawRing(
-    Vector2D center,
+    Vector2 center,
     double innerRadius,
     double outerRadius,
     double startAngle,
     double endAngle,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw ring outline
   void DrawRingLines(
-    Vector2D center,
+    Vector2 center,
     double innerRadius,
     double outerRadius,
     double startAngle,
     double endAngle,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a color-filled rectangle
@@ -1266,28 +1266,28 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int posY,
     int width,
     int height,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a color-filled rectangle (Vector version)
   void DrawRectangleV(
-    Vector2D position,
-    Vector2D size,
-    ColorD color,
+    Vector2 position,
+    Vector2 size,
+    Color color,
   );
 
   /// Draw a color-filled rectangle
   void DrawRectangleRec(
-    RectangleD rec,
-    ColorD color,
+    Rectangle rec,
+    Color color,
   );
 
   /// Draw a color-filled rectangle with pro parameters
   void DrawRectanglePro(
-    RectangleD rec,
-    Vector2D origin,
+    Rectangle rec,
+    Vector2 origin,
     double rotation,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a vertical-gradient-filled rectangle
@@ -1296,8 +1296,8 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int posY,
     int width,
     int height,
-    ColorD top,
-    ColorD bottom,
+    Color top,
+    Color bottom,
   );
 
   /// Draw a horizontal-gradient-filled rectangle
@@ -1306,17 +1306,17 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int posY,
     int width,
     int height,
-    ColorD left,
-    ColorD right,
+    Color left,
+    Color right,
   );
 
   /// Draw a gradient-filled rectangle with custom vertex colors
   void DrawRectangleGradientEx(
-    RectangleD rec,
-    ColorD topLeft,
-    ColorD bottomLeft,
-    ColorD topRight,
-    ColorD bottomRight,
+    Rectangle rec,
+    Color topLeft,
+    Color bottomLeft,
+    Color topRight,
+    Color bottomRight,
   );
 
   /// Draw rectangle outline
@@ -1325,315 +1325,315 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int posY,
     int width,
     int height,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle outline with extended parameters
   void DrawRectangleLinesEx(
-    RectangleD rec,
+    Rectangle rec,
     double lineThick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle with rounded edges
   void DrawRectangleRounded(
-    RectangleD rec,
+    Rectangle rec,
     double roundness,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle lines with rounded edges
   void DrawRectangleRoundedLines(
-    RectangleD rec,
+    Rectangle rec,
     double roundness,
     int segments,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle with rounded edges outline
   void DrawRectangleRoundedLinesEx(
-    RectangleD rec,
+    Rectangle rec,
     double roundness,
     int segments,
     double lineThick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a color-filled triangle (vertex in counter-clockwise order!)
   void DrawTriangle(
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   );
 
   /// Draw triangle outline (vertex in counter-clockwise order!)
   void DrawTriangleLines(
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   );
 
   /// Draw a triangle fan defined by points (first vertex is the center)
   void DrawTriangleFan(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a triangle strip defined by points
   void DrawTriangleStrip(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a regular polygon (Vector version)
   void DrawPoly(
-    Vector2D center,
+    Vector2 center,
     int sides,
     double radius,
     double rotation,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a polygon outline of n sides
   void DrawPolyLines(
-    Vector2D center,
+    Vector2 center,
     int sides,
     double radius,
     double rotation,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a polygon outline of n sides with extended parameters
   void DrawPolyLinesEx(
-    Vector2D center,
+    Vector2 center,
     int sides,
     double radius,
     double rotation,
     double lineThick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline: Linear, minimum 2 points
   void DrawSplineLinear(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline: B-Spline, minimum 4 points
   void DrawSplineBasis(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline: Catmull-Rom, minimum 4 points
   void DrawSplineCatmullRom(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]
   void DrawSplineBezierQuadratic(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]
   void DrawSplineBezierCubic(
-    StructPointer<Vector2D> points,
+    StructPointer<Vector2> points,
     int pointCount,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline segment: Linear, 2 points
   void DrawSplineSegmentLinear(
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 p1,
+    Vector2 p2,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline segment: B-Spline, 4 points
   void DrawSplineSegmentBasis(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline segment: Catmull-Rom, 4 points
   void DrawSplineSegmentCatmullRom(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline segment: Quadratic Bezier, 2 points, 1 control point
   void DrawSplineSegmentBezierQuadratic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D p3,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 p3,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw spline segment: Cubic Bezier, 2 points, 2 control points
   void DrawSplineSegmentBezierCubic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D c3,
-    Vector2D p4,
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 c3,
+    Vector2 p4,
     double thick,
-    ColorD color,
+    Color color,
   );
 
   /// Get (evaluate) spline point: Linear
-  Vector2D GetSplinePointLinear(
-    Vector2D startPos,
-    Vector2D endPos,
+  Vector2 GetSplinePointLinear(
+    Vector2 startPos,
+    Vector2 endPos,
     double t,
   );
 
   /// Get (evaluate) spline point: B-Spline
-  Vector2D GetSplinePointBasis(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+  Vector2 GetSplinePointBasis(
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     double t,
   );
 
   /// Get (evaluate) spline point: Catmull-Rom
-  Vector2D GetSplinePointCatmullRom(
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
-    Vector2D p4,
+  Vector2 GetSplinePointCatmullRom(
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
+    Vector2 p4,
     double t,
   );
 
   /// Get (evaluate) spline point: Quadratic Bezier
-  Vector2D GetSplinePointBezierQuad(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D p3,
+  Vector2 GetSplinePointBezierQuad(
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 p3,
     double t,
   );
 
   /// Get (evaluate) spline point: Cubic Bezier
-  Vector2D GetSplinePointBezierCubic(
-    Vector2D p1,
-    Vector2D c2,
-    Vector2D c3,
-    Vector2D p4,
+  Vector2 GetSplinePointBezierCubic(
+    Vector2 p1,
+    Vector2 c2,
+    Vector2 c3,
+    Vector2 p4,
     double t,
   );
 
   /// Check collision between two rectangles
   bool CheckCollisionRecs(
-    RectangleD rec1,
-    RectangleD rec2,
+    Rectangle rec1,
+    Rectangle rec2,
   );
 
   /// Check collision between two circles
   bool CheckCollisionCircles(
-    Vector2D center1,
+    Vector2 center1,
     double radius1,
-    Vector2D center2,
+    Vector2 center2,
     double radius2,
   );
 
   /// Check collision between circle and rectangle
   bool CheckCollisionCircleRec(
-    Vector2D center,
+    Vector2 center,
     double radius,
-    RectangleD rec,
+    Rectangle rec,
   );
 
   /// Check if circle collides with a line created betweeen two points [p1] and [p2]
   bool CheckCollisionCircleLine(
-    Vector2D center,
+    Vector2 center,
     double radius,
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 p1,
+    Vector2 p2,
   );
 
   /// Check if point is inside rectangle
   bool CheckCollisionPointRec(
-    Vector2D point,
-    RectangleD rec,
+    Vector2 point,
+    Rectangle rec,
   );
 
   /// Check if point is inside circle
   bool CheckCollisionPointCircle(
-    Vector2D point,
-    Vector2D center,
+    Vector2 point,
+    Vector2 center,
     double radius,
   );
 
   /// Check if point is inside a triangle
   bool CheckCollisionPointTriangle(
-    Vector2D point,
-    Vector2D p1,
-    Vector2D p2,
-    Vector2D p3,
+    Vector2 point,
+    Vector2 p1,
+    Vector2 p2,
+    Vector2 p3,
   );
 
   /// Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]
   bool CheckCollisionPointLine(
-    Vector2D point,
-    Vector2D p1,
-    Vector2D p2,
+    Vector2 point,
+    Vector2 p1,
+    Vector2 p2,
     int threshold,
   );
 
   /// Check if point is within a polygon described by array of vertices
   bool CheckCollisionPointPoly(
-    Vector2D point,
-    StructPointer<Vector2D> points,
+    Vector2 point,
+    StructPointer<Vector2> points,
     int pointCount,
   );
 
   /// Check the collision between two lines defined by two points each, returns collision point by reference
   bool CheckCollisionLines(
-    Vector2D startPos1,
-    Vector2D endPos1,
-    Vector2D startPos2,
-    Vector2D endPos2,
-    StructPointer<Vector2D> collisionPoint,
+    Vector2 startPos1,
+    Vector2 endPos1,
+    Vector2 startPos2,
+    Vector2 endPos2,
+    StructPointer<Vector2> collisionPoint,
   );
 
   /// Get collision rectangle for two rectangles collision
-  RectangleD GetCollisionRec(
-    RectangleD rec1,
-    RectangleD rec2,
+  Rectangle GetCollisionRec(
+    Rectangle rec1,
+    Rectangle rec2,
   );
 
   /// Load image from file into CPU memory (RAM)
-  ImageD LoadImage(
+  Image LoadImage(
     MemoryPointer<RChar> fileName,
   );
 
   /// Load image from RAW file data
-  ImageD LoadImageRaw(
+  Image LoadImageRaw(
     MemoryPointer<RChar> fileName,
     int width,
     int height,
@@ -1642,13 +1642,13 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load image sequence from file (frames appended to image.data)
-  ImageD LoadImageAnim(
+  Image LoadImageAnim(
     MemoryPointer<RChar> fileName,
     MemoryPointer<RInt> frames,
   );
 
   /// Load image sequence from memory buffer
-  ImageD LoadImageAnimFromMemory(
+  Image LoadImageAnimFromMemory(
     MemoryPointer<RChar> fileType,
     MemoryPointer<RUnsignedChar> fileData,
     int dataSize,
@@ -1656,102 +1656,102 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load image from memory buffer, fileType refers to extension: i.e. '.png'
-  ImageD LoadImageFromMemory(
+  Image LoadImageFromMemory(
     MemoryPointer<RChar> fileType,
     MemoryPointer<RUnsignedChar> fileData,
     int dataSize,
   );
 
   /// Load image from GPU texture data
-  ImageD LoadImageFromTexture(
-    TextureD texture,
+  Image LoadImageFromTexture(
+    Texture texture,
   );
 
   /// Load image from screen buffer and (screenshot)
-  ImageD LoadImageFromScreen();
+  Image LoadImageFromScreen();
 
   /// Check if an image is valid (data and parameters)
   bool IsImageValid(
-    ImageD image,
+    Image image,
   );
 
   /// Unload image from CPU memory (RAM)
   void UnloadImage(
-    ImageD image,
+    Image image,
   );
 
   /// Export image data to file, returns true on success
   bool ExportImage(
-    ImageD image,
+    Image image,
     MemoryPointer<RChar> fileName,
   );
 
   /// Export image to memory buffer
   MemoryPointer<RUint8> ExportImageToMemory(
-    ImageD image,
+    Image image,
     MemoryPointer<RChar> fileType,
     MemoryPointer<RInt> fileSize,
   );
 
   /// Export image as code file defining an array of bytes, returns true on success
   bool ExportImageAsCode(
-    ImageD image,
+    Image image,
     MemoryPointer<RChar> fileName,
   );
 
   /// Generate image: plain color
-  ImageD GenImageColor(
+  Image GenImageColor(
     int width,
     int height,
-    ColorD color,
+    Color color,
   );
 
   /// Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient
-  ImageD GenImageGradientLinear(
+  Image GenImageGradientLinear(
     int width,
     int height,
     int direction,
-    ColorD start,
-    ColorD end,
+    Color start,
+    Color end,
   );
 
   /// Generate image: radial gradient
-  ImageD GenImageGradientRadial(
+  Image GenImageGradientRadial(
     int width,
     int height,
     double density,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   );
 
   /// Generate image: square gradient
-  ImageD GenImageGradientSquare(
+  Image GenImageGradientSquare(
     int width,
     int height,
     double density,
-    ColorD inner,
-    ColorD outer,
+    Color inner,
+    Color outer,
   );
 
   /// Generate image: checked
-  ImageD GenImageChecked(
+  Image GenImageChecked(
     int width,
     int height,
     int checksX,
     int checksY,
-    ColorD col1,
-    ColorD col2,
+    Color col1,
+    Color col2,
   );
 
   /// Generate image: white noise
-  ImageD GenImageWhiteNoise(
+  Image GenImageWhiteNoise(
     int width,
     int height,
     double factor,
   );
 
   /// Generate image: perlin noise
-  ImageD GenImagePerlinNoise(
+  Image GenImagePerlinNoise(
     int width,
     int height,
     int offsetX,
@@ -1760,139 +1760,139 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Generate image: cellular algorithm, bigger tileSize means bigger cells
-  ImageD GenImageCellular(
+  Image GenImageCellular(
     int width,
     int height,
     int tileSize,
   );
 
   /// Generate image: grayscale image from text data
-  ImageD GenImageText(
+  Image GenImageText(
     int width,
     int height,
     MemoryPointer<RChar> text,
   );
 
   /// Create an image duplicate (useful for transformations)
-  ImageD ImageCopy(
-    ImageD image,
+  Image ImageCopy(
+    Image image,
   );
 
   /// Create an image from another image piece
-  ImageD ImageFromImage(
-    ImageD image,
-    RectangleD rec,
+  Image ImageFromImage(
+    Image image,
+    Rectangle rec,
   );
 
   /// Create an image from a selected channel of another image (GRAYSCALE)
-  ImageD ImageFromChannel(
-    ImageD image,
+  Image ImageFromChannel(
+    Image image,
     int selectedChannel,
   );
 
   /// Create an image from text (default font)
-  ImageD ImageText(
+  Image ImageText(
     MemoryPointer<RChar> text,
     int fontSize,
-    ColorD color,
+    Color color,
   );
 
   /// Create an image from text (custom sprite font)
-  ImageD ImageTextEx(
-    FontD font,
+  Image ImageTextEx(
+    Font font,
     MemoryPointer<RChar> text,
     double fontSize,
     double spacing,
-    ColorD tint,
+    Color tint,
   );
 
   /// Convert image data to desired format
   void ImageFormat(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int newFormat,
   );
 
   /// Convert image to POT (power-of-two)
   void ImageToPOT(
-    StructPointer<ImageD> image,
-    ColorD fill,
+    StructPointer<Image> image,
+    Color fill,
   );
 
   /// Crop an image to a defined rectangle
   void ImageCrop(
-    StructPointer<ImageD> image,
-    RectangleD crop,
+    StructPointer<Image> image,
+    Rectangle crop,
   );
 
   /// Crop image depending on alpha value
   void ImageAlphaCrop(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     double threshold,
   );
 
   /// Clear alpha channel to desired color
   void ImageAlphaClear(
-    StructPointer<ImageD> image,
-    ColorD color,
+    StructPointer<Image> image,
+    Color color,
     double threshold,
   );
 
   /// Apply alpha mask to image
   void ImageAlphaMask(
-    StructPointer<ImageD> image,
-    ImageD alphaMask,
+    StructPointer<Image> image,
+    Image alphaMask,
   );
 
   /// Premultiply alpha channel
   void ImageAlphaPremultiply(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Apply Gaussian blur using a box blur approximation
   void ImageBlurGaussian(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int blurSize,
   );
 
   /// Apply custom square convolution kernel to image
   void ImageKernelConvolution(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     MemoryPointer<RFloat> kernel,
     int kernelSize,
   );
 
   /// Resize image (Bicubic scaling algorithm)
   void ImageResize(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int newWidth,
     int newHeight,
   );
 
   /// Resize image (Nearest-Neighbor scaling algorithm)
   void ImageResizeNN(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int newWidth,
     int newHeight,
   );
 
   /// Resize canvas and fill with color
   void ImageResizeCanvas(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int newWidth,
     int newHeight,
     int offsetX,
     int offsetY,
-    ColorD fill,
+    Color fill,
   );
 
   /// Compute all mipmap levels for a provided image
   void ImageMipmaps(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
   void ImageDither(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int rBpp,
     int gBpp,
     int bBpp,
@@ -1901,498 +1901,498 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Flip image vertically
   void ImageFlipVertical(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Flip image horizontally
   void ImageFlipHorizontal(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Rotate image by input angle in degrees (-359 to 359)
   void ImageRotate(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int degrees,
   );
 
   /// Rotate image clockwise 90deg
   void ImageRotateCW(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Rotate image counter-clockwise 90deg
   void ImageRotateCCW(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Modify image color: tint
   void ImageColorTint(
-    StructPointer<ImageD> image,
-    ColorD color,
+    StructPointer<Image> image,
+    Color color,
   );
 
   /// Modify image color: invert
   void ImageColorInvert(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Modify image color: grayscale
   void ImageColorGrayscale(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
   );
 
   /// Modify image color: contrast (-100 to 100)
   void ImageColorContrast(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     double contrast,
   );
 
   /// Modify image color: brightness (-255 to 255)
   void ImageColorBrightness(
-    StructPointer<ImageD> image,
+    StructPointer<Image> image,
     int brightness,
   );
 
   /// Modify image color: replace color
   void ImageColorReplace(
-    StructPointer<ImageD> image,
-    ColorD color,
-    ColorD replace,
+    StructPointer<Image> image,
+    Color color,
+    Color replace,
   );
 
   /// Load color data from image as a Color array (RGBA - 32bit)
-  StructPointer<ColorD> LoadImageColors(
-    ImageD image,
+  StructPointer<Color> LoadImageColors(
+    Image image,
   );
 
   /// Load colors palette from image as a Color array (RGBA - 32bit)
-  StructPointer<ColorD> LoadImagePalette(
-    ImageD image,
+  StructPointer<Color> LoadImagePalette(
+    Image image,
     int maxPaletteSize,
     MemoryPointer<RInt> colorCount,
   );
 
   /// Unload color data loaded with LoadImageColors()
   void UnloadImageColors(
-    StructPointer<ColorD> colors,
+    StructPointer<Color> colors,
   );
 
   /// Unload colors palette loaded with LoadImagePalette()
   void UnloadImagePalette(
-    StructPointer<ColorD> colors,
+    StructPointer<Color> colors,
   );
 
   /// Get image alpha border rectangle
-  RectangleD GetImageAlphaBorder(
-    ImageD image,
+  Rectangle GetImageAlphaBorder(
+    Image image,
     double threshold,
   );
 
   /// Get image pixel color at (x, y) position
-  ColorD GetImageColor(
-    ImageD image,
+  Color GetImageColor(
+    Image image,
     int x,
     int y,
   );
 
   /// Clear image background with given color
   void ImageClearBackground(
-    StructPointer<ImageD> dst,
-    ColorD color,
+    StructPointer<Image> dst,
+    Color color,
   );
 
   /// Draw pixel within an image
   void ImageDrawPixel(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     int posX,
     int posY,
-    ColorD color,
+    Color color,
   );
 
   /// Draw pixel within an image (Vector version)
   void ImageDrawPixelV(
-    StructPointer<ImageD> dst,
-    Vector2D position,
-    ColorD color,
+    StructPointer<Image> dst,
+    Vector2 position,
+    Color color,
   );
 
   /// Draw line within an image
   void ImageDrawLine(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     int startPosX,
     int startPosY,
     int endPosX,
     int endPosY,
-    ColorD color,
+    Color color,
   );
 
   /// Draw line within an image (Vector version)
   void ImageDrawLineV(
-    StructPointer<ImageD> dst,
-    Vector2D start,
-    Vector2D end,
-    ColorD color,
+    StructPointer<Image> dst,
+    Vector2 start,
+    Vector2 end,
+    Color color,
   );
 
   /// Draw a line defining thickness within an image
   void ImageDrawLineEx(
-    StructPointer<ImageD> dst,
-    Vector2D start,
-    Vector2D end,
+    StructPointer<Image> dst,
+    Vector2 start,
+    Vector2 end,
     int thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a filled circle within an image
   void ImageDrawCircle(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     int centerX,
     int centerY,
     int radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a filled circle within an image (Vector version)
   void ImageDrawCircleV(
-    StructPointer<ImageD> dst,
-    Vector2D center,
+    StructPointer<Image> dst,
+    Vector2 center,
     int radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw circle outline within an image
   void ImageDrawCircleLines(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     int centerX,
     int centerY,
     int radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw circle outline within an image (Vector version)
   void ImageDrawCircleLinesV(
-    StructPointer<ImageD> dst,
-    Vector2D center,
+    StructPointer<Image> dst,
+    Vector2 center,
     int radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle within an image
   void ImageDrawRectangle(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     int posX,
     int posY,
     int width,
     int height,
-    ColorD color,
+    Color color,
   );
 
   /// Draw rectangle within an image (Vector version)
   void ImageDrawRectangleV(
-    StructPointer<ImageD> dst,
-    Vector2D position,
-    Vector2D size,
-    ColorD color,
+    StructPointer<Image> dst,
+    Vector2 position,
+    Vector2 size,
+    Color color,
   );
 
   /// Draw rectangle within an image
   void ImageDrawRectangleRec(
-    StructPointer<ImageD> dst,
-    RectangleD rec,
-    ColorD color,
+    StructPointer<Image> dst,
+    Rectangle rec,
+    Color color,
   );
 
   /// Draw rectangle lines within an image
   void ImageDrawRectangleLines(
-    StructPointer<ImageD> dst,
-    RectangleD rec,
+    StructPointer<Image> dst,
+    Rectangle rec,
     int thick,
-    ColorD color,
+    Color color,
   );
 
   /// Draw triangle within an image
   void ImageDrawTriangle(
-    StructPointer<ImageD> dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    StructPointer<Image> dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   );
 
   /// Draw triangle with interpolated colors within an image
   void ImageDrawTriangleEx(
-    StructPointer<ImageD> dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD c1,
-    ColorD c2,
-    ColorD c3,
+    StructPointer<Image> dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color c1,
+    Color c2,
+    Color c3,
   );
 
   /// Draw triangle outline within an image
   void ImageDrawTriangleLines(
-    StructPointer<ImageD> dst,
-    Vector2D v1,
-    Vector2D v2,
-    Vector2D v3,
-    ColorD color,
+    StructPointer<Image> dst,
+    Vector2 v1,
+    Vector2 v2,
+    Vector2 v3,
+    Color color,
   );
 
   /// Draw a triangle fan defined by points within an image (first vertex is the center)
   void ImageDrawTriangleFan(
-    StructPointer<ImageD> dst,
-    StructPointer<Vector2D> points,
+    StructPointer<Image> dst,
+    StructPointer<Vector2> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a triangle strip defined by points within an image
   void ImageDrawTriangleStrip(
-    StructPointer<ImageD> dst,
-    StructPointer<Vector2D> points,
+    StructPointer<Image> dst,
+    StructPointer<Vector2> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a source image within a destination image (tint applied to source)
   void ImageDraw(
-    StructPointer<ImageD> dst,
-    ImageD src,
-    RectangleD srcRec,
-    RectangleD dstRec,
-    ColorD tint,
+    StructPointer<Image> dst,
+    Image src,
+    Rectangle srcRec,
+    Rectangle dstRec,
+    Color tint,
   );
 
   /// Draw text (using default font) within an image (destination)
   void ImageDrawText(
-    StructPointer<ImageD> dst,
+    StructPointer<Image> dst,
     MemoryPointer<RChar> text,
     int posX,
     int posY,
     int fontSize,
-    ColorD color,
+    Color color,
   );
 
   /// Draw text (custom sprite font) within an image (destination)
   void ImageDrawTextEx(
-    StructPointer<ImageD> dst,
-    FontD font,
+    StructPointer<Image> dst,
+    Font font,
     MemoryPointer<RChar> text,
-    Vector2D position,
+    Vector2 position,
     double fontSize,
     double spacing,
-    ColorD tint,
+    Color tint,
   );
 
   /// Load texture from file into GPU memory (VRAM)
-  TextureD LoadTexture(
+  Texture LoadTexture(
     MemoryPointer<RChar> fileName,
   );
 
   /// Load texture from image data
-  TextureD LoadTextureFromImage(
-    ImageD image,
+  Texture LoadTextureFromImage(
+    Image image,
   );
 
   /// Load cubemap from image, multiple image cubemap layouts supported
-  TextureD LoadTextureCubemap(
-    ImageD image,
+  Texture LoadTextureCubemap(
+    Image image,
     int layout,
   );
 
   /// Load texture for rendering (framebuffer)
-  RenderTextureD LoadRenderTexture(
+  RenderTexture LoadRenderTexture(
     int width,
     int height,
   );
 
   /// Check if a texture is valid (loaded in GPU)
   bool IsTextureValid(
-    TextureD texture,
+    Texture texture,
   );
 
   /// Unload texture from GPU memory (VRAM)
   void UnloadTexture(
-    TextureD texture,
+    Texture texture,
   );
 
   /// Check if a render texture is valid (loaded in GPU)
   bool IsRenderTextureValid(
-    RenderTextureD target,
+    RenderTexture target,
   );
 
   /// Unload render texture from GPU memory (VRAM)
   void UnloadRenderTexture(
-    RenderTextureD target,
+    RenderTexture target,
   );
 
   /// Update GPU texture with new data
   void UpdateTexture(
-    TextureD texture,
+    Texture texture,
     MemoryPointer<RVoid> pixels,
   );
 
   /// Update GPU texture rectangle with new data
   void UpdateTextureRec(
-    TextureD texture,
-    RectangleD rec,
+    Texture texture,
+    Rectangle rec,
     MemoryPointer<RVoid> pixels,
   );
 
   /// Generate GPU mipmaps for a texture
   void GenTextureMipmaps(
-    StructPointer<TextureD> texture,
+    StructPointer<Texture> texture,
   );
 
   /// Set texture scaling filter mode
   void SetTextureFilter(
-    TextureD texture,
+    Texture texture,
     int filter,
   );
 
   /// Set texture wrapping mode
   void SetTextureWrap(
-    TextureD texture,
+    Texture texture,
     int wrap,
   );
 
   /// Draw a Texture2D
   void DrawTexture(
-    TextureD texture,
+    Texture texture,
     int posX,
     int posY,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw a Texture2D with position defined as Vector2
   void DrawTextureV(
-    TextureD texture,
-    Vector2D position,
-    ColorD tint,
+    Texture texture,
+    Vector2 position,
+    Color tint,
   );
 
   /// Draw a Texture2D with extended parameters
   void DrawTextureEx(
-    TextureD texture,
-    Vector2D position,
+    Texture texture,
+    Vector2 position,
     double rotation,
     double scale,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw a part of a texture defined by a rectangle
   void DrawTextureRec(
-    TextureD texture,
-    RectangleD source,
-    Vector2D position,
-    ColorD tint,
+    Texture texture,
+    Rectangle source,
+    Vector2 position,
+    Color tint,
   );
 
   /// Draw a part of a texture defined by a rectangle with 'pro' parameters
   void DrawTexturePro(
-    TextureD texture,
-    RectangleD source,
-    RectangleD dest,
-    Vector2D origin,
+    Texture texture,
+    Rectangle source,
+    Rectangle dest,
+    Vector2 origin,
     double rotation,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draws a texture (or part of it) that stretches or shrinks nicely
   void DrawTextureNPatch(
-    TextureD texture,
-    NPatchInfoD nPatchInfo,
-    RectangleD dest,
-    Vector2D origin,
+    Texture texture,
+    NPatchInfo nPatchInfo,
+    Rectangle dest,
+    Vector2 origin,
     double rotation,
-    ColorD tint,
+    Color tint,
   );
 
   /// Check if two colors are equal
   bool ColorIsEqual(
-    ColorD col1,
-    ColorD col2,
+    Color col1,
+    Color col2,
   );
 
   /// Get color with alpha applied, alpha goes from 0.0 to 1.0
-  ColorD Fade(
-    ColorD color,
+  Color Fade(
+    Color color,
     double alpha,
   );
 
   /// Get hexadecimal value for a Color (0xRRGGBBAA)
   int ColorToInt(
-    ColorD color,
+    Color color,
   );
 
   /// Get Color normalized as float [0..1]
-  Vector4D ColorNormalize(
-    ColorD color,
+  Vector4 ColorNormalize(
+    Color color,
   );
 
   /// Get Color from normalized values [0..1]
-  ColorD ColorFromNormalized(
-    Vector4D normalized,
+  Color ColorFromNormalized(
+    Vector4 normalized,
   );
 
   /// Get HSV values for a Color, hue [0..360], saturation/value [0..1]
-  Vector3D ColorToHSV(
-    ColorD color,
+  Vector3 ColorToHSV(
+    Color color,
   );
 
   /// Get a Color from HSV values, hue [0..360], saturation/value [0..1]
-  ColorD ColorFromHSV(
+  Color ColorFromHSV(
     double hue,
     double saturation,
     double value,
   );
 
   /// Get color multiplied with another color
-  ColorD ColorTint(
-    ColorD color,
-    ColorD tint,
+  Color ColorTint(
+    Color color,
+    Color tint,
   );
 
   /// Get color with brightness correction, brightness factor goes from -1.0 to 1.0
-  ColorD ColorBrightness(
-    ColorD color,
+  Color ColorBrightness(
+    Color color,
     double factor,
   );
 
   /// Get color with contrast correction, contrast values between -1.0 and 1.0
-  ColorD ColorContrast(
-    ColorD color,
+  Color ColorContrast(
+    Color color,
     double contrast,
   );
 
   /// Get color with alpha applied, alpha goes from 0.0 to 1.0
-  ColorD ColorAlpha(
-    ColorD color,
+  Color ColorAlpha(
+    Color color,
     double alpha,
   );
 
   /// Get src alpha-blended into dst color with tint
-  ColorD ColorAlphaBlend(
-    ColorD dst,
-    ColorD src,
-    ColorD tint,
+  Color ColorAlphaBlend(
+    Color dst,
+    Color src,
+    Color tint,
   );
 
   /// Get color lerp interpolation between two colors, factor [0.0..1.0]
-  ColorD ColorLerp(
-    ColorD color1,
-    ColorD color2,
+  Color ColorLerp(
+    Color color1,
+    Color color2,
     double factor,
   );
 
   /// Get Color structure from hexadecimal value
-  ColorD GetColor(
+  Color GetColor(
     int hexValue,
   );
 
   /// Get Color from a source pixel pointer of certain format
-  ColorD GetPixelColor(
+  Color GetPixelColor(
     MemoryPointer<RVoid> srcPtr,
     int format,
   );
@@ -2400,7 +2400,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// Set color formatted into destination pixel pointer
   void SetPixelColor(
     MemoryPointer<RVoid> dstPtr,
-    ColorD color,
+    Color color,
     int format,
   );
 
@@ -2412,15 +2412,15 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Get the default Font
-  FontD GetFontDefault();
+  Font GetFontDefault();
 
   /// Load font from file into GPU memory (VRAM)
-  FontD LoadFont(
+  Font LoadFont(
     MemoryPointer<RChar> fileName,
   );
 
   /// Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height
-  FontD LoadFontEx(
+  Font LoadFontEx(
     MemoryPointer<RChar> fileName,
     int fontSize,
     MemoryPointer<RInt> codepoints,
@@ -2428,14 +2428,14 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load font from Image (XNA style)
-  FontD LoadFontFromImage(
-    ImageD image,
-    ColorD key,
+  Font LoadFontFromImage(
+    Image image,
+    Color key,
     int firstChar,
   );
 
   /// Load font from memory buffer, fileType refers to extension: i.e. '.ttf'
-  FontD LoadFontFromMemory(
+  Font LoadFontFromMemory(
     MemoryPointer<RChar> fileType,
     MemoryPointer<RUnsignedChar> fileData,
     int dataSize,
@@ -2446,11 +2446,11 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Check if a font is valid (font data loaded, WARNING: GPU texture not checked)
   bool IsFontValid(
-    FontD font,
+    Font font,
   );
 
   /// Load font data for further use
-  StructPointer<GlyphInfoD> LoadFontData(
+  StructPointer<GlyphInfo> LoadFontData(
     MemoryPointer<RUnsignedChar> fileData,
     int dataSize,
     int fontSize,
@@ -2461,8 +2461,8 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Generate image font atlas using chars info
-  ImageD GenImageFontAtlas(
-    StructPointer<GlyphInfoD> glyphs,
+  Image GenImageFontAtlas(
+    StructPointer<GlyphInfo> glyphs,
     MemoryPointer<RPointer<RStruct>> glyphRecs, // RectangleD
     int glyphCount,
     int fontSize,
@@ -2472,18 +2472,18 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload font chars info data (RAM)
   void UnloadFontData(
-    StructPointer<GlyphInfoD> glyphs,
+    StructPointer<GlyphInfo> glyphs,
     int glyphCount,
   );
 
   /// Unload font from GPU memory (VRAM)
   void UnloadFont(
-    FontD font,
+    Font font,
   );
 
   /// Export font as code file, returns true on success
   bool ExportFontAsCode(
-    FontD font,
+    Font font,
     MemoryPointer<RChar> fileName,
   );
 
@@ -2499,49 +2499,49 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
     int posX,
     int posY,
     int fontSize,
-    ColorD color,
+    Color color,
   );
 
   /// Draw text using font and additional parameters
   void DrawTextEx(
-    FontD font,
+    Font font,
     MemoryPointer<RChar> text,
-    Vector2D position,
+    Vector2 position,
     double fontSize,
     double spacing,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw text using Font and pro parameters (rotation)
   void DrawTextPro(
-    FontD font,
+    Font font,
     MemoryPointer<RChar> text,
-    Vector2D position,
-    Vector2D origin,
+    Vector2 position,
+    Vector2 origin,
     double rotation,
     double fontSize,
     double spacing,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw one character (codepoint)
   void DrawTextCodepoint(
-    FontD font,
+    Font font,
     int codepoint,
-    Vector2D position,
+    Vector2 position,
     double fontSize,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw multiple character (codepoint)
   void DrawTextCodepoints(
-    FontD font,
+    Font font,
     MemoryPointer<RInt> codepoints,
     int codepointCount,
-    Vector2D position,
+    Vector2 position,
     double fontSize,
     double spacing,
-    ColorD tint,
+    Color tint,
   );
 
   /// Set vertical line spacing when drawing with line-breaks
@@ -2556,16 +2556,16 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Measure string size for Font
-  Vector2D MeasureTextEx(
-    FontD font,
+  Vector2 MeasureTextEx(
+    Font font,
     MemoryPointer<RChar> text,
     double fontSize,
     double spacing,
   );
 
   /// Measure string size for an existing array of codepoints for Font
-  Vector2D MeasureTextCodepoints(
-    FontD font,
+  Vector2 MeasureTextCodepoints(
+    Font font,
     MemoryPointer<RInt> codepoints,
     int length,
     double fontSize,
@@ -2574,19 +2574,19 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
   int GetGlyphIndex(
-    FontD font,
+    Font font,
     int codepoint,
   );
 
   /// Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
-  GlyphInfoD GetGlyphInfo(
-    FontD font,
+  GlyphInfo GetGlyphInfo(
+    Font font,
     int codepoint,
   );
 
   /// Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
-  RectangleD GetGlyphAtlasRec(
-    FontD font,
+  Rectangle GetGlyphAtlasRec(
+    Font font,
     int codepoint,
   );
 
@@ -2804,169 +2804,169 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Draw a line in 3D world space
   void DrawLine3D(
-    Vector3D startPos,
-    Vector3D endPos,
-    ColorD color,
+    Vector3 startPos,
+    Vector3 endPos,
+    Color color,
   );
 
   /// Draw a point in 3D space, actually a small line
   void DrawPoint3D(
-    Vector3D position,
-    ColorD color,
+    Vector3 position,
+    Color color,
   );
 
   /// Draw a circle in 3D world space
   void DrawCircle3D(
-    Vector3D center,
+    Vector3 center,
     double radius,
-    Vector3D rotationAxis,
+    Vector3 rotationAxis,
     double rotationAngle,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a color-filled triangle (vertex in counter-clockwise order!)
   void DrawTriangle3D(
-    Vector3D v1,
-    Vector3D v2,
-    Vector3D v3,
-    ColorD color,
+    Vector3 v1,
+    Vector3 v2,
+    Vector3 v3,
+    Color color,
   );
 
   /// Draw a triangle strip defined by points
   void DrawTriangleStrip3D(
-    StructPointer<Vector3D> points,
+    StructPointer<Vector3> points,
     int pointCount,
-    ColorD color,
+    Color color,
   );
 
   /// Draw cube
   void DrawCube(
-    Vector3D position,
+    Vector3 position,
     double width,
     double height,
     double length,
-    ColorD color,
+    Color color,
   );
 
   /// Draw cube (Vector version)
   void DrawCubeV(
-    Vector3D position,
-    Vector3D size,
-    ColorD color,
+    Vector3 position,
+    Vector3 size,
+    Color color,
   );
 
   /// Draw cube wires
   void DrawCubeWires(
-    Vector3D position,
+    Vector3 position,
     double width,
     double height,
     double length,
-    ColorD color,
+    Color color,
   );
 
   /// Draw cube wires (Vector version)
   void DrawCubeWiresV(
-    Vector3D position,
-    Vector3D size,
-    ColorD color,
+    Vector3 position,
+    Vector3 size,
+    Color color,
   );
 
   /// Draw sphere
   void DrawSphere(
-    Vector3D centerPos,
+    Vector3 centerPos,
     double radius,
-    ColorD color,
+    Color color,
   );
 
   /// Draw sphere with extended parameters
   void DrawSphereEx(
-    Vector3D centerPos,
+    Vector3 centerPos,
     double radius,
     int rings,
     int slices,
-    ColorD color,
+    Color color,
   );
 
   /// Draw sphere wires
   void DrawSphereWires(
-    Vector3D centerPos,
+    Vector3 centerPos,
     double radius,
     int rings,
     int slices,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a cylinder/cone
   void DrawCylinder(
-    Vector3D position,
+    Vector3 position,
     double radiusTop,
     double radiusBottom,
     double height,
     int slices,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a cylinder with base at startPos and top at endPos
   void DrawCylinderEx(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     double startRadius,
     double endRadius,
     int sides,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a cylinder/cone wires
   void DrawCylinderWires(
-    Vector3D position,
+    Vector3 position,
     double radiusTop,
     double radiusBottom,
     double height,
     int slices,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a cylinder wires with base at startPos and top at endPos
   void DrawCylinderWiresEx(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     double startRadius,
     double endRadius,
     int sides,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a capsule with the center of its sphere caps at startPos and endPos
   void DrawCapsule(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     double radius,
     int slices,
     int rings,
-    ColorD color,
+    Color color,
   );
 
   /// Draw capsule wireframe with the center of its sphere caps at startPos and endPos
   void DrawCapsuleWires(
-    Vector3D startPos,
-    Vector3D endPos,
+    Vector3 startPos,
+    Vector3 endPos,
     double radius,
     int slices,
     int rings,
-    ColorD color,
+    Color color,
   );
 
   /// Draw a plane XZ
   void DrawPlane(
-    Vector3D centerPos,
-    Vector2D size,
-    ColorD color,
+    Vector3 centerPos,
+    Vector2 size,
+    Color color,
   );
 
   /// Draw a ray line
   void DrawRay(
-    RayD ray,
-    ColorD color,
+    Ray ray,
+    Color color,
   );
 
   /// Draw a grid (centered at (0, 0, 0))
@@ -2976,113 +2976,113 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Load model from files (meshes and materials)
-  ModelD LoadModel(
+  Model LoadModel(
     MemoryPointer<RChar> fileName,
   );
 
   /// Load model from generated mesh (default material)
-  ModelD LoadModelFromMesh(
-    MeshD mesh,
+  Model LoadModelFromMesh(
+    Mesh mesh,
   );
 
   /// Check if a model is valid (loaded in GPU, VAO/VBOs)
   bool IsModelValid(
-    ModelD model,
+    Model model,
   );
 
   /// Unload model (including meshes) from memory (RAM and/or VRAM)
   void UnloadModel(
-    ModelD model,
+    Model model,
   );
 
   /// Compute model bounding box limits (considers all meshes)
-  BoundingBoxD GetModelBoundingBox(
-    ModelD model,
+  BoundingBox GetModelBoundingBox(
+    Model model,
   );
 
   /// Draw a model (with texture if set)
   void DrawModel(
-    ModelD model,
-    Vector3D position,
+    Model model,
+    Vector3 position,
     double scale,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw a model with extended parameters
   void DrawModelEx(
-    ModelD model,
-    Vector3D position,
-    Vector3D rotationAxis,
+    Model model,
+    Vector3 position,
+    Vector3 rotationAxis,
     double rotationAngle,
-    Vector3D scale,
-    ColorD tint,
+    Vector3 scale,
+    Color tint,
   );
 
   /// Draw a model wires (with texture if set)
   void DrawModelWires(
-    ModelD model,
-    Vector3D position,
+    Model model,
+    Vector3 position,
     double scale,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw a model wires (with texture if set) with extended parameters
   void DrawModelWiresEx(
-    ModelD model,
-    Vector3D position,
-    Vector3D rotationAxis,
+    Model model,
+    Vector3 position,
+    Vector3 rotationAxis,
     double rotationAngle,
-    Vector3D scale,
-    ColorD tint,
+    Vector3 scale,
+    Color tint,
   );
 
   /// Draw bounding box (wires)
   void DrawBoundingBox(
-    BoundingBoxD box,
-    ColorD color,
+    BoundingBox box,
+    Color color,
   );
 
   /// Draw a billboard texture
   void DrawBillboard(
-    Camera3DD camera,
-    TextureD texture,
-    Vector3D position,
+    Camera3D camera,
+    Texture texture,
+    Vector3 position,
     double scale,
-    ColorD tint,
+    Color tint,
   );
 
   /// Draw a billboard texture defined by source
   void DrawBillboardRec(
-    Camera3DD camera,
-    TextureD texture,
-    RectangleD source,
-    Vector3D position,
-    Vector2D size,
-    ColorD tint,
+    Camera3D camera,
+    Texture texture,
+    Rectangle source,
+    Vector3 position,
+    Vector2 size,
+    Color tint,
   );
 
   /// Draw a billboard texture defined by source and rotation
   void DrawBillboardPro(
-    Camera3DD camera,
-    TextureD texture,
-    RectangleD source,
-    Vector3D position,
-    Vector3D up,
-    Vector2D size,
-    Vector2D origin,
+    Camera3D camera,
+    Texture texture,
+    Rectangle source,
+    Vector3 position,
+    Vector3 up,
+    Vector2 size,
+    Vector2 origin,
     double rotation,
-    ColorD tint,
+    Color tint,
   );
 
   /// Upload mesh vertex data in GPU and provide VAO/VBO ids
   void UploadMesh(
-    StructPointer<MeshD> mesh,
+    StructPointer<Mesh> mesh,
     bool dynamic,
   );
 
   /// Update mesh vertex data in GPU for a specific buffer index
   void UpdateMeshBuffer(
-    MeshD mesh,
+    Mesh mesh,
     int index,
     MemoryPointer<RVoid> data,
     int dataSize,
@@ -3091,54 +3091,54 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
 
   /// Unload mesh data from CPU and GPU
   void UnloadMesh(
-    MeshD mesh,
+    Mesh mesh,
   );
 
   /// Draw a 3d mesh with material and transform
   void DrawMesh(
-    MeshD mesh,
-    MaterialD material,
-    MatrixD transform,
+    Mesh mesh,
+    Material material,
+    Matrix transform,
   );
 
   /// Draw multiple mesh instances with material and different transforms
   void DrawMeshInstanced(
-    MeshD mesh,
-    MaterialD material,
-    StructPointer<MatrixD> transforms,
+    Mesh mesh,
+    Material material,
+    StructPointer<Matrix> transforms,
     int instances,
   );
 
   /// Compute mesh bounding box limits
-  BoundingBoxD GetMeshBoundingBox(
-    MeshD mesh,
+  BoundingBox GetMeshBoundingBox(
+    Mesh mesh,
   );
 
   /// Compute mesh tangents
   void GenMeshTangents(
-    StructPointer<MeshD> mesh,
+    StructPointer<Mesh> mesh,
   );
 
   /// Export mesh data to file, returns true on success
   bool ExportMesh(
-    MeshD mesh,
+    Mesh mesh,
     MemoryPointer<RChar> fileName,
   );
 
   /// Export mesh as code file (.h) defining multiple arrays of vertex attributes
   bool ExportMeshAsCode(
-    MeshD mesh,
+    Mesh mesh,
     MemoryPointer<RChar> fileName,
   );
 
   /// Generate polygonal mesh
-  MeshD GenMeshPoly(
+  Mesh GenMeshPoly(
     int sides,
     double radius,
   );
 
   /// Generate plane mesh (with subdivisions)
-  MeshD GenMeshPlane(
+  Mesh GenMeshPlane(
     double width,
     double length,
     int resX,
@@ -3146,42 +3146,42 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Generate cuboid mesh
-  MeshD GenMeshCube(
+  Mesh GenMeshCube(
     double width,
     double height,
     double length,
   );
 
   /// Generate sphere mesh (standard sphere)
-  MeshD GenMeshSphere(
+  Mesh GenMeshSphere(
     double radius,
     int rings,
     int slices,
   );
 
   /// Generate half-sphere mesh (no bottom cap)
-  MeshD GenMeshHemiSphere(
+  Mesh GenMeshHemiSphere(
     double radius,
     int rings,
     int slices,
   );
 
   /// Generate cylinder mesh
-  MeshD GenMeshCylinder(
+  Mesh GenMeshCylinder(
     double radius,
     double height,
     int slices,
   );
 
   /// Generate cone/pyramid mesh
-  MeshD GenMeshCone(
+  Mesh GenMeshCone(
     double radius,
     double height,
     int slices,
   );
 
   /// Generate torus mesh
-  MeshD GenMeshTorus(
+  Mesh GenMeshTorus(
     double radius,
     double size,
     int radSeg,
@@ -3189,7 +3189,7 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Generate trefoil knot mesh
-  MeshD GenMeshKnot(
+  Mesh GenMeshKnot(
     double radius,
     double size,
     int radSeg,
@@ -3197,141 +3197,141 @@ abstract class RaylibCoreFlat<R extends RaylibBase> extends RaylibModule<R> {
   );
 
   /// Generate heightmap mesh from image data
-  MeshD GenMeshHeightmap(
-    ImageD heightmap,
-    Vector3D size,
+  Mesh GenMeshHeightmap(
+    Image heightmap,
+    Vector3 size,
   );
 
   /// Generate cubes-based map mesh from image data
-  MeshD GenMeshCubicmap(
-    ImageD cubicmap,
-    Vector3D cubeSize,
+  Mesh GenMeshCubicmap(
+    Image cubicmap,
+    Vector3 cubeSize,
   );
 
   /// Load materials from model file
-  StructPointer<MaterialD> LoadMaterials(
+  StructPointer<Material> LoadMaterials(
     MemoryPointer<RChar> fileName,
     MemoryPointer<RInt> materialCount,
   );
 
   /// Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)
-  MaterialD LoadMaterialDefault();
+  Material LoadMaterialDefault();
 
   /// Check if a material is valid (shader assigned, map textures loaded in GPU)
   bool IsMaterialValid(
-    MaterialD material,
+    Material material,
   );
 
   /// Unload material from GPU memory (VRAM)
   void UnloadMaterial(
-    MaterialD material,
+    Material material,
   );
 
   /// Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)
   void SetMaterialTexture(
-    StructPointer<MaterialD> material,
+    StructPointer<Material> material,
     int mapType,
-    TextureD texture,
+    Texture texture,
   );
 
   /// Set material for a mesh
   void SetModelMeshMaterial(
-    StructPointer<ModelD> model,
+    StructPointer<Model> model,
     int meshId,
     int materialId,
   );
 
   /// Load model animations from file
-  StructPointer<ModelAnimationD> LoadModelAnimations(
+  StructPointer<ModelAnimation> LoadModelAnimations(
     MemoryPointer<RChar> fileName,
     MemoryPointer<RInt> animCount,
   );
 
   /// Update model animation pose (CPU)
   void UpdateModelAnimation(
-    ModelD model,
-    ModelAnimationD anim,
+    Model model,
+    ModelAnimation anim,
     double frame,
   );
 
   /// Update model animation data (vertex buffers / bone matrices) for a specific pose,
   /// defined by two different animations at specific frames blended together
   void UpdateModelAnimationEx(
-    ModelD model,
-    ModelAnimationD animA,
+    Model model,
+    ModelAnimation animA,
     double frameA,
-    ModelAnimationD animB,
+    ModelAnimation animB,
     double frameB,
     double blend,
   );
 
   /// Unload animation array data
   void UnloadModelAnimations(
-    StructPointer<ModelAnimationD> animations,
+    StructPointer<ModelAnimation> animations,
     int animCount,
   );
 
   /// Check model animation skeleton match
   bool IsModelAnimationValid(
-    ModelD model,
-    ModelAnimationD anim,
+    Model model,
+    ModelAnimation anim,
   );
 
   /// Check collision between two spheres
   bool CheckCollisionSpheres(
-    Vector3D center1,
+    Vector3 center1,
     double radius1,
-    Vector3D center2,
+    Vector3 center2,
     double radius2,
   );
 
   /// Check collision between two bounding boxes
   bool CheckCollisionBoxes(
-    BoundingBoxD box1,
-    BoundingBoxD box2,
+    BoundingBox box1,
+    BoundingBox box2,
   );
 
   /// Check collision between box and sphere
   bool CheckCollisionBoxSphere(
-    BoundingBoxD box,
-    Vector3D center,
+    BoundingBox box,
+    Vector3 center,
     double radius,
   );
 
   /// Get collision info between ray and sphere
-  RayCollisionD GetRayCollisionSphere(
-    RayD ray,
-    Vector3D center,
+  RayCollision GetRayCollisionSphere(
+    Ray ray,
+    Vector3 center,
     double radius,
   );
 
   /// Get collision info between ray and box
-  RayCollisionD GetRayCollisionBox(
-    RayD ray,
-    BoundingBoxD box,
+  RayCollision GetRayCollisionBox(
+    Ray ray,
+    BoundingBox box,
   );
 
   /// Get collision info between ray and mesh
-  RayCollisionD GetRayCollisionMesh(
-    RayD ray,
-    MeshD mesh,
-    MatrixD transform,
+  RayCollision GetRayCollisionMesh(
+    Ray ray,
+    Mesh mesh,
+    Matrix transform,
   );
 
   /// Get collision info between ray and triangle
-  RayCollisionD GetRayCollisionTriangle(
-    RayD ray,
-    Vector3D p1,
-    Vector3D p2,
-    Vector3D p3,
+  RayCollision GetRayCollisionTriangle(
+    Ray ray,
+    Vector3 p1,
+    Vector3 p2,
+    Vector3 p3,
   );
 
   /// Get collision info between ray and quad
-  RayCollisionD GetRayCollisionQuad(
-    RayD ray,
-    Vector3D p1,
-    Vector3D p2,
-    Vector3D p3,
-    Vector3D p4,
+  RayCollision GetRayCollisionQuad(
+    Ray ray,
+    Vector3 p1,
+    Vector3 p2,
+    Vector3 p3,
+    Vector3 p4,
   );
 }

@@ -9,7 +9,7 @@ enum MusicField with StructFields {
 }
 
 /// Music, audio stream, anything longer than ~10 seconds should be streamed
-class MusicD extends RaylibStruct<MusicD> {
+class Music extends RaylibStruct<Music> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,10 +21,10 @@ class MusicD extends RaylibStruct<MusicD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MusicD> struct = .new(
-    factory: MusicD.new,
+  static final StructType<Music> struct = ._builtin(
+    factory: Music.new,
     layout: .aligned<MusicField>({
-      .stream:     RStruct(AudioStreamD.struct), // Audio stream
+      .stream:     RStruct(AudioStream.struct), // Audio stream
       .frameCount: RUnsignedInt(), // Total number of frames (considering channels)
       .looping:    RBool(), // Music looping enable
       .ctxType:    RInt(), // Type of music context (audio filetype)
@@ -36,7 +36,7 @@ class MusicD extends RaylibStruct<MusicD> {
   static final StructLayout<MusicField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [stream].
-  static final field_stream = structLayout.struct<AudioStreamD>(.stream);
+  static final field_stream = structLayout.struct<AudioStream>(.stream);
   /// Field descriptor for [frameCount].
   static final field_frameCount = structLayout.scalar<int, RUnsignedInt>(.frameCount);
   /// Field descriptor for [looping].
@@ -54,10 +54,10 @@ class MusicD extends RaylibStruct<MusicD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  AudioStreamD _stream;
+  AudioStream _stream;
   /// Audio stream
-  AudioStreamD get stream => _stream = field_stream.readOr(op, _stream);
-  set stream(AudioStreamD value) => _stream = field_stream.writeOr(op, value);
+  AudioStream get stream => _stream = field_stream.readOr(op, _stream);
+  set stream(AudioStream value) => _stream = field_stream.writeOr(op, value);
   
   int _frameCount;
   /// Total number of frames (considering channels)
@@ -80,9 +80,9 @@ class MusicD extends RaylibStruct<MusicD> {
   late final LivePointerSync<RVoid> _ctxData = field_ctxData.live(() => op);
   MemoryPointer<RVoid> get ctxData => _ctxData.derefPtr();
 
-  MusicD({
+  Music({
     super.op,
-    AudioStreamD? stream,
+    AudioStream? stream,
     int frameCount = 0,
     bool looping = false,
     MusicContextType ctxType = .MUSIC_AUDIO_NONE,
@@ -92,10 +92,10 @@ class MusicD extends RaylibStruct<MusicD> {
     _looping = looping,
     _ctxType = ctxType;
 
-  factory MusicD.zero() => .new();
+  factory Music.zero() => .new();
 
   @override
-  MusicD setDart(MusicD o)
+  Music setDart(Music o)
     => throw UnsupportedError('$runtimeType cannot support `setDart` method.');
 
   @override
@@ -122,7 +122,7 @@ class MusicD extends RaylibStruct<MusicD> {
   }
 
   @override
-  MusicD clone() => .new(
+  Music clone() => .new(
     op: op,
     stream: stream.clone(),
     frameCount: frameCount,

@@ -9,7 +9,7 @@ enum Camera3DField with StructFields {
 }
 
 /// Camera, defines position/orientation in 3d space
-class Camera3DD extends RaylibStructLiteral<Camera3DD> {
+class Camera3D extends RaylibStructLiteral<Camera3D> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -21,12 +21,12 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<Camera3DD> struct = .new(
-    factory: Camera3DD.new,
+  static final StructType<Camera3D> struct = ._builtin(
+    factory: Camera3D.new,
     layout: .aligned<Camera3DField>({
-      .position:   RStruct(Vector3D.struct), // Camera position
-      .target:     RStruct(Vector3D.struct), // Camera target it looks-at
-      .up:         RStruct(Vector3D.struct), // Camera up vector (rotation over its axis)
+      .position:   RStruct(Vector3.struct), // Camera position
+      .target:     RStruct(Vector3.struct), // Camera target it looks-at
+      .up:         RStruct(Vector3.struct), // Camera up vector (rotation over its axis)
       .fovy:       RFloat(), // Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
       .projection: RInt(), // Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
     }),
@@ -36,11 +36,11 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   static final StructLayout<Camera3DField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [position].
-  static final field_position = structLayout.struct<Vector3D>(.position);
+  static final field_position = structLayout.struct<Vector3>(.position);
   /// Field descriptor for [target].
-  static final field_target = structLayout.struct<Vector3D>(.target);
+  static final field_target = structLayout.struct<Vector3>(.target);
   /// Field descriptor for [up].
-  static final field_up = structLayout.struct<Vector3D>(.up);
+  static final field_up = structLayout.struct<Vector3>(.up);
   /// Field descriptor for [fovy].
   static final field_fovy = structLayout.scalar<double, RFloat>(.fovy);
   /// Field descriptor for [projection].
@@ -54,20 +54,20 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  Vector3D _position;
+  Vector3 _position;
   /// Camera position
-  Vector3D get position => _position = field_position.readOr(op, _position);
-  set position(Vector3D value) => _position = field_position.writeOr(op, value);
+  Vector3 get position => _position = field_position.readOr(op, _position);
+  set position(Vector3 value) => _position = field_position.writeOr(op, value);
 
-  Vector3D _target;
+  Vector3 _target;
   /// Camera target it looks-at
-  Vector3D get target => _target = field_target.readOr(op, _target);
-  set target(Vector3D value) => _target = field_target.writeOr(op, value);
+  Vector3 get target => _target = field_target.readOr(op, _target);
+  set target(Vector3 value) => _target = field_target.writeOr(op, value);
 
-  Vector3D _up;
+  Vector3 _up;
   /// Camera up vector (rotation over its axis)
-  Vector3D get up => _up = field_up.readOr(op, _up);
-  set up(Vector3D value) => _up = field_up.writeOr(op, value);
+  Vector3 get up => _up = field_up.readOr(op, _up);
+  set up(Vector3 value) => _up = field_up.writeOr(op, value);
 
   double _fovy;
   /// Camera field-of-view aperture in Y (degrees) in perspective, used as near plane height in world units in orthographic
@@ -79,11 +79,11 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   CameraProjection get projection => _projection = .fromValue(field_projection.readOr(op, _projection.value));
   set projection(CameraProjection value) => _projection = .fromValue(field_projection.writeOr(op, value.value));
 
-  Camera3DD({
+  Camera3D({
     super.op,
-    Vector3D? position,
-    Vector3D? target,
-    Vector3D? up,
+    Vector3? position,
+    Vector3? target,
+    Vector3? up,
     double fovy = 45,
     CameraProjection projection = .CAMERA_PERSPECTIVE,
   }) :
@@ -93,10 +93,10 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
     _fovy = fovy,
     _projection = projection;
 
-  factory Camera3DD.zero() => .new();
+  factory Camera3D.zero() => .new();
 
   @override
-  Camera3DD setDart(Camera3DD o) {
+  Camera3D setDart(Camera3D o) {
     position.setDart(o.position);
     target.setDart(o.target);
     up.setDart(o.up);
@@ -124,7 +124,7 @@ class Camera3DD extends RaylibStructLiteral<Camera3DD> {
   }
 
   @override
-  Camera3DD clone() => .new(
+  Camera3D clone() => .new(
     op: op,
     position: position.clone(),
     target: target.clone(),

@@ -444,17 +444,17 @@ class _RaylibRlglDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibRlglDart.rlUnloadRenderBatch].
   String rlUnloadRenderBatch(
-    RlRenderBatchD batch,
+    RlRenderBatch batch,
   ) => 'rlUnloadRenderBatch($batch)';
 
   /// Label for [RaylibRlglDart.rlDrawRenderBatch].
   String rlDrawRenderBatch(
-    RlRenderBatchD batch,
+    RlRenderBatch batch,
   ) => 'rlDrawRenderBatch($batch)';
 
   /// Label for [RaylibRlglDart.rlSetRenderBatchActive].
   String rlSetRenderBatchActive([
-    RlRenderBatchD? batch,
+    RlRenderBatch? batch,
   ]) => 'rlSetRenderBatchActive($batch)';
 
   /// Label for [RaylibRlglDart.rlDrawRenderBatchActive].
@@ -727,13 +727,13 @@ class _RaylibRlglDartDebugLabels extends RaylibDebugLabelsBase {
   /// Label for [RaylibRlglDart.rlSetUniformMatrix].
   String rlSetUniformMatrix(
     num locIndex,
-    MatrixD mat,
+    Matrix mat,
   ) => 'rlSetUniformMatrix($locIndex, $mat)';
 
   /// Label for [RaylibRlglDart.rlSetUniformMatrices].
   String rlSetUniformMatrices(
     num locIndex,
-    List<MatrixD> mat,
+    List<Matrix> mat,
   ) => 'rlSetUniformMatrices($locIndex, mat: ${mat.length})';
 
   /// Label for [RaylibRlglDart.rlSetUniformSampler].
@@ -830,24 +830,24 @@ class _RaylibRlglDartDebugLabels extends RaylibDebugLabelsBase {
 
   /// Label for [RaylibRlglDart.rlSetMatrixProjection].
   String rlSetMatrixProjection(
-    MatrixD proj,
+    Matrix proj,
   ) => 'rlSetMatrixProjection($proj)';
 
   /// Label for [RaylibRlglDart.rlSetMatrixModelview].
   String rlSetMatrixModelview(
-    MatrixD view,
+    Matrix view,
   ) => 'rlSetMatrixModelview($view)';
 
   /// Label for [RaylibRlglDart.rlSetMatrixProjectionStereo].
   String rlSetMatrixProjectionStereo(
-    MatrixD right,
-    MatrixD left,
+    Matrix right,
+    Matrix left,
   ) => 'rlSetMatrixProjectionStereo($right, $left)';
 
   /// Label for [RaylibRlglDart.rlSetMatrixViewOffsetStereo].
   String rlSetMatrixViewOffsetStereo(
-    MatrixD right,
-    MatrixD left,
+    Matrix right,
+    Matrix left,
   ) => 'rlSetMatrixViewOffsetStereo($right, $left)';
 
   /// Label for [RaylibRlglDart.rlLoadDrawCube].

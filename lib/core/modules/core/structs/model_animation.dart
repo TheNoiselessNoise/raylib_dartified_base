@@ -8,7 +8,7 @@ enum ModelAnimationField with StructFields {
 }
 
 /// ModelAnimation, contains a full animation sequence
-class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
+class ModelAnimation extends RaylibStructView<ModelAnimation> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,13 +20,13 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<ModelAnimationD> struct = .new(
-    factory: ModelAnimationD.new,
+  static final StructType<ModelAnimation> struct = ._builtin(
+    factory: ModelAnimation.new,
     layout: .aligned<ModelAnimationField>({
       .name:          RArray(RChar(), BASE_nameLength), // Animation name
       .boneCount:     RInt(), // Number of bones (per pose)
       .keyframeCount: RInt(), // Number of animation key frames
-      .keyframePoses: RPointer(RPointer(RStruct(TransformD.struct))), // Animation sequence keyframe poses [keyframe][pose]
+      .keyframePoses: RPointer(RPointer(RStruct(Transform.struct))), // Animation sequence keyframe poses [keyframe][pose]
     }),
   );
 
@@ -40,7 +40,7 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   /// Field descriptor for [keyframeCount].
   static final field_keyframeCount = structLayout.scalar<int, RInt>(.keyframeCount);
   /// Field descriptor for [keyframePoses].
-  static final field_keyframePoses = structLayout.pointerPointerStructArray<TransformD>(.keyframePoses);
+  static final field_keyframePoses = structLayout.pointerPointerStructArray<Transform>(.keyframePoses);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -73,11 +73,11 @@ class ModelAnimationD extends RaylibStructView<ModelAnimationD> {
   /// Number of animation key frames
   int get keyframeCount => field_keyframeCount.readOr(op, 0);
 
-  StructLiveListStructNested<TransformD> get keyframePoses => field_keyframePoses.liveNested(() => op, []);
+  StructLiveListStructNested<Transform> get keyframePoses => field_keyframePoses.liveNested(() => op, []);
 
-  ModelAnimationD({ super.op });
+  ModelAnimation({ super.op });
 
-  factory ModelAnimationD.zero() => .new();
+  factory ModelAnimation.zero() => .new();
 
   @override
   String signature() => '$structName(name: $name, boneCount: $boneCount, keyframeCount: $keyframeCount)';

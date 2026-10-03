@@ -2,354 +2,354 @@ import 'package:raylib_dartified_base/raylib_dartified_base.dart';
 
 RaylibAudioFlat get _module => RaylibBase.instance.module();
 
-/// See [RaylibAudioFlatModule.InitAudioDevice].
+/// See [RaylibAudioFlat.InitAudioDevice].
 void InitAudioDevice() => _module.InitAudioDevice();
 
-/// See [RaylibAudioFlatModule.CloseAudioDevice].
+/// See [RaylibAudioFlat.CloseAudioDevice].
 void CloseAudioDevice() => _module.CloseAudioDevice();
 
-/// See [RaylibAudioFlatModule.IsAudioDeviceReady].
+/// See [RaylibAudioFlat.IsAudioDeviceReady].
 bool IsAudioDeviceReady() => _module.IsAudioDeviceReady();
 
-/// See [RaylibAudioFlatModule.SetMasterVolume].
+/// See [RaylibAudioFlat.SetMasterVolume].
 void SetMasterVolume(
   double volume,
 ) => _module.SetMasterVolume(volume);
 
-/// See [RaylibAudioFlatModule.GetMasterVolume].
+/// See [RaylibAudioFlat.GetMasterVolume].
 double GetMasterVolume() => _module.GetMasterVolume();
 
-/// See [RaylibAudioFlatModule.LoadWave].
-WaveD LoadWave(
+/// See [RaylibAudioFlat.LoadWave].
+Wave LoadWave(
   MemoryPointer<RChar> fileName,
 ) => _module.LoadWave(fileName);
 
-/// See [RaylibAudioFlatModule.LoadWaveFromMemory].
-WaveD LoadWaveFromMemory(
+/// See [RaylibAudioFlat.LoadWaveFromMemory].
+Wave LoadWaveFromMemory(
   MemoryPointer<RChar> fileType,
   MemoryPointer<RUnsignedChar> fileData,
   int dataSize,
 ) => _module.LoadWaveFromMemory(fileType, fileData, dataSize);
 
-/// See [RaylibAudioFlatModule.IsWaveValid].
+/// See [RaylibAudioFlat.IsWaveValid].
 bool IsWaveValid(
-  WaveD wave,
+  Wave wave,
 ) => _module.IsWaveValid(wave);
 
-/// See [RaylibAudioFlatModule.LoadSound].
-SoundD LoadSound(
+/// See [RaylibAudioFlat.LoadSound].
+Sound LoadSound(
   MemoryPointer<RChar> fileName,
 ) => _module.LoadSound(fileName);
 
-/// See [RaylibAudioFlatModule.LoadSoundFromWave].
-SoundD LoadSoundFromWave(
-  WaveD wave,
+/// See [RaylibAudioFlat.LoadSoundFromWave].
+Sound LoadSoundFromWave(
+  Wave wave,
 ) => _module.LoadSoundFromWave(wave);
 
-/// See [RaylibAudioFlatModule.LoadSoundAlias].
-SoundD LoadSoundAlias(
-  SoundD source,
+/// See [RaylibAudioFlat.LoadSoundAlias].
+Sound LoadSoundAlias(
+  Sound source,
 ) => _module.LoadSoundAlias(source);
 
-/// See [RaylibAudioFlatModule.IsSoundValid].
+/// See [RaylibAudioFlat.IsSoundValid].
 bool IsSoundValid(
-  SoundD sound,
+  Sound sound,
 ) => _module.IsSoundValid(sound);
 
-/// See [RaylibAudioFlatModule.UpdateSound].
+/// See [RaylibAudioFlat.UpdateSound].
 void UpdateSound(
-  SoundD sound,
+  Sound sound,
   MemoryPointer<RVoid> data,
   int sampleCount,
 ) => _module.UpdateSound(sound, data, sampleCount);
 
-/// See [RaylibAudioFlatModule.UnloadWave].
+/// See [RaylibAudioFlat.UnloadWave].
 void UnloadWave(
-  WaveD wave,
+  Wave wave,
 ) => _module.UnloadWave(wave);
 
-/// See [RaylibAudioFlatModule.UnloadSound].
+/// See [RaylibAudioFlat.UnloadSound].
 void UnloadSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.UnloadSound(sound);
 
-/// See [RaylibAudioFlatModule.UnloadSoundAlias].
+/// See [RaylibAudioFlat.UnloadSoundAlias].
 void UnloadSoundAlias(
-  SoundD alias,
+  Sound alias,
 ) => _module.UnloadSoundAlias(alias);
 
-/// See [RaylibAudioFlatModule.ExportWave].
+/// See [RaylibAudioFlat.ExportWave].
 bool ExportWave(
-  WaveD wave,
+  Wave wave,
   MemoryPointer<RChar> fileName,
 ) => _module.ExportWave(wave, fileName);
 
-/// See [RaylibAudioFlatModule.ExportWaveAsCode].
+/// See [RaylibAudioFlat.ExportWaveAsCode].
 bool ExportWaveAsCode(
-  WaveD wave,
+  Wave wave,
   MemoryPointer<RChar> fileName,
 ) => _module.ExportWaveAsCode(wave, fileName);
 
-/// See [RaylibAudioFlatModule.PlaySound].
+/// See [RaylibAudioFlat.PlaySound].
 void PlaySound(
-  SoundD sound,
+  Sound sound,
 ) => _module.PlaySound(sound);
 
-/// See [RaylibAudioFlatModule.StopSound].
+/// See [RaylibAudioFlat.StopSound].
 void StopSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.StopSound(sound);
 
-/// See [RaylibAudioFlatModule.PauseSound].
+/// See [RaylibAudioFlat.PauseSound].
 void PauseSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.PauseSound(sound);
 
-/// See [RaylibAudioFlatModule.ResumeSound].
+/// See [RaylibAudioFlat.ResumeSound].
 void ResumeSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.ResumeSound(sound);
 
-/// See [RaylibAudioFlatModule.IsSoundPlaying].
+/// See [RaylibAudioFlat.IsSoundPlaying].
 bool IsSoundPlaying(
-  SoundD sound,
+  Sound sound,
 ) => _module.IsSoundPlaying(sound);
 
-/// See [RaylibAudioFlatModule.SetSoundVolume].
+/// See [RaylibAudioFlat.SetSoundVolume].
 void SetSoundVolume(
-  SoundD sound,
+  Sound sound,
   double volume,
 ) => _module.SetSoundVolume(sound, volume);
 
-/// See [RaylibAudioFlatModule.SetSoundPitch].
+/// See [RaylibAudioFlat.SetSoundPitch].
 void SetSoundPitch(
-  SoundD sound,
+  Sound sound,
   double pitch,
 ) => _module.SetSoundPitch(sound, pitch);
 
-/// See [RaylibAudioFlatModule.SetSoundPan].
+/// See [RaylibAudioFlat.SetSoundPan].
 void SetSoundPan(
-  SoundD sound,
+  Sound sound,
   double pan,
 ) => _module.SetSoundPan(sound, pan);
 
-/// See [RaylibAudioFlatModule.WaveCopy].
-WaveD WaveCopy(
-  WaveD wave,
+/// See [RaylibAudioFlat.WaveCopy].
+Wave WaveCopy(
+  Wave wave,
 ) => _module.WaveCopy(wave);
 
-/// See [RaylibAudioFlatModule.WaveCrop].
+/// See [RaylibAudioFlat.WaveCrop].
 void WaveCrop(
-  StructPointer<WaveD> wave,
+  StructPointer<Wave> wave,
   int initFrame,
   int finalFrame,
 ) => _module.WaveCrop(wave, initFrame, finalFrame);
 
-/// See [RaylibAudioFlatModule.WaveFormat].
+/// See [RaylibAudioFlat.WaveFormat].
 void WaveFormat(
-  StructPointer<WaveD> wave,
+  StructPointer<Wave> wave,
   int sampleRate,
   int sampleSize,
   int channels,
 ) => _module.WaveFormat(wave, sampleRate, sampleSize, channels);
 
-/// See [RaylibAudioFlatModule.LoadWaveSamples].
+/// See [RaylibAudioFlat.LoadWaveSamples].
 MemoryPointer<RFloat32> LoadWaveSamples(
-  WaveD wave,
+  Wave wave,
 ) => _module.LoadWaveSamples(wave);
 
-/// See [RaylibAudioFlatModule.UnloadWaveSamples].
+/// See [RaylibAudioFlat.UnloadWaveSamples].
 void UnloadWaveSamples(
   MemoryPointer<RFloat32> samples,
 ) => _module.UnloadWaveSamples(samples);
 
-/// See [RaylibAudioFlatModule.LoadMusicStream].
-MusicD LoadMusicStream(
+/// See [RaylibAudioFlat.LoadMusicStream].
+Music LoadMusicStream(
   MemoryPointer<RChar> fileName,
 ) => _module.LoadMusicStream(fileName);
 
-/// See [RaylibAudioFlatModule.LoadMusicStreamFromMemory].
-MusicD LoadMusicStreamFromMemory(
+/// See [RaylibAudioFlat.LoadMusicStreamFromMemory].
+Music LoadMusicStreamFromMemory(
   MemoryPointer<RChar> fileType,
   MemoryPointer<RUnsignedChar> data,
   int dataSize,
 ) => _module.LoadMusicStreamFromMemory(fileType, data, dataSize);
 
-/// See [RaylibAudioFlatModule.IsMusicValid].
+/// See [RaylibAudioFlat.IsMusicValid].
 bool IsMusicValid(
-  MusicD music,
+  Music music,
 ) => _module.IsMusicValid(music);
 
-/// See [RaylibAudioFlatModule.UnloadMusicStream].
+/// See [RaylibAudioFlat.UnloadMusicStream].
 void UnloadMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.UnloadMusicStream(music);
 
-/// See [RaylibAudioFlatModule.PlayMusicStream].
+/// See [RaylibAudioFlat.PlayMusicStream].
 void PlayMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.PlayMusicStream(music);
 
-/// See [RaylibAudioFlatModule.IsMusicStreamPlaying].
+/// See [RaylibAudioFlat.IsMusicStreamPlaying].
 bool IsMusicStreamPlaying(
-  MusicD music,
+  Music music,
 ) => _module.IsMusicStreamPlaying(music);
 
-/// See [RaylibAudioFlatModule.UpdateMusicStream].
+/// See [RaylibAudioFlat.UpdateMusicStream].
 void UpdateMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.UpdateMusicStream(music);
 
-/// See [RaylibAudioFlatModule.StopMusicStream].
+/// See [RaylibAudioFlat.StopMusicStream].
 void StopMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.StopMusicStream(music);
 
-/// See [RaylibAudioFlatModule.PauseMusicStream].
+/// See [RaylibAudioFlat.PauseMusicStream].
 void PauseMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.PauseMusicStream(music);
 
-/// See [RaylibAudioFlatModule.ResumeMusicStream].
+/// See [RaylibAudioFlat.ResumeMusicStream].
 void ResumeMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.ResumeMusicStream(music);
 
-/// See [RaylibAudioFlatModule.SeekMusicStream].
+/// See [RaylibAudioFlat.SeekMusicStream].
 void SeekMusicStream(
-  MusicD music,
+  Music music,
   double position,
 ) => _module.SeekMusicStream(music, position);
 
-/// See [RaylibAudioFlatModule.SetMusicVolume].
+/// See [RaylibAudioFlat.SetMusicVolume].
 void SetMusicVolume(
-  MusicD music,
+  Music music,
   double volume,
 ) => _module.SetMusicVolume(music, volume);
 
-/// See [RaylibAudioFlatModule.SetMusicPitch].
+/// See [RaylibAudioFlat.SetMusicPitch].
 void SetMusicPitch(
-  MusicD music,
+  Music music,
   double pitch,
 ) => _module.SetMusicPitch(music, pitch);
 
-/// See [RaylibAudioFlatModule.SetMusicPan].
+/// See [RaylibAudioFlat.SetMusicPan].
 void SetMusicPan(
-  MusicD music,
+  Music music,
   double pan,
 ) => _module.SetMusicPan(music, pan);
 
-/// See [RaylibAudioFlatModule.GetMusicTimeLength].
+/// See [RaylibAudioFlat.GetMusicTimeLength].
 double GetMusicTimeLength(
-  MusicD music,
+  Music music,
 ) => _module.GetMusicTimeLength(music);
 
-/// See [RaylibAudioFlatModule.GetMusicTimePlayed].
+/// See [RaylibAudioFlat.GetMusicTimePlayed].
 double GetMusicTimePlayed(
-  MusicD music,
+  Music music,
 ) => _module.GetMusicTimePlayed(music);
 
-/// See [RaylibAudioFlatModule.LoadAudioStream].
-AudioStreamD LoadAudioStream(
+/// See [RaylibAudioFlat.LoadAudioStream].
+AudioStream LoadAudioStream(
   int sampleRate,
   int sampleSize,
   int channels
 ) => _module.LoadAudioStream(sampleRate, sampleSize, channels);
 
-/// See [RaylibAudioFlatModule.IsAudioStreamValid].
+/// See [RaylibAudioFlat.IsAudioStreamValid].
 bool IsAudioStreamValid(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamValid(stream);
 
-/// See [RaylibAudioFlatModule.UnloadAudioStream].
+/// See [RaylibAudioFlat.UnloadAudioStream].
 void UnloadAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamValid(stream);
 
-/// See [RaylibAudioFlatModule.UpdateAudioStream].
+/// See [RaylibAudioFlat.UpdateAudioStream].
 void UpdateAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
   MemoryPointer<RVoid> data,
   int frameCount,
 ) => _module.UpdateAudioStream(stream, data, frameCount);
 
-/// See [RaylibAudioFlatModule.IsAudioStreamProcessed].
+/// See [RaylibAudioFlat.IsAudioStreamProcessed].
 bool IsAudioStreamProcessed(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamProcessed(stream);
 
-/// See [RaylibAudioFlatModule.PlayAudioStream].
+/// See [RaylibAudioFlat.PlayAudioStream].
 void PlayAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.PlayAudioStream(stream);
 
-/// See [RaylibAudioFlatModule.PauseAudioStream].
+/// See [RaylibAudioFlat.PauseAudioStream].
 void PauseAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.PauseAudioStream(stream);
 
-/// See [RaylibAudioFlatModule.ResumeAudioStream].
+/// See [RaylibAudioFlat.ResumeAudioStream].
 void ResumeAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.ResumeAudioStream(stream);
 
-/// See [RaylibAudioFlatModule.IsAudioStreamPlaying].
+/// See [RaylibAudioFlat.IsAudioStreamPlaying].
 bool IsAudioStreamPlaying(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamPlaying(stream);
 
-/// See [RaylibAudioFlatModule.StopAudioStream].
+/// See [RaylibAudioFlat.StopAudioStream].
 void StopAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.StopAudioStream(stream);
 
-/// See [RaylibAudioFlatModule.SetAudioStreamVolume].
+/// See [RaylibAudioFlat.SetAudioStreamVolume].
 void SetAudioStreamVolume(
-  AudioStreamD stream,
+  AudioStream stream,
   double volume,
 ) => _module.SetAudioStreamVolume(stream, volume);
 
-/// See [RaylibAudioFlatModule.SetAudioStreamPitch].
+/// See [RaylibAudioFlat.SetAudioStreamPitch].
 void SetAudioStreamPitch(
-  AudioStreamD stream,
+  AudioStream stream,
   double pitch,
 ) => _module.SetAudioStreamPitch(stream, pitch);
 
-/// See [RaylibAudioFlatModule.SetAudioStreamPan].
+/// See [RaylibAudioFlat.SetAudioStreamPan].
 void SetAudioStreamPan(
-  AudioStreamD stream,
+  AudioStream stream,
   double pan,
 ) => _module.SetAudioStreamPan(stream, pan);
 
-/// See [RaylibAudioFlatModule.SetAudioStreamBufferSizeDefault].
+/// See [RaylibAudioFlat.SetAudioStreamBufferSizeDefault].
 void SetAudioStreamBufferSizeDefault(
   int size,
 ) => _module.SetAudioStreamBufferSizeDefault(size);
 
-/// See [RaylibAudioFlatModule.SetAudioStreamCallback].
+/// See [RaylibAudioFlat.SetAudioStreamCallback].
 void SetAudioStreamCallback(
-  AudioStreamD stream,
+  AudioStream stream,
   MemoryPointer<RFunction<AudioCallbackBase>> callback,
 ) => _module.SetAudioStreamCallback(stream, callback);
 
-/// See [RaylibAudioFlatModule.AttachAudioStreamProcessor].
+/// See [RaylibAudioFlat.AttachAudioStreamProcessor].
 void AttachAudioStreamProcessor(
-  AudioStreamD stream,
+  AudioStream stream,
   MemoryPointer<RFunction<AudioCallbackBase>> processor,
 ) => _module.AttachAudioStreamProcessor(stream, processor);
 
-/// See [RaylibAudioFlatModule.DetachAudioStreamProcessor].
+/// See [RaylibAudioFlat.DetachAudioStreamProcessor].
 void DetachAudioStreamProcessor(
-  AudioStreamD stream,
+  AudioStream stream,
   MemoryPointer<RFunction<AudioCallbackBase>> processor,
 ) => _module.DetachAudioStreamProcessor(stream, processor);
 
-/// See [RaylibAudioFlatModule.AttachAudioMixedProcessor].
+/// See [RaylibAudioFlat.AttachAudioMixedProcessor].
 void AttachAudioMixedProcessor(
   MemoryPointer<RFunction<AudioCallbackBase>> processor,
 ) => _module.AttachAudioMixedProcessor(processor);
 
-/// See [RaylibAudioFlatModule.DetachAudioMixedProcessor].
+/// See [RaylibAudioFlat.DetachAudioMixedProcessor].
 void DetachAudioMixedProcessor(
   MemoryPointer<RFunction<AudioCallbackBase>> processor,
 ) => _module.DetachAudioMixedProcessor(processor);

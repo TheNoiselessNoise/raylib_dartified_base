@@ -2,7 +2,7 @@ part of '../../raylib_dartified_base.dart';
 
 /// `DrawMode`
 enum RlDrawMode with RaylibEnum {
-  /// `RL_NONE` (for uninitialized [RlDrawCallD] slots only)
+  /// `RL_NONE` (for uninitialized [RlDrawCall] slots only)
   RL_NONE(0),
   /// `RL_LINES`
   RL_LINES(0x0001),

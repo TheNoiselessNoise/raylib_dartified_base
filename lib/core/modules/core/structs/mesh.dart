@@ -20,7 +20,7 @@ enum MeshField with StructFields {
 }
 
 /// Mesh, vertex data and vao/vbo
-class MeshD extends RaylibStruct<MeshD> {
+class Mesh extends RaylibStruct<Mesh> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -32,8 +32,8 @@ class MeshD extends RaylibStruct<MeshD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MeshD> struct = .new(
-    factory: MeshD.new,
+  static final StructType<Mesh> struct = ._builtin(
+    factory: Mesh.new,
     layout: .aligned<MeshField>({
       .vertexCount:   RInt(), // Number of vertices stored in arrays
       .triangleCount: RInt(), // Number of triangles stored (indexed or not)
@@ -273,7 +273,7 @@ class MeshD extends RaylibStruct<MeshD> {
   StructLiveList<int, RUnsignedInt> get vboId => _vboId;
   set vboId(List<int> value) => _vboId.inner = value;
 
-  MeshD({
+  Mesh({
     super.op,
     int vertexCount = 0,
     int triangleCount = 0,
@@ -311,10 +311,10 @@ class MeshD extends RaylibStruct<MeshD> {
     _vboId = field_vboId.live(() => op, vboId ?? []);
   }
 
-  factory MeshD.zero() => .new();
+  factory Mesh.zero() => .new();
 
   @override
-  MeshD setDart(MeshD o) {
+  Mesh setDart(Mesh o) {
     vertexCount = o.vertexCount;
     triangleCount = o.triangleCount;
     boneCount = o.boneCount;
@@ -337,18 +337,18 @@ class MeshD extends RaylibStruct<MeshD> {
 
   @override
   void structAllocateInto(RaylibTemp temp, MemoryPointer p, String key) {
-    field_vertices.allocate(temp, p, '${key}_vertices', count: verticesCount, raw: true);
-    field_texcoords.allocate(temp, p, '${key}_texcoords', count: texcoordsCount, raw: true);
-    field_texcoords2.allocate(temp, p, '${key}_texcoords2', count: texcoords2Count, raw: true);
-    field_normals.allocate(temp, p, '${key}_normals', count: normalsCount, raw: true);
-    field_tangents.allocate(temp, p, '${key}_tangents', count: tangentsCount, raw: true);
-    field_colors.allocate(temp, p, '${key}_colors', count: colorsCount, raw: true);
-    field_indices.allocate(temp, p, '${key}_indices', count: indicesCount, raw: true);
-    field_boneIndices.allocate(temp, p, '${key}_boneIndices', count: boneIndicesCount, raw: true);
-    field_boneWeights.allocate(temp, p, '${key}_boneWeights', count: boneWeightsCount, raw: true);
+    if (vertices.isNotEmpty) field_vertices.allocate(temp, p, '${key}_vertices', count: verticesCount, raw: true);
+    if (texcoords.isNotEmpty) field_texcoords.allocate(temp, p, '${key}_texcoords', count: texcoordsCount, raw: true);
+    if (texcoords2.isNotEmpty) field_texcoords2.allocate(temp, p, '${key}_texcoords2', count: texcoords2Count, raw: true);
+    if (normals.isNotEmpty) field_normals.allocate(temp, p, '${key}_normals', count: normalsCount, raw: true);
+    if (tangents.isNotEmpty) field_tangents.allocate(temp, p, '${key}_tangents', count: tangentsCount, raw: true);
+    if (colors.isNotEmpty) field_colors.allocate(temp, p, '${key}_colors', count: colorsCount, raw: true);
+    if (indices.isNotEmpty) field_indices.allocate(temp, p, '${key}_indices', count: indicesCount, raw: true);
+    if (animVertices.isNotEmpty) field_animVertices.allocate(temp, p, '${key}_animVertices', count: animVerticesCount, raw: true);
+    if (animNormals.isNotEmpty) field_animNormals.allocate(temp, p, '${key}_animNormals', count: animNormalsCount, raw: true);
     if (!RaylibConfig.isGPUSkinningSupported) {
-      field_animVertices.allocate(temp, p, '${key}_animVertices', count: animVerticesCount, raw: true);
-      field_animNormals.allocate(temp, p, '${key}_animNormals', count: animNormalsCount, raw: true);
+      if (boneIndices.isNotEmpty) field_boneIndices.allocate(temp, p, '${key}_boneIndices', count: boneIndicesCount, raw: true);
+      if (boneWeights.isNotEmpty) field_boneWeights.allocate(temp, p, '${key}_boneWeights', count: boneWeightsCount, raw: true);
     }
   }
 
@@ -393,7 +393,7 @@ class MeshD extends RaylibStruct<MeshD> {
   }
 
   @override
-  MeshD clone() => .new(
+  Mesh clone() => .new(
     op: op,
     vertexCount: vertexCount,
     triangleCount: triangleCount,

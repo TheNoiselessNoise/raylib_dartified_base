@@ -7,7 +7,7 @@ enum AutomationEventListField with StructFields {
 }
 
 /// Automation event list
-class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
+class AutomationEventList extends RaylibStructView<AutomationEventList> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -19,12 +19,12 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<AutomationEventListD> struct = .new(
-    factory: AutomationEventListD.new,
+  static final StructType<AutomationEventList> struct = ._builtin(
+    factory: AutomationEventList.new,
     layout: .aligned<AutomationEventListField>({
       .capacity: RUnsignedInt(), // Events max entries (MAX_AUTOMATION_EVENTS)
       .count:    RUnsignedInt(), // Events entries count
-      .events:   RPointer(RStruct(AutomationEventD.struct)), // Events entries
+      .events:   RPointer(RStruct(AutomationEvent.struct)), // Events entries
     }),
   );
 
@@ -36,7 +36,7 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   /// Field descriptor for [count].
   static final field_count = structLayout.scalar<int, RUnsignedInt>(.count);
   /// Field descriptor for [events].
-  static final field_events = structLayout.pointerStructArray<AutomationEventD>(.events);
+  static final field_events = structLayout.pointerStructArray<AutomationEvent>(.events);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -53,11 +53,11 @@ class AutomationEventListD extends RaylibStructView<AutomationEventListD> {
   int get count => field_count.read(getOp());
 
   /// Events entries
-  List<AutomationEventD> get events => field_events.readCount(getOp(), count);
+  List<AutomationEvent> get events => field_events.readCount(getOp(), count);
 
-  AutomationEventListD({ super.op });
+  AutomationEventList({ super.op });
 
-  factory AutomationEventListD.zero() => .new();
+  factory AutomationEventList.zero() => .new();
 
   @override
   String signature() => '$structName(count: $count)';

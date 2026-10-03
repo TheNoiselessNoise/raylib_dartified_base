@@ -8,7 +8,7 @@ enum GestureEventField with StructFields {
 }
 
 /// Gesture event
-class GestureEventD extends RaylibStruct<GestureEventD> {
+class GestureEvent extends RaylibStruct<GestureEvent> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,13 +20,13 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<GestureEventD> struct = .new(
-    factory: GestureEventD.new,
+  static final StructType<GestureEvent> struct = ._builtin(
+    factory: GestureEvent.new,
     layout: .aligned<GestureEventField>({
       .touchAction: RInt(),
       .pointCount:  RInt(),
       .pointId:     RArray(RInt(), BASE_maxTouchPoints),
-      .position:    RArray(RStruct(Vector2D.struct), BASE_maxTouchPoints),
+      .position:    RArray(RStruct(Vector2.struct), BASE_maxTouchPoints),
     }),
   );
 
@@ -40,7 +40,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   /// Field descriptor for [pointId].
   static final field_pointId = structLayout.scalarArray<int, RInt>(.pointId);
   /// Field descriptor for [position].
-  static final field_position = structLayout.structArray<Vector2D>(.position);
+  static final field_position = structLayout.structArray<Vector2>(.position);
 
   //   ░██████    ░██████   ░███    ░██   ░██████   ░██████████
   //  ░██   ░██  ░██   ░██  ░████   ░██  ░██   ░██      ░██    
@@ -79,29 +79,29 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   StructLiveList<int, RInt> get pointId => _pointId;
   set pointId(List<int> value) => _pointId.inner = value;
 
-  late final StructLiveListStruct<Vector2D> _position;
+  late final StructLiveListStruct<Vector2> _position;
   /// Position
-  StructLiveListStruct<Vector2D> get position => _position;
-  set position(List<Vector2D> value) => _position.inner = value;
+  StructLiveListStruct<Vector2> get position => _position;
+  set position(List<Vector2> value) => _position.inner = value;
 
-  GestureEventD({
+  GestureEvent({
     super.op,
     TouchAction touchAction = .TOUCH_ACTION_DOWN,
     int pointCount = 0,
     List<int>? pointId,
-    List<Vector2D>? position,
+    List<Vector2>? position,
   }) :
     _touchAction = touchAction,
     _pointCount = pointCount
   {
-    _pointId = field_pointId.live(() => op, .filled(field_pointId.codec.type.count, 0));
-    _position = field_position.live(() => op, .generate(field_position.codec.type.count, (_) => .zero()));
+    _pointId = field_pointId.live(() => op, pointId ?? .filled(field_pointId.codec.type.count, 0));
+    _position = field_position.live(() => op, position ?? .generate(field_position.codec.type.count, (_) => .zero()));
   }
 
-  factory GestureEventD.zero() => .new();
+  factory GestureEvent.zero() => .new();
 
   @override
-  GestureEventD setDart(GestureEventD o) {
+  GestureEvent setDart(GestureEvent o) {
     touchAction = o.touchAction;
     pointCount = o.pointCount;
     pointId = .from(o.pointId);
@@ -126,7 +126,7 @@ class GestureEventD extends RaylibStruct<GestureEventD> {
   }
 
   @override
-  GestureEventD clone() => .new(
+  GestureEvent clone() => .new(
     op: op,
     touchAction: touchAction,
     pointCount: pointCount,

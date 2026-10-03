@@ -7,7 +7,7 @@ enum MaterialField with StructFields {
 }
 
 /// Material, includes shader and maps
-class MaterialD extends RaylibStruct<MaterialD> {
+class Material extends RaylibStruct<Material> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -19,11 +19,11 @@ class MaterialD extends RaylibStruct<MaterialD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MaterialD> struct = .new(
-    factory: MaterialD.new,
+  static final StructType<Material> struct = ._builtin(
+    factory: Material.new,
     layout: .aligned<MaterialField>({
-      .shader: RStruct(ShaderD.struct), // Material shader
-      .maps:   RPointer(RArray(RStruct(MaterialMapD.struct), BASE_mapsCount)), // Material maps array (MAX_MATERIAL_MAPS)
+      .shader: RStruct(Shader.struct), // Material shader
+      .maps:   RPointer(RArray(RStruct(MaterialMap.struct), BASE_mapsCount)), // Material maps array (MAX_MATERIAL_MAPS)
       .params: RArray(RFloat(), BASE_paramsCount), // Material generic parameters (if required)
     }),
   );
@@ -32,9 +32,9 @@ class MaterialD extends RaylibStruct<MaterialD> {
   static final StructLayout<MaterialField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [shader].
-  static final field_shader = structLayout.struct<ShaderD>(.shader);
+  static final field_shader = structLayout.struct<Shader>(.shader);
   /// Field descriptor for [maps].
-  static final field_maps = structLayout.pointerStructFixedArray<MaterialMapD>(.maps);
+  static final field_maps = structLayout.pointerStructFixedArray<MaterialMap>(.maps);
   /// Field descriptor for [params].
   static final field_params = structLayout.scalarArray<double, RFloat>(.params);
 
@@ -66,37 +66,37 @@ class MaterialD extends RaylibStruct<MaterialD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  ShaderD _shader;
+  Shader _shader;
   /// Material shader
-  ShaderD get shader => _shader = field_shader.readOr(op, _shader);
-  set shader(ShaderD value) => _shader = field_shader.writeOr(op, value);
+  Shader get shader => _shader = field_shader.readOr(op, _shader);
+  set shader(Shader value) => _shader = field_shader.writeOr(op, value);
 
-  late final StructLiveListStruct<MaterialMapD> _maps;
+  late final StructLiveListStruct<MaterialMap> _maps;
   /// Material maps array (MAX_MATERIAL_MAPS)
-  StructLiveListStruct<MaterialMapD> get maps => _maps;
-  set maps(List<MaterialMapD> value) => _maps.inner = value;
+  StructLiveListStruct<MaterialMap> get maps => _maps;
+  set maps(List<MaterialMap> value) => _maps.inner = value;
 
   late final StructLiveList<double, RFloat> _params;
   /// Material generic parameters (if required)
   StructLiveList<double, RFloat> get params => _params;
   set params(List<double> value) => _params.inner = value;
 
-  MaterialD({
+  Material({
     super.op,
-    ShaderD? shader,
-    List<MaterialMapD>? maps,
+    Shader? shader,
+    List<MaterialMap>? maps,
     List<double>? params,
   }) :
     _shader = shader ?? .zero()
   {
-    _maps = field_maps.live(() => op, .generate(BASE_mapsCount, (_) => .zero()));
-    _params = field_params.live(() => op, .filled(field_params.codec.type.count, 0));
+    _maps = field_maps.live(() => op, maps ?? .generate(BASE_mapsCount, (_) => .zero()));
+    _params = field_params.live(() => op, params ?? .filled(field_params.codec.type.count, 0));
   }
 
-  factory MaterialD.zero() => .new();
+  factory Material.zero() => .new();
 
   @override
-  MaterialD setDart(MaterialD o) {
+  Material setDart(Material o) {
     shader.setDart(o.shader);
     maps = o.maps.map((x) => x.clone()).toList();
     params = .from(o.params);
@@ -123,7 +123,7 @@ class MaterialD extends RaylibStruct<MaterialD> {
   }
 
   @override
-  MaterialD clone() => .new(
+  Material clone() => .new(
     op: op,
     shader: shader.clone(),
     maps: maps.map((x) => x.clone()).toList(),

@@ -33,13 +33,13 @@ final class MouseButtonInfo {
 final class MouseInfo {
 
   /// Cursor position in screen space.
-  final Vector2D position;
+  final Vector2 position;
 
   /// Cursor movement since the last frame.
-  final Vector2D delta;
+  final Vector2 delta;
   
   /// Scroll wheel movement since the last frame.
-  final Vector2D wheel;
+  final Vector2 wheel;
   
   /// State of the left mouse button ([MouseButton.MOUSE_BUTTON_LEFT]).
   final MouseButtonInfo btnLeft;
@@ -63,9 +63,9 @@ final class MouseInfo {
   final MouseButtonInfo btnBack;
 
   MouseInfo({
-    Vector2D? position,
-    Vector2D? delta,
-    Vector2D? wheel,
+    Vector2? position,
+    Vector2? delta,
+    Vector2? wheel,
     MouseButtonInfo? btnLeft,
     MouseButtonInfo? btnMiddle,
     MouseButtonInfo? btnRight,

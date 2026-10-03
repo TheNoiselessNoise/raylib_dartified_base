@@ -693,24 +693,24 @@ abstract class RaylibRlglFlat<R extends RaylibBase> extends RaylibModule<R> with
   MemoryPointer<RInt> rlGetShaderLocsDefault();
 
   /// Load a render batch system
-  RlRenderBatchD rlLoadRenderBatch(
+  RlRenderBatch rlLoadRenderBatch(
     int numBuffers,
     int bufferElements,
   );
 
   /// Unload render batch system
   void rlUnloadRenderBatch(
-    RlRenderBatchD batch,
+    RlRenderBatch batch,
   );
 
   /// Draw render batch data (Update->Draw->Reset)
   void rlDrawRenderBatch(
-    StructPointer<RlRenderBatchD> batch,
+    StructPointer<RlRenderBatch> batch,
   );
 
   /// Set the active render batch for rlgl (NULL for default internal)
   void rlSetRenderBatchActive(
-    StructPointer<RlRenderBatchD> batch,
+    StructPointer<RlRenderBatch> batch,
   );
 
   /// Update and draw internal render batch
@@ -991,13 +991,13 @@ abstract class RaylibRlglFlat<R extends RaylibBase> extends RaylibModule<R> with
   /// Set shader value matrix
   void rlSetUniformMatrix(
     int locIndex,
-    MatrixD mat,
+    Matrix mat,
   );
 
   /// Set shader value matrices
   void rlSetUniformMatrices(
     int locIndex,
-    StructPointer<MatrixD> mat,
+    StructPointer<Matrix> mat,
     int count,
   );
 
@@ -1077,44 +1077,44 @@ abstract class RaylibRlglFlat<R extends RaylibBase> extends RaylibModule<R> with
   );
 
   /// Get internal modelview matrix
-  MatrixD rlGetMatrixModelview();
+  Matrix rlGetMatrixModelview();
 
   /// Get internal projection matrix
-  MatrixD rlGetMatrixProjection();
+  Matrix rlGetMatrixProjection();
 
   /// Get internal accumulated transform matrix
-  MatrixD rlGetMatrixTransform();
+  Matrix rlGetMatrixTransform();
 
   /// Get internal projection matrix for stereo render (selected eye)
-  MatrixD rlGetMatrixProjectionStereo(
+  Matrix rlGetMatrixProjectionStereo(
     int eye,
   );
 
   /// Get internal view offset matrix for stereo render (selected eye)
-  MatrixD rlGetMatrixViewOffsetStereo(
+  Matrix rlGetMatrixViewOffsetStereo(
     int eye,
   );
 
   /// Set a custom projection matrix (replaces internal projection matrix)
   void rlSetMatrixProjection(
-    MatrixD proj,
+    Matrix proj,
   );
 
   /// Set a custom modelview matrix (replaces internal modelview matrix)
   void rlSetMatrixModelview(
-    MatrixD view,
+    Matrix view,
   );
 
   /// Set eyes projection matrices for stereo rendering
   void rlSetMatrixProjectionStereo(
-    MatrixD right,
-    MatrixD left,
+    Matrix right,
+    Matrix left,
   );
 
   /// Set eyes view offsets matrices for stereo rendering
   void rlSetMatrixViewOffsetStereo(
-    MatrixD right,
-    MatrixD left,
+    Matrix right,
+    Matrix left,
   );
 
   /// Load and draw a cube

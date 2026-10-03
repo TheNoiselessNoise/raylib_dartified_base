@@ -12,7 +12,7 @@ enum RlVertexBufferField with StructFields {
 }
 
 /// RLGL Vertex buffer
-class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
+class RlVertexBuffer extends RaylibStruct<RlVertexBuffer> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -24,8 +24,8 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<RlVertexBufferD> struct = .new(
-    factory: RlVertexBufferD.new,
+  static final StructType<RlVertexBuffer> struct = ._builtin(
+    factory: RlVertexBuffer.new,
     layout: .aligned<RlVertexBufferField>({
       .elementCount: RInt(), // Number of elements in the buffer (QUADS)
       .vertices:     RPointer(RFloat()), // Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
@@ -156,7 +156,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   StructLiveList<int, RUnsignedInt> get vboId => _vboId;
   set vboId(List<int> value) => _vboId.inner = value;
 
-  RlVertexBufferD({
+  RlVertexBuffer({
     super.op,
     int elementCount = 0,
     List<double>? vertices,
@@ -178,10 +178,10 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
     _vboId = field_vboId.live(() => op, vboId ?? .filled(vboIdCount, 0));
   }
 
-  factory RlVertexBufferD.zero() => .new();
+  factory RlVertexBuffer.zero() => .new();
 
   @override
-  RlVertexBufferD setDart(RlVertexBufferD o) {
+  RlVertexBuffer setDart(RlVertexBuffer o) {
     elementCount = o.elementCount;
     vertices = .from(o.vertices);
     texcoords = .from(o.texcoords);
@@ -227,7 +227,7 @@ class RlVertexBufferD extends RaylibStruct<RlVertexBufferD> {
   }
 
   @override
-  RlVertexBufferD clone() => .new(
+  RlVertexBuffer clone() => .new(
     op: op,
     elementCount: elementCount,
     vertices: .from(vertices),

@@ -10,7 +10,7 @@ enum float16Field with StructFields {
 }
 
 /// Raylib's `float16` struct holding 16 `float` values
-class float16D extends RaylibStructLiteral<float16D> {
+class float16 extends RaylibStructLiteral<float16> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -22,8 +22,8 @@ class float16D extends RaylibStructLiteral<float16D> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<float16D> struct = .new(
-    factory: float16D.new,
+  static final StructType<float16> struct = ._builtin(
+    factory: float16.new,
     layout: .aligned<float16Field>({
       .v: RArray(RFloat(), 16),
     }),
@@ -47,16 +47,16 @@ class float16D extends RaylibStructLiteral<float16D> {
   StructLiveList<double, RFloat> get v => _v;
   set v(List<double> value) => _v.inner = value;
 
-  float16D({
+  float16({
     super.op,
     List<double>? v,
   }) {
-    _v = field_v.live(() => op, .filled(field_v.codec.type.count, 0));
+    _v = field_v.live(() => op, v ?? .filled(field_v.codec.type.count, 0));
   }
 
-  factory float16D.zero() => .new();
+  factory float16.zero() => .new();
 
-  factory float16D.float16(
+  factory float16.float16(
     num v0, num v1, num v2, num v3,
     num v4, num v5, num v6, num v7,
     num v8, num v9, num v10, num v11,
@@ -71,7 +71,7 @@ class float16D extends RaylibStructLiteral<float16D> {
   );
 
   @override
-  float16D setDart(float16D o) {
+  float16 setDart(float16 o) {
     v = .from(o.v);
     return this;
   }
@@ -87,7 +87,7 @@ class float16D extends RaylibStructLiteral<float16D> {
   }
 
   @override
-  float16D clone() => .new(
+  float16 clone() => .new(
     op: op,
     v: .from(v),
   );

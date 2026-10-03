@@ -9,20 +9,20 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   RaylibCameraFlat(super.rl);
 
   /// Returns the forward vector (normalized) of [camera].
-  Vector3D GetCameraForward(
-    StructPointer<Camera3DD> camera,
+  Vector3 GetCameraForward(
+    StructPointer<Camera3D> camera,
   );
 
   /// Returns the up vector (normalized) of [camera].
   /// 
   /// The up vector might not be perpendicular to the forward vector.
-  Vector3D GetCameraUp(
-    StructPointer<Camera3DD> camera,
+  Vector3 GetCameraUp(
+    StructPointer<Camera3D> camera,
   );
 
   /// Returns the right vector (normalized) of [camera].
-  Vector3D GetCameraRight(
-    StructPointer<Camera3DD> camera,
+  Vector3 GetCameraRight(
+    StructPointer<Camera3D> camera,
   );
 
   /// Moves the [camera] in its forward direction by [distance].
@@ -30,14 +30,14 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// If [moveInWorldPlane] is `true`, movement is constrained to the XZ plane
   /// regardless of the camera's pitch.
   void CameraMoveForward(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double distance,
     bool moveInWorldPlane,
   );
 
   /// Moves the [camera] in its up direction by [distance].
   void CameraMoveUp(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double distance,
   );
 
@@ -46,14 +46,14 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// If [moveInWorldPlane] is `true`, movement is constrained to the XZ plane
   /// regardless of the camera's pitch.
   void CameraMoveRight(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double distance,
     bool moveInWorldPlane,
   );
 
   /// Moves [camera] closer to or further from its target by [delta].
   void CameraMoveToTarget(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double delta,
   );
 
@@ -64,7 +64,7 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// If [rotateAroundTarget] is `true`, the camera orbits its target;
   /// otherwise it rotates in place.
   void CameraYaw(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double angle,
     bool rotateAroundTarget,
   );
@@ -80,7 +80,7 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// 
   /// If [rotateUp] is `true`, the up vector is rotated as well (typically useful in [CameraMode.CAMERA_FREE]).
   void CameraPitch(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double angle,
     bool lockView,
     bool rotateAroundTarget,
@@ -91,18 +91,18 @@ abstract class RaylibCameraFlat<R extends RaylibBase> extends RaylibModule<R> {
   /// 
   /// Roll is "turning your head sideways to the left or right"
   void CameraRoll(
-    StructPointer<Camera3DD> camera,
+    StructPointer<Camera3D> camera,
     double angle,
   );
 
   /// Returns the view matrix for [camera].
-  MatrixD GetCameraViewMatrix(
-    StructPointer<Camera3DD> camera,
+  Matrix GetCameraViewMatrix(
+    StructPointer<Camera3D> camera,
   );
 
   /// Returns the projection matrix for [camera] with the given [aspect] ratio.
-  MatrixD GetCameraProjectionMatrix(
-    StructPointer<Camera3DD> camera,
+  Matrix GetCameraProjectionMatrix(
+    StructPointer<Camera3D> camera,
     double aspect,
   );
 }

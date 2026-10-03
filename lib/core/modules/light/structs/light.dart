@@ -16,7 +16,7 @@ enum LightField with StructFields {
 }
 
 /// Light
-class LightD extends RaylibStruct<LightD> {
+class Light extends RaylibStruct<Light> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -28,14 +28,14 @@ class LightD extends RaylibStruct<LightD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<LightD> struct = .new(
-    factory: LightD.new,
+  static final StructType<Light> struct = ._builtin(
+    factory: Light.new,
     layout: .aligned<LightField>({
       .type:           RInt(),
       .enabled:        RBool(),
-      .position:       RStruct(Vector3D.struct),
-      .target:         RStruct(Vector3D.struct),
-      .color:          RStruct(ColorD.struct),
+      .position:       RStruct(Vector3.struct),
+      .target:         RStruct(Vector3.struct),
+      .color:          RStruct(Color.struct),
       .attenuation:    RFloat(),
 
       // Shader locations
@@ -56,11 +56,11 @@ class LightD extends RaylibStruct<LightD> {
   /// Field descriptor for [enabled].
   static final field_enabled = structLayout.scalar<bool, RBool>(.enabled);
   /// Field descriptor for [position].
-  static final field_position = structLayout.struct<Vector3D>(.position);
+  static final field_position = structLayout.struct<Vector3>(.position);
   /// Field descriptor for [target].
-  static final field_target = structLayout.struct<Vector3D>(.target);
+  static final field_target = structLayout.struct<Vector3>(.target);
   /// Field descriptor for [color].
-  static final field_color = structLayout.struct<ColorD>(.color);
+  static final field_color = structLayout.struct<Color>(.color);
   /// Field descriptor for [attenuation].
   static final field_attenuation = structLayout.scalar<double, RFloat>(.attenuation);
   /// Field descriptor for [enabledLoc].
@@ -94,20 +94,20 @@ class LightD extends RaylibStruct<LightD> {
   bool get enabled => _enabled = field_enabled.readOr(op, _enabled);
   set enabled(bool value) => _enabled = field_enabled.writeOr(op, value);
   
-  Vector3D _position;
+  Vector3 _position;
   /// Light position in world space
-  Vector3D get position => _position = field_position.readOr(op, _position);
-  set position(Vector3D value) => _position = field_position.writeOr(op, value);
+  Vector3 get position => _position = field_position.readOr(op, _position);
+  set position(Vector3 value) => _position = field_position.writeOr(op, value);
   
-  Vector3D _target;
+  Vector3 _target;
   /// Light target direction (used for directional lights)
-  Vector3D get target => _target = field_target.readOr(op, _target);
-  set target(Vector3D value) => _target = field_target.writeOr(op, value);
+  Vector3 get target => _target = field_target.readOr(op, _target);
+  set target(Vector3 value) => _target = field_target.writeOr(op, value);
   
-  ColorD _color;
+  Color _color;
   /// Light color
-  ColorD get color => _color = field_color.readOr(op, _color);
-  set color(ColorD value) => _color = field_color.writeOr(op, value);
+  Color get color => _color = field_color.readOr(op, _color);
+  set color(Color value) => _color = field_color.writeOr(op, value);
   
   double _attenuation;
   /// Light attenuation factor (falloff over distance)
@@ -144,13 +144,13 @@ class LightD extends RaylibStruct<LightD> {
   int get attenuationLoc => _attenuationLoc = field_attenuationLoc.readOr(op, _attenuationLoc);
   set attenuationLoc(int value) => _attenuationLoc = field_attenuationLoc.writeOr(op, value);
 
-  LightD({
+  Light({
     super.op,
     LightType type = .LIGHT_POINT,
     bool enabled = false,
-    Vector3D? position,
-    Vector3D? target,
-    ColorD? color,
+    Vector3? position,
+    Vector3? target,
+    Color? color,
     double attenuation = 0,
     int enabledLoc = 0,
     int typeLoc = 0,
@@ -172,10 +172,10 @@ class LightD extends RaylibStruct<LightD> {
     _colorLoc = colorLoc,
     _attenuationLoc = attenuationLoc;
 
-  factory LightD.zero() => .new();
+  factory Light.zero() => .new();
 
   @override
-  LightD setDart(LightD o) {
+  Light setDart(Light o) {
     type = o.type;
     enabled = o.enabled;
     position.setDart(o.position);
@@ -224,7 +224,7 @@ class LightD extends RaylibStruct<LightD> {
   }
 
   @override
-  LightD clone() => .new(
+  Light clone() => .new(
     op: op,
     type: type,
     enabled: enabled,

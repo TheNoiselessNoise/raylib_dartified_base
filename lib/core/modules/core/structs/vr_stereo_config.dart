@@ -12,7 +12,7 @@ enum VrStereoConfigField with StructFields {
 }
 
 /// VrStereoConfig, VR stereo rendering configuration for simulator
-class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
+class VrStereoConfig extends RaylibStruct<VrStereoConfig> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -24,11 +24,11 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<VrStereoConfigD> struct = .new(
-    factory: VrStereoConfigD.new,
+  static final StructType<VrStereoConfig> struct = ._builtin(
+    factory: VrStereoConfig.new,
     layout: .aligned<VrStereoConfigField>({
-      .projection:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR projection matrices (per eye)
-      .viewOffset:        RArray(RStruct(MatrixD.struct), BASE_paramsCount), // VR view offset matrices (per eye)
+      .projection:        RArray(RStruct(Matrix.struct), BASE_paramsCount), // VR projection matrices (per eye)
+      .viewOffset:        RArray(RStruct(Matrix.struct), BASE_paramsCount), // VR view offset matrices (per eye)
       .leftLensCenter:    RArray(RFloat(), BASE_paramsCount), // VR left lens center
       .rightLensCenter:   RArray(RFloat(), BASE_paramsCount), // VR right lens center
       .leftScreenCenter:  RArray(RFloat(), BASE_paramsCount), // VR left screen center
@@ -42,9 +42,9 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   static final StructLayout<VrStereoConfigField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [projection].
-  static final field_projection = structLayout.structArray<MatrixD>(.projection);
+  static final field_projection = structLayout.structArray<Matrix>(.projection);
   /// Field descriptor for [viewOffset].
-  static final field_viewOffset = structLayout.structArray<MatrixD>(.viewOffset);
+  static final field_viewOffset = structLayout.structArray<Matrix>(.viewOffset);
   /// Field descriptor for [leftLensCenter].
   static final field_leftLensCenter = structLayout.scalarArray<double, RFloat>(.leftLensCenter);
   /// Field descriptor for [rightLensCenter].
@@ -80,15 +80,15 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
   
-  late final StructLiveListStruct<MatrixD> _projection;
+  late final StructLiveListStruct<Matrix> _projection;
   /// VR projection matrices (per eye)
-  StructLiveListStruct<MatrixD> get projection => _projection;
-  set projection(List<MatrixD> value) => _projection.inner = value;
+  StructLiveListStruct<Matrix> get projection => _projection;
+  set projection(List<Matrix> value) => _projection.inner = value;
   
-  late final StructLiveListStruct<MatrixD> _viewOffset;
+  late final StructLiveListStruct<Matrix> _viewOffset;
   /// VR view offset matrices (per eye)
-  StructLiveListStruct<MatrixD> get viewOffset => _viewOffset;
-  set viewOffset(List<MatrixD> value) => _viewOffset.inner = value;
+  StructLiveListStruct<Matrix> get viewOffset => _viewOffset;
+  set viewOffset(List<Matrix> value) => _viewOffset.inner = value;
   
   late final StructLiveList<double, RFloat> _leftLensCenter;
   /// VR left lens center
@@ -120,10 +120,10 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   StructLiveList<double, RFloat> get scaleIn => _scaleIn;
   set scaleIn(List<double> value) => _scaleIn.inner = value;
 
-  VrStereoConfigD({
+  VrStereoConfig({
     super.op,
-    List<MatrixD>? projection,
-    List<MatrixD>? viewOffset,
+    List<Matrix>? projection,
+    List<Matrix>? viewOffset,
     List<double>? leftLensCenter,
     List<double>? rightLensCenter,
     List<double>? leftScreenCenter,
@@ -141,10 +141,10 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
     _scaleIn = field_scaleIn.live(() => op, scaleIn ?? .filled(field_scaleIn.codec.type.count, 0));
   }
 
-  factory VrStereoConfigD.zero() => .new();
+  factory VrStereoConfig.zero() => .new();
 
   @override
-  VrStereoConfigD setDart(VrStereoConfigD o) {
+  VrStereoConfig setDart(VrStereoConfig o) {
     projection = .from(o.projection);
     viewOffset = .from(o.viewOffset);
     leftLensCenter = .from(o.leftLensCenter);
@@ -181,7 +181,7 @@ class VrStereoConfigD extends RaylibStruct<VrStereoConfigD> {
   }
 
   @override
-  VrStereoConfigD clone() => .new(
+  VrStereoConfig clone() => .new(
     op: op,
     projection: .from(projection),
     viewOffset: .from(viewOffset),

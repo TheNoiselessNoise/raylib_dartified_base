@@ -4,98 +4,98 @@ RaylibMatrixExtDart get _module => RaylibBase.instance.module();
 
 /// See [RaylibMatrixExtDart.MatrixDeterminant].
 double MatrixDeterminant(
-  MatrixD mat,
+  Matrix mat,
 ) => _module.MatrixDeterminant(mat);
 
 /// See [RaylibMatrixExtDart.MatrixTrace].
 double MatrixTrace(
-  MatrixD mat,
+  Matrix mat,
 ) => _module.MatrixTrace(mat);
 
 /// See [RaylibMatrixExtDart.MatrixTranspose].
-MatrixD MatrixTranspose(
-  MatrixD mat,
+Matrix MatrixTranspose(
+  Matrix mat,
 ) => _module.MatrixTranspose(mat);
 
 /// See [RaylibMatrixExtDart.MatrixInvert].
-MatrixD MatrixInvert(
-  MatrixD mat,
+Matrix MatrixInvert(
+  Matrix mat,
 ) => _module.MatrixInvert(mat);
 
 /// See [RaylibMatrixExtDart.MatrixIdentity].
-MatrixD MatrixIdentity() => _module.MatrixIdentity();
+Matrix MatrixIdentity() => _module.MatrixIdentity();
 
 /// See [RaylibMatrixExtDart.MatrixAdd].
-MatrixD MatrixAdd(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixAdd(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixAdd(left, right);
 
 /// See [RaylibMatrixExtDart.MatrixSubtract].
-MatrixD MatrixSubtract(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixSubtract(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixSubtract(left, right);
 
 /// See [RaylibMatrixExtDart.MatrixMultiply].
-MatrixD MatrixMultiply(
-  MatrixD left,
-  MatrixD right,
+Matrix MatrixMultiply(
+  Matrix left,
+  Matrix right,
 ) => _module.MatrixMultiply(left, right);
 
 /// See [RaylibMatrixExtDart.MatrixMultiplyValue].
-MatrixD MatrixMultiplyValue(
-  MatrixD left,
+Matrix MatrixMultiplyValue(
+  Matrix left,
   double value,
 ) => _module.MatrixMultiplyValue(left, value);
 
 /// See [RaylibMatrixExtDart.MatrixTranslate].
-MatrixD MatrixTranslate(
+Matrix MatrixTranslate(
   double x,
   double y,
   double z,
 ) => _module.MatrixTranslate(x, y, z);
 
 /// See [RaylibMatrixExtDart.MatrixRotate].
-MatrixD MatrixRotate(
-  Vector3D axis,
+Matrix MatrixRotate(
+  Vector3 axis,
   double angle,
 ) => _module.MatrixRotate(axis, angle);
 
 /// See [RaylibMatrixExtDart.MatrixRotateX].
-MatrixD MatrixRotateX(
+Matrix MatrixRotateX(
   double angle,
 ) => _module.MatrixRotateX(angle);
 
 /// See [RaylibMatrixExtDart.MatrixRotateY].
-MatrixD MatrixRotateY(
+Matrix MatrixRotateY(
   double angle,
 ) => _module.MatrixRotateY(angle);
 
 /// See [RaylibMatrixExtDart.MatrixRotateZ].
-MatrixD MatrixRotateZ(
+Matrix MatrixRotateZ(
   double angle,
 ) => _module.MatrixRotateZ(angle);
 
 /// See [RaylibMatrixExtDart.MatrixRotateXYZ].
-MatrixD MatrixRotateXYZ(
-  Vector3D angle,
+Matrix MatrixRotateXYZ(
+  Vector3 angle,
 ) => _module.MatrixRotateXYZ(angle);
 
 /// See [RaylibMatrixExtDart.MatrixRotateZYX].
-MatrixD MatrixRotateZYX(
-  Vector3D angle,
+Matrix MatrixRotateZYX(
+  Vector3 angle,
 ) => _module.MatrixRotateZYX(angle);
 
 /// See [RaylibMatrixExtDart.MatrixScale].
-MatrixD MatrixScale(
+Matrix MatrixScale(
   double x,
   double y,
   double z,
 ) => _module.MatrixScale(x, y, z);
 
 /// See [RaylibMatrixExtDart.MatrixFrustum].
-MatrixD MatrixFrustum(
+Matrix MatrixFrustum(
   double left,
   double right,
   double bottom,
@@ -105,7 +105,7 @@ MatrixD MatrixFrustum(
 ) => _module.MatrixFrustum(left, right, bottom, top, nearPlane, farPlane);
 
 /// See [RaylibMatrixExtDart.MatrixPerspective].
-MatrixD MatrixPerspective(
+Matrix MatrixPerspective(
   double fovY,
   double aspect,
   double nearPlane,
@@ -113,7 +113,7 @@ MatrixD MatrixPerspective(
 ) => _module.MatrixPerspective(fovY, aspect, nearPlane, farPlane);
 
 /// See [RaylibMatrixExtDart.MatrixOrtho].
-MatrixD MatrixOrtho(
+Matrix MatrixOrtho(
   double left,
   double right,
   double bottom,
@@ -123,25 +123,25 @@ MatrixD MatrixOrtho(
 ) => _module.MatrixOrtho(left, right, bottom, top, nearPlane, farPlane);
 
 /// See [RaylibMatrixExtDart.MatrixLookAt].
-MatrixD MatrixLookAt(
-  Vector3D eye,
-  Vector3D target,
-  Vector3D up,
+Matrix MatrixLookAt(
+  Vector3 eye,
+  Vector3 target,
+  Vector3 up,
 ) => _module.MatrixLookAt(eye, target, up);
 
 /// See [RaylibMatrixExtDart.MatrixToFloatV].
-float16D MatrixToFloatV(
-  MatrixD mat,
+float16 MatrixToFloatV(
+  Matrix mat,
 ) => _module.MatrixToFloatV(mat);
 
 /// See [RaylibMatrixExtDart.MatrixCompose].
-MatrixD MatrixCompose(
-  Vector3D translation,
-  QuaternionD rotation,
-  Vector3D scale,
+Matrix MatrixCompose(
+  Vector3 translation,
+  Quaternion rotation,
+  Vector3 scale,
 ) => _module.MatrixCompose(translation, rotation, scale);
 
 /// See [RaylibMatrixExtDart.MatrixDecompose].
-(Vector3D translation, QuaternionD rotation, Vector3D scale) MatrixDecompose(
-  MatrixD mat,
+(Vector3 translation, Quaternion rotation, Vector3 scale) MatrixDecompose(
+  Matrix mat,
 ) => _module.MatrixDecompose(mat);

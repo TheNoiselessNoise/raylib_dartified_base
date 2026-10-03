@@ -2,13 +2,32 @@ part of '../raylib_dartified_base.dart';
 
 /// StructType
 final class StructType<D extends RaylibStruct<D>> {
+  final bool isBuiltin;
   final StructFactory<D> factory;
   final StructLayout layout;
 
-  const StructType({
+  const StructType._({
+    this.isBuiltin = false,
     required this.factory,
     required this.layout,
   });
+
+  factory StructType._builtin({
+    required StructFactory<D> factory,
+    required StructLayout layout,
+  }) => ._(
+    isBuiltin: true,
+    factory: factory,
+    layout: layout,
+  );
+
+  factory StructType.create({
+    required StructFactory<D> factory,
+    required StructLayout layout,
+  }) => ._(
+    factory: factory,
+    layout: layout,
+  );
 
   /// Gets the [layout] typed to fields [F].
   StructLayout<F> layoutOf<F extends StructFields>()
@@ -26,9 +45,15 @@ final class StructType<D extends RaylibStruct<D>> {
 final class StructTypes {
   static final Map<Type, StructType> _types = {};
 
+  static bool exists<D extends RaylibStruct<D>>()
+    => _types.containsKey(D);
+
+  static bool isBuiltIn<D extends RaylibStruct<D>>()
+    => of<D>().isBuiltin;
+
   /// Registers a [StructType] under the key [D].
   static void register<D extends RaylibStruct<D>>(StructType<D> type) {
-    if (_types.containsKey(D)) {
+    if (exists<D>()) {
       throw StateError('StructType for $D is already registered.');
     }
     _types[D] = type;

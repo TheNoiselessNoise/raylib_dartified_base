@@ -8,7 +8,7 @@ enum MsfGifResultField with StructFields {
 }
 
 /// MsfGifResult
-class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
+class MsfGifResult extends RaylibStructView<MsfGifResult> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -20,8 +20,8 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<MsfGifResultD> struct = .new(
-    factory: MsfGifResultD.new,
+  static final StructType<MsfGifResult> struct = ._builtin(
+    factory: MsfGifResult.new,
     layout: .aligned<MsfGifResultField>({
       .data:           RPointer(RVoid()),
       .dataSize:       RSize(),
@@ -61,9 +61,9 @@ class MsfGifResultD extends RaylibStructView<MsfGifResultD> {
   late final LivePointerSync<RVoid> _contextPointer = field_contextPointer.live(() => op);
   MemoryPointer<RVoid> get contextPointer => _contextPointer.derefPtr();
 
-  MsfGifResultD({ super.op });
+  MsfGifResult({ super.op });
 
-  factory MsfGifResultD.zero() => .new();
+  factory MsfGifResult.zero() => .new();
 
   @override
   String signature() => '$structName(dataSize: $dataSize, allocSize: $allocSize)';

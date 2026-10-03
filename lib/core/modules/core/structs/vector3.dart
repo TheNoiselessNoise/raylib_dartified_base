@@ -10,7 +10,7 @@ enum Vector3Field with StructFields {
 }
 
 /// Vector3, 3 components
-class Vector3D extends RaylibStructLiteral<Vector3D> {
+class Vector3 extends RaylibStructLiteral<Vector3> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -22,8 +22,8 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<Vector3D> struct = .new(
-    factory: Vector3D.new,
+  static final StructType<Vector3> struct = ._builtin(
+    factory: Vector3.new,
     layout: .aligned<Vector3Field>({
       .x: RFloat(), // Vector x component
       .y: RFloat(), // Vector y component
@@ -64,7 +64,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   double get z => _z = field_z.readOr(op, _z);
   set z(double value) => _z = field_z.writeOr(op, value);
   
-  Vector3D({
+  Vector3({
     super.op,
     double x = 0,
     double y = 0,
@@ -74,11 +74,11 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
     _y = y,
     _z = z;
 
-  factory Vector3D.zero() => .vec3(0, 0, 0);
+  factory Vector3.zero() => .vec3(0, 0, 0);
 
-  factory Vector3D.one() => .vec3(1, 1, 1);
+  factory Vector3.one() => .vec3(1, 1, 1);
 
-  factory Vector3D.vec3(
+  factory Vector3.vec3(
     num x,
     num y,
     num z,
@@ -89,7 +89,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   );
 
   @override
-  Vector3D setDart(Vector3D o) => set(o.x, o.y, o.z);
+  Vector3 setDart(Vector3 o) => set(o.x, o.y, o.z);
 
   @override
   void structWriteInto(MemoryPointer p) {
@@ -106,7 +106,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   }
 
   @override
-  Vector3D clone() => .new(
+  Vector3 clone() => .new(
     op: op,
     x: x,
     y: y,
@@ -114,16 +114,16 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   );
 
   /// Creates a vector from [x], [y], [z] and immediately normalizes it.
-  factory Vector3D.normalized(num x, num y, num z) => .vec3(
+  factory Vector3.normalized(num x, num y, num z) => .vec3(
     x.toDouble(),
     y.toDouble(),
     z.toDouble(),
   ).normalize();
 
   /// Returns a vector perpendicular to [o] by crossing it with its least-aligned cardinal axis.
-  factory Vector3D.perpendicular(Vector3D o) {
+  factory Vector3.perpendicular(Vector3 o) {
     double min = o.x.abs();
-    Vector3D cardinalAxis = .vec3(1.0, 0.0, 0.0);
+    Vector3 cardinalAxis = .vec3(1.0, 0.0, 0.0);
 
     if ((o.y).abs() < min) {
       min = (o.y).abs();
@@ -138,7 +138,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   }
 
   /// Computes the barycentric coordinates of point [p] relative to triangle ([a], [b], [c]).
-  factory Vector3D.barycenter(Vector3D p, Vector3D a, Vector3D b, Vector3D c) {
+  factory Vector3.barycenter(Vector3 p, Vector3 a, Vector3 b, Vector3 c) {
     final v0 = b.sub(a);
     final v1 = c.sub(a);
     final v2 = p.sub(a);
@@ -157,7 +157,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Sets all components at once.
   /// 
   /// Values are converted using [num.toDouble].
-  Vector3D set(num x, num y, num z) {
+  Vector3 set(num x, num y, num z) {
     this.x = x.toDouble();
     this.y = y.toDouble();
     this.z = z.toDouble();
@@ -165,15 +165,15 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   }
 
   /// Euclidean distance between this vector and [o].
-  double distance(Vector3D o) => math.sqrt(distanceSqr(o));
+  double distance(Vector3 o) => math.sqrt(distanceSqr(o));
   
   /// Squared Euclidean distance between this vector and [o].
   ///
   /// Prefer over [distance] when only relative comparison is needed.
-  double distanceSqr(Vector3D o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z);
+  double distanceSqr(Vector3 o) => (x - o.x)*(x - o.x) + (y - o.y)*(y - o.y) + (z - o.z)*(z - o.z);
   
   /// Dot product of this vector and [o].
-  double dotProduct(Vector3D o) => x * o.x + y * o.y + z * o.z;
+  double dotProduct(Vector3 o) => x * o.x + y * o.y + z * o.z;
   
   /// Euclidean length (magnitude) of this vector.
   double get length => math.sqrt(lengthSqr);
@@ -186,8 +186,8 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Angle between this vector and [o] in radians, in the range `[0, π]`.
   ///
   /// Computed via `atan2(|cross|, dot)` for numerical stability.
-  double angle(Vector3D o) {
-    final Vector3D cross = .vec3(
+  double angle(Vector3 o) {
+    final Vector3 cross = .vec3(
       y*o.z - z*o.y,
       z*o.x - x*o.z,
       x*o.y - y*o.x
@@ -209,37 +209,37 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
     ']';
   
   /// Returns a new vector that is the component-wise sum of this and [o].
-  Vector3D add(Vector3D o) => .vec3(x + o.x, y + o.y, z + o.z);
+  Vector3 add(Vector3 o) => .vec3(x + o.x, y + o.y, z + o.z);
   
   /// Returns a new vector with [value] added to each component.
-  Vector3D addValue(num value) => .vec3(x + value, y + value, z + value);
+  Vector3 addValue(num value) => .vec3(x + value, y + value, z + value);
   
   /// Returns a new vector that is the component-wise difference of this and [o].
-  Vector3D sub(Vector3D o) => .vec3(x - o.x, y - o.y, z - o.z);
+  Vector3 sub(Vector3 o) => .vec3(x - o.x, y - o.y, z - o.z);
   
   /// Returns a new vector with [value] subtracted from each component.
-  Vector3D subValue(num value) => .vec3(x - value, y - value, z - value);
+  Vector3 subValue(num value) => .vec3(x - value, y - value, z - value);
   
   /// Returns a new vector with all components scaled by [o].
-  Vector3D scale(num o) => .vec3(x * o, y * o, z * o);
+  Vector3 scale(num o) => .vec3(x * o, y * o, z * o);
   
   /// Returns a new vector that is the component-wise product of this and [o].
-  Vector3D mul(Vector3D o) => .vec3(x * o.x, y * o.y, z * o.z);
+  Vector3 mul(Vector3 o) => .vec3(x * o.x, y * o.y, z * o.z);
   
   /// Returns a new vector with all components divided by [o].
-  Vector3D divideBy(num o) => scale(1 / o);
+  Vector3 divideBy(num o) => scale(1 / o);
   
   /// Returns a new vector that is the component-wise quotient of this and [o].
-  Vector3D div(Vector3D o) => .vec3(x / o.x, y / o.y, z / o.z);
+  Vector3 div(Vector3 o) => .vec3(x / o.x, y / o.y, z / o.z);
   
   /// Returns a new vector with all components negated.
-  Vector3D negate() => .vec3(-x, -y, -z);
+  Vector3 negate() => .vec3(-x, -y, -z);
   
   /// Transforms this vector by matrix [o].
   ///
   /// Applies the full 4x4 affine transformation; the W component is
   /// implicitly treated as 1 (i.e. the translation column is applied).
-  Vector3D transform(MatrixD o) => .vec3(
+  Vector3 transform(Matrix o) => .vec3(
     o.m0*x + o.m4*y + o.m8*z + o.m12,
     o.m1*x + o.m5*y + o.m9*z + o.m13,
     o.m2*x + o.m6*y + o.m10*z + o.m14,
@@ -248,7 +248,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Projects this vector onto [o].
   ///
   /// Returns the component of this vector that is parallel to [o].
-  Vector3D project(Vector3D o) {
+  Vector3 project(Vector3 o) {
     final v1dv2 = (x*o.x + y*o.y + z*o.z);
     final v2dv2 = (o.x*o.x + o.y*o.y + o.z*o.z);
     final mag = v1dv2/v2dv2;
@@ -263,7 +263,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// Returns the component of this vector that is perpendicular to [o].
   /// Complement of [project]: `project(o).add(reject(o)) == this`.
-  Vector3D reject(Vector3D o) {
+  Vector3 reject(Vector3 o) {
     final v1dv2 = (x*o.x + y*o.y + z*o.z);
     final v2dv2 = (o.x*o.x + o.y*o.y + o.z*o.z);
     final mag = v1dv2/v2dv2;
@@ -277,7 +277,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Reflects this vector off a surface with the given [normal].
   ///
   /// [normal] is assumed to be normalized.
-  Vector3D reflect(Vector3D normal) {
+  Vector3 reflect(Vector3 normal) {
     final dot = dotProduct(normal);
     return .vec3(
       x - (2.0*normal.x)*dot,
@@ -287,14 +287,14 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   }
 
   /// Returns a new vector with each component being the component-wise minimum of this and [o].
-  Vector3D min(Vector3D o) => .vec3(
+  Vector3 min(Vector3 o) => .vec3(
     math.min(x, o.x),
     math.min(y, o.y),
     math.min(z, o.z),
   );
 
   /// Returns a new vector with each component being the component-wise maximum of this and [o].
-  Vector3D max(Vector3D o) => .vec3(
+  Vector3 max(Vector3 o) => .vec3(
     math.max(x, o.x),
     math.max(y, o.y),
     math.max(z, o.z),
@@ -303,7 +303,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Cross product of this vector and [o].
   ///
   /// Returns a vector perpendicular to both, following the right-hand rule.
-  Vector3D crossProduct(Vector3D o) => .vec3(
+  Vector3 crossProduct(Vector3 o) => .vec3(
     y*o.z - z*o.y,
     z*o.x - x*o.z,
     x*o.y - y*o.x
@@ -312,7 +312,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Returns a normalized (unit-length) copy of this vector.
   ///
   /// Returns a copy of this vector unchanged if [length] is zero.
-  Vector3D normalize() {
+  Vector3 normalize() {
     final length = this.length;
     if (length != 0.0)
     {
@@ -331,7 +331,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// Normalizes `this` in place via [setDart], then returns a vector
   /// perpendicular to the normalized `this` in the plane of `this` and [o].
-  Vector3D orthoNormalize(Vector3D o) {
+  Vector3 orthoNormalize(Vector3 o) {
     final n1 = normalize();
     final vn1 = n1.crossProduct(o).normalize();
     setDart(n1);
@@ -342,7 +342,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// Uses the Rodrigues rotation formula via quaternion half-angle.
   /// [axis] is normalized internally.
-  Vector3D rotateByAxisAngle(Vector3D axis, double angle) {
+  Vector3 rotateByAxisAngle(Vector3 axis, double angle) {
     final w = axis.normalize().scale(math.sin(angle / 2.0));
     final wv = w.crossProduct(this);
     final wwv = w.crossProduct(wv).scale(2);
@@ -352,7 +352,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Moves this vector towards [target] by at most [maxDistance].
   ///
   /// Returns [target] directly if already within [maxDistance].
-  Vector3D moveTowards(Vector3D target, double maxDistance) {
+  Vector3 moveTowards(Vector3 target, double maxDistance) {
     final dx = target.x - x;
     final dy = target.y - y;
     final dz = target.z - z;
@@ -375,14 +375,14 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Linear interpolation between this and [o] by [amount].
   ///
   /// [amount] should be in the range `[0.0, 1.0]`.
-  Vector3D lerp(Vector3D o, double amount) => .vec3(
+  Vector3 lerp(Vector3 o, double amount) => .vec3(
     x + amount*(o.x - x),
     y + amount*(o.y - y),
     z + amount*(o.z - z),
   );
 
   /// Clamps each component of this vector between the corresponding components of [min] and [max].
-  Vector3D clamp(Vector3D min, Vector3D max) => .vec3(
+  Vector3 clamp(Vector3 min, Vector3 max) => .vec3(
     math.min(max.x, math.max(min.x, x)),
     math.min(max.y, math.max(min.y, y)),
     math.min(max.z, math.max(min.z, z)),
@@ -391,7 +391,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Clamps the length of this vector to the range `[min, max]`.
   ///
   /// Returns `this` unchanged if [lengthSqr] is zero.
-  Vector3D clampValue(double min, double max) {
+  Vector3 clampValue(double min, double max) {
     double length = lengthSqr;
     if (length > 0.0) {
       length = math.sqrt(length);
@@ -413,7 +413,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// Uses epsilon-based per-component comparison scaled to the magnitude
   /// of the compared values.
-  bool equals(Vector3D o) =>
+  bool equals(Vector3 o) =>
     (((x - o.x).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((x).abs(), (o.x).abs())))) &&
     (((y - o.y).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((y).abs(), (o.y).abs())))) &&
     (((z - o.z).abs()) <= (RaylibConstants.EPSILON*math.max(1.0, math.max((z).abs(), (o.z).abs()))));
@@ -422,7 +422,7 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   ///
   /// [tangent1] is the outgoing tangent at this point,
   /// [tangent2] is the incoming tangent at [v2],
-  Vector3D cubicHermite(Vector3D tangent1, Vector3D v2, Vector3D tangent2, double amount) {
+  Vector3 cubicHermite(Vector3 tangent1, Vector3 v2, Vector3 tangent2, double amount) {
     final p2 = amount*amount;
     final p3 = amount*amount*amount;
 
@@ -434,21 +434,21 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   }
 
   /// Returns a new vector with `this` rotated by quaternion [q].
-  Vector3D rotateByQuaternion(QuaternionD q) => .vec3(
+  Vector3 rotateByQuaternion(Quaternion q) => .vec3(
     x*(q.x*q.x + q.w*q.w - q.y*q.y - q.z*q.z) + y*(2*q.x*q.y - 2*q.w*q.z) + z*(2*q.x*q.z + 2*q.w*q.y),
     x*(2*q.w*q.z + 2*q.x*q.y) + y*(q.w*q.w - q.x*q.x + q.y*q.y - q.z*q.z) + z*(-2*q.w*q.x + 2*q.y*q.z),
     x*(-2*q.w*q.y + 2*q.x*q.z) + y*(2*q.w*q.x + 2*q.y*q.z)+ z*(q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z),
   );
 
   /// Returns a new vector with each component replaced by its reciprocal (`1/x`, `1/y`, `1/z`).
-  Vector3D invert() => .vec3(1.0/x, 1.0/y, 1.0/z);
+  Vector3 invert() => .vec3(1.0/x, 1.0/y, 1.0/z);
 
   /// Refracts this vector through a surface with normal [n] and ratio [r].
   ///
   /// [r] is the ratio of indices of refraction (`n1 / n2`).
   /// Returns `this` unchanged if total internal reflection occurs
   /// (i.e. the discriminant is negative).
-  Vector3D refract(Vector3D n, double r) {
+  Vector3 refract(Vector3 n, double r) {
     final dot = dotProduct(n);
     double d = 1.0 - r*r*(1.0 - dot*dot);
 
@@ -469,9 +469,9 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// [projection] and [view] are the camera's projection and view matrices.
   /// Internally multiplies and inverts the combined view-projection matrix,
   /// then applies a perspective divide.
-  Vector3D unproject(MatrixD projection, MatrixD view) {
+  Vector3 unproject(Matrix projection, Matrix view) {
     final matViewProj = view.mul(projection).invert();
-    final QuaternionD qtransformed = .quat(x, y, z, 1.0).transform(matViewProj);
+    final Quaternion qtransformed = .quat(x, y, z, 1.0).transform(matViewProj);
     return .vec3(
       qtransformed.x/qtransformed.w,
       qtransformed.y/qtransformed.w,
@@ -484,10 +484,10 @@ class Vector3D extends RaylibStructLiteral<Vector3D> {
   /// Order: `[x, y, z]`
   List<double> toArray() => [x, y, z];
 
-  /// Returns the components as a [float3D].
+  /// Returns the components as a [float3].
   ///
   /// Order: `[x, y, z]`
-  float3D toFloatV()
+  float3 toFloatV()
     => .new(v: toArray());
 
   @override

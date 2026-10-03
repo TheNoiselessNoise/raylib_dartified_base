@@ -10,7 +10,7 @@ enum FontField with StructFields {
 }
 
 /// Font, font texture and GlyphInfo array data
-class FontD extends RaylibStruct<FontD> {
+class Font extends RaylibStruct<Font> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -22,15 +22,15 @@ class FontD extends RaylibStruct<FontD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<FontD> struct = .new(
-    factory: FontD.new,
+  static final StructType<Font> struct = ._builtin(
+    factory: Font.new,
     layout: .aligned<FontField>({
       .baseSize:     RInt(), // Base size (default chars height)
       .glyphCount:   RInt(), // Number of glyph characters
       .glyphPadding: RInt(), // Padding around the glyph characters
-      .texture:      RStruct(TextureD.struct), // Texture atlas containing the glyphs
-      .recs:         RPointer(RStruct(RectangleD.struct)), // Rectangles in texture for the glyphs
-      .glyphs:       RPointer(RStruct(GlyphInfoD.struct)), // Glyphs info data
+      .texture:      RStruct(Texture.struct), // Texture atlas containing the glyphs
+      .recs:         RPointer(RStruct(Rectangle.struct)), // Rectangles in texture for the glyphs
+      .glyphs:       RPointer(RStruct(GlyphInfo.struct)), // Glyphs info data
     }),
   );
 
@@ -44,11 +44,11 @@ class FontD extends RaylibStruct<FontD> {
   /// Field descriptor for [glyphPadding].
   static final field_glyphPadding = structLayout.scalar<int, RInt>(.glyphPadding);
   /// Field descriptor for [texture].
-  static final field_texture = structLayout.struct<TextureD>(.texture);
+  static final field_texture = structLayout.struct<Texture>(.texture);
   /// Field descriptor for [recs].
-  static final field_recs = structLayout.pointerStructArray<RectangleD>(.recs);
+  static final field_recs = structLayout.pointerStructArray<Rectangle>(.recs);
   /// Field descriptor for [glyphs].
-  static final field_glyphs = structLayout.pointerStructArray<GlyphInfoD>(.glyphs);
+  static final field_glyphs = structLayout.pointerStructArray<GlyphInfo>(.glyphs);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -73,29 +73,29 @@ class FontD extends RaylibStruct<FontD> {
   int get glyphPadding => _glyphPadding = field_glyphPadding.readOr(op, _glyphPadding);
   set glyphPadding(int value) => _glyphPadding = field_glyphPadding.writeOr(op, value);
 
-  TextureD _texture;
+  Texture _texture;
   /// Texture atlas containing the glyphs
-  TextureD get texture => _texture = field_texture.readOr(op, _texture);
-  set texture(TextureD value) => _texture = field_texture.writeOr(op, value);
+  Texture get texture => _texture = field_texture.readOr(op, _texture);
+  set texture(Texture value) => _texture = field_texture.writeOr(op, value);
 
-  late final StructLiveListStruct<RectangleD> _recs;
+  late final StructLiveListStruct<Rectangle> _recs;
   /// Rectangles in texture for the glyphs
-  StructLiveListStruct<RectangleD> get recs => _recs;
-  set recs(List<RectangleD> value) => _recs.inner = value;
+  StructLiveListStruct<Rectangle> get recs => _recs;
+  set recs(List<Rectangle> value) => _recs.inner = value;
 
-  late final StructLiveListStruct<GlyphInfoD> _glyphs;
+  late final StructLiveListStruct<GlyphInfo> _glyphs;
   /// Glyphs info data
-  StructLiveListStruct<GlyphInfoD> get glyphs => _glyphs;
-  set glyphs(List<GlyphInfoD> value) => _glyphs.inner = value;
+  StructLiveListStruct<GlyphInfo> get glyphs => _glyphs;
+  set glyphs(List<GlyphInfo> value) => _glyphs.inner = value;
 
-  FontD({
+  Font({
     super.op,
     int baseSize = 0,
     int glyphCount = 0,
     int glyphPadding = 0,
-    TextureD? texture,
-    List<RectangleD>? recs,
-    List<GlyphInfoD>? glyphs,
+    Texture? texture,
+    List<Rectangle>? recs,
+    List<GlyphInfo>? glyphs,
   }) :
     _baseSize = baseSize,
     _glyphCount = glyphCount,
@@ -106,10 +106,10 @@ class FontD extends RaylibStruct<FontD> {
     _glyphs = field_glyphs.live(() => op, glyphs ?? []);
   }
 
-  factory FontD.zero() => .new();
+  factory Font.zero() => .new();
 
   @override
-  FontD setDart(FontD o) {
+  Font setDart(Font o) {
     baseSize = o.baseSize;
     glyphCount = o.glyphCount;
     glyphPadding = o.glyphPadding;
@@ -150,7 +150,7 @@ class FontD extends RaylibStruct<FontD> {
   }
 
   @override
-  FontD clone() => .new(
+  Font clone() => .new(
     op: op,
     baseSize: baseSize,
     glyphCount: glyphCount,

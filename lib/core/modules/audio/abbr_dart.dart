@@ -21,133 +21,133 @@ void SetMasterVolume(
 double GetMasterVolume() => _module.GetMasterVolume();
 
 /// See [RaylibAudioDart.LoadWave].
-WaveD LoadWave(
+Wave LoadWave(
   String fileName,
 ) => _module.LoadWave(fileName);
 
 /// See [RaylibAudioDart.LoadWaveFromMemory].
-WaveD LoadWaveFromMemory(
+Wave LoadWaveFromMemory(
   String fileType,
   Uint8List fileData,
 ) => _module.LoadWaveFromMemory(fileType, fileData);
 
 /// See [RaylibAudioDart.IsWaveValid].
 bool IsWaveValid(
-  WaveD wave,
+  Wave wave,
 ) => _module.IsWaveValid(wave);
 
 /// See [RaylibAudioDart.LoadSound].
-SoundD LoadSound(
+Sound LoadSound(
   String fileName,
 ) => _module.LoadSound(fileName);
 
 /// See [RaylibAudioDart.LoadSoundFromWave].
-SoundD LoadSoundFromWave(
-  WaveD wave,
+Sound LoadSoundFromWave(
+  Wave wave,
 ) => _module.LoadSoundFromWave(wave);
 
 /// See [RaylibAudioDart.LoadSoundAlias].
-SoundD LoadSoundAlias(
-  SoundD source,
+Sound LoadSoundAlias(
+  Sound source,
 ) => _module.LoadSoundAlias(source);
 
 /// See [RaylibAudioDart.IsSoundValid].
 bool IsSoundValid(
-  SoundD sound,
+  Sound sound,
 ) => _module.IsSoundValid(sound);
 
 /// See [RaylibAudioDart.UpdateSound].
 void UpdateSound(
-  SoundD sound,
+  Sound sound,
   TypedDataList data,
   int sampleCount,
 ) => _module.UpdateSound(sound, data, sampleCount);
 
 /// See [RaylibAudioDart.UnloadWave].
 void UnloadWave(
-  WaveD wave,
+  Wave wave,
 ) => _module.UnloadWave(wave);
 
 /// See [RaylibAudioDart.UnloadSound].
 void UnloadSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.UnloadSound(sound);
 
 /// See [RaylibAudioDart.UnloadSoundAlias].
 void UnloadSoundAlias(
-  SoundD alias,
+  Sound alias,
 ) => _module.UnloadSoundAlias(alias);
 
 /// See [RaylibAudioDart.ExportWave].
 bool ExportWave(
-  WaveD wave,
+  Wave wave,
   String fileName,
 ) => _module.ExportWave(wave, fileName);
 
 /// See [RaylibAudioDart.ExportWaveAsCode].
 bool ExportWaveAsCode(
-  WaveD wave,
+  Wave wave,
   String fileName,
 ) => _module.ExportWaveAsCode(wave, fileName);
 
 /// See [RaylibAudioDart.PlaySound].
 void PlaySound(
-  SoundD sound,
+  Sound sound,
 ) => _module.PlaySound(sound);
 
 /// See [RaylibAudioDart.StopSound].
 void StopSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.StopSound(sound);
 
 /// See [RaylibAudioDart.PauseSound].
 void PauseSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.PauseSound(sound);
 
 /// See [RaylibAudioDart.ResumeSound].
 void ResumeSound(
-  SoundD sound,
+  Sound sound,
 ) => _module.ResumeSound(sound);
 
 /// See [RaylibAudioDart.IsSoundPlaying].
 bool IsSoundPlaying(
-  SoundD sound,
+  Sound sound,
 ) => _module.IsSoundPlaying(sound);
 
 /// See [RaylibAudioDart.SetSoundVolume].
 void SetSoundVolume(
-  SoundD sound,
+  Sound sound,
   double volume,
 ) => _module.SetSoundVolume(sound, volume);
 
 /// See [RaylibAudioDart.SetSoundPitch].
 void SetSoundPitch(
-  SoundD sound,
+  Sound sound,
   double pitch,
 ) => _module.SetSoundPitch(sound, pitch);
 
 /// See [RaylibAudioDart.SetSoundPan].
 void SetSoundPan(
-  SoundD sound,
+  Sound sound,
   double pan,
 ) => _module.SetSoundPan(sound, pan);
 
 /// See [RaylibAudioDart.WaveCopy].
-WaveD WaveCopy(
-  WaveD wave,
+Wave WaveCopy(
+  Wave wave,
 ) => _module.WaveCopy(wave);
 
 /// See [RaylibAudioDart.WaveCrop].
 void WaveCrop(
-  WaveD wave,
+  Wave wave,
   int initFrame,
   int finalFrame,
 ) => _module.WaveCrop(wave, initFrame, finalFrame);
 
 /// See [RaylibAudioDart.WaveFormat].
 void WaveFormat(
-  WaveD wave,
+  Wave wave,
   int sampleRate,
   int sampleSize,
   int channels,
@@ -155,96 +155,96 @@ void WaveFormat(
 
 /// See [RaylibAudioDart.LoadWaveSamples].
 List<double> LoadWaveSamples(
-  WaveD wave,
+  Wave wave,
 ) => _module.LoadWaveSamples(wave);
 
 /// See [RaylibAudioDart.LoadMusicStream].
-MusicD LoadMusicStream(
+Music LoadMusicStream(
   String fileName,
 ) => _module.LoadMusicStream(fileName);
 
 /// See [RaylibAudioDart.LoadMusicStreamFromMemory].
-MusicD LoadMusicStreamFromMemory(
+Music LoadMusicStreamFromMemory(
   String fileType,
   Uint8List data,
 ) => _module.LoadMusicStreamFromMemory(fileType, data);
 
 /// See [RaylibAudioDart.IsMusicValid].
 bool IsMusicValid(
-  MusicD music,
+  Music music,
 ) => _module.IsMusicValid(music);
 
 /// See [RaylibAudioDart.UnloadMusicStream].
 void UnloadMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.UnloadMusicStream(music);
 
 /// See [RaylibAudioDart.PlayMusicStream].
 void PlayMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.PlayMusicStream(music);
 
 /// See [RaylibAudioDart.IsMusicStreamPlaying].
 bool IsMusicStreamPlaying(
-  MusicD music,
+  Music music,
 ) => _module.IsMusicStreamPlaying(music);
 
 /// See [RaylibAudioDart.UpdateMusicStream].
 void UpdateMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.UpdateMusicStream(music);
 
 /// See [RaylibAudioDart.StopMusicStream].
 void StopMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.StopMusicStream(music);
 
 /// See [RaylibAudioDart.PauseMusicStream].
 void PauseMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.PauseMusicStream(music);
 
 /// See [RaylibAudioDart.ResumeMusicStream].
 void ResumeMusicStream(
-  MusicD music,
+  Music music,
 ) => _module.ResumeMusicStream(music);
 
 /// See [RaylibAudioDart.SeekMusicStream].
 void SeekMusicStream(
-  MusicD music,
+  Music music,
   double position,
 ) => _module.SeekMusicStream(music, position);
 
 /// See [RaylibAudioDart.SetMusicVolume].
 void SetMusicVolume(
-  MusicD music,
+  Music music,
   double volume,
 ) => _module.SetMusicVolume(music, volume);
 
 /// See [RaylibAudioDart.SetMusicPitch].
 void SetMusicPitch(
-  MusicD music,
+  Music music,
   double pitch,
 ) => _module.SetMusicPitch(music, pitch);
 
 /// See [RaylibAudioDart.SetMusicPan].
 void SetMusicPan(
-  MusicD music,
+  Music music,
   double pan,
 ) => _module.SetMusicPan(music, pan);
 
 /// See [RaylibAudioDart.GetMusicTimeLength].
 double GetMusicTimeLength(
-  MusicD music,
+  Music music,
 ) => _module.GetMusicTimeLength(music);
 
 /// See [RaylibAudioDart.GetMusicTimePlayed].
 double GetMusicTimePlayed(
-  MusicD music,
+  Music music,
 ) => _module.GetMusicTimePlayed(music);
 
 /// See [RaylibAudioDart.LoadAudioStream].
-AudioStreamD LoadAudioStream(
+AudioStream LoadAudioStream(
   int sampleRate,
   int sampleSize,
   int channels,
@@ -252,65 +252,65 @@ AudioStreamD LoadAudioStream(
 
 /// See [RaylibAudioDart.IsAudioStreamValid].
 bool IsAudioStreamValid(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamValid(stream);
 
 /// See [RaylibAudioDart.UnloadAudioStream].
 void UnloadAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.UnloadAudioStream(stream);
 
 /// See [RaylibAudioDart.UpdateAudioStream].
 void UpdateAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
   TypedDataList data,
 ) => _module.UpdateAudioStream(stream, data);
 
 /// See [RaylibAudioDart.IsAudioStreamProcessed].
 bool IsAudioStreamProcessed(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamProcessed(stream);
 
 /// See [RaylibAudioDart.PlayAudioStream].
 void PlayAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.PlayAudioStream(stream);
 
 /// See [RaylibAudioDart.PauseAudioStream].
 void PauseAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.PauseAudioStream(stream);
 
 /// See [RaylibAudioDart.ResumeAudioStream].
 void ResumeAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.ResumeAudioStream(stream);
 
 /// See [RaylibAudioDart.IsAudioStreamPlaying].
 bool IsAudioStreamPlaying(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.IsAudioStreamPlaying(stream);
 
 /// See [RaylibAudioDart.StopAudioStream].
 void StopAudioStream(
-  AudioStreamD stream,
+  AudioStream stream,
 ) => _module.StopAudioStream(stream);
 
 /// See [RaylibAudioDart.SetAudioStreamVolume].
 void SetAudioStreamVolume(
-  AudioStreamD stream,
+  AudioStream stream,
   double volume,
 ) => _module.SetAudioStreamVolume(stream, volume);
 
 /// See [RaylibAudioDart.SetAudioStreamPitch].
 void SetAudioStreamPitch(
-  AudioStreamD stream,
+  AudioStream stream,
   double pitch,
 ) => _module.SetAudioStreamPitch(stream, pitch);
 
 /// See [RaylibAudioDart.SetAudioStreamPan].
 void SetAudioStreamPan(
-  AudioStreamD stream,
+  AudioStream stream,
   double pan,
 ) => _module.SetAudioStreamPan(stream, pan);
 
@@ -321,19 +321,19 @@ void SetAudioStreamBufferSizeDefault(
 
 /// See [RaylibAudioDart.SetAudioStreamCallback].
 void SetAudioStreamCallback(
-  AudioStreamD stream,
+  AudioStream stream,
   AudioCallbackBase callback,
 ) => _module.SetAudioStreamCallback(stream, callback);
 
 /// See [RaylibAudioDart.AttachAudioStreamProcessor].
 void AttachAudioStreamProcessor(
-  AudioStreamD stream,
+  AudioStream stream,
   AudioCallbackBase callback,
 ) => _module.AttachAudioStreamProcessor(stream, callback);
 
 /// See [RaylibAudioDart.DetachAudioStreamProcessor].
 void DetachAudioStreamProcessor(
-  AudioStreamD stream,
+  AudioStream stream,
   AudioCallbackBase callback,
   {bool keepAlive = false}
 ) => _module.DetachAudioStreamProcessor(stream, callback, keepAlive: keepAlive);

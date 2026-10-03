@@ -273,133 +273,79 @@ final class RaylibTemp<R extends RaylibBase> extends RaylibModule {
     _pointerAllocator = .new(this, byteSize: RType.nativeWordSize);
   }
 
-  // structs
-
-  late final RaylibTempStructAllocator<float3D> float3$;
-  late final RaylibTempStructAllocator<float16D> float16$;
-
-  late final RaylibTempStructAllocator<AutomationEventListD> AutomationEventList$;
-  late final RaylibTempStructAllocator<AutomationEventD> AutomationEvent$;
-  late final RaylibTempStructAllocator<AudioStreamD> AudioStream$;
-  late final RaylibTempStructAllocator<BoneInfoD> BoneInfo$;
-  late final RaylibTempStructAllocator<BoundingBoxD> BoundingBox$;
-  late final RaylibTempStructAllocator<Camera2DD> Camera2D$;
-  late final RaylibTempStructAllocator<Camera3DD> Camera3D$;
-  late final RaylibTempStructAllocator<ColorD> Color$;
-  late final RaylibTempStructAllocator<FilePathListD> FilePathList$;
-  late final RaylibTempStructAllocator<FontD> Font$;
-  late final RaylibTempStructAllocator<GestureEventD> GestureEvent$;
-  late final RaylibTempStructAllocator<GlyphInfoD> GlyphInfo$;
-  late final RaylibTempStructAllocator<ImageD> Image$;
-  late final RaylibTempStructAllocator<LightD> Light$;
-  late final RaylibTempStructAllocator<MaterialMapD> MaterialMap$;
-  late final RaylibTempStructAllocator<MaterialD> Material$;
-  late final RaylibTempStructAllocator<MatrixD> Matrix$;
-  late final RaylibTempStructAllocator<MeshD> Mesh$;
-  late final RaylibTempStructAllocator<ModelAnimationD> ModelAnimation$;
-  late final RaylibTempStructAllocator<ModelSkeletonD> ModelSkeleton$;
-  late final RaylibTempStructAllocator<ModelD> Model$;
-  late final RaylibTempStructAllocator<MusicD> Music$;
-  late final RaylibTempStructAllocator<NPatchInfoD> NPatchInfo$;
-  late final RaylibTempStructAllocator<QuaternionD> Quaternion$;
-  late final RaylibTempStructAllocator<RayCollisionD> RayCollision$;
-  late final RaylibTempStructAllocator<RayD> Ray$;
-  late final RaylibTempStructAllocator<RectangleD> Rectangle$;
-  late final RaylibTempStructAllocator<RenderTextureD> RenderTexture$;
-  late final RaylibTempStructAllocator<RlDrawCallD> RlDrawCall$;
-  late final RaylibTempStructAllocator<RlRenderBatchD> RlRenderBatch$;
-  late final RaylibTempStructAllocator<RlVertexBufferD> RlVertexBuffer$;
-  late final RaylibTempStructAllocator<ShaderD> Shader$;
-  late final RaylibTempStructAllocator<SoundD> Sound$;
-  late final RaylibTempStructAllocator<TextureD> Texture$;
-  late final RaylibTempStructAllocator<TransformD> Transform$;
-  late final RaylibTempStructAllocator<Vector2D> Vector2$;
-  late final RaylibTempStructAllocator<Vector3D> Vector3$;
-  late final RaylibTempStructAllocator<Vector4D> Vector4$;
-  late final RaylibTempStructAllocator<VrDeviceInfoD> VrDeviceInfo$;
-  late final RaylibTempStructAllocator<VrStereoConfigD> VrStereoConfig$;
-  late final RaylibTempStructAllocator<WaveD> Wave$;
-
-  final Map<Type, RaylibTempStructAllocator> _builtInStructAllocators = {};
-  RaylibTempStructAllocator<X> _bStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator) {
-    StructTypes.register(allocator.struct);
-    return _builtInStructAllocators[X] = allocator;
-  }
-
-  void _initStructAllocators() {
-    float3$ = _bStruct(.new(this, struct: float3D.struct));
-    float16$ = _bStruct(.new(this, struct: float16D.struct));
-
-    AutomationEventList$ = _bStruct(.new(this, struct: AutomationEventListD.struct));
-    AutomationEvent$ = _bStruct(.new(this, struct: AutomationEventD.struct));
-    AudioStream$ = _bStruct(.new(this, struct: AudioStreamD.struct));
-    BoneInfo$ = _bStruct(.new(this, struct: BoneInfoD.struct));
-    BoundingBox$ = _bStruct(.new(this, struct: BoundingBoxD.struct));
-    Camera2D$ = _bStruct(.new(this, struct: Camera2DD.struct));
-    Camera3D$ = _bStruct(.new(this, struct: Camera3DD.struct));
-    Color$ = _bStruct(.new(this, struct: ColorD.struct));
-    FilePathList$ = _bStruct(.new(this, struct: FilePathListD.struct));
-    Font$ = _bStruct(.new(this, struct: FontD.struct));
-    GestureEvent$ = _bStruct(.new(this, struct: GestureEventD.struct));
-    GlyphInfo$ = _bStruct(.new(this, struct: GlyphInfoD.struct));
-    Image$ = _bStruct(.new(this, struct: ImageD.struct));
-    Light$ = _bStruct(.new(this, struct: LightD.struct));
-    MaterialMap$ = _bStruct(.new(this, struct: MaterialMapD.struct));
-    Material$ = _bStruct(.new(this, struct: MaterialD.struct));
-    Matrix$ = _bStruct(.new(this, struct: MatrixD.struct));
-    Mesh$ = _bStruct(.new(this, struct: MeshD.struct));
-    ModelAnimation$ = _bStruct(.new(this, struct: ModelAnimationD.struct));
-    ModelSkeleton$ = _bStruct(.new(this, struct: ModelSkeletonD.struct));
-    Model$ = _bStruct(.new(this, struct: ModelD.struct));
-    Music$ = _bStruct(.new(this, struct: MusicD.struct));
-    NPatchInfo$ = _bStruct(.new(this, struct: NPatchInfoD.struct));
-    Quaternion$ = _bStruct(.new(this, struct: QuaternionD.struct));
-    RayCollision$ = _bStruct(.new(this, struct: RayCollisionD.struct));
-    Ray$ = _bStruct(.new(this, struct: RayD.struct));
-    Rectangle$ = _bStruct(.new(this, struct: RectangleD.struct));
-    RenderTexture$ = _bStruct(.new(this, struct: RenderTextureD.struct));
-    RlDrawCall$ = _bStruct(.new(this, struct: RlDrawCallD.struct));
-    RlRenderBatch$ = _bStruct(.new(this, struct: RlRenderBatchD.struct));
-    RlVertexBuffer$ = _bStruct(.new(this, struct: RlVertexBufferD.struct));
-    Shader$ = _bStruct(.new(this, struct: ShaderD.struct));
-    Sound$ = _bStruct(.new(this, struct: SoundD.struct));
-    Texture$ = _bStruct(.new(this, struct: TextureD.struct));
-    Transform$ = _bStruct(.new(this, struct: TransformD.struct));
-    Vector2$ = _bStruct(.new(this, struct: Vector2D.struct));
-    Vector3$ = _bStruct(.new(this, struct: Vector3D.struct));
-    Vector4$ = _bStruct(.new(this, struct: Vector4D.struct));
-    VrDeviceInfo$ = _bStruct(.new(this, struct: VrDeviceInfoD.struct));
-    VrStereoConfig$ = _bStruct(.new(this, struct: VrStereoConfigD.struct));
-    Wave$ = _bStruct(.new(this, struct: WaveD.struct));
-  }
-
-  // optional structs
-
-  late final RaylibTempStructAllocator<MsfGifResultD> MsfGifResult$;
-  late final RaylibTempStructAllocator<MsfGifStateD> MsfGifState$;
-
-  void _initOptionalStructAllocators() {
-    MsfGifResult$ = _bStruct(.new(this, struct: MsfGifResultD.struct));
-    MsfGifState$ = _bStruct(.new(this, struct: MsfGifStateD.struct));
-  }
-
-  final Map<Type, RaylibTempStructAllocator> _customStructAllocators = {};
-  RaylibTempStructAllocator<X> _cStruct<X extends RaylibStruct<X>>(RaylibTempStructAllocator<X> allocator)
-    => _customStructAllocators[X] = allocator;
-
-  /// Creates and registers a struct allocator.
-  RaylibTempStructAllocator<X> createStructAllocator<X extends RaylibStruct<X>>(StructType<X> struct, {bool registerType = true}) {
-    if (registerType) StructTypes.register(struct);
-    return _cStruct(.new(this, struct: struct));
-  }
-
   /// Returns the struct allocator registered under struct type [X].
   RaylibTempScalarAllocator? scalarAlloc<Y extends RType>()
     => _builtInScalarAllocators[Y];
 
-  /// Returns the struct allocator registered under struct type [X].
-  RaylibTempStructAllocator<X>? structAlloc<X extends RaylibStruct<X>>()
-    => (_builtInStructAllocators[X] ?? _customStructAllocators[X]) as RaylibTempStructAllocator<X>?;
+  final Map<Type, RaylibTempStructAllocator> _builtInStructAllocators = {};
+  final Map<Type, RaylibTempStructAllocator> _customStructAllocators = {};
+
+  void _initStructAllocators() {
+    StructTypes.register(float3.struct);
+    StructTypes.register(float16.struct);
+
+    StructTypes.register(AutomationEventList.struct);
+    StructTypes.register(AutomationEvent.struct);
+    StructTypes.register(AudioStream.struct);
+    StructTypes.register(BoneInfo.struct);
+    StructTypes.register(BoundingBox.struct);
+    StructTypes.register(Camera2D.struct);
+    StructTypes.register(Camera3D.struct);
+    StructTypes.register(Color.struct);
+    StructTypes.register(FilePathList.struct);
+    StructTypes.register(Font.struct);
+    StructTypes.register(GestureEvent.struct);
+    StructTypes.register(GlyphInfo.struct);
+    StructTypes.register(Image.struct);
+    StructTypes.register(Light.struct);
+    StructTypes.register(MaterialMap.struct);
+    StructTypes.register(Material.struct);
+    StructTypes.register(Matrix.struct);
+    StructTypes.register(Mesh.struct);
+    StructTypes.register(ModelAnimation.struct);
+    StructTypes.register(ModelSkeleton.struct);
+    StructTypes.register(Model.struct);
+    StructTypes.register(Music.struct);
+    StructTypes.register(NPatchInfo.struct);
+    StructTypes.register(Quaternion.struct);
+    StructTypes.register(RayCollision.struct);
+    StructTypes.register(Ray.struct);
+    StructTypes.register(Rectangle.struct);
+    StructTypes.register(RenderTexture.struct);
+    StructTypes.register(RlDrawCall.struct);
+    StructTypes.register(RlRenderBatch.struct);
+    StructTypes.register(RlVertexBuffer.struct);
+    StructTypes.register(Shader.struct);
+    StructTypes.register(Sound.struct);
+    StructTypes.register(Texture.struct);
+    StructTypes.register(Transform.struct);
+    StructTypes.register(Vector2.struct);
+    StructTypes.register(Vector3.struct);
+    StructTypes.register(Vector4.struct);
+    StructTypes.register(VrDeviceInfo.struct);
+    StructTypes.register(VrStereoConfig.struct);
+    StructTypes.register(Wave.struct);
+  }
+
+  void _initOptionalStructAllocators() {
+    StructTypes.register(MsfGifResult.struct);
+    StructTypes.register(MsfGifState.struct);
+  }
+
+  /// Gets (or creates) a struct allocator.
+  RaylibTempStructAllocator<X> structAlloc<X extends RaylibStruct<X>>([StructType<X>? struct]) {
+    if (!StructTypes.exists<X>()) {
+      if (struct == null) throw StateError(
+        'Allocator for $X does not exist. If you want to register it, pass the `struct`.'
+      );
+      StructTypes.register(struct);
+    }
+
+    final map = StructTypes.isBuiltIn<X>()
+      ? _builtInStructAllocators
+      : _customStructAllocators;
+    return (map[X] ??= RaylibTempStructAllocator<X>(this, StructTypes.of<X>())) as RaylibTempStructAllocator<X>;
+  }
 
   /// Frees all allocators, then delegates to [RaylibModule.dispose].
   @override

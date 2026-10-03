@@ -10,7 +10,7 @@ enum float3Field with StructFields {
 }
 
 /// Raylib's `float3` struct holding 3 `float` values
-class float3D extends RaylibStructLiteral<float3D> {
+class float3 extends RaylibStructLiteral<float3> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -22,8 +22,8 @@ class float3D extends RaylibStructLiteral<float3D> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<float3D> struct = .new(
-    factory: float3D.new,
+  static final StructType<float3> struct = ._builtin(
+    factory: float3.new,
     layout: .aligned<float3Field>({
       .v: RArray(RFloat(), 3),
     }),
@@ -47,16 +47,16 @@ class float3D extends RaylibStructLiteral<float3D> {
   StructLiveList<double, RFloat> get v => _v;
   set v(List<double> value) => _v.inner = value;
 
-  float3D({
+  float3({
     super.op,
     List<double>? v,
   }) {
-    _v = field_v.live(() => op, .filled(field_v.codec.type.count, 0));
+    _v = field_v.live(() => op, v ?? .filled(field_v.codec.type.count, 0));
   }
 
-  factory float3D.zero() => .new();
+  factory float3.zero() => .new();
 
-  factory float3D.float3(
+  factory float3.float3(
     num v0,
     num v1,
     num v2,
@@ -69,7 +69,7 @@ class float3D extends RaylibStructLiteral<float3D> {
   );
 
   @override
-  float3D setDart(float3D o) {
+  float3 setDart(float3 o) {
     v = .from(o.v);
     return this;
   }
@@ -85,7 +85,7 @@ class float3D extends RaylibStructLiteral<float3D> {
   }
 
   @override
-  float3D clone() => .new(
+  float3 clone() => .new(
     op: op,
     v: .from(v),
   );

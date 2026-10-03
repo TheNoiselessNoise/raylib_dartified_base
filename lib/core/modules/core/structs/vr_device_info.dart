@@ -13,7 +13,7 @@ enum VrDeviceInfoField with StructFields {
 }
 
 /// VrDeviceInfo, Head-Mounted-Display device parameters
-class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
+class VrDeviceInfo extends RaylibStruct<VrDeviceInfo> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -25,8 +25,8 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<VrDeviceInfoD> struct = .new(
-    factory: VrDeviceInfoD.new,
+  static final StructType<VrDeviceInfo> struct = ._builtin(
+    factory: VrDeviceInfo.new,
     layout: .aligned<VrDeviceInfoField>({
       .hResolution:            RInt(), // Horizontal resolution in pixels
       .vResolution:            RInt(), // Vertical resolution in pixels
@@ -129,7 +129,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   StructLiveList<double, RFloat> get chromaAbCorrection => _chromaAbCorrection;
   set chromaAbCorrection(List<double> value) => _chromaAbCorrection.inner = value;
 
-  VrDeviceInfoD({
+  VrDeviceInfo({
     super.op,
     int hResolution = 0,
     int vResolution = 0,
@@ -158,10 +158,10 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
     );
   }
 
-  factory VrDeviceInfoD.zero() => .new();
+  factory VrDeviceInfo.zero() => .new();
 
   @override
-  VrDeviceInfoD setDart(VrDeviceInfoD o) {
+  VrDeviceInfo setDart(VrDeviceInfo o) {
     hResolution = o.hResolution;
     vResolution = o.vResolution;
     hScreenSize = o.hScreenSize;
@@ -201,7 +201,7 @@ class VrDeviceInfoD extends RaylibStruct<VrDeviceInfoD> {
   }
 
   @override
-  VrDeviceInfoD clone() => .new(
+  VrDeviceInfo clone() => .new(
     op: op,
     hResolution: hResolution,
     vResolution: vResolution,

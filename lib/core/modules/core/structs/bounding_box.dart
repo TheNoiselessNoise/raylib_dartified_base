@@ -6,7 +6,7 @@ enum BoundingBoxField with StructFields {
 }
 
 /// BoundingBox
-class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
+class BoundingBox extends RaylibStructLiteral<BoundingBox> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -18,11 +18,11 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<BoundingBoxD> struct = .new(
-    factory: BoundingBoxD.new,
+  static final StructType<BoundingBox> struct = ._builtin(
+    factory: BoundingBox.new,
     layout: .aligned<BoundingBoxField>({
-      .min: RStruct(Vector3D.struct), // Minimum vertex box-corner
-      .max: RStruct(Vector3D.struct), // Maximum vertex box-corner
+      .min: RStruct(Vector3.struct), // Minimum vertex box-corner
+      .max: RStruct(Vector3.struct), // Maximum vertex box-corner
     }),
   );
 
@@ -30,9 +30,9 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   static final StructLayout<BoundingBoxField> structLayout = struct.layoutOf();
 
   /// Field descriptor for [min].
-  static final field_min = structLayout.struct<Vector3D>(.min);
+  static final field_min = structLayout.struct<Vector3>(.min);
   /// Field descriptor for [max].
-  static final field_max = structLayout.struct<Vector3D>(.max);
+  static final field_max = structLayout.struct<Vector3>(.max);
 
   // ░███████   ░██████████ ░██████████
   // ░██   ░██  ░██         ░██        
@@ -42,36 +42,36 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   // ░██   ░██  ░██         ░██        
   // ░███████   ░██████████ ░██        
 
-  Vector3D _min;
+  Vector3 _min;
   /// Minimum vertex box-corner
-  Vector3D get min => _min = field_min.readOr(op, _min);
-  set min(Vector3D value) => _min = field_min.writeOr(op, value);
+  Vector3 get min => _min = field_min.readOr(op, _min);
+  set min(Vector3 value) => _min = field_min.writeOr(op, value);
 
-  Vector3D _max;
+  Vector3 _max;
   /// Maximum vertex box-corner
-  Vector3D get max => _max = field_max.readOr(op, _max);
-  set max(Vector3D value) => _max = field_max.writeOr(op, value);
+  Vector3 get max => _max = field_max.readOr(op, _max);
+  set max(Vector3 value) => _max = field_max.writeOr(op, value);
 
-  BoundingBoxD({
+  BoundingBox({
     super.op,
-    Vector3D? min,
-    Vector3D? max,
+    Vector3? min,
+    Vector3? max,
   }) :
     _min = min ?? .zero(),
     _max = max ?? .zero();
 
-  factory BoundingBoxD.zero() => .new();
+  factory BoundingBox.zero() => .new();
 
-  factory BoundingBoxD.bbox(
-    Vector3D min,
-    Vector3D max,
+  factory BoundingBox.bbox(
+    Vector3 min,
+    Vector3 max,
   ) => .new(
     min: min,
     max: max,
   );
 
   @override
-  BoundingBoxD setDart(BoundingBoxD o) {
+  BoundingBox setDart(BoundingBox o) {
     min.setDart(o.min);
     max.setDart(o.max);
     return this;
@@ -90,7 +90,7 @@ class BoundingBoxD extends RaylibStructLiteral<BoundingBoxD> {
   }
   
   @override
-  BoundingBoxD clone() => .new(
+  BoundingBox clone() => .new(
     op: op,
     min: min.clone(),
     max: max.clone(),

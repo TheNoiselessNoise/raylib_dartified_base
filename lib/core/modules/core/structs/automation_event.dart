@@ -7,7 +7,7 @@ enum AutomationEventField with StructFields {
 }
 
 /// Automation event
-class AutomationEventD extends RaylibStruct<AutomationEventD> {
+class AutomationEvent extends RaylibStruct<AutomationEvent> {
 
   //   ░██████   ░██████████░█████████  ░██     ░██   ░██████  ░██████████
   //  ░██   ░██      ░██    ░██     ░██ ░██     ░██  ░██   ░██     ░██    
@@ -19,8 +19,8 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
 
   /// Describes the raw memory layout, construction, and pointer representation
   /// of this struct type.
-  static final StructType<AutomationEventD> struct = .new(
-    factory: AutomationEventD.new,
+  static final StructType<AutomationEvent> struct = ._builtin(
+    factory: AutomationEvent.new,
     layout: .aligned<AutomationEventField>({
       .frame:  RUnsignedInt(), // Event frame
       .type:   RUnsignedInt(), // Event type (AutomationEventType)
@@ -75,7 +75,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   StructLiveList<int, RInt> get params => _params;
   set params(List<int> value) => _params.inner = value;
 
-  AutomationEventD({
+  AutomationEvent({
     super.op,
     int frame = 0,
     AutomationEventType type = .EVENT_NONE,
@@ -90,10 +90,10 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
     );
   }
 
-  factory AutomationEventD.zero() => .new();
+  factory AutomationEvent.zero() => .new();
 
   @override
-  AutomationEventD setDart(AutomationEventD o) {
+  AutomationEvent setDart(AutomationEvent o) {
     frame = o.frame;
     type = o.type;
     params = .from(o.params);
@@ -115,7 +115,7 @@ class AutomationEventD extends RaylibStruct<AutomationEventD> {
   }
 
   @override
-  AutomationEventD clone() => .new(
+  AutomationEvent clone() => .new(
     op: op,
     frame: frame,
     type: type,
